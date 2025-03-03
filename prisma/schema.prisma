@@ -1,0 +1,48 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  String   @id @default(cuid())
+  username            String   @db.VarChar(255)
+  password            String   @db.VarChar(255)
+  isAdmin             Boolean  @default(false)
+  role                String   @db.VarChar(255)
+  isSoundEffectsOn    Boolean  @default(true)
+  isBackgroundMusicOn Boolean  @default(false)
+  securityQuestion    String   @db.VarChar(255)
+  securityAnswerHash  String   @db.VarChar(255)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  Log Log[]
+}
+
+model Log {
+  id        String   @id @default(cuid())
+  level     String   @db.VarChar(50)
+  message   String   @db.VarChar(250)
+  createdAt DateTime @default(now())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+
+  @@index([level])
+}
+
+model ComponentInteraction {
+  id            String   @id @default(uuid())
+  componentName String   @unique
+  clickCount    Int      @default(0)
+  lastClickedAt DateTime @updatedAt
+}
