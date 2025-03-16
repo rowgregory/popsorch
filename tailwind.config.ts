@@ -30,7 +30,9 @@ export default {
         gunmetal: '#2a303d',
         silver: '#d1d1d1',
         lavendermist: '#f6f3f9',
-        slatebluegray: '#bac2cc'
+        slatebluegray: '#bac2cc',
+        velveteclipse: '#211e2d',
+        deepblack: '#0a0a0a'
       },
       maxWidth: {
         1190: '1190px',
@@ -69,11 +71,14 @@ export default {
       screens: {
         430: '430px',
         576: '576px',
+        760: '760px',
         990: '990px',
+        1160: '1160px',
         1200: '1200px',
         1315: '1315px',
         1400: '1400px',
-        1590: '1590px'
+        1590: '1590px',
+        1690: '1690px'
       },
       borderWidth: {
         1: '1px',

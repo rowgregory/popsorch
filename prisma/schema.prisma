@@ -46,3 +46,18 @@ model ComponentInteraction {
   clickCount    Int      @default(0)
   lastClickedAt DateTime @updatedAt
 }
+
+model Lunch {
+  id            String   @id @default(uuid())
+  name          String   @db.VarChar(100)
+  patronCount   Int      @default(6)
+  patrons       Json
+  patronsTotal  Int
+  lunchTime     String   @db.VarChar(150)
+  lunchLocation String   @db.VarChar(250)
+  isFilled      Boolean  @default(false)
+  host          String   @db.VarChar(50)
+  description   String   @db.VarChar(250)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}

@@ -2,10 +2,31 @@ export const isStringInPath = (path: string, searchString: string) => {
   return path.includes(searchString)
 }
 
-export const shouldIncludePath = (pathname: string) => {
+export const shouldShowFooter = (pathname: string) => {
   const validPaths = [
     '/',
     '/concerts',
+    '/lunch',
+    '/venues',
+    '/about',
+    '/robyn-bell',
+    '/board-of-directors',
+    '/contact',
+    '/education',
+    '/chair-sponsorships',
+    '/advertise-with-us'
+  ]
+
+  const isValidPath = validPaths.some((path) => pathname === path)
+
+  // If the current pathname is invalid (not in the valid paths), exclude header and footer
+  return isValidPath
+}
+
+export const shouldShowHeader = (pathname: string) => {
+  const validPaths = [
+    '/concerts',
+    '/lunch',
     '/venues',
     '/about',
     '/robyn-bell',

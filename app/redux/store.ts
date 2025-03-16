@@ -5,9 +5,17 @@ import { configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { api } from './services/api'
 import { appReducer } from './features/appSlice'
+import { scraperReducer } from './features/scraperSlice'
+import { lunchReducer } from './features/lunchSlice'
+import { authReducer } from './features/authSlice'
+import { dashboardReducer } from './features/dashboardSlice'
 
 const rootReducer = combineReducers({
   app: appReducer,
+  scraper: scraperReducer,
+  lunch: lunchReducer,
+  auth: authReducer,
+  dashboard: dashboardReducer,
   [api.reducerPath]: api.reducer
 })
 

@@ -1,6 +1,7 @@
 export const getNavigationLinks = (path: string) => {
   const navItems = [
     { linkKey: '/', textKey: 'Home' },
+    { linkKey: '/lunch', textKey: 'Lunch Program' },
     { linkKey: '/concerts', textKey: 'Concerts' },
     { linkKey: '/venues', textKey: 'Venues' },
     { linkKey: '/about', textKey: 'About' },

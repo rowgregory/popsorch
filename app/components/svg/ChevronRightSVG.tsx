@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 
-const ChevronRightSVG: FC<{ onClick: () => void; isLastSlide: boolean }> = ({ onClick, isLastSlide }) => {
+const ChevronRightSVG: FC<{ onClick?: () => void; isLastSlide?: boolean }> = ({ onClick, isLastSlide }) => {
   return (
     <svg
       onClick={onClick}

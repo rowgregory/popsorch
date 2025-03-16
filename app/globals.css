@@ -21,12 +21,7 @@ body {
 }
 
 @media screen and (max-height: 1025px) {
-  .admin-testimonial-modal {
+  .admin-modal {
     height: calc(100dvh - 200px);
-  }
-}
-@media screen and (max-height: 520px) {
-  .admin-testimonial-modal {
-    height: calc(100dvh);
   }
 }

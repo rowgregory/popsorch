@@ -3,10 +3,9 @@ import Link from 'next/link'
 import useCustomPathname from '../hooks/useCustomPathname'
 import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
 import { closeNavigationDrawer } from '../redux/features/appSlice'
-import LogoSVG from './svg/LogoSVG'
 import { getNavigationLinks } from '../utils/navigation.utils'
 import CloseBtnSVG from './svg/CloseBtnSVG'
-import Picture from './common/Picture'
+import LogoWRobyn from './LogoWRobyn'
 
 const NavigationDrawer = () => {
   const path = useCustomPathname()
@@ -24,10 +23,7 @@ const NavigationDrawer = () => {
       } duration-200 no-scrollbar overflow-x-hidden overflow-y-auto w-full h-full fixed top-0 bottom-0 right-0 z-[60] transition-all bg-white dark:bg-[#13121D] pb-20`}
     >
       <div className="px-4 md:px-12 py-6 flex items-center justify-between w-full">
-        <Link href="/" className="flex items-end" onClick={closeDrawer}>
-          <Picture src="/images/robyn.png" className="w-auto h-[85px] md:h-[135px]" priority={true} />
-          <LogoSVG className="mb-1 text-black dark:text-white" />
-        </Link>
+        <LogoWRobyn logoClassname="h-[80px] md:w-[138.2px] md:h-[129.9px]" imgDimensions="h-[72px] md:h-[135px]" />
         <CloseBtnSVG onClick={closeDrawer} className="hover:text-blaze duration-300" />
       </div>
       <div className="430:max-w-lg 430:mx-auto w-full">

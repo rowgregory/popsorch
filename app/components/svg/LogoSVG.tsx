@@ -9,7 +9,7 @@ const LogoSVG: FC<{ className: string }> = ({ className }) => {
       x="0px"
       y="0px"
       viewBox="0 0 138.2 129.9"
-      className={`${className} fill-current h-[80px] md:w-[138.2px] md:h-[129.9px]`}
+      className={`${className} fill-current`}
       width="100%"
       height="100%"
     >
