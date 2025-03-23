@@ -30,15 +30,26 @@ const NavigationDrawer = () => {
         <div className="flex flex-col mb-10 w-fit">
           {navLinks.map((link, i) => (
             <div onClick={closeDrawer} key={i} className="grid grid-cols-12 items-center gap-x-4 group px-6 py-3">
-              <Link
-                href={link.linkKey}
-                key={i}
-                className={`col-span-11 text-4xl font-bold duration-300 hover:text-blaze uppercase ${
-                  link.active ? 'text-blaze' : 'text-gunmetal dark:text-gray-400'
-                } group-hover:translate-x-3`}
-              >
-                {link.textKey}
-              </Link>
+              {link.linkKey ? (
+                <Link
+                  href={link.linkKey}
+                  key={i}
+                  className={`col-span-11 text-4xl font-bold duration-300 hover:text-blaze uppercase ${
+                    link.active ? 'text-blaze' : 'text-gunmetal dark:text-gray-400'
+                  } group-hover:translate-x-3`}
+                >
+                  {link.textKey}
+                </Link>
+              ) : (
+                <div
+                  key={i}
+                  className={`col-span-11 text-4xl font-bold duration-300 hover:text-blaze uppercase ${
+                    link.active ? 'text-blaze' : 'text-gunmetal dark:text-gray-400'
+                  } group-hover:translate-x-3`}
+                >
+                  {link.textKey}
+                </div>
+              )}
             </div>
           ))}
         </div>

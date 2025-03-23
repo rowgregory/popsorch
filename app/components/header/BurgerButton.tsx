@@ -8,7 +8,7 @@ const BurgerButton: FC<{ bgColor: string }> = ({ bgColor }) => {
   return (
     <div
       onClick={() => dispatch(openNavigationDrawer())}
-      className="flex flex-col justify-between w-8 h-8 md:w-[56px] md:h-[56px] cursor-pointer group"
+      className="flex 990:hidden flex-col justify-between w-8 h-8 md:w-[56px] md:h-[56px] cursor-pointer group"
     >
       <div
         className={`${bgColor} h-[5px] md:h-2 rounded-lg transition-all duration-500 group-hover:animate-equalizer-1-mobile md:group-hover:animate-equalizer-1`}

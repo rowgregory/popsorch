@@ -4,7 +4,7 @@ import DirectionsBlock from './components/blocks/DirectionsBlock'
 import TheShopBlock from './components/blocks/TheShopBlock'
 import ImageMarqueeBlock from './components/blocks/ImageMarqueeBlock'
 import SponsorsBlock from './components/blocks/SponsorsBlock'
-import HomeHeader from './components/header/HomeHeader'
+// import HomeHeader from './components/header/HomeHeader'
 import HomeBanner from './components/home/HomeBanner'
 import CountdownBlock from './components/blocks/CountdownBlock'
 import CurrentEventBlock from './components/blocks/CurrentEventBlock'
@@ -16,7 +16,7 @@ import TicketsBlock from './components/blocks/TicketsBlock'
 const Home = () => {
   return (
     <>
-      <HomeHeader />
+      {/* <HomeHeader /> */}
       <HomeBanner />
       <CountdownBlock />
       <CurrentEventBlock />

@@ -4,12 +4,9 @@ import React from 'react'
 import Hero from '../components/common/Hero'
 import AnimatedSectionHeader from '../components/common/AnimatedSectionHeader'
 import useAnimatedSectionTitle from '../hooks/useAnimatedSectionTitle'
-import { useFetchLunchesQuery } from '../redux/services/lunchApi'
 
 const LunchProgram = () => {
   const { ref, visible } = useAnimatedSectionTitle(0.2)
-  const { data } = useFetchLunchesQuery(null)
-  console.log('data: ', data)
 
   return (
     <>

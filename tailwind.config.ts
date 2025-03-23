@@ -39,7 +39,7 @@ export default {
         1320: '1320px'
       },
       backgroundImage: {
-        banner: "url('/images/home-banner.png')"
+        banner: "url('/images/m-6.jpg')"
       },
       animation: {
         'equalizer-1': 'equalizer 0.7s ease-in-out infinite alternate',
@@ -83,6 +83,19 @@ export default {
       borderWidth: {
         1: '1px',
         3: '3px'
+      },
+      fontSize: {
+        11: '11px',
+        13: '13px',
+        15: '15px',
+        17: '17px',
+        18: '18px',
+        19: '19px',
+        21: '21px',
+        23: '23px'
+      },
+      boxShadow: {
+        navdropdown: '0 8px 15px rgba(0, 0, 0, 0.2)'
       }
     }
   },

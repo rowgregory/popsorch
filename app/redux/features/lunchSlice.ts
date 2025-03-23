@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Reducer, createSlice } from '@reduxjs/toolkit'
 import { lunchApi } from '../services/lunchApi'
 
@@ -27,7 +26,6 @@ export const lunchSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addMatcher(lunchApi.endpoints.fetchLunches.matchFulfilled, (state, { payload }: any) => {
-        console.log('FETCH LUNCHES PAYLOAD: ', payload)
         state.lunches = payload.lunches
         state.loading = false
       })
@@ -38,7 +36,6 @@ export const lunchSlice = createSlice({
       .addMatcher(
         (action) => action.type.endsWith('rejected') && action.payload?.data?.sliceName === 'lunchApi',
         (state, { payload }: any) => {
-          console.log('ERROR LUNCH SLICE: ', payload)
           state.loading = false
           state.error = payload?.data?.message
         }

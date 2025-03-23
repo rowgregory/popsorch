@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from 'next/server'
 import chromium from '@sparticuz/chromium-min'
 import puppeteer from 'puppeteer-core'
@@ -21,8 +20,6 @@ export async function POST() {
     const page = await browser.newPage()
 
     await page.goto('https://www.panerabread.com/content/panerabread_com/en-us/menu/categories/sandwiches.html', { waitUntil: 'load' })
-    const pageTitle = await page.title()
-    console.log(pageTitle)
 
     const menuItems = await page.evaluate(() => {
       return Array.from(document.querySelectorAll('.iw-product-grid-item-v2')).map((link) => {

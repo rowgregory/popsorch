@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import AnimatedSectionHeader from '../common/AnimatedSectionHeader'
 import useAnimatedSectionTitle from '@/app/hooks/useAnimatedSectionTitle'

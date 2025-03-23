@@ -6,15 +6,15 @@ export const shouldShowFooter = (pathname: string) => {
   const validPaths = [
     '/',
     '/concerts',
-    '/lunch',
-    '/venues',
+    '/concerts/venues',
     '/about',
-    '/robyn-bell',
-    '/board-of-directors',
+    '/about/robyn-bell',
+    '/about/board-and-staff',
     '/contact',
     '/education',
-    '/chair-sponsorships',
-    '/advertise-with-us'
+    '/support/chair-sponsorships',
+    '/support/advertise-with-us',
+    '/lunch'
   ]
 
   const isValidPath = validPaths.some((path) => pathname === path)
@@ -25,16 +25,17 @@ export const shouldShowFooter = (pathname: string) => {
 
 export const shouldShowHeader = (pathname: string) => {
   const validPaths = [
+    '/',
     '/concerts',
-    '/lunch',
-    '/venues',
+    '/concerts/venues',
     '/about',
-    '/robyn-bell',
-    '/board-of-directors',
+    '/about/robyn-bell',
+    '/about/board-and-staff',
     '/contact',
     '/education',
-    '/chair-sponsorships',
-    '/advertise-with-us'
+    '/support/chair-sponsorships',
+    '/support/advertise-with-us',
+    '/lunch'
   ]
 
   const isValidPath = validPaths.some((path) => pathname === path)

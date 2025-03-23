@@ -14,7 +14,7 @@ const CurrentEventBlock = () => {
   const eventData = [
     {
       title: '23 Mar, 2025',
-      text: '3pm',
+      text: '3:00pm',
       venue: 'Riverview Performing Arts Center',
       city: 'Sarasota',
       day: 'Sunday'

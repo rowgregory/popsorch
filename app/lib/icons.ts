@@ -14,7 +14,8 @@ import {
   // faBalanceScale,
   // faLock,
   // faBriefcase,
-  // faPlus,
+  faPlus,
+  faMinus,
   // faShieldAlt,
   // faChartPie,
   // faHandshake,
@@ -55,7 +56,8 @@ export const arrowRightIcon = faArrowRight
 // export const complianceIcon = faBalanceScale
 // export const securityIcon = faLock
 // export const clientsIcon = faBriefcase
-// export const plusIcon = faPlus
+export const plusIcon = faPlus
+export const minusIcon = faMinus
 // export const reliableSecurityIcon = faShieldAlt
 // export const dataInsightsIcon = faChartPie
 // export const personalizedServiceIcon = faHandshake

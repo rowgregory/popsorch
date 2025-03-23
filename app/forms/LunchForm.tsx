@@ -68,7 +68,8 @@ const LunchForm: FC<{
           isLoading={isLoading}
         />
       ))}
-      <button className="bg-blaze px-5 py-3 rounded-xl mt-4 uppercase text-sm font-semibold">{updateText}</button>
+      {error && <div className="text-red-500 text-sm">{error}</div>}
+      <button className="bg-blaze text-white px-5 py-3 mt-10 uppercase font-semibold">{updateText}</button>
     </form>
   )
 }
