@@ -32,7 +32,7 @@ import {
   faTimes,
   // faDashboard,
   // faUsers,
-  // faTrash,
+  faTrash,
   // faCheck,
   faSignOutAlt,
   faChevronLeft,
@@ -69,7 +69,7 @@ export const minusIcon = faMinus
 export const timesIcon = faTimes
 // export const dashboardIcon = faDashboard
 // export const usesrsIcon = faUsers
-// export const trashIcon = faTrash
+export const trashIcon = faTrash
 // export const checkIcon = faCheck
 export const signOutAltIcon = faSignOutAlt
 export const chevronDownIcon = faChevronDown

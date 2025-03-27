@@ -6,13 +6,19 @@ export interface LunchStatePayload {
   success: boolean
   error: any
   lunches: []
+  openAdminUpdateLunchModal: boolean
+  openAdminCreateLunchModal: boolean
+  modalContent: object | any
 }
 
 const initialLunchState: LunchStatePayload = {
   loading: true,
   success: false,
   lunches: [],
-  error: null
+  error: null,
+  openAdminUpdateLunchModal: false,
+  openAdminCreateLunchModal: false,
+  modalContent: {}
 }
 
 export const lunchSlice = createSlice({
@@ -21,11 +27,25 @@ export const lunchSlice = createSlice({
   reducers: {
     resetLunchError: (state) => {
       state.error = null
+    },
+    openAdminUpdateLunchModal: (state, { payload }: any) => {
+      state.openAdminUpdateLunchModal = true
+      state.modalContent = payload
+    },
+    closeAdminUpdateLunchModal: (state) => {
+      state.openAdminUpdateLunchModal = false
+    },
+    openAdminCreateLunchModal: (state) => {
+      state.openAdminCreateLunchModal = true
+    },
+    closeAdminCreateLunchModal: (state) => {
+      state.openAdminCreateLunchModal = false
     }
   },
   extraReducers: (builder) => {
     builder
       .addMatcher(lunchApi.endpoints.fetchLunches.matchFulfilled, (state, { payload }: any) => {
+        console.log('PAYLOAD IN LUNCH SLICE, ', payload)
         state.lunches = payload.lunches
         state.loading = false
       })
@@ -33,9 +53,19 @@ export const lunchSlice = createSlice({
         state.success = true
         state.loading = false
       })
+      .addMatcher(lunchApi.endpoints.updateLunch.matchFulfilled, (state) => {
+        state.success = true
+        state.loading = false
+      })
+      .addMatcher(lunchApi.endpoints.deleteLunch.matchFulfilled, (state) => {
+        console.log('DELETE LUNCH SUCCESS')
+        state.success = true
+        state.loading = false
+      })
       .addMatcher(
         (action) => action.type.endsWith('rejected') && action.payload?.data?.sliceName === 'lunchApi',
         (state, { payload }: any) => {
+          console.log('PAYLOAD IN LUNCH SLICE ERROR: ', payload)
           state.loading = false
           state.error = payload?.data?.message
         }
@@ -45,4 +75,4 @@ export const lunchSlice = createSlice({
 
 export const lunchReducer = lunchSlice.reducer as Reducer<LunchStatePayload>
 
-export const { resetLunchError } = lunchSlice.actions
+export const { resetLunchError, openAdminUpdateLunchModal, closeAdminUpdateLunchModal } = lunchSlice.actions

@@ -11,6 +11,7 @@ const lunchForm = (inputs: Inputs, errors: Errors) => [
   },
   {
     name: 'patronCount',
+    type: 'number',
     value: inputs.patronCount || '',
     label: 'Patron Count',
     error: errors.patronCount
@@ -59,6 +60,7 @@ const LunchForm: FC<{
       {lunchForm(inputs, errors).map((item: any, i) => (
         <FloatingInput
           key={i}
+          type={item.type || 'text'}
           value={item.value}
           handleInput={handleInput}
           submitted={submitted}
@@ -68,7 +70,7 @@ const LunchForm: FC<{
           isLoading={isLoading}
         />
       ))}
-      {error && <div className="text-red-500 text-sm">{error}</div>}
+      {/* {error && <div className="text-red-500 text-sm">{error}</div>} */}
       <button className="bg-blaze text-white px-5 py-3 mt-10 uppercase font-semibold">{updateText}</button>
     </form>
   )

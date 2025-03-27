@@ -4,9 +4,11 @@ import React from 'react'
 import Hero from '../components/common/Hero'
 import AnimatedSectionHeader from '../components/common/AnimatedSectionHeader'
 import useAnimatedSectionTitle from '../hooks/useAnimatedSectionTitle'
+// import { useFetchLunchesQuery } from '../redux/services/lunchApi'
 
 const LunchProgram = () => {
   const { ref, visible } = useAnimatedSectionTitle(0.2)
+  // const { isLoading, data } = useFetchLunchesQuery({}) as any
 
   return (
     <>
@@ -34,6 +36,13 @@ const LunchProgram = () => {
               experience.
             </p>
           </div>
+          {/* <div className='col-span-12'>
+            {data.lunches?.map((lunch: { id: Key | null | undefined }) => (
+              <div key={lunch.id} className='grid grid-cols-12'>
+             
+              </div>
+            ))}
+          </div> */}
         </div>
       </div>
     </>

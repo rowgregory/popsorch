@@ -44,7 +44,7 @@ const AdminCommandArea: FC<{ type: string; btnText?: string }> = ({ type, btnTex
               <h3 className="text-sm font-rubik font-light mb-2 760:mb-0">
                 See how your {commandAreaText?.[type]?.title?.toLowerCase()} are displayed to customers on the public page.
               </h3>
-              <Link href={commandAreaText?.[type]?.link} className={`font-rubik font-light text-sm w-fit`} style={{ color: '#00c5d9' }}>
+              <Link href={commandAreaText?.[type]?.link} className={`font-rubik font-light text-sm w-fit`}>
                 View Public {commandAreaText?.[type]?.title}
               </Link>
             </div>

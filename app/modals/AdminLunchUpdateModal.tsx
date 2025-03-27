@@ -2,21 +2,24 @@ import React, { FormEvent } from 'react'
 import useForm from '../hooks/useForm'
 import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
 import LunchForm from '../forms/LunchForm'
-import { useCreateLunchMutation } from '../redux/services/lunchApi'
+import { useUpdateLunchMutation } from '../redux/services/lunchApi'
 import { LUNCH_INITIAL_VALUES } from '@/public/data/form-initial-values'
-import { closeModal } from '../redux/features/dashboardSlice'
-import { resetLunchError } from '../redux/features/lunchSlice'
+import { closeAdminUpdateLunchModal, resetLunchError } from '../redux/features/lunchSlice'
 import Modal from '../components/common/Modal'
 
-const AdminLunchCreateModal = () => {
+const AdminLunchUpdateModal = () => {
   const dispatch = useAppDispatch()
-  const { modal } = useAppSelector((state: RootState) => state.dashboard)
-  const [createLunch, { isLoading, error }] = useCreateLunchMutation()
-  const { inputs, errors, handleInput, setInputs, setErrors, setSubmitted, submitted } = useForm(LUNCH_INITIAL_VALUES)
+  const { openAdminUpdateLunchModal, modalContent } = useAppSelector((state: RootState) => state.lunch)
+  const [updateLunch, { isLoading, error }] = useUpdateLunchMutation()
+  const { inputs, errors, handleInput, setInputs, setErrors, setSubmitted, submitted } = useForm(
+    LUNCH_INITIAL_VALUES,
+    () => {},
+    modalContent
+  )
 
   const reset = () => {
     dispatch(resetLunchError())
-    dispatch(closeModal())
+    dispatch(closeAdminUpdateLunchModal())
     setErrors({})
     setInputs({})
   }
@@ -25,14 +28,16 @@ const AdminLunchCreateModal = () => {
     e.preventDefault()
     setSubmitted(true)
 
-    await createLunch(inputs)
+    await updateLunch(inputs)
       .unwrap()
       .then(() => reset())
       .catch(() => {})
   }
 
+  console.log('MODAL: ', openAdminUpdateLunchModal)
+
   return (
-    <Modal isOpen={modal} onClose={reset}>
+    <Modal isOpen={openAdminUpdateLunchModal} onClose={reset}>
       <LunchForm
         onSubmit={handleSubmit}
         inputs={inputs}
@@ -41,11 +46,11 @@ const AdminLunchCreateModal = () => {
         handleInput={handleInput}
         error={error}
         isLoading={isLoading}
-        isUpdating={false}
+        isUpdating={true}
         setInputs={setInputs}
       />
     </Modal>
   )
 }
 
-export default AdminLunchCreateModal
+export default AdminLunchUpdateModal

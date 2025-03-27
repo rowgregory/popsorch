@@ -8,6 +8,7 @@ import { ChildrenProps } from '@/app/types/common.types'
 import React, { FC } from 'react'
 import NavigationLayout from './navigation-layout'
 import AdminLunchCreateModal from '../modals/AdminLunchCreateModal'
+import AdminLunchUpdateModal from '../modals/AdminLunchUpdateModal'
 
 const AdminLayout: FC<ChildrenProps> = ({ children }) => {
   // const dispatch = useAppDispatch()
@@ -16,6 +17,7 @@ const AdminLayout: FC<ChildrenProps> = ({ children }) => {
     <div className="bg-white dark:bg-black">
       <AdminHeader />
       <AdminLunchCreateModal />
+      <AdminLunchUpdateModal />
       <main className="px-3 py-8 min-h-[calc(100vh-48px)] relative">
         <AwesomeIcon
           // onClick={() => dispatch(setOpenDrawerAdminNav())}
