@@ -10,7 +10,7 @@ const TicketSVG: FC<{ className?: string }> = ({ className }) => {
       height="100%"
       preserveAspectRatio="xMidYMid meet"
       version="1.0"
-      className={`${className} fill-current rotate-[-130deg] w-4 h-4 md:w-5 md:h-5`}
+      className={`${className} fill-current rotate-[-130deg] w-4 h-4`}
     >
       <defs>
         <clipPath id="33caed07ee">

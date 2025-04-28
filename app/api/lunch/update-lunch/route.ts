@@ -5,11 +5,18 @@ const sliceName = 'lunchApi'
 
 export async function PUT(req: NextRequest) {
   try {
-    const { id, name, patronCount, lunchTime, lunchLocation, host, description } = await req.json()
+    const { id, name, lunchTime, lunchLocation, host, description } = await req.json()
 
     await prisma.lunch.update({
       where: { id },
-      data: { name, patronCount: Number(patronCount), lunchTime, lunchLocation, host, description }
+      data: {
+        name,
+        //  patronCount: Number(patronCount),
+        lunchTime,
+        lunchLocation,
+        host,
+        description
+      }
     })
     return NextResponse.json({ sliceName }, { status: 200 })
   } catch (error: any) {

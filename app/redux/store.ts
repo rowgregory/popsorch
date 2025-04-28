@@ -9,6 +9,19 @@ import { scraperReducer } from './features/scraperSlice'
 import { lunchReducer } from './features/lunchSlice'
 import { authReducer } from './features/authSlice'
 import { dashboardReducer } from './features/dashboardSlice'
+import { textBlockReducer } from './features/textBlockSlice'
+import { concertReducer } from './features/concertSlice'
+import { formReducer } from './features/formSlice'
+import { venueReducer } from './features/venueSlice'
+import { teamMemberReducer } from './features/teamMemberSlice'
+import { photoGalleryImageReducer } from './features/photoGalleryImageSlice'
+import { testimonialReducer } from './features/testimonialSlice'
+import { userReducer } from './features/userSlice'
+import { questionReducer } from './features/questionSlice'
+import { pushNotificationReducer } from './features/pushNotificationSlice'
+import { campReducer } from './features/campSlice'
+import { logReducer } from './features/logSlice'
+import { mailChimpReducer } from './features/mailchimpSlice'
 
 const rootReducer = combineReducers({
   app: appReducer,
@@ -16,6 +29,19 @@ const rootReducer = combineReducers({
   lunch: lunchReducer,
   auth: authReducer,
   dashboard: dashboardReducer,
+  textBlock: textBlockReducer,
+  concert: concertReducer,
+  form: formReducer,
+  venue: venueReducer,
+  teamMember: teamMemberReducer,
+  photoGalleryImage: photoGalleryImageReducer,
+  testimonial: testimonialReducer,
+  user: userReducer,
+  question: questionReducer,
+  pushNotification: pushNotificationReducer,
+  camp: campReducer,
+  log: logReducer,
+  mailchimp: mailChimpReducer,
   [api.reducerPath]: api.reducer
 })
 

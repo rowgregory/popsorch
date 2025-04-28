@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react'
-import 'ol/ol.css'
 import Map from 'ol/Map'
 import View from 'ol/View'
 import TileLayer from 'ol/layer/Tile'
@@ -52,15 +51,15 @@ const OrchMapLight = ({ latitude, longitude, address }: { latitude: number; long
       new Style({
         text: new Text({
           text: address,
-          font: '14px Arial', // Font style
+          font: '16px lato', // Font style
           offsetX: 123, // Position text to the right of the marker
           offsetY: 40, // Adjust vertical position
           rotation: 0, // Set rotation (optional)
           rotateWithView: false, // Optional property to control rotation behavior
           keepUpright: false, // Optional to keep text upright
-          backgroundFill: new Fill({ color: 'rgba(200, 200, 200, 0.5)' }), // Background color
+          backgroundFill: new Fill({ color: 'rgba(255, 255, 255, 0.7)' }), // Background color
           backgroundStroke: new Stroke({
-            color: 'rgba(155, 155, 155, 0.49)', // Border color with opacity
+            color: '#da0032', // Border color with opacity
             width: 2 // Border width
           }),
           padding: [20, 20, 20, 20] // Padding around the text,
@@ -85,7 +84,7 @@ const OrchMapLight = ({ latitude, longitude, address }: { latitude: number; long
     return () => map.setTarget(undefined)
   }, [address, latitude, longitude])
 
-  return <div ref={mapRef} className="bg-lavendermist absolute top-0 left-0 w-full h-full rounded-3xl overflow-hidden" />
+  return <div ref={mapRef} className="absolute top-0 left-0 w-full h-full overflow-hidden" />
 }
 
 export default OrchMapLight

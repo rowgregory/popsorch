@@ -1,6 +1,7 @@
 import { JSX } from 'react'
+import { NavigationLinksProps } from '../utils/navigation.utils'
 
-interface ContactInfoBlockProps {
+export interface ContactInfoBlockProps {
   titleKey: string
   textKey: string
   icon: JSX.Element
@@ -8,7 +9,7 @@ interface ContactInfoBlockProps {
   onClick?: () => void
 }
 
-interface NavLinkWithDotProps {
+export interface NavLinkWithDotProps {
   link: {
     linkKey: string
     textKey: string
@@ -18,4 +19,10 @@ interface NavLinkWithDotProps {
   dotIndex?: number
 }
 
-export type { ContactInfoBlockProps, NavLinkWithDotProps }
+export interface HeaderNavLinkProps {
+  link: NavigationLinksProps
+  openDropdown?: { open: boolean; textKey: string }
+  setOpenDropdown: (args: { open: boolean; textKey: string }) => void
+  linkClassname?: string
+  isFixed?: boolean
+}

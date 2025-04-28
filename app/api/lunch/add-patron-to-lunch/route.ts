@@ -28,18 +28,18 @@ export async function PUT(req: NextRequest) {
     const updatedPatrons = [...currentPatrons, patron]
 
     // Update patronsTotal count as an integer (simply the length of the patrons array)
-    const updatedPatronsTotal = updatedPatrons.length
+    // const updatedPatronsTotal = updatedPatrons.length
 
     // Check if the lunch is filled
-    const isFilled = updatedPatrons.length >= lunch.patronCount
+    // const isFilled = updatedPatrons.length >= lunch.patronCount
 
     // Update the lunch in the database
     const updatedLunch = await prisma.lunch.update({
       where: { id: lunchId },
       data: {
-        patrons: JSON.stringify(updatedPatrons), // Store updated patrons array back as JSON
-        patronsTotal: updatedPatronsTotal, // Now an integer
-        isFilled
+        patrons: JSON.stringify(updatedPatrons) // Store updated patrons array back as JSON
+        // patronsTotal: updatedPatronsTotal, // Now an integer
+        // isFilled
       }
     })
 

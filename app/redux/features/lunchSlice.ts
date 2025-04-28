@@ -45,7 +45,6 @@ export const lunchSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addMatcher(lunchApi.endpoints.fetchLunches.matchFulfilled, (state, { payload }: any) => {
-        console.log('PAYLOAD IN LUNCH SLICE, ', payload)
         state.lunches = payload.lunches
         state.loading = false
       })
@@ -58,14 +57,12 @@ export const lunchSlice = createSlice({
         state.loading = false
       })
       .addMatcher(lunchApi.endpoints.deleteLunch.matchFulfilled, (state) => {
-        console.log('DELETE LUNCH SUCCESS')
         state.success = true
         state.loading = false
       })
       .addMatcher(
         (action) => action.type.endsWith('rejected') && action.payload?.data?.sliceName === 'lunchApi',
         (state, { payload }: any) => {
-          console.log('PAYLOAD IN LUNCH SLICE ERROR: ', payload)
           state.loading = false
           state.error = payload?.data?.message
         }

@@ -4,36 +4,37 @@ const BASE_URL = '/auth'
 
 export const authApi = api.injectEndpoints({
   overrideExisting: true,
-  endpoints: (build: any) => ({
+  endpoints: (build) => ({
     register: build.mutation({
-      query: (body: any) => ({
+      query: (body) => ({
         url: `${BASE_URL}/register`,
         method: 'POST',
         body
       })
     }),
     logout: build.mutation({
-      query: () => ({
+      query: (body) => ({
         url: `${BASE_URL}/logout`,
-        method: 'POST'
+        method: 'POST',
+        body
       })
     }),
     login: build.mutation({
-      query: (body: any) => ({
+      query: (body) => ({
         url: `${BASE_URL}/login`,
         method: 'POST',
         body
       })
     }),
     forgotPassword: build.mutation({
-      query: (body: any) => ({
+      query: (body) => ({
         url: `${BASE_URL}/forgot-password`,
         method: 'POST',
         body
       })
     }),
     resetPassword: build.mutation({
-      query: (body: any) => ({
+      query: (body) => ({
         url: `${BASE_URL}/reset-password`,
         method: 'PATCH',
         body
@@ -41,7 +42,7 @@ export const authApi = api.injectEndpoints({
     }),
     authSystemStatus: build.query({
       query: () => `${BASE_URL}/system-status`,
-      providesTags: ['Service'],
+      providesTags: ['Auth'],
       keepUnusedDataFor: 0
     })
   })

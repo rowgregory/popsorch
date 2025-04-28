@@ -4,60 +4,72 @@ import { authApi } from '../services/authApi'
 export interface AuthStatePayload {
   loading: boolean
   success: boolean
-  error: string | false | null
+  error: { data: { message: string } }
   message: string | null
   isAuthenticated: boolean | null
-  userId?: string
-  forgotPasswordCredentialsValid: boolean
-  toggleForgotPasswordForm: boolean
-  toggleResetPasswordForm: boolean
-  role: string
+  userId: string
   status: string
   checks: any
+  passwordReset: boolean
 }
 
+const errorState = { data: { message: '' } }
+
 export const initialAuthState: AuthStatePayload = {
-  loading: false,
+  loading: true,
   success: false,
-  error: null,
+  error: errorState,
   message: '',
   isAuthenticated: false,
   userId: '',
-  forgotPasswordCredentialsValid: false,
-  toggleForgotPasswordForm: true,
-  toggleResetPasswordForm: false,
-  role: '',
   status: '',
-  checks: null
+  checks: null,
+  passwordReset: false
 }
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState: initialAuthState,
   reducers: {
-    setAuthState(state, { payload }) {
+    setAuthState: (state, { payload }) => {
       state.isAuthenticated = payload.isAuthenticated
-      state.userId = payload.userId
-      state.role = payload.role
+    },
+    resetAuth: (state) => {
+      state.success = false
+      state.loading = false
+      state.passwordReset = false
+    },
+    resetAuthError: (state) => {
+      state.error = errorState
+    },
+    resetAuthSuccess: (state) => {
+      state.success = false
+    },
+    resetAuthPasswordReset: (state) => {
+      state.success = false
     }
   },
   extraReducers: (builder) => {
     builder
       .addMatcher(authApi.endpoints.register.matchFulfilled, (state) => {
+        state.loading = false
         state.success = true
       })
       .addMatcher(authApi.endpoints.login.matchFulfilled, (state, { payload }: any) => {
+        state.loading = false
         state.isAuthenticated = payload.isAuthenticated
       })
       .addMatcher(authApi.endpoints.logout.matchFulfilled, (state) => {
+        state.loading = false
+      })
+      .addMatcher(authApi.endpoints.forgotPassword.matchFulfilled, (state, { payload }) => {
+        state.loading = false
+        state.userId = payload.id
         state.success = true
       })
-      .addMatcher(authApi.endpoints.forgotPassword.matchFulfilled, (state) => {
-        state.toggleForgotPasswordForm = false
-        state.toggleResetPasswordForm = false
-      })
-      .addMatcher(authApi.endpoints.resetPassword.matchFulfilled, (state) => {
-        state.success = true
+      .addMatcher(authApi.endpoints.resetPassword.matchFulfilled, (state, { payload }) => {
+        state.loading = false
+        state.passwordReset = payload.passwordReset
       })
       .addMatcher(authApi.endpoints.authSystemStatus.matchFulfilled, (state, { payload }: any) => {
         state.status = payload.status
@@ -68,7 +80,7 @@ export const authSlice = createSlice({
         (action: any) => action.type.endsWith('/rejected') && action.payload?.data?.sliceName === 'authApi',
         (state, action: any) => {
           state.loading = false
-          state.error = action.payload.data
+          state.error = action.payload.data.message
         }
       )
   }
@@ -76,4 +88,4 @@ export const authSlice = createSlice({
 
 export const authReducer = authSlice.reducer as Reducer<AuthStatePayload>
 
-export const { setAuthState } = authSlice.actions
+export const { setAuthState, resetAuth, resetAuthError, resetAuthSuccess, resetAuthPasswordReset } = authSlice.actions

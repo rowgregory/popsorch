@@ -48,7 +48,7 @@ const CurrentEventBlock = () => {
 
   return (
     <section className="dark:bg-midnightsteel px-4 pb-14 dark:pt-14 md:px-12 990:py-24">
-      <div className="max-w-[516px] md:max-w-[700px] 990:max-w-[960px] 1200:max-w-[1160px] 1400:max-w-1320 w-full mx-auto relative grid grid-cols-12 gap-y-10 576:gap-x-10">
+      <div className="max-w-[516px] 760:max-w-[700px] 990:max-w-[960px] 1200:max-w-[1160px] 1400:max-w-1320 w-full mx-auto relative grid grid-cols-12 gap-y-10 576:gap-x-10">
         <div className="col-span-12 990:col-span-5 flex flex-col gap-y-7">
           <Picture
             src="/images/current-event-01.png"

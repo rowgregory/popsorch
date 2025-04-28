@@ -29,7 +29,7 @@ const FloatingInput: FC<FloatingInputProps> = ({
         name={name}
         value={value || ''}
         onChange={handleInput}
-        className={`h-[56px] peer bg-white dark:bg-black/70 border border-gray-400 dark:border-[#2d2d2d] light-admin-input dark:dark-admin-input pt-5 pb-1 px-4 w-full text-midnightabyss dark:text-white focus:outline-none focus:ring-1 focus:ring-aquablue dark:focus:ring-oceanicnocturne placeholder-transparent`}
+        className={`h-[56px] peer bg-white dark:bg-black/70 border-1 border-[#d9d9d9] rounded-sm dark:border-[#2d2d2d] light-admin-input dark:dark-admin-input pt-5 pb-1 px-4 w-full text-midnightabyss dark:text-white focus:outline-none focus:ring-1 focus:ring-aquablue dark:focus:ring-oceanicnocturne placeholder-transparent`}
         placeholder={capitalName}
       />
       <label

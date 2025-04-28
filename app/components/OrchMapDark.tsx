@@ -12,7 +12,15 @@ import VectorLayer from 'ol/layer/Vector'
 import { Fill, Stroke, Style, Text } from 'ol/style'
 import CircleStyle from 'ol/style/Circle'
 
-const OrchMapDark = ({ latitude, longitude, address }: { latitude: number; longitude: number; address: string }) => {
+const OrchMapDark = ({
+  latitude,
+  longitude,
+  address
+}: {
+  latitude: number
+  longitude: number
+  address: string | any
+}) => {
   const mapRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -55,7 +63,7 @@ const OrchMapDark = ({ latitude, longitude, address }: { latitude: number; longi
       new Style({
         image: new CircleStyle({
           radius: 10,
-          fill: new Fill({ color: '#da0032' })
+          fill: new Fill({ color: '#ff940c' })
         })
       })
     )

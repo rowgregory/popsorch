@@ -9,7 +9,7 @@ interface AwesomeIconProps {
 }
 
 const AwesomeIcon: FC<AwesomeIconProps> = ({ icon, className, onClick }) => {
-  return <FontAwesomeIcon onClick={onClick} icon={icon} className={className} />
+  return <FontAwesomeIcon onClick={onClick} icon={icon} className={`${className}`} />
 }
 
 export default AwesomeIcon

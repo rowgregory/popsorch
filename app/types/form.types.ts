@@ -1,10 +1,10 @@
 import { ChangeEvent } from 'react'
 
 export interface FloatingInputProps {
-  value: string
-  handleInput: (e: ChangeEvent<HTMLInputElement>) => void
+  value: string | any
+  handleInput: any
   submitted: boolean
-  error: string
+  error?: string
   name: string
   capitalName: string
   type?: string
@@ -14,10 +14,10 @@ export interface FloatingInputProps {
 }
 
 export interface FloatingTextareaProps {
-  value: string
+  value: string | any
   handleInput: (e: ChangeEvent<HTMLTextAreaElement>) => void
   submitted: boolean
-  error: string
+  error?: string
   name: string
   capitalName: string
 }

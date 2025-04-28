@@ -6,4 +6,18 @@ export interface ChildrenProps {
 
 export interface ClientPageProps {
   children: ReactNode
+  data: any
+}
+
+export interface ErrorType {
+  data: {
+    message: string
+  }
+}
+
+export interface DrawerProps {
+  isOpen: boolean
+  onClose: () => void
+  children: ReactNode
+  height?: string
 }

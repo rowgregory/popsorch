@@ -11,7 +11,7 @@ const Ticket: FC<{ icon: JSX.Element; type: string; price: string; details: stri
   i
 }) => {
   return (
-    <div className="col-span-12 md:col-span-6 1200:col-span-4">
+    <div className="col-span-12 760:col-span-6 1200:col-span-4">
       <div className="p-9 border-b-0 border-x-2 border-t-2 990:border-x-2 990:border-t-2  border-x-silver dark:border-x-deepspaceblue border-t-silver dark:border-t-deepspaceblue rounded-tl-3xl rounded-tr-3xl dark:bg-cosmicabyss">
         {icon}
         <h1 className="text-xl font-bold text-gunmetal dark:text-gray-200 mt-2.5">{type}</h1>

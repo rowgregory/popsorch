@@ -3,7 +3,6 @@ import useForm from '../hooks/useForm'
 import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
 import LunchForm from '../forms/LunchForm'
 import { useCreateLunchMutation } from '../redux/services/lunchApi'
-import { LUNCH_INITIAL_VALUES } from '@/public/data/form-initial-values'
 import { closeModal } from '../redux/features/dashboardSlice'
 import { resetLunchError } from '../redux/features/lunchSlice'
 import Modal from '../components/common/Modal'
@@ -12,7 +11,7 @@ const AdminLunchCreateModal = () => {
   const dispatch = useAppDispatch()
   const { modal } = useAppSelector((state: RootState) => state.dashboard)
   const [createLunch, { isLoading, error }] = useCreateLunchMutation()
-  const { inputs, errors, handleInput, setInputs, setErrors, setSubmitted, submitted } = useForm(LUNCH_INITIAL_VALUES)
+  const { inputs, errors, handleInput, setInputs, setErrors, setSubmitted, submitted } = useForm({})
 
   const reset = () => {
     dispatch(resetLunchError())

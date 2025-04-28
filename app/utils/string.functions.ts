@@ -6,42 +6,62 @@ export const shouldShowFooter = (pathname: string) => {
   const validPaths = [
     '/',
     '/concerts',
-    '/concerts/venues',
+    '/venues',
     '/about',
-    '/about/robyn-bell',
-    '/about/board-and-staff',
+    '/robyn-bell',
+    '/board-and-staff',
     '/contact',
     '/education',
-    '/support/chair-sponsorships',
-    '/support/advertise-with-us',
-    '/lunch'
+    '/chair-sponsorships',
+    '/advertise-with-us',
+    '/lunch',
+    '/newsletter',
+    '/camp-application',
+    '/camp-info',
+    '/photo-gallery',
+    '/coming-soon',
+    '/accessibility',
+    '/privacy-policy'
   ]
 
+  const validPatterns = [/^\/concerts\/[^\/]+$/]
+
   const isValidPath = validPaths.some((path) => pathname === path)
+  const containsPath = validPatterns.some((pattern: { test: (arg0: string) => any }) => pattern.test(pathname))
 
   // If the current pathname is invalid (not in the valid paths), exclude header and footer
-  return isValidPath
+  return isValidPath || containsPath
 }
 
 export const shouldShowHeader = (pathname: string) => {
   const validPaths = [
     '/',
     '/concerts',
-    '/concerts/venues',
+    '/venues',
     '/about',
-    '/about/robyn-bell',
-    '/about/board-and-staff',
+    '/robyn-bell',
+    '/board-and-staff',
     '/contact',
     '/education',
-    '/support/chair-sponsorships',
-    '/support/advertise-with-us',
-    '/lunch'
+    '/chair-sponsorships',
+    '/advertise-with-us',
+    '/lunch',
+    '/newsletter',
+    '/camp-application',
+    '/camp-info',
+    '/photo-gallery',
+    '/coming-soon',
+    '/accessibility',
+    '/privacy-policy'
   ]
 
+  const validPatterns = [/^\/concerts\/[^\/]+$/]
+
   const isValidPath = validPaths.some((path) => pathname === path)
+  const containsPath = validPatterns.some((pattern: { test: (arg0: string) => any }) => pattern.test(pathname))
 
   // If the current pathname is invalid (not in the valid paths), exclude header and footer
-  return isValidPath
+  return isValidPath || containsPath
 }
 
 export const formatPhoneNumber = (phone: string) => {
@@ -66,4 +86,18 @@ export function truncateString(str: string, slice: number) {
     return str.slice(0, slice) + '...'
   }
   return str
+}
+
+export const formatPhoneNumberForMailchimp = (phone: string) => {
+  const digitsOnly = phone.replace(/\D/g, '')
+
+  // If it starts with 1 and is 11 digits, strip the 1
+  const cleaned = digitsOnly.length === 11 && digitsOnly.startsWith('1') ? digitsOnly.slice(1) : digitsOnly
+
+  // Format only if it's exactly 10 digits now
+  if (cleaned.length === 10) {
+    return `${cleaned.slice(0, 3)}-${cleaned.slice(3, 6)}-${cleaned.slice(6)}`
+  }
+
+  return ''
 }

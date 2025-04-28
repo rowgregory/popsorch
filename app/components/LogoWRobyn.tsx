@@ -1,13 +1,25 @@
+'use client'
+
+import { FC } from 'react'
 import Link from 'next/link'
-import React, { FC } from 'react'
 import Picture from './common/Picture'
 import LogoSVG from './svg/LogoSVG'
 
-const LogoWRobyn: FC<{ logoClassname?: string; imgDimensions?: string }> = ({ logoClassname, imgDimensions }) => {
+interface LogoWRobynProps {
+  logoClassname?: string
+  imgDimensions?: string
+  linkKey?: string
+}
+
+const LogoWRobyn: FC<LogoWRobynProps> = ({ logoClassname, imgDimensions, linkKey }) => {
   return (
-    <Link href="/" className="flex items-end">
-      <Picture src="/images/robyn.png" className={`${imgDimensions} w-auto`} priority={true} />
-      <LogoSVG className={`${logoClassname} mb-1`} />
+    <Link href={linkKey ?? '/'} className="flex items-end" onClick={(e) => e.preventDefault()}>
+      <div className="w-auto">
+        <Picture src="/images/robyn.png" className={`w-full object-contain ${imgDimensions}`} priority />
+      </div>
+      <div className={`${logoClassname}`}>
+        <LogoSVG className={`w-full h-full ${logoClassname}`} />
+      </div>
     </Link>
   )
 }

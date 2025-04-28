@@ -54,13 +54,13 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
     <div
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
-      className="fixed inset-0 z-[70] flex items-start justify-center bg-white md:bg-[rgb(232,232,237)]/90 dark:bg-blaze md:dark:bg-black/90 md:pt-24 md:pb-16 min-h-dvh"
+      className="fixed inset-0 z-[70] flex items-center justify-center bg-white md:bg-[rgb(232,232,237)]/90 dark:bg-blaze md:dark:bg-[#0a090c]/40 min-h-dvh"
     >
       <div
         ref={modalRef}
-        className={`bg-white dark:bg-midnightblack md:rounded-2xl md:shadow-lg w-full max-h-full overflow-hidden max-w-md`}
+        className={`overflow-y-auto bg-white dark:bg-black border-1 border-white/30 rounded-sm md:shadow-lg w-full max-h-full overflow-hidden max-w-lg`}
       >
-        <div className="overflow-y-auto h-full admin-modal p-5">{children}</div>
+        <div className=" p-5">{children}</div>
       </div>
     </div>
   )

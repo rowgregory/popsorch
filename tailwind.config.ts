@@ -1,7 +1,138 @@
 import type { Config } from 'tailwindcss'
 
 export default {
-  content: ['./pages/**/*.{js,ts,jsx,tsx,mdx}', './components/**/*.{js,ts,jsx,tsx,mdx}', './app/**/*.{js,ts,jsx,tsx,mdx}'],
+  content: [
+    './pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    './app/**/*.{js,ts,jsx,tsx,mdx}'
+  ],
+  safelist: [
+    // group-hover:text-*
+    'group-hover:text-slate-400',
+    'group-hover:text-slate-500',
+    'group-hover:text-slate-600',
+    'group-hover:text-gray-400',
+    'group-hover:text-gray-500',
+    'group-hover:text-gray-600',
+    'group-hover:text-zinc-400',
+    'group-hover:text-zinc-500',
+    'group-hover:text-zinc-600',
+    'group-hover:text-neutral-400',
+    'group-hover:text-neutral-500',
+    'group-hover:text-neutral-600',
+    'group-hover:text-stone-400',
+    'group-hover:text-stone-500',
+    'group-hover:text-stone-600',
+    'group-hover:text-red-400',
+    'group-hover:text-red-500',
+    'group-hover:text-orange-400',
+    'group-hover:text-orange-500',
+    'group-hover:text-amber-400',
+    'group-hover:text-amber-500',
+    'group-hover:text-yellow-400',
+    'group-hover:text-yellow-500',
+    'group-hover:text-lime-400',
+    'group-hover:text-lime-500',
+    'group-hover:text-green-400',
+    'group-hover:text-green-500',
+    'group-hover:text-emerald-400',
+    'group-hover:text-emerald-500',
+    'group-hover:text-teal-400',
+    'group-hover:text-teal-500',
+    'group-hover:text-cyan-400',
+    'group-hover:text-cyan-500',
+    'group-hover:text-sky-400',
+    'group-hover:text-sky-500',
+    'group-hover:text-blue-400',
+    'group-hover:text-blue-500',
+    'group-hover:text-indigo-400',
+    'group-hover:text-indigo-500',
+    'group-hover:text-violet-400',
+    'group-hover:text-violet-500',
+    'group-hover:text-purple-400',
+    'group-hover:text-purple-500',
+    'group-hover:text-fuchsia-400',
+    'group-hover:text-fuchsia-500',
+    'group-hover:text-pink-400',
+    'group-hover:text-pink-500',
+    'group-hover:text-rose-400',
+    'group-hover:text-rose-500',
+
+    // hover:bg-*
+    'hover:bg-slate-400',
+    'hover:bg-slate-500',
+    'hover:bg-slate-600',
+    'hover:bg-gray-400',
+    'hover:bg-gray-500',
+    'hover:bg-gray-600',
+    'hover:bg-zinc-400',
+    'hover:bg-zinc-500',
+    'hover:bg-zinc-600',
+    'hover:bg-neutral-400',
+    'hover:bg-neutral-500',
+    'hover:bg-neutral-600',
+    'hover:bg-stone-400',
+    'hover:bg-stone-500',
+    'hover:bg-stone-600',
+    'hover:bg-red-400',
+    'hover:bg-red-500',
+    'hover:bg-orange-400',
+    'hover:bg-orange-500',
+    'hover:bg-amber-400',
+    'hover:bg-amber-500',
+    'hover:bg-yellow-400',
+    'hover:bg-yellow-500',
+    'hover:bg-lime-400',
+    'hover:bg-lime-500',
+    'hover:bg-green-400',
+    'hover:bg-green-500',
+    'hover:bg-emerald-400',
+    'hover:bg-emerald-500',
+    'hover:bg-teal-400',
+    'hover:bg-teal-500',
+    'hover:bg-cyan-400',
+    'hover:bg-cyan-500',
+    'hover:bg-sky-400',
+    'hover:bg-sky-500',
+    'hover:bg-blue-400',
+    'hover:bg-blue-500',
+    'hover:bg-indigo-400',
+    'hover:bg-indigo-500',
+    'hover:bg-violet-400',
+    'hover:bg-violet-500',
+    'hover:bg-purple-400',
+    'hover:bg-purple-500',
+    'hover:bg-fuchsia-400',
+    'hover:bg-fuchsia-500',
+    'hover:bg-pink-400',
+    'hover:bg-pink-500',
+    'hover:bg-rose-400',
+    'hover:bg-rose-500',
+
+    // other classes you already had
+    'after:bg-emerald-400',
+    'after:bg-blaze',
+    'after:bg-pink-400',
+    'after:bg-blue-400',
+    'after:bg-yellow-400',
+    'after:bg-purple-500',
+    'after:bg-amber-500',
+    'after:bg-teal-400',
+    'after:bg-lime-500',
+    'after:bg-indigo-500',
+    'after:bg-sky-500',
+    'after:bg-fuchsia-500',
+    'text-zinc-400',
+    'text-blaze',
+    'text-pink-400',
+    'fill-pink-400',
+    'fill-indigo-500',
+    'text-indigo-500',
+    'text-fuchsia-500',
+    'text-violet-500',
+    'bg-pink-400'
+  ],
+
   theme: {
     extend: {
       colors: {
@@ -32,14 +163,39 @@ export default {
         lavendermist: '#f6f3f9',
         slatebluegray: '#bac2cc',
         velveteclipse: '#211e2d',
-        deepblack: '#0a0a0a'
+        deepblack: '#0a0a0a',
+        berryPunch: '#bc2970',
+        sunburst: '#ff9000',
+        sunbursthover: '#e67f0a',
+        charcoalblue: '#283035',
+        'gg-crimson': '#C21067',
+        'gg-plum': '#933886',
+        'gg-grape': '#5C4A8A',
+        'gg-navy': '#334D77',
+        'gg-slate': '#2F4858',
+        'md-electricraspberry': '#DF0073',
+        'mg-royalorchid': '#C438B0',
+        'mg-violetpulse': '#8463DF',
+        'mg-boltblue': '#0080F5',
+        'mg-skysurge': '#0092EE',
+        'cp-earthbrown': '#574240',
+        'cp-dustyrose': '#BFA5A3',
+        'cp-deepleaf': '#447A00',
+        'cp-springbud': '#7DAF00',
+        'cube-p-mutedrose': '#A5757C',
+        'cube-p-slatebluegray': '#798897',
+        cottoncandypink: '#f587c1',
+        dullchartreuse: '#7daf00',
+        duskgray: '#222',
+        inkblack: '#1a1a1a'
       },
       maxWidth: {
         1190: '1190px',
         1320: '1320px'
       },
       backgroundImage: {
-        banner: "url('/images/m-6.jpg')"
+        banner: "url('/images/m-6.jpg')",
+        headerbg: "url('/images/header-bg.png')"
       },
       animation: {
         'equalizer-1': 'equalizer 0.7s ease-in-out infinite alternate',
@@ -50,7 +206,10 @@ export default {
         'equalizer-2-mobile': 'equalizer-mobile 0.7s ease-in-out infinite alternate 0.15s',
         'equalizer-3-mobile': 'equalizer-mobile 0.7s ease-in-out infinite alternate 0.3s',
         'equalizer-4-mobile': 'equalizer-mobile 0.7s ease-in-out infinite alternate 0.45s',
-        'rotate-ring': 'rotateRing 15s linear infinite'
+        'rotate-ring': 'rotateRing 15s linear infinite',
+        'translate-y-up': 'translate-y-up 0.3s ease-out',
+        'underline-grow': 'grow 1s ease-out forwards',
+        rotateToTwoOClock: 'rotateToTwoOClock 375ms ease-in-out forwards'
       },
       keyframes: {
         equalizer: {
@@ -66,36 +225,87 @@ export default {
         rotateRing: {
           from: { transform: 'rotate(0deg)' },
           to: { transform: 'rotate(360deg)' }
+        },
+        'translate-y-up': {
+          '0%': {
+            transform: 'translateY(50px)',
+            opacity: '0'
+          },
+          '100%': {
+            transform: 'translateY(0)',
+            opacity: '1'
+          }
+        },
+        grow: {
+          '0%': { width: '0%' },
+          '100%': { width: '3rem' } // match `after:w-12`
+        },
+        rotateToTwoOClock: {
+          '0%': { transform: 'rotate(0deg)' },
+          '40%': { transform: 'rotate(30deg)' },
+          '100%': { transform: 'rotate(0deg)' }
         }
       },
       screens: {
+        'max-h-768': { raw: '(max-height: 768px)' },
+        'min-h-768': { raw: '(min-height: 768px)' },
+        'max-h-1000': { raw: '(max-height: 1000px)' },
         430: '430px',
+        480: '480px',
         576: '576px',
         760: '760px',
         990: '990px',
         1160: '1160px',
         1200: '1200px',
+        1280: '1280px',
         1315: '1315px',
         1400: '1400px',
         1590: '1590px',
-        1690: '1690px'
+        1690: '1690px',
+        2300: '2300px',
+        2800: '2800px',
+        3200: '3200px'
       },
       borderWidth: {
         1: '1px',
         3: '3px'
       },
       fontSize: {
+        10: '10px',
         11: '11px',
+        12: '12px',
         13: '13px',
         15: '15px',
         17: '17px',
         18: '18px',
         19: '19px',
+        20: '20px',
         21: '21px',
-        23: '23px'
+        22: '22px',
+        23: '23px',
+        25: '25px',
+        27: '27px',
+        30: '30px'
       },
       boxShadow: {
-        navdropdown: '0 8px 15px rgba(0, 0, 0, 0.2)'
+        navdropdown: '0 8px 15px rgba(0, 0, 0, 0.2)',
+        adminpage: '0 2px 4px rgba(3,20,63,.1)',
+        adminbtn: '0 10px 15px -4px rgba(218,0,50,.4)',
+        adminbtnbackwards: '0 10px 15px -4px rgba(186,188,191,0.6)',
+        adminConcertRow: '0 2px 4px rgba(60,63,71,.101961)'
+      },
+      height: {
+        600: '600px'
+      },
+      maxHeight: {
+        '1000': '1000px'
+      },
+      fontFamily: {
+        inter: ['var(--font-inter)'],
+        oswald: ['var(--font-oswald)'],
+        raleway: ['var(--font-raleway)'],
+        changa: ['var(--font-changa)'],
+        lato: ['var(--font-lato)']
       }
     }
   },

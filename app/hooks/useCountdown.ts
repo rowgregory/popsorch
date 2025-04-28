@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react'
 
-function useCountdown(expiresAt: Date | string) {
+function useCountdown(expiresAt: Date | string | any) {
   const [timeRemaining, setTimeRemaining] = useState<number>(0)
   const [isActive, setIsActive] = useState(true)
 
   useEffect(() => {
-    // Ensure expiresAt is a valid Date object
     const expiryDate = new Date(expiresAt)
 
     const interval = setInterval(() => {

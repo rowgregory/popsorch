@@ -15,9 +15,13 @@ datasource db {
 
 model User {
   id                  String   @id @default(cuid())
-  username            String   @db.VarChar(255)
+  firstName           String   @db.VarChar(255)
+  lastName            String   @db.VarChar(255)
   password            String   @db.VarChar(255)
+  email               String   @unique @db.VarChar(255)
   isAdmin             Boolean  @default(false)
+  isSuperUser         Boolean  @default(false)
+  isSupporter         Boolean  @default(false)
   role                String   @db.VarChar(255)
   isSoundEffectsOn    Boolean  @default(true)
   isBackgroundMusicOn Boolean  @default(false)
@@ -25,19 +29,14 @@ model User {
   securityAnswerHash  String   @db.VarChar(255)
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
-
-  Log Log[]
 }
 
 model Log {
   id        String   @id @default(cuid())
-  level     String   @db.VarChar(50)
-  message   String   @db.VarChar(250)
+  level     String // e.g., 'info', 'error', 'debug'
+  message   String
+  metadata  Json? // Optional, store additional context
   createdAt DateTime @default(now())
-  userId    String?
-  user      User?    @relation(fields: [userId], references: [id])
-
-  @@index([level])
 }
 
 model ComponentInteraction {
@@ -50,9 +49,9 @@ model ComponentInteraction {
 model Lunch {
   id            String   @id @default(uuid())
   name          String   @db.VarChar(100)
-  patronCount   Int      @default(6)
+  patronCount   String
   patrons       Json
-  patronsTotal  Int
+  patronsTotal  String
   lunchTime     String   @db.VarChar(150)
   lunchLocation String   @db.VarChar(250)
   isFilled      Boolean  @default(false)
@@ -60,4 +59,146 @@ model Lunch {
   description   String   @db.VarChar(250)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+}
+
+model TextBlock {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  type      String
+  mimeType  String   @default("")
+  fileName  String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TeamMember {
+  id            String   @id @default(cuid())
+  firstName     String
+  lastName      String
+  position      String
+  bio           String
+  role          String
+  imageUrl      String
+  imageFilename String   @db.VarChar(255)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model PhotoGalleryImage {
+  id            String   @id @default(cuid())
+  imageUrl      String
+  imageFilename String   @db.VarChar(255)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  review    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Concert {
+  id                    String   @id @default(cuid())
+  name                  String
+  pressRelease          String   @default("")
+  description           String
+  eventDetails          Json
+  imageUrl              String
+  imageFilename         String
+  isOnSale              Boolean  @default(false)
+  type                  String   @default("")
+  allSeriesExternalLink String   @default("")
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}
+
+model Venue {
+  id                   String   @id @default(cuid())
+  name                 String
+  capacity             String
+  accessibility        String
+  immersiveEnvironment String
+  parking              String
+  imageUrl             String
+  imageFilename        String
+  address              String   @default("")
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
+
+model Newsletter {
+  id                       String   @id @default(cuid())
+  firstName                String   @db.VarChar(255)
+  lastName                 String   @db.VarChar(255)
+  email                    String   @unique @db.VarChar(255)
+  isOption1                Boolean  @default(false)
+  isOption2                Boolean  @default(false)
+  isOption3                Boolean  @default(false)
+  isOption4                Boolean  @default(false)
+  agreedToPrivacyStatement Boolean  @default(false)
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+}
+
+model Question {
+  id           String   @id @default(cuid())
+  name         String   @db.VarChar(255)
+  email        String   @db.VarChar(255)
+  message      String   @db.VarChar(500)
+  hasResponded Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model CampApplication {
+  id                 String   @id @default(cuid())
+  student            Student?
+  address            Address?
+  parent             Parent?
+  consent            Boolean  @default(false)
+  musicTeacher       String?  @db.VarChar(255)
+  strings            String?  @db.VarChar(255)
+  brassAndPercussion String?  @db.VarChar(255)
+  woodwinds          String?  @db.VarChar(255)
+  referralSource     String?  @db.VarChar(255)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model Student {
+  id                  String           @id @default(cuid())
+  firstName           String           @db.VarChar(255)
+  lastName            String           @db.VarChar(255)
+  grade               String           @db.VarChar(255)
+  school              String           @db.VarChar(255)
+  studentEmailAddress String           @db.VarChar(255)
+  studentPhoneNumber  String           @db.VarChar(255)
+  campApplication     CampApplication? @relation(fields: [campApplicationId], references: [id])
+  campApplicationId   String?          @unique
+}
+
+model Address {
+  id                String           @id @default(cuid())
+  addressLine1      String?          @db.VarChar(255)
+  addressLine2      String?          @db.VarChar(255)
+  city              String?          @db.VarChar(255)
+  state             String?          @db.VarChar(255)
+  zipPostalCode     String?          @db.VarChar(255)
+  campApplication   CampApplication? @relation(fields: [campApplicationId], references: [id])
+  campApplicationId String?          @unique
+}
+
+model Parent {
+  id                    String           @id @default(cuid())
+  firstName             String           @db.VarChar(255)
+  lastName              String           @db.VarChar(255)
+  relationshipToStudent String?          @db.VarChar(255)
+  parentEmailAddress    String           @db.VarChar(255)
+  parentPhoneNumber     String           @db.VarChar(255)
+  campApplication       CampApplication? @relation(fields: [campApplicationId], references: [id])
+  campApplicationId     String?          @unique
 }

@@ -1,0 +1,23 @@
+export const heardOfPopsOptions = [
+  'Select how you heard about the Pops',
+  'Friend or family member',
+  'Social media (Facebook, Instagram, etc.)',
+  'Poster or flyer',
+  'Email from school',
+  'Band or orchestra teacher',
+  'Previous participant',
+  'Website',
+  'Concert or performance',
+  'Word of mouth',
+  'Local newspaper',
+  'School announcement',
+  'Community event',
+  'Radio station',
+  'Online ad',
+  'Pops Orchestra newsletter',
+  'Church bulletin',
+  'Local community center',
+  'Youth group',
+  'High school event',
+  'Other'
+]

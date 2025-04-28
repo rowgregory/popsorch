@@ -5,54 +5,70 @@ import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
 import { closeNavigationDrawer } from '../redux/features/appSlice'
 import { getNavigationLinks } from '../utils/navigation.utils'
 import CloseBtnSVG from './svg/CloseBtnSVG'
-import LogoWRobyn from './LogoWRobyn'
+import CallBoxOfficeBtn from './common/CallBoxOfficeBtn'
 
 const NavigationDrawer = () => {
   const path = useCustomPathname()
   const { navigationDrawer } = useAppSelector((state: RootState) => state.app)
+  const { concerts } = useAppSelector((state: RootState) => state.concert)
   const dispatch = useAppDispatch()
   const overlayRef = useRef(null)
-  const navLinks = getNavigationLinks(path)
+  const navLinks = getNavigationLinks(path, concerts?.length > 0)
   const closeDrawer = () => dispatch(closeNavigationDrawer())
 
   return (
     <div
       ref={overlayRef}
       className={`${
-        navigationDrawer ? 'translate-y-0 ' : '-translate-y-full'
-      } duration-200 no-scrollbar overflow-x-hidden overflow-y-auto w-full h-full fixed top-0 bottom-0 right-0 z-[60] transition-all bg-white dark:bg-[#13121D] pb-20`}
+        navigationDrawer ? 'translate-y-0 ' : '-translate-x-full'
+      } duration-700 no-scrollbar w-full h-full fixed bottom-0 left-0 z-[100] transition-all pb-20 bg-inkblack overflow-y-auto`}
     >
-      <div className="px-4 md:px-12 py-6 flex items-center justify-between w-full">
-        <LogoWRobyn logoClassname="h-[80px] md:w-[138.2px] md:h-[129.9px]" imgDimensions="h-[72px] md:h-[135px]" />
-        <CloseBtnSVG onClick={closeDrawer} className="hover:text-blaze duration-300" />
-      </div>
-      <div className="430:max-w-lg 430:mx-auto w-full">
-        <div className="flex flex-col mb-10 w-fit">
-          {navLinks.map((link, i) => (
-            <div onClick={closeDrawer} key={i} className="grid grid-cols-12 items-center gap-x-4 group px-6 py-3">
-              {link.linkKey ? (
-                <Link
-                  href={link.linkKey}
-                  key={i}
-                  className={`col-span-11 text-4xl font-bold duration-300 hover:text-blaze uppercase ${
-                    link.active ? 'text-blaze' : 'text-gunmetal dark:text-gray-400'
-                  } group-hover:translate-x-3`}
-                >
-                  {link.textKey}
-                </Link>
-              ) : (
+      <CloseBtnSVG
+        onClick={closeDrawer}
+        className="text-white w-5 h-5 hover:text-blaze duration-300 absolute top-5 right-5"
+      />
+      <div className="flex flex-col mb-10 w-fit px-8 py-16 gap-y-5">
+        <CallBoxOfficeBtn className="mb-12 h-12 flex items-center justify-center" />
+        {navLinks.map((link, i) => (
+          <div key={i} className="group">
+            {link.linkKey ? (
+              <Link
+                onClick={closeDrawer}
+                href={link.linkKey}
+                key={i}
+                className={`text-sm font-changa tracking-widest font-semibold duration-300 hover:text-blaze uppercase ${
+                  link.active ? 'text-blaze' : 'text-white'
+                }`}
+              >
+                {link.textKey}
+              </Link>
+            ) : (
+              <div key={i}>
                 <div
-                  key={i}
-                  className={`col-span-11 text-4xl font-bold duration-300 hover:text-blaze uppercase ${
-                    link.active ? 'text-blaze' : 'text-gunmetal dark:text-gray-400'
-                  } group-hover:translate-x-3`}
+                  className={`text-sm font-changa tracking-widest font-semibold duration-300 uppercase ${
+                    link.active ? 'text-blaze' : 'text-white'
+                  }`}
                 >
                   {link.textKey}
                 </div>
-              )}
-            </div>
-          ))}
-        </div>
+                <div className="flex flex-col gap-y-3 mt-3 w-full">
+                  {link.links?.map((obj, i) => (
+                    <Link
+                      onClick={closeDrawer}
+                      key={i}
+                      href={obj.linkKey}
+                      className={`ml-4 whitespace-nowrap text-sm font-changa tracking-widest font-semibold duration-300 hover:text-blaze uppercase ${
+                        obj.active ? 'text-blaze' : 'text-white'
+                      }`}
+                    >
+                      - {obj.textKey}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   )

@@ -32,7 +32,7 @@ const TheShopBlock = () => {
 
   return (
     <div className="bg-lavendermist dark:bg-[#080d1a] px-4 py-14 md:px-12 md:py-24">
-      <div className="max-w-[516px] md:max-w-[700px] 990:max-w-[960px] 1200:max-w-[1160px] 1400:max-w-1320 w-full mx-auto relative grid grid-cols-12 gap-y-16 576:gap-x-10">
+      <div className="max-w-[516px] 760:max-w-[700px] 990:max-w-[960px] 1200:max-w-[1160px] 1400:max-w-1320 w-full mx-auto relative grid grid-cols-12 gap-y-16 576:gap-x-10">
         <div className="col-span-12">
           <AnimatedSectionHeader title="The Shop" />
           <div
