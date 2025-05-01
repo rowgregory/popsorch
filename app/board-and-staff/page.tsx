@@ -93,7 +93,7 @@ const BoardAndStaff = () => {
           }`}
         ></div>
       )}
-      <div className="bg-[#1a1a1a] min-h-[calc(100dvh-76px)] 760:min-h-[calc(100dvh-96px)] 1280:min-h-[calc(100dvh-119px)] px-3 relative z-0">
+      <div className="bg-[#1a1a1a] px-3 relative z-0">
         <div className="max-w-[516px] 760:max-w-[700px] 990:max-w-[960px] 1200:max-w-screen-1400 w-full mx-auto flex flex-col items-center py-28">
           {isLoading ? (
             <div className="flex justify-center">
@@ -108,7 +108,7 @@ const BoardAndStaff = () => {
                 ))}
               </div>
               <TitleWithLine title="Staff" />
-              <div className="grid grid-cols-12 gap-y-8 760:gap-8 mt-12">
+              <div className="grid grid-cols-12 gap-y-6 760:gap-7 mt-12 w-full">
                 {staffMembers.map((teamMember: TeamMemberProps) => (
                   <TeamMemberCard key={teamMember.id} teamMember={teamMember} handleOpenDrawer={handleOpenDrawer} />
                 ))}
