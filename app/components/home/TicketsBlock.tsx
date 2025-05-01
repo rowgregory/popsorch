@@ -71,9 +71,7 @@ const TicketsBlock = () => {
           {tickets.map((ticket, i) => (
             <div
               key={i}
-              className={`${
-                i === 1 ? 'bg-midnightblack' : ''
-              } col-span-12 576:col-span-6 990:col-span-4 px-10 py-12 flex flex-col items-center justify-between min-h-[500px]`}
+              className={`col-span-12 576:col-span-6 990:col-span-4 px-10 py-12 flex flex-col items-center justify-between min-h-[500px]`}
             >
               <h2 className="text-2xl font-changa font-medium text-white mb-2">{ticket.type}</h2>
               <p className="text-white mb-1 text-center font-medium font-changa text-[70px]">
