@@ -10,7 +10,12 @@ export async function GET(req: NextRequest) {
     const concerts = await prisma.concert.findMany()
     const testimonials = await prisma.testimonial.findMany()
     const venues = await prisma.venue.findMany()
-    const photoGalleryImages = await prisma.photoGalleryImage.findMany()
+    const photoGalleryImages = await prisma.photoGalleryImage.findMany({
+      orderBy: [
+        { createdAt: 'asc' },
+        { id: 'asc' } // Secondary sort to break ties
+      ]
+    })
     const teamMembers = await prisma.teamMember.findMany({ orderBy: { createdAt: 'asc' } })
 
     const sortedConcerts = concerts.sort((a: any, b: any) => {

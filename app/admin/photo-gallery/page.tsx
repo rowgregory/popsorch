@@ -155,7 +155,12 @@ const PhotoGallery = () => {
                   label="Add to home hero"
                   name="isHomeHero"
                   value={photoGalleryImage.isHomeHero}
-                  colors={{ bg: 'bg-amber-500', text: 'text-amber-500', border: 'border-amber-500' }}
+                  colors={{
+                    bg: 'bg-amber-500',
+                    text: 'text-amber-500',
+                    border: 'border-amber-500',
+                    fill: 'fill-amber-500'
+                  }}
                 />
               </div>
 

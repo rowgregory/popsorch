@@ -18,18 +18,19 @@ const AdminCheckbox: FC<AdminCheckboxProps> = ({ name, value, label, handleToggl
     <div className="relative">
       <div className="flex items-center gap-x-4">
         <div className="uppercase font-changa text-12 text-white">{label}</div>
-        {isLoading ? (
-          <Spinner fill="fill-sky-500" track="text-midnightblack" wAndH="w-6 h-6" />
-        ) : (
-          <div
-            onClick={() => inputRef.current?.click()}
-            className={`${
-              colors?.border ?? 'border-sky-500'
-            } w-6 h-6 border-2  duration-300 cursor-pointer flex items-center justify-center rounded-sm`}
-          >
-            {value && <div className={`w-3 h-3 ${colors?.bg ?? 'bg-sky-500'}`}></div>}
-          </div>
-        )}
+
+        <div
+          onClick={() => inputRef.current?.click()}
+          className={`${
+            colors?.border ?? 'border-sky-500'
+          } w-6 h-6 border-2  duration-300 cursor-pointer flex items-center justify-center rounded-sm`}
+        >
+          {isLoading ? (
+            <Spinner fill={colors?.fill ?? 'fill-sky-500'} track="text-midnightblack" wAndH="w-3 h-3" />
+          ) : (
+            value && <div className={`w-3 h-3 ${colors?.bg ?? 'bg-sky-500'}`}></div>
+          )}
+        </div>
         <input
           ref={inputRef}
           type="checkbox"

@@ -6,7 +6,12 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(req: NextRequest) {
   try {
-    const photoGalleryImages = await prisma.photoGalleryImage.findMany()
+    const photoGalleryImages = await prisma.photoGalleryImage.findMany({
+      orderBy: [
+        { createdAt: 'asc' },
+        { id: 'asc' } // Secondary sort to break ties
+      ]
+    })
 
     return NextResponse.json({ photoGalleryImages, sliceName: sliceApp }, { status: 200 })
   } catch (error: any) {
