@@ -2,7 +2,7 @@ import { openUpdateDrawer } from '@/app/redux/features/dashboardSlice'
 import { createFormActions } from '@/app/redux/features/formSlice'
 import { resetUser, UserProps } from '@/app/redux/features/userSlice'
 import { useDeleteUserMutation } from '@/app/redux/services/userApi'
-import { useAppDispatch } from '@/app/redux/store'
+import { RootState, useAppDispatch, useAppSelector } from '@/app/redux/store'
 import { formatDate } from '@/app/utils/date.functions'
 import React, { FC, useState } from 'react'
 import AdminTrashDeleteBtn from './AdminTrashDeleteBtn'
@@ -12,6 +12,9 @@ const AdminUserRow: FC<{ user: UserProps }> = ({ user }) => {
   const { setInputs } = createFormActions('user', dispatch)
   const [loading, setLoading] = useState<Record<string, boolean>>({})
   const [deleteUser] = useDeleteUserMutation()
+  const {
+    user: { id }
+  } = useAppSelector((state: RootState) => state.user)
 
   const handleUserDelete = async (e: any, userId: string) => {
     e.stopPropagation()
@@ -40,7 +43,9 @@ const AdminUserRow: FC<{ user: UserProps }> = ({ user }) => {
       <div className="col-span-2 truncate">{user?.role}</div>
       <div className="col-span-2 truncate">{formatDate(user?.createdAt)}</div>
       <div className="col-span-1 truncate">
-        <AdminTrashDeleteBtn loading={loading} id={user?.id} handleDelete={handleUserDelete} />
+        {user?.email !== 'sqysh@sqysh.io' && id !== user?.id && (
+          <AdminTrashDeleteBtn loading={loading} id={user?.id} handleDelete={handleUserDelete} />
+        )}
       </div>
     </div>
   )

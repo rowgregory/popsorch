@@ -21,19 +21,21 @@ const BoardMembersAndStaff = () => {
       <AdminTeamMemberCreateDrawer />
       <AdminTeamMemberUpdateDrawer />
       <ToastMessage message={error} resetError={() => resetTeamMemberError()} />
-      <div className="flex gap-y-10 760:gap-y-0 flex-col 760:flex-row 760:items-center 760:justify-between mb-12 sticky top-0 bg-duskgray z-20 py-2">
-        <AdminTitleAndTotal
-          title="Board Members & Staff"
-          total={teamMembers?.length}
-          bgcolor="bg-purple-500"
-          textcolor="text-purple-500"
-        />
-        <CreateBtn
-          btnText="Create Team Member"
-          createFunc={openCreateDrawer}
-          bgColor="bg-purple-500"
-          hvbgcolor="bg-purple-600"
-        />
+      <div className="relative">
+        <div className="flex gap-y-10 760:gap-y-0 flex-col 760:flex-row 760:items-center 760:justify-between mb-12 sticky top-0 bg-duskgray z-20 py-2">
+          <AdminTitleAndTotal
+            title="Board Members & Staff"
+            total={teamMembers?.length}
+            bgcolor="bg-purple-500"
+            textcolor="text-purple-500"
+          />
+          <CreateBtn
+            btnText="Create Team Member"
+            createFunc={openCreateDrawer}
+            bgColor="bg-purple-500"
+            hvbgcolor="bg-purple-600"
+          />
+        </div>
       </div>
       {loading ? (
         <AdminPageSpinner fill="fill-purple-500" />
