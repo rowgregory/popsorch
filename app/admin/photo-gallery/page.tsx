@@ -6,6 +6,7 @@ import AwesomeIcon from '@/app/components/common/AwesomeIcon'
 import Picture from '@/app/components/common/Picture'
 import Spinner from '@/app/components/common/Spinner'
 import ToastMessage from '@/app/components/common/ToastMessage'
+import AdminCheckbox from '@/app/forms/elements/AdminCheckbox'
 import { plusIcon, trashIcon } from '@/app/lib/icons'
 import { setPhotoGalleryImageCount } from '@/app/redux/features/appSlice'
 import { createFormActions } from '@/app/redux/features/formSlice'
@@ -17,7 +18,8 @@ import {
 import {
   useCreatePhotoGalleryImageMutation,
   useDeletePhotoGalleryImageMutation,
-  useFetchPhotoGalleryImagesQuery
+  useFetchPhotoGalleryImagesQuery,
+  useUpdatePhotoGalleryImageMutation
 } from '@/app/redux/services/photoGalleryImageApi'
 import { RootState, useAppDispatch, useAppSelector } from '@/app/redux/store'
 import uploadFileToFirebase from '@/app/utils/uploadFileToFirebase'
@@ -35,8 +37,10 @@ const PhotoGallery = () => {
   const [loading, setLoading] = useState(false)
   const [deletePhotoGalleryImage] = useDeletePhotoGalleryImageMutation()
   const [loadingDelete, setLoadingDelete] = useState<Record<string, boolean>>({})
+  const [loadingUpdate, setLoadingUpdate] = useState<Record<string, boolean>>({})
   const { success } = useAppSelector((state: RootState) => state.photoGalleryImage)
   useFetchPhotoGalleryImagesQuery(undefined, { skip: !success })
+  const [updatePhotoGalleryImage] = useUpdatePhotoGalleryImageMutation()
 
   const handleUploadPhotoGalleryImage = async (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files
@@ -78,6 +82,17 @@ const PhotoGallery = () => {
     } catch {}
 
     setLoadingDelete((prev: any) => ({ ...prev, [photoGalleryImage.id]: false }))
+  }
+
+  const handleUpdatePhotoGalleryImage = async (e: any, photoGalleryImageId: string) => {
+    e.preventDefault()
+    setLoadingUpdate((prev: any) => ({ ...prev, [photoGalleryImageId]: true }))
+
+    try {
+      await updatePhotoGalleryImage({ id: photoGalleryImageId, isHomeHero: e.target.checked }).unwrap()
+    } catch {}
+
+    setLoadingUpdate((prev: any) => ({ ...prev, [photoGalleryImageId]: false }))
   }
 
   return (
@@ -132,6 +147,17 @@ const PhotoGallery = () => {
                   className="w-4 h-4 text-blaze absolute top-2 right-2 cursor-pointer"
                 />
               )}
+
+              <div className="absolute bottom-2 right-2">
+                <AdminCheckbox
+                  handleToggle={(e: any) => handleUpdatePhotoGalleryImage(e, photoGalleryImage.id)}
+                  isLoading={loadingUpdate[photoGalleryImage.id]}
+                  label="Add to home hero"
+                  name="isHomeHero"
+                  value={photoGalleryImage.isHomeHero}
+                  colors={{ bg: 'bg-amber-500', text: 'text-amber-500', border: 'border-amber-500' }}
+                />
+              </div>
 
               <Picture src={photoGalleryImage.imageUrl} className="w-full h-full object-contain" priority={true} />
             </div>

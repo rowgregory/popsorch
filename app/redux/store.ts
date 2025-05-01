@@ -22,6 +22,7 @@ import { pushNotificationReducer } from './features/pushNotificationSlice'
 import { campReducer } from './features/campSlice'
 import { logReducer } from './features/logSlice'
 import { mailChimpReducer } from './features/mailchimpSlice'
+import { metricReducer } from './features/metricSlice'
 
 const rootReducer = combineReducers({
   app: appReducer,
@@ -42,6 +43,7 @@ const rootReducer = combineReducers({
   camp: campReducer,
   log: logReducer,
   mailchimp: mailChimpReducer,
+  metric: metricReducer,
   [api.reducerPath]: api.reducer
 })
 

@@ -61,6 +61,7 @@ export const authSlice = createSlice({
       })
       .addMatcher(authApi.endpoints.logout.matchFulfilled, (state) => {
         state.loading = false
+        state.isAuthenticated = false
       })
       .addMatcher(authApi.endpoints.forgotPassword.matchFulfilled, (state, { payload }) => {
         state.loading = false

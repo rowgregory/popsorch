@@ -23,20 +23,26 @@ const Venues = () => {
             </div>
           ) : (
             venues.map((venue: VenueProps) => (
-              <div key={venue?.id} className="flex flex-col">
-                <Picture
-                  src={venue?.imageUrl}
-                  className="w-full h-full rounded-tl-md rounded-tr-md object-cover max-h-[630px]"
-                  priority={true}
-                />
-                <div className={`bg-duskgray px-9 pt-9 pb-14 rounded-br-md rounded-bl-md`}>
-                  <p className="text-blaze uppercase font-lato text-center text-12">{venue?.capacity} seats</p>
-                  <div className="uppercase font-changa text-2xl text-center mb-6">{venue?.name}</div>
-                  <ul className="text-[#b2b2b2] text-center space-y-3 font-lato">
-                    <li>{venue?.accessibility}</li>
-                    <li>{venue?.immersiveEnvironment}</li>
-                    <li>{venue?.parking}</li>
-                  </ul>
+              <div key={venue?.id} className="flex flex-col rounded-md overflow-hidden shadow-md bg-inkblack">
+                <Picture src={venue?.imageUrl} className="w-full h-full object-cover max-h-[630px]" priority={true} />
+                <div className="bg-duskgray px-8 pt-8 pb-12">
+                  <p className="text-blaze uppercase font-lato text-center text-[12px] tracking-widest mb-2">
+                    {venue?.capacity} seats
+                  </p>
+                  <h3 className="uppercase font-changa text-2xl text-center text-white mb-8">{venue?.name}</h3>
+                  <div className="grid grid-cols-2 gap-y-4 border-t border-zinc-700/70 pt-6 text-[#b2b2b2] font-lato text-sm">
+                    <div className="font-semibold text-right pr-4 border-r border-[#555]">Accessibility</div>
+                    <div className="pl-4">{venue?.accessibility}</div>
+
+                    <div className="font-semibold text-right pr-4 border-r border-[#555]">Immersive Environment</div>
+                    <div className="pl-4">{venue?.immersiveEnvironment}</div>
+
+                    <div className="font-semibold text-right pr-4 border-r border-[#555]">Parking</div>
+                    <div className="pl-4">{venue?.parking}</div>
+
+                    <div className="font-semibold text-right pr-4 border-r border-[#555]">Address</div>
+                    <div className="pl-4">{venue?.address}</div>
+                  </div>
                 </div>
               </div>
             ))

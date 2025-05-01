@@ -14,7 +14,7 @@ export const securityQuestions = [
 
 export const daysOfWeek = ['Choose One', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
-export const cities = ['Choose One', 'Bradenton', 'Sarastoa']
+export const cities = ['Choose One', 'Bradenton', 'Sarasota']
 
 export const showTimes = [
   '12:00 p.m.',

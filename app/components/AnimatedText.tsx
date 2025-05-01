@@ -10,7 +10,9 @@ export const AnimatedText: React.FC<AnimatedTextProps> = ({ text }) => {
 
   // Split text into an array of characters for individual animation
   useEffect(() => {
-    setTextArray(text.split(''))
+    // Split by word but include the space with each word
+    const words = text.split(/(\s+)/) // Captures spaces too
+    setTextArray(words)
   }, [text])
 
   return (

@@ -37,7 +37,6 @@ const HomeConcertDates = () => {
               <div className="grid grid-cols-12 gap-4 transition-transform duration-300 ease-in-out">
                 {concerts
                   .filter((concert: any) => concert.type === 'Season')
-                  .slice(0, 3)
                   .map((concert: ConcertProps, i) => (
                     <ConcertCard concert={concert} key={concert.id} index={i} />
                   ))}

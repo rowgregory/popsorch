@@ -28,7 +28,17 @@ const Dashboard = () => {
                 {info.isLoading ? (
                   <Spinner fill={info.fill} track="text-midnightblack" wAndH="w-9 h-9" />
                 ) : (
-                  <h2 className={`text-3xl font-bold`}>{info.count}</h2>
+                  <div>
+                    <h2 className={`text-3xl font-bold`}>
+                      {info.title === 'Page Views' && 'Desktop: '}
+                      {info.count}
+                    </h2>
+
+                    <h2 className={`text-3xl font-bold`}>
+                      {info.title === 'Page Views' && 'Mobile: '}
+                      {info.count2}
+                    </h2>
+                  </div>
                 )}
               </div>
               <div className="w-12 h-12 rounded-full bg-duskgray flex items-center justify-center">

@@ -4,6 +4,19 @@ import CallBoxOfficeBtn from '../common/CallBoxOfficeBtn'
 
 const tickets = [
   {
+    type: 'Ultra',
+    seasonTicket: {
+      price: 200,
+      perShow: 50,
+      includesAddOns: true
+    },
+    individualTicket: {
+      price: 65,
+      includesAddOns: false
+    },
+    savings: 23
+  },
+  {
     type: 'Premium',
     seasonTicket: {
       price: 165,
@@ -11,25 +24,10 @@ const tickets = [
       includesAddOns: true
     },
     individualTicket: {
-      price: 200,
-      perShow: 50,
+      price: 50,
       includesAddOns: false
     },
     savings: 17.5
-  },
-  {
-    type: 'Ultra Seat',
-    seasonTicket: {
-      price: 200,
-      perShow: 50,
-      includesAddOns: true
-    },
-    individualTicket: {
-      price: 260,
-      perShow: 65,
-      includesAddOns: false
-    },
-    savings: 23
   },
   {
     type: 'General',
@@ -39,8 +37,7 @@ const tickets = [
       includesAddOns: true
     },
     individualTicket: {
-      price: 140,
-      perShow: 35,
+      price: 35,
       includesAddOns: false
     },
     savings: 14
@@ -76,7 +73,7 @@ const TicketsBlock = () => {
               key={i}
               className={`${
                 i === 1 ? 'bg-midnightblack' : ''
-              } col-span-12 576:col-span-6 990:col-span-4 px-10 py-12 flex flex-col items-center justify-center`}
+              } col-span-12 576:col-span-6 990:col-span-4 px-10 py-12 flex flex-col items-center justify-between min-h-[500px]`}
             >
               <h2 className="text-2xl font-changa font-medium text-white mb-2">{ticket.type}</h2>
               <p className="text-white mb-1 text-center font-medium font-changa text-[70px]">
@@ -86,12 +83,12 @@ const TicketsBlock = () => {
               <p className="text-zinc-300 font-lato mb-5 text-center">
                 {isSeason ? 'Includes Add On shows at discounted rate' : 'Full price applies to all Add-On shows'}
               </p>
-              <p className="text-zinc-300 font-lato flex flex-col text-center mb-12">
-                Price per Show
-                <span className="text-blaze font-lato font-semibold">
-                  ${isSeason ? ticket.seasonTicket.perShow : ticket.individualTicket.perShow}
-                </span>
-              </p>
+              {isSeason && (
+                <p className="text-zinc-300 font-lato flex flex-col text-center mb-12">
+                  Price per Show
+                  <span className="text-blaze font-lato font-semibold">${ticket.seasonTicket.perShow}</span>
+                </p>
+              )}
               <CallBoxOfficeBtn />
             </div>
           ))}

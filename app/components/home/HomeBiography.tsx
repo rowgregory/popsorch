@@ -23,13 +23,10 @@ const HomeBiography = () => {
         </div>
         <div className="col-span-12 1200:col-span-6">
           <TitleWithLine title="Our Melody" />
-          <h1 className="text-xl font-lato text-[#cacaca] my-8">
-            Top notch, crisply professional, educational, and fun!
-          </h1>
+          <h1 className="text-xl font-lato text-[#cacaca] my-8">Music You Love, Musicians You Know.</h1>
           <AnimatedText text="Since its founding in 1975, The Pops Orchestra of Bradenton and Sarasota has produced critically acclaimed musical attractions for enthusiastic audiences of all ages. As one of the top performing arts groups in a unique, culturally rich community, the Pops Orchestra attracts full-time residents, Suncoast “Snowbirds,” and vacationers to its concerts, proving to be a cultural and economic asset to the Greater Sarasota community." />
 
           <h2 className="text-[32px] text-blaze font-changa">The Pops Orchestra of Bradenton & Sarasota</h2>
-          <h3 className="text-12 font-changa text-[#cacaca] -mt-2">Robyn Bell</h3>
         </div>
       </div>
     </div>

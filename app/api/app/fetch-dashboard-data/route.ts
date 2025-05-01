@@ -45,6 +45,15 @@ export async function GET(req: NextRequest) {
 
     const logs = await prisma.log.findMany({ orderBy: { createdAt: 'desc' } })
 
+    const metricId = 'total-app-loads'
+    const metric = await prisma.appMetric.findUnique({
+      where: { id: metricId },
+      select: {
+        desktopCount: true,
+        mobileCount: true
+      }
+    })
+
     return NextResponse.json(
       {
         concertsCount: concerts.length,
@@ -61,7 +70,8 @@ export async function GET(req: NextRequest) {
         questionCount: questions.length,
         logs,
         logCount: logs.length,
-        sliceName: sliceApp
+        sliceName: sliceApp,
+        metric
       },
       { status: 200 }
     )

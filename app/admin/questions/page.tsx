@@ -10,16 +10,19 @@ import AdminPageSpinner from '@/app/components/admin/AdminPageSpinner'
 
 const Questions = () => {
   const { questions, error } = useAppSelector((state: RootState) => state.question)
-  const { loading } = useAppSelector((state: RootState) => state.app)
+  const { loading, questionCount } = useAppSelector((state: RootState) => state.app)
+  const noQuestions = questionCount === 0
 
   return (
-    <>
+    <div className="relative">
       <ToastMessage message={error} resetError={() => resetQuestionError()} />
       <div className="mb-12 sticky top-0 bg-duskgray z-20 py-2">
         <AdminTitleAndTotal title="Questions" total={questions?.length} bgcolor="bg-sky-500" textcolor="text-sky-500" />
       </div>
       {loading ? (
         <AdminPageSpinner fill="fill-sky-500" />
+      ) : noQuestions ? (
+        <div className="font-sm font-lato">No Questions</div>
       ) : (
         <div className="overflow-x-auto">
           <div className="min-w-[900px]">
@@ -38,7 +41,7 @@ const Questions = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   )
 }
 

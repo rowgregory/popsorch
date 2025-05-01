@@ -16,6 +16,10 @@ export const photoGalleryImageApi = api.injectEndpoints({
     deletePhotoGalleryImage: build.mutation({
       query: (body: any) => ({ url: `${BASE_URL}/delete-photo-gallery-image`, method: 'DELETE', body }),
       invalidatesTags: ['Photo-Gallery-Image']
+    }),
+    updatePhotoGalleryImage: build.mutation({
+      query: (body: any) => ({ url: `${BASE_URL}/update-photo-gallery-image`, method: 'PUT', body }),
+      invalidatesTags: ['Photo-Gallery-Image']
     })
   })
 })
@@ -23,5 +27,6 @@ export const photoGalleryImageApi = api.injectEndpoints({
 export const {
   useFetchPhotoGalleryImagesQuery,
   useCreatePhotoGalleryImageMutation,
-  useDeletePhotoGalleryImageMutation
+  useDeletePhotoGalleryImageMutation,
+  useUpdatePhotoGalleryImageMutation
 } = photoGalleryImageApi

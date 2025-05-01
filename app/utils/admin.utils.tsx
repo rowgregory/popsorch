@@ -1,6 +1,7 @@
 import { sectionColors } from '@/public/data/admin.data'
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons'
 import {
+  binocularsIcon,
   imageIcon,
   messageIcon,
   musicIcon,
@@ -41,12 +42,23 @@ export const dashboardData = (
 ): {
   title: string
   count: number
+  count2?: number
   icon: IconDefinition
   linkKey: string
   color: string
   fill: string
   isLoading: boolean
 }[] => [
+  {
+    title: 'Page Views',
+    count: app?.metric.desktopCount,
+    count2: app?.metric.mobileCount,
+    icon: binocularsIcon,
+    linkKey: '',
+    color: 'text-blaze',
+    fill: 'fill-blaze',
+    isLoading: app.loading
+  },
   {
     title: 'Concerts',
     count: app?.concertsCount,

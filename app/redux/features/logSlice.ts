@@ -39,19 +39,13 @@ export const logSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
-    builder
-      //   .addMatcher(logApi.endpoints.fetchLogs.matchFulfilled, (state, { payload }:any) => {
-      //     state.loading = false
-      //     state.success = true
-      //     state.logs = payload.logs
-      //   })
-      .addMatcher(
-        (action: any) => action.type.endsWith('/rejected') && action.payload?.data?.sliceName === 'logApi',
-        (state, action: any) => {
-          state.loading = false
-          state.error = action.payload.data.message
-        }
-      )
+    builder.addMatcher(
+      (action: any) => action.type.endsWith('/rejected') && action.payload?.data?.sliceName === 'logApi',
+      (state, action: any) => {
+        state.loading = false
+        state.error = action.payload.data.message
+      }
+    )
   }
 })
 

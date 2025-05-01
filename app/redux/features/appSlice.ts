@@ -46,6 +46,7 @@ export interface AppStatePayload {
   logCount: number
   isOnline: boolean
   accessibility: boolean
+  metric: { desktopCount: number; mobileCount: number }
 }
 
 const mediaDataInitialState = {
@@ -85,7 +86,8 @@ const initialAppState: AppStatePayload = {
   questionCount: 0,
   logCount: 0,
   isOnline: true,
-  accessibility: false
+  accessibility: false,
+  metric: { desktopCount: 0, mobileCount: 0 }
 }
 
 export const appSlice = createSlice({
@@ -188,6 +190,8 @@ export const appSlice = createSlice({
         state.campApplicationCount = payload.campApplicationCount
         state.questionCount = payload.questionCount
         state.logCount = payload.logCount
+        state.metric.desktopCount = payload.metric.desktopCount
+        state.metric.mobileCount = payload.metric.mobileCount
       })
       .addMatcher(
         (action: any) => action.type.endsWith('/rejected') && action.payload?.data?.sliceName === 'appApi',

@@ -10,7 +10,6 @@ import { useRouter } from 'next/navigation'
 import validateLoginForm from '@/app/validations/validateLoginForm'
 import { createFormActions } from '@/app/redux/features/formSlice'
 import { getErrorMessage } from '@/app/utils/logHelper'
-import Link from 'next/link'
 
 const Login = () => {
   const { push } = useRouter()
@@ -53,9 +52,7 @@ const Login = () => {
   return (
     <div className="flex max-h-1000:items-start items-center justify-center flex-col gap-y-7 max-h-1000:h-auto h-dvh max-h-1000:py-20">
       <div className="max-h-1000:hidden block">
-        <Link href="/">
-          <LogoWRobyn imgDimensions="h-40" logoClassname="h-40 text-blaze" />
-        </Link>
+        <LogoWRobyn imgDimensions="h-40" logoClassname="h-40 text-blaze" />
       </div>
       <LoginForm handleSubmit={handleLogin} isLoading={isLoading} error={getErrorMessage(error)} />
     </div>

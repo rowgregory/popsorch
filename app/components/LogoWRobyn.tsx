@@ -13,7 +13,7 @@ interface LogoWRobynProps {
 
 const LogoWRobyn: FC<LogoWRobynProps> = ({ logoClassname, imgDimensions, linkKey }) => {
   return (
-    <Link href={linkKey ?? '/'} className="flex items-end" onClick={(e) => e.preventDefault()}>
+    <Link href={linkKey ?? '/'} className="flex items-end" onClick={(e) => linkKey && e.preventDefault()}>
       <div className="w-auto">
         <Picture src="/images/robyn.png" className={`w-full object-contain ${imgDimensions}`} priority />
       </div>

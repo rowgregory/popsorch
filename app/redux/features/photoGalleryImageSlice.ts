@@ -5,6 +5,7 @@ export interface PhotoGalleryImageProps {
   id: string
   imageUrl: string
   imageFilename: string
+  isHomeHero: boolean
   createdAt: Date
   updatedAt: Date
 }
@@ -21,6 +22,7 @@ const photoGalleryImageState: PhotoGalleryImageProps = {
   id: '',
   imageUrl: '',
   imageFilename: '',
+  isHomeHero: false,
   createdAt: new Date(),
   updatedAt: new Date()
 }
@@ -59,6 +61,10 @@ export const photoGalleryImageSlice = createSlice({
         state.loading = false
       })
       .addMatcher(photoGalleryImageApi.endpoints.deletePhotoGalleryImage.matchFulfilled, (state) => {
+        state.success = true
+        state.loading = false
+      })
+      .addMatcher(photoGalleryImageApi.endpoints.updatePhotoGalleryImage.matchFulfilled, (state) => {
         state.success = true
         state.loading = false
       })

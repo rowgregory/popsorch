@@ -27,7 +27,18 @@ const HeaderLower = () => {
         !isHome && 'bg-headerbg bg-cover bg-no-repeat bg-center'
       } transition-all w-full px-4 430:px-7 1280:px-14 flex items-center justify-between relative z-50 h-[160px]`}
     >
-      <LogoWRobynHeader imgDimensions="h-[120px]" logoClassname={'text-blaze h-[120px]'} />
+      {isHome ? (
+        <div
+          className={`576:mt-20 relative border-1 border-white after:absolute after:inset-[-10px] after:border after:border-white after:content-[''] px-3 py-4`}
+        >
+          <LogoWRobynHeader
+            imgDimensions={`h-[80px] 576:h-[120px] 760:h-[150px]`}
+            logoClassname={`h-[80px] 576:h-[120px] 760:h-[150px] text-blaze`}
+          />
+        </div>
+      ) : (
+        <LogoWRobynHeader imgDimensions={`h-[105px]`} logoClassname={`h-[105px] text-blaze`} />
+      )}
 
       <div className="hidden absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 1200:flex items-center gap-x-10 h-full">
         {navLinks.map((link, i) =>

@@ -22,6 +22,7 @@ import AccessibilityDrawer from './drawers/AccessibilityDrawer'
 import AwesomeIcon from './components/common/AwesomeIcon'
 import { checkCircleIcon, universalAccessIcon } from './lib/icons'
 import { setToggleAccessibilityDrawer } from './redux/features/appSlice'
+import { useIncreaseAppCountMutation } from './redux/services/metricApi'
 
 const PageWrapper: FC<ClientPageProps> = ({ children, data }) => {
   useFetchAppDataQuery({})
@@ -33,6 +34,7 @@ const PageWrapper: FC<ClientPageProps> = ({ children, data }) => {
   const { openModal, accessibility } = useAppSelector((state: RootState) => state.app)
   const [showCheckmark, setShowCheckmark] = useState(false)
   useScrollToTop()
+  const [increaseAppCount] = useIncreaseAppCountMutation()
 
   useEffect(() => {
     if (data) {
@@ -40,6 +42,16 @@ const PageWrapper: FC<ClientPageProps> = ({ children, data }) => {
       dispatch(setAuthState({ isAuthenticated: data.isAuthenticated }))
     }
   }, [data, dispatch])
+
+  useEffect(() => {
+    const asyncIncraseAppCount = async () => {
+      try {
+        await increaseAppCount({}).unwrap()
+      } catch {}
+    }
+
+    asyncIncraseAppCount()
+  }, [increaseAppCount])
 
   useEffect(() => {
     const highContrast = localStorage.getItem('highContrast') === 'true'
