@@ -33,6 +33,7 @@ export const authSlice = createSlice({
   reducers: {
     setAuthState: (state, { payload }) => {
       state.isAuthenticated = payload.isAuthenticated
+      state.userId = payload.id
     },
     resetAuth: (state) => {
       state.success = false
@@ -58,10 +59,12 @@ export const authSlice = createSlice({
       .addMatcher(authApi.endpoints.login.matchFulfilled, (state, { payload }: any) => {
         state.loading = false
         state.isAuthenticated = payload.isAuthenticated
+        state.userId = payload.id
       })
       .addMatcher(authApi.endpoints.logout.matchFulfilled, (state) => {
         state.loading = false
         state.isAuthenticated = false
+        state.userId = ''
       })
       .addMatcher(authApi.endpoints.forgotPassword.matchFulfilled, (state, { payload }) => {
         state.loading = false

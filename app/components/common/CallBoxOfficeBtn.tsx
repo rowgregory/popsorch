@@ -6,8 +6,8 @@ const CallBoxOfficeBtn: FC<{ className?: string }> = ({ className }) => {
     <Link
       href="tel:19419267677"
       className={`${
-        className ?? 'py-4 w-fit'
-      } bg-blaze font-changa uppercase whitespace-nowrap px-8 rounded-sm text-[12px] font-bold tracking-widest hover:bg-blazehover duration-300`}
+        className ?? 'py-4 w-fit px-8'
+      } bg-blaze font-changa uppercase whitespace-nowrap rounded-sm text-[12px] font-bold tracking-widest hover:bg-blazehover duration-300`}
     >
       Call Box Office
     </Link>

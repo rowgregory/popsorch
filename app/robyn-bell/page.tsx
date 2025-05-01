@@ -10,7 +10,7 @@ const RobynBell = () => {
         <div className="max-w-[520px] 760:max-w-screen-576 990:max-w-[800px] 1200:max-w-screen-1160 1590:max-w-screen-1400 w-full mx-auto grid grid-cols-12 990:gap-x-12 pt-32 pb-44">
           <div className="order-2 1200:order-1 col-span-12 1200:col-span-8 mb-12 1200:mb-0 flex flex-col gap-y-4 gap-x-2 w-full">
             <Picture src="/images/robyn-2.png" className="w-full h-full aspect-video" priority={true} />
-            <div className="bg-duskgray p-14 font-medium leading-relaxed font-lato text-[#b2b2b2] flex flex-col mb-20">
+            <div className="bg-duskgray p-7 430:p-14 font-medium leading-relaxed font-lato text-[#b2b2b2] flex flex-col mb-20">
               <h1 className="font-changa text-2xl mb-5 text-white">Robyn Bell makes the show!</h1>
               <p className="mb-4">
                 Having worked with dozens of tribute and guest artists to marry the popular music genre with symphonic
@@ -51,7 +51,7 @@ const RobynBell = () => {
             </div>
           </div>
           <div className="order-2 1200:order-1 col-span-12 1200:col-span-4 mb-12 1200:mb-0 flex flex-col gap-y-4 gap-x-2 w-full">
-            <div className="bg-duskgray p-14">
+            <div className="bg-duskgray p-7 430:p-14">
               <h1 className="font-changa text-2xl text-blaze mb-5">Musical Director</h1>
               <p className="mb-4 text-[#b2b2b2] font-medium leading-relaxed font-lato">
                 Known for her innovative, appealing programming and informative, witty, and entertaining audience

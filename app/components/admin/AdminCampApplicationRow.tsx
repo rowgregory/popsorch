@@ -1,12 +1,35 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { openViewDrawer } from '@/app/redux/features/dashboardSlice'
 import { createFormActions } from '@/app/redux/features/formSlice'
-import { useAppDispatch } from '@/app/redux/store'
+import { RootState, useAppDispatch, useAppSelector } from '@/app/redux/store'
 import { formatDate } from '@/app/utils/date.functions'
+import AdminTrashDeleteBtn from './AdminTrashDeleteBtn'
+import { resetCampApplication } from '@/app/redux/features/campSlice'
+import { setCampApplicationsCount } from '@/app/redux/features/appSlice'
+import { useDeleteCampApplicationMutation, useFetchCampApplicationsQuery } from '@/app/redux/services/campApi'
 
 const AdminCampApplicationRow = ({ application }: any) => {
   const dispatch = useAppDispatch()
   const { setInputs } = createFormActions('campApplication', dispatch)
+  const [loading, setLoading] = useState<Record<string, boolean>>({})
+  const [deleteCampApplication] = useDeleteCampApplicationMutation()
+  const { campApplicationCount } = useAppSelector((state: RootState) => state.app)
+  const { success } = useAppSelector((state: RootState) => state.camp)
+  useFetchCampApplicationsQuery(undefined, { skip: !success })
+
+  const handleCampApplicationDelete = async (e: MouseEvent, campApplicationId: string) => {
+    e.stopPropagation()
+    setLoading((prev) => ({ ...prev, [campApplicationId]: true }))
+
+    try {
+      await deleteCampApplication({ campApplicationId }).unwrap()
+
+      dispatch(resetCampApplication())
+      dispatch(setCampApplicationsCount(campApplicationCount - 1))
+    } catch {}
+
+    setLoading((prev) => ({ ...prev, [campApplicationId]: false }))
+  }
 
   return (
     <div
@@ -21,6 +44,13 @@ const AdminCampApplicationRow = ({ application }: any) => {
       <div className="min-w-[200px] truncate">{application?.student?.studentEmailAddress}</div>
       <div className="min-w-[160px] truncate">{application?.student?.studentPhoneNumber}</div>
       <div className="min-w-[140px] truncate">{formatDate(application?.createdAt)}</div>
+      <div className="min-w-[80px]">
+        <AdminTrashDeleteBtn
+          loading={loading}
+          id={application.id}
+          handleDelete={(e: any) => handleCampApplicationDelete(e, application.id)}
+        />
+      </div>
     </div>
   )
 }

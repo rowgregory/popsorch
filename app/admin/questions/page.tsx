@@ -10,14 +10,13 @@ import AdminPageSpinner from '@/app/components/admin/AdminPageSpinner'
 
 const Questions = () => {
   const { questions, error } = useAppSelector((state: RootState) => state.question)
-  const { loading, questionCount } = useAppSelector((state: RootState) => state.app)
-  const noQuestions = questionCount === 0
+  const { loading, noQuestions, questionCount } = useAppSelector((state: RootState) => state.app)
 
   return (
     <div className="relative">
       <ToastMessage message={error} resetError={() => resetQuestionError()} />
       <div className="mb-12 sticky top-0 bg-duskgray z-20 py-2">
-        <AdminTitleAndTotal title="Questions" total={questions?.length} bgcolor="bg-sky-500" textcolor="text-sky-500" />
+        <AdminTitleAndTotal title="Questions" total={questionCount} bgcolor="bg-sky-500" textcolor="text-sky-500" />
       </div>
       {loading ? (
         <AdminPageSpinner fill="fill-sky-500" />

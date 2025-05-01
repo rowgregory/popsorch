@@ -39,7 +39,7 @@ const PageWrapper: FC<ClientPageProps> = ({ children, data }) => {
   useEffect(() => {
     if (data) {
       dispatch(setUser({ id: data.id }))
-      dispatch(setAuthState({ isAuthenticated: data.isAuthenticated }))
+      dispatch(setAuthState({ isAuthenticated: data.isAuthenticated, userId: data.id }))
     }
   }, [data, dispatch])
 

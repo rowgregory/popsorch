@@ -18,8 +18,12 @@ export const campApi = api.injectEndpoints({
         method: 'DELETE',
         body
       })
+    }),
+    fetchCampApplications: build.mutation({
+      query: () => `${BASE_URL}/fetch-camp-applications`
     })
   })
 })
 
-export const { useCreateCampApplicationMutation, useDeleteCampApplicationMutation } = campApi
+export const { useCreateCampApplicationMutation, useDeleteCampApplicationMutation, useFetchCampApplicationsQuery } =
+  campApi

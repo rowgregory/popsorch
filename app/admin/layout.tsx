@@ -104,7 +104,7 @@ const AdminLayout: FC<ChildrenProps> = ({ children }) => {
           <AwesomeIcon
             onClick={() => dispatch(openNavigationDrawer())}
             icon={barsIcon}
-            className="w-5 h-5 absolute block top-12 right-4 760:hidden cursor-pointer z-10"
+            className="w-6 h-6 fixed block top-10 right-4 760:hidden cursor-pointer z-30"
           />
           {errorFetchingDashboardData || dashboardError ? (
             <div className="font-changa text-2xl text-blaze">

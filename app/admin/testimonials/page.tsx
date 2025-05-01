@@ -14,7 +14,7 @@ import ToastMessage from '@/app/components/common/ToastMessage'
 
 const Testimonials = () => {
   const { testimonials, error } = useAppSelector((state: RootState) => state.testimonial)
-  const { loading } = useAppSelector((state: RootState) => state.app)
+  const { loading, noTestimonials, testimonialsCount } = useAppSelector((state: RootState) => state.app)
 
   return (
     <>
@@ -24,7 +24,7 @@ const Testimonials = () => {
       <div className="flex gap-y-10 760:gap-y-0 flex-col 760:flex-row 760:items-center 760:justify-between mb-12 sticky top-0 bg-duskgray z-20 py-2">
         <AdminTitleAndTotal
           title="Testimonials"
-          total={testimonials?.length}
+          total={testimonialsCount}
           bgcolor="bg-teal-400"
           textcolor="text-teal-400"
         />
@@ -37,6 +37,8 @@ const Testimonials = () => {
       </div>
       {loading ? (
         <AdminPageSpinner fill="fill-teal-400" />
+      ) : noTestimonials ? (
+        <div className="font-sm font-lato">No Testimonials</div>
       ) : (
         <div className="overflow-x-auto">
           <div className="min-w-[900px]">

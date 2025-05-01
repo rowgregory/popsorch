@@ -19,12 +19,12 @@ const PublicBoardAndStaffDrawer = () => {
   const currentMember: TeamMemberProps = drawerList?.[selectedIndex ?? 0]
 
   return (
-    <BottomDrawer isOpen={drawer} onClose={reset} height="h-[95dvh]">
+    <BottomDrawer isOpen={drawer} onClose={reset} height="h-[95dvh]" bgColor="bg-[#2a2a2a]">
       <div className="760:px-4 990:px-12 flex flex-col h-full pt-20 w-full 760:max-w-screen-lg mx-auto relative z-10">
         <AwesomeIcon
           onClick={() => dispatch(goToPrevDrawerItem())}
           icon={chevronLeftIcon}
-          className="text-zinc-700 hover:text-blaze w-8 h-8 absolute -left-10 top-1/2 -translate-y-1/2 cursor-pointer duration-300"
+          className="text-zinc-500 hover:text-blaze w-8 h-8 absolute -left-10 top-1/2 -translate-y-1/2 cursor-pointer duration-300"
         />
         <div className="flex flex-col 760:flex-row">
           <div className="w-1/3 pb-8">
@@ -48,17 +48,16 @@ const PublicBoardAndStaffDrawer = () => {
           {currentMember?.bio?.split('.').map(
             (part, index, arr) =>
               index !== arr.length - 1 && (
-                <li key={index} className="text-[#82878f] leading-relaxed font-lato">
+                <li key={index} className="leading-relaxed font-lato">
                   {part.trim()}.
                 </li>
               )
           )}
         </ul>
-
         <AwesomeIcon
           onClick={() => dispatch(goToNextDrawerItem())}
           icon={chevronRightIcon}
-          className="text-zinc-700 hover:text-blaze w-8 h-8 absolute -right-10 top-1/2 -translate-y-1/2 cursor-pointer duration-300"
+          className="text-zinc-500 hover:text-blaze w-8 h-8 absolute -right-10 top-1/2 -translate-y-1/2 cursor-pointer duration-300"
         />
       </div>
     </BottomDrawer>

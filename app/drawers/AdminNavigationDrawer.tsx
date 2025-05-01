@@ -33,7 +33,7 @@ const AdminNavigationDrawer = () => {
       <div
         className={`${
           navigationDrawer ? 'translate-x-0' : '-translate-x-full'
-        } w-full h-full bg-duskgray z-20 p-20 fixed duration-700 inset-0`}
+        } w-full h-full bg-duskgray z-40 p-20 fixed duration-700 inset-0`}
       >
         <AwesomeIcon
           onClick={() => dispatch(closeNavigationDrawer())}

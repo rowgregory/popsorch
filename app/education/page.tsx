@@ -30,8 +30,12 @@ const Education = () => {
             </p>
           </div>
           <div className="mt-20 1200:mt-0 col-span-12 1200:col-span-6 flex justify-center">
-            <div className="relative before:absolute before:content-[''] before:w-full before:h-full before:border-4 before:border-blaze before:rounded-md before:z-[-1] before:-top-10 left-0 before:max-w-[450px] max-w-[450px] h-full max-h-[700px]">
-              <Picture src="/images/edu-1.jpg" className="w-full h-fit object-contain ml-12" priority={false} />
+            <div className="relative before:absolute before:content-[''] before:w-full before:h-full before:border-4 before:border-blaze before:rounded-md before:z-[-1] before:-top-2 430:before:-top-10 left-0 before:max-w-[450px] max-w-[450px] h-full max-h-[700px]">
+              <Picture
+                src="/images/edu-1.jpg"
+                className="w-full h-fit object-contain ml-0 430:ml-12"
+                priority={false}
+              />
             </div>
           </div>
         </div>

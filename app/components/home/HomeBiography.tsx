@@ -17,8 +17,12 @@ const HomeBiography = () => {
         className={`max-w-[520px] 760:max-w-screen-576 990:max-w-[800px] 1200:max-w-screen-1160 1590:max-w-screen-1400 mx-auto w-full grid grid-cols-12 gap-y-12 990:gap-x-20 items-center relative z-10`}
       >
         <div className="col-span-12 1200:col-span-6 flex justify-center">
-          <div className="relative before:absolute before:content-[''] before:w-full before:h-full before:border-4 before:border-blaze before:rounded-md before:z-[-1] before:-top-10 left-0 before:max-w-[450px] max-w-[450px] h-full max-h-[700px]">
-            <Picture src="/images/robyn-1.jpg" className="w-full h-fit object-contain ml-12" priority={false} />
+          <div className="relative before:absolute before:content-[''] before:w-full before:h-full before:border-4 before:border-blaze before:rounded-md before:z-[-1] before:-top-4 430:before:-top-10 left-0 before:max-w-[450px] max-w-[450px] h-full max-h-[700px]">
+            <Picture
+              src="/images/robyn-1.jpg"
+              className="w-full h-fit object-contain ml-0 430:ml-12"
+              priority={false}
+            />
           </div>
         </div>
         <div className="col-span-12 1200:col-span-6">

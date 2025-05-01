@@ -47,6 +47,9 @@ export interface AppStatePayload {
   isOnline: boolean
   accessibility: boolean
   metric: { desktopCount: number; mobileCount: number }
+  noCampApplications: boolean
+  noTestimonials: boolean
+  noQuestions: boolean
 }
 
 const mediaDataInitialState = {
@@ -87,7 +90,10 @@ const initialAppState: AppStatePayload = {
   logCount: 0,
   isOnline: true,
   accessibility: false,
-  metric: { desktopCount: 0, mobileCount: 0 }
+  metric: { desktopCount: 0, mobileCount: 0 },
+  noCampApplications: false,
+  noTestimonials: false,
+  noQuestions: false
 }
 
 export const appSlice = createSlice({
@@ -168,6 +174,9 @@ export const appSlice = createSlice({
     setQuestionCount: (state, { payload }) => {
       state.questionCount = payload
     },
+    setCampApplicationsCount: (state, { payload }) => {
+      state.campApplicationCount = payload
+    },
     setToggleAccessibilityDrawer: (state, { payload }) => {
       state.accessibility = !payload
     }
@@ -184,11 +193,14 @@ export const appSlice = createSlice({
         state.concertsCount = payload.concertsCount
         state.venuesCount = payload.venuesCount
         state.teamMembersCount = payload.teamMembersCount
+        state.noTestimonials = payload.testimonialsCount === 0
         state.photoGalleryImagesCount = payload.photoGalleryImagesCount
         state.testimonialsCount = payload.testimonialsCount
         state.usersCount = payload.usersCount
         state.campApplicationCount = payload.campApplicationCount
+        state.noCampApplications = payload.campApplicationCount === 0
         state.questionCount = payload.questionCount
+        state.noQuestions = payload.questionCount === 0
         state.logCount = payload.logCount
         state.metric.desktopCount = payload.metric.desktopCount
         state.metric.mobileCount = payload.metric.mobileCount
@@ -226,5 +238,6 @@ export const {
   setVenuesCount,
   setTeamMembersCount,
   setQuestionCount,
-  setToggleAccessibilityDrawer
+  setToggleAccessibilityDrawer,
+  setCampApplicationsCount
 } = appSlice.actions

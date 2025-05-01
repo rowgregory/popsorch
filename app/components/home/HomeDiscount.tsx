@@ -6,12 +6,14 @@ const HomeDiscount = () => {
     <div className="px-4 py-32">
       <div className="max-w-[520px] 760:max-w-screen-576 990:max-w-[800px] 1200:max-w-screen-1160 1590:max-w-screen-1400 mx-auto w-full flex flex-col 1200:flex-row gap-x-28 items-center">
         <div className="flex gap-2">
-          <h1 className="text-[150px] 430:text-[200px] 576:text-[240px] tracking-tight font-lato font-semibold text-blaze">
+          <h1 className="text-[180px] 430:text-[200px] 576:text-[240px] tracking-tight font-lato font-semibold text-blaze">
             23
           </h1>
           <div className="flex flex-col items-end">
-            <h2 className="text-blaze font-lato text-[90px] 430:text-[150px] font-semibold mt-4">%</h2>
-            <h3 className="font-lato text-[50px] 430:text-[70px] text-white uppercase font-semibold -mt-12">Off</h3>
+            <h2 className="text-blaze font-lato -ml-4 text-[100px] 430:text-[150px] font-semibold mt-4 mr-[22px] 430:mr-auto">
+              %
+            </h2>
+            <h3 className="font-lato text-[70px] 430:text-[70px] text-white uppercase font-semibold -mt-12">Off</h3>
           </div>
         </div>
         <div className="flex flex-col">

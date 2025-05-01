@@ -20,4 +20,5 @@ export interface DrawerProps {
   onClose: () => void
   children: ReactNode
   height?: string
+  bgColor?: string
 }

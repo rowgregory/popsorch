@@ -29,7 +29,7 @@ const HeaderLower = () => {
     >
       {isHome ? (
         <div
-          className={`576:mt-20 relative border-1 border-white after:absolute after:inset-[-10px] after:border after:border-white after:content-[''] px-3 py-4`}
+          className={`576:mt-20 relative 576:border-1 576:border-white 576:after:absolute 576:after:inset-[-10px] 576:after:border 576:after:border-white 576:after:content-[''] 576:px-3 py-4`}
         >
           <LogoWRobynHeader
             imgDimensions={`h-[80px] 576:h-[120px] 760:h-[150px]`}

@@ -1,7 +1,7 @@
 import { openUpdateDrawer } from '@/app/redux/features/dashboardSlice'
 import { createFormActions } from '@/app/redux/features/formSlice'
 import { resetUser, UserProps } from '@/app/redux/features/userSlice'
-import { useDeleteUserMutation } from '@/app/redux/services/userApi'
+import { useDeleteUserMutation, useFetchUsersQuery } from '@/app/redux/services/userApi'
 import { RootState, useAppDispatch, useAppSelector } from '@/app/redux/store'
 import { formatDate } from '@/app/utils/date.functions'
 import React, { FC, useState } from 'react'
@@ -15,6 +15,8 @@ const AdminUserRow: FC<{ user: UserProps }> = ({ user }) => {
   const {
     user: { id }
   } = useAppSelector((state: RootState) => state.user)
+  const { success } = useAppSelector((state: RootState) => state.app)
+  useFetchUsersQuery(undefined, { skip: !success })
 
   const handleUserDelete = async (e: any, userId: string) => {
     e.stopPropagation()
