@@ -25,7 +25,7 @@ const ConcertCard = ({ concert, index }: { concert: ConcertProps; index: number 
         className="w-full h-full aspect-[10/12] object-cover rounded-sm group-hover:scale-125 duration-700"
         priority={false}
       />
-      <div className="absolute inset-0 z-10 bg-black/60 duration-700 flex flex-col items-start p-5 w-full h-full rounded-sm">
+      <div className="absolute inset-0 z-10 bg-gradient-to-b from-transparent from-[55%] to-black/70 to-[100%] duration-700 flex flex-col items-start p-5 w-full h-full rounded-sm">
         <h3 className="bg-blaze py-0.5 px-3 font-changa text-sm uppercase">{concert?.type}</h3>
         <h4 className="w-full font-changa text-xl bottom-12 absolute left-5 leading-7 duration-700 cursor-pointer -translate-y-28 430:-translate-y-16 760:translate-y-0 760:group-hover:-translate-y-16">
           {concert.name}

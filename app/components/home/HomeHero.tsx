@@ -16,7 +16,7 @@ const HomeHero = () => {
         </div>
       ) : (
         <>
-          <div className="absolute top-0 left-0 bottom-0 right-0 z-30 bg-black/40 w-full h-[1000px]"></div>
+          <div className="absolute top-0 left-0 bottom-0 right-0 z-30 bg-black/10 w-full h-[1000px]"></div>
           <HomeHeroCarousel images={filteredImages} interval={5000} />
         </>
       )}

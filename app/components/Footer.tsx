@@ -4,27 +4,32 @@ import React from 'react'
 import { getFooterLinks } from '../utils/navigation.utils'
 import useCustomPathname from '../hooks/useCustomPathname'
 import Link from 'next/link'
-import FbSVG from './svg/FbSVG'
-import YouTubeSVG from './svg/YouTubeSVG'
-import InstaSVG from './svg/InstaSVG'
 import LogoWRobyn from './LogoWRobyn'
 import AwesomeIcon from './common/AwesomeIcon'
-import { chevronUpIcon, mapLocationDotIcon, pencilIcon, phoneIcon } from '../lib/icons'
+import {
+  chevronUpIcon,
+  facebookIcon,
+  instagramIcon,
+  mapLocationDotIcon,
+  pencilIcon,
+  phoneIcon,
+  youtubeIcon
+} from '../lib/icons'
 import TitleWithLine from './common/TitleWithLine'
 
 const socialLinks = [
   {
-    icon: <FbSVG />,
+    icon: facebookIcon,
     linkKey: 'https://www.facebook.com/ThePopsOrchestra',
     textKey: 'facebook.com/ThePopsOrchestra'
   },
   {
-    icon: <InstaSVG />,
+    icon: instagramIcon,
     linkKey: 'https://www.instagram.com/thepopsorchestra/',
     textKey: 'instagram.com/ThePopsOrchestra'
   },
   {
-    icon: <YouTubeSVG />,
+    icon: youtubeIcon,
     linkKey: 'https://www.youtube.com/user/SarasotaPops1',
     textKey: 'youtube.com/user/SarasotaPops1'
   }
@@ -48,7 +53,7 @@ const Footer = () => {
                   href={link.linkKey}
                   className="w-12 h-12 rounded-full bg-inkblack border-2 border-inkblack flex items-center justify-center border-l-2 border-l-blaze hover:shadow-adminbtn duration-300"
                 >
-                  {link.icon}
+                  <AwesomeIcon icon={link.icon} className="w-4 h-4" />
                 </a>
               ))}
             </div>

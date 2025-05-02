@@ -19,7 +19,7 @@ const PublicBoardAndStaffDrawer = () => {
   const currentMember: TeamMemberProps = drawerList?.[selectedIndex ?? 0]
 
   return (
-    <BottomDrawer isOpen={drawer} onClose={reset} height="h-[95dvh]" bgColor="bg-[#2a2a2a]">
+    <BottomDrawer isOpen={drawer} onClose={reset} height="h-[90dvh]" bgColor="bg-[#1a1a1a]">
       <div className="760:px-4 990:px-12 flex flex-col h-full pt-20 w-full 760:max-w-screen-lg mx-auto relative z-10">
         <AwesomeIcon
           onClick={() => dispatch(goToPrevDrawerItem())}

@@ -9,14 +9,15 @@ const PublicConcertRow: FC<{ concert: ConcertProps }> = ({ concert }) => {
   const memoizedImageUrl = useMemo(() => concert?.imageUrl, [concert?.imageUrl])
 
   return (
-    <div className="grid grid-cols-12 bg-duskgray rounded-md w-full">
-      <div className="col-span-12 990:col-span-5 relative group">
+    <div className="grid grid-cols-12 bg-duskgray rounded-md w-full group">
+      <div className="col-span-12 990:col-span-5 relative">
         <Picture
           src={memoizedImageUrl}
           priority={true}
           className="aspecet-video 990:aspect-square relative z-0 object-cover rounded-tl-md rounded-bl-md h-full w-full bg-black"
         />
-        <div className="absolute inset-0 z-10 bg-black/40 group-hover:bg-transparent duration-300 flex flex-col items-end p-5">
+        <div className="absolute inset-0 z-10 bg-gradient-to-t from-transparent from-[60%] to-black/50 to-[100%] duration-300 flex flex-col items-end p-5">
+          <h3 className="bg-blaze py-0.5 px-3 font-changa text-sm uppercase absolute left-3 top-3">{concert?.type}</h3>
           <div className="flex flex-col items-center text-white font-medium">
             <h1 className="uppercase text-12 font-changa -mb-3">From</h1>
             <h2 className="font-lato text-[40px]">$35</h2>

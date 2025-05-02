@@ -1,6 +1,5 @@
-import { instagramIcon, magnifyingGlassIcon, youtubeIcon } from '@/app/lib/icons'
+import { facebookIcon, instagramIcon, magnifyingGlassIcon, youtubeIcon } from '@/app/lib/icons'
 import AwesomeIcon from '../common/AwesomeIcon'
-import FbSVG from '../svg/FbSVG'
 import Link from 'next/link'
 import { RootState, useAppSelector } from '@/app/redux/store'
 
@@ -12,7 +11,10 @@ const HeaderTop = () => {
       <div className="flex items-center gap-x-3">
         <h1 className="text-12 uppercase font-changa text-[#b2b2b2] hidden 430:block">Follow Us:</h1>
         <a href="https://www.facebook.com/ThePopsOrchestra" target="_blank">
-          <FbSVG classname="hover:text-blaze duration-300" />
+          <AwesomeIcon
+            icon={facebookIcon}
+            className="w-4 h-4 text-[#b2b2b2] cursor-pointer duration-300 hover:text-blaze"
+          />
         </a>
         <a href="https://www.instagram.com/thepopsorchestra/" target="_blank">
           <AwesomeIcon
