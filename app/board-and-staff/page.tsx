@@ -53,6 +53,7 @@ const BoardAndStaff = () => {
   const { data, isLoading } = useFetchTeamMembersQuery({})
   const dispatch = useAppDispatch()
   const { drawer } = useAppSelector((state: RootState) => state.app)
+  const { textBlockMap } = useAppSelector((state: RootState) => state.textBlock)
 
   const handleOpenDrawer = (selectedMember: TeamMemberProps) => {
     if (!data?.teamMembers) return
@@ -101,13 +102,21 @@ const BoardAndStaff = () => {
             </div>
           ) : (
             <>
-              <TitleWithLine title="Board Members" />
+              <TitleWithLine
+                title={textBlockMap?.BOARD_MEMBERS_PAGE?.boardMemberTitle || 'Board Members'}
+                type="BOARD_MEMBERS_PAGE"
+                textBlockKey="boardMemberTitle"
+              />
               <div className="grid grid-cols-12 gap-y-6 760:gap-7 mt-12 mb-32">
                 {boardMembers.map((teamMember: TeamMemberProps) => (
                   <TeamMemberCard key={teamMember.id} teamMember={teamMember} handleOpenDrawer={handleOpenDrawer} />
                 ))}
               </div>
-              <TitleWithLine title="Staff" />
+              <TitleWithLine
+                title={textBlockMap?.BOARD_MEMBERS_PAGE?.staffTitle || 'Staff'}
+                type="BOARD_MEMBERS_PAGE"
+                textBlockKey="staffTitle"
+              />
               <div className="grid grid-cols-12 gap-y-6 760:gap-7 mt-12 w-full">
                 {staffMembers.map((teamMember: TeamMemberProps) => (
                   <TeamMemberCard key={teamMember.id} teamMember={teamMember} handleOpenDrawer={handleOpenDrawer} />

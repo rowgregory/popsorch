@@ -6,7 +6,6 @@ import Picture from '../components/common/Picture'
 import AwesomeIcon from '../components/common/AwesomeIcon'
 import { chevronLeftIcon, chevronRightIcon } from '../lib/icons'
 import { TeamMemberProps } from '../redux/features/teamMemberSlice'
-import TitleWithLine from '../components/common/TitleWithLine'
 
 const PublicBoardAndStaffDrawer = () => {
   const { drawer, selectedIndex, drawerList } = useAppSelector((state: RootState) => state.app)
@@ -38,8 +37,7 @@ const PublicBoardAndStaffDrawer = () => {
           </div>
           <div className="w-[1px] h-full bg-zinc-700/70 ml-8"></div>
           <div className="flex flex-col px-16">
-            <TitleWithLine title={`${currentMember?.firstName} ${currentMember?.lastName}`} />
-
+            <h1 className="text-white font-changa text-center text-[48px] relative z-10">{`${currentMember?.firstName} ${currentMember?.lastName}`}</h1>
             <h2 className="mb-12 tracking-wide uppercase text-blaze text-12 mt-1">{currentMember?.position}</h2>
           </div>
         </div>
