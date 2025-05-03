@@ -19,7 +19,7 @@ export const campApi = api.injectEndpoints({
         body
       })
     }),
-    fetchCampApplications: build.mutation({
+    fetchCampApplications: build.query({
       query: () => `${BASE_URL}/fetch-camp-applications`
     })
   })

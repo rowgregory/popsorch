@@ -13,15 +13,8 @@ export const textBlockApi = api.injectEndpoints({
         body
       }),
       onQueryStarted: async (_arg: any, { dispatch, queryFulfilled }: any) => {
-        try {
-          const {
-            data: { key, value, type }
-          } = await queryFulfilled
-
-          dispatch(updateTextBlockInState({ key, value, type }))
-        } catch (error) {
-          console.error('Error updating text block:', error)
-        }
+        const { data } = await queryFulfilled
+        dispatch(updateTextBlockInState({ key: data?.key, value: data?.value, type: data?.type }))
       }
     }),
     textBlockSystemStatus: build.query({
@@ -29,8 +22,14 @@ export const textBlockApi = api.injectEndpoints({
       providesTags: ['Text-Block'],
       keepUnusedDataFor: 300,
       refetchOnMountOrArgChange: true
+    }),
+    fetchTextBlocks: build.query({
+      query: () => `${BASE_URL}/fetch-text-blocks`,
+      providesTags: ['Text-Block'],
+      keepUnusedDataFor: 300,
+      refetchOnMountOrArgChange: true
     })
   })
 })
 
-export const { useUpdateTextBlockMutation, useTextBlockSystemStatusQuery } = textBlockApi
+export const { useUpdateTextBlockMutation, useTextBlockSystemStatusQuery, useFetchTextBlocksQuery } = textBlockApi

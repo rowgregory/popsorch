@@ -24,13 +24,8 @@ interface FetchDashboardDataQueryTypes {
 }
 
 const AdminLayout: FC<ChildrenProps> = ({ children }) => {
-  useFetchSubscribersQuery({}) as any
-  const { error: errorFetchingDashboardData } = useFetchDashboardDataQuery<FetchDashboardDataQueryTypes>(
-    {},
-    {
-      refetchOnMountOrArgChange: true
-    }
-  )
+  useFetchSubscribersQuery({})
+  const { error: errorFetchingDashboardData } = useFetchDashboardDataQuery<FetchDashboardDataQueryTypes>({})
   const dispatch = useAppDispatch()
   const path = useCustomPathname()
   const { push } = useRouter()
@@ -40,7 +35,7 @@ const AdminLayout: FC<ChildrenProps> = ({ children }) => {
   const { error: dashboardError } = useAppSelector((state: RootState) => state.dashboard)
   const [sendPushNotification] = useSendPushNotificationMutation()
 
-  const handleLogout = async (e: any) => {
+  const handleLogout = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
     dispatch(resetAuth())
 

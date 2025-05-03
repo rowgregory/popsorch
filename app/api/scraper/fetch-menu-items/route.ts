@@ -19,7 +19,9 @@ export async function POST() {
 
     const page = await browser.newPage()
 
-    await page.goto('https://www.panerabread.com/content/panerabread_com/en-us/menu/categories/sandwiches.html', { waitUntil: 'load' })
+    await page.goto('https://www.panerabread.com/content/panerabread_com/en-us/menu/categories/sandwiches.html', {
+      waitUntil: 'load'
+    })
 
     const menuItems = await page.evaluate(() => {
       return Array.from(document.querySelectorAll('.iw-product-grid-item-v2')).map((link) => {
@@ -32,8 +34,7 @@ export async function POST() {
     await browser.close()
 
     return NextResponse.json({ menuItems, sliceName: 'scraperApi' }, { status: 200 })
-  } catch (error) {
-    console.error('Error scraping data:', error)
+  } catch {
     return NextResponse.json({ error: 'Failed to scrape menu', sliceName: 'scraperApi' }, { status: 500 })
   }
 }

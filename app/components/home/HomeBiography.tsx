@@ -2,8 +2,29 @@ import React from 'react'
 import Picture from '../common/Picture'
 import TitleWithLine from '../common/TitleWithLine'
 import { AnimatedText } from '../AnimatedText'
+import { RootState, useAppDispatch, useAppSelector } from '@/app/redux/store'
+import EditableTextArea from '../common/EditableTextArea'
+import { setOpenModal } from '@/app/redux/features/appSlice'
 
 const HomeBiography = () => {
+  const { textBlockMap } = useAppSelector((state: RootState) => state.textBlock)
+  const { isAuthenticated } = useAppSelector((state: RootState) => state.auth)
+  const { openModal } = useAppSelector((state: RootState) => state.app)
+  const dispatch = useAppDispatch()
+
+  const handleAnimatedText = () => {
+    if (isAuthenticated) {
+      dispatch(
+        setOpenModal({
+          show: openModal,
+          initialValue: textBlockMap.HOME_BIO_BLOCK.homeBioParagraph,
+          type: 'HOME_BIO_BLOCK',
+          textBlockKey: 'homeBioParagraph'
+        })
+      )
+    }
+  }
+
   return (
     <div className="px-4 py-40 relative">
       <div
@@ -26,10 +47,24 @@ const HomeBiography = () => {
           </div>
         </div>
         <div className="col-span-12 1200:col-span-6">
-          <TitleWithLine title="Our Melody" />
-          <h1 className="text-xl font-lato text-[#cacaca] my-8">Music You Love, Musicians You Know.</h1>
-          <AnimatedText text="Since its founding in 1975, The Pops Orchestra of Bradenton and Sarasota has produced critically acclaimed musical attractions for enthusiastic audiences of all ages. As one of the top performing arts groups in a unique, culturally rich community, the Pops Orchestra attracts full-time residents, Suncoast “Snowbirds,” and vacationers to its concerts, proving to be a cultural and economic asset to the Greater Sarasota community." />
-
+          <TitleWithLine
+            title={textBlockMap?.HOME_BIO_BLOCK?.homeBioTitle}
+            type="HOME_BIO_BLOCK"
+            textBlockKey="homeBioTitle"
+          />
+          <EditableTextArea
+            tag="h1"
+            initialValue={textBlockMap?.HOME_BIO_BLOCK?.homeBioSubtitle}
+            type="HOME_BIO_BLOCK"
+            textBlockKey="homeBioSubtitle"
+            className="text-xl font-lato text-[#cacaca] my-8"
+          />
+          <span
+            onClick={() => handleAnimatedText()}
+            className={`${isAuthenticated ? 'cursor-pointer' : 'cursor-default'} pointer-events-auto`}
+          >
+            <AnimatedText text={textBlockMap?.HOME_BIO_BLOCK?.homeBioParagraph} />
+          </span>
           <h2 className="text-[32px] text-blaze font-changa">The Pops Orchestra of Bradenton & Sarasota</h2>
         </div>
       </div>

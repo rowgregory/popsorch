@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
 import useForm from '../hooks/useForm'
-import { useUpdateTextBlockMutation } from '../redux/services/textBlockApi'
+import { useFetchTextBlocksQuery, useUpdateTextBlockMutation } from '../redux/services/textBlockApi'
 import Spinner from '../components/common/Spinner'
 import { setCloseModal } from '../redux/features/appSlice'
 import PublicModal from '../components/common/PublicModal'
@@ -16,6 +16,8 @@ const PublicEditableTextAreaModal = () => {
   const { inputs, handleInput, setInputs, setErrors, errors } = useForm({
     [modadlData.textBlockKey]: modadlData.initialValue
   })
+  const { success } = useAppSelector((state: RootState) => state.textBlock)
+  useFetchTextBlocksQuery(undefined, { skip: !success })
 
   useEffect(() => {
     if (modadlData.initialValue) {
@@ -66,7 +68,7 @@ const PublicEditableTextAreaModal = () => {
 
   return (
     <PublicModal show={openModal} reset={reset}>
-      <div className="px-4 pt-12 480:py-20 480:mb-20 max-w-md mx-auto flex flex-col items-center justify-center w-full">
+      <div className="px-4 pt-12 480:py-20 480:mb-20 max-w-md mx-auto flex flex-col items-center justify-center w-full max-h-1000:h-[calc(100vh-58px)]">
         <h1 className="font-medium text-stealthGray text-xl mt-2 mb-4">Edit Text Area</h1>
         <form onSubmit={handleUpdate} className="w-full grid grid-cols-12 items-end relative">
           {modadlData.textBlockKey === 'countdownTimer' ? (
@@ -94,21 +96,21 @@ const PublicEditableTextAreaModal = () => {
           )}
         </form>
       </div>
-      <div className="bg-silver p-3 480:py-6 480:px-5 w-full flex items-center justify-between">
+      <div className="bg-midnightblack p-3 480:py-6 480:px-5 w-full flex items-center justify-between">
         <button
           onClick={reset}
           disabled={loading}
           type="button"
-          className="bg-gray-800 py-1.5 w-36 text-white disabled:cursor-not-allowed"
+          className="bg-zinc-500 font-changa uppercase text-12 font-medium tracking-wider py-2 w-36 disabled:cursor-not-allowed"
         >
           Back
         </button>
         <button
           onClick={handleUpdate}
           disabled={loading}
-          className="min-w-36 bg-blaze py-1.5 w-36 text-white disabled:cursor-not-allowed"
+          className="min-w-36 font-changa uppercase text-12 font-medium tracking-wider bg-blaze py-2 w-36 disabled:cursor-not-allowed"
         >
-          {loading ? <Spinner wAndH="w-4 h-4" fill="fill-gray-800" /> : 'Update'}
+          {loading ? <Spinner wAndH="w-4 h-4" fill="fill-white" track="text-blaze" /> : 'Update'}
         </button>
       </div>
     </PublicModal>

@@ -79,7 +79,8 @@ export const appApi = api.injectEndpoints({
           }
         }
       },
-      providesTags: ['App']
+      providesTags: ['App'],
+      refetchOnMountOrArgChange: true
     })
   })
 })

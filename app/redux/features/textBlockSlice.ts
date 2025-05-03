@@ -40,6 +40,12 @@ export const textBlockSlice = createSlice({
         state.success = true
         state.loading = false
       })
+      .addMatcher(textBlockApi.endpoints.fetchTextBlocks.matchFulfilled, (state, { payload }: any) => {
+        state.textBlockMap = {
+          ...state.textBlockMap,
+          ...payload.transformedTextBlocks
+        }
+      })
       .addMatcher(textBlockApi.endpoints.textBlockSystemStatus.matchFulfilled, (state, { payload }: any) => {
         state.loading = false
         state.message = payload.message

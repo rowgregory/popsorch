@@ -11,13 +11,13 @@ export const AnimatedText: React.FC<AnimatedTextProps> = ({ text }) => {
   // Split text into an array of characters for individual animation
   useEffect(() => {
     // Split by word but include the space with each word
-    const words = text.split(/(\s+)/) // Captures spaces too
+    const words = text?.split(/(\s+)/) // Captures spaces too
     setTextArray(words)
   }, [text])
 
   return (
     <div className="flex flex-wrap">
-      {textArray.map((char, index) => (
+      {textArray?.map((char, index) => (
         <Character key={index} index={index} char={char} />
       ))}
     </div>
@@ -57,7 +57,7 @@ const Character: React.FC<CharacterProps> = ({ char, index }) => {
       initial={{ filter: 'brightness(0.7)' }} // Initial brightness (darker)
       animate={{ filter: `brightness(${currentOpacity})` }} // Adjust brightness on scroll
       transition={{ duration: 0.3, delay }} // Use delay to stagger character animations
-      className="inline-block"
+      className="inline-block font-lato"
     >
       {char === ' ' ? '\u00A0' : char} {/* Handle spaces as invisible character */}
     </motion.span>

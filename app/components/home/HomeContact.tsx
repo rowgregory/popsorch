@@ -5,13 +5,15 @@ import React from 'react'
 import TitleWithLine from '../common/TitleWithLine'
 import Picture from '../common/Picture'
 import { RootState, useAppSelector } from '@/app/redux/store'
+import EditableTextArea from '../common/EditableTextArea'
 
 const HomeContact = () => {
+  const { textBlockMap } = useAppSelector((state: RootState) => state.textBlock)
   const { success } = useAppSelector((state: RootState) => state.question)
 
   return (
     <div className="px-4 py-40 relative">
-      <Picture src="/images/contact-bg.png" className="object-cover w-full h-full absolute inset-0" priority={false} />
+      <Picture src="/images/contact-bg.png" className="object-cover w-full h-full absolute inset-0" priority={true} />
       <div
         className={`max-w-[520px] 760:max-w-[700px] 990:max-w-[960px] 1200:max-w-screen-1400 mx-auto w-full grid grid-cols-12 items-center relative z-10`}
       >
@@ -23,11 +25,18 @@ const HomeContact = () => {
             </h1>
           ) : (
             <>
-              <TitleWithLine title="Have A Question?" />
-              <p className="text-white/80 font-lato mt-7 mb-9 w-full text-center">
-                We&apos;d love to hear from you—drop your name and message below and <br /> we&apos;ll get back to you
-                soon.
-              </p>
+              <TitleWithLine
+                title={textBlockMap?.HOME_CONTACT_BLOCK?.homeContactTitle}
+                type="HOME_CONTACT_BLOCK"
+                textBlockKey="homeContactTitle"
+              />
+              <EditableTextArea
+                tag="p"
+                initialValue={textBlockMap?.HOME_CONTACT_BLOCK?.homeContactSubtitle}
+                type="HOME_CONTACT_BLOCK"
+                textBlockKey="homeContactSubtitle"
+                className="text-white/80 font-lato mt-7 mb-9 w-full text-center"
+              />
               <ContactForm />
             </>
           )}

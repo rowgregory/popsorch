@@ -16,6 +16,8 @@ import {
   youtubeIcon
 } from '../lib/icons'
 import TitleWithLine from './common/TitleWithLine'
+import { RootState, useAppSelector } from '../redux/store'
+import EditableTextArea from './common/EditableTextArea'
 
 const socialLinks = [
   {
@@ -38,6 +40,7 @@ const socialLinks = [
 const Footer = () => {
   const path = useCustomPathname()
   const footerLinks = getFooterLinks(path)
+  const { textBlockMap } = useAppSelector((state: RootState) => state.textBlock)
 
   return (
     <footer className="border-t-3 border-t-blaze">
@@ -59,24 +62,47 @@ const Footer = () => {
             </div>
           </div>
           <div className="col-span-12 990:col-span-4 flex flex-col gap-y-10 items-center">
-            <TitleWithLine title="Contact" />
+            <TitleWithLine
+              title={textBlockMap?.FOOTER_BLOCK?.contactInfoTitle}
+              type="FOOTER_BLOCK"
+              textBlockKey="contactInfoTitle"
+            />
             <ul className="flex flex-col items-center gap-y-3 text-[#b2b2b2] font-lato">
               <li className="flex items-center gap-x-2">
                 <AwesomeIcon icon={pencilIcon} className="text-blaze w-3.5 h-3.5" />
-                info@ThePopsOrchestra.org
+                <EditableTextArea
+                  tag="div"
+                  initialValue={textBlockMap?.FOOTER_BLOCK?.contactInfoLine1}
+                  type="FOOTER_BLOCK"
+                  textBlockKey="contactInfoLine1"
+                />
               </li>
               <li className="flex items-center gap-x-2">
                 <AwesomeIcon icon={mapLocationDotIcon} className="text-blaze w-3.5 h-3.5" />
-                P.O. Box 1622, Sarasota, FL 34230
+                <EditableTextArea
+                  tag="div"
+                  initialValue={textBlockMap?.FOOTER_BLOCK?.contactInfoLine2}
+                  type="FOOTER_BLOCK"
+                  textBlockKey="contactInfoLine2"
+                />
               </li>
               <li className="flex items-center gap-x-2">
                 <AwesomeIcon icon={phoneIcon} className="text-blaze w-3.5 h-3.5" />
-                941 926 POPS (7677)
+                <EditableTextArea
+                  tag="div"
+                  initialValue={textBlockMap?.FOOTER_BLOCK?.contactInfoLine3 || '941 926 POPS (7677)'}
+                  type="FOOTER_BLOCK"
+                  textBlockKey="contactInfoLine3"
+                />
               </li>
             </ul>
           </div>
           <nav className="col-span-12 990:col-span-4 flex flex-col gap-y-10 items-center">
-            <TitleWithLine title="Quick Links" />
+            <TitleWithLine
+              title={textBlockMap?.FOOTER_BLOCK?.quickLinksTitle}
+              type="FOOTER_BLOCK"
+              textBlockKey="quickLinksTitle"
+            />
             <div className="flex flex-col items-center gap-y-3">
               {footerLinks.map((link, i) => (
                 <Link

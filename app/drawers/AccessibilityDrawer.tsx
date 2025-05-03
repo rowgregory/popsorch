@@ -211,7 +211,7 @@ const AccessibilityDrawer = () => {
         <div className="grid grid-cols-12 gap-2 w-full items-center">
           <div
             onClick={cycleTextSize}
-            className="col-span-12 990:col-span-6 relative h-full w-full bg-duskgray p-4 rounded-sm flex items-end justify-center aspect-square cursor-pointer duration-300 hover:bg-[#333]"
+            className="col-span-12 430:col-span-6 relative h-full w-full bg-duskgray p-4 rounded-sm flex items-end justify-center aspect-square cursor-pointer duration-300 hover:bg-[#333]"
           >
             <div className="absolute left-1/2 -translate-x-1/2 top-[20%] mx-auto flex items-center gap-x-1">
               <div className="accessibility-item text-lg">T</div>
@@ -222,10 +222,9 @@ const AccessibilityDrawer = () => {
               <StepIndicator currentStep={stepIndex} />
             </div>
           </div>
-
           <div
             onClick={() => setHighContrast(!highContrast)}
-            className="col-span-12 990:col-span-6 relative h-full w-full bg-duskgray p-4 rounded-sm flex items-end justify-center aspect-square cursor-pointer duration-300 hover:bg-[#333]"
+            className="col-span-12 430:col-span-6 relative h-full w-full bg-duskgray p-4 rounded-sm flex items-end justify-center aspect-square cursor-pointer duration-300 hover:bg-[#333]"
           >
             <div className="absolute left-1/2 -translate-x-1/2 top-[20%] mx-auto flex items-center gap-x-1">
               <AwesomeIcon icon={circleHaltStrokeIcon} className="w-8 h-8" />
@@ -235,10 +234,9 @@ const AccessibilityDrawer = () => {
               <div className={`w-3 h-3 rounded-full mt-4 ${highContrast ? 'bg-blaze' : 'bg-midnightblack'}`}></div>
             </div>
           </div>
-
           <div
             onClick={() => setHighlightLinks(!highlightLinks)}
-            className="col-span-12 990:col-span-6 relative h-full w-full bg-duskgray p-4 rounded-sm flex items-end justify-center aspect-square cursor-pointer duration-300 hover:bg-[#333]"
+            className="col-span-12 430:col-span-6 relative h-full w-full bg-duskgray p-4 rounded-sm flex items-end justify-center aspect-square cursor-pointer duration-300 hover:bg-[#333]"
           >
             <div className="absolute left-1/2 -translate-x-1/2 top-[20%] mx-auto flex items-center gap-x-1">
               <AwesomeIcon icon={linkIcon} className="w-8 h-8" />
@@ -250,10 +248,9 @@ const AccessibilityDrawer = () => {
               <div className={`w-3 h-3 rounded-full mt-4 ${highlightLinks ? 'bg-blaze' : 'bg-midnightblack'}`}></div>
             </div>
           </div>
-
           <div
             onClick={() => setTextSpacing(!textSpacing)}
-            className="col-span-12 990:col-span-6 relative h-full w-full bg-duskgray p-4 rounded-sm flex items-end justify-center aspect-square cursor-pointer duration-300 hover:bg-[#333]"
+            className="col-span-12 430:col-span-6 relative h-full w-full bg-duskgray p-4 rounded-sm flex items-end justify-center aspect-square cursor-pointer duration-300 hover:bg-[#333]"
           >
             <div className="absolute left-1/2 -translate-x-1/2 top-[20%] mx-auto flex items-center gap-x-1">
               <AwesomeIcon icon={textWidthIcon} className="w-8 h-8" />
@@ -263,10 +260,9 @@ const AccessibilityDrawer = () => {
               <div className={`w-3 h-3 rounded-full mt-4 ${textSpacing ? 'bg-blaze' : 'bg-midnightblack'}`}></div>
             </div>
           </div>
-
           <div
             onClick={() => setDyslexiaFriendly(!dyslexiaFriendly)}
-            className="col-span-12 990:col-span-6 relative h-full w-full bg-duskgray p-4 rounded-sm flex items-end justify-center aspect-square cursor-pointer duration-300 hover:bg-[#333]"
+            className="col-span-12 430:col-span-6 relative h-full w-full bg-duskgray p-4 rounded-sm flex items-end justify-center aspect-square cursor-pointer duration-300 hover:bg-[#333]"
           >
             <div className="absolute left-1/2 -translate-x-1/2 top-[20%] mx-auto flex items-center gap-x-1">
               <div className="text-2xol font-bold">Pqbd</div>
@@ -278,10 +274,9 @@ const AccessibilityDrawer = () => {
               <div className={`w-3 h-3 rounded-full mt-4 ${dyslexiaFriendly ? 'bg-blaze' : 'bg-midnightblack'}`}></div>
             </div>
           </div>
-
           <div
             onClick={() => setLineHeight(!lineHeight)}
-            className="col-span-12 990:col-span-6 relative h-full w-full bg-duskgray p-4 rounded-sm flex items-end justify-center aspect-square cursor-pointer duration-300 hover:bg-[#333]"
+            className="col-span-12 430:col-span-6 relative h-full w-full bg-duskgray p-4 rounded-sm flex items-end justify-center aspect-square cursor-pointer duration-300 hover:bg-[#333]"
           >
             <div className="absolute left-1/2 -translate-x-1/2 top-[20%] mx-auto flex items-center gap-x-1">
               <AwesomeIcon icon={textHeightIcon} className="w-8 h-8" />
@@ -291,7 +286,6 @@ const AccessibilityDrawer = () => {
               <div className={`w-3 h-3 rounded-full mt-4 ${lineHeight ? 'bg-blaze' : 'bg-midnightblack'}`}></div>
             </div>
           </div>
-
           <div
             onClick={() => reset()}
             className="col-span-12 bg-blaze hover:bg-blazehover duration-300 whitespace-nowrap font-changa uppercase text-sm mt-12 px-8 py-2 rounded-sm flex items-center gap-x-3"

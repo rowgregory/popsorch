@@ -117,3 +117,37 @@ body.high-contrast h5,
 body.high-contrast h6 {
   color: #ff00ff; /* High-contrast headers in bright color */
 }
+
+.jumping-dot {
+  width: 50px;
+  height: 32px;
+  --c: no-repeat linear-gradient(#da0032 0 0);
+  background: var(--c) 0 100%, var(--c) 50% 100%, var(--c) 100% 100%;
+  background-size: 10px calc(100% - 5px);
+  position: relative;
+}
+
+.jumping-dot:before {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #da0032;
+  left: 0;
+  top: 0;
+  animation: l3-1 1.5s linear infinite alternate,
+    l3-2 0.75s cubic-bezier(0, 200, 0.8, 200) infinite;
+}
+
+@keyframes l3-1 {
+  100% {
+    left: calc(100% - 10px);
+  }
+}
+
+@keyframes l3-2 {
+  100% {
+    top: -0.1px;
+  }
+}

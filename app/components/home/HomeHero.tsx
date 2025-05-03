@@ -1,7 +1,6 @@
 import React from 'react'
 import HomeHeroCarousel from './HomeHeroCarousel'
 import { RootState, useAppSelector } from '@/app/redux/store'
-import Spinner from '../common/Spinner'
 
 const HomeHero = () => {
   const { photoGalleryImages } = useAppSelector((state: RootState) => state.photoGalleryImage)
@@ -12,7 +11,7 @@ const HomeHero = () => {
     <div className="relative h-[1000px] w-full mt-[-160px]">
       {loading ? (
         <div className="flex h-full w-full items-center justify-center">
-          <Spinner wAndH="w-16 h-16" fill="fill-blaze" track="text-inkblack" />
+          <div className="jumping-dot" />
         </div>
       ) : (
         <>

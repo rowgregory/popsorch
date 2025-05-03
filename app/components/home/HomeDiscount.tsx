@@ -10,7 +10,7 @@ const HomeDiscount = () => {
             23
           </h1>
           <div className="flex flex-col items-end">
-            <h2 className="text-blaze font-lato -ml-4 text-[100px] 430:text-[150px] font-semibold mt-4 mr-[22px] 430:mr-auto">
+            <h2 className="text-blaze font-lato text-[115px] 430:text-[150px] font-semibold mr-[22px] 430:mr-[3px]">
               %
             </h2>
             <h3 className="font-lato text-[70px] 430:text-[70px] text-white uppercase font-semibold -mt-12">Off</h3>

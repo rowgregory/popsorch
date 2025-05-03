@@ -10,9 +10,6 @@ export async function POST(req: NextRequest) {
     // Choose the metric ID
     const metricId = 'total-app-loads'
 
-    console.log('user agent: ', userAgent)
-    console.log('is mobile: ', isMobile)
-
     const result = await prisma.appMetric.upsert({
       where: { id: metricId },
       update: isMobile ? { mobileCount: { increment: 1 } } : { desktopCount: { increment: 1 } },
