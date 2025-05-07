@@ -225,6 +225,7 @@ export const appSlice = createSlice({
         state.teamMembersCount = payload.teamMembersCount
         state.photoGalleryImagesCount = payload.photoGalleryImagesCount
         state.testimonialsCount = payload.testimonialsCount
+        state.loading = false
       })
       .addMatcher(appApi.endpoints.fetchDashboardData.matchFulfilled, (state, { payload }: any) => {
         state.success = true
