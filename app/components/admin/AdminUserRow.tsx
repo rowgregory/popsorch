@@ -37,14 +37,14 @@ const AdminUserRow: FC<{ user: UserProps }> = ({ user }) => {
         dispatch(openUpdateDrawer())
         setInputs(user)
       }}
-      className="grid grid-cols-[2fr_2fr_2fr_2fr_2fr] h-14 gap-x-3 bg-midnightblack hover:bg-inkblack rounded-[5px] pl-4 py-2 pr-2 border-l-4 border-l-emerald-400 items-center"
+      className="grid grid-cols-[2fr_2fr_2fr_2fr_2fr_1fr] h-14 gap-x-3 bg-midnightblack hover:bg-inkblack rounded-[5px] pl-4 py-2 pr-2 border-l-4 border-l-emerald-400 items-center"
     >
       <div className="truncate">{user?.firstName}</div>
       <div className="truncate">{user?.lastName}</div>
       <div className="truncate">{user?.email}</div>
       <div className="truncate">{user?.role}</div>
       <div className="truncate">{formatDate(user?.createdAt)}</div>
-      <div className="">
+      <div>
         {user?.email !== 'sqysh@sqysh.io' && id !== user?.id && (
           <AdminTrashDeleteBtn loading={loading} id={user?.id} handleDelete={handleUserDelete} />
         )}

@@ -25,7 +25,7 @@ const Users = () => {
       ) : (
         <div className="overflow-hidden">
           <div className="overflow-x-auto">
-            <div className="grid grid-cols-[2fr_2fr_2fr_2fr_2fr] gap-x-4 rounded-md pl-4 py-2 pr-2 mb-3 text-sm min-w-[600px]">
+            <div className="grid grid-cols-[2fr_2fr_2fr_2fr_2fr_1fr] gap-x-4 rounded-md pl-4 py-2 pr-2 mb-3 text-sm min-w-[600px]">
               <div className="whitespace-nowrap">First Name</div>
               <div className="whitespace-nowrap">Last Name</div>
               <div className="whitespace-nowrap">Email</div>
