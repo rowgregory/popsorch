@@ -2,13 +2,13 @@
 
 import React, { ChangeEvent, useMemo, useState } from 'react'
 import { RootState, useAppSelector } from '../redux/store'
-import { ConcertProps } from '../redux/features/formSlice'
 import PublicConcertRow from '../components/public/PublicConcertRow'
 import Breadcrumb from '../components/common/Breadcrumb'
 import CampInput from '../forms/elements/CampInput'
 import AwesomeIcon from '../components/common/AwesomeIcon'
 import { magnifyingGlassIcon } from '../lib/icons'
 import Spinner from '../components/common/Spinner'
+import { ConcertProps } from '../redux/features/concertSlice'
 
 const Concerts = () => {
   const { concerts } = useAppSelector((state: RootState) => state.concert)

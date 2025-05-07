@@ -13,8 +13,10 @@ export interface TestimonialStatePayload {
   loading: boolean
   error: any
   success: boolean
-  testimonials: []
+  testimonials: TestimonialProps[]
   testimonial: TestimonialProps
+  testimonialsCount: number
+  noTestimonials: boolean
 }
 
 const testimonialState: TestimonialProps = {
@@ -30,7 +32,9 @@ const initialTestimonialState: TestimonialStatePayload = {
   error: null,
   success: false,
   testimonials: [],
-  testimonial: testimonialState
+  testimonial: testimonialState,
+  testimonialsCount: 0,
+  noTestimonials: false
 }
 
 export const testimonialSlice = createSlice({
@@ -43,9 +47,28 @@ export const testimonialSlice = createSlice({
     },
     setTestimonials: (state, { payload }: any) => {
       state.testimonials = payload
+      state.testimonialsCount = payload?.length
+      state.noTestimonials = payload?.length === 0
     },
     resetTestimonialError: (state) => {
       state.error = null
+    },
+    updateTestimonialInState: (state, action) => {
+      const updatedTestimonial = action.payload
+      const index = state.testimonials.findIndex((testimonial) => testimonial.id === updatedTestimonial.id)
+      if (index !== -1) {
+        state.testimonials[index] = updatedTestimonial // Replace the old testimonial with the updated one
+      }
+    },
+    addTestimonialToState: (state, action) => {
+      state.testimonials.push(action.payload) // Add the new testimonial to the list
+      state.testimonialsCount = state.testimonialsCount + 1
+      state.noTestimonials = state.testimonials.length === 0
+    },
+    removeTestimonialFromState: (state, action) => {
+      state.testimonials = state.testimonials.filter((testimonial) => testimonial.id !== action.payload)
+      state.testimonialsCount = state.testimonialsCount - 1
+      state.noTestimonials = state.testimonials.length === 0
     }
   },
   extraReducers: (builder) => {
@@ -78,4 +101,11 @@ export const testimonialSlice = createSlice({
 
 export const testimonialReducer = testimonialSlice.reducer as Reducer<TestimonialStatePayload>
 
-export const { resetTestimonial, setTestimonials, resetTestimonialError } = testimonialSlice.actions
+export const {
+  resetTestimonial,
+  setTestimonials,
+  resetTestimonialError,
+  updateTestimonialInState,
+  addTestimonialToState,
+  removeTestimonialFromState
+} = testimonialSlice.actions

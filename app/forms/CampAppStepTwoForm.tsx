@@ -1,4 +1,4 @@
-import React, { FormEvent } from 'react'
+import React from 'react'
 import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
 import { createFormActions } from '../redux/features/formSlice'
 import { setStep } from '../redux/features/campSlice'
@@ -11,14 +11,12 @@ const CampAppStepTwoForm = () => {
   const { campForm } = useAppSelector((state: RootState) => state.form)
   const { handleInput } = createFormActions('campForm', dispatch)
 
-  const handleStepOne = (e: FormEvent) => {
-    e.preventDefault()
-
+  const handleStepTwo = () => {
     dispatch(setStep({ personalInfo: true, addressInfo: true, parentInfo: true, instrumentSection: false }))
   }
 
   return (
-    <form onSubmit={handleStepOne}>
+    <form>
       <div className="990:pl-20">
         <h1 className="text-18 font-changa mb-1 text-[#d3d3d3]">2 / 4</h1>
         <h2 className="text-25 text-white font-changa mb-6">Student Address</h2>
@@ -64,7 +62,11 @@ const CampAppStepTwoForm = () => {
           <AwesomeIcon icon={caretLeftIcon} className="text-white w-3 h-3" />
           Backward
         </button>
-        <button className="text-white bg-sunburst px-4 py-1 flex items-center gap-x-2">
+        <button
+          onClick={() => handleStepTwo()}
+          type="button"
+          className="text-white bg-sunburst px-4 py-1 flex items-center gap-x-2"
+        >
           Forward
           <AwesomeIcon icon={caretRightIcon} className="text-white w-3 h-3" />
         </button>

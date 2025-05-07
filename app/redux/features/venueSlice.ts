@@ -6,8 +6,10 @@ export interface VenueStatePayload {
   loading: boolean
   error: any
   success: boolean
-  venues: []
+  venues: VenueProps[]
   venue: VenueProps
+  venuesCount: number
+  noVenues: boolean
 }
 
 const venueState: VenueProps = {
@@ -29,7 +31,9 @@ const initialVenueState: VenueStatePayload = {
   error: null,
   success: false,
   venues: [],
-  venue: venueState
+  venue: venueState,
+  venuesCount: 0,
+  noVenues: false
 }
 
 export const venueSlice = createSlice({
@@ -42,9 +46,28 @@ export const venueSlice = createSlice({
     },
     setVenues: (state, { payload }: any) => {
       state.venues = payload
+      state.venuesCount = payload?.length
+      state.noVenues = payload?.length === 0
     },
     resetVenueError: (state) => {
       state.error = null
+    },
+    addVenueToState: (state, action) => {
+      state.venues.push(action.payload)
+      state.venuesCount = state.venuesCount + 1
+      state.noVenues = state.venues.length === 0
+    },
+    updateVenueInState: (state, action) => {
+      const updatedVenue = action.payload
+      const index = state.venues.findIndex((venue) => venue.id === updatedVenue.id)
+      if (index !== -1) {
+        state.venues[index] = updatedVenue
+      }
+    },
+    removeVenueFromState: (state, action) => {
+      state.venues = state.venues.filter((venue) => venue.id !== action.payload)
+      state.venuesCount = state.venuesCount - 1
+      state.noVenues = state.venues.length === 0
     }
   },
   extraReducers: (builder) => {
@@ -83,4 +106,5 @@ export const venueSlice = createSlice({
 
 export const venueReducer = venueSlice.reducer as Reducer<VenueStatePayload>
 
-export const { resetVenue, setVenues, resetVenueError } = venueSlice.actions
+export const { resetVenue, setVenues, resetVenueError, addVenueToState, updateVenueInState, removeVenueFromState } =
+  venueSlice.actions

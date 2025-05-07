@@ -14,7 +14,7 @@ export async function PUT(req: NextRequest) {
 
     const { id, name, review } = body
 
-    await prisma.testimonial.update({
+    const updatedTestimonial = await prisma.testimonial.update({
       where: { id },
       data: { name, review }
     })
@@ -29,7 +29,7 @@ export async function PUT(req: NextRequest) {
       user: parsedUser
     })
 
-    return NextResponse.json({ sliceName: sliceTestimonial }, { status: 200 })
+    return NextResponse.json({ testimonial: updatedTestimonial, sliceName: sliceTestimonial }, { status: 200 })
   } catch (error: any) {
     await createLog('error', `Updating testimonial failed: ${error.message}`, {
       errorLocation: parseStack(JSON.stringify(error)),

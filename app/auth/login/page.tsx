@@ -27,7 +27,7 @@ const Login = () => {
 
     try {
       await login({
-        email: loginForm.inputs.email,
+        email: loginForm.inputs.email.trim().toLowerCase(),
         password: loginForm.inputs.password
       })
         .unwrap()

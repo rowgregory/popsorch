@@ -18,7 +18,10 @@ const LoginForm: FC<{ handleSubmit: any; isLoading: boolean; error: string }> = 
     <form onSubmit={handleSubmit} className="w-full px-4">
       <div className="max-w-lg w-full mx-auto relative">
         <h1 className="font-semibold text-3xl">Hi there,</h1>
-        <h1 className="font-bold text-3xl mb-14 text-blaze">Welcome Back</h1>
+        <h2 className="font-bold text-3xl text-blaze">Welcome Back</h2>
+        <h3 className="text-12 font-lato mb-14">
+          This login is for admin access only and not intended for public use.
+        </h3>
         <div className="flex flex-col gap-y-7">
           <AuthInput
             name="email"

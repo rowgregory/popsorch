@@ -1,11 +1,12 @@
 import { openUpdateDrawer } from '@/app/redux/features/dashboardSlice'
 import { createFormActions } from '@/app/redux/features/formSlice'
 import { resetUser, UserProps } from '@/app/redux/features/userSlice'
-import { useDeleteUserMutation, useFetchUsersQuery } from '@/app/redux/services/userApi'
+import { useDeleteUserMutation } from '@/app/redux/services/userApi'
 import { RootState, useAppDispatch, useAppSelector } from '@/app/redux/store'
 import { formatDate } from '@/app/utils/date.functions'
 import React, { FC, useState } from 'react'
 import AdminTrashDeleteBtn from './AdminTrashDeleteBtn'
+import { decreaseUsersCount } from '@/app/redux/features/appSlice'
 
 const AdminUserRow: FC<{ user: UserProps }> = ({ user }) => {
   const dispatch = useAppDispatch()
@@ -15,8 +16,6 @@ const AdminUserRow: FC<{ user: UserProps }> = ({ user }) => {
   const {
     user: { id }
   } = useAppSelector((state: RootState) => state.user)
-  const { success } = useAppSelector((state: RootState) => state.app)
-  useFetchUsersQuery(undefined, { skip: !success })
 
   const handleUserDelete = async (e: any, userId: string) => {
     e.stopPropagation()
@@ -26,6 +25,7 @@ const AdminUserRow: FC<{ user: UserProps }> = ({ user }) => {
       await deleteUser({ id: userId }).unwrap()
 
       dispatch(resetUser())
+      dispatch(decreaseUsersCount())
     } catch {
     } finally {
       setLoading((prev) => ({ ...prev, [userId]: false }))
@@ -37,14 +37,14 @@ const AdminUserRow: FC<{ user: UserProps }> = ({ user }) => {
         dispatch(openUpdateDrawer())
         setInputs(user)
       }}
-      className="grid grid-cols-12 h-14 gap-x-3 bg-midnightblack hover:bg-inkblack rounded-[5px] pl-4 py-2 pr-2 border-l-4 border-l-emerald-400 items-center"
+      className="grid grid-cols-[2fr_2fr_2fr_2fr_2fr] h-14 gap-x-3 bg-midnightblack hover:bg-inkblack rounded-[5px] pl-4 py-2 pr-2 border-l-4 border-l-emerald-400 items-center"
     >
-      <div className="col-span-2 truncate">{user?.firstName}</div>
-      <div className="col-span-2 truncate">{user?.lastName}</div>
-      <div className="col-span-3 truncate">{user?.email}</div>
-      <div className="col-span-2 truncate">{user?.role}</div>
-      <div className="col-span-2 truncate">{formatDate(user?.createdAt)}</div>
-      <div className="col-span-1 truncate">
+      <div className="truncate">{user?.firstName}</div>
+      <div className="truncate">{user?.lastName}</div>
+      <div className="truncate">{user?.email}</div>
+      <div className="truncate">{user?.role}</div>
+      <div className="truncate">{formatDate(user?.createdAt)}</div>
+      <div className="">
         {user?.email !== 'sqysh@sqysh.io' && id !== user?.id && (
           <AdminTrashDeleteBtn loading={loading} id={user?.id} handleDelete={handleUserDelete} />
         )}

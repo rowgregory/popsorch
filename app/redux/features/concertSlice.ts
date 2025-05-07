@@ -42,6 +42,7 @@ export interface ConcertProps {
   imageFilename: string
   isOnSale: boolean
   type: string
+  pressRelease: string
   allSeriesExternalLink: string
   createdAt: Date
   updatedAt: Date
@@ -51,8 +52,10 @@ export interface ConcertStatePayload {
   loading: boolean
   error: any
   success: boolean
-  concerts: []
+  concerts: ConcertProps[]
   concert: ConcertProps
+  concertsCount: number
+  noConcerts: boolean
 }
 
 const concertState: ConcertProps = {
@@ -64,6 +67,7 @@ const concertState: ConcertProps = {
   imageFilename: '',
   isOnSale: false,
   type: '',
+  pressRelease: '',
   allSeriesExternalLink: '',
   createdAt: new Date(),
   updatedAt: new Date()
@@ -74,7 +78,9 @@ const initialConcertState: ConcertStatePayload = {
   error: null,
   success: false,
   concerts: [],
-  concert: concertState
+  concert: concertState,
+  concertsCount: 0,
+  noConcerts: false
 }
 
 export const concertSlice = createSlice({
@@ -87,9 +93,29 @@ export const concertSlice = createSlice({
     },
     setConcerts: (state, { payload }: any) => {
       state.concerts = payload
+      state.concertsCount = payload?.length
+      state.noConcerts = payload?.length === 0
     },
     resetConcertError: (state) => {
       state.error = null
+      state.concerts = []
+    },
+    addConcertToState: (state, action) => {
+      state.concerts.push(action.payload)
+      state.concertsCount = state.concertsCount + 1
+      state.noConcerts = state.concerts.length === 0
+    },
+    updateConcertInState: (state, action) => {
+      const updatedConcert = action.payload
+      const index = state.concerts.findIndex((concert) => concert.id === updatedConcert.id)
+      if (index !== -1) {
+        state.concerts[index] = updatedConcert
+      }
+    },
+    removeConcertFromState: (state, action) => {
+      state.concerts = state.concerts.filter((concert) => concert.id !== action.payload)
+      state.concertsCount = state.concertsCount - 1
+      state.noConcerts = state.concerts.length === 0
     }
   },
   extraReducers: (builder) => {
@@ -127,4 +153,11 @@ export const concertSlice = createSlice({
 
 export const concertReducer = concertSlice.reducer as Reducer<ConcertStatePayload>
 
-export const { resetConcert, setConcerts, resetConcertError } = concertSlice.actions
+export const {
+  resetConcert,
+  setConcerts,
+  resetConcertError,
+  addConcertToState,
+  updateConcertInState,
+  removeConcertFromState
+} = concertSlice.actions

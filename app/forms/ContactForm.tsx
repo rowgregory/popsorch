@@ -6,6 +6,7 @@ import { useCreateQuestionMutation } from '../redux/services/questionApi'
 import CampInput from './elements/CampInput'
 import validateContactForm from '../validations/validateContactForm'
 import Spinner from '../components/common/Spinner'
+import { increaseQuestionCount } from '../redux/features/appSlice'
 
 const ContactForm: FC<{ btnClassname?: string }> = ({ btnClassname }) => {
   const dispatch = useAppDispatch()
@@ -28,6 +29,7 @@ const ContactForm: FC<{ btnClassname?: string }> = ({ btnClassname }) => {
       }).unwrap()
 
       clearInputs()
+      dispatch(increaseQuestionCount())
     } catch {}
   }
 

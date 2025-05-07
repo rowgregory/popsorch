@@ -47,10 +47,15 @@ export async function GET(req: NextRequest) {
       {
         textBlocks: transformedTextBlocks,
         concerts: sortedConcerts,
+        concertsCount: sortedConcerts?.length,
         testimonials,
+        testimonialsCount: testimonials?.length,
         venues,
+        venuesCount: venues?.length,
         photoGalleryImages,
+        photoGalleryImagesCount: photoGalleryImages?.length,
         teamMembers,
+        teamMembersCount: teamMembers?.length,
         sliceName: sliceApp
       },
       { status: 200 }

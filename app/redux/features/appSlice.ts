@@ -1,6 +1,10 @@
 import { Reducer, createSlice } from '@reduxjs/toolkit'
 import { appApi } from '../services/appApi'
 
+export interface FetchDashboardDataQueryTypes {
+  error: { data: { message: string } }
+}
+
 interface ModalUploaderPayload {
   show: boolean
   src: any
@@ -44,12 +48,14 @@ export interface AppStatePayload {
   campApplicationCount: number
   questionCount: number
   logCount: number
+  mailchimpMembersCount: number
   isOnline: boolean
   accessibility: boolean
   metric: { desktopCount: number; mobileCount: number }
   noCampApplications: boolean
   noTestimonials: boolean
   noQuestions: boolean
+  noUsers: boolean
 }
 
 const mediaDataInitialState = {
@@ -88,12 +94,14 @@ const initialAppState: AppStatePayload = {
   campApplicationCount: 0,
   questionCount: 0,
   logCount: 0,
+  mailchimpMembersCount: 0,
   isOnline: true,
   accessibility: false,
   metric: { desktopCount: 0, mobileCount: 0 },
   noCampApplications: false,
   noTestimonials: false,
-  noQuestions: false
+  noQuestions: false,
+  noUsers: false
 }
 
 export const appSlice = createSlice({
@@ -156,26 +164,53 @@ export const appSlice = createSlice({
         state.drawerData = state.drawerList[prevIndex]
       }
     },
-    setPhotoGalleryImageCount: (state, { payload }) => {
-      state.photoGalleryImagesCount = payload
+    increasePhotoGalleryImageCount: (state) => {
+      state.photoGalleryImagesCount = state.photoGalleryImagesCount + 1
     },
-    setTestimonialsCount: (state, { payload }) => {
-      state.testimonialsCount = payload
+    decreasePhotoGalleryImageCount: (state) => {
+      state.photoGalleryImagesCount = state.photoGalleryImagesCount - 1
     },
-    setConcertsCount: (state, { payload }) => {
-      state.concertsCount = payload
+    increaseTestimonialsCount: (state) => {
+      state.testimonialsCount = state.testimonialsCount + 1
     },
-    setVenuesCount: (state, { payload }) => {
-      state.venuesCount = payload
+    decreaseTestimonialsCount: (state) => {
+      state.testimonialsCount = state.testimonialsCount - 1
     },
-    setTeamMembersCount: (state, { payload }) => {
-      state.teamMembersCount = payload
+    increaseConcertsCount: (state) => {
+      state.concertsCount = state.concertsCount + 1
     },
-    setQuestionCount: (state, { payload }) => {
-      state.questionCount = payload
+    decreaseConcertsCount: (state) => {
+      state.concertsCount = state.concertsCount - 1
     },
-    setCampApplicationsCount: (state, { payload }) => {
-      state.campApplicationCount = payload
+    increaseVenuesCount: (state) => {
+      state.venuesCount = state.venuesCount + 1
+    },
+    decreaseVenuesCount: (state) => {
+      state.venuesCount = state.venuesCount - 1
+    },
+    increaseTeamMembersCount: (state) => {
+      state.teamMembersCount = state.teamMembersCount + 1
+    },
+    decreaseTeamMembersCount: (state) => {
+      state.teamMembersCount = state.teamMembersCount - 1
+    },
+    increaseQuestionCount: (state) => {
+      state.questionCount = state.questionCount + 1
+    },
+    decreaseQuestionCount: (state) => {
+      state.questionCount = state.questionCount - 1
+    },
+    increaseCampApplicationsCount: (state) => {
+      state.campApplicationCount = state.campApplicationCount + 1
+    },
+    decreaseCampApplicationsCount: (state) => {
+      state.campApplicationCount = state.campApplicationCount - 1
+    },
+    increaseUsersCount: (state) => {
+      state.usersCount = state.usersCount + 1
+    },
+    decreaseUsersCount: (state) => {
+      state.usersCount = state.usersCount - 1
     },
     setToggleAccessibilityDrawer: (state, { payload }) => {
       state.accessibility = !payload
@@ -183,27 +218,24 @@ export const appSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addMatcher(appApi.endpoints.fetchAppData.matchFulfilled, (state) => {
+      .addMatcher(appApi.endpoints.fetchAppData.matchFulfilled, (state, { payload }: any) => {
         state.success = true
-        state.loading = false
-      })
-      .addMatcher(appApi.endpoints.fetchDashboardData.matchFulfilled, (state, { payload }: any) => {
-        state.success = true
-        state.loading = false
         state.concertsCount = payload.concertsCount
         state.venuesCount = payload.venuesCount
         state.teamMembersCount = payload.teamMembersCount
-        state.noTestimonials = payload.testimonialsCount === 0
         state.photoGalleryImagesCount = payload.photoGalleryImagesCount
         state.testimonialsCount = payload.testimonialsCount
-        state.usersCount = payload.usersCount
+      })
+      .addMatcher(appApi.endpoints.fetchDashboardData.matchFulfilled, (state, { payload }: any) => {
+        state.success = true
         state.campApplicationCount = payload.campApplicationCount
-        state.noCampApplications = payload.campApplicationCount === 0
+        state.usersCount = payload.usersCount
         state.questionCount = payload.questionCount
-        state.noQuestions = payload.questionCount === 0
         state.logCount = payload.logCount
+        state.mailchimpMembersCount = payload.mailchimpMembersCount
         state.metric.desktopCount = payload.metric.desktopCount
         state.metric.mobileCount = payload.metric.mobileCount
+        state.loading = false
       })
       .addMatcher(
         (action: any) => action.type.endsWith('/rejected') && action.payload?.data?.sliceName === 'appApi',
@@ -232,12 +264,21 @@ export const {
   resetDrawerData,
   goToNextDrawerItem,
   goToPrevDrawerItem,
-  setPhotoGalleryImageCount,
-  setTestimonialsCount,
-  setConcertsCount,
-  setVenuesCount,
-  setTeamMembersCount,
-  setQuestionCount,
-  setToggleAccessibilityDrawer,
-  setCampApplicationsCount
+  increasePhotoGalleryImageCount,
+  decreasePhotoGalleryImageCount,
+  increaseTestimonialsCount,
+  decreaseTestimonialsCount,
+  increaseConcertsCount,
+  decreaseConcertsCount,
+  increaseVenuesCount,
+  decreaseVenuesCount,
+  increaseTeamMembersCount,
+  decreaseTeamMembersCount,
+  increaseQuestionCount,
+  decreaseQuestionCount,
+  increaseCampApplicationsCount,
+  decreaseCampApplicationsCount,
+  increaseUsersCount,
+  decreaseUsersCount,
+  setToggleAccessibilityDrawer
 } = appSlice.actions

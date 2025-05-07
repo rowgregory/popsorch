@@ -14,8 +14,10 @@ export interface PhotoGalleryImageStatePayload {
   loading: boolean
   error: any
   success: boolean
-  photoGalleryImages: []
+  photoGalleryImages: PhotoGalleryImageProps[]
   photoGalleryImage: PhotoGalleryImageProps
+  photoGalleryImagesCount: number
+  noPhotoGalleryImages: boolean
 }
 
 const photoGalleryImageState: PhotoGalleryImageProps = {
@@ -32,7 +34,9 @@ const initialPhotoGalleryImageState: PhotoGalleryImageStatePayload = {
   error: null,
   success: false,
   photoGalleryImages: [],
-  photoGalleryImage: photoGalleryImageState
+  photoGalleryImage: photoGalleryImageState,
+  photoGalleryImagesCount: 0,
+  noPhotoGalleryImages: false
 }
 
 export const photoGalleryImageSlice = createSlice({
@@ -45,9 +49,32 @@ export const photoGalleryImageSlice = createSlice({
     },
     setPhotoGalleryImages: (state, { payload }: any) => {
       state.photoGalleryImages = payload
+      state.photoGalleryImagesCount = payload?.length
+      state.noPhotoGalleryImages = payload?.length === 0
     },
     resetPhotoGalleryImageError: (state) => {
       state.error = null
+    },
+    addPhotoGalleryImageToState: (state, action) => {
+      state.photoGalleryImages.push(action.payload)
+      state.photoGalleryImagesCount = state.photoGalleryImagesCount + 1
+      state.noPhotoGalleryImages = state.photoGalleryImages.length === 0
+    },
+    updatePhotoGalleryImageInState: (state, action) => {
+      const updatedPhotoGalleryImage = action.payload
+      const index = state.photoGalleryImages.findIndex(
+        (photoGalleryImage) => photoGalleryImage.id === updatedPhotoGalleryImage.id
+      )
+      if (index !== -1) {
+        state.photoGalleryImages[index] = updatedPhotoGalleryImage
+      }
+    },
+    removePhotoGalleryImageFromState: (state, action) => {
+      state.photoGalleryImages = state.photoGalleryImages.filter(
+        (photoGalleryImage) => photoGalleryImage.id !== action.payload
+      )
+      state.photoGalleryImagesCount = state.photoGalleryImagesCount - 1
+      state.noPhotoGalleryImages = state.photoGalleryImages.length === 0
     }
   },
   extraReducers: (builder) => {
@@ -81,5 +108,11 @@ export const photoGalleryImageSlice = createSlice({
 
 export const photoGalleryImageReducer = photoGalleryImageSlice.reducer as Reducer<PhotoGalleryImageStatePayload>
 
-export const { resetPhotoGalleryImage, setPhotoGalleryImages, resetPhotoGalleryImageError } =
-  photoGalleryImageSlice.actions
+export const {
+  resetPhotoGalleryImage,
+  setPhotoGalleryImages,
+  resetPhotoGalleryImageError,
+  addPhotoGalleryImageToState,
+  updatePhotoGalleryImageInState,
+  removePhotoGalleryImageFromState
+} = photoGalleryImageSlice.actions

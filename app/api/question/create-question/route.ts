@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
     const userHeader = req.headers.get('x-user')! // Exlmation point <----
     parsedUser = JSON.parse(userHeader)
 
-    await prisma.question.create({ data: body })
+    const createdQuestion = await prisma.question.create({ data: body })
 
     await createLog('info', 'Question created', {
       location: ['question route - POST /api/question/create-question'],
@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
       user: parsedUser
     })
 
-    return NextResponse.json({ sliceName: sliceQuestion }, { status: 201 })
+    return NextResponse.json({ question: createdQuestion, sliceName: sliceQuestion }, { status: 201 })
   } catch (error: any) {
     await createLog('error', `Creating question failed: ${error.message}`, {
       errorLocation: parseStack(JSON.stringify(error)),

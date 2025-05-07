@@ -5,14 +5,102 @@ interface Steps {
   [key: string]: boolean
 }
 
+interface CampApplication {
+  id: string
+  student?: Student
+  address?: Address
+  parent?: Parent
+  consent: boolean
+  musicTeacher?: string
+  strings?: string
+  brassAndPercussion?: string
+  woodwinds?: string
+  referralSource?: string
+  createdAt: Date
+  updatedAt: Date
+}
+
+interface Student {
+  id: string
+  firstName: string
+  lastName: string
+  grade: string
+  school: string
+  studentEmailAddress: string
+  studentPhoneNumber: string
+  campApplication?: CampApplication // Optional, as it might not exist yet
+  campApplicationId?: string // Unique ID to link to a CampApplication
+}
+
+interface Address {
+  id: string
+  addressLine1?: string
+  addressLine2?: string
+  city?: string
+  state?: string
+  zipPostalCode?: string
+  campApplication?: CampApplication // Optional, as it might not exist yet
+  campApplicationId?: string // Unique ID to link to a CampApplication
+}
+
+interface Parent {
+  id: string
+  firstName: string
+  lastName: string
+  relationshipToStudent?: string
+  parentEmailAddress: string
+  parentPhoneNumber: string
+  campApplication?: CampApplication // Optional, as it might not exist yet
+  campApplicationId?: string // Unique ID to link to a CampApplication
+}
+
 export interface CampStatePayload {
   loading: boolean
   error: any
   success: boolean
   steps: Steps
   message: string
-  campApplications: []
-  campApplication: object
+  campApplications: CampApplication[]
+  campApplication: CampApplication
+  campApplicationsCount: number
+  noCampApplications: boolean
+}
+
+const initialCampApplicationState: CampApplication = {
+  id: '',
+  consent: false,
+  musicTeacher: '',
+  strings: '',
+  brassAndPercussion: '',
+  woodwinds: '',
+  referralSource: '',
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  student: {
+    id: '',
+    firstName: '',
+    lastName: '',
+    grade: '',
+    school: '',
+    studentEmailAddress: '',
+    studentPhoneNumber: ''
+  },
+  address: {
+    id: '',
+    addressLine1: '',
+    addressLine2: '',
+    city: '',
+    state: '',
+    zipPostalCode: ''
+  },
+  parent: {
+    id: '',
+    firstName: '',
+    lastName: '',
+    relationshipToStudent: '',
+    parentEmailAddress: '',
+    parentPhoneNumber: ''
+  }
 }
 
 const initialCampState: CampStatePayload = {
@@ -27,7 +115,9 @@ const initialCampState: CampStatePayload = {
   },
   message: '',
   campApplications: [],
-  campApplication: {}
+  campApplication: initialCampApplicationState,
+  campApplicationsCount: 0,
+  noCampApplications: false
 }
 
 export const campSlice = createSlice({
@@ -42,9 +132,24 @@ export const campSlice = createSlice({
     },
     setCampApplications: (state, { payload }) => {
       state.campApplications = payload
+      state.campApplicationsCount = payload.length
+      state.noCampApplications = payload.length === 0
     },
     resetCampApplication: (state) => {
-      state.campApplication = {}
+      state.error = null
+      state.campApplication = initialCampApplicationState
+    },
+    addCampApplicationToState: (state, action) => {
+      state.campApplications.push(action.payload)
+      state.campApplicationsCount = state.campApplicationsCount + 1
+      state.noCampApplications = state.campApplications.length === 0
+    },
+    removeCampApplicationFromState: (state, action) => {
+      state.campApplications = state.campApplications.filter(
+        (campApplication: { id: string }) => campApplication.id !== action.payload
+      )
+      state.campApplicationsCount = state.campApplicationsCount - 1
+      state.noCampApplications = state.campApplications.length === 0
     }
   },
   extraReducers: (builder) => {
@@ -76,4 +181,11 @@ export const campSlice = createSlice({
 
 export const campReducer = campSlice.reducer as Reducer<CampStatePayload>
 
-export const { setStep, resetCampSuccess, setCampApplications, resetCampApplication } = campSlice.actions
+export const {
+  setStep,
+  resetCampSuccess,
+  setCampApplications,
+  resetCampApplication,
+  removeCampApplicationFromState,
+  addCampApplicationToState
+} = campSlice.actions

@@ -11,6 +11,7 @@ import validateRegisterForm from '@/app/validations/validateRegisterForm'
 import { createFormActions } from '@/app/redux/features/formSlice'
 import { getErrorMessage } from '@/app/utils/logHelper'
 import { resetAuth } from '@/app/redux/features/authSlice'
+import { increaseUsersCount } from '@/app/redux/features/appSlice'
 
 const Register = () => {
   const { push } = useRouter()
@@ -30,7 +31,7 @@ const Register = () => {
       await register({
         firstName: registerForm.inputs.firstName,
         lastName: registerForm.inputs.lastName,
-        email: registerForm.inputs.email,
+        email: registerForm.inputs.email.trim().toLowerCase(),
         password: registerForm.inputs.password,
         securityQuestion: registerForm.inputs.securityQuestion,
         securityAnswer: registerForm.inputs.securityAnswer,
@@ -40,12 +41,13 @@ const Register = () => {
       await requestNotificationPermission()
       push('/auth/login')
       dispatch(resetAuth())
+      dispatch(increaseUsersCount())
     } catch {}
   }
 
   return (
-    <div className="flex max-h-1000:items-start items-center justify-center flex-col gap-y-7 max-h-1000:h-auto h-dvh max-h-1000:py-20">
-      <div className="max-h-1000:hidden block">
+    <div className="flex max-h-1200:items-start items-center justify-center flex-col gap-y-7 max-h-1200:h-auto h-dvh max-h-1200:py-20">
+      <div className="max-h-1200:hidden block">
         <LogoWRobyn imgDimensions="h-40" logoClassname="h-40 text-blaze" />
       </div>
       <RegisterForm handleSubmit={handleRegister} isLoading={isLoading} error={getErrorMessage(error)} />

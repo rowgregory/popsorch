@@ -1,24 +1,21 @@
 import React, { FormEvent, useState } from 'react'
 import BottomDrawer from '../components/common/BottomDrawer'
 import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
-import { useCreateTestimonialMutation, useFetchTestimonialsQuery } from '../redux/services/testimonialApi'
+import { useCreateTestimonialMutation } from '../redux/services/testimonialApi'
 import { createFormActions, resetForm, setIsNotCreating } from '../redux/features/formSlice'
 import { resetTestimonial } from '../redux/features/testimonialSlice'
 import { closeDrawer } from '../redux/features/dashboardSlice'
 import TestimonialForm from '../forms/TestimonialForm'
 import validateTestimonialForm from '../validations/validateTestimonialForm'
-import { setTestimonialsCount } from '../redux/features/appSlice'
+import { increaseTestimonialsCount } from '../redux/features/appSlice'
 
 const AdminTestimonialCreateDrawer = () => {
   const dispatch = useAppDispatch()
   const { drawer, isUpdating } = useAppSelector((state: RootState) => state.dashboard)
   const [createTestimonial] = useCreateTestimonialMutation()
   const { testimonial } = useAppSelector((state: RootState) => state.form)
-  const { testimonialsCount } = useAppSelector((state: RootState) => state.app)
   const { setErrors } = createFormActions('testimonial', dispatch)
   const [loading, setLoading] = useState(false)
-  const { success } = useAppSelector((state: RootState) => state.testimonial)
-  useFetchTestimonialsQuery(undefined, { skip: !success })
 
   const handleCreateTestimonial = async (e: FormEvent) => {
     e.preventDefault()
@@ -35,7 +32,7 @@ const AdminTestimonialCreateDrawer = () => {
       }).unwrap()
 
       reset()
-      dispatch(setTestimonialsCount(testimonialsCount + 1))
+      dispatch(increaseTestimonialsCount())
     } catch {
     } finally {
       setLoading(false)

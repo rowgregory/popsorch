@@ -15,8 +15,10 @@ export interface QuestionStatePayload {
   loading: boolean
   error: any
   success: boolean
-  questions: []
+  questions: QuestionProps[]
   question: QuestionProps
+  questionsCount: number
+  noQuestions: boolean
 }
 
 const questionState: QuestionProps = {
@@ -34,7 +36,9 @@ const initialQuestionState: QuestionStatePayload = {
   error: null,
   success: false,
   questions: [],
-  question: questionState
+  question: questionState,
+  questionsCount: 0,
+  noQuestions: false
 }
 
 export const questionSlice = createSlice({
@@ -47,9 +51,28 @@ export const questionSlice = createSlice({
     },
     setQuestions: (state, { payload }: any) => {
       state.questions = payload
+      state.questionsCount = payload?.length
+      state.noQuestions = payload?.length === 0
     },
     resetQuestionError: (state) => {
       state.error = null
+    },
+    addQuestionToState: (state, action) => {
+      state.questions.push(action.payload)
+      state.questionsCount = state.questionsCount + 1
+      state.noQuestions = state.questions.length === 0
+    },
+    updateQuestionInState: (state, action) => {
+      const updatedQuestion = action.payload
+      const index = state.questions.findIndex((question) => question.id === updatedQuestion.id)
+      if (index !== -1) {
+        state.questions[index] = updatedQuestion
+      }
+    },
+    removeQuestionFromState: (state, action) => {
+      state.questions = state.questions.filter((question) => question.id !== action.payload)
+      state.questionsCount = state.questionsCount - 1
+      state.noQuestions = state.questions.length === 0
     }
   },
   extraReducers: (builder) => {
@@ -82,4 +105,11 @@ export const questionSlice = createSlice({
 
 export const questionReducer = questionSlice.reducer as Reducer<QuestionStatePayload>
 
-export const { resetQuestion, setQuestions, resetQuestionError } = questionSlice.actions
+export const {
+  resetQuestion,
+  setQuestions,
+  resetQuestionError,
+  addQuestionToState,
+  updateQuestionInState,
+  removeQuestionFromState
+} = questionSlice.actions

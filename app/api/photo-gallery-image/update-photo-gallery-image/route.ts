@@ -8,12 +8,15 @@ export async function PUT(req: NextRequest) {
   try {
     const body = await req.json()
 
-    await prisma.photoGalleryImage.update({
+    const updatedPhotoGalleryImage = await prisma.photoGalleryImage.update({
       where: { id: body.id },
       data: { isHomeHero: body.isHomeHero }
     })
 
-    return NextResponse.json({ sliceName: slicePhotoGallery }, { status: 200 })
+    return NextResponse.json(
+      { photoGalleryImage: updatedPhotoGalleryImage, sliceName: slicePhotoGallery },
+      { status: 200 }
+    )
   } catch (error: any) {
     await createLog('error', `Updating photo gallery image failed: ${error.message}`, {
       errorLocation: parseStack(JSON.stringify(error)),

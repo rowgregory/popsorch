@@ -41,7 +41,7 @@ export async function PATCH(req: NextRequest) {
       return NextResponse.json({ message: 'Concert not found', sliceName: sliceConcert }, { status: 404 })
     }
 
-    await prisma.concert.update({
+    const updatedConcert = await prisma.concert.update({
       where: { id: id as string },
       data: updatedFields
     })
@@ -55,7 +55,7 @@ export async function PATCH(req: NextRequest) {
       method: req.method
     })
 
-    return NextResponse.json({ sliceName: sliceConcert }, { status: 200 })
+    return NextResponse.json({ concert: updatedConcert, sliceName: sliceConcert }, { status: 200 })
   } catch (error: any) {
     await createLog('error', `Updating concert failed: ${error.message}`, {
       errorLocation: parseStack(JSON.stringify(error)),

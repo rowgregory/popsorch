@@ -17,7 +17,10 @@ const RegisterForm: FC<AuthFormProps> = ({ handleSubmit, isLoading, error }) => 
     <form onSubmit={handleSubmit} className="w-full px-4">
       <div className="max-w-lg w-full mx-auto relative">
         <h1 className="font-semibold text-3xl">Hi there,</h1>
-        <h1 className="font-bold text-3xl mb-14 text-blaze">Register for The Pops</h1>
+        <h2 className="font-bold text-3xl text-blaze">Register for The Pops</h2>
+        <h3 className="text-12 font-lato mb-14">
+          This registration is for admin use only and is not intended for public access.
+        </h3>
         <div className="flex flex-col gap-y-8">
           <div className="flex flex-col 760:flex-row gap-y-8 760:gap-8">
             <AuthInput

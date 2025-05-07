@@ -36,9 +36,7 @@ export const formatAddress = (address: any) => {
 }
 
 export const dashboardData = (
-  app: any,
-  totalItems: number,
-  loading: boolean
+  app: any
 ): {
   title: string
   count: number
@@ -51,8 +49,8 @@ export const dashboardData = (
 }[] => [
   {
     title: 'Page Views',
-    count: app?.metric.desktopCount,
-    count2: app?.metric.mobileCount,
+    count: app?.metric?.desktopCount,
+    count2: app?.metric?.mobileCount,
     icon: binocularsIcon,
     linkKey: '',
     color: 'text-blaze',
@@ -124,12 +122,12 @@ export const dashboardData = (
   },
   {
     title: 'Mailchimp Members',
-    count: totalItems,
+    count: app.mailchimpMembersCount,
     icon: newspaperIcon,
     linkKey: '/admin/mailchimp-members',
     color: 'text-lime-500',
     fill: 'fill-lime-500',
-    isLoading: loading
+    isLoading: app.loading
   },
   {
     title: 'Questions',

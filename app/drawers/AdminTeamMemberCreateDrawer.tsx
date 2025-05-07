@@ -4,11 +4,11 @@ import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
 import { resetTeamMember } from '../redux/features/teamMemberSlice'
 import { createFormActions, resetForm, setIsNotCreating } from '../redux/features/formSlice'
 import { closeDrawer } from '../redux/features/dashboardSlice'
-import { useCreateTeamMemberMutation, useFetchTeamMembersQuery } from '../redux/services/teamMemberApi'
+import { useCreateTeamMemberMutation } from '../redux/services/teamMemberApi'
 import uploadFileToFirebase from '../utils/uploadFileToFirebase'
 import TeamMemberForm from '../forms/TeamMemberForm'
 import validateTeamMemberForm from '../validations/validateTeamMemberForm'
-import { setTeamMembersCount } from '../redux/features/appSlice'
+import { increaseTeamMembersCount } from '../redux/features/appSlice'
 
 const AdminTeamMemberCreateDrawer = () => {
   const dispatch = useAppDispatch()
@@ -17,9 +17,6 @@ const AdminTeamMemberCreateDrawer = () => {
   const [createTeamMember] = useCreateTeamMemberMutation()
   const [loading, setLoading] = useState(false)
   const { handleUploadProgress, setErrors } = createFormActions('teamMember', dispatch)
-  const { success } = useAppSelector((state: RootState) => state.teamMember)
-  const { teamMembersCount } = useAppSelector((state: RootState) => state.app)
-  useFetchTeamMembersQuery(undefined, { skip: !success })
 
   const handleCreateTeamMebmer = async (e: FormEvent) => {
     e.preventDefault()
@@ -43,7 +40,7 @@ const AdminTeamMemberCreateDrawer = () => {
       }).unwrap()
 
       reset()
-      dispatch(setTeamMembersCount(teamMembersCount + 1))
+      dispatch(increaseTeamMembersCount())
     } catch {
     } finally {
       setLoading(false)

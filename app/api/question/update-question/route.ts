@@ -14,7 +14,7 @@ export async function PUT(req: NextRequest) {
 
     const { id, hasResponded } = body
 
-    await prisma.question.update({
+    const updatedQuestion = await prisma.question.update({
       where: { id },
       data: { hasResponded }
     })
@@ -29,7 +29,7 @@ export async function PUT(req: NextRequest) {
       user: parsedUser
     })
 
-    return NextResponse.json({ sliceName: sliceQuestion }, { status: 200 })
+    return NextResponse.json({ question: updatedQuestion, sliceName: sliceQuestion }, { status: 200 })
   } catch (error: any) {
     await createLog('error', `Updating question failed: ${error.message}`, {
       errorLocation: parseStack(JSON.stringify(error)),

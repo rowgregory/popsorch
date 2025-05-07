@@ -1,25 +1,29 @@
 'use client'
 
 import React from 'react'
-import { RootState, useAppSelector } from '@/app/redux/store'
 import AdminCampApplicationRow from '@/app/components/admin/AdminCampApplicationRow'
 import AdminCampApplicationViewDrawer from '@/app/drawers/AdminCampApplicationViewDrawer'
 import AdminTitleAndTotal from '@/app/components/admin/AdminTitleAndTotal'
 import AdminPageSpinner from '@/app/components/admin/AdminPageSpinner'
+import { RootState, useAppSelector } from '@/app/redux/store'
 
 const CampApplications = () => {
-  const { campApplications } = useAppSelector((state: RootState) => state.camp)
-  const { loading, campApplicationCount, noCampApplications } = useAppSelector((state: RootState) => state.app)
+  const { campApplications, noCampApplications, campApplicationsCount } = useAppSelector(
+    (state: RootState) => state.camp
+  )
+  const { loading } = useAppSelector((state: RootState) => state.app)
 
   return (
-    <>
+    <div className="relative">
       <AdminCampApplicationViewDrawer />
-      <div className="mb-12 sticky top-0 bg-duskgray z-20 py-2">
+      <div className="flex gap-y-10 760:gap-y-0 flex-col 760:flex-row 760:items-center 760:justify-between mb-12 sticky top-0 bg-duskgray z-20 py-2">
         <AdminTitleAndTotal
           bgcolor="bg0blue-400"
           textcolor="text-blue-400"
           title="Camp Applications"
-          total={campApplicationCount}
+          total={campApplicationsCount}
+          loading={loading}
+          fillcolor="fill-blue-400"
         />
       </div>
       {loading ? (
@@ -27,24 +31,25 @@ const CampApplications = () => {
       ) : noCampApplications ? (
         <div className="font-sm font-lato">No Camp Applications</div>
       ) : (
-        <div className="overflow-x-auto">
-          <div className="grid grid-cols-[1.5fr_1.5fr_3fr_2fr_2fr_auto] gap-x-4 rounded-md pl-4 py-2 pr-2 mb-3 text-sm text-zinc-400 font-semibold min-w-[900px]">
-            <div className="min-w-[120px]">First Name</div>
-            <div className="min-w-[120px]">Last Name</div>
-            <div className="min-w-[200px]">Student Email</div>
-            <div className="min-w-[160px]">Student Phone Number</div>
-            <div className="min-w-[140px]">Date Created</div>
-            <div className="min-w-[80px]"></div>
-          </div>
+        <div className="overflow-hidden">
+          <div className="overflow-x-auto">
+            <div className="grid grid-cols-[3fr_3fr_2fr_2fr_2fr] gap-x-4 rounded-md pl-4 py-2 pr-2 mb-3 text-sm min-w-[600px]">
+              <div className="whitespace-nowrap">First Name</div>
+              <div className="whitespace-nowrap">Last Name</div>
+              <div className="whitespace-nowrap">Student Email</div>
+              <div className="whitespace-nowrap">Date Created</div>
+              <div></div>
+            </div>
 
-          <div className="flex flex-col gap-y-3 min-w-[900px]">
-            {campApplications?.map((application: { id: string }) => (
-              <AdminCampApplicationRow key={application.id} application={application} />
-            ))}
+            <div className="flex flex-col gap-y-3 min-w-[600px]">
+              {campApplications?.map((application: { id: string }) => (
+                <AdminCampApplicationRow key={application.id} application={application} />
+              ))}
+            </div>
           </div>
         </div>
       )}
-    </>
+    </div>
   )
 }
 

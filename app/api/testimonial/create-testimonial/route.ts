@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
 
     const { name, review } = body
 
-    await prisma.testimonial.create({
+    const testimonial = await prisma.testimonial.create({
       data: { name, review }
     })
 
@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
       user: parsedUser
     })
 
-    return NextResponse.json({ sliceName: sliceTestimonial }, { status: 201 })
+    return NextResponse.json({ testimonial, sliceName: sliceTestimonial }, { status: 201 })
   } catch (error: any) {
     await createLog('error', `Creating testimonial failed: ${error.message}`, {
       errorLocation: parseStack(JSON.stringify(error)),

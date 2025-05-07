@@ -16,16 +16,12 @@ import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
 import AdminNavigationDrawer from '../drawers/AdminNavigationDrawer'
 import { resetAuth } from '../redux/features/authSlice'
 import { getErrorMessage } from '../utils/logHelper'
-import { useFetchSubscribersQuery } from '../redux/services/mailchimpApi'
 import { useSendPushNotificationMutation } from '../redux/services/pushNotificationApi'
-
-interface FetchDashboardDataQueryTypes {
-  error: { data: { message: string } }
-}
+import { FetchDashboardDataQueryTypes } from '../redux/features/appSlice'
+import { resetUser } from '../redux/features/userSlice'
 
 const AdminLayout: FC<ChildrenProps> = ({ children }) => {
-  useFetchSubscribersQuery({})
-  const { error: errorFetchingDashboardData } = useFetchDashboardDataQuery<FetchDashboardDataQueryTypes>({})
+  const { error: errorFetchingDashboardData } = useFetchDashboardDataQuery<FetchDashboardDataQueryTypes>(undefined)
   const dispatch = useAppDispatch()
   const path = useCustomPathname()
   const { push } = useRouter()
@@ -54,6 +50,7 @@ const AdminLayout: FC<ChildrenProps> = ({ children }) => {
         }
       } catch {}
       push('/auth/login')
+      dispatch(resetUser())
     } catch {}
   }
 

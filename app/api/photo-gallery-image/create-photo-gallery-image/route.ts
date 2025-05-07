@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
     const userHeader = req.headers.get('x-user')! // Exlmation point <----
     parsedUser = JSON.parse(userHeader)
 
-    await prisma.photoGalleryImage.create({ data: body })
+    const createdPhotoGalleryImage = await prisma.photoGalleryImage.create({ data: body })
 
     await createLog('info', 'Photo gallery image created', {
       location: ['photo gallery route - POST /api/photo-gallery-image/create-gallery-image'],
@@ -24,7 +24,10 @@ export async function POST(req: NextRequest) {
       user: parsedUser
     })
 
-    return NextResponse.json({ sliceName: slicePhotoGallery }, { status: 201 })
+    return NextResponse.json(
+      { photoGalleryImage: createdPhotoGalleryImage, sliceName: slicePhotoGallery },
+      { status: 201 }
+    )
   } catch (error: any) {
     await createLog('error', `Creating photo gallery image failed: ${error.message}`, {
       errorLocation: parseStack(JSON.stringify(error)),

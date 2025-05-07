@@ -18,7 +18,7 @@ const ConcertCard = ({ concert, index }: { concert: ConcertProps; index: number 
       initial={{ opacity: 0, y: 100 }}
       animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 100 }}
       transition={{ duration: 0.5, delay: index * 0.2 }}
-      className="col-span-12 760:col-span-6 1160:col-span-4 group w-full relative overflow-hidden group"
+      className="col-span-12 760:col-span-6 1200:col-span-4 group w-full relative overflow-hidden group"
     >
       <Picture
         src={concert.imageUrl ?? '/images'}

@@ -5,22 +5,19 @@ import BottomDrawer from '../components/common/BottomDrawer'
 import { closeDrawer } from '../redux/features/dashboardSlice'
 import { resetConcert } from '../redux/features/concertSlice'
 import { createFormActions, resetForm, setIsNotCreating } from '../redux/features/formSlice'
-import { useCreateConcertMutation, useFetchConcertsQuery } from '../redux/services/concertApi'
+import { useCreateConcertMutation } from '../redux/services/concertApi'
 import uploadFileToFirebase from '../utils/uploadFileToFirebase'
 import validateConcertForm from '../validations/validateConcertForm'
 import deleteFileFromFirebase from '../utils/deleteFileFromFirebase'
-import { setConcertsCount } from '../redux/features/appSlice'
+import { increaseConcertsCount } from '../redux/features/appSlice'
 
 const AdminConcertCreateDrawer = () => {
   const dispatch = useAppDispatch()
   const { drawer, isUpdating } = useAppSelector((state: RootState) => state.dashboard)
   const { concert } = useAppSelector((state: RootState) => state.form)
-  const { concertsCount } = useAppSelector((state: RootState) => state.app)
   const [createConcert] = useCreateConcertMutation()
   const [loading, setLoading] = useState(false)
   const { handleUploadProgress, setErrors } = createFormActions('concert', dispatch)
-  const { success } = useAppSelector((state: RootState) => state.concert)
-  useFetchConcertsQuery(undefined, { skip: !success })
 
   const handleCreateConcert = async (e: FormEvent) => {
     e.preventDefault()
@@ -45,7 +42,7 @@ const AdminConcertCreateDrawer = () => {
       }).unwrap()
 
       reset()
-      dispatch(setConcertsCount(concertsCount + 1))
+      dispatch(increaseConcertsCount())
     } catch {
       if (concert.inputs.file) {
         await deleteFileFromFirebase(concert.inputs.file.name, 'image')

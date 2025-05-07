@@ -53,7 +53,7 @@ export async function DELETE(req: NextRequest) {
       user: parsedUser
     })
 
-    return NextResponse.json({ venue: deletedVenue, sliceName: sliceVenue }, { status: 200 })
+    return NextResponse.json({ id, sliceName: sliceVenue }, { status: 200 })
   } catch (error: any) {
     await createLog('error', `Deleting venue failed: ${error.message}`, {
       errorLocation: parseStack(JSON.stringify(error)),

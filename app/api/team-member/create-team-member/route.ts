@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
     const userHeader = req.headers.get('x-user')! // Exlmation point <----
     parsedUser = JSON.parse(userHeader)
 
-    await prisma.teamMember.create({ data: body })
+    const createdTeamMember = await prisma.teamMember.create({ data: body })
 
     await createLog('info', 'Team member created', {
       location: ['team member route - POST /api/team-member/create-team-member'],
@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
       user: parsedUser
     })
 
-    return NextResponse.json({ sliceName: sliceTeamMember }, { status: 201 })
+    return NextResponse.json({ teamMember: createdTeamMember, sliceName: sliceTeamMember }, { status: 201 })
   } catch (error: any) {
     await createLog('error', `Creating team member failed: ${error.message}`, {
       errorLocation: parseStack(JSON.stringify(error)),

@@ -49,8 +49,13 @@ const TeamMemberCard: FC<{ teamMember: TeamMemberProps; handleOpenDrawer?: (team
   )
 }
 
+interface FetchTeamMembersQueryProps {
+  data: { teamMembers: TeamMemberProps[] }
+  isLoading: boolean
+}
+
 const BoardAndStaff = () => {
-  const { data, isLoading } = useFetchTeamMembersQuery({})
+  const { data, isLoading } = useFetchTeamMembersQuery<FetchTeamMembersQueryProps>({})
   const dispatch = useAppDispatch()
   const { drawer } = useAppSelector((state: RootState) => state.app)
   const { textBlockMap } = useAppSelector((state: RootState) => state.textBlock)

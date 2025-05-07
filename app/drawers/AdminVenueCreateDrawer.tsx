@@ -5,11 +5,11 @@ import { closeDrawer } from '../redux/features/dashboardSlice'
 import { resetVenue } from '../redux/features/venueSlice'
 import { createFormActions, resetForm, setIsNotCreating } from '../redux/features/formSlice'
 import VenueForm from '../forms/VenueForm'
-import { useCreateVenueMutation, useFetchVenuesQuery } from '../redux/services/venueApi'
+import { useCreateVenueMutation } from '../redux/services/venueApi'
 import uploadFileToFirebase from '../utils/uploadFileToFirebase'
 import validateVenueForm from '../validations/validateVenueForm'
 import deleteFileFromFirebase from '../utils/deleteFileFromFirebase'
-import { setVenuesCount } from '../redux/features/appSlice'
+import { increaseVenuesCount } from '../redux/features/appSlice'
 
 const AdminVenueCreateDrawer = () => {
   const dispatch = useAppDispatch()
@@ -18,9 +18,6 @@ const AdminVenueCreateDrawer = () => {
   const { venue } = useAppSelector((state: RootState) => state.form)
   const { setErrors, handleUploadProgress } = createFormActions('venue', dispatch)
   const [loading, setLoading] = useState(false)
-  const { success } = useAppSelector((state: RootState) => state.venue)
-  const { venuesCount } = useAppSelector((state: RootState) => state.app)
-  useFetchVenuesQuery(undefined, { skip: !success })
 
   const handleCreateVenue = async (e: FormEvent) => {
     e.preventDefault()
@@ -45,7 +42,7 @@ const AdminVenueCreateDrawer = () => {
       }).unwrap()
 
       reset()
-      dispatch(setVenuesCount(venuesCount + 1))
+      dispatch(increaseVenuesCount())
     } catch {
       if (venue.inputs.file) {
         await deleteFileFromFirebase(venue.inputs.file.name, 'image')

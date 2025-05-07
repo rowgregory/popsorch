@@ -17,8 +17,10 @@ export interface UserStatePayload {
   loading: boolean
   error: any
   success: boolean
-  users: []
+  users: UserProps[]
   user: UserProps
+  usersCount: number
+  noUsers: boolean
 }
 
 const userState: UserProps = {
@@ -38,7 +40,9 @@ const initialUserState: UserStatePayload = {
   error: null,
   success: false,
   users: [],
-  user: userState
+  user: userState,
+  usersCount: 0,
+  noUsers: false
 }
 
 export const userSlice = createSlice({
@@ -51,12 +55,17 @@ export const userSlice = createSlice({
     },
     setUsers: (state, { payload }: any) => {
       state.users = payload
+      state.usersCount = payload?.length
+      state.noUsers = payload?.length === 0
     },
     setUser: (state, { payload }) => {
       state.user = { ...state.user, ...payload }
     },
     resetUserError: (state) => {
       state.error = null
+    },
+    removeUserFromState: (state, action) => {
+      state.users = state.users.filter((user) => user.id !== action.payload)
     }
   },
   extraReducers: (builder) => {
@@ -89,4 +98,4 @@ export const userSlice = createSlice({
 
 export const userReducer = userSlice.reducer as Reducer<UserStatePayload>
 
-export const { resetUser, setUsers, setUser, resetUserError } = userSlice.actions
+export const { resetUser, setUsers, setUser, resetUserError, removeUserFromState } = userSlice.actions

@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
       parentPhoneNumber
     } = body
 
-    await prisma.campApplication.create({
+    const createdCampApplication = await prisma.campApplication.create({
       data: {
         consent,
         musicTeacher,
@@ -83,6 +83,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(
       {
+        campApplication: createdCampApplication,
         message: 'Thank you for submitting your application! We’ve received it and will be in touch soon',
         sliceName: sliceCamp
       },

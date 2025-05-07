@@ -30,7 +30,7 @@ export async function DELETE(req: NextRequest) {
       }
     }
 
-    const deletedConcert = await prisma.concert.delete({
+    await prisma.concert.delete({
       where: { id }
     })
 
@@ -44,7 +44,7 @@ export async function DELETE(req: NextRequest) {
       user: parsedUser
     })
 
-    return NextResponse.json({ concert: deletedConcert, sliceName: sliceConcert }, { status: 200 })
+    return NextResponse.json({ sliceName: sliceConcert }, { status: 200 })
   } catch (error: any) {
     await createLog('error', `Deleting concert failed: ${error.message}`, {
       errorLocation: parseStack(JSON.stringify(error)),

@@ -6,7 +6,6 @@ import useCustomPathname from './hooks/useCustomPathname'
 import { Provider } from 'react-redux'
 import { RootState, store, useAppDispatch, useAppSelector } from './redux/store'
 import NavigationDrawer from './components/NavigationDrawer'
-import SeatMapModal from './modals/SeatMapModal'
 import Header from './components/header/Header'
 import PublicEditableTextAreaModal from './modals/PublicEditableTextAreaModal'
 import { useFetchAppDataQuery } from './redux/services/appApi'
@@ -72,7 +71,6 @@ const PageWrapper: FC<ClientPageProps> = ({ children, data }) => {
     <Provider store={store}>
       <div className="main-content">
         <NavigationDrawer />
-        <SeatMapModal />
         <PublicImageUploaderModal />
         <HeaderFixed />
         {openModal && <PublicEditableTextAreaModal />}

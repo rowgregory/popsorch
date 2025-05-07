@@ -1,4 +1,4 @@
-import React, { FormEvent } from 'react'
+import React from 'react'
 import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
 import { createFormActions } from '../redux/features/formSlice'
 import { setStep } from '../redux/features/campSlice'
@@ -12,9 +12,7 @@ const CampAppStepOneForm = () => {
   const { campForm } = useAppSelector((state: RootState) => state.form)
   const { handleInput, setErrors } = createFormActions('campForm', dispatch)
 
-  const handleStepOne = (e: FormEvent) => {
-    e.preventDefault()
-
+  const handleStepOne = () => {
     const isValid = validateCampAppStepOneForm(campForm?.inputs, setErrors)
     if (!isValid) return
 
@@ -22,7 +20,7 @@ const CampAppStepOneForm = () => {
   }
 
   return (
-    <form onSubmit={handleStepOne}>
+    <form>
       <div className="990:pl-20">
         <h1 className="text-18 font-changa mb-1 text-[#d3d3d3]">1 / 4</h1>
         <h2 className="text-25 text-white font-changa mb-6">Student Details</h2>
@@ -82,7 +80,11 @@ const CampAppStepOneForm = () => {
         {campForm?.errors && Object?.values(campForm?.errors).length > 0 && (
           <div className="text-blaze text-13 font-lato">Please correct errors.</div>
         )}
-        <button className="text-white bg-sunburst px-4 py-1 flex items-center gap-x-2">
+        <button
+          onClick={() => handleStepOne()}
+          type="button"
+          className="text-white bg-sunburst px-4 py-1 flex items-center gap-x-2"
+        >
           Forward
           <AwesomeIcon icon={caretRightIcon} className="text-white w-3 h-3" />
         </button>

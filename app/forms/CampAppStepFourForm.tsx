@@ -1,7 +1,7 @@
 import React, { FormEvent } from 'react'
 import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
 import { createFormActions } from '../redux/features/formSlice'
-import { setStep } from '../redux/features/campSlice'
+import { resetCampSuccess, setStep } from '../redux/features/campSlice'
 import CampInput from './elements/CampInput'
 import AwesomeIcon from '../components/common/AwesomeIcon'
 import { caretLeftIcon } from '../lib/icons'
@@ -10,9 +10,9 @@ import CampSelect from './elements/CampSelect'
 import { heardOfPopsOptions } from '@/public/data/camp.data'
 import { useCreateCampApplicationMutation } from '../redux/services/campApi'
 import Spinner from '../components/common/Spinner'
-import Link from 'next/link'
 import LogoWRobyn from '../components/LogoWRobynHeader'
 import { useSendPushNotificationMutation } from '../redux/services/pushNotificationApi'
+import { increaseCampApplicationsCount } from '../redux/features/appSlice'
 
 const instrumentGroups = [
   {
@@ -36,7 +36,7 @@ const CampAppStepFourForm = () => {
   const dispatch = useAppDispatch()
   const { campForm } = useAppSelector((state: RootState) => state.form)
   const { message, success } = useAppSelector((state: RootState) => state.camp)
-  const { handleInput } = createFormActions('campForm', dispatch)
+  const { handleInput, clearInputs } = createFormActions('campForm', dispatch)
   const [createCampApplication, { isLoading }] = useCreateCampApplicationMutation()
   const [sendPushNotification] = useSendPushNotificationMutation()
 
@@ -59,21 +59,26 @@ const CampAppStepFourForm = () => {
               }).unwrap()
             }
           } catch {}
+          dispatch(increaseCampApplicationsCount())
         })
     } catch {}
   }
 
   return success ? (
     <>
-      <div className="flex flex-col justify-center items-center mx-auto max-w-screen-sm pb-9">
+      <div className="flex flex-col justify-center items-center mx-auto max-w-screen-sm pb-9 px-3">
         <LogoWRobyn imgDimensions="h-32" logoClassname="text-blaze h-32" />
         <h1 className="font-changa text-2xl text-center text-white mt-1">{message}</h1>
-        <Link
-          href="/"
+        <button
+          onClick={() => {
+            dispatch(setStep({}))
+            dispatch(resetCampSuccess())
+            dispatch(clearInputs())
+          }}
           className="text-blaze font-semibold text-lato uppercase text-sm mt-3 duration-300 hover:text-blazehover"
         >
-          Home
-        </Link>
+          Reset
+        </button>
       </div>
       <div className="w-full h-[1px] bg-zinc-700/70" />
     </>

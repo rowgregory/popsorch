@@ -47,7 +47,7 @@ export async function PUT(req: NextRequest) {
       }
     }
 
-    await prisma.venue.update({
+    const updatedVenue = await prisma.venue.update({
       where: { id },
       data: {
         name,
@@ -71,7 +71,7 @@ export async function PUT(req: NextRequest) {
       user: parsedUser
     })
 
-    return NextResponse.json({ sliceName: sliceVenue }, { status: 200 })
+    return NextResponse.json({ venue: updatedVenue, sliceName: sliceVenue }, { status: 200 })
   } catch (error: any) {
     await createLog('error', `Updating venue failed: ${error.message}`, {
       errorLocation: parseStack(JSON.stringify(error)),

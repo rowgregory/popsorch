@@ -1,15 +1,11 @@
 import React, { FC, useState } from 'react'
 import AdminCheckbox from '@/app/forms/elements/AdminCheckbox'
 import { QuestionProps } from '@/app/redux/features/questionSlice'
-import {
-  useDeleteQuestionMutation,
-  useFetchQuestionsQuery,
-  useUpdateQuestionMutation
-} from '@/app/redux/services/questionApi'
+import { useDeleteQuestionMutation, useUpdateQuestionMutation } from '@/app/redux/services/questionApi'
 import { formatDate } from '@/app/utils/date.functions'
 import AdminTrashDeleteBtn from './AdminTrashDeleteBtn'
-import { RootState, useAppDispatch, useAppSelector } from '@/app/redux/store'
-import { setQuestionCount } from '@/app/redux/features/appSlice'
+import { useAppDispatch } from '@/app/redux/store'
+import { decreaseQuestionCount } from '@/app/redux/features/appSlice'
 
 const AdminQuestionRow: FC<{ question: QuestionProps }> = ({ question }) => {
   const dispatch = useAppDispatch()
@@ -18,9 +14,6 @@ const AdminQuestionRow: FC<{ question: QuestionProps }> = ({ question }) => {
   const [isLoading, setIsLoading] = useState<Record<string, boolean>>({})
   const [isDeleting, setIsDeleting] = useState<Record<string, boolean>>({})
   const [expandedRow, setExpandedRow] = useState<string | null>(null)
-  const { success } = useAppSelector((state: RootState) => state.question)
-  const { questionCount } = useAppSelector((state: RootState) => state.app)
-  useFetchQuestionsQuery(undefined, { skip: !success })
 
   const handleUpdateQuestion = async (e: any, questionId: string) => {
     e.stopPropagation()
@@ -41,7 +34,7 @@ const AdminQuestionRow: FC<{ question: QuestionProps }> = ({ question }) => {
     try {
       await deleteQuestion({ id: questionId }).unwrap()
 
-      dispatch(setQuestionCount(questionCount - 1))
+      dispatch(decreaseQuestionCount())
     } catch {
     } finally {
       setIsDeleting({ [questionId]: false })
@@ -58,18 +51,18 @@ const AdminQuestionRow: FC<{ question: QuestionProps }> = ({ question }) => {
 
   return (
     <>
-      <div className="grid grid-cols-12 h-14 gap-x-3 bg-midnightblack hover:bg-inkblack rounded-[5px] pl-4 py-2 pr-2 border-l-4 border-l-sky-500 items-center cursor-pointer">
-        <div className="col-span-3 truncate" onClick={() => toggleExpandedRow(question.id)}>
+      <div className="grid grid-cols-[2fr_3fr_3fr_1fr_1fr] h-14 gap-x-3 bg-midnightblack hover:bg-inkblack rounded-[5px] pl-4 py-2 pr-2 border-l-4 border-l-sky-500 items-center cursor-pointer">
+        <div className="truncate" onClick={() => toggleExpandedRow(question.id)}>
           {question.name}
         </div>
-        <div className="col-span-3 truncate" onClick={() => toggleExpandedRow(question.id)}>
+        <div className="truncate" onClick={() => toggleExpandedRow(question.id)}>
           {question.email}
         </div>
-        <div className="col-span-4 truncate" onClick={() => toggleExpandedRow(question.id)}>
+        <div className="truncate" onClick={() => toggleExpandedRow(question.id)}>
           {formatDate(question.createdAt, { minute: 'numeric', hour: 'numeric', second: 'numeric' })}
         </div>
 
-        <div className="col-span-1 truncate">
+        <div className="truncate">
           <AdminCheckbox
             name="hasResponded"
             value={question.hasResponded}
@@ -78,7 +71,7 @@ const AdminQuestionRow: FC<{ question: QuestionProps }> = ({ question }) => {
             isLoading={isLoading[question.id]}
           />
         </div>
-        <div className="col-span-1 truncate">
+        <div className="truncate">
           <AdminTrashDeleteBtn loading={isDeleting} id={question?.id} handleDelete={handleQuestionDelete} />
         </div>
       </div>

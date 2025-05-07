@@ -1,4 +1,4 @@
-import React, { FormEvent } from 'react'
+import React from 'react'
 import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
 import { createFormActions } from '../redux/features/formSlice'
 import { setStep } from '../redux/features/campSlice'
@@ -13,9 +13,7 @@ const CampAppStepThreeForm = () => {
   const { campForm } = useAppSelector((state: RootState) => state.form)
   const { handleInput, setErrors, handleToggle } = createFormActions('campForm', dispatch)
 
-  const handleStepTwo = (e: FormEvent) => {
-    e.preventDefault()
-
+  const handleStepThree = () => {
     const isValid = validateCampAppStepTwoForm(campForm?.inputs, setErrors)
     if (!isValid) return
 
@@ -23,7 +21,7 @@ const CampAppStepThreeForm = () => {
   }
 
   return (
-    <form onSubmit={handleStepTwo}>
+    <form>
       <div className="990:pl-20">
         <h1 className="text-18 font-changa mb-1 text-[#d3d3d3]">3 / 4</h1>
         <h2 className="text-25 text-white font-changa mb-6">Parent or Guardian Consent</h2>
@@ -119,7 +117,8 @@ const CampAppStepThreeForm = () => {
           Backward
         </button>
         <button
-          type="submit"
+          onClick={() => handleStepThree()}
+          type="button"
           className="text-white bg-sunburst hover:bg-sunbursthover duration-300 font-lato px-4 py-1 flex items-center gap-x-2 rounded-sm"
         >
           Forward

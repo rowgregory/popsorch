@@ -3,7 +3,6 @@
 import React from 'react'
 import CreateBtn from '@/app/components/admin/CreateBtn'
 import { openCreateDrawer } from '@/app/redux/features/dashboardSlice'
-import { RootState, useAppSelector } from '@/app/redux/store'
 import AdminTestimonialCreateDrawer from '@/app/drawers/AdminTestimonialCreateDrawer'
 import AdminTestimonialUpdateDrawer from '@/app/drawers/AdminTestimonialUpdateDrawer'
 import AdminTestimonialRow from '@/app/components/admin/AdminTestimonialRow'
@@ -11,10 +10,13 @@ import { resetTestimonialError, TestimonialProps } from '@/app/redux/features/te
 import AdminPageSpinner from '@/app/components/admin/AdminPageSpinner'
 import AdminTitleAndTotal from '@/app/components/admin/AdminTitleAndTotal'
 import ToastMessage from '@/app/components/common/ToastMessage'
+import { RootState, useAppSelector } from '@/app/redux/store'
 
 const Testimonials = () => {
-  const { testimonials, error } = useAppSelector((state: RootState) => state.testimonial)
-  const { loading, noTestimonials, testimonialsCount } = useAppSelector((state: RootState) => state.app)
+  const { testimonials, error, testimonialsCount, noTestimonials } = useAppSelector(
+    (state: RootState) => state.testimonial
+  )
+  const { loading } = useAppSelector((state: RootState) => state.app)
 
   return (
     <>
@@ -27,6 +29,8 @@ const Testimonials = () => {
           total={testimonialsCount}
           bgcolor="bg-teal-400"
           textcolor="text-teal-400"
+          loading={loading}
+          fillcolor="fill-teal-400"
         />
         <CreateBtn
           btnText="Create Testimonial"
@@ -40,14 +44,14 @@ const Testimonials = () => {
       ) : noTestimonials ? (
         <div className="font-sm font-lato">No Testimonials</div>
       ) : (
-        <div className="overflow-x-auto">
-          <div className="min-w-[900px]">
-            <div className="grid grid-cols-12 gap-x-3 rounded-md pl-3.5 py-2 pr-2 mb-7 text-sm">
-              <div className="col-span-3">Name</div>
-              <div className="col-span-8">Review</div>
-              <div className="col-span-1"></div>
+        <div className="overflow-hidden">
+          <div className="overflow-x-auto">
+            <div className="grid grid-cols-[4fr_7fr_1fr] gap-x-4 rounded-md pl-4 py-2 pr-2 mb-3 text-sm min-w-[600px]">
+              <div className="whitespace-nowrap">Name</div>
+              <div className="whitespace-nowrap">Review</div>
+              <div className="whitespace-nowrap"></div>
             </div>
-            <div className="flex flex-col gap-y-3">
+            <div className="flex flex-col gap-y-3 min-w-[600px]">
               {testimonials?.map((testimonial: TestimonialProps) => (
                 <AdminTestimonialRow key={testimonial.id} testimonial={testimonial} />
               ))}

@@ -11,6 +11,7 @@ import { setUser, setUsers } from '../features/userSlice'
 import { setVenues } from '../features/venueSlice'
 import { api } from './api'
 import { setLogs } from '../features/logSlice'
+import { setMailchimpMembers } from '../features/mailchimpSlice'
 
 const BASE_URL = '/app'
 
@@ -63,7 +64,7 @@ export const appApi = api.injectEndpoints({
 
         try {
           const {
-            data: { users, user, campApplications, questions, logs }
+            data: { users, user, campApplications, questions, logs, members, mailchimpMembersCount }
           } = await queryFulfilled
 
           dispatch(setUsers(users))
@@ -71,6 +72,7 @@ export const appApi = api.injectEndpoints({
           dispatch(setCampApplications(campApplications))
           dispatch(setQuestions(questions))
           dispatch(setLogs(logs))
+          dispatch(setMailchimpMembers({ members, mailchimpMembersCount }))
         } catch (error: any) {
           if (error instanceof Error && error.message === 'Network disconnected') {
             dispatch(setDashboardError('Request canceled due to lost connection.'))
@@ -79,8 +81,7 @@ export const appApi = api.injectEndpoints({
           }
         }
       },
-      providesTags: ['App'],
-      refetchOnMountOrArgChange: true
+      providesTags: ['App']
     })
   })
 })

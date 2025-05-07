@@ -29,7 +29,7 @@ export async function PUT(req: NextRequest) {
       user: parsedUser
     })
 
-    return NextResponse.json({ sliceName: sliceTeamMember, member: updatedMember }, { status: 200 })
+    return NextResponse.json({ teamMember: updatedMember, sliceName: sliceTeamMember }, { status: 200 })
   } catch (error: any) {
     await createLog('error', `Updating team member failed: ${error.message}`, {
       errorLocation: parseStack(JSON.stringify(error)),

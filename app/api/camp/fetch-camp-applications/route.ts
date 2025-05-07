@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
       }
     })
 
-    return NextResponse.json(campApplications, { status: 200 })
+    return NextResponse.json({ campApplications }, { status: 200 })
   } catch (error: any) {
     await createLog('error', `Failed to fetch camp applications: ${error.message}`, {
       location: ['camp-application route - GET /api/camp/fetch-camp-applications'],

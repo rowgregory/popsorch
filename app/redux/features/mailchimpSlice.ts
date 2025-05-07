@@ -8,6 +8,8 @@ export interface MailChimpStatePayload {
   message: string | null
   members: MemberProps[]
   totalItems: any
+  mailchimpMembersCount: number
+  noMailchimpMembers: boolean
 }
 
 export const initialMailChimpState: MailChimpStatePayload = {
@@ -16,7 +18,9 @@ export const initialMailChimpState: MailChimpStatePayload = {
   error: '',
   message: '',
   members: [],
-  totalItems: 0
+  totalItems: 0,
+  mailchimpMembersCount: 0,
+  noMailchimpMembers: false
 }
 
 export type StatusEnum = 'subscribed' | 'unsubscribed' | 'cleaned' | 'pending' | 'non_member' | 'archived'
@@ -54,8 +58,10 @@ export const mailChimpSlice = createSlice({
   name: 'mailChimp',
   initialState: initialMailChimpState,
   reducers: {
-    setListInfo: (state, { payload }) => {
-      state.members = payload
+    setMailchimpMembers: (state, { payload }) => {
+      state.members = payload.members
+      state.mailchimpMembersCount = payload?.mailchimpMembersCount
+      state.noMailchimpMembers = payload?.mailchimpMembersCount === 0
     }
   },
   extraReducers: (builder) => {
@@ -85,4 +91,4 @@ export const mailChimpSlice = createSlice({
 
 export const mailChimpReducer = mailChimpSlice.reducer as Reducer<MailChimpStatePayload>
 
-export const { setListInfo } = mailChimpSlice.actions
+export const { setMailchimpMembers } = mailChimpSlice.actions

@@ -41,22 +41,22 @@ const AdminMailChimpSubscriberRow: FC<MemberProps> = ({
     <>
       <div
         onClick={() => toggleExpandedRow(email)}
-        className="grid grid-cols-12 h-12 gap-x-3 bg-midnightblack pl-4 pr-2 border-l-4 border-l-lime-500 items-center cursor-pointer font-lato hover:bg-inkblack duration-300"
+        className="grid grid-cols-[2fr_2fr_2fr_2fr_2fr_1fr] h-12 gap-x-3 bg-midnightblack pl-4 pr-2 border-l-4 border-l-lime-500 items-center cursor-pointer font-lato hover:bg-inkblack duration-300"
       >
-        <div className="col-span-3 min-w-0 truncate">{name}</div>
-        <div className="col-span-2 min-w-0 truncate">{email}</div>
-        <div className="col-span-2 min-w-0 truncate">{phoneNumber}</div>
-        <div className="col-span-2 min-w-0 truncate">
+        <div className="truncate">{name}</div>
+        <div className="truncate">{email}</div>
+        <div className="truncate">{phoneNumber}</div>
+        <div className="truncate">
           {formatDate(createdAt, {
             minute: 'numeric',
             second: 'numeric',
             hour: 'numeric'
           })}
         </div>
-        <div className="col-span-2 min-w-0 truncate w-full justify-center items-end flex">
+        <div className="truncate w-full justify-center items-end flex">
           <Pill status={status} />
         </div>
-        <div className="col-span-1 min-w-0 truncate w-full justify-center items-end flex">
+        <div className="w-full justify-center items-end flex">
           <Link
             target="_blank"
             href={`https://us2.admin.mailchimp.com/audience/contact-profile?contact_id=${contactId}`}

@@ -44,18 +44,20 @@ const ToastMessage: FC<ToastMessageProps> = ({ message, type, resetError }) => {
   }
 
   return (
-    <div
-      className={`${
-        type === 'warning' ? 'border-l-blaze' : 'border-l-transparent'
-      } border-l-2 fixed top-4 left-1/2 -translate-x-1/2 z-[100] w-80 px-8 py-4 rounded-sm bg-inkblack font-lato transition-transform duration-500 ease-in-out text-center flex items-center justify-center gap-x-3 ${
-        visible ? 'translate-y-0' : '-translate-y-16'
-      } ${getColor(type ?? 'warning')}`}
-    >
-      <AwesomeIcon
-        icon={triangleExclamationIcon}
-        className={`${message ? 'opacity-100' : 'opacity-0'} duration-300 w-4 h-5 text-blaze`}
-      />
-      {message}
+    <div className="relative">
+      <div
+        className={`${
+          type === 'warning' ? 'border-l-blaze' : 'border-l-transparent'
+        } border-l-2 fixed top-4 left-1/2 -translate-x-1/2 z-[100] w-80 px-8 py-4 rounded-sm bg-inkblack font-lato transition-transform duration-500 ease-in-out text-center flex items-center justify-center gap-x-3 ${
+          visible ? 'translate-y-0' : '-translate-y-16'
+        } ${getColor(type ?? 'warning')}`}
+      >
+        <AwesomeIcon
+          icon={triangleExclamationIcon}
+          className={`${message ? 'opacity-100' : 'opacity-0'} duration-300 w-4 h-5 text-blaze`}
+        />
+        {message}
+      </div>
     </div>
   )
 }

@@ -1,9 +1,9 @@
 import React, { FC, useMemo } from 'react'
 import Picture from '../common/Picture'
-import { ConcertProps } from '@/app/redux/features/formSlice'
 import Link from 'next/link'
 import { formatDate } from '@/app/utils/date.functions'
 import CallBoxOfficeBtn from '../common/CallBoxOfficeBtn'
+import { ConcertProps } from '@/app/redux/features/concertSlice'
 
 const PublicConcertRow: FC<{ concert: ConcertProps }> = ({ concert }) => {
   const memoizedImageUrl = useMemo(() => concert?.imageUrl, [concert?.imageUrl])

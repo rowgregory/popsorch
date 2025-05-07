@@ -33,7 +33,7 @@ export async function DELETE(req: NextRequest) {
       }
     })
 
-    return NextResponse.json({ sliceName: sliceAuth }, { status: 200 })
+    return NextResponse.json({ id, sliceName: sliceAuth }, { status: 200 })
   } catch (error: any) {
     await createLog('error', `Deleting user failed: ${error.message}`, {
       errorLocation: parseStack(JSON.stringify(error)),

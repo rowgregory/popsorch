@@ -18,8 +18,10 @@ export interface TeamMemberStatePayload {
   loading: boolean
   error: any
   success: boolean
-  teamMembers: []
+  teamMembers: TeamMemberProps[]
   teamMember: TeamMemberProps
+  teamMembersCount: number
+  noTeamMembers: boolean
 }
 
 const teamMemberState: TeamMemberProps = {
@@ -40,7 +42,9 @@ const initialTeamMemberState: TeamMemberStatePayload = {
   error: null,
   success: false,
   teamMembers: [],
-  teamMember: teamMemberState
+  teamMember: teamMemberState,
+  teamMembersCount: 0,
+  noTeamMembers: false
 }
 
 export const teamMemberSlice = createSlice({
@@ -53,9 +57,28 @@ export const teamMemberSlice = createSlice({
     },
     setTeamMembers: (state, { payload }: any) => {
       state.teamMembers = payload
+      state.teamMembersCount = payload?.length
+      state.noTeamMembers = payload?.length === 0
     },
     resetTeamMemberError: (state) => {
       state.error = null
+    },
+    addTeamMemberToState: (state, action) => {
+      state.teamMembers.push(action.payload)
+      state.teamMembersCount = state.teamMembersCount + 1
+      state.noTeamMembers = state.teamMembers.length === 0
+    },
+    updateTeamMemberInState: (state, action) => {
+      const updatedTeamMember = action.payload
+      const index = state.teamMembers.findIndex((teamMember) => teamMember.id === updatedTeamMember.id)
+      if (index !== -1) {
+        state.teamMembers[index] = updatedTeamMember
+      }
+    },
+    removeTeamMemberFromState: (state, action) => {
+      state.teamMembers = state.teamMembers.filter((teamMember) => teamMember.id !== action.payload)
+      state.teamMembersCount = state.teamMembersCount - 1
+      state.noTeamMembers = state.teamMembers.length === 0
     }
   },
   extraReducers: (builder) => {
@@ -89,4 +112,11 @@ export const teamMemberSlice = createSlice({
 
 export const teamMemberReducer = teamMemberSlice.reducer as Reducer<TeamMemberStatePayload>
 
-export const { resetTeamMember, setTeamMembers, resetTeamMemberError } = teamMemberSlice.actions
+export const {
+  resetTeamMember,
+  setTeamMembers,
+  resetTeamMemberError,
+  addTeamMemberToState,
+  updateTeamMemberInState,
+  removeTeamMemberFromState
+} = teamMemberSlice.actions
