@@ -25,14 +25,14 @@ const HomeHero = () => {
                 initialValue={textBlockMap?.HOME_HERO_BLOCK?.homeHeroBlockTitle1}
                 type="HOME_HERO_BLOCK"
                 textBlockKey="homeHeroBlockTitle1"
-                className="text-[65px] 760:text-[90px] font-bold font-changa leading-tight text-white"
+                className="text-[42px] 430:text-[50px] 576:text-[65px] 760:text-[90px] font-bold font-changa leading-tight text-white"
               />
               <EditableTextArea
                 tag="h1"
                 initialValue={textBlockMap?.HOME_HERO_BLOCK?.homeHeroBlockTitle2}
                 type="HOME_HERO_BLOCK"
                 textBlockKey="homeHeroBlockTitle2"
-                className="text-[32px] 760:text-[45px] font-medium font-changa leading-tight text-white mb-12"
+                className="text-19 430:text-[26px] 576:text-[32px] 760:text-[45px] font-medium font-changa leading-tight text-white mb-12"
               />
               <Link
                 href="/concerts"
