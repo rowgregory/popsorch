@@ -44,6 +44,7 @@ export interface ConcertProps {
   type: string
   pressRelease: string
   allSeriesExternalLink: string
+  cardDate: string
   createdAt: Date
   updatedAt: Date
 }
@@ -69,6 +70,7 @@ const concertState: ConcertProps = {
   type: '',
   pressRelease: '',
   allSeriesExternalLink: '',
+  cardDate: '',
   createdAt: new Date(),
   updatedAt: new Date()
 }

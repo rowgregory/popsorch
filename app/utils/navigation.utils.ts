@@ -20,18 +20,23 @@ export const getNavigationLinks = (path: string, thereAreConcerts: boolean): Nav
     : []),
   {
     isButton: true,
-    textKey: 'Camp',
-    active: ['/camp', '/camp-application'].includes(path),
+    textKey: 'Education',
+    active: ['/student-performers', '/student-scholarships', '/camp-application'].includes(path),
     links: [
       {
-        textKey: 'Camp Application',
-        linkKey: '/camp-application',
-        active: path === '/camp-application'
+        textKey: 'Student Performers',
+        linkKey: '/student-performers',
+        active: path === '/student-performers'
       },
       {
-        textKey: 'Camp Info',
-        linkKey: '/camp-info',
-        active: path === '/camp-info'
+        textKey: 'Student Scholarships',
+        linkKey: '/student-scholarships',
+        active: path === '/student-scholarships'
+      },
+      {
+        textKey: 'Summer Camp',
+        linkKey: '/camp-application',
+        active: path === '/camp-application'
       }
     ]
   },
@@ -86,35 +91,9 @@ export const getNavigationLinks = (path: string, thereAreConcerts: boolean): Nav
   },
   { linkKey: '/contact', textKey: 'Contact', active: path === '/contact' },
   {
-    isButton: true,
-    textKey: '.....',
-    links: [
-      {
-        linkKey: '/coming-soon',
-        textKey: 'Coming Soon',
-        active: path === '/coming-soon'
-      },
-      {
-        linkKey: '/education',
-        textKey: 'Education',
-        active: path === '/education'
-      },
-      {
-        linkKey: '/photo-gallery',
-        textKey: 'Photo Gallery',
-        active: path === '/photo-gallery'
-      },
-      {
-        linkKey: '/newsletter',
-        textKey: 'Newsletter',
-        active: path === '/newsletter'
-      },
-      {
-        linkKey: '/lunch',
-        textKey: 'Lunch Program',
-        active: path === '/lunch'
-      }
-    ]
+    linkKey: '/newsletter',
+    textKey: 'Newsletter',
+    active: path === '/newsletter'
   }
 ]
 

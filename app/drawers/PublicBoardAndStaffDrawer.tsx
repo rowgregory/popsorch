@@ -18,7 +18,7 @@ const PublicBoardAndStaffDrawer = () => {
   const currentMember: TeamMemberProps = drawerList?.[selectedIndex ?? 0]
 
   return (
-    <BottomDrawer isOpen={drawer} onClose={reset} height="h-[90dvh]" bgColor="bg-[#1a1a1a]">
+    <BottomDrawer isOpen={drawer} onClose={reset} height="h-dvh" bgColor="bg-[#1a1a1a]">
       <div className="760:px-4 990:px-12 flex flex-col h-full pt-20 w-full 760:max-w-screen-lg mx-auto relative z-10">
         <AwesomeIcon
           onClick={() => dispatch(goToPrevDrawerItem())}
@@ -26,7 +26,7 @@ const PublicBoardAndStaffDrawer = () => {
           className="text-zinc-500 hover:text-blaze w-8 h-8 absolute -left-10 top-1/2 -translate-y-1/2 cursor-pointer duration-300"
         />
         <div className="flex flex-col 760:flex-row">
-          <div className="w-1/3 pb-8">
+          <div className="w-full 760:w-1/3 pb-8">
             {currentMember?.imageUrl && (
               <Picture
                 src={currentMember.imageUrl}
@@ -38,7 +38,9 @@ const PublicBoardAndStaffDrawer = () => {
           <div className="w-[1px] h-full bg-zinc-700/70 ml-8"></div>
           <div className="flex flex-col px-16">
             <h1 className="text-white font-changa text-center text-[48px] relative z-10">{`${currentMember?.firstName} ${currentMember?.lastName}`}</h1>
-            <h2 className="mb-12 tracking-wide uppercase text-blaze text-12 mt-1">{currentMember?.position}</h2>
+            <h2 className="mb-12 tracking-wide uppercase text-blaze text-12 mt-1 text-center font-medium">
+              {currentMember?.position}
+            </h2>
           </div>
         </div>
         <div className="w-full h-[1px] bg-zinc-700/70 mb-8"></div>

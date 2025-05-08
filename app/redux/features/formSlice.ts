@@ -67,7 +67,8 @@ const formInitialState = {
       date: '',
       city: '',
       dayOfWeek: '',
-      externalLink: ''
+      externalLink: '',
+      cardDate: ''
     },
     errors: {}
   },

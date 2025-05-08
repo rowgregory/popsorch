@@ -25,17 +25,13 @@ const HeaderLower = () => {
       ref={headerRef}
       className={`${
         !isHome && 'bg-headerbg bg-cover bg-no-repeat bg-center'
-      } transition-all w-full px-4 430:px-7 1280:px-14 flex items-center justify-between relative z-50 h-[160px]`}
+      } transition-all w-full px-4 pt-2 430:px-7 1280:px-14 flex items-center justify-between relative z-50 h-[160px]`}
     >
       {isHome ? (
-        <div
-          className={`576:mt-20 relative 576:border-1 576:border-white 576:after:absolute 576:after:inset-[-10px] 576:after:border 576:after:border-white 576:after:content-[''] 576:px-3 py-4`}
-        >
-          <LogoWRobynHeader
-            imgDimensions={`h-[80px] 576:h-[120px] 760:h-[150px]`}
-            logoClassname={`h-[80px] 576:h-[120px] 760:h-[150px] text-blaze`}
-          />
-        </div>
+        <LogoWRobynHeader
+          imgDimensions={`h-[80px] 576:h-[120px] 760:h-[150px]`}
+          logoClassname={`h-[80px] 576:h-[120px] 760:h-[150px] text-blaze`}
+        />
       ) : (
         <LogoWRobynHeader imgDimensions={`h-[105px]`} logoClassname={`h-[105px] text-blaze`} />
       )}

@@ -1,6 +1,6 @@
 import React, { FormEvent, useCallback, useState } from 'react'
 import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
-import { useFetchTeamMembersQuery, useUpdateTeamMemberMutation } from '../redux/services/teamMemberApi'
+import { useUpdateTeamMemberMutation } from '../redux/services/teamMemberApi'
 import { createFormActions, resetForm, setIsNotCreating } from '../redux/features/formSlice'
 import uploadFileToFirebase from '../utils/uploadFileToFirebase'
 import { resetTeamMember } from '../redux/features/teamMemberSlice'
@@ -16,9 +16,6 @@ const AdminTeamMemberUpdateDrawer = () => {
   const [updateTeamMember] = useUpdateTeamMemberMutation()
   const [loading, setLoading] = useState(false)
   const { handleUploadProgress, setErrors } = createFormActions('teamMember', dispatch)
-  const { success } = useAppSelector((state: RootState) => state.teamMember)
-
-  useFetchTeamMembersQuery(undefined, { skip: !success })
 
   const handleUpdateTeamMember = async (e: FormEvent) => {
     e.preventDefault()

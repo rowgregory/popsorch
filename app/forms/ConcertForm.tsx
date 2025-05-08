@@ -77,6 +77,14 @@ const ConcertForm: FC<{ handleSubmit: any; loading: boolean }> = ({ handleSubmit
                   error={concert?.errors?.allSeriesExternalLink}
                   rows={2}
                 />
+                <AdminTextarea
+                  name="cardDate"
+                  value={concert?.inputs?.cardDate}
+                  onChange={handleInput}
+                  label="Card date*"
+                  error={concert?.errors?.cardDate}
+                  rows={2}
+                />
               </div>
               <div className="flex flex-col gap-y-7 w-full">
                 <AdminFormPhoto

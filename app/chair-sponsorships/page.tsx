@@ -6,6 +6,7 @@ import Picture from '../components/common/Picture'
 import TitleWithLine from '../components/common/TitleWithLine'
 import { useRotatingImageText } from '../hooks/useRotatingImageText'
 import { RootState, useAppSelector } from '../redux/store'
+import EditableTextArea from '../components/common/EditableTextArea'
 
 const chairSponsorshipData = [
   {
@@ -59,15 +60,21 @@ const ChairSponsorships = () => {
                   type="CHAIR_SPONSORSHIP_PAGE"
                   textBlockKey="chairSponsorshipPageTitle"
                 />
-                <p className="font-lato text-[#cacaca] mt-8 mb-5 text-center">
-                  Sponsoring a musician or a specific chair is a very popular way to show your appreciation for The Pops
-                  and to contribute to its financial well-being year after year.
-                </p>
-                <p className="font-lato text-[#cacaca] mb-12 text-center">
-                  Admit it, we all have our favorites. Some have a favorite instrument (like the flute!) and others
-                  really enjoy a specific musician&apos;s contribution. The musician might be a relative or friend, or
-                  simply a talented stranger.
-                </p>
+                <EditableTextArea
+                  tag="p"
+                  initialValue={textBlockMap?.CHAIR_SPONSORSHIP_PAGE?.chairSponsorshipBox1P}
+                  type="CHAIR_SPONSORSHIP_PAGE"
+                  textBlockKey="chairSponsorshipBox1P"
+                  className="font-lato text-[#cacaca] mt-8 mb-5 text-center"
+                />
+                <EditableTextArea
+                  tag="p"
+                  initialValue={textBlockMap?.CHAIR_SPONSORSHIP_PAGE?.chairSponsorshipBox1P2}
+                  type="CHAIR_SPONSORSHIP_PAGE"
+                  textBlockKey="chairSponsorshipBox1P2"
+                  className="font-lato text-[#cacaca] mb-12 text-center"
+                />
+
                 <div className="w-full flex justify-center items-center">
                   <a
                     href="https://ci.ovationtix.com/35505/store/donations/46287"
@@ -86,46 +93,202 @@ const ChairSponsorships = () => {
                   type="CHAIR_SPONSORSHIP_PAGE"
                   textBlockKey="chairSponsorshipPageTitle2"
                 />
-                <p className="text-[#cacaca] font-lato text-center mt-8">
-                  We have three sponsorship levels for each musician&apos;s role. Donors will be recognized in the
-                  program book throughout the season next to your musician. Some of our musicians have multiple sponsors
-                  who are recognized per level of donation.
-                </p>
+
+                <EditableTextArea
+                  tag="p"
+                  initialValue={
+                    textBlockMap?.CHAIR_SPONSORSHIP_PAGE?.chairSponsorshipBox2P1 ||
+                    ` We have three sponsorship levels for each musician&apos;s role. Donors will be recognized in the program book throughout the season next to your musician. Some of our musicians have multiple sponsors who are recognized per level of donation.`
+                  }
+                  type="CHAIR_SPONSORSHIP_PAGE"
+                  textBlockKey="chairSponsorshipBox2P1"
+                  className="text-[#cacaca] font-lato text-center mt-8"
+                />
               </div>
               <div className="col-span-12 1200:col-span-6 overflow-x-auto">
                 <table className="w-full border-collapse text-white font-lato border-[#1C1C1C] min-w-[400px] overflow-x-auto">
                   <thead>
                     <tr className="bg-sunburst text-black">
-                      <th className="py-6 px-5 border border-zinc-700/50"> </th>
-                      <th className="py-6 px-5 border border-zinc-700/50 text-white">Bronze</th>
-                      <th className="py-6 px-5 border border-zinc-700/50 text-white">Silver</th>
-                      <th className="py-6 px-5 border border-zinc-700/50 text-white">Gold</th>
+                      <th className=""></th>
+                      <EditableTextArea
+                        tag="th"
+                        initialValue={textBlockMap?.CHAIR_SPONSORSHIP_PAGE?.chairSponsorshipBox2Header1}
+                        type="CHAIR_SPONSORSHIP_PAGE"
+                        textBlockKey="chairSponsorshipBox2Header1"
+                        className="py-6 px-5 border border-zinc-700/50 text-white"
+                      />
+                      <EditableTextArea
+                        tag="th"
+                        initialValue={textBlockMap?.CHAIR_SPONSORSHIP_PAGE?.chairSponsorshipBox2Header2}
+                        type="CHAIR_SPONSORSHIP_PAGE"
+                        textBlockKey="chairSponsorshipBox2Header2"
+                        className="py-6 px-5 border border-zinc-700/50 text-white"
+                      />
+                      <EditableTextArea
+                        tag="th"
+                        initialValue={textBlockMap?.CHAIR_SPONSORSHIP_PAGE?.chairSponsorshipBox2Header3}
+                        type="CHAIR_SPONSORSHIP_PAGE"
+                        textBlockKey="chairSponsorshipBox2Header3"
+                        className="py-6 px-5 border border-zinc-700/50 text-white"
+                      />
+                      <EditableTextArea
+                        tag="th"
+                        initialValue={textBlockMap?.CHAIR_SPONSORSHIP_PAGE?.chairSponsorshipBox2Header4}
+                        type="CHAIR_SPONSORSHIP_PAGE"
+                        textBlockKey="chairSponsorshipBox2Header4"
+                        className="py-6 px-5 border border-zinc-700/50 text-white"
+                      />
                     </tr>
                   </thead>
                   <tbody>
                     <tr className="bg-[#2B2B2B]">
-                      <td className="py-6 px-5 border border-zinc-700/50">Conductor</td>
-                      <td className="py-6 px-5 border border-zinc-700/50 text-center">$5,000</td>
-                      <td className="py-6 px-5 border border-zinc-700/50 text-center">$7,500</td>
-                      <td className="py-6 px-5 border border-zinc-700/50 text-center">$10,000</td>
+                      <EditableTextArea
+                        tag="td"
+                        initialValue={textBlockMap?.CHAIR_SPONSORSHIP_PAGE?.chairSponsorshipBox2Row1Title}
+                        type="CHAIR_SPONSORSHIP_PAGE"
+                        textBlockKey="chairSponsorshipBox2Row1Title"
+                        className="py-6 px-5 border border-zinc-700/50"
+                      />
+                      <EditableTextArea
+                        tag="td"
+                        initialValue={textBlockMap?.CHAIR_SPONSORSHIP_PAGE?.chairSponsorshipBox2Row1Value1}
+                        type="CHAIR_SPONSORSHIP_PAGE"
+                        textBlockKey="chairSponsorshipBox2Row1Value1"
+                        className="py-6 px-5 border border-zinc-700/50 text-center"
+                      />
+                      <EditableTextArea
+                        tag="td"
+                        initialValue={textBlockMap?.CHAIR_SPONSORSHIP_PAGE?.chairSponsorshipBox2Row1Value2}
+                        type="CHAIR_SPONSORSHIP_PAGE"
+                        textBlockKey="chairSponsorshipBox2Row1Value2"
+                        className="py-6 px-5 border border-zinc-700/50 text-center"
+                      />
+                      <EditableTextArea
+                        tag="td"
+                        initialValue={textBlockMap?.CHAIR_SPONSORSHIP_PAGE?.chairSponsorshipBox2Row1Value3}
+                        type="CHAIR_SPONSORSHIP_PAGE"
+                        textBlockKey="chairSponsorshipBox2Row1Value3"
+                        className="py-6 px-5 border border-zinc-700/50 text-center"
+                      />
+                      <EditableTextArea
+                        tag="td"
+                        initialValue={textBlockMap?.CHAIR_SPONSORSHIP_PAGE?.chairSponsorshipBox2Row1Value4}
+                        type="CHAIR_SPONSORSHIP_PAGE"
+                        textBlockKey="chairSponsorshipBox2Row1Value4"
+                        className="py-6 px-5 border border-zinc-700/50 text-center"
+                      />
                     </tr>
                     <tr className="bg-[#181818]">
-                      <td className="py-6 px-5 border border-zinc-700/50">Concertmaster</td>
-                      <td className="py-6 px-5 border border-zinc-700/50 text-center">$1,000</td>
-                      <td className="py-6 px-5 border border-zinc-700/50 text-center">$1,250</td>
-                      <td className="py-6 px-5 border border-zinc-700/50 text-center">$1,500</td>
+                      <EditableTextArea
+                        tag="td"
+                        initialValue={textBlockMap?.CHAIR_SPONSORSHIP_PAGE?.chairSponsorshipBox2Row2Title}
+                        type="CHAIR_SPONSORSHIP_PAGE"
+                        textBlockKey="chairSponsorshipBox2Row2Title"
+                        className="py-6 px-5 border border-zinc-700/50"
+                      />
+                      <EditableTextArea
+                        tag="td"
+                        initialValue={textBlockMap?.CHAIR_SPONSORSHIP_PAGE?.chairSponsorshipBox2Row2Value1}
+                        type="CHAIR_SPONSORSHIP_PAGE"
+                        textBlockKey="chairSponsorshipBox2Row2Value1"
+                        className="py-6 px-5 border border-zinc-700/50 text-center"
+                      />
+                      <EditableTextArea
+                        tag="td"
+                        initialValue={textBlockMap?.CHAIR_SPONSORSHIP_PAGE?.chairSponsorshipBox2Row2Value2}
+                        type="CHAIR_SPONSORSHIP_PAGE"
+                        textBlockKey="chairSponsorshipBox2Row2Value2"
+                        className="py-6 px-5 border border-zinc-700/50 text-center"
+                      />
+                      <EditableTextArea
+                        tag="td"
+                        initialValue={textBlockMap?.CHAIR_SPONSORSHIP_PAGE?.chairSponsorshipBox2Row2Value3}
+                        type="CHAIR_SPONSORSHIP_PAGE"
+                        textBlockKey="chairSponsorshipBox2Row2Value3"
+                        className="py-6 px-5 border border-zinc-700/50 text-center"
+                      />
+                      <EditableTextArea
+                        tag="td"
+                        initialValue={textBlockMap?.CHAIR_SPONSORSHIP_PAGE?.chairSponsorshipBox2Row2Value4}
+                        type="CHAIR_SPONSORSHIP_PAGE"
+                        textBlockKey="chairSponsorshipBox2Row2Value4"
+                        className="py-6 px-5 border border-zinc-700/50 text-center"
+                      />
                     </tr>
                     <tr className="bg-[#2B2B2B]">
-                      <td className="py-6 px-5 border border-zinc-700/50">Principal Musicians</td>
-                      <td className="py-6 px-5 border border-zinc-700/50 text-center">$500</td>
-                      <td className="py-6 px-5 border border-zinc-700/50 text-center">$750</td>
-                      <td className="py-6 px-5 border border-zinc-700/50 text-center">$1,000</td>
+                      <EditableTextArea
+                        tag="td"
+                        initialValue={textBlockMap?.CHAIR_SPONSORSHIP_PAGE?.chairSponsorshipBox2Row3Title}
+                        type="CHAIR_SPONSORSHIP_PAGE"
+                        textBlockKey="chairSponsorshipBox2Row3Title"
+                        className="py-6 px-5 border border-zinc-700/50"
+                      />
+
+                      <EditableTextArea
+                        tag="td"
+                        initialValue={textBlockMap?.CHAIR_SPONSORSHIP_PAGE?.chairSponsorshipBox2Row3Value1}
+                        type="CHAIR_SPONSORSHIP_PAGE"
+                        textBlockKey="chairSponsorshipBox2Row3Value1"
+                        className="py-6 px-5 border border-zinc-700/50 text-center"
+                      />
+                      <EditableTextArea
+                        tag="td"
+                        initialValue={textBlockMap?.CHAIR_SPONSORSHIP_PAGE?.chairSponsorshipBox2Row3Value2}
+                        type="CHAIR_SPONSORSHIP_PAGE"
+                        textBlockKey="chairSponsorshipBox2Row3Value2"
+                        className="py-6 px-5 border border-zinc-700/50 text-center"
+                      />
+                      <EditableTextArea
+                        tag="td"
+                        initialValue={textBlockMap?.CHAIR_SPONSORSHIP_PAGE?.chairSponsorshipBox2Row3Value3}
+                        type="CHAIR_SPONSORSHIP_PAGE"
+                        textBlockKey="chairSponsorshipBox2Row3Value3"
+                        className="py-6 px-5 border border-zinc-700/50 text-center"
+                      />
+                      <EditableTextArea
+                        tag="td"
+                        initialValue={textBlockMap?.CHAIR_SPONSORSHIP_PAGE?.chairSponsorshipBox2Row3Value4}
+                        type="CHAIR_SPONSORSHIP_PAGE"
+                        textBlockKey="chairSponsorshipBox2Row3Value4"
+                        className="py-6 px-5 border border-zinc-700/50 text-center"
+                      />
                     </tr>
                     <tr className="bg-[#181818]">
-                      <td className="py-6 px-5 border border-zinc-700/50">Section Musicians</td>
-                      <td className="py-6 px-5 border border-zinc-700/50 text-center">$250</td>
-                      <td className="py-6 px-5 border border-zinc-700/50 text-center">$500</td>
-                      <td className="py-6 px-5 border border-zinc-700/50 text-center">$750</td>
+                      <EditableTextArea
+                        tag="td"
+                        initialValue={textBlockMap?.CHAIR_SPONSORSHIP_PAGE?.chairSponsorshipBox2Row4Title}
+                        type="CHAIR_SPONSORSHIP_PAGE"
+                        textBlockKey="chairSponsorshipBox2Row4Title"
+                        className="py-6 px-5 border border-zinc-700/50"
+                      />
+                      <EditableTextArea
+                        tag="td"
+                        initialValue={textBlockMap?.CHAIR_SPONSORSHIP_PAGE?.chairSponsorshipBox2Row4Value1}
+                        type="CHAIR_SPONSORSHIP_PAGE"
+                        textBlockKey="chairSponsorshipBox2Row4Value1"
+                        className="py-6 px-5 border border-zinc-700/50 text-center"
+                      />
+                      <EditableTextArea
+                        tag="td"
+                        initialValue={textBlockMap?.CHAIR_SPONSORSHIP_PAGE?.chairSponsorshipBox2Row4Value2}
+                        type="CHAIR_SPONSORSHIP_PAGE"
+                        textBlockKey="chairSponsorshipBox2Row4Value2"
+                        className="py-6 px-5 border border-zinc-700/50 text-center"
+                      />
+                      <EditableTextArea
+                        tag="td"
+                        initialValue={textBlockMap?.CHAIR_SPONSORSHIP_PAGE?.chairSponsorshipBox2Row4Value3}
+                        type="CHAIR_SPONSORSHIP_PAGE"
+                        textBlockKey="chairSponsorshipBox2Row4Value3"
+                        className="py-6 px-5 border border-zinc-700/50 text-center"
+                      />
+                      <EditableTextArea
+                        tag="td"
+                        initialValue={textBlockMap?.CHAIR_SPONSORSHIP_PAGE?.chairSponsorshipBox2Row4Value4}
+                        type="CHAIR_SPONSORSHIP_PAGE"
+                        textBlockKey="chairSponsorshipBox2Row4Value4"
+                        className="py-6 px-5 border border-zinc-700/50 text-center"
+                      />
                     </tr>
                   </tbody>
                 </table>

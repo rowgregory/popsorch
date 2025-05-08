@@ -7,7 +7,7 @@ const HeaderTop = () => {
   const { isAuthenticated } = useAppSelector((state: RootState) => state.auth)
 
   return (
-    <section className="h-[70px] w-full bg-duskgray px-4 430:px-7 1280:px-14 flex items-center justify-between">
+    <section className="h-[70px] w-full bg-duskgray px-4 430:px-7 1280:px-14 flex items-center justify-between relative z-10">
       <div className="flex items-center gap-x-3">
         <h1 className="text-12 uppercase font-changa text-[#b2b2b2] hidden 430:block">Follow Us:</h1>
         <a href="https://www.facebook.com/ThePopsOrchestra" target="_blank">

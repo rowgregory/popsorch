@@ -12,7 +12,7 @@ const LogoWRobynHeader: FC<LogoWRobynProps> = ({ logoClassname, imgDimensions })
   return (
     <Link href="/" className="flex items-end">
       <div className={`${imgDimensions} w-auto`}>
-        <Picture src="/images/robyn.png" className="w-full h-full object-contain" priority />
+        <Picture src="/images/robyn.png" className="w-full h-full object-contain" priority={true} />
       </div>
       <div className={`${logoClassname} mb-1`}>
         <LogoSVG className="w-full h-full" />

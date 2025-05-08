@@ -113,6 +113,7 @@ model Concert {
   isOnSale              Boolean  @default(false)
   type                  String   @default("")
   allSeriesExternalLink String   @default("")
+  cardDate              String   @default("")
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
 }

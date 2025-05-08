@@ -1,24 +1,16 @@
 import React from 'react'
 import CallBoxOfficeBtn from '../common/CallBoxOfficeBtn'
+import Picture from '../common/Picture'
 
 const HomeDiscount = () => {
   return (
-    <div className="px-4 py-32">
-      <div className="max-w-[520px] 760:max-w-screen-576 990:max-w-[800px] 1200:max-w-screen-1160 1590:max-w-screen-1400 mx-auto w-full flex flex-col 1200:flex-row gap-x-28 items-center">
-        <div className="flex gap-2">
-          <h1 className="text-[180px] 430:text-[200px] 576:text-[240px] tracking-tight font-lato font-semibold text-blaze">
-            23
-          </h1>
-          <div className="flex flex-col items-end">
-            <h2 className="text-blaze font-lato text-[115px] 430:text-[150px] font-semibold mr-[22px] 430:mr-[3px]">
-              %
-            </h2>
-            <h3 className="font-lato text-[70px] 430:text-[70px] text-white uppercase font-semibold -mt-12">Off</h3>
-          </div>
-        </div>
+    <div className="px-4 py-40">
+      <div className="max-w-[520px] 760:max-w-screen-576 990:max-w-[800px] 1200:max-w-screen-1160 1590:max-w-screen-1400 mx-auto w-full flex flex-col 1200:flex-row gap-y-28 990:gap-x-28 items-center">
+        <Picture src="/images/calendar-tickets.png" className="aspect-square w-full h-auto" priority={false} />
         <div className="flex flex-col">
           <h4 className="font-changa text-4xl font-medium mb-7 text-center">
-            Save Big When You Renew Your Season Subscription Starting May 1!
+            Renew now to retain your current seats, lock in last year&apos;s pricing, and enjoy our exciting extending
+            programming
           </h4>
           <p className="font-lato tracking-wider text-zinc-100 mb-3">
             To ensure your same seats from last season, or to change those seats and/or add new seats to your order,

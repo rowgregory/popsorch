@@ -39,11 +39,7 @@ const HomeBiography = () => {
       >
         <div className="col-span-12 1200:col-span-6 flex justify-center">
           <div className="relative before:absolute before:content-[''] before:w-full before:h-full before:border-4 before:border-blaze before:rounded-md before:z-[-1] before:-top-4 430:before:-top-10 left-0 before:max-w-[450px] max-w-[450px] h-full max-h-[700px]">
-            <Picture
-              src="/images/robyn-1.jpg"
-              className="w-full h-fit object-contain ml-0 430:ml-12"
-              priority={false}
-            />
+            <Picture src="/images/robyn-1.jpg" className="w-full h-fit object-contain ml-0 430:ml-12" priority={true} />
           </div>
         </div>
         <div className="col-span-12 1200:col-span-6">
@@ -65,7 +61,15 @@ const HomeBiography = () => {
           >
             <AnimatedText text={textBlockMap?.HOME_BIO_BLOCK?.homeBioParagraph} />
           </span>
-          <h2 className="text-[32px] text-blaze font-changa">The Pops Orchestra of Bradenton & Sarasota</h2>
+          <EditableTextArea
+            tag="h2"
+            initialValue={
+              textBlockMap?.HOME_BIO_BLOCK?.homeBioSignature || `The Pops Orchestra of Bradenton & Sarasota`
+            }
+            type="HOME_BIO_BLOCK"
+            textBlockKey="homeBioSignature"
+            className="ext-[32px] text-blaze font-changa"
+          />
         </div>
       </div>
     </div>

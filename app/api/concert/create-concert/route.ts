@@ -21,7 +21,8 @@ export async function POST(req: NextRequest) {
         imageUrl: data.imageUrl,
         imageFilename: data.imageFilename,
         type: data.type,
-        allSeriesExternalLink: data.allSeriesExternalLink
+        allSeriesExternalLink: data.allSeriesExternalLink,
+        cardDate: data.cardDate
       }
     })
 

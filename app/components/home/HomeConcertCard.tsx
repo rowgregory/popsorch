@@ -5,56 +5,56 @@ import { ConcertProps } from '@/app/redux/features/concertSlice'
 import AwesomeIcon from '../common/AwesomeIcon'
 import { calendarIcon } from '@/app/lib/icons'
 import { motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
+import { FC, useRef } from 'react'
+import { useRouter } from 'next/navigation'
 
-const ConcertCard = ({ concert, index }: { concert: ConcertProps; index: number }) => {
+interface ConcertCardProps {
+  concert: ConcertProps
+  index: number
+}
+
+const ConcertCard: FC<ConcertCardProps> = ({ concert, index }) => {
   const ref = useRef(null) as any
   const inView = useInView(ref)
+  const { push } = useRouter()
 
   return (
-    <motion.div
+    <motion.button
+      onClick={() => push(`/concerts/${concert.id}`)}
       key={concert.id}
       ref={ref}
       initial={{ opacity: 0, y: 100 }}
       animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 100 }}
       transition={{ duration: 0.5, delay: index * 0.2 }}
-      className="col-span-12 760:col-span-6 1200:col-span-4 group w-full relative overflow-hidden group"
+      className="col-span-12 990:max-h-80 group w-full relative overflow-hidden group cursor-pointer bg-midnightblack duration-700 flex flex-col 990:flex-row items-start h-full rounded-lg"
     >
-      <Picture
-        src={concert.imageUrl ?? '/images'}
-        className="w-full h-full aspect-[10/12] object-cover rounded-sm group-hover:scale-125 duration-700"
-        priority={false}
-      />
-      <div className="absolute inset-0 z-10 bg-gradient-to-b from-transparent from-[55%] to-black/70 to-[100%] duration-700 flex flex-col items-start p-5 w-full h-full rounded-sm">
-        <h3 className="bg-blaze py-0.5 px-3 font-changa text-sm uppercase">{concert?.type}</h3>
-        <h4 className="w-full font-changa text-xl bottom-12 absolute left-5 leading-7 duration-700 cursor-pointer -translate-y-28 430:-translate-y-16 760:translate-y-0 760:group-hover:-translate-y-16">
-          {concert.name}
+      <div className="990:max-w-80 990:h-80 w-full overflow-hidden relative">
+        <Picture
+          src={concert.imageUrl ?? '/images'}
+          className="990:w-96 max-h-[440px] 990:max-h-auto w-full h-full object-cover rounded-sm group-hover:scale-125 duration-700"
+          priority={false}
+        />
+        <h3 className="absolute top-3 left-3 bg-blaze py-0.5 px-3 font-changa text-sm uppercase">{concert?.type}</h3>
+      </div>
+      <div className="flex-1 flex flex-col items-center justify-center w-full h-full px-4 py-12">
+        <h4 className="w-full font-bold font-changa text-5xl mb-3">{concert.name}</h4>
+        <h4 className="w-full font-lato text-xl text-zinc-300 leading-7 duration-700 cursor-pointer mb-10">
+          <AwesomeIcon icon={calendarIcon} className="text-blaze w-4 h-4" /> {concert.cardDate}
         </h4>
-        <h4 className="w-full font-lato text-sm text-zinc-300 bottom-5 absolute left-5 leading-7 duration-700 cursor-pointer -translate-y-28 430:-translate-y-16 760:translate-y-0 760:group-hover:-translate-y-16">
-          <AwesomeIcon icon={calendarIcon} className="text-blaze w-4 h-4" /> Starting {concert.eventDetails[0].date}
-        </h4>
-        <div className="absolute left-5 bottom-5 translate-y-0 opacity-100 760:translate-y-16 760:group-hover:translate-y-0 760:opacity-0 760:group-hover:opacity-100 duration-700">
-          <div className="flex flex-col 430:flex-row items-center gap-y-2 430:gap-x-4">
-            {concert.isOnSale ? (
-              <Link
-                href={concert?.allSeriesExternalLink}
-                className="bg-blaze hover:text-duskgray px-9 duration-700 rounded-sm py-3 font-changa text-12 uppercase w-full whitespace-nowrap flex items-center justify-center font-bold"
-              >
-                Buy Tickets
-              </Link>
-            ) : (
-              <CallBoxOfficeBtn />
-            )}
+        <div className="flex flex-col 430:flex-row items-center gap-y-2 430:gap-x-4">
+          {concert.isOnSale ? (
             <Link
-              href={`/concerts/${concert.id}`}
-              className="bg-white text-blaze px-4 hover:text-duskgray w-full duration-700 rounded-sm py-4 font-changa text-12 uppercase flex items-center justify-center font-bold whitespace-nowrap text-center"
+              href={concert?.allSeriesExternalLink}
+              className="bg-blaze hover:text-duskgray px-9 duration-700 rounded-sm py-3 font-changa text-12 uppercase w-full whitespace-nowrap flex items-center justify-center font-bold"
             >
-              Read More
+              Buy Tickets
             </Link>
-          </div>
+          ) : (
+            <CallBoxOfficeBtn />
+          )}
         </div>
       </div>
-    </motion.div>
+    </motion.button>
   )
 }
 export default ConcertCard

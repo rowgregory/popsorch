@@ -5,7 +5,7 @@ import { closeDrawer } from '../redux/features/dashboardSlice'
 import { resetVenue } from '../redux/features/venueSlice'
 import { createFormActions, resetForm, setIsNotCreating } from '../redux/features/formSlice'
 import VenueForm from '../forms/VenueForm'
-import { useFetchVenuesQuery, useUpdateVenueMutation } from '../redux/services/venueApi'
+import { useUpdateVenueMutation } from '../redux/services/venueApi'
 import uploadFileToFirebase from '../utils/uploadFileToFirebase'
 import validateVenueForm from '../validations/validateVenueForm'
 
@@ -16,8 +16,6 @@ const AdminVenueUpdateDrawer = () => {
   const { venue } = useAppSelector((state: RootState) => state.form)
   const { setErrors, handleUploadProgress } = createFormActions('venue', dispatch)
   const [loading, setLoading] = useState(false)
-  const { success } = useAppSelector((state: RootState) => state.venue)
-  useFetchVenuesQuery(undefined, { skip: !success })
 
   const handleUpdateVenue = async (e: FormEvent) => {
     e.preventDefault()

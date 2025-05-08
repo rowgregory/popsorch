@@ -1,11 +1,9 @@
 import React from 'react'
 import Link from 'next/link'
-import LogoWRobyn from './components/LogoWRobyn'
 
 const NotFound = () => {
   return (
-    <div className="px-4 py-3">
-      <LogoWRobyn imgDimensions="h-40" logoClassname="h-40 text-blaze" />
+    <div className="px-4 pt-3 pb-[89px]">
       <div className="px-3">
         <div className="max-w-screen-xl w-full mx-auto flex flex-col justify-center items-center">
           <h1 className="font-changa text-[200px]">404</h1>

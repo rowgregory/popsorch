@@ -5,7 +5,7 @@ import BottomDrawer from '../components/common/BottomDrawer'
 import { closeDrawer } from '../redux/features/dashboardSlice'
 import { resetConcert } from '../redux/features/concertSlice'
 import { createFormActions, resetForm, setIsNotCreating } from '../redux/features/formSlice'
-import { useFetchConcertsQuery, useUpdateConcertMutation } from '../redux/services/concertApi'
+import { useUpdateConcertMutation } from '../redux/services/concertApi'
 import uploadFileToFirebase from '../utils/uploadFileToFirebase'
 import validateConcertForm from '../validations/validateConcertForm'
 
@@ -16,8 +16,6 @@ const AdminConcertUpdateDrawer = () => {
   const [updateConcert] = useUpdateConcertMutation()
   const [loading, setLoading] = useState(false)
   const { handleUploadProgress, setErrors } = createFormActions('concert', dispatch)
-  const { success } = useAppSelector((state: RootState) => state.concert)
-  useFetchConcertsQuery(undefined, { skip: !success })
 
   const handleUpdateConcert = async (e: FormEvent) => {
     e.preventDefault()
@@ -42,7 +40,8 @@ const AdminConcertUpdateDrawer = () => {
         imageFilename: concert.inputs?.file?.name ?? concert.inputs.imageFilename,
         imageUrl: imageUrl ?? concert.inputs.imageUrl,
         type: concert.inputs.type,
-        allSeriesExternalLink: concert.inputs.allSeriesExternalLink
+        allSeriesExternalLink: concert.inputs.allSeriesExternalLink,
+        cardDate: concert.inputs.cardDate
       }).unwrap()
 
       reset()

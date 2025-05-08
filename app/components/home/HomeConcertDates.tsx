@@ -6,7 +6,6 @@ import Link from 'next/link'
 import AwesomeIcon from '../common/AwesomeIcon'
 import { chevronRightIcon } from '@/app/lib/icons'
 import { ConcertProps } from '@/app/redux/features/concertSlice'
-import Spinner from '../common/Spinner'
 
 const ViewAllConcertsLink = () => (
   <Link
@@ -27,43 +26,21 @@ const HomeConcertDates = () => {
   const { textBlockMap } = useAppSelector((state: RootState) => state.textBlock)
 
   return (
-    <div className="px-4 py-32">
+    <div className="px-4 py-40">
       <div className="max-w-[520px] 760:max-w-screen-576 990:max-w-[800px] 1200:max-w-screen-1160 1590:max-w-screen-1400 mx-auto w-full flex flex-col items-center">
-        <TitleWithLine
-          title={textBlockMap?.HOME_CONCERT_DATES_BLOCK?.homeConcertDatesBlockTitle}
-          type="HOME_CONCERT_DATES_BLOCK"
-          textBlockKey="homeConcertDatesBlockTitle"
-        />
-        {loading ? (
-          <span className="mt-10">
-            <Spinner wAndH="w-10 h-10" fill="fill-blaze" track="text-inkblack" />
-          </span>
-        ) : (
+        {!loading && (
           <>
-            <ViewAllConcertsLink />
-            <div className="relative w-full mt-20 mb-40 h-full">
-              <div className="grid grid-cols-12 gap-4 transition-transform duration-300 ease-in-out">
-                {concerts
-                  .filter((concert: any) => concert.type === 'Season')
-                  .map((concert: ConcertProps, i) => (
-                    <ConcertCard concert={concert} key={concert.id} index={i} />
-                  ))}
-              </div>
-            </div>
             <TitleWithLine
-              title={textBlockMap?.HOME_CONCERT_DATES_BLOCK?.homeConcertDatesBlockTitleTwo}
+              title={textBlockMap?.HOME_CONCERT_DATES_BLOCK?.homeConcertDatesBlockTitle}
               type="HOME_CONCERT_DATES_BLOCK"
-              textBlockKey="homeConcertDatesBlockTitleTwo"
+              textBlockKey="homeConcertDatesBlockTitle"
             />
             <ViewAllConcertsLink />
-            <div className="relative w-full mt-20 h-full">
-              <div className="grid grid-cols-12 gap-4 transition-transform duration-300 ease-in-out">
-                {concerts
-                  .filter((concert: any) => concert.type === 'Add-On')
-                  .slice(0, 3)
-                  .map((concert: ConcertProps, i) => (
-                    <ConcertCard concert={concert} key={concert.id} index={i} />
-                  ))}
+            <div className="relative w-full mt-20 mb-40 h-full">
+              <div className="grid grid-cols-12 gap-y-8 transition-transform duration-300 ease-in-out">
+                {concerts.map((concert: ConcertProps, i) => (
+                  <ConcertCard concert={concert} key={concert.id} index={i} />
+                ))}
               </div>
             </div>
           </>

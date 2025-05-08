@@ -1,7 +1,6 @@
 'use client'
 
 import React, { FC } from 'react'
-import { useFetchTeamMembersQuery } from '../redux/services/teamMemberApi'
 import { TeamMemberProps } from '../redux/features/teamMemberSlice'
 import Picture from '../components/common/Picture'
 import PublicBoardAndStaffDrawer from '../drawers/PublicBoardAndStaffDrawer'
@@ -24,7 +23,7 @@ const TeamMemberCard: FC<{ teamMember: TeamMemberProps; handleOpenDrawer?: (team
       onClick={() =>
         isSqysh ? window.open('https://sqysh.io', '_blank') : handleOpenDrawer ? handleOpenDrawer(teamMember) : {}
       }
-      className={`col-span-12 760:col-span-6 990:col-span-4 cursor-pointer group`}
+      className={`col-span-12 990:col-span-6 1200:col-span-4 cursor-pointer group`}
     >
       <div className="overflow-hidden relative rounded-tl-md rounded-tr-md">
         <Picture
@@ -43,26 +42,19 @@ const TeamMemberCard: FC<{ teamMember: TeamMemberProps; handleOpenDrawer?: (team
         <div className="text-2xl font-bold text-white font-changa duration-300 group-hover:text-blaze">
           {teamMember.firstName} {teamMember.lastName}
         </div>
-        <div className="text-blaze text-12 uppercase"> {teamMember.position}</div>
+        <div className="text-blaze text-12 uppercase group-hover:text-white duration-300"> {teamMember.position}</div>
       </div>
     </div>
   )
 }
 
-interface FetchTeamMembersQueryProps {
-  data: { teamMembers: TeamMemberProps[] }
-  isLoading: boolean
-}
-
 const BoardAndStaff = () => {
-  const { data, isLoading } = useFetchTeamMembersQuery<FetchTeamMembersQueryProps>({})
   const dispatch = useAppDispatch()
-  const { drawer } = useAppSelector((state: RootState) => state.app)
+  const { drawer, loading } = useAppSelector((state: RootState) => state.app)
   const { textBlockMap } = useAppSelector((state: RootState) => state.textBlock)
+  const { teamMembers } = useAppSelector((state: RootState) => state.teamMember)
 
   const handleOpenDrawer = (selectedMember: TeamMemberProps) => {
-    if (!data?.teamMembers) return
-
     const combinedList: TeamMemberProps[] = [...boardMembers, ...staffMembers]
     const selectedIndex = combinedList.findIndex((m) => m.id === selectedMember.id)
 
@@ -79,7 +71,7 @@ const BoardAndStaff = () => {
   const boardMembers: TeamMemberProps[] = []
   const staffMembers: TeamMemberProps[] = []
 
-  data?.teamMembers?.forEach((teamMember: TeamMemberProps) => {
+  teamMembers?.forEach((teamMember: TeamMemberProps) => {
     if (teamMember.role === 'Board-Member') {
       boardMembers.push(teamMember)
     } else if (teamMember.role === 'Staff') {
@@ -99,16 +91,16 @@ const BoardAndStaff = () => {
           }`}
         ></div>
       )}
-      <div className="bg-[#1a1a1a] px-3 relative z-0">
-        <div className="max-w-[516px] 760:max-w-[700px] 990:max-w-[960px] 1200:max-w-screen-1400 w-full mx-auto flex flex-col items-center py-28">
-          {isLoading ? (
+      <div className="bg-[#1a1a1a] px-4 990:px-12 xl:px-4 relative z-0">
+        <div className="max-w-[520px] 760:max-w-screen-576 990:max-w-[800px] 1200:max-w-screen-1160 1590:max-w-screen-1400 w-full mx-auto flex flex-col items-center py-28">
+          {loading ? (
             <div className="flex justify-center">
               <Spinner wAndH="w-10 h-10" fill="fill-blaze" track="text-[#1a1a1a]" />
             </div>
           ) : (
             <>
               <TitleWithLine
-                title={textBlockMap?.BOARD_MEMBERS_PAGE?.boardMemberTitle || 'Board Members'}
+                title={textBlockMap?.BOARD_MEMBERS_PAGE?.boardMemberTitle}
                 type="BOARD_MEMBERS_PAGE"
                 textBlockKey="boardMemberTitle"
               />
@@ -118,7 +110,7 @@ const BoardAndStaff = () => {
                 ))}
               </div>
               <TitleWithLine
-                title={textBlockMap?.BOARD_MEMBERS_PAGE?.staffTitle || 'Staff'}
+                title={textBlockMap?.BOARD_MEMBERS_PAGE?.staffTitle}
                 type="BOARD_MEMBERS_PAGE"
                 textBlockKey="staffTitle"
               />
