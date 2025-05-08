@@ -1,23 +1,29 @@
 import React, { FC, useMemo } from 'react'
 import Picture from '../common/Picture'
 import Link from 'next/link'
-import { formatDate } from '@/app/utils/date.functions'
 import CallBoxOfficeBtn from '../common/CallBoxOfficeBtn'
 import { ConcertProps } from '@/app/redux/features/concertSlice'
+import { useRouter } from 'next/navigation'
 
 const PublicConcertRow: FC<{ concert: ConcertProps }> = ({ concert }) => {
   const memoizedImageUrl = useMemo(() => concert?.imageUrl, [concert?.imageUrl])
+  const { push } = useRouter()
 
   return (
-    <div className="grid grid-cols-12 bg-duskgray rounded-md w-full group">
-      <div className="col-span-12 990:col-span-5 relative">
+    <div
+      onClick={() => push(`/concerts/${concert?.id}`)}
+      className="grid grid-cols-12 bg-duskgray rounded-md w-full group cursor-pointer"
+    >
+      <div className="col-span-12 990:col-span-5 relative overflow-hidden">
         <Picture
           src={memoizedImageUrl}
           priority={true}
-          className="aspecet-video 990:aspect-square relative z-0 object-cover rounded-tl-md rounded-bl-md h-full w-full bg-black"
+          className="aspecet-video 990:aspect-square relative z-0 object-cover rounded-tl-md rounded-bl-md h-full w-full bg-black group-hover:scale-110 duration-300"
         />
         <div className="absolute inset-0 z-10 bg-gradient-to-t from-transparent from-[60%] to-black/50 to-[100%] duration-300 flex flex-col items-end p-5">
-          <h3 className="bg-blaze py-0.5 px-3 font-changa text-sm uppercase absolute left-3 top-3">{concert?.type}</h3>
+          <h3 className="bg-blaze group-hover:bg-sunburst duration-300 py-0.5 px-3 font-changa text-sm uppercase absolute left-3 top-3">
+            {concert?.type}
+          </h3>
           <div className="flex flex-col items-center text-white font-medium">
             <h1 className="uppercase text-12 font-changa -mb-3">From</h1>
             <h2 className="font-lato text-[40px]">$35</h2>
@@ -26,10 +32,12 @@ const PublicConcertRow: FC<{ concert: ConcertProps }> = ({ concert }) => {
         </div>
       </div>
       <div className="col-span-12 990:col-span-7 p-9 w-full">
-        <h2 className="text-[#b2b2b2] font-changa text-12">Posted on {formatDate(concert?.createdAt)}</h2>
-        <h1 className="text-[30px] font-changa text-white">{concert?.name}</h1>
+        <h1 className="text-[30px] font-changa duration-300 group-hover:text-sunburst">{concert?.name}</h1>
+        <h4 className="w-full font-lato text-12 uppercase font-change text-sunburst leading-7 mb-10">
+          {concert.cardDate}
+        </h4>
         <div className="w-full h-[1px] bg-zinc-700/70 my-6"></div>
-        <p className="font-lato text-[#b2b2b2] leading-relaxed tracking-wide mb-10">{concert?.pressRelease}</p>
+        <p className="font-lato text-[#c9c9c9] leading-relaxed tracking-wide mb-10">{concert?.pressRelease}</p>
         <div className="flex flex-col 576:flex-row items-center gap-y-4 576:gap-x-4">
           {concert?.isOnSale ? (
             <Link
@@ -42,12 +50,6 @@ const PublicConcertRow: FC<{ concert: ConcertProps }> = ({ concert }) => {
           ) : (
             <CallBoxOfficeBtn className="w-full py-5 text-center" />
           )}
-          <Link
-            href={`/concerts/${concert?.id}`}
-            className="bg-white text-blaze hover:text-duskgray px-9 duration-300 rounded-sm py-[19px] font-changa text-12 uppercase w-full 576:w-fit flex justify-center items-center font-bold whitespace-nowrap"
-          >
-            Read More
-          </Link>
         </div>
       </div>
     </div>

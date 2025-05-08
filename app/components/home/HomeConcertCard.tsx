@@ -2,8 +2,6 @@ import Link from 'next/link'
 import CallBoxOfficeBtn from '../common/CallBoxOfficeBtn'
 import Picture from '../common/Picture'
 import { ConcertProps } from '@/app/redux/features/concertSlice'
-import AwesomeIcon from '../common/AwesomeIcon'
-import { calendarIcon } from '@/app/lib/icons'
 import { motion, useInView } from 'framer-motion'
 import { FC, useRef } from 'react'
 import { useRouter } from 'next/navigation'
@@ -13,7 +11,7 @@ interface ConcertCardProps {
   index: number
 }
 
-const ConcertCard: FC<ConcertCardProps> = ({ concert, index }) => {
+const HomeConcertCard: FC<ConcertCardProps> = ({ concert, index }) => {
   const ref = useRef(null) as any
   const inView = useInView(ref)
   const { push } = useRouter()
@@ -36,11 +34,19 @@ const ConcertCard: FC<ConcertCardProps> = ({ concert, index }) => {
         />
         <h3 className="absolute top-3 left-3 bg-blaze py-0.5 px-3 font-changa text-sm uppercase">{concert?.type}</h3>
       </div>
-      <div className="flex-1 flex flex-col items-center justify-center w-full h-full px-4 py-12">
-        <h4 className="w-full font-bold font-changa text-5xl mb-3">{concert.name}</h4>
-        <h4 className="w-full font-lato text-xl text-zinc-300 leading-7 duration-700 cursor-pointer mb-10">
-          <AwesomeIcon icon={calendarIcon} className="text-blaze w-4 h-4" /> {concert.cardDate}
+      <div className="flex-1 flex flex-col items-center justify-center w-full gap-y-6 h-full py-7">
+        <h4 className="w-full font-bold font-changa text-5xl mb-3 group-hover:text-blaze duration-300">
+          {concert.name}
         </h4>
+        <div className="flex flex-col items-center justify-center gap-y-2">
+          {concert?.eventDetails?.map((eventDetail) => (
+            <div key={eventDetail?.id} className="flex items-center justify-center">
+              <div className="font-changa uppercase text-sunburst tracking-wider text-sm font-semibold">
+                {eventDetail?.dayOfWeek}, {eventDetail?.date} at {eventDetail?.time} in {eventDetail?.city}
+              </div>
+            </div>
+          ))}
+        </div>
         <div className="flex flex-col 430:flex-row items-center gap-y-2 430:gap-x-4">
           {concert.isOnSale ? (
             <Link
@@ -57,4 +63,4 @@ const ConcertCard: FC<ConcertCardProps> = ({ concert, index }) => {
     </motion.button>
   )
 }
-export default ConcertCard
+export default HomeConcertCard

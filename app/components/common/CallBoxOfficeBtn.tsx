@@ -4,6 +4,7 @@ import React, { FC } from 'react'
 const CallBoxOfficeBtn: FC<{ className?: string }> = ({ className }) => {
   return (
     <Link
+      onClick={(e) => e.stopPropagation()}
       href="tel:19419267677"
       className={`${
         className ?? 'py-4 w-fit px-8'

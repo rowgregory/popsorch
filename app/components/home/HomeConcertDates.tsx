@@ -1,7 +1,7 @@
 import React from 'react'
 import { RootState, useAppSelector } from '@/app/redux/store'
 import TitleWithLine from '../common/TitleWithLine'
-import ConcertCard from './HomeConcertCard'
+import HomeConcertCard from './HomeConcertCard'
 import Link from 'next/link'
 import AwesomeIcon from '../common/AwesomeIcon'
 import { chevronRightIcon } from '@/app/lib/icons'
@@ -39,7 +39,7 @@ const HomeConcertDates = () => {
             <div className="relative w-full mt-20 mb-40 h-full">
               <div className="grid grid-cols-12 gap-y-8 transition-transform duration-300 ease-in-out">
                 {concerts.map((concert: ConcertProps, i) => (
-                  <ConcertCard concert={concert} key={concert.id} index={i} />
+                  <HomeConcertCard concert={concert} key={concert.id} index={i} />
                 ))}
               </div>
             </div>

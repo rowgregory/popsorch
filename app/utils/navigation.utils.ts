@@ -70,6 +70,7 @@ export const getNavigationLinks = (path: string, thereAreConcerts: boolean): Nav
   {
     isButton: true,
     textKey: 'Support',
+    active: ['/chair-sponsorships', '/advertise-with-us'].includes(path),
     links: [
       {
         linkKey: 'https://ci.ovationtix.com/35505/store/donations',
