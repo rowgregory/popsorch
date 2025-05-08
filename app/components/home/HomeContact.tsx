@@ -12,7 +12,7 @@ const HomeContact = () => {
 
   return (
     <div className="px-4 py-40 relative">
-      <Picture src="/images/contact-bg.png" className="object-cover w-full h-full absolute inset-0" priority={false} />
+      <Picture src="/images/contact.png" className="object-cover w-full h-full absolute inset-0" priority={false} />
       <div
         className={`max-w-[520px] 760:max-w-[700px] 990:max-w-[960px] 1200:max-w-screen-1400 mx-auto w-full grid grid-cols-12 items-center relative z-10`}
       >
@@ -33,7 +33,7 @@ const HomeContact = () => {
             href="/contact"
             className="bg-blaze font-changa text-12 text-white px-8 py-4 uppercase font-semibold tracking-widest rounded-sm hover:bg-blazehover duration-300 min-w-36"
           >
-            Take me to contact form
+            Contact form
           </Link>
         </div>
       </div>
