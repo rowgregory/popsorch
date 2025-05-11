@@ -229,9 +229,9 @@ const AdvertiseWithUs = () => {
                       />
                       <EditableTextArea
                         tag="div"
-                        initialValue={textBlockMap?.ADVERTISE_WITH_US_PAGE?.advertiseWithUsWhySidePanelNum4value}
+                        initialValue={textBlockMap?.ADVERTISE_WITH_US_PAGE?.advertiseWithUsWhySidePanelNum5value}
                         type="ADVERTISE_WITH_US_PAGE"
-                        textBlockKey="advertiseWithUsWhySidePanelNum4value"
+                        textBlockKey="advertiseWithUsWhySidePanelNum5value"
                         className="font-semibold text-right pr-4 border-r border-[#555]"
                       />
                       <EditableTextArea
@@ -243,16 +243,16 @@ const AdvertiseWithUs = () => {
                       />
                       <EditableTextArea
                         tag="div"
-                        initialValue={textBlockMap?.ADVERTISE_WITH_US_PAGE?.advertiseWithUsWhySidePanelNum5value}
+                        initialValue={textBlockMap?.ADVERTISE_WITH_US_PAGE?.advertiseWithUsWhySidePanelNu65value}
                         type="ADVERTISE_WITH_US_PAGE"
-                        textBlockKey="advertiseWithUsWhySidePanelNum5value"
+                        textBlockKey="advertiseWithUsWhySidePanelNum6value"
                         className="font-semibold text-right pr-4 border-r border-[#555]"
                       />
                       <EditableTextArea
                         tag="div"
-                        initialValue={textBlockMap?.ADVERTISE_WITH_US_PAGE?.advertiseWithUsWhySidePanelNum5Text}
+                        initialValue={textBlockMap?.ADVERTISE_WITH_US_PAGE?.advertiseWithUsWhySidePanelNum6Text}
                         type="ADVERTISE_WITH_US_PAGE"
-                        textBlockKey="advertiseWithUsWhySidePanelNum5Text"
+                        textBlockKey="advertiseWithUsWhySidePanelNum6Text"
                         className="pl-4"
                       />
                     </div>

@@ -26,16 +26,6 @@ export const logSlice = createSlice({
   reducers: {
     setLogs: (state, { payload }) => {
       state.logs = payload
-    },
-    resetLog: (state) => {
-      state.success = false
-      state.loading = false
-    },
-    resetLogError: (state) => {
-      state.error = errorState
-    },
-    resetLogSuccess: (state) => {
-      state.success = false
     }
   },
   extraReducers: (builder) => {
@@ -51,4 +41,4 @@ export const logSlice = createSlice({
 
 export const logReducer = logSlice.reducer as Reducer<LogStatePayload>
 
-export const { setLogs, resetLog, resetLogError, resetLogSuccess } = logSlice.actions
+export const { setLogs } = logSlice.actions
