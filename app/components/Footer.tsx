@@ -4,38 +4,12 @@ import React from 'react'
 import { getFooterLinks } from '../utils/navigation.utils'
 import useCustomPathname from '../hooks/useCustomPathname'
 import Link from 'next/link'
-import LogoWRobyn from './LogoWRobyn'
 import AwesomeIcon from './common/AwesomeIcon'
-import {
-  chevronUpIcon,
-  facebookIcon,
-  instagramIcon,
-  mapLocationDotIcon,
-  pencilIcon,
-  phoneIcon,
-  youtubeIcon
-} from '../lib/icons'
+import { chevronUpIcon, mapLocationDotIcon, pencilIcon, phoneIcon } from '../lib/icons'
 import TitleWithLine from './common/TitleWithLine'
 import { RootState, useAppSelector } from '../redux/store'
 import EditableTextArea from './common/EditableTextArea'
-
-const socialLinks = [
-  {
-    icon: facebookIcon,
-    linkKey: 'https://www.facebook.com/ThePopsOrchestra',
-    textKey: 'facebook.com/ThePopsOrchestra'
-  },
-  {
-    icon: instagramIcon,
-    linkKey: 'https://www.instagram.com/thepopsorchestra/',
-    textKey: 'instagram.com/ThePopsOrchestra'
-  },
-  {
-    icon: youtubeIcon,
-    linkKey: 'https://www.youtube.com/user/SarasotaPops1',
-    textKey: 'youtube.com/user/SarasotaPops1'
-  }
-]
+import { socialLinks } from '@/public/data/home.data'
 
 const Footer = () => {
   const path = useCustomPathname()
@@ -47,7 +21,7 @@ const Footer = () => {
       <section className="bg-duskgray w-full px-4 pt-28 py-40">
         <div className="max-w-[516px] 760:max-w-[700px] 990:max-w-[960px] 1200:max-w-[1160px] 1400:max-w-1320 w-full mx-auto relative grid grid-cols-12 gap-y-16">
           <div className="col-span-12 990:col-span-4 flex flex-col items-center gap-y-10">
-            <LogoWRobyn imgDimensions="h-60" logoClassname="h-[246px] text-blaze" linkKey="#" />
+            <Link href="/" className={`bg-golden50Logo bg-no-repeat bg-contain bg-center w-60 h-[200px]`} />
             <div className="w-full flex justify-center gap-x-2">
               {socialLinks.map((link, i) => (
                 <a

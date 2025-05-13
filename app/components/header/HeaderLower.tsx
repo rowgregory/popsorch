@@ -6,9 +6,9 @@ import AwesomeIcon from '../common/AwesomeIcon'
 import { barsIcon } from '@/app/lib/icons'
 import { useHeaderAtTop } from '@/app/hooks/useHeaderAtTop'
 import { HeaderNavLink } from './HeaderNavLink'
-import LogoWRobynHeader from '../LogoWRobynHeader'
 import { openNavigationDrawer } from '@/app/redux/features/appSlice'
 import CallBoxOfficeBtn from '../common/CallBoxOfficeBtn'
+import Link from 'next/link'
 
 const HeaderLower = () => {
   const path = useCustomPathname()
@@ -25,18 +25,15 @@ const HeaderLower = () => {
       ref={headerRef}
       className={`${
         !isHome && 'bg-headerbg bg-cover bg-no-repeat bg-center'
-      } transition-all w-full px-4 pt-2 430:px-7 1280:px-14 flex items-center justify-between relative z-50 h-[160px]`}
+      } transition-all w-full px-4 pt-2 430:px-7 1280:px-14 flex items-center justify-between relative z-50 h-[110px] 1200:h-[160px]`}
     >
-      {isHome ? (
-        <LogoWRobynHeader
-          imgDimensions={`h-[80px] 576:h-[120px] 760:h-[150px]`}
-          logoClassname={`h-[80px] 576:h-[120px] 760:h-[150px] text-blaze`}
-        />
-      ) : (
-        <LogoWRobynHeader imgDimensions={`h-[105px]`} logoClassname={`h-[105px] text-blaze`} />
-      )}
-
-      <div className="hidden absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 1200:flex items-center gap-x-10 h-full">
+      <Link
+        href="/"
+        className={`${
+          isHome ? 'bg-golden50Logo' : 'bg-white50Logo'
+        } bg-no-repeat bg-contain bg-center w-24 1200:w-40 h-[80px] 1200:h-[120px]`}
+      />
+      <div className="hidden absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 1200:flex items-center px-5 gap-x-7 h-full">
         {navLinks.map((link, i) =>
           link.isButton ? (
             <HeaderNavLink
@@ -57,7 +54,9 @@ const HeaderLower = () => {
           icon={barsIcon}
           className="w-6 h-6 text-white 1200:hidden block duration-300 hover:text-blaze cursor-pointer"
         />
-        <CallBoxOfficeBtn />
+        <div className="hidden 1200:block">
+          <CallBoxOfficeBtn />
+        </div>
       </div>
     </nav>
   )

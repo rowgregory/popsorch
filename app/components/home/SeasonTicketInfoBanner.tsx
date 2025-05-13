@@ -1,20 +1,29 @@
+'use client'
+
 import React from 'react'
 import CallBoxOfficeBtn from '../common/CallBoxOfficeBtn'
 import Picture from '../common/Picture'
+import EditableTextArea from '../common/EditableTextArea'
+import { RootState, useAppSelector } from '@/app/redux/store'
 
-const HomeDiscount = () => {
+const SeasonTicketInfoBanner = () => {
+  const { textBlockMap } = useAppSelector((state: RootState) => state.textBlock)
+
   return (
     <div className="px-4 py-40">
       <div className="max-w-[520px] 760:max-w-screen-576 990:max-w-[800px] 1200:max-w-screen-1160 1590:max-w-screen-1400 mx-auto w-full flex flex-col 1200:flex-row gap-y-28 990:gap-x-28 items-center">
         <Picture src="/images/calendar-tickets.png" className="aspect-square w-full h-auto" priority={false} />
         <div className="flex flex-col">
-          <h4 className="font-changa text-4xl font-medium mb-7 text-center">
-            Renew now to retain your current seats, lock in last year&apos;s pricing, and enjoy our exciting extending
-            programming
-          </h4>
+          <EditableTextArea
+            tag="h4"
+            initialValue={textBlockMap?.HOME_SEASON_TICKET_INFO_BANNER?.homeSeasonTicketInfoBannerTitle}
+            type="HOME_SEASON_TICKET_INFO_BANNER"
+            textBlockKey="homeSeasonTicketInfoBannerTitle"
+            className="font-changa text-4xl font-medium mb-7 text-center"
+          />
           <p className="font-lato tracking-wider text-zinc-100 mb-3">
             To ensure your same seats from last season, or to change those seats and/or add new seats to your order,
-            call our First Chair Box Office Manager, Terry Fazio, at{' '}
+            call our First Chair Box Office Manager, Terry Fazio, at
             <a href="tel:19419267677" className="text-blaze underline">
               941-926-POPS (7677)
             </a>{' '}
@@ -47,4 +56,4 @@ const HomeDiscount = () => {
   )
 }
 
-export default HomeDiscount
+export default SeasonTicketInfoBanner

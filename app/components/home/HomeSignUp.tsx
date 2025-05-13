@@ -27,7 +27,7 @@ const HomeSignUp = () => {
           className="text-white/80 font-lato mt-7 mb-9 w-full text-center"
         />
         <Link
-          href="/newsletter"
+          href="/connect-with-us"
           className="bg-blaze font-changa text-12 text-white px-8 py-4 uppercase font-semibold tracking-widest rounded-sm hover:bg-blazehover duration-300"
         >
           Sign Me Up

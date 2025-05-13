@@ -92,9 +92,9 @@ export const getNavigationLinks = (path: string, thereAreConcerts: boolean): Nav
   },
   { linkKey: '/contact', textKey: 'Contact', active: path === '/contact' },
   {
-    linkKey: '/newsletter',
-    textKey: 'Newsletter',
-    active: path === '/newsletter'
+    linkKey: '/connect-with-us',
+    textKey: 'Connect With Us',
+    active: path === '/connect-with-us'
   }
 ]
 

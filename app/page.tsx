@@ -3,7 +3,7 @@
 import { useRef } from 'react'
 import HomeConcertDates from './components/home/HomeConcertDates'
 import HomeContact from './components/home/HomeContact'
-import HomeDiscount from './components/home/HomeDiscount'
+import SeasonTicketInfoBanner from './components/home/SeasonTicketInfoBanner'
 import HomeHero from './components/home/HomeHero'
 import HomeSeatMaps from './components/home/HomeSeatMaps'
 import HomeSignUp from './components/home/HomeSignUp'
@@ -22,7 +22,7 @@ const Home = () => {
       <div ref={scrollRef}>
         <HomeConcertDates />
       </div>
-      <HomeDiscount />
+      <SeasonTicketInfoBanner />
       <TicketsBlock />
       <HomeSeatMaps />
       <HomeContact />

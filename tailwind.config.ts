@@ -237,7 +237,9 @@ export default {
       },
       backgroundImage: {
         banner: "url('/images/m-6.jpg')",
-        headerbg: "url('/images/header-bg.png')"
+        headerbg: "url('/images/header-bg.png')",
+        golden50Logo: "url('/images/golden-logo.png')",
+        white50Logo: "url('/images/white-logo.png')"
       },
       animation: {
         'equalizer-1': 'equalizer 0.7s ease-in-out infinite alternate',

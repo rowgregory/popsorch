@@ -145,8 +145,8 @@ const AdvertiseWithUs = () => {
 
                   <p className="mb-4 font-medium leading-relaxed font-lato">
                     <a
-                      href="https://thepopsorchestra.org/wp-content/uploads/2024/10/Ad-rate-sheet.pdf"
-                      target="_blank"
+                      href="/pdf/advertising.pdf"
+                      download="Pops 2025-26 Advertising Form.pdf"
                       className="mr-2 text-blaze"
                     >
                       Download

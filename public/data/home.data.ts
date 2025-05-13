@@ -1,3 +1,5 @@
+import { facebookIcon, instagramIcon, youtubeIcon } from '@/app/lib/icons'
+
 export const corporateSponsors = [
   { img: '/images/charles-schwab-logo.avif' },
   { img: '/images/rbc.png' },
@@ -20,4 +22,22 @@ export const communitySponsors = [
   { img: '/images/csp-10.png' },
   { img: '/images/csp-11.webp' },
   { img: '/images/csp-12.png' }
+]
+
+export const socialLinks = [
+  {
+    icon: facebookIcon,
+    linkKey: 'https://www.facebook.com/ThePopsOrchestra',
+    textKey: 'facebook.com/ThePopsOrchestra'
+  },
+  {
+    icon: instagramIcon,
+    linkKey: 'https://www.instagram.com/thepopsorchestra/',
+    textKey: 'instagram.com/ThePopsOrchestra'
+  },
+  {
+    icon: youtubeIcon,
+    linkKey: 'https://www.youtube.com/user/SarasotaPops1',
+    textKey: 'youtube.com/user/SarasotaPops1'
+  }
 ]

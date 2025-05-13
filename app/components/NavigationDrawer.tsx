@@ -17,60 +17,64 @@ const NavigationDrawer = () => {
   const closeDrawer = () => dispatch(closeNavigationDrawer())
 
   return (
-    <div
-      ref={overlayRef}
-      className={`${
-        navigationDrawer ? 'translate-y-0 ' : '-translate-x-full'
-      } duration-700 no-scrollbar w-full h-full fixed bottom-0 left-0 z-[100] transition-all pb-20 bg-inkblack overflow-y-auto`}
-    >
+    <>
       <CloseBtnSVG
         onClick={closeDrawer}
-        className="text-white w-5 h-5 hover:text-blaze duration-300 absolute top-5 right-5"
+        className={`${
+          navigationDrawer ? 'block' : 'hidden'
+        } text-white w-5 h-5 hover:text-blaze duration-300 fixed top-5 right-5 z-[101]`}
       />
-      <div className="flex flex-col mb-10 w-fit px-8 py-16 gap-y-5">
-        <CallBoxOfficeBtn className="mb-12 h-12 flex items-center justify-center" />
-        {navLinks.map((link, i) => (
-          <div key={i} className="group">
-            {link.linkKey ? (
-              <Link
-                onClick={closeDrawer}
-                href={link.linkKey}
-                key={i}
-                className={`text-sm font-changa tracking-widest font-semibold duration-300 hover:text-blaze uppercase ${
-                  link.active ? 'text-blaze' : 'text-white'
-                }`}
-              >
-                {link.textKey}
-              </Link>
-            ) : (
-              <div key={i}>
-                <div
-                  className={`text-sm font-changa tracking-widest font-semibold duration-300 uppercase ${
+      <div
+        ref={overlayRef}
+        className={`${
+          navigationDrawer ? 'translate-y-0 ' : '-translate-x-full'
+        } duration-700 no-scrollbar w-full h-full fixed bottom-0 left-0 z-[100] transition-all pb-20 bg-inkblack overflow-y-auto flex flex-col items-center`}
+      >
+        <div className="mb-10 px-8 py-16 flex flex-col gap-y-5">
+          <CallBoxOfficeBtn className="mb-12 h-12 flex items-center justify-center" />
+          {navLinks.map((link, i) => (
+            <div key={i} className="group">
+              {link.linkKey ? (
+                <Link
+                  onClick={closeDrawer}
+                  href={link.linkKey}
+                  key={i}
+                  className={`text-lg font-changa tracking-widest font-semibold duration-300 hover:text-blaze uppercase ${
                     link.active ? 'text-blaze' : 'text-white'
                   }`}
                 >
                   {link.textKey}
+                </Link>
+              ) : (
+                <div key={i}>
+                  <div
+                    className={`text-lg font-changa tracking-widest font-semibold duration-300 uppercase ${
+                      link.active ? 'text-blaze' : 'text-white'
+                    }`}
+                  >
+                    {link.textKey}
+                  </div>
+                  <div className="flex flex-col gap-y-3 mt-3 w-full">
+                    {link.links?.map((obj, i) => (
+                      <Link
+                        onClick={closeDrawer}
+                        key={i}
+                        href={obj.linkKey}
+                        className={`ml-4 whitespace-nowrap text-lg font-changa tracking-widest font-semibold duration-300 hover:text-blaze uppercase ${
+                          obj.active ? 'text-blaze' : 'text-white'
+                        }`}
+                      >
+                        - {obj.textKey}
+                      </Link>
+                    ))}
+                  </div>
                 </div>
-                <div className="flex flex-col gap-y-3 mt-3 w-full">
-                  {link.links?.map((obj, i) => (
-                    <Link
-                      onClick={closeDrawer}
-                      key={i}
-                      href={obj.linkKey}
-                      className={`ml-4 whitespace-nowrap text-sm font-changa tracking-widest font-semibold duration-300 hover:text-blaze uppercase ${
-                        obj.active ? 'text-blaze' : 'text-white'
-                      }`}
-                    >
-                      - {obj.textKey}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>{' '}
+    </>
   )
 }
 
