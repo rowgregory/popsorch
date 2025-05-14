@@ -2,7 +2,6 @@
 
 import React from 'react'
 import CallBoxOfficeBtn from '../common/CallBoxOfficeBtn'
-import Picture from '../common/Picture'
 import EditableTextArea from '../common/EditableTextArea'
 import { RootState, useAppSelector } from '@/app/redux/store'
 
@@ -12,7 +11,19 @@ const SeasonTicketInfoBanner = () => {
   return (
     <div className="px-4 py-40">
       <div className="max-w-[520px] 760:max-w-screen-576 990:max-w-[800px] 1200:max-w-screen-1160 1590:max-w-screen-1400 mx-auto w-full flex flex-col 1200:flex-row gap-y-28 990:gap-x-28 items-center">
-        <Picture src="/images/calendar-tickets.png" className="aspect-square w-full h-auto" priority={false} />
+        <video
+          src="/videos/ticket-banner.mp4"
+          className="aspect-square w-full h-auto max-h-[600px] rounded-lg"
+          controls={false}
+          autoPlay={true}
+          loop={true}
+          muted
+          preload="metadata"
+          playsInline
+        >
+          <source src="/videos/ticket-banner.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
         <div className="flex flex-col">
           <EditableTextArea
             tag="h4"
