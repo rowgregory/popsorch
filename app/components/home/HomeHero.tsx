@@ -10,7 +10,7 @@ const HomeHero: FC<{ handleScroll: () => void }> = ({ handleScroll }) => {
   const filteredImages = photoGalleryImages?.filter((item: { isHomeHero: boolean }) => item.isHomeHero)
 
   return (
-    <div className="relative h-dvh w-full mt-[-158px]">
+    <div className="relative h-dvh w-full mt-[-209px]">
       {loading ? (
         <div className="flex h-full w-full items-center justify-center">
           <div className="jumping-dot" />

@@ -19,36 +19,61 @@ const AdminCampApplicationViewDrawer = () => {
 
   return (
     <BottomDrawer isOpen={drawer} onClose={reset}>
-      <div className="w-full mx-auto h-full flex items-center flex-col max-h-1000:justify-start justify-center max-h-1000:my-20">
-        <div className="space-y-7 max-w-screen-sm w-full">
+      <div className="w-full mx-auto h-full flex items-center flex-col max-h-1000:justify-start justify-center max-h-1000:my-20 overflow-y-auto">
+        <div className="space-y-7 max-w-screen-md w-full">
           <div className="flex flex-col items-start justify-start w-fit">
             <h1 className="font-changa text-3xl font-semibold">Camp Application</h1>
             <h2 className="font-changa text-13 font-semibold text-blue-400">{campApplication?.inputs?.id}</h2>
           </div>
-          <div>
-            <h5 className="text-2xl font-changa font-semibold mb-3">Student Details</h5>
-            <ul className="list-disc list-inside ml-4 space-y-1 font-lato text-15 text-[#b2b2b2]">
-              <li>
-                Student Name:
-                <span className="text-white ml-2">
-                  {campApplication?.inputs?.student?.firstName} {campApplication?.inputs?.student?.lastName}
-                </span>
-              </li>
-              <li>
-                Student Email:
-                <span className="text-white ml-2">{campApplication?.inputs?.student?.studentEmailAddress}</span>
-              </li>
-              <li>
-                Student Phone Number:
-                <span className="text-white ml-2">{campApplication?.inputs?.student?.studentPhoneNumber}</span>
-              </li>
-              <li>
-                Grade: <span className="text-white ml-2">{campApplication?.inputs?.student?.grade}</span>
-              </li>
-              <li>
-                School: <span className="text-white ml-2">{campApplication?.inputs?.student?.school}</span>
-              </li>
-            </ul>
+          <div className="flex 760:items-center flex-col 760:flex-row gap-y-10 760:gap-x-10">
+            <div>
+              <h5 className="text-2xl font-changa font-semibold mb-3">Student Details</h5>
+              <ul className="list-disc list-inside ml-4 space-y-1 font-lato text-15 text-[#b2b2b2]">
+                <li>
+                  Student Name:
+                  <span className="text-white ml-2">
+                    {campApplication?.inputs?.student?.firstName} {campApplication?.inputs?.student?.lastName}
+                  </span>
+                </li>
+                <li>
+                  Student Email:
+                  <span className="text-white ml-2">{campApplication?.inputs?.student?.studentEmailAddress}</span>
+                </li>
+                <li>
+                  Student Phone Number:
+                  <span className="text-white ml-2">{campApplication?.inputs?.student?.studentPhoneNumber}</span>
+                </li>
+                <li>
+                  Grade: <span className="text-white ml-2">{campApplication?.inputs?.student?.grade}</span>
+                </li>
+                <li>
+                  School: <span className="text-white ml-2">{campApplication?.inputs?.student?.school}</span>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h5 className="text-2xl font-changa font-semibold mb-3">Parent / Guardian Details</h5>
+              <ul className="list-disc list-inside ml-4 space-y-1 font-lato text-15 text-[#b2b2b2]">
+                <li>
+                  Parent / Guardian Name:
+                  <span className="text-white ml-2">
+                    {campApplication?.inputs?.parent?.firstName} {campApplication?.inputs?.parent?.lastName}
+                  </span>
+                </li>
+                <li>
+                  Relationship to Student:
+                  <span className="text-white ml-2">{campApplication?.inputs?.parent?.relationshipToStudent}</span>
+                </li>
+                <li>
+                  Parent / Guardian Email:
+                  <span className="text-white ml-2">{campApplication?.inputs?.parent?.parentEmailAddress}</span>
+                </li>
+                <li>
+                  Parent / Guardian Phone Number:
+                  <span className="text-white ml-2">{campApplication?.inputs?.parent?.parentPhoneNumber}</span>
+                </li>
+              </ul>
+            </div>
           </div>
           <div className="w-full h-[1px] my-8 bg-zinc-700/70" />
           <div>
@@ -77,26 +102,33 @@ const AdminCampApplicationViewDrawer = () => {
             </ul>
           </div>
           <div className="w-full h-[1px] my-8 bg-zinc-700/70" />
+
           <div>
-            <h5 className="text-2xl font-changa font-semibold mb-3">Parent / Guardian Details</h5>
+            <h5 className="text-2xl font-changa font-semibold mb-3">Instrument & Training</h5>
             <ul className="list-disc list-inside ml-4 space-y-1 font-lato text-15 text-[#b2b2b2]">
               <li>
-                Parent / Guardian Name:
-                <span className="text-white ml-2">
-                  {campApplication?.inputs?.parent?.firstName} {campApplication?.inputs?.parent?.lastName}
-                </span>
+                Instrument
+                <span className="text-white ml-2">{campApplication?.inputs?.instrument}</span>
               </li>
               <li>
-                Relationship to Student:
-                <span className="text-white ml-2">{campApplication?.inputs?.parent?.relationshipToStudent}</span>
+                Music Teacher
+                <span className="text-white ml-2">{campApplication?.inputs?.musicTeacher}</span>
               </li>
               <li>
-                Parent / Guardian Email:
-                <span className="text-white ml-2">{campApplication?.inputs?.parent?.parentEmailAddress}</span>
+                Brass & Percussion:
+                <span className="text-white ml-2">{campApplication?.inputs?.brassAndPercussion}</span>
               </li>
               <li>
-                Parent / Guardian Phone Number:
-                <span className="text-white ml-2">{campApplication?.inputs?.parent?.parentPhoneNumber}</span>
+                Strings:
+                <span className="text-white ml-2">{campApplication?.inputs?.strings}</span>
+              </li>
+              <li>
+                Woodwinds:
+                <span className="text-white ml-2">{campApplication?.inputs?.woodwinds}</span>
+              </li>
+              <li>
+                Referral Source:
+                <span className="text-white ml-2">{campApplication?.inputs?.referralSource}</span>
               </li>
             </ul>
           </div>

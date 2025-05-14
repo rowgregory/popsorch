@@ -13,6 +13,7 @@ import Spinner from '../components/common/Spinner'
 import LogoWRobyn from '../components/LogoWRobynHeader'
 import { useSendPushNotificationMutation } from '../redux/services/pushNotificationApi'
 import { increaseCampApplicationsCount } from '../redux/features/appSlice'
+import validateCampAppStepFourForm from '../validations/validateCampAppStepFourForm'
 
 const instrumentGroups = [
   {
@@ -36,7 +37,7 @@ const CampAppStepFourForm = () => {
   const dispatch = useAppDispatch()
   const { campForm } = useAppSelector((state: RootState) => state.form)
   const { message, success } = useAppSelector((state: RootState) => state.camp)
-  const { handleInput, clearInputs } = createFormActions('campForm', dispatch)
+  const { handleInput, clearInputs, setErrors } = createFormActions('campForm', dispatch)
   const [createCampApplication, { isLoading }] = useCreateCampApplicationMutation()
   const [sendPushNotification] = useSendPushNotificationMutation()
 
@@ -44,6 +45,9 @@ const CampAppStepFourForm = () => {
     e.preventDefault()
 
     try {
+      const isValid = validateCampAppStepFourForm(campForm?.inputs, setErrors)
+      if (!isValid) return
+
       await createCampApplication(campForm?.inputs)
         .unwrap()
         .then(async () => {
@@ -88,6 +92,13 @@ const CampAppStepFourForm = () => {
         <h1 className="text-18 font-changa mb-1 text-[#d3d3d3]">4 / 4</h1>
         <h2 className="text-25 text-white font-changa mb-6">Instrument & Training</h2>
         <div className="flex flex-col gap-y-9 pb-8">
+          <CampInput
+            name="instrument"
+            value={campForm?.inputs?.instrument}
+            handleInput={handleInput}
+            placeholder="What instrument do you play?*"
+            error={campForm?.errors?.instrument}
+          />
           <CampInput
             name="musicTeacher"
             value={campForm?.inputs?.musicTeacher}

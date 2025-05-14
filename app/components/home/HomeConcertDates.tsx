@@ -38,7 +38,7 @@ const HomeConcertDates = () => {
             <ViewAllConcertsLink />
             <div className="relative w-full mt-20 mb-40 h-full">
               <div className="grid grid-cols-12 gap-y-8 transition-transform duration-300 ease-in-out">
-                {concerts.map((concert: ConcertProps, i) => (
+                {concerts?.map((concert: ConcertProps, i) => (
                   <HomeConcertCard concert={concert} key={concert.id} index={i} />
                 ))}
               </div>

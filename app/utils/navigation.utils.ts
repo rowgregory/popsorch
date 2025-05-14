@@ -48,7 +48,7 @@ export const getNavigationLinks = (path: string, thereAreConcerts: boolean): Nav
   {
     isButton: true,
     textKey: 'About',
-    active: ['/about', '/robyn-bell', '/board-and-staff'].includes(path),
+    active: ['/about', '/robyn-bell', '/board-members', '/staff'].includes(path),
     links: [
       {
         textKey: 'The Pops Orchestra',
@@ -61,9 +61,14 @@ export const getNavigationLinks = (path: string, thereAreConcerts: boolean): Nav
         active: path === '/robyn-bell'
       },
       {
-        textKey: 'Board & Staff',
-        linkKey: '/board-and-staff',
-        active: path === '/board-and-staff'
+        textKey: 'Board members',
+        linkKey: '/board-members',
+        active: path === '/board-members'
+      },
+      {
+        textKey: 'Staff',
+        linkKey: '/staff',
+        active: path === '/staff'
       }
     ]
   },

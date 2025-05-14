@@ -9,6 +9,8 @@ import Breadcrumb from '../components/common/Breadcrumb'
 import { VenueProps } from '../types/model.types'
 import RiverviewPACFirstFloorSVG from '../components/svg/RiverviewPACFirstFloorSVG'
 import SCFNeelPACSVG from '../components/svg/SCFNeelPACSVG'
+import SCFNeel2ndHalf from '../components/svg/SCFNeel2ndHalf'
+import RiverviewBalconySVG from '../components/svg/RiverviewBalconySVG'
 
 interface SVGProps {
   visible: boolean
@@ -28,7 +30,9 @@ const Venues = () => {
   const { isLoading } = useFetchVenuesQuery({})
   const { venues } = useAppSelector((state: RootState) => state.venue)
   const [neel, setNeel] = useState<SVGProps>(SVGinitialState)
+  const [neel2, setNeel2] = useState<SVGProps>(SVGinitialState)
   const [riverview, setRiverview] = useState<SVGProps>(SVGinitialState)
+  const [riverview2, setRiverview2] = useState<SVGProps>(SVGinitialState)
 
   return (
     <>
@@ -65,41 +69,77 @@ const Venues = () => {
                     <div className="min-w-[800px] w-full overflow-x-auto">
                       {venue.name === 'Riverview Performing Arts Center' && (
                         <div className="pt-12 flex items-center justify-center flex-col relative">
-                          <h1 className="text-xl mb-6 text-center font-changa">Seat Map</h1>
+                          <h1 className="text-xl mb-6 text-center font-changa">First Floor</h1>
                           <RiverviewPACFirstFloorSVG setRiverview={setRiverview} />
                         </div>
                       )}
                       {venue.name === 'SCF Neel Performing Arts Center' && (
                         <div className="pt-12 flex items-center justify-center flex-col relative">
-                          <h1 className="text-xl mb-6 text-center font-changa">Seat Map</h1>
+                          <h1 className="text-xl mb-6 text-center font-changa">First Half</h1>
                           <SCFNeelPACSVG setNeel={setNeel} />
                         </div>
                       )}
                     </div>
                   </div>
                   {venue.name === 'Riverview Performing Arts Center' && (
-                    <div className="flex items-center justify-center">
-                      <div className="grid grid-cols-2 gap-y-4 py-3 border-y border-zinc-700/70 text-[#b2b2b2] font-lato text-sm">
-                        <div className="font-semibold text-right pr-4 border-r border-[#555]">Level</div>
-                        <div className="pl-4">{riverview.level}</div>
-                        <div className="font-semibold text-right pr-4 border-r border-[#555]">Seat</div>
-                        <div className="pl-4">{riverview.seat}</div>
-                        <div className="font-semibold text-right pr-4 border-r border-[#555]">Price</div>
-                        <div className="pl-4">{riverview.price && `$${riverview.price}`}</div>
+                    <>
+                      <div className="flex items-center justify-center">
+                        <div className="grid grid-cols-2 gap-y-4 py-3 border-y border-zinc-700/70 text-[#b2b2b2] font-lato text-sm">
+                          <div className="font-semibold text-right pr-4 border-r border-[#555]">Level</div>
+                          <div className="pl-4">{riverview.level}</div>
+                          <div className="font-semibold text-right pr-4 border-r border-[#555]">Seat</div>
+                          <div className="pl-4">{riverview.seat}</div>
+                          <div className="font-semibold text-right pr-4 border-r border-[#555]">Price</div>
+                          <div className="pl-4">{riverview.price && `$${riverview.price}`}</div>
+                        </div>
                       </div>
-                    </div>
+                      <h1 className="font-changa text-xl text-center mt-12">Balcony</h1>
+                      <div className="overflow-hidden w-full overflow-x-auto mt-4">
+                        <div className="min-w-[800px] w-full overflow-x-auto">
+                          <RiverviewBalconySVG setRiverviewBalcony={setRiverview2} />
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-center mt-7 mb-28">
+                        <div className="grid grid-cols-2 gap-y-4 py-3 border-y border-zinc-700/70 text-[#b2b2b2] font-lato text-sm">
+                          <div className="font-semibold text-right pr-4 border-r border-[#555]">Level</div>
+                          <div className="pl-4">{riverview2.level}</div>
+                          <div className="font-semibold text-right pr-4 border-r border-[#555]">Seat</div>
+                          <div className="pl-4">{riverview2.seat}</div>
+                          <div className="font-semibold text-right pr-4 border-r border-[#555]">Price</div>
+                          <div className="pl-4">{riverview2.price && `$${riverview2.price}`}</div>
+                        </div>
+                      </div>
+                    </>
                   )}
                   {venue.name === 'SCF Neel Performing Arts Center' && (
-                    <div className="flex items-center justify-center">
-                      <div className="grid grid-cols-2 gap-y-4 py-3 border-y border-zinc-700/70 text-[#b2b2b2] font-lato text-sm">
-                        <div className="font-semibold text-right pr-4 border-r border-[#555]">Level</div>
-                        <div className="pl-4">{neel.level}</div>
-                        <div className="font-semibold text-right pr-4 border-r border-[#555]">Seat</div>
-                        <div className="pl-4">{neel.seat}</div>
-                        <div className="font-semibold text-right pr-4 border-r border-[#555]">Price</div>
-                        <div className="pl-4">{neel.price && `$${neel.price}`}</div>
+                    <>
+                      <div className="flex items-center justify-center">
+                        <div className="grid grid-cols-2 gap-y-4 py-3 border-y border-zinc-700/70 text-[#b2b2b2] font-lato text-sm">
+                          <div className="font-semibold text-right pr-4 border-r border-[#555]">Level</div>
+                          <div className="pl-4">{neel.level}</div>
+                          <div className="font-semibold text-right pr-4 border-r border-[#555]">Seat</div>
+                          <div className="pl-4">{neel.seat}</div>
+                          <div className="font-semibold text-right pr-4 border-r border-[#555]">Price</div>
+                          <div className="pl-4">{neel.price && `$${neel.price}`}</div>
+                        </div>
                       </div>
-                    </div>
+                      <h1 className="font-changa text-xl text-center mt-12">Second Half</h1>
+                      <div className="overflow-hidden w-full overflow-x-auto mt-6">
+                        <div className="min-w-[800px] w-full overflow-x-auto">
+                          <SCFNeel2ndHalf setNeel2ndHalf={setNeel2} />
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-center mt-7">
+                        <div className="grid grid-cols-2 gap-y-4 py-3 border-y border-zinc-700/70 text-[#b2b2b2] font-lato text-sm">
+                          <div className="font-semibold text-right pr-4 border-r border-[#555]">Level</div>
+                          <div className="pl-4">{neel2.level}</div>
+                          <div className="font-semibold text-right pr-4 border-r border-[#555]">Seat</div>
+                          <div className="pl-4">{neel2.seat}</div>
+                          <div className="font-semibold text-right pr-4 border-r border-[#555]">Price</div>
+                          <div className="pl-4">{neel2.price && `$${neel2.price}`}</div>
+                        </div>
+                      </div>
+                    </>
                   )}
                 </div>
               </div>

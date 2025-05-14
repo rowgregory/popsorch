@@ -162,6 +162,7 @@ model CampApplication {
   address            Address?
   parent             Parent?
   consent            Boolean  @default(false)
+  instrument         String   @default("") @db.VarChar(255)
   musicTeacher       String?  @db.VarChar(255)
   strings            String?  @db.VarChar(255)
   brassAndPercussion String?  @db.VarChar(255)

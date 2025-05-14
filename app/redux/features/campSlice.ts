@@ -162,12 +162,10 @@ export const campSlice = createSlice({
       .addMatcher(campApi.endpoints.deleteCampApplication.matchFulfilled, (state, { payload }: any) => {
         state.message = payload.message
         state.loading = false
-        state.success = true
       })
       .addMatcher(campApi.endpoints.fetchCampApplications.matchFulfilled, (state, { payload }: any) => {
         state.campApplications = payload.campApplications
         state.loading = false
-        state.success = true
       })
       .addMatcher(
         (action) => action.type.endsWith('rejected') && action.payload?.data?.sliceName === 'campApi',

@@ -5,13 +5,13 @@ const useSingleImageCarousel = (images: any, interval = 3000) => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length)
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images?.length)
     }, interval)
 
     return () => clearInterval(timer)
   }, [images, interval])
 
-  return images[currentIndex]?.imageUrl
+  return images?.[currentIndex]?.imageUrl
 }
 
 export default useSingleImageCarousel

@@ -6,12 +6,12 @@ const HomeHeroCarousel: FC<{ images: any; interval: number }> = ({ images, inter
 
   return (
     <div className="relative w-full h-full overflow-hidden">
-      {images.map((image: { imageUrl: string }, index: number) => (
+      {images?.map((image: { imageUrl: string }, index: number) => (
         <div
           key={index}
           style={{ backgroundImage: `url(${image.imageUrl})` }}
           className={`bg-no-repeat bg-cover origin-bottom w-full h-full absolute transition-opacity duration-1000 ${
-            image.imageUrl === currentImage ? 'opacity-100' : 'opacity-0'
+            image?.imageUrl === currentImage ? 'opacity-100' : 'opacity-0'
           }`}
         ></div>
       ))}

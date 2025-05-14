@@ -6,6 +6,7 @@ import { sliceCamp } from '@/public/data/api.data'
 
 export async function POST(req: NextRequest) {
   const body = await req.json()
+
   try {
     const {
       consent,
@@ -29,13 +30,15 @@ export async function POST(req: NextRequest) {
       parentLastName,
       relationshipToStudent,
       parentEmailAddress,
-      parentPhoneNumber
+      parentPhoneNumber,
+      instrument
     } = body
 
     const createdCampApplication = await prisma.campApplication.create({
       data: {
         consent,
         musicTeacher,
+        instrument,
         strings,
         woodwinds,
         brassAndPercussion,
