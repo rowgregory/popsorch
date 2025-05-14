@@ -165,14 +165,14 @@ const SCFNeel2ndHalf = ({ setNeel2ndHalf }: any) => {
             // Premium seats before the aisle
             ...Array.from({ length: 8 }, (_, i) => ({
               x: 120 + i * 20,
-              seat: `K${49 - i}`,
+              seat: `L${49 - i}`,
               level: 'Premium',
               price: 50,
               className: amethystHover
             })),
             ...Array.from({ length: 10 }, (_, i) => ({
               x: 280 + i * 20,
-              seat: `K${41 - i}`,
+              seat: `L${41 - i}`,
               level: 'General',
               price: 35,
               className: forestHover
@@ -180,7 +180,7 @@ const SCFNeel2ndHalf = ({ setNeel2ndHalf }: any) => {
 
             ...Array.from({ length: 31 }, (_, i) => ({
               x: 480 + i * 20,
-              seat: `K${31 - i}`,
+              seat: `L${31 - i}`,
               level: 'Premium',
               price: 50,
               className: amethystHover
@@ -208,7 +208,7 @@ const SCFNeel2ndHalf = ({ setNeel2ndHalf }: any) => {
             // Premium seats before the aisle
             ...Array.from({ length: 52 }, (_, i) => ({
               x: 100 + i * 20,
-              seat: `K${52 - i}`,
+              seat: `M${52 - i}`,
               level: 'Premium',
               price: 50,
               className: amethystHover
@@ -319,7 +319,7 @@ const SCFNeel2ndHalf = ({ setNeel2ndHalf }: any) => {
           {[
             ...Array.from({ length: 55 }, (_, i) => ({
               x: 60 + i * 20,
-              seat: `P${55 - i}`,
+              seat: `Q${55 - i}`,
               level: 'General',
               price: 35,
               className: forestHover
