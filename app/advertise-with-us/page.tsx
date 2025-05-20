@@ -132,6 +132,150 @@ const AdvertiseWithUs = () => {
                     className="mb-2 font-changa text-12 font-medium tracking-wider text-sunburst uppercase"
                   />
                 </div>
+                <div className="bg-duskgray p-7 430:p-14 font-medium leading-relaxed font-lato text-[#b2b2b2] flex flex-col">
+                  <div className="max-w-4xl mx-auto border border-gray-300 p-4 rounded-lg">
+                    <h2 className="text-xl font-bold text-center mb-4">
+                      Advertising Rates — Rates apply for one full, regular season (8 concerts: 4 in Sarasota; 4 in
+                      Bradenton)
+                    </h2>
+                    <div className="grid grid-cols-12 gap-4">
+                      <div className="col-span-12 990:col-span-6">
+                        <div className="mb-4">
+                          <h3 className="font-bold uppercase mb-2">Full Page</h3>
+                          <div className="space-y-2">
+                            <div className="flex items-start">
+                              <div className="flex-1">
+                                <div>
+                                  <span className="font-bold text-red-500">Outside Back Cover*</span>
+                                  <span className="float-right font-bold">$1,250</span>
+                                </div>
+                                <div className="text-sm">4-color | 5.75&quot;w x 8.75&quot;h</div>
+                              </div>
+                            </div>
+                            <div className="flex items-start">
+                              <div className="flex-1">
+                                <div>
+                                  <span className="font-bold text-red-500">Inside Front Cover*</span>
+                                  <span className="float-right font-bold">$1,000</span>
+                                </div>
+                                <div className="text-sm">4-color | 5.75&quot;w x 8.75&quot;h</div>
+                              </div>
+                            </div>
+                            <div className="flex items-start">
+                              <div className="flex-1">
+                                <div>
+                                  <span className="font-bold text-red-500">Inside Back Cover*</span>
+                                  <span className="float-right font-bold">$1,000</span>
+                                </div>
+                                <div className="text-sm">4-color | 5.75&quot;w x 8.75&quot;h</div>
+                              </div>
+                            </div>
+                            <div className="flex items-start">
+                              <div className="flex-1">
+                                <div>
+                                  <span className="font-bold text-red-500">Regular*</span>
+                                  <span className="float-right font-bold">$800</span>
+                                </div>
+                                <div className="text-sm">4-color | 4.5&quot;w x 7.5&quot;h</div>
+                              </div>
+                            </div>
+                            <div className="flex items-start">
+                              <div className="flex-1">
+                                <div>
+                                  <span className="font-bold text-red-500">Regular*</span>
+                                  <span className="float-right font-bold">$750</span>
+                                </div>
+                                <div className="text-sm">B&W | 4.5&quot;w x 7.5&quot;h</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="text-sm">
+                          <p>*4 complimentary season tickets</p>
+                          <p>**4 complimentary single concert tickets</p>
+                        </div>
+                        <div className="my-4">
+                          <h3 className="font-bold mb-2">Artwork specifications</h3>
+                          <ul className="text-sm">
+                            <li>• Submit in digital format as press quality PDF, EPS, TIFF or JPEG files</li>
+                            <li>
+                              • Minimum resolution should be 300 dpi{' '}
+                              <span className="font-bold">AT THE ACTUAL SIZE</span>. This includes all placed images,
+                              logo and photos.
+                            </li>
+                            <li>• Submit ads to info@thepopsorchestra.org</li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div className="col-span-12 990:col-span-6">
+                        <div className="mb-4">
+                          <h3 className="font-bold uppercase mb-2">1/2 Page</h3>
+                          <div className="space-y-2">
+                            <div className="flex items-start">
+                              <div className="flex-1">
+                                <div>
+                                  <span className="font-bold text-red-500">Horizontal**</span>
+                                  <span className="float-right font-bold">$350</span>
+                                </div>
+                                <div className="text-sm">4-color | 4.5&quot;w x 3.625&quot;h</div>
+                              </div>
+                            </div>
+                            <div className="flex items-start">
+                              <div className="flex-1">
+                                <div>
+                                  <span className="font-bold text-red-500">Horizontal**</span>
+                                  <span className="float-right font-bold">$300</span>
+                                </div>
+                                <div className="text-sm">B&W | 4.5&quot;w x 3.625&quot;h</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="mb-4">
+                          <h3 className="font-bold uppercase mb-2">1/4 Page</h3>
+                          <div className="space-y-2">
+                            <div className="flex items-start">
+                              <div className="flex-1">
+                                <div>
+                                  <span className="font-bold text-red-500">Vertical</span>
+                                  <span className="float-right font-bold">$200</span>
+                                </div>
+                                <div className="text-sm">4-color | 2.25&quot;w X 3.625&quot;h</div>
+                              </div>
+                            </div>
+                            <div className="flex items-start">
+                              <div className="flex-1">
+                                <div>
+                                  <span className="font-bold text-red-500">Vertical</span>
+                                  <span className="float-right font-bold">$150</span>
+                                </div>
+                                <div className="text-sm">B&W | 2.25&quot;w X 3.625&quot;h</div>
+                              </div>
+                            </div>
+                            <div className="flex items-start">
+                              <div className="flex-1">
+                                <div>
+                                  <span className="font-bold text-red-500">Horizontal**</span>
+                                  <span className="float-right font-bold">$200</span>
+                                </div>
+                                <div className="text-sm">4-color | 4.5&quot;w x 1.75&quot;h</div>
+                              </div>
+                            </div>
+                            <div className="flex items-start">
+                              <div className="flex-1">
+                                <div>
+                                  <span className="font-bold text-red-500">Horizontal**</span>
+                                  <span className="float-right font-bold">$150</span>
+                                </div>
+                                <div className="text-sm">B&W | 4.5&quot;w x 1.75&quot;h</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div className="order-2 1200:order-1 col-span-12 1200:col-span-4 mb-12 1200:mb-0 flex flex-col gap-y-4 gap-x-2 w-full">
                 <div className="bg-duskgray p-7 430:p-14">
