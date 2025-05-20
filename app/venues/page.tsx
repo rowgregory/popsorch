@@ -11,6 +11,7 @@ import RiverviewPACFirstFloorSVG from '../components/svg/RiverviewPACFirstFloorS
 import SCFNeelPACSVG from '../components/svg/SCFNeelPACSVG'
 import SCFNeel2ndHalf from '../components/svg/SCFNeel2ndHalf'
 import RiverviewBalconySVG from '../components/svg/RiverviewBalconySVG'
+import OrchMapLight from '../components/OrchMapLight'
 
 interface SVGProps {
   visible: boolean
@@ -65,6 +66,14 @@ const Venues = () => {
                     <div className="font-semibold text-right pr-4 border-r border-[#555]">Address</div>
                     <div className="pl-4">{venue?.address}</div>
                   </div>
+                  <div className="relative h-[400px] my-6">
+                    <OrchMapLight
+                      latitude={Number(venue.latitude)}
+                      longitude={Number(venue.longitude)}
+                      address={venue?.address}
+                    />
+                  </div>
+                  <div className="border-b border-b-zinc-700/70 w-full h-[1px] my-6" />
                   <div className="overflow-hidden w-full overflow-x-auto mb-8">
                     <div className="min-w-[800px] w-full overflow-x-auto">
                       {venue.name === 'Riverview Performing Arts Center' && (
@@ -74,7 +83,7 @@ const Venues = () => {
                         </div>
                       )}
                       {venue.name === 'SCF Neel Performing Arts Center' && (
-                        <div className="pt-12 flex items-center justify-center flex-col relative">
+                        <div className="flex items-center justify-center flex-col relative">
                           <h1 className="text-xl mb-6 text-center font-changa">First Half</h1>
                           <SCFNeelPACSVG setNeel={setNeel} />
                         </div>

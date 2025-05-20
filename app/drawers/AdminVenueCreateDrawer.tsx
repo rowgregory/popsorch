@@ -10,6 +10,7 @@ import uploadFileToFirebase from '../utils/uploadFileToFirebase'
 import validateVenueForm from '../validations/validateVenueForm'
 import deleteFileFromFirebase from '../utils/deleteFileFromFirebase'
 import { increaseVenuesCount } from '../redux/features/appSlice'
+import getCoordinatesFromAddress from '../utils/getCoordinatesFromAddress'
 
 const AdminVenueCreateDrawer = () => {
   const dispatch = useAppDispatch()
@@ -29,6 +30,13 @@ const AdminVenueCreateDrawer = () => {
 
     const imageUrl = await uploadFileToFirebase(venue.inputs.file, handleUploadProgress, 'image')
 
+    const coordinates = await getCoordinatesFromAddress(venue.inputs.address)
+    if (!coordinates) {
+      setErrors({ address: 'Unable to get location from address.' })
+      setLoading(false)
+      return
+    }
+
     try {
       await createVenue({
         name: venue.inputs.name,
@@ -38,7 +46,9 @@ const AdminVenueCreateDrawer = () => {
         parking: venue.inputs.parking,
         imageFilename: venue.inputs.file.name,
         imageUrl,
-        address: venue.inputs.address
+        address: venue.inputs.address,
+        latitude: String(coordinates.lat),
+        longitude: String(coordinates.lng)
       }).unwrap()
 
       reset()

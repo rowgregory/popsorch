@@ -8,6 +8,7 @@ import VenueForm from '../forms/VenueForm'
 import { useUpdateVenueMutation } from '../redux/services/venueApi'
 import uploadFileToFirebase from '../utils/uploadFileToFirebase'
 import validateVenueForm from '../validations/validateVenueForm'
+import getCoordinatesFromAddress from '../utils/getCoordinatesFromAddress'
 
 const AdminVenueUpdateDrawer = () => {
   const dispatch = useAppDispatch()
@@ -31,6 +32,15 @@ const AdminVenueUpdateDrawer = () => {
         imageUrl = await uploadFileToFirebase(venue.inputs.file, handleUploadProgress, 'image')
       }
 
+      const coordinates = await getCoordinatesFromAddress(venue.inputs.address)
+      if (!coordinates) {
+        setErrors({ address: 'Unable to get location from address.' })
+        setLoading(false)
+        return
+      }
+
+      console.log('coordinates: ', coordinates)
+
       await updateVenue({
         id: venue.inputs.id,
         name: venue.inputs.name,
@@ -43,7 +53,9 @@ const AdminVenueUpdateDrawer = () => {
           imageToDeleteFilename: venue.inputs.imageFilename,
           imageUrl
         }),
-        address: venue.inputs.address
+        address: venue.inputs.address,
+        latitude: String(coordinates.lat),
+        longitude: String(coordinates.lng)
       }).unwrap()
 
       reset()

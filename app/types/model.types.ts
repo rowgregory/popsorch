@@ -8,6 +8,8 @@ export type VenueProps = {
   imageUrl: string
   imageFilename: string
   address: string
+  longitude: string
+  latitude: string
   createdAt: Date
   updatedAt: Date
 }

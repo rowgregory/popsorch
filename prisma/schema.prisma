@@ -128,6 +128,8 @@ model Venue {
   imageUrl             String
   imageFilename        String
   address              String   @default("")
+  longitude            String   @default("")
+  latitude             String   @default("")
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
 }

@@ -19,7 +19,9 @@ export async function PUT(req: NextRequest) {
       imageUrl,
       imageFilename,
       imageToDeleteFilename,
-      address
+      address,
+      latitude,
+      longitude
     } = body
 
     const userHeader = req.headers.get('x-user')!
@@ -57,7 +59,9 @@ export async function PUT(req: NextRequest) {
         parking,
         imageUrl,
         imageFilename,
-        address
+        address,
+        latitude,
+        longitude
       }
     })
 
