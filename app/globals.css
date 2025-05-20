@@ -151,3 +151,13 @@ body.high-contrast h6 {
     top: -0.1px;
   }
 }
+
+.media-swiper .swiper-pagination-bullet {
+  background-color: #da0032;
+  opacity: 0.4;
+}
+
+.media-swiper .swiper-pagination-bullet-active {
+  background-color: #da0032;
+  opacity: 1;
+}

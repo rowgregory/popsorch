@@ -100,6 +100,11 @@ export const getNavigationLinks = (path: string, thereAreConcerts: boolean): Nav
     linkKey: '/connect-with-us',
     textKey: 'Connect With Us',
     active: path === '/connect-with-us'
+  },
+  {
+    linkKey: '/media',
+    textKey: 'Media',
+    active: path === '/media'
   }
 ]
 

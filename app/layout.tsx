@@ -5,6 +5,9 @@ import './globals.css'
 import { cookies } from 'next/headers'
 import { jwtVerify } from 'jose'
 import 'ol/ol.css'
+import 'swiper/css'
+import 'swiper/css/effect-fade'
+import 'swiper/css/pagination'
 
 const inter = Inter({
   subsets: ['latin'],
