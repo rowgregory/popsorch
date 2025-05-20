@@ -22,6 +22,8 @@ const venueState: VenueProps = {
   imageUrl: '',
   imageFilename: '',
   address: '',
+  longitude: '',
+  latitude: '',
   createdAt: new Date(),
   updatedAt: new Date()
 }
