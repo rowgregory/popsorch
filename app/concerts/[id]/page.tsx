@@ -11,7 +11,6 @@ import { ConcertEventDetailsProps, concertEventDetailsState } from '@/app/redux/
 import Breadcrumb from '@/app/components/common/Breadcrumb'
 import OrchMapLight from '@/app/components/OrchMapLight'
 import PublicConcertDetailsEventLocator from '@/app/components/admin/PublicConcertDetailsEventLocator'
-import { getCoordinatesByLocationName } from '@/app/utils/getCoordinatesByLocationName'
 
 const ConcertDetails = ({ concertId }: any) => {
   const { data, isLoading } = useFetchConcertByIdQuery(concertId.id)
@@ -22,8 +21,7 @@ const ConcertDetails = ({ concertId }: any) => {
   useEffect(() => {
     if (concert?.eventDetails && concert?.eventDetails?.length > 0 && !isInitialized) {
       setEventDetails({
-        ...concert?.eventDetails[0],
-        ...getCoordinatesByLocationName(concert?.eventDetails[0]?.location?.name)
+        ...concert?.eventDetails[0]
       })
       setIsInitialized(true)
     }
@@ -70,8 +68,8 @@ const ConcertDetails = ({ concertId }: any) => {
                 </div>
                 <div className="w-full h-[500px] relative my-4 mt-12">
                   <OrchMapLight
-                    latitude={eventDetails.lat}
-                    longitude={eventDetails.long}
+                    latitude={eventDetails?.location?.latitude}
+                    longitude={eventDetails?.location?.longitude}
                     address={eventDetails?.location?.address}
                   />
                 </div>

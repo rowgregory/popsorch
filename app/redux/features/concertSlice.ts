@@ -5,6 +5,8 @@ export interface ConcertEventDetailsLocationProps {
   name: string
   id: string
   address: string
+  latitude: number
+  longitude: number
 }
 
 export interface ConcertEventDetailsProps {
@@ -15,11 +17,11 @@ export interface ConcertEventDetailsProps {
   city: string
   location: ConcertEventDetailsLocationProps
   externalLink: string
-  lat: number
-  long: number
+  latitude: number
+  longitude: number
 }
 
-export const concertEventDetailsLocationState = { name: '', id: '', address: '' }
+export const concertEventDetailsLocationState = { name: '', id: '', address: '', longitude: 0, latitude: 0 }
 
 export const concertEventDetailsState = {
   id: '',
@@ -29,8 +31,8 @@ export const concertEventDetailsState = {
   city: '',
   location: concertEventDetailsLocationState,
   externalLink: '',
-  lat: 0,
-  long: 0
+  latitude: 0,
+  longitude: 0
 }
 
 export interface ConcertProps {

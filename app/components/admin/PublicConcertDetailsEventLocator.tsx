@@ -2,7 +2,6 @@ import { formatDate } from '@/app/utils/date.functions'
 import React, { FC } from 'react'
 import BuyTicketsBtn from '../common/BuyTicketsBtn'
 import CallBoxOfficeBtn from '../common/CallBoxOfficeBtn'
-import { getCoordinatesByLocationName } from '@/app/utils/getCoordinatesByLocationName'
 
 interface PublicConcertDetailsEventLocatorProps {
   setEventDetails: any
@@ -17,15 +16,11 @@ const PublicConcertDetailsEventLocator: FC<PublicConcertDetailsEventLocatorProps
   eventDetails,
   isOnSale
 }) => {
+  console.log(detail)
   return (
     <div className="flex flex-col">
       <div
-        onClick={() =>
-          setEventDetails({
-            ...detail,
-            ...getCoordinatesByLocationName(detail?.location?.name)
-          })
-        }
+        onClick={() => setEventDetails(detail)}
         className={`${
           eventDetails?.location?.name === detail?.location?.name && 'bg-midnightblack'
         } cursor-pointer hover:bg-[#2a2a2a] h-fit rounded-md duration-300 px-2 p-2 -ml-2 relative mb-8`}

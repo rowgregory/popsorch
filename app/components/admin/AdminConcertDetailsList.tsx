@@ -50,7 +50,7 @@ const AdminConcertDetailsList = ({ concert, removeConcertDetails, setInputs }: a
     date: string
     city: string
     dayOfWeek: string
-    location: { venueId: string; name: string }
+    location: { venueId: string; name: string; longitude: string; latitude: string }
     externalLink: string
   }
 

@@ -37,7 +37,7 @@ export type ConcertProps = {
     {
       date: string
       time: string
-      location: { venueId: string; name: string; address: string }
+      location: { venueId: string; name: string; address: string; longitude: string; latitude: string }
       externalLink: string
     }
   ]
@@ -57,7 +57,7 @@ const formInitialState = {
       name: '',
       pressRelease: '',
       description: '',
-      location: { venueId: '', name: '', address: '' },
+      location: { venueId: '', name: '', address: '', longitude: '', latitude: '' },
       eventDetails: [],
       imageUrl: '',
       imageFilename: '',
@@ -237,7 +237,13 @@ const formSlice = createSlice({
         state[formName].inputs.location = null
       } else {
         // If a different venue is clicked, unselect the current one and select the new one
-        state[formName].inputs.location = { venueId: venue.id, name: venue.name, address: venue.address }
+        state[formName].inputs.location = {
+          venueId: venue.id,
+          name: venue.name,
+          address: venue.address,
+          longitude: venue.longitude,
+          latitude: venue.latitude
+        }
       }
     },
     addConcertDetails: (state, { payload }: PayloadAction<{ formName: string; newId: string }>) => {
