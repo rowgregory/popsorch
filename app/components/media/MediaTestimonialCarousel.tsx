@@ -1,43 +1,16 @@
 import React from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Pagination } from 'swiper/modules'
-
-const testimonials = [
-  {
-    name: 'Sarah M.',
-    review:
-      'Absolutely magical performance! The Pops brought so much energy and joy to the stage. It was an unforgettable evening.'
-  },
-  {
-    name: 'James T.',
-    review:
-      'I’ve seen a lot of shows, but nothing compares to the way The Pops connect with the audience. Truly heartwarming and professional.'
-  },
-  {
-    name: 'Olivia K.',
-    review:
-      'My entire family loved the show! The talent, the music, the stories — all top notch. Can’t wait to see them again.'
-  },
-  {
-    name: 'Daniel R.',
-    review:
-      'Their tribute to classic American music gave me goosebumps. The vocals were stunning and the atmosphere electric.'
-  },
-  {
-    name: 'Lena F.',
-    review: 'Such a unique and beautiful performance. The Pops deliver something for everyone, and do it with heart.'
-  },
-  {
-    name: 'Tom A.',
-    review:
-      'A class act from start to finish. You can tell they care deeply about every detail of their show. Highly recommend!'
-  }
-]
+import { RootState, useAppSelector } from '@/app/redux/store'
+import TitleWithLine from '../common/TitleWithLine'
 
 const MediaTestimonialCarousel = () => {
+  const { testimonials } = useAppSelector((state: RootState) => state.testimonial)
   const shouldLoop = testimonials.length >= 3
+
   return (
-    <div className="relative w-full mx-auto pb-12 max-w-sm">
+    <div className={`${testimonials?.length === 0 ? 'hidden' : 'block'} relative w-full mx-auto pb-12 max-w-sm`}>
+      <TitleWithLine title="Testimonials" textBlockKey="mediaPageTestimonialTitle" type="MEDIA_PAGE" />
       <Swiper
         modules={[Autoplay, Pagination]}
         autoplay={{ delay: 7000, disableOnInteraction: false }}

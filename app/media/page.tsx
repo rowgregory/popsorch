@@ -5,7 +5,6 @@ import Breadcrumb from '../components/common/Breadcrumb'
 import MediaPhotoCarousel from '../components/media/MediaPhotoCarousel'
 import MediaVideoPlayer from '../components/media/MediaVideoPlayer'
 import MediaTestimonialCarousel from '../components/media/MediaTestimonialCarousel'
-import TitleWithLine from '../components/common/TitleWithLine'
 
 const Media = () => {
   return (
@@ -16,7 +15,6 @@ const Media = () => {
           <MediaPhotoCarousel />
           <MediaVideoPlayer />
           <div className="mt-20 flex flex-col items-center gap-y-4">
-            <TitleWithLine title="Testimonials" textBlockKey="mediaPageTestimonialTitle" type="MEDIA_PAGE" />
             <MediaTestimonialCarousel />
           </div>
         </div>
