@@ -39,8 +39,6 @@ const AdminVenueUpdateDrawer = () => {
         return
       }
 
-      console.log('coordinates: ', coordinates)
-
       await updateVenue({
         id: venue.inputs.id,
         name: venue.inputs.name,

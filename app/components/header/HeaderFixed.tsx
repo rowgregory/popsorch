@@ -8,7 +8,7 @@ import { HeaderNavLink } from './HeaderNavLink'
 import { openNavigationDrawer } from '@/app/redux/features/appSlice'
 import { barsIcon } from '@/app/lib/icons'
 import CallBoxOfficeBtn from '../common/CallBoxOfficeBtn'
-import LogoSVG from '../svg/LogoSVG'
+import Link from 'next/link'
 
 const HeaderFixed = () => {
   const dispatch = useAppDispatch()
@@ -18,6 +18,7 @@ const HeaderFixed = () => {
   const thereAreConcerts = concerts?.length >= 1
   const navLinks = getNavigationLinks(path, thereAreConcerts)
   const [openDropdown, setOpenDropdown] = useState({ open: false, textKey: '' })
+  const isHome = path === '/'
 
   return (
     <div
@@ -28,7 +29,12 @@ const HeaderFixed = () => {
       }`}
     >
       <div className="max-w-1200 w-full gap-x-4 mx-auto flex items-center justify-between">
-        <LogoSVG className="fill-blaze h-[60px] w-[80px]" fillPath="fill-white text-blaze" />
+        <Link
+          href="/"
+          className={`${
+            isHome ? 'bg-golden50Logo' : 'bg-white50Logo'
+          } bg-no-repeat bg-contain bg-center w-24 1200:w-40 h-14`}
+        />
         <div className="hidden absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 1200:flex items-center gap-x-10 h-full">
           {hasScrolled &&
             navLinks.map((link, i) =>

@@ -72,8 +72,8 @@ const HomeSeatMaps = () => {
             <div className="pl-4">{riverviewBalcony.price && `$${riverviewBalcony.price}`}</div>
           </div>
         </div>
-        <div className="my-20 w-full h-[1px] bg-zinc-700/70" />
-        <h1 className="font-changa text-xl text-center mt-28">Neel SCF Performing Arts Center</h1>
+        <div className="mb-20 w-full h-[1px] bg-zinc-700/70" />
+        <h1 className="font-changa text-xl text-center">Neel SCF Performing Arts Center</h1>
         <div className="overflow-hidden w-full overflow-x-auto mt-6">
           <div className="min-w-[800px] w-full overflow-x-auto">
             <SCFNeelPACSVG setNeel={setNeel} />

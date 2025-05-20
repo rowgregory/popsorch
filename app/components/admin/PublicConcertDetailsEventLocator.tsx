@@ -16,7 +16,6 @@ const PublicConcertDetailsEventLocator: FC<PublicConcertDetailsEventLocatorProps
   eventDetails,
   isOnSale
 }) => {
-  console.log(detail)
   return (
     <div className="flex flex-col">
       <div

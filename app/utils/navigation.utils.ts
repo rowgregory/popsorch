@@ -34,7 +34,7 @@ export const getNavigationLinks = (path: string, thereAreConcerts: boolean): Nav
         active: path === '/student-scholarships'
       },
       {
-        textKey: 'Summer Camp',
+        textKey: 'Camping With The Pops',
         linkKey: '/camp-application',
         active: path === '/camp-application'
       }

@@ -9,7 +9,7 @@ const SeasonTicketInfoBanner = () => {
   const { textBlockMap } = useAppSelector((state: RootState) => state.textBlock)
 
   return (
-    <div className="px-4 py-40">
+    <div className="px-4 pb-40">
       <div className="max-w-[520px] 760:max-w-screen-576 990:max-w-[800px] 1200:max-w-screen-1160 1590:max-w-screen-1400 mx-auto w-full flex flex-col 1200:flex-row gap-y-28 990:gap-x-28 items-center">
         <video
           src="/videos/ticket-banner.mp4"

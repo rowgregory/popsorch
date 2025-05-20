@@ -12,7 +12,16 @@ const HomeContact = () => {
 
   return (
     <div className="px-4 py-40 relative">
-      <Picture src="/images/contact.png" className="object-cover w-full h-full absolute inset-0" priority={false} />
+      <Picture
+        src="/images/contact.png"
+        className="hidden 990:block object-cover w-full h-full absolute inset-0"
+        priority={false}
+      />
+      <Picture
+        src="/images/contact-no-singer.png"
+        className="block 990:hidden object-cover w-full h-full absolute inset-0"
+        priority={false}
+      />
       <div
         className={`max-w-[520px] 760:max-w-[700px] 990:max-w-[960px] 1200:max-w-screen-1400 mx-auto w-full grid grid-cols-12 items-center relative z-10`}
       >

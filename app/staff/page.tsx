@@ -31,7 +31,6 @@ const Staff = () => {
   }
 
   const staff: TeamMemberProps[] = []
-  console.log(teamMembers)
 
   teamMembers?.forEach((teamMember: TeamMemberProps) => {
     if (teamMember.role === 'Staff') {
