@@ -22,6 +22,10 @@ import AwesomeIcon from './components/common/AwesomeIcon'
 import { checkCircleIcon, universalAccessIcon } from './lib/icons'
 import { setToggleAccessibilityDrawer } from './redux/features/appSlice'
 import { useIncreaseAppCountMutation } from './redux/services/metricApi'
+import Hotjar from '@hotjar/browser'
+
+const siteId = 6425784
+const hotjarVersion = 6
 
 const PageWrapper: FC<ClientPageProps> = ({ children, data }) => {
   useFetchAppDataQuery({})
@@ -41,6 +45,10 @@ const PageWrapper: FC<ClientPageProps> = ({ children, data }) => {
       dispatch(setAuthState({ isAuthenticated: data.isAuthenticated, userId: data.id }))
     }
   }, [data, dispatch])
+
+  useEffect(() => {
+    Hotjar.init(siteId, hotjarVersion)
+  }, [])
 
   useEffect(() => {
     const asyncIncraseAppCount = async () => {
