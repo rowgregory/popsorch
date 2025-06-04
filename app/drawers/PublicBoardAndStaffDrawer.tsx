@@ -45,11 +45,11 @@ const PublicBoardAndStaffDrawer = () => {
         </div>
         <div className="w-full h-[1px] bg-zinc-700/70 mb-8"></div>
         <ul className="flex flex-col gap-y-6 list-disc list-outside pl-5">
-          {currentMember?.bio?.split('.').map(
+          {currentMember?.bio?.split('|').map(
             (part, index, arr) =>
               index !== arr.length - 1 && (
                 <li key={index} className="leading-relaxed font-lato">
-                  {part.trim()}.
+                  {part.trim()}
                 </li>
               )
           )}

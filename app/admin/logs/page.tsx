@@ -27,7 +27,7 @@ const Logs = () => {
     }
 
     return (
-      <pre className="text-sm text-zinc-100 p-3 rounded-md overflow-x-auto leading-6 font-mono whitespace-pre-wrap">
+      <pre className="text-sm text-white p-3 rounded-md overflow-x-auto leading-6 font-mono whitespace-pre-wrap">
         {json.split('\n').map((line, i) => {
           return (
             <div key={i}>
@@ -112,7 +112,7 @@ const Logs = () => {
               (log: { id: string; level: string; message: string; metadata: string | object; createdAt: string }) => (
                 <div key={log.id}>
                   <div
-                    className="grid grid-cols-[1fr_2fr_5fr_1fr_auto] gap-x-4 py-2 text-sm text-zinc-300 cursor-pointer font-lato duration-300 hover:bg-midnightblack"
+                    className="grid grid-cols-[1fr_2fr_5fr_1fr_auto] gap-x-4 py-2 text-sm text-white cursor-pointer font-lato duration-300 hover:bg-midnightblack"
                     onClick={() => handleRowClick(log.id)}
                   >
                     <div className={`${log.level === 'info' ? 'text-lime-500' : 'text-rose-500'} pl-3 w-16`}>

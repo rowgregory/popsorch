@@ -12,7 +12,7 @@ const AuthInput: FC<AuthInputProps> = ({ name, value, onChange, label, error }) 
   return (
     <div className="flex flex-col gap-y-1 w-full relative">
       <div className="flex items-center gap-x-1">
-        <label htmlFor={name} className="font-semibold font-lato text-13 text-zinc-200 capitalize">
+        <label htmlFor={name} className="font-semibold font-lato text-13 text-white capitalize">
           {label}
         </label>
       </div>

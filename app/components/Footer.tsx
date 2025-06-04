@@ -41,7 +41,7 @@ const Footer = () => {
               type="FOOTER_BLOCK"
               textBlockKey="contactInfoTitle"
             />
-            <ul className="flex flex-col items-center gap-y-3 text-[#b2b2b2] font-lato">
+            <ul className="flex flex-col items-center gap-y-3 text-white font-lato">
               <li className="flex items-center gap-x-2">
                 <AwesomeIcon icon={pencilIcon} className="text-blaze w-3.5 h-3.5" />
                 <EditableTextArea
@@ -83,7 +83,7 @@ const Footer = () => {
                   href={link.linkKey}
                   target={link.textKey === 'Donations' ? '_blank' : ''}
                   key={i}
-                  className="text-[#b2b2b2] font-lato cursor-pointer duration-300 hover:text-blaze"
+                  className="text-white font-lato cursor-pointer duration-300 hover:text-blaze"
                 >
                   {link.textKey}
                 </Link>

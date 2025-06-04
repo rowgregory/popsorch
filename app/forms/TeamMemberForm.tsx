@@ -70,6 +70,7 @@ const TeamMemberForm: FC<{ handleSubmit: any; loading: boolean }> = ({ handleSub
                 value={teamMember?.inputs?.bio}
                 onChange={handleInput}
                 label="Bio*"
+                subLabel="Sqysh will turn your sentences into bullet points—just add a pipe ( | ) after each period so I know where to split them."
                 rows={15}
                 error={teamMember?.errors?.bio}
               />

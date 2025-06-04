@@ -108,7 +108,7 @@ const CampAppStepFourForm = () => {
           />
           {instrumentGroups.map(({ name, label, instruments }) => (
             <div key={name} className="flex flex-col">
-              <h3 className="text-zinc-300 text-sm font-lato mb-3">{label}</h3>
+              <h3 className="text-white text-sm font-lato mb-3">{label}</h3>
               <div className="grid grid-cols-12 gap-y-5 760:gap-x-5">
                 {instruments.map((instrument) => (
                   <CampRadioBtn

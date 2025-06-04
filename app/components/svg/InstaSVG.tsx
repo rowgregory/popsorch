@@ -10,7 +10,7 @@ const InstaSVG = () => {
       height="25"
       preserveAspectRatio="xMidYMid meet"
       version="1.0"
-      className="fill-current text-[#b2b2b2]"
+      className="fill-current text-white"
     >
       <defs>
         <clipPath id="0fc35d308a">

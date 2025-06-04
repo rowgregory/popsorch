@@ -12,7 +12,7 @@ interface AuthSelectProps {
 const AuthSelect: FC<AuthSelectProps> = ({ label, value, onChange, items, name, error }) => {
   return (
     <div className="flex flex-col gap-y-1">
-      <label htmlFor={name} className="font-semibold font-lato text-13 text-zinc-200 capitalize">
+      <label htmlFor={name} className="font-semibold font-lato text-13 text-white capitalize">
         {label}
       </label>
       <select

@@ -23,7 +23,7 @@ const SponsorsBlock = () => {
           A big thanks to our sponsors for their generous support in making everything we do possible
         </p>
         <div className="grid grid-cols-12 gap-y-10 576:gap-x-10 w-full">
-          <h1 className="col-span-12 990:col-span-4 border-l-3 border-l-blaze pl-5 text-2xl 576:text-3xl text-zinc-200 dark:text-zinc-200 h-fit mb-5 990:mb-0 font-changa">
+          <h1 className="col-span-12 990:col-span-4 border-l-3 border-l-blaze pl-5 text-2xl 576:text-3xl text-white h-fit mb-5 990:mb-0 font-changa">
             Corporate Sponsors
           </h1>
           <div className="grid grid-cols-12 col-span-12 990:col-span-8 gap-3 md:gap-6">
@@ -33,7 +33,7 @@ const SponsorsBlock = () => {
           </div>
         </div>
         <div className="mt-28 grid grid-cols-12 gap-y-10 576:gap-x-10 w-full">
-          <h1 className="col-span-12 990:col-span-4 border-l-3 border-l-blaze pl-5 text-3xl text-zinc-200 dark:text-zinc-200 h-fit mb-5 990:mb-0 font-changa">
+          <h1 className="col-span-12 990:col-span-4 border-l-3 border-l-blaze pl-5 text-3xl text-white h-fit mb-5 990:mb-0 font-changa">
             Community Sponsors
           </h1>
           <div className="grid grid-cols-12 col-span-12 990:col-span-8 gap-3 md:gap-6">

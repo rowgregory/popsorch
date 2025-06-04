@@ -229,7 +229,9 @@ export default {
         cottoncandypink: '#f587c1',
         dullchartreuse: '#7daf00',
         duskgray: '#222',
-        inkblack: '#1a1a1a'
+        inkblack: '#1a1a1a',
+        gold1: '#db9e45',
+        gold2: '#f5b424'
       },
       maxWidth: {
         1190: '1190px',
@@ -239,7 +241,8 @@ export default {
         banner: "url('/images/m-6.jpg')",
         headerbg: "url('/images/header-bg.png')",
         golden50Logo: "url('/images/golden-logo.png')",
-        white50Logo: "url('/images/white-logo.png')"
+        white50Logo: "url('/images/white-logo.png')",
+        'gold-gradient': 'linear-gradient(to right, #db9e45, #f5b424)'
       },
       animation: {
         'equalizer-1': 'equalizer 0.7s ease-in-out infinite alternate',

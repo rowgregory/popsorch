@@ -34,10 +34,10 @@ const Ticket: FC<TicketTypes> = ({ isSeason, ticket, index }) => {
         ${isSeason ? ticket?.seasonTicket?.price : ticket?.individualTicket?.price}
       </p>
       <div className="w-full h-[1px] bg-zinc-700/70 mb-8" />
-      <p className="text-zinc-300 font-lato mb-5 text-center">
+      <p className="text-white font-lato mb-5 text-center">
         {isSeason ? 'Includes Add On shows at discounted rate' : 'Full price applies to all Add-On shows'}
       </p>
-      <p className="text-zinc-300 font-lato flex flex-col text-center mb-12">
+      <p className="text-white font-lato flex flex-col text-center mb-12">
         {isSeason && (
           <>
             Price per Show

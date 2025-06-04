@@ -95,7 +95,7 @@ const AdminMailChimpSubscriberRow: FC<MemberProps> = ({
           </div>
           <div className="col-span-12 990:col-span-4 pt-4 990:pt-0">
             <h3 className="text-2xl font-changa mb-2">Engagement Metrics</h3>
-            <ul className="text-zinc-300">
+            <ul className="text-white">
               <li className="flex items-center gap-x-2">
                 Average Open Rate: <span className="text-white font-changa text-xl">{stats.avgOpenRate}</span>
               </li>

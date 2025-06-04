@@ -22,7 +22,7 @@ const RobynBell = () => {
           <div className="max-w-[520px] 760:max-w-screen-576 990:max-w-[800px] 1200:max-w-screen-1160 1590:max-w-screen-1400 w-full mx-auto grid grid-cols-12 990:gap-x-12 pt-32 pb-44">
             <div className="order-2 1200:order-1 col-span-12 1200:col-span-8 mb-12 1200:mb-0 flex flex-col gap-y-4 gap-x-2 w-full">
               <Picture src="/images/robyn-2.png" className="w-full h-full aspect-video" priority={true} />
-              <div className="bg-duskgray p-7 430:p-14 font-medium leading-relaxed font-lato text-[#b2b2b2] flex flex-col mb-20">
+              <div className="bg-duskgray p-7 430:p-14 font-medium leading-relaxed font-lato text-white flex flex-col mb-20">
                 <EditableTextArea
                   tag="h1"
                   initialValue={textBlockMap?.ROBYN_BELL_PAGE?.robynBellPageTitle || 'Robyn Bell makes the show!'}
@@ -89,7 +89,7 @@ const RobynBell = () => {
                   initialValue={textBlockMap?.ROBYN_BELL_PAGE?.robynBellPageSidePanelP1}
                   type="ROBYN_BELL_PAGE"
                   textBlockKey="robynBellPageSidePanelP1"
-                  className="mb-4 text-[#b2b2b2] font-medium leading-relaxed font-lato"
+                  className="mb-4 text-white font-medium leading-relaxed font-lato"
                 />
               </div>
             </div>

@@ -34,14 +34,14 @@ const About = () => {
                   initialValue={textBlockMap?.ABOUT_PAGE?.aboutPageSidePanelP1}
                   type="ABOUT_PAGE"
                   textBlockKey="aboutPageSidePanelP1"
-                  className="mb-4 text-[#b2b2b2] font-medium leading-relaxed font-lato"
+                  className="mb-4 text-white font-medium leading-relaxed font-lato"
                 />
                 <EditableTextArea
                   tag="p"
                   initialValue={textBlockMap?.ABOUT_PAGE?.aboutPageSidePanelP2}
                   type="ABOUT_PAGE"
                   textBlockKey="aboutPageSidePanelP2"
-                  className="text-[#b2b2b2] font-medium leading-relaxed font-lato mb-10"
+                  className="text-white font-medium leading-relaxed font-lato mb-10"
                 />
                 <Picture
                   src="/images/cc.png"
@@ -52,7 +52,7 @@ const About = () => {
             </div>
             <div className="order-1 1200:order-2 col-span-12 1200:col-span-8 flex flex-col w-full">
               <Picture src="/images/about-1.jpg" className="w-full h-full aspect-video" priority={false} />
-              <div className="bg-duskgray p-7 430:p-14 font-medium leading-relaxed font-lato text-[#b2b2b2] flex flex-col mb-20">
+              <div className="bg-duskgray p-7 430:p-14 font-medium leading-relaxed font-lato text-white flex flex-col mb-20">
                 <EditableTextArea
                   tag="p"
                   initialValue={textBlockMap?.ABOUT_PAGE?.aboutPageMainP1}

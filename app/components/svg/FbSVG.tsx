@@ -10,7 +10,7 @@ const FbSVG: FC<{ classname?: string }> = ({ classname }) => {
       height="20"
       preserveAspectRatio="xMidYMid meet"
       version="1.0"
-      className={`cursor-pointer fill-current text-[#b2b2b2] ${classname}`}
+      className={`cursor-pointer fill-current text-white ${classname}`}
     >
       <defs>
         <clipPath id="c61c31237f">

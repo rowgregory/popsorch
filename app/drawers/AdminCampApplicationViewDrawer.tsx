@@ -28,7 +28,7 @@ const AdminCampApplicationViewDrawer = () => {
           <div className="flex 760:items-center flex-col 760:flex-row gap-y-10 760:gap-x-10">
             <div>
               <h5 className="text-2xl font-changa font-semibold mb-3">Student Details</h5>
-              <ul className="list-disc list-inside ml-4 space-y-1 font-lato text-15 text-[#b2b2b2]">
+              <ul className="list-disc list-inside ml-4 space-y-1 font-lato text-15 text-white">
                 <li>
                   Student Name:
                   <span className="text-white ml-2">
@@ -53,7 +53,7 @@ const AdminCampApplicationViewDrawer = () => {
             </div>
             <div>
               <h5 className="text-2xl font-changa font-semibold mb-3">Parent / Guardian Details</h5>
-              <ul className="list-disc list-inside ml-4 space-y-1 font-lato text-15 text-[#b2b2b2]">
+              <ul className="list-disc list-inside ml-4 space-y-1 font-lato text-15 text-white">
                 <li>
                   Parent / Guardian Name:
                   <span className="text-white ml-2">
@@ -78,7 +78,7 @@ const AdminCampApplicationViewDrawer = () => {
           <div className="w-full h-[1px] my-8 bg-zinc-700/70" />
           <div>
             <h5 className="text-2xl font-changa font-semibold mb-3">Address</h5>
-            <ul className="list-disc list-inside ml-4 space-y-1 font-lato text-15 text-[#b2b2b2]">
+            <ul className="list-disc list-inside ml-4 space-y-1 font-lato text-15 text-white">
               <li>
                 Address Line 1:
                 <span className="text-white ml-2">{campApplication?.inputs?.address?.addressLine1}</span>
@@ -105,7 +105,7 @@ const AdminCampApplicationViewDrawer = () => {
 
           <div>
             <h5 className="text-2xl font-changa font-semibold mb-3">Instrument & Training</h5>
-            <ul className="list-disc list-inside ml-4 space-y-1 font-lato text-15 text-[#b2b2b2]">
+            <ul className="list-disc list-inside ml-4 space-y-1 font-lato text-15 text-white">
               <li>
                 Instrument
                 <span className="text-white ml-2">{campApplication?.inputs?.instrument}</span>

@@ -32,7 +32,7 @@ const SeasonTicketInfoBanner = () => {
             textBlockKey="homeSeasonTicketInfoBannerTitle"
             className="font-changa text-4xl font-medium mb-7 text-center"
           />
-          <p className="font-lato tracking-wider text-zinc-100 mb-3">
+          <p className="font-lato tracking-wider text-white mb-3">
             To ensure your same seats from last season, or to change those seats and/or add new seats to your order,
             call our First Chair Box Office Manager, Terry Fazio, at
             <a href="tel:19419267677" className="text-blaze underline">
@@ -44,15 +44,15 @@ const SeasonTicketInfoBanner = () => {
             </a>
             .
           </p>
-          <p className="font-lato tracking-wider text-zinc-100 mb-3">
+          <p className="font-lato tracking-wider text-white mb-3">
             If you were not a season ticket holder last year but would like to purchase season tickets for this year,
             you may do that starting on <span className="text-blaze font-semibold">Monday, June 16</span>.
           </p>
-          <p className="font-lato tracking-wider text-zinc-100 mb-3">
+          <p className="font-lato tracking-wider text-white mb-3">
             If you only want to purchase single show tickets for next season, you may do that starting on{' '}
             <span className="text-blaze font-semibold">Friday, August 1</span>.
           </p>
-          <p className="font-lato tracking-wider text-zinc-100">
+          <p className="font-lato tracking-wider text-white">
             If you purchase the <span className="italic">“Add On”</span> shows at the same time as your season ticket
             package, the reduced season ticket price will remain in effect. The cost of all tickets goes to full price
             on <span className="text-blaze font-semibold">Friday, August 1</span>.

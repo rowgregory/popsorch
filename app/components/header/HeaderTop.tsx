@@ -9,30 +9,30 @@ const HeaderTop = () => {
   return (
     <section className="h-12 w-full bg-duskgray px-4 430:px-7 1280:px-14 flex items-center justify-between relative z-50">
       <div className="flex items-center gap-x-3">
-        <h1 className="text-12 uppercase font-changa text-[#b2b2b2] hidden 430:block">Follow Us:</h1>
+        <h1 className="text-12 uppercase font-changa text-white hidden 430:block">Follow Us:</h1>
         <a href="https://www.facebook.com/ThePopsOrchestra" target="_blank">
           <AwesomeIcon
             icon={facebookIcon}
-            className="w-4 h-4 text-[#b2b2b2] cursor-pointer duration-300 hover:text-blaze"
+            className="w-4 h-4 text-white cursor-pointer duration-300 hover:text-blaze"
           />
         </a>
         <a href="https://www.instagram.com/thepopsorchestra/" target="_blank">
           <AwesomeIcon
             icon={instagramIcon}
-            className="w-4 h-4 text-[#b2b2b2] cursor-pointer duration-300 hover:text-blaze"
+            className="w-4 h-4 text-white cursor-pointer duration-300 hover:text-blaze"
           />
         </a>
         <a href="https://www.youtube.com/user/SarasotaPops1" target="_blank">
           <AwesomeIcon
             icon={youtubeIcon}
-            className="w-4 h-4 text-[#b2b2b2] ml-1 cursor-pointer duration-300 hover:text-blaze"
+            className="w-4 h-4 text-white ml-1 cursor-pointer duration-300 hover:text-blaze"
           />
         </a>
       </div>
       <div className="flex items-center gap-x-6">
         <Link
           href={isAuthenticated ? '/admin/dashboard' : '/auth/login'}
-          className="text-12 uppercase font-changa text-[#b2b2b2] duration-300 hover:text-blaze"
+          className="text-12 uppercase font-changa text-white duration-300 hover:text-blaze"
         >
           {isAuthenticated ? 'Admin Dashboard' : 'Login / Register'}
         </Link>

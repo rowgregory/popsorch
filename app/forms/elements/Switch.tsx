@@ -19,11 +19,11 @@ const Switch: FC<SwitchProps> = ({ enabled, onChange, isLoading, name, color }) 
         e.stopPropagation()
         inputRef?.current?.click()
       }}
-      className={`relative w-20 h-10 flex items-center rounded-full transition-colors duration-300 bg-duskgray`}
+      className={`relative w-20 h-10 flex items-center rounded-full transition-colors duration-300 bg-zinc-800 border-1 border-zinc-700`}
     >
       <span
         className={`absolute left-2 w-7 h-7 rounded-full shadow-md transition-all duration-300 flex items-center justify-center ${
-          enabled ? `translate-x-9 ${color ? `bg-${color}` : 'bg-blaze'}` : 'translate-x-0 bg-inkblack'
+          enabled ? `translate-x-9 ${color ? `bg-${color}` : 'bg-blaze'}` : 'translate-x-0 bg-zinc-900'
         }`}
       >
         {isLoading && (

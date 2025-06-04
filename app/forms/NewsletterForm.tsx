@@ -122,6 +122,7 @@ const NewsletterForm: FC<{ handleSubmit: any; isLoading: boolean }> = ({ handleS
                       enabled={newsletterForm?.inputs?.isOption1 || false}
                       onChange={handleToggle}
                       name="isOption1"
+                      color="blaze"
                     />
                     <div className="font-semibold text-sm">Season Tickets</div>
                   </div>
@@ -130,6 +131,7 @@ const NewsletterForm: FC<{ handleSubmit: any; isLoading: boolean }> = ({ handleS
                       enabled={newsletterForm?.inputs?.isOption2 || false}
                       onChange={handleToggle}
                       name="isOption2"
+                      color="blaze"
                     />
                     <div className="font-semibold text-sm">Special Events</div>
                   </div>
@@ -138,6 +140,7 @@ const NewsletterForm: FC<{ handleSubmit: any; isLoading: boolean }> = ({ handleS
                       enabled={newsletterForm?.inputs?.isOption3 || false}
                       onChange={handleToggle}
                       name="isOption3"
+                      color="blaze"
                     />
                     <div className="font-semibold text-sm">Youth Education</div>
                   </div>
@@ -146,6 +149,7 @@ const NewsletterForm: FC<{ handleSubmit: any; isLoading: boolean }> = ({ handleS
                       enabled={newsletterForm?.inputs?.isOption4 || false}
                       onChange={handleToggle}
                       name="isOption4"
+                      color="blaze"
                     />
                     <div className="font-semibold text-sm">Other</div>
                   </div>
@@ -164,6 +168,7 @@ const NewsletterForm: FC<{ handleSubmit: any; isLoading: boolean }> = ({ handleS
                       enabled={newsletterForm?.inputs?.isNewPatron || false}
                       onChange={handleToggle}
                       name="isNewPatron"
+                      color="blaze"
                     />
                     <div className="font-semibold text-sm">Are You A New Patron of The Pops?</div>
                   </div>
@@ -175,6 +180,7 @@ const NewsletterForm: FC<{ handleSubmit: any; isLoading: boolean }> = ({ handleS
                       enabled={newsletterForm?.inputs?.agreedToPrivacyStatement || false}
                       onChange={handleToggle}
                       name="agreedToPrivacyStatement"
+                      color="blaze"
                     />
                     <div className="font-semibold text-sm">
                       I agree with the storage and handling of my data by this website.

@@ -96,10 +96,7 @@ const ChairSponsorships = () => {
 
                 <EditableTextArea
                   tag="p"
-                  initialValue={
-                    textBlockMap?.CHAIR_SPONSORSHIP_PAGE?.chairSponsorshipBox2P1 ||
-                    ` We have three sponsorship levels for each musician&apos;s role. Donors will be recognized in the program book throughout the season next to your musician. Some of our musicians have multiple sponsors who are recognized per level of donation.`
-                  }
+                  initialValue={textBlockMap?.CHAIR_SPONSORSHIP_PAGE?.chairSponsorshipBox2P1}
                   type="CHAIR_SPONSORSHIP_PAGE"
                   textBlockKey="chairSponsorshipBox2P1"
                   className="text-[#cacaca] font-lato text-center mt-8"
@@ -108,7 +105,7 @@ const ChairSponsorships = () => {
               <div className="col-span-12 1200:col-span-6 overflow-x-auto">
                 <table className="w-full border-collapse text-white font-lato border-[#1C1C1C] min-w-[400px] overflow-x-auto">
                   <thead>
-                    <tr className="bg-sunburst text-black">
+                    <tr className="bg-gold-gradient text-black">
                       <th className=""></th>
                       <EditableTextArea
                         tag="th"
@@ -312,7 +309,7 @@ const ChairSponsorships = () => {
                     className="w-80 h-auto aspect-square object-cover"
                   />
                   <p className="text-3xl font-changa mt-4 mb-2">{currentItem.title}</p>
-                  <p className="text-center text-zinc-200">{currentItem.text}</p>
+                  <p className="text-center text-white">{currentItem.text}</p>
                 </div>
               </div>
             </div>

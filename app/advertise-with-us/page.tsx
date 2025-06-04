@@ -23,7 +23,7 @@ const AdvertiseWithUs = () => {
             <>
               <div className="order-2 1200:order-1 col-span-12 1200:col-span-8 mb-4 1200:mb-0 flex flex-col gap-y-4 gap-x-2 w-full">
                 <Picture src="/images/awu.jpg" className="w-full h-full aspect-video" priority={true} />
-                <div className="bg-duskgray p-7 430:p-14 font-medium leading-relaxed font-lato text-[#b2b2b2] flex flex-col">
+                <div className="bg-duskgray p-7 430:p-14 font-medium leading-relaxed font-lato text-white flex flex-col">
                   <EditableTextArea
                     tag="h1"
                     initialValue={textBlockMap?.ADVERTISE_WITH_US_PAGE?.advertiseWithUsTitle}
@@ -43,7 +43,7 @@ const AdvertiseWithUs = () => {
                     initialValue={textBlockMap?.ADVERTISE_WITH_US_PAGE?.advertiseWithUsWhyDesc1}
                     type="ADVERTISE_WITH_US_PAGE"
                     textBlockKey="advertiseWithUsWhyDesc1"
-                    className="mb-4 text-zinc-300"
+                    className="mb-4 text-white"
                   />
 
                   <EditableTextArea
@@ -58,7 +58,7 @@ const AdvertiseWithUs = () => {
                     initialValue={textBlockMap?.ADVERTISE_WITH_US_PAGE?.advertiseWithUsWhyDesc2}
                     type="ADVERTISE_WITH_US_PAGE"
                     textBlockKey="advertiseWithUsWhyDesc2"
-                    className="mb-4 text-zinc-300"
+                    className="mb-4 text-white"
                   />
 
                   <EditableTextArea
@@ -74,7 +74,7 @@ const AdvertiseWithUs = () => {
                     initialValue={textBlockMap?.ADVERTISE_WITH_US_PAGE?.advertiseWithUsWhyDesc3}
                     type="ADVERTISE_WITH_US_PAGE"
                     textBlockKey="advertiseWithUsWhyDesc3"
-                    className="mb-4 text-zinc-300"
+                    className="mb-4 text-white"
                   />
 
                   <EditableTextArea
@@ -90,7 +90,7 @@ const AdvertiseWithUs = () => {
                     initialValue={textBlockMap?.ADVERTISE_WITH_US_PAGE?.advertiseWithUsWhyDesc4}
                     type="ADVERTISE_WITH_US_PAGE"
                     textBlockKey="advertiseWithUsWhyDesc4"
-                    className="mb-4 text-zinc-300"
+                    className="mb-4 text-white"
                   />
 
                   <EditableTextArea
@@ -106,7 +106,7 @@ const AdvertiseWithUs = () => {
                     initialValue={textBlockMap?.ADVERTISE_WITH_US_PAGE?.advertiseWithUsWhyDesc5}
                     type="ADVERTISE_WITH_US_PAGE"
                     textBlockKey="advertiseWithUsWhyDesc5"
-                    className="mb-4 text-zinc-300"
+                    className="mb-4 text-white"
                   />
                   <EditableTextArea
                     tag="h2"
@@ -121,7 +121,7 @@ const AdvertiseWithUs = () => {
                     initialValue={textBlockMap?.ADVERTISE_WITH_US_PAGE?.advertiseWithUsWhyDesc6}
                     type="ADVERTISE_WITH_US_PAGE"
                     textBlockKey="advertiseWithUsWhyDesc6"
-                    className="mb-4 text-zinc-300"
+                    className="mb-4 text-white"
                   />
 
                   <EditableTextArea
@@ -132,7 +132,7 @@ const AdvertiseWithUs = () => {
                     className="mb-2 font-changa text-12 font-medium tracking-wider text-sunburst uppercase"
                   />
                 </div>
-                <div className="bg-duskgray p-7 430:p-14 font-medium leading-relaxed font-lato text-[#b2b2b2] flex flex-col">
+                <div className="bg-duskgray p-7 430:p-14 font-medium leading-relaxed font-lato text-white flex flex-col">
                   <div className="max-w-4xl mx-auto border border-gray-300 p-4 rounded-lg">
                     <h2 className="text-xl font-bold text-center mb-4">
                       Advertising Rates — Rates apply for one full, regular season (8 concerts: 4 in Sarasota; 4 in
@@ -301,7 +301,7 @@ const AdvertiseWithUs = () => {
                       initialValue={textBlockMap?.ADVERTISE_WITH_US_PAGE?.advertiseWithUsWhySidePanelDownloadP}
                       type="ADVERTISE_WITH_US_PAGE"
                       textBlockKey="advertiseWithUsWhySidePanelDownloadP"
-                      className="text-zinc-300"
+                      className="text-white"
                     />
                   </p>
                 </div>
@@ -314,7 +314,7 @@ const AdvertiseWithUs = () => {
                     className="font-changa text-2xl text-blaze mb-5 text-center max-w-60 mx-auto"
                   />
                   <div className="flex items-center justify-center">
-                    <div className="grid grid-cols-2 gap-y-4 py-3 border-y border-zinc-700/70 text-[#b2b2b2] font-lato text-sm">
+                    <div className="grid grid-cols-2 gap-y-4 py-3 border-y border-zinc-700/70 text-white font-lato text-sm">
                       <EditableTextArea
                         tag="div"
                         initialValue={textBlockMap?.ADVERTISE_WITH_US_PAGE?.advertiseWithUsWhySidePanelNum1value}

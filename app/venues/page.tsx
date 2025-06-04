@@ -53,7 +53,7 @@ const Venues = () => {
                     {venue?.capacity} seats
                   </p>
                   <h3 className="uppercase font-changa text-2xl text-center text-white mb-8">{venue?.name}</h3>
-                  <div className="grid grid-cols-2 gap-y-4 border-y border-zinc-700/70 py-6 text-[#b2b2b2] font-lato text-sm">
+                  <div className="grid grid-cols-2 gap-y-4 border-y border-zinc-700/70 py-6 text-white font-lato text-sm">
                     <div className="font-semibold text-right pr-4 border-r border-[#555]">Accessibility</div>
                     <div className="pl-4">{venue?.accessibility}</div>
 
@@ -93,7 +93,7 @@ const Venues = () => {
                   {venue.name === 'Riverview Performing Arts Center' && (
                     <>
                       <div className="flex items-center justify-center">
-                        <div className="grid grid-cols-2 gap-y-4 py-3 border-y border-zinc-700/70 text-[#b2b2b2] font-lato text-sm">
+                        <div className="grid grid-cols-2 gap-y-4 py-3 border-y border-zinc-700/70 text-white font-lato text-sm">
                           <div className="font-semibold text-right pr-4 border-r border-[#555]">Level</div>
                           <div className="pl-4">{riverview.level}</div>
                           <div className="font-semibold text-right pr-4 border-r border-[#555]">Seat</div>
@@ -109,7 +109,7 @@ const Venues = () => {
                         </div>
                       </div>
                       <div className="flex items-center justify-center mt-7 mb-28">
-                        <div className="grid grid-cols-2 gap-y-4 py-3 border-y border-zinc-700/70 text-[#b2b2b2] font-lato text-sm">
+                        <div className="grid grid-cols-2 gap-y-4 py-3 border-y border-zinc-700/70 text-white font-lato text-sm">
                           <div className="font-semibold text-right pr-4 border-r border-[#555]">Level</div>
                           <div className="pl-4">{riverview2.level}</div>
                           <div className="font-semibold text-right pr-4 border-r border-[#555]">Seat</div>
@@ -123,7 +123,7 @@ const Venues = () => {
                   {venue.name === 'SCF Neel Performing Arts Center' && (
                     <>
                       <div className="flex items-center justify-center">
-                        <div className="grid grid-cols-2 gap-y-4 py-3 border-y border-zinc-700/70 text-[#b2b2b2] font-lato text-sm">
+                        <div className="grid grid-cols-2 gap-y-4 py-3 border-y border-zinc-700/70 text-white font-lato text-sm">
                           <div className="font-semibold text-right pr-4 border-r border-[#555]">Level</div>
                           <div className="pl-4">{neel.level}</div>
                           <div className="font-semibold text-right pr-4 border-r border-[#555]">Seat</div>
@@ -139,7 +139,7 @@ const Venues = () => {
                         </div>
                       </div>
                       <div className="flex items-center justify-center mt-7">
-                        <div className="grid grid-cols-2 gap-y-4 py-3 border-y border-zinc-700/70 text-[#b2b2b2] font-lato text-sm">
+                        <div className="grid grid-cols-2 gap-y-4 py-3 border-y border-zinc-700/70 text-white font-lato text-sm">
                           <div className="font-semibold text-right pr-4 border-r border-[#555]">Level</div>
                           <div className="pl-4">{neel2.level}</div>
                           <div className="font-semibold text-right pr-4 border-r border-[#555]">Seat</div>

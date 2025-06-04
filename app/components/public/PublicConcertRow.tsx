@@ -37,7 +37,7 @@ const PublicConcertRow: FC<{ concert: ConcertProps }> = ({ concert }) => {
           {concert.cardDate}
         </h4>
         <div className="w-full h-[1px] bg-zinc-700/70 my-6"></div>
-        <p className="font-lato text-[#c9c9c9] leading-relaxed tracking-wide mb-10">{concert?.pressRelease}</p>
+        <p className="font-lato text-white leading-relaxed tracking-wide mb-10">{concert?.pressRelease}</p>
         <div className="flex flex-col 576:flex-row items-center gap-y-4 576:gap-x-4">
           {concert?.isOnSale ? (
             <Link

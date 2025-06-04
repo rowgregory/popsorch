@@ -45,12 +45,12 @@ const ConcertDetails = ({ concertId }: any) => {
               />
               <div className="bg-duskgray p-4 675:p-14">
                 <div className="flex items-center justify-between">
-                  <h1 className="text-[#b2b2b2] uppercase font-changa text-12">{formatDate(concert?.createdAt)}</h1>
+                  <h1 className="text-white uppercase font-changa text-12">{formatDate(concert?.createdAt)}</h1>
                   <AwesomeIcon icon={shareNodesIcon} className="text-blaze w-4 h-4" />
                 </div>
                 <div className="h-[1px] bg-zinc-700/90 my-6" />
                 <h2 className="text-2xl font-changa mb-3">{concert?.name}</h2>
-                <p className="font-lato text-[#b2b2b2]">{concert?.description}</p>
+                <p className="font-lato text-white">{concert?.description}</p>
                 <div className="h-[1px] bg-zinc-700/90 my-6" />
                 <h2 className="text-17 font-changa mb-5">
                   Click the time, date, and venue below to see the location update on the map.
