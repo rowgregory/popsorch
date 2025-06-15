@@ -62,6 +62,7 @@ export interface AppStatePayload {
   isSeasonPackageBannerToggledLive: boolean
   getLast7DaysData: any
   toggleHeaderButtonStudio: boolean
+  inconspicuousSignInDrawer: boolean
 }
 
 const mediaDataInitialState = {
@@ -112,7 +113,8 @@ const initialAppState: AppStatePayload = {
   isSeasonPackageBannerToggledVisible: false,
   isSeasonPackageBannerToggledLive: false,
   getLast7DaysData: [],
-  toggleHeaderButtonStudio: false
+  toggleHeaderButtonStudio: false,
+  inconspicuousSignInDrawer: false
 }
 
 export const appSlice = createSlice({
@@ -235,6 +237,12 @@ export const appSlice = createSlice({
     },
     setCloseHeaderButtonStudio: (state) => {
       state.toggleHeaderButtonStudio = false
+    },
+    setOpenInconspicuousSignInDrawer: (state) => {
+      state.inconspicuousSignInDrawer = true
+    },
+    setCloseInconspicuousSignInDrawer: (state) => {
+      state.inconspicuousSignInDrawer = false
     }
   },
   extraReducers: (builder) => {
@@ -304,5 +312,7 @@ export const {
   setToggleAccessibilityDrawer,
   hydrateAppState,
   setOpeneHeaderButtonStudio,
-  setCloseHeaderButtonStudio
+  setCloseHeaderButtonStudio,
+  setOpenInconspicuousSignInDrawer,
+  setCloseInconspicuousSignInDrawer
 } = appSlice.actions

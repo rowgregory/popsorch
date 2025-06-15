@@ -11,6 +11,7 @@ import { createFormActions } from '@/app/redux/features/formSlice'
 import { getErrorMessage } from '@/app/utils/logHelper'
 import { resetAuth } from '@/app/redux/features/authSlice'
 import { increaseUsersCount } from '@/app/redux/features/appSlice'
+import Link from 'next/link'
 
 const Register = () => {
   const { push } = useRouter()
@@ -46,7 +47,9 @@ const Register = () => {
 
   return (
     <div className="flex max-h-1200:items-start items-center justify-center flex-col gap-y-7 max-h-1200:h-auto h-dvh max-h-1200:py-20">
-      <div className={`bg-golden50Logo bg-no-repeat bg-contain bg-center w-40 h-[120px]`} />
+      <Link href="/">
+        <div className={`bg-golden50Logo bg-no-repeat bg-contain bg-center w-40 h-[120px]`} />
+      </Link>
       <RegisterForm handleSubmit={handleRegister} isLoading={isLoading} error={getErrorMessage(error)} />
     </div>
   )

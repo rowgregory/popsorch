@@ -23,6 +23,7 @@ import { checkCircleIcon, universalAccessIcon } from './lib/icons'
 import { setToggleAccessibilityDrawer } from './redux/features/appSlice'
 import { useCreateDailyMetricMutation } from './redux/services/metricApi'
 import Hotjar from '@hotjar/browser'
+import InconspicousSignInDrawer from './drawers/InconspicousSignInDrawer'
 
 const siteId = 6425784
 const hotjarVersion = 6
@@ -159,6 +160,7 @@ const PageWrapper: FC<ClientPageProps> = ({ children, data }) => {
   return (
     <Provider store={store}>
       <div className="main-content">
+        <InconspicousSignInDrawer />
         {StaticComponents}
         {openModal && <PublicEditableTextAreaModal />}
         {showHeader && <Header />}

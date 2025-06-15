@@ -10,6 +10,7 @@ import validateLoginForm from '@/app/validations/validateLoginForm'
 import { createFormActions } from '@/app/redux/features/formSlice'
 import { getErrorMessage } from '@/app/utils/logHelper'
 import { hydrateUserState } from '@/app/redux/features/userSlice'
+import Link from 'next/link'
 
 const Login = () => {
   const { push } = useRouter()
@@ -52,7 +53,9 @@ const Login = () => {
 
   return (
     <div className="flex max-h-1000:items-start items-center justify-center flex-col gap-y-7 max-h-1000:h-auto h-dvh max-h-1000:py-20">
-      <div className={`bg-golden50Logo bg-no-repeat bg-contain bg-center w-40 h-[120px]`} />
+      <Link href="/">
+        <div className={`bg-golden50Logo bg-no-repeat bg-contain bg-center w-40 h-[120px]`} />
+      </Link>
       <LoginForm handleSubmit={handleLogin} isLoading={isLoading} error={getErrorMessage(error)} />
     </div>
   )
