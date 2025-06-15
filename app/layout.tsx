@@ -123,23 +123,19 @@ export default async function RootLayout({
 }>) {
   const userData = (await cookies()).get('authToken')?.value
 
-  const payload = userData
-    ? (await jwtVerify(userData, new TextEncoder().encode(process.env.JWT_SECRET!))).payload
-    : null
+  let payload
+  try {
+    payload = userData ? (await jwtVerify(userData, new TextEncoder().encode(process.env.JWT_SECRET!))).payload : null
+  } catch (error) {
+    console.log('ERROR READING TOKEN: ', error)
+  }
 
   return (
     <html lang="en">
       <body
         className={`${inter.variable} ${oswald.variable} ${raleway.variable} ${changa.variable} ${lato.variable} antialiased`}
       >
-        <ReduxWrapper
-          data={{
-            isAuthenticated: payload?.isAuthenticated,
-            id: payload?.id
-          }}
-        >
-          {children}
-        </ReduxWrapper>
+        <ReduxWrapper data={payload}>{children}</ReduxWrapper>
       </body>
     </html>
   )

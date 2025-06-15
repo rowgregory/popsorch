@@ -165,6 +165,8 @@ export const campSlice = createSlice({
       })
       .addMatcher(campApi.endpoints.fetchCampApplications.matchFulfilled, (state, { payload }: any) => {
         state.campApplications = payload.campApplications
+        state.noCampApplications = state.campApplications.length === 0
+        state.campApplicationsCount = state.campApplications.length
         state.loading = false
       })
       .addMatcher(

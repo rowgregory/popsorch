@@ -17,7 +17,9 @@ const EditableTextArea: FC<EditableTextAreaProps> = ({ tag: Tag, initialValue, t
   const { isAuthenticated } = useAppSelector((state: RootState) => state.auth)
   const { openModal } = useAppSelector((state: RootState) => state.app)
 
-  const handleClick = () => {
+  const handleClick = (e: any) => {
+    e.stopPropagation()
+    e.preventDefault()
     if (isAuthenticated) {
       dispatch(
         setOpenModal({

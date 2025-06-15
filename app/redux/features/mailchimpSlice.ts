@@ -70,6 +70,8 @@ export const mailChimpSlice = createSlice({
         state.loading = false
         state.members = payload.members
         state.totalItems = payload.totalItems
+        state.mailchimpMembersCount = payload.totalItems
+        state.noMailchimpMembers = payload.totalItems === 0
       })
       .addMatcher(mailchimpApi.endpoints.subscribe.matchFulfilled, (state) => {
         state.loading = false

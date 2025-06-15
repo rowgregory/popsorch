@@ -216,6 +216,17 @@ model AppMetric {
   updatedAt    DateTime @updatedAt
 }
 
+model DailyMetric {
+  id           String   @id @default(cuid())
+  date         DateTime @default(now()) @db.Date
+  desktopCount Int      @default(0)
+  mobileCount  Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([date])
+}
+
 model Changelog {
   id          String   @id @default(cuid())
   version     String
@@ -224,4 +235,25 @@ model Changelog {
   releasedAt  DateTime @default(now())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model SeasonPackageBanner {
+  id        String   @id @default(cuid())
+  isVisible Boolean  @default(true)
+  isLive    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model HeaderButton {
+  id              String   @id @default(cuid())
+  animation       String   @default("scale")
+  backgroundColor String
+  fontColor       String
+  text            String   @default("Get Started")
+  linkType        String   @default("internal")
+  link            String
+  isActive        Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }

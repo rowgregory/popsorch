@@ -3,11 +3,12 @@
 import { useRef } from 'react'
 import HomeConcertDates from './components/home/HomeConcertDates'
 import HomeContact from './components/home/HomeContact'
-import SeasonTicketInfoBanner from './components/home/SeasonTicketInfoBanner'
 import HomeHero from './components/home/HomeHero'
 import HomeSeatMaps from './components/home/HomeSeatMaps'
 import HomeSignUp from './components/home/HomeSignUp'
 import TicketsBlock from './components/home/TicketsBlock'
+import SeasonPackageBanner from './components/home/SeasonPackageBanner'
+import NeonSubscriptionBanner from './components/home/NeonSubscriptionBanner'
 
 const Home = () => {
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -19,10 +20,12 @@ const Home = () => {
   return (
     <>
       <HomeHero handleScroll={handleScroll} />
+
+      <SeasonPackageBanner />
       <div ref={scrollRef}>
         <HomeConcertDates />
       </div>
-      <SeasonTicketInfoBanner />
+      <NeonSubscriptionBanner />
       <TicketsBlock />
       <HomeSeatMaps />
       <HomeContact />

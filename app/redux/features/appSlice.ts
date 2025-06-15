@@ -3,6 +3,7 @@ import { appApi } from '../services/appApi'
 
 export interface FetchDashboardDataQueryTypes {
   error: { data: { message: string } }
+  isLoading: boolean
 }
 
 interface ModalUploaderPayload {
@@ -15,6 +16,7 @@ interface ModalUploaderPayload {
 
 export interface AppStatePayload {
   loading: boolean
+  loadingDashboardData: boolean
   success: boolean
   error: any
   navigationDrawer: boolean
@@ -56,6 +58,10 @@ export interface AppStatePayload {
   noTestimonials: boolean
   noQuestions: boolean
   noUsers: boolean
+  isSeasonPackageBannerToggledVisible: boolean
+  isSeasonPackageBannerToggledLive: boolean
+  getLast7DaysData: any
+  toggleHeaderButtonStudio: boolean
 }
 
 const mediaDataInitialState = {
@@ -68,6 +74,7 @@ const mediaDataInitialState = {
 
 const initialAppState: AppStatePayload = {
   loading: true,
+  loadingDashboardData: true,
   success: false,
   error: {},
   navigationDrawer: false,
@@ -101,7 +108,11 @@ const initialAppState: AppStatePayload = {
   noCampApplications: false,
   noTestimonials: false,
   noQuestions: false,
-  noUsers: false
+  noUsers: false,
+  isSeasonPackageBannerToggledVisible: false,
+  isSeasonPackageBannerToggledLive: false,
+  getLast7DaysData: [],
+  toggleHeaderButtonStudio: false
 }
 
 export const appSlice = createSlice({
@@ -214,6 +225,16 @@ export const appSlice = createSlice({
     },
     setToggleAccessibilityDrawer: (state, { payload }) => {
       state.accessibility = !payload
+    },
+    hydrateAppState: (state, { payload }) => {
+      state.isSeasonPackageBannerToggledLive = payload.isSeasonPackageBannerToggledLive
+      state.isSeasonPackageBannerToggledVisible = payload.isSeasonPackageBannerToggledVisible
+    },
+    setOpeneHeaderButtonStudio: (state) => {
+      state.toggleHeaderButtonStudio = true
+    },
+    setCloseHeaderButtonStudio: (state) => {
+      state.toggleHeaderButtonStudio = false
     }
   },
   extraReducers: (builder) => {
@@ -227,17 +248,16 @@ export const appSlice = createSlice({
         state.testimonialsCount = payload.testimonialsCount
         state.loading = false
       })
-      .addMatcher(appApi.endpoints.fetchDashboardData.matchFulfilled, (state, { payload }: any) => {
+      .addMatcher(appApi.endpoints.fetchDashboardData.matchFulfilled, (state) => {
         state.success = true
-        state.campApplicationCount = payload.campApplicationCount
-        state.usersCount = payload.usersCount
-        state.questionCount = payload.questionCount
-        state.logCount = payload.logCount
-        state.mailchimpMembersCount = payload.mailchimpMembersCount
-        state.metric.desktopCount = payload.metric.desktopCount
-        state.metric.mobileCount = payload.metric.mobileCount
-        state.loading = false
       })
+      .addMatcher(appApi.endpoints.toggleSeasonPackageBanner.matchFulfilled, (state, { payload }: any) => {
+        state.isSeasonPackageBannerToggledVisible = payload.isSeasonPackageBannerToggledVisible
+      })
+      .addMatcher(appApi.endpoints.toggleSeasonPackageBannerLive.matchFulfilled, (state, { payload }: any) => {
+        state.isSeasonPackageBannerToggledLive = payload.isSeasonPackageBannerToggledLive
+      })
+
       .addMatcher(
         (action: any) => action.type.endsWith('/rejected') && action.payload?.data?.sliceName === 'appApi',
         (state, action: any) => {
@@ -281,5 +301,8 @@ export const {
   decreaseCampApplicationsCount,
   increaseUsersCount,
   decreaseUsersCount,
-  setToggleAccessibilityDrawer
+  setToggleAccessibilityDrawer,
+  hydrateAppState,
+  setOpeneHeaderButtonStudio,
+  setCloseHeaderButtonStudio
 } = appSlice.actions

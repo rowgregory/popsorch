@@ -7,14 +7,15 @@ import { getNavigationLinks } from '@/app/utils/navigation.utils'
 import { HeaderNavLink } from './HeaderNavLink'
 import { openNavigationDrawer } from '@/app/redux/features/appSlice'
 import { barsIcon } from '@/app/lib/icons'
-import CallBoxOfficeBtn from '../common/CallBoxOfficeBtn'
 import Link from 'next/link'
+import CustomHeaderButton from '../CustomHeaderButton'
 
 const HeaderFixed = () => {
   const dispatch = useAppDispatch()
   const hasScrolled = useScrollFromTop(160)
   const path = useCustomPathname()
   const { concerts } = useAppSelector((state: RootState) => state.concert)
+  const { headerButton } = useAppSelector((state: RootState) => state.headerButton)
   const thereAreConcerts = concerts?.length >= 1
   const navLinks = getNavigationLinks(path, thereAreConcerts)
   const [openDropdown, setOpenDropdown] = useState({ open: false, textKey: '' })
@@ -58,7 +59,7 @@ const HeaderFixed = () => {
             icon={barsIcon}
             className="w-6 h-6 text-white 1200:hidden block duration-300 hover:text-blaze cursor-pointer"
           />
-          <CallBoxOfficeBtn className="px-4 py-3" />
+          <CustomHeaderButton {...headerButton} />
         </div>
       </div>
     </div>

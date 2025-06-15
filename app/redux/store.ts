@@ -23,6 +23,7 @@ import { campReducer } from './features/campSlice'
 import { logReducer } from './features/logSlice'
 import { mailChimpReducer } from './features/mailchimpSlice'
 import { metricReducer } from './features/metricSlice'
+import { headerButtonReducer } from './features/headerButtonSlice'
 
 const rootReducer = combineReducers({
   app: appReducer,
@@ -44,6 +45,7 @@ const rootReducer = combineReducers({
   log: logReducer,
   mailchimp: mailChimpReducer,
   metric: metricReducer,
+  headerButton: headerButtonReducer,
   [api.reducerPath]: api.reducer
 })
 

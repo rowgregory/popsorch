@@ -6,7 +6,6 @@ import { RootState, useAppDispatch, useAppSelector } from '@/app/redux/store'
 import RegisterForm from '@/app/forms/RegisterForm'
 import { useRegisterMutation } from '@/app/redux/services/authApi'
 import { usePushNotifications } from '@/app/hooks/usePushNotifications'
-import LogoWRobyn from '@/app/components/LogoWRobyn'
 import validateRegisterForm from '@/app/validations/validateRegisterForm'
 import { createFormActions } from '@/app/redux/features/formSlice'
 import { getErrorMessage } from '@/app/utils/logHelper'
@@ -47,9 +46,7 @@ const Register = () => {
 
   return (
     <div className="flex max-h-1200:items-start items-center justify-center flex-col gap-y-7 max-h-1200:h-auto h-dvh max-h-1200:py-20">
-      <div className="max-h-1200:hidden block">
-        <LogoWRobyn imgDimensions="h-40" logoClassname="h-40 text-blaze" />
-      </div>
+      <div className={`bg-golden50Logo bg-no-repeat bg-contain bg-center w-40 h-[120px]`} />
       <RegisterForm handleSubmit={handleRegister} isLoading={isLoading} error={getErrorMessage(error)} />
     </div>
   )

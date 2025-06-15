@@ -37,7 +37,8 @@ export const api = createApi({
     'Question',
     'Mailchimp',
     'Log',
-    'Metric'
+    'Metric',
+    'Header-Button'
   ],
   endpoints: () => ({})
 })

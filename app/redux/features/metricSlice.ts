@@ -41,12 +41,7 @@ export const metricSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addMatcher(metricApi.endpoints.increaseAppCount.matchFulfilled, (state, { payload }: any) => {
-        state.loading = false
-        state.success = true
-        state.metrics = payload.metrics
-      })
-      .addMatcher(metricApi.endpoints.fetchMetrics.matchFulfilled, (state, { payload }: any) => {
+      .addMatcher(metricApi.endpoints.createDailyMetric.matchFulfilled, (state, { payload }: any) => {
         state.loading = false
         state.success = true
         state.metrics = payload.metrics

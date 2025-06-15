@@ -6,12 +6,12 @@ import AdminCampApplicationViewDrawer from '@/app/drawers/AdminCampApplicationVi
 import AdminTitleAndTotal from '@/app/components/admin/AdminTitleAndTotal'
 import AdminPageSpinner from '@/app/components/admin/AdminPageSpinner'
 import { RootState, useAppSelector } from '@/app/redux/store'
+import { useFetchCampApplicationsQuery } from '@/app/redux/services/campApi'
 
 const CampApplications = () => {
-  const { campApplications, noCampApplications, campApplicationsCount } = useAppSelector(
-    (state: RootState) => state.camp
-  )
-  const { loading } = useAppSelector((state: RootState) => state.app)
+  const { noCampApplications, campApplicationsCount } = useAppSelector((state: RootState) => state.camp)
+
+  const { data, isLoading } = useFetchCampApplicationsQuery(undefined) as any
 
   return (
     <div className="relative">
@@ -22,11 +22,11 @@ const CampApplications = () => {
           textcolor="text-blue-400"
           title="Camp Applications"
           total={campApplicationsCount}
-          loading={loading}
+          loading={isLoading}
           fillcolor="fill-blue-400"
         />
       </div>
-      {loading ? (
+      {isLoading ? (
         <AdminPageSpinner fill="fill-blue-400" />
       ) : noCampApplications ? (
         <div className="font-sm font-lato">No Camp Applications</div>
@@ -40,9 +40,8 @@ const CampApplications = () => {
               <div className="whitespace-nowrap">Date Created</div>
               <div></div>
             </div>
-
             <div className="flex flex-col gap-y-3 min-w-[600px]">
-              {campApplications?.map((application: { id: string }) => (
+              {data?.campApplications?.map((application: { id: string }) => (
                 <AdminCampApplicationRow key={application.id} application={application} />
               ))}
             </div>

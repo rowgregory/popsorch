@@ -66,12 +66,17 @@ export const userSlice = createSlice({
     },
     removeUserFromState: (state, action) => {
       state.users = state.users.filter((user) => user.id !== action.payload)
+    },
+    hydrateUserState: (state, { payload }) => {
+      state.user = { ...state.user, ...payload }
     }
   },
   extraReducers: (builder) => {
     builder
       .addMatcher(userApi.endpoints.fetchUsers.matchFulfilled, (state, { payload }: any) => {
         state.users = payload.users
+        state.usersCount = payload.users.length
+        state.noUsers = payload.users.length === 0
         state.loading = false
       })
       .addMatcher(userApi.endpoints.updateUserRole.matchFulfilled, (state) => {
@@ -98,4 +103,4 @@ export const userSlice = createSlice({
 
 export const userReducer = userSlice.reducer as Reducer<UserStatePayload>
 
-export const { resetUser, setUsers, setUser, resetUserError, removeUserFromState } = userSlice.actions
+export const { resetUser, setUsers, setUser, resetUserError, removeUserFromState, hydrateUserState } = userSlice.actions

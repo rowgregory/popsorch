@@ -6,17 +6,36 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(req: NextRequest) {
   try {
-    const textBlocks = await prisma.textBlock.findMany()
-    const concerts = await prisma.concert.findMany()
-    const testimonials = await prisma.testimonial.findMany()
-    const venues = await prisma.venue.findMany()
-    const photoGalleryImages = await prisma.photoGalleryImage.findMany({
-      orderBy: [
-        { createdAt: 'asc' },
-        { id: 'asc' } // Secondary sort to break ties
-      ]
-    })
-    const teamMembers = await prisma.teamMember.findMany({ orderBy: { createdAt: 'asc' } })
+    // **OPTIMIZATION: Parallelize all database queries**
+    const [
+      textBlocks,
+      concerts,
+      testimonials,
+      venues,
+      photoGalleryImages,
+      teamMembers,
+      seasonPackageBanner,
+      headerButton
+    ] = await Promise.all([
+      prisma.textBlock.findMany(),
+      prisma.concert.findMany(),
+      prisma.testimonial.findMany(),
+      prisma.venue.findMany(),
+      prisma.photoGalleryImage.findMany({
+        orderBy: [
+          { createdAt: 'asc' },
+          { id: 'asc' } // Secondary sort to break ties
+        ]
+      }),
+      prisma.teamMember.findMany({ orderBy: { createdAt: 'asc' } }),
+      prisma.seasonPackageBanner.findFirst({
+        select: {
+          isVisible: true,
+          isLive: true
+        }
+      }),
+      prisma.headerButton.findFirst({ where: { isActive: true } })
+    ])
 
     const sortedConcerts = concerts.sort((a: any, b: any) => {
       const aDate: any = new Date(a.eventDetails[0]?.date)
@@ -56,7 +75,10 @@ export async function GET(req: NextRequest) {
         photoGalleryImagesCount: photoGalleryImages?.length,
         teamMembers,
         teamMembersCount: teamMembers?.length,
-        sliceName: sliceApp
+        isSeasonPackageBannerToggledVisible: seasonPackageBanner?.isVisible ?? true,
+        isSeasonPackageBannerToggledLive: seasonPackageBanner?.isLive ?? true,
+        sliceName: sliceApp,
+        headerButton
       },
       { status: 200 }
     )

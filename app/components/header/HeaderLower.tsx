@@ -7,13 +7,14 @@ import { barsIcon } from '@/app/lib/icons'
 import { useHeaderAtTop } from '@/app/hooks/useHeaderAtTop'
 import { HeaderNavLink } from './HeaderNavLink'
 import { openNavigationDrawer } from '@/app/redux/features/appSlice'
-import CallBoxOfficeBtn from '../common/CallBoxOfficeBtn'
 import Link from 'next/link'
+import CustomHeaderButton from '../CustomHeaderButton'
 
 const HeaderLower = () => {
   const path = useCustomPathname()
   const dispatch = useAppDispatch()
   const { concerts } = useAppSelector((state: RootState) => state.concert)
+  const { headerButton } = useAppSelector((state: RootState) => state.headerButton)
   const thereAreConcerts = concerts?.length >= 1
   const navLinks = getNavigationLinks(path, thereAreConcerts)
   const [openDropdown, setOpenDropdown] = useState({ open: false, textKey: '' })
@@ -55,7 +56,7 @@ const HeaderLower = () => {
           className="w-6 h-6 text-white 1200:hidden block duration-300 hover:text-blaze cursor-pointer"
         />
         <div className="hidden 1200:block">
-          <CallBoxOfficeBtn />
+          <CustomHeaderButton {...headerButton} />
         </div>
       </div>
     </nav>

@@ -5,11 +5,12 @@ import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
 import { closeNavigationDrawer } from '../redux/features/appSlice'
 import { getNavigationLinks } from '../utils/navigation.utils'
 import CloseBtnSVG from './svg/CloseBtnSVG'
-import CallBoxOfficeBtn from './common/CallBoxOfficeBtn'
+import CustomHeaderButton from './CustomHeaderButton'
 
 const NavigationDrawer = () => {
   const path = useCustomPathname()
   const { navigationDrawer } = useAppSelector((state: RootState) => state.app)
+  const { headerButton } = useAppSelector((state: RootState) => state.headerButton)
   const { concerts } = useAppSelector((state: RootState) => state.concert)
   const dispatch = useAppDispatch()
   const overlayRef = useRef(null)
@@ -31,7 +32,7 @@ const NavigationDrawer = () => {
         } duration-700 no-scrollbar w-full h-full fixed bottom-0 left-0 z-[100] transition-all pb-20 bg-inkblack overflow-y-auto flex flex-col items-center`}
       >
         <div className="mb-10 px-8 py-16 flex flex-col gap-y-5">
-          <CallBoxOfficeBtn className="mb-12 h-12 flex items-center justify-center" />
+          <CustomHeaderButton {...headerButton} />
           {navLinks.map((link, i) => (
             <div key={i} className="group">
               {link.linkKey ? (

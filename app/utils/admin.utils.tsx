@@ -1,17 +1,6 @@
 import { sectionColors } from '@/public/data/admin.data'
-import { IconDefinition } from '@fortawesome/free-solid-svg-icons'
-import {
-  binocularsIcon,
-  imageIcon,
-  messageIcon,
-  musicIcon,
-  newspaperIcon,
-  starIcon,
-  tentIcon,
-  theatreMasksIcon,
-  usersIcon,
-  userTieIcon
-} from '../lib/icons'
+import { LucideIcon } from 'lucide-react'
+import { Binoculars, Image, MessageCircle, Music, Newspaper, Star, Tent, Theater, Users, UserCheck } from 'lucide-react'
 
 export const highlightSection = (message: string) => {
   for (const { textKey, color } of sectionColors) {
@@ -41,7 +30,7 @@ export const dashboardData = (
   title: string
   count: number
   count2?: number
-  icon: IconDefinition
+  icon: LucideIcon
   linkKey: string
   color: string
   fill: string
@@ -51,91 +40,91 @@ export const dashboardData = (
     title: 'Page Views',
     count: app?.metric?.desktopCount,
     count2: app?.metric?.mobileCount,
-    icon: binocularsIcon,
+    icon: Binoculars,
     linkKey: '',
     color: 'text-blaze',
     fill: 'fill-blaze',
-    isLoading: app.loading
+    isLoading: app?.loadingDashboardData
   },
   {
     title: 'Concerts',
     count: app?.concertsCount,
-    icon: musicIcon,
+    icon: Music,
     linkKey: '/admin/concerts',
     color: 'text-pink-400',
     fill: 'fill-pink-400',
-    isLoading: app.loading
+    isLoading: app?.loadingDashboardData
   },
   {
     title: 'Camp Applications',
     count: app?.campApplicationCount,
-    icon: tentIcon,
+    icon: Tent,
     linkKey: '/admin/camp-applications',
     color: 'text-blue-400',
     fill: 'fill-blue-400',
-    isLoading: app.loading
+    isLoading: app?.loadingDashboardData
   },
   {
     title: 'Venues',
     count: app?.venuesCount,
-    icon: theatreMasksIcon,
+    icon: Theater,
     linkKey: '/admin/venues',
     color: 'text-yellow-400',
     fill: 'fill-yellow-400',
-    isLoading: app.loading
+    isLoading: app?.loadingDashboardData
   },
   {
     title: 'Board & Staff',
     count: app?.teamMembersCount,
-    icon: userTieIcon,
+    icon: UserCheck,
     linkKey: '/admin/board-members-and-staff',
     color: 'text-purple-500',
     fill: 'fill-purple-500',
-    isLoading: app.loading
+    isLoading: app?.loadingDashboardData
   },
   {
     title: 'Photo Gallery',
     count: app?.photoGalleryImagesCount,
-    icon: imageIcon,
+    icon: Image,
     linkKey: '/admin/photo-gallery',
     color: 'text-amber-500',
     fill: 'fill-amber-500',
-    isLoading: app.loading
+    isLoading: app?.loadingDashboardData
   },
   {
     title: 'Testimonials',
     count: app?.testimonialsCount,
-    icon: starIcon,
+    icon: Star,
     linkKey: '/admin/testimonials',
     color: 'text-teal-400',
     fill: 'fill-teal-400',
-    isLoading: app.loading
+    isLoading: app?.loadingDashboardData
   },
   {
     title: 'Users',
     count: app?.usersCount,
-    icon: usersIcon,
+    icon: Users,
     linkKey: '/admin/users',
     color: 'text-emerald-400',
     fill: 'fill-emerald-400',
-    isLoading: app.loading
+    isLoading: app?.loadingDashboardData
   },
   {
     title: 'Mailchimp Members',
-    count: app.mailchimpMembersCount,
-    icon: newspaperIcon,
+    count: app?.mailchimpMembersCount,
+    icon: Newspaper,
     linkKey: '/admin/mailchimp-members',
     color: 'text-lime-500',
     fill: 'fill-lime-500',
-    isLoading: app.loading
+    isLoading: app?.loadingDashboardData
   },
   {
     title: 'Questions',
     count: app?.questionCount,
-    icon: messageIcon,
+    icon: MessageCircle,
     linkKey: '/admin/questions',
     color: 'text-sky-500',
     fill: 'fill-sky-500',
-    isLoading: app.loading
+    isLoading: app?.loadingDashboardData
   }
 ]

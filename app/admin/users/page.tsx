@@ -7,10 +7,11 @@ import ToastMessage from '@/app/components/common/ToastMessage'
 import AdminTitleAndTotal from '@/app/components/admin/AdminTitleAndTotal'
 import AdminPageSpinner from '@/app/components/admin/AdminPageSpinner'
 import AdminUserRow from '@/app/components/admin/AdminUserRow'
+import { useFetchUsersQuery } from '@/app/redux/services/userApi'
 
 const Users = () => {
-  const { error, users, noUsers, usersCount } = useAppSelector((state: RootState) => state.user)
-  const { loading } = useAppSelector((state: RootState) => state.app)
+  const { error, noUsers, usersCount } = useAppSelector((state: RootState) => state.user)
+  const { data, isLoading } = useFetchUsersQuery(undefined) as any
 
   return (
     <>
@@ -18,7 +19,7 @@ const Users = () => {
       <div className="mb-12 sticky top-0 bg-duskgray z-20 py-2">
         <AdminTitleAndTotal title="Users" total={usersCount} bgcolor="bg-emerald-400" textcolor="text-emerald-400" />
       </div>
-      {loading ? (
+      {isLoading ? (
         <AdminPageSpinner fill="fill-emerald-400" />
       ) : noUsers ? (
         <div className="font-sm font-lato">No Users</div>
@@ -34,7 +35,7 @@ const Users = () => {
               <div></div>
             </div>
             <div className="flex flex-col gap-y-3 min-w-[600px]">
-              {users?.map((user: UserProps) => (
+              {data?.users?.map((user: UserProps) => (
                 <AdminUserRow key={user.id} user={user} />
               ))}
             </div>

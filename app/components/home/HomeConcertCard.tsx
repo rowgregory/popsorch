@@ -2,8 +2,8 @@ import Link from 'next/link'
 import CallBoxOfficeBtn from '../common/CallBoxOfficeBtn'
 import Picture from '../common/Picture'
 import { ConcertProps } from '@/app/redux/features/concertSlice'
-import { motion, useInView } from 'framer-motion'
-import { FC, useRef } from 'react'
+import { motion } from 'framer-motion'
+import { FC } from 'react'
 import { useRouter } from 'next/navigation'
 
 interface ConcertCardProps {
@@ -12,17 +12,14 @@ interface ConcertCardProps {
 }
 
 const HomeConcertCard: FC<ConcertCardProps> = ({ concert, index }) => {
-  const ref = useRef(null) as any
-  const inView = useInView(ref)
   const { push } = useRouter()
 
   return (
     <motion.button
       onClick={() => push(`/concerts/${concert.id}`)}
       key={concert.id}
-      ref={ref}
       initial={{ opacity: 0, y: 100 }}
-      animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 100 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.2 }}
       className="col-span-12 990:max-h-80 group w-full relative overflow-hidden group cursor-pointer bg-midnightblack duration-700 flex flex-col 990:flex-row items-start h-full rounded-lg"
     >

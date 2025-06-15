@@ -8,7 +8,6 @@ import { adminNavigationLinkData } from '@/public/data/navigation-link.data'
 import AwesomeIcon from '../components/common/AwesomeIcon'
 import { useLogoutMutation } from '../redux/services/authApi'
 import { useRouter } from 'next/navigation'
-import { useFetchDashboardDataQuery } from '../redux/services/appApi'
 import LogoSVG from '../components/svg/LogoSVG'
 import { barsIcon } from '../lib/icons'
 import { openNavigationDrawer } from '../redux/features/dashboardSlice'
@@ -17,19 +16,18 @@ import AdminNavigationDrawer from '../drawers/AdminNavigationDrawer'
 import { resetAuth } from '../redux/features/authSlice'
 import { getErrorMessage } from '../utils/logHelper'
 import { useSendPushNotificationMutation } from '../redux/services/pushNotificationApi'
-import { FetchDashboardDataQueryTypes } from '../redux/features/appSlice'
 import { resetUser } from '../redux/features/userSlice'
+import { useFetchSubscribersQuery } from '../redux/services/mailchimpApi'
 
 const AdminLayout: FC<ChildrenProps> = ({ children }) => {
-  const { error: errorFetchingDashboardData } = useFetchDashboardDataQuery<FetchDashboardDataQueryTypes>(undefined)
   const dispatch = useAppDispatch()
   const path = useCustomPathname()
   const { push } = useRouter()
   const { user } = useAppSelector((state: RootState) => state.user)
   const items = adminNavigationLinkData(path, user.role)
   const [logout, { error: errorLogout }] = useLogoutMutation()
-  const { error: dashboardError } = useAppSelector((state: RootState) => state.dashboard)
   const [sendPushNotification] = useSendPushNotificationMutation()
+  useFetchSubscribersQuery(undefined)
 
   const handleLogout = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
@@ -98,13 +96,8 @@ const AdminLayout: FC<ChildrenProps> = ({ children }) => {
             icon={barsIcon}
             className="w-6 h-6 fixed block top-10 right-4 760:hidden cursor-pointer z-30"
           />
-          {errorFetchingDashboardData || dashboardError ? (
-            <div className="font-changa text-2xl text-blaze">
-              {errorFetchingDashboardData?.data?.message || dashboardError?.data?.message}
-            </div>
-          ) : (
-            children
-          )}
+
+          {children}
         </main>
       </div>
     </>

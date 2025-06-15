@@ -1,17 +1,14 @@
 import { handleOffline } from '@/app/utils/handleOffline'
-import { setCampApplications } from '../features/campSlice'
 import { setConcerts } from '../features/concertSlice'
 import { setDashboardError } from '../features/dashboardSlice'
 import { setPhotoGalleryImages } from '../features/photoGalleryImageSlice'
-import { setQuestions } from '../features/questionSlice'
 import { setTeamMembers } from '../features/teamMemberSlice'
 import { setTestimonials } from '../features/testimonialSlice'
 import { setTextBlocks } from '../features/textBlockSlice'
-import { setUser, setUsers } from '../features/userSlice'
 import { setVenues } from '../features/venueSlice'
 import { api } from './api'
-import { setLogs } from '../features/logSlice'
-import { setMailchimpMembers } from '../features/mailchimpSlice'
+import { hydrateAppState } from '../features/appSlice'
+import { hydrateHeaderButton } from '../features/headerButtonSlice'
 
 const BASE_URL = '/app'
 
@@ -31,7 +28,17 @@ export const appApi = api.injectEndpoints({
         }
         try {
           const {
-            data: { textBlocks, concerts, testimonials, venues, photoGalleryImages, teamMembers }
+            data: {
+              textBlocks,
+              concerts,
+              testimonials,
+              venues,
+              photoGalleryImages,
+              teamMembers,
+              isSeasonPackageBannerToggledLive,
+              isSeasonPackageBannerToggledVisible,
+              headerButton
+            }
           } = await queryFulfilled
 
           dispatch(setTextBlocks(textBlocks))
@@ -40,6 +47,8 @@ export const appApi = api.injectEndpoints({
           dispatch(setVenues(venues))
           dispatch(setPhotoGalleryImages(photoGalleryImages))
           dispatch(setTeamMembers(teamMembers))
+          dispatch(hydrateAppState({ isSeasonPackageBannerToggledLive, isSeasonPackageBannerToggledVisible }))
+          dispatch(hydrateHeaderButton(headerButton))
         } catch (error: any) {
           if (error instanceof Error && error.message === 'Network disconnected') {
             dispatch(setDashboardError('Request canceled due to lost connection.'))
@@ -56,34 +65,30 @@ export const appApi = api.injectEndpoints({
           url: `${BASE_URL}/fetch-dashboard-data`
         }
       },
-      onQueryStarted: async (_arg: any, { dispatch, queryFulfilled, signal }: any) => {
-        if (handleOffline(signal)) {
-          dispatch(setDashboardError('You are offline. Please check your internet connection.'))
-          return
-        }
-
-        try {
-          const {
-            data: { users, user, campApplications, questions, logs, members, mailchimpMembersCount }
-          } = await queryFulfilled
-
-          dispatch(setUsers(users))
-          dispatch(setUser(user))
-          dispatch(setCampApplications(campApplications))
-          dispatch(setQuestions(questions))
-          dispatch(setLogs(logs))
-          dispatch(setMailchimpMembers({ members, mailchimpMembersCount }))
-        } catch (error: any) {
-          if (error instanceof Error && error.message === 'Network disconnected') {
-            dispatch(setDashboardError('Request canceled due to lost connection.'))
-          } else {
-            dispatch(setDashboardError('Something went wrong loading the dashboard.'))
-          }
-        }
-      },
       providesTags: ['App']
+    }),
+    toggleSeasonPackageBanner: build.mutation({
+      query: () => ({
+        url: `${BASE_URL}/toggle-season-package-banner-visible`,
+        method: 'POST',
+        body: {}
+      }),
+      invalidatesTags: ['App']
+    }),
+    toggleSeasonPackageBannerLive: build.mutation({
+      query: () => ({
+        url: `${BASE_URL}/toggle-season-package-banner-live`,
+        method: 'POST',
+        body: {}
+      }),
+      invalidatesTags: ['App']
     })
   })
 })
 
-export const { useFetchAppDataQuery, useFetchDashboardDataQuery } = appApi
+export const {
+  useFetchAppDataQuery,
+  useFetchDashboardDataQuery,
+  useToggleSeasonPackageBannerMutation,
+  useToggleSeasonPackageBannerLiveMutation
+} = appApi

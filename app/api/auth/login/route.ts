@@ -58,12 +58,13 @@ export async function POST(req: NextRequest) {
 
     const payload = {
       isAuthenticated: true,
-      id: existingUser.id
+      id: existingUser.id,
+      isAdmin: true
     }
 
     const token = await new SignJWT(payload)
       .setProtectedHeader({ alg: 'HS256' })
-      .setExpirationTime('1d')
+      .setExpirationTime('7d')
       .sign(new TextEncoder().encode(process.env.JWT_SECRET))
 
     const response = NextResponse.json(payload, { status: 200 })
@@ -72,7 +73,7 @@ export async function POST(req: NextRequest) {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      maxAge: 1 * 24 * 60 * 60, // 1 day
+      maxAge: 7 * 24 * 60 * 60, // 1 day
       path: '/' // Cookie applies to the entire domain
     })
 

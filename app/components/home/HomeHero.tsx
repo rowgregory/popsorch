@@ -2,6 +2,7 @@ import React, { FC } from 'react'
 import HomeHeroCarousel from './HomeHeroCarousel'
 import { RootState, useAppSelector } from '@/app/redux/store'
 import EditableTextArea from '../common/EditableTextArea'
+import PopsLoader from '../PopsLoader'
 
 const HomeHero: FC<{ handleScroll: () => void }> = ({ handleScroll }) => {
   const { photoGalleryImages } = useAppSelector((state: RootState) => state.photoGalleryImage)
@@ -13,7 +14,7 @@ const HomeHero: FC<{ handleScroll: () => void }> = ({ handleScroll }) => {
     <div className="relative h-dvh w-full mt-[-209px]">
       {loading ? (
         <div className="flex h-full w-full items-center justify-center">
-          <div className="jumping-dot" />
+          <PopsLoader size="sm" className="my-4" />
         </div>
       ) : (
         <>

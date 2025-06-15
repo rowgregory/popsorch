@@ -1,6 +1,6 @@
 'use client'
 
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react'
 import { shouldShowFooter, shouldShowHeader } from './utils/string.functions'
 import useCustomPathname from './hooks/useCustomPathname'
 import { Provider } from 'react-redux'
@@ -10,7 +10,7 @@ import Header from './components/header/Header'
 import PublicEditableTextAreaModal from './modals/PublicEditableTextAreaModal'
 import { useFetchAppDataQuery } from './redux/services/appApi'
 import { ClientPageProps } from './types/common.types'
-import { setUser } from './redux/features/userSlice'
+import { hydrateUserState } from './redux/features/userSlice'
 import PublicImageUploaderModal from './modals/PublicImageUploaderModal'
 import { setAuthState } from './redux/features/authSlice'
 import Footer from './components/Footer'
@@ -21,78 +21,156 @@ import AccessibilityDrawer from './drawers/AccessibilityDrawer'
 import AwesomeIcon from './components/common/AwesomeIcon'
 import { checkCircleIcon, universalAccessIcon } from './lib/icons'
 import { setToggleAccessibilityDrawer } from './redux/features/appSlice'
-import { useIncreaseAppCountMutation } from './redux/services/metricApi'
+import { useCreateDailyMetricMutation } from './redux/services/metricApi'
 import Hotjar from '@hotjar/browser'
 
 const siteId = 6425784
 const hotjarVersion = 6
 
 const PageWrapper: FC<ClientPageProps> = ({ children, data }) => {
-  useFetchAppDataQuery({})
-  useNetworkStatus()
   const dispatch = useAppDispatch()
   const path = useCustomPathname()
-  const showFooter = shouldShowFooter(path)
-  const showHeader = shouldShowHeader(path)
   const { openModal, accessibility } = useAppSelector((state: RootState) => state.app)
   const [showCheckmark, setShowCheckmark] = useState(false)
-  useScrollToTop()
-  const [increaseAppCount] = useIncreaseAppCountMutation()
+  const [createDailyMetric] = useCreateDailyMetricMutation()
 
-  useEffect(() => {
-    if (data) {
-      dispatch(setUser({ id: data.id }))
-      dispatch(setAuthState({ isAuthenticated: data.isAuthenticated, userId: data.id }))
+  // **OPTIMIZATION 1: Memoize expensive calculations**
+  const showFooter = useMemo(() => shouldShowFooter(path), [path])
+  const showHeader = useMemo(() => shouldShowHeader(path), [path])
+
+  // **OPTIMIZATION 2: Move hooks to avoid unnecessary re-renders**
+  useFetchAppDataQuery(
+    {},
+    {
+      // Add options to reduce unnecessary refetches
+      refetchOnMountOrArgChange: true,
+      refetchOnFocus: false,
+      refetchOnReconnect: true
     }
-  }, [data, dispatch])
+  )
+  useNetworkStatus()
+  useScrollToTop()
+
+  // **OPTIMIZATION 3: Memoize user data effect**
+  const memoizedUserData = useMemo(() => data, [data])
 
   useEffect(() => {
-    Hotjar.init(siteId, hotjarVersion)
+    if (memoizedUserData) {
+      dispatch(hydrateUserState(data))
+      dispatch(
+        setAuthState({
+          isAuthenticated: memoizedUserData.isAuthenticated,
+          userId: memoizedUserData.id
+        })
+      )
+    }
+  }, [memoizedUserData, dispatch, data])
+
+  // **OPTIMIZATION 4: Initialize Hotjar only once**
+  useEffect(() => {
+    let mounted = true
+
+    const initHotjar = async () => {
+      if (mounted && typeof window !== 'undefined') {
+        Hotjar.init(siteId, hotjarVersion)
+      }
+    }
+
+    initHotjar()
+    return () => {
+      mounted = false
+    }
   }, [])
 
+  // **OPTIMIZATION 5: Debounce daily metric creation and add session storage check**
   useEffect(() => {
-    const asyncIncraseAppCount = async () => {
+    const createMetricOnce = async () => {
       try {
-        await increaseAppCount({}).unwrap()
+        // Check if already tracked this session
+        const sessionKey = `dailyMetric_${new Date().toISOString().split('T')[0]}`
+        if (sessionStorage.getItem(sessionKey)) {
+          return // Already tracked today in this session
+        }
+
+        const isMobile =
+          /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+          window.innerWidth <= 768
+
+        const currentDate = new Date().toISOString().split('T')[0]
+
+        await createDailyMetric({ isMobile, currentDate }).unwrap()
+
+        // Mark as tracked for this session
+        sessionStorage.setItem(sessionKey, 'true')
       } catch {}
     }
 
-    asyncIncraseAppCount()
-  }, [increaseAppCount])
+    // Debounce to avoid multiple rapid calls
+    const timeoutId = setTimeout(createMetricOnce, 1000)
+    return () => clearTimeout(timeoutId)
+  }, [createDailyMetric])
+
+  // **OPTIMIZATION 6: Memoize accessibility settings check**
+  const accessibilitySettings = useMemo(() => {
+    if (typeof window === 'undefined') return null
+
+    return {
+      highContrast: localStorage.getItem('highContrast') === 'true',
+      highlightLinks: localStorage.getItem('highlightLinks') === 'true',
+      stepIndex: parseInt(localStorage.getItem('stepIndex') || '0', 10),
+      textSpacing: localStorage.getItem('textSpacing') === 'true',
+      dyslexiaFriendly: localStorage.getItem('dyslexiaFriendly') === 'true',
+      lineHeight: localStorage.getItem('lineHeight') === 'true'
+    }
+  }, [])
 
   useEffect(() => {
-    const highContrast = localStorage.getItem('highContrast') === 'true'
-    const highlightLinks = localStorage.getItem('highlightLinks') === 'true'
-    const stepIndex = parseInt(localStorage.getItem('stepIndex') || '0', 10)
-    const textSpacing = localStorage.getItem('textSpacing') === 'true'
-    const dyslexiaFriendly = localStorage.getItem('dyslexiaFriendly') === 'true'
-    const lineHeight = localStorage.getItem('lineHeight') === 'true'
+    if (!accessibilitySettings) return
 
-    if (highContrast || highlightLinks || stepIndex > 0 || textSpacing || dyslexiaFriendly || lineHeight) {
-      setShowCheckmark(true)
-    } else {
-      setShowCheckmark(false)
-    }
-  }, [accessibility])
+    const hasAnyAccessibilityFeature =
+      accessibilitySettings.highContrast ||
+      accessibilitySettings.highlightLinks ||
+      accessibilitySettings.stepIndex > 0 ||
+      accessibilitySettings.textSpacing ||
+      accessibilitySettings.dyslexiaFriendly ||
+      accessibilitySettings.lineHeight
+
+    setShowCheckmark(hasAnyAccessibilityFeature)
+  }, [accessibilitySettings])
+
+  // **OPTIMIZATION 7: Memoize accessibility button handler**
+  const handleAccessibilityToggle = useCallback(() => {
+    dispatch(setToggleAccessibilityDrawer(accessibility))
+  }, [dispatch, accessibility])
+
+  // **OPTIMIZATION 8: Memoize static components**
+  const StaticComponents = useMemo(
+    () => (
+      <>
+        <NavigationDrawer />
+        <PublicImageUploaderModal />
+        <HeaderFixed />
+        <AccessibilityDrawer />
+      </>
+    ),
+    []
+  )
 
   return (
     <Provider store={store}>
       <div className="main-content">
-        <NavigationDrawer />
-        <PublicImageUploaderModal />
-        <HeaderFixed />
+        {StaticComponents}
         {openModal && <PublicEditableTextAreaModal />}
         {showHeader && <Header />}
         {children}
         {showFooter && <Footer />}
       </div>
 
-      <AccessibilityDrawer />
       <div className="relative">
         <AwesomeIcon
           icon={universalAccessIcon}
           className="p-2 bg-indigo-600 text-white rounded-full w-8 h-8 fixed z-[110] bottom-5 left-5 cursor-pointer hover:animate-rotateToTwoOClock"
-          onClick={() => dispatch(setToggleAccessibilityDrawer(accessibility))}
+          onClick={handleAccessibilityToggle}
         />
         {showCheckmark && (
           <AwesomeIcon icon={checkCircleIcon} className="w-5 h-5 text-lime-500 fixed bottom-12 left-14 z-[120]" />

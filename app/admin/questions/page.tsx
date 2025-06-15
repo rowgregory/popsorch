@@ -7,10 +7,11 @@ import AdminQuestionRow from '@/app/components/admin/AdminQuestionRow'
 import ToastMessage from '@/app/components/common/ToastMessage'
 import AdminTitleAndTotal from '@/app/components/admin/AdminTitleAndTotal'
 import AdminPageSpinner from '@/app/components/admin/AdminPageSpinner'
+import { useFetchQuestionsQuery } from '@/app/redux/services/questionApi'
 
 const Questions = () => {
-  const { questions, error, noQuestions, questionsCount } = useAppSelector((state: RootState) => state.question)
-  const { loading } = useAppSelector((state: RootState) => state.app)
+  const { error, noQuestions, questionsCount } = useAppSelector((state: RootState) => state.question)
+  const { data, isLoading } = useFetchQuestionsQuery(undefined) as any
 
   return (
     <>
@@ -18,7 +19,7 @@ const Questions = () => {
       <div className="mb-12 sticky top-0 bg-duskgray z-20 py-2">
         <AdminTitleAndTotal title="Questions" total={questionsCount} bgcolor="bg-sky-500" textcolor="text-sky-500" />
       </div>
-      {loading ? (
+      {isLoading ? (
         <AdminPageSpinner fill="fill-sky-500" />
       ) : noQuestions ? (
         <div className="font-sm font-lato">No Questions</div>
@@ -33,7 +34,7 @@ const Questions = () => {
               <div></div>
             </div>
             <div className="flex flex-col gap-y-3 min-w-[600px]">
-              {questions?.map((question: QuestionProps) => (
+              {data?.questions?.map((question: QuestionProps) => (
                 <AdminQuestionRow key={question.id} question={question} />
               ))}
             </div>

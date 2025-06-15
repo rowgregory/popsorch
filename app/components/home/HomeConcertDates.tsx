@@ -27,7 +27,7 @@ const HomeConcertDates = () => {
 
   return (
     <div className="px-4 py-40">
-      <div className="max-w-[520px] 760:max-w-screen-576 990:max-w-[800px] 1200:max-w-screen-1160 1590:max-w-screen-1400 mx-auto w-full flex flex-col items-center">
+      <div className=" mx-auto w-full flex flex-col items-center">
         {!loading && (
           <>
             <TitleWithLine
@@ -36,8 +36,8 @@ const HomeConcertDates = () => {
               textBlockKey="homeConcertDatesBlockTitle"
             />
             <ViewAllConcertsLink />
-            <div className="relative w-full mt-20 mb-40 h-full">
-              <div className="grid grid-cols-12 gap-y-8 transition-transform duration-300 ease-in-out">
+            <div className="max-w-[520px] 760:max-w-screen-576 990:max-w-[800px] 1200:max-w-screen-1160 1590:max-w-screen-1400 relative w-full mt-20 mb-40 h-full">
+              <div className="flex flex-col gap-y-8 transition-transform duration-300 ease-in-out">
                 {concerts?.map((concert: ConcertProps, i) => (
                   <HomeConcertCard concert={concert} key={concert.id} index={i} />
                 ))}

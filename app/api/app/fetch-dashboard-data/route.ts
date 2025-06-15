@@ -7,121 +7,124 @@ import { NextRequest, NextResponse } from 'next/server'
 export async function GET(req: NextRequest) {
   let user
   try {
-    const userHeader = req.headers.get('x-user')! // Exlmation point <----
+    const userHeader = req.headers.get('x-user')!
     const parsedUser = JSON.parse(userHeader)
 
-    user = await prisma.user.findUnique({
-      where: { id: parsedUser.id },
-      select: { firstName: true, lastName: true, email: true, role: true, isAdmin: true, isSuperUser: true }
-    })
+    // **OPTIMIZATION 1: Parallelize all database queries**
+    const [
+      userResult,
+      testimonialsCount,
+      usersCount,
+      campApplicationsCount,
+      questionsCount,
+      concertsCount,
+      venuesCount,
+      teamMembersCount,
+      photoGalleryImagesCount,
+      metric,
+      dailyMetrics
+    ] = await Promise.all([
+      // User lookup
+      prisma.user.findUnique({
+        where: { id: parsedUser.id },
+        select: { firstName: true, lastName: true, email: true, role: true, isAdmin: true, isSuperUser: true }
+      }),
 
-    const testimonials = await prisma.testimonial.findMany()
-    const users = await prisma.user.findMany({
-      orderBy: { createdAt: 'desc' },
-      select: {
-        id: true,
-        firstName: true,
-        lastName: true,
-        email: true,
-        role: true,
-        createdAt: true
-      }
-    })
+      // **OPTIMIZATION 2: Use count() instead of findMany().length**
+      prisma.testimonial.count(),
+      prisma.user.count(),
+      prisma.campApplication.count(),
+      prisma.question.count(),
+      prisma.concert.count(),
+      prisma.venue.count(),
+      prisma.teamMember.count(),
+      prisma.photoGalleryImage.count(),
 
-    const campApplications = await prisma.campApplication.findMany({
-      orderBy: { createdAt: 'desc' },
-      include: {
-        student: true,
-        address: true,
-        parent: true
-      }
-    })
+      // **OPTIMIZATION 3: Single metric query**
+      prisma.appMetric.findUnique({
+        where: { id: 'total-app-loads' },
+        select: {
+          desktopCount: true,
+          mobileCount: true
+        }
+      }),
 
-    const questions = await prisma.question.findMany({ orderBy: { createdAt: 'desc' } })
-
-    const logs = await prisma.log.findMany({ orderBy: { createdAt: 'desc' } })
-
-    const metricId = 'total-app-loads'
-    const metric = await prisma.appMetric.findUnique({
-      where: { id: metricId },
-      select: {
-        desktopCount: true,
-        mobileCount: true
-      }
-    })
-
-    const API_KEY = process.env.MAILCHIMP_API_KEY!
-    const LIST_ID = process.env.MAILCHIMP_LIST_ID!
-    const DATACENTER = API_KEY.split('-')[1]
-
-    const url = `https://${DATACENTER}.api.mailchimp.com/3.0/lists/${LIST_ID}/members?count=50&offset=0&sort_field=timestamp_opt&sort_dir=DESC`
-
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        Authorization: `apikey ${API_KEY}`,
-        'Content-Type': 'application/json'
-      }
-    })
-
-    if (!response.ok) {
-      const errorResponse = await response.json()
-      await createLog('error', `Mailchimp API request failed: ${errorResponse.title}`, {
-        errorLocation: parseStack(JSON.stringify(errorResponse)),
-        errorMessage: errorResponse.detail,
-        errorName: errorResponse.title,
-        timestamp: new Date().toISOString(),
-        url: req.url,
-        method: req.method
+      // **OPTIMIZATION 4: Get last 7 days data in one query**
+      prisma.dailyMetric.findMany({
+        where: {
+          date: {
+            gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) // 7 days ago
+          }
+        },
+        select: {
+          date: true,
+          desktopCount: true,
+          mobileCount: true
+        },
+        orderBy: { date: 'asc' }
       })
+    ])
 
-      return NextResponse.json(
-        { message: `Mailchimp API Error: ${response.statusText}`, sliceName: sliceApp },
-        { status: response.status }
-      )
+    user = userResult
+
+    // **OPTIMIZATION 5: Simplified chart data preparation**
+    const getLast7DaysData = () => {
+      const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+      const today = new Date()
+      const last7Days = []
+
+      // Generate last 7 days more efficiently
+      for (let i = 6; i >= 0; i--) {
+        const date = new Date(today.getTime() - i * 24 * 60 * 60 * 1000)
+        const dayKey = date.toISOString().split('T')[0]
+        last7Days.push({
+          day: days[date.getDay()],
+          date: dayKey,
+          desktop: 0,
+          mobile: 0
+        })
+      }
+
+      // Map actual data to the 7 days
+      const metricsMap = new Map(dailyMetrics.map((m) => [m.date.toISOString().split('T')[0], m]))
+
+      return last7Days.map((day) => {
+        const metric = metricsMap.get(day.date)
+        return {
+          ...day,
+          desktop: metric?.desktopCount || 0,
+          mobile: metric?.mobileCount || 0
+        }
+      })
     }
 
-    const data = await response.json()
-
-    const members = data.members.map((member: any) => ({
-      email: member.email_address,
-      status: member.status,
-      name: member.full_name,
-      phoneNumber: member.merge_fields.MMERGE3,
-      address: member.merge_fields.MMERGE4,
-      interests: {
-        isOption1: member.interests['05e5e5fd1e'],
-        isOption2: member.interests['23e4855071'],
-        isOption3: member.interests['f02e8752c1'],
-        isOption4: member.interests['4d63e535d9'],
-        isNewPatron: member.interests['21dd6933b9'],
-        agreedToPrivacyStatement: member.interests['2b3f9c51d8']
-      },
-      stats: {
-        avgOpenRate: member.stats.avg_open_rate,
-        avgClickRate: member.stats.avg_click_rate
-      },
-      createdAt: member.timestamp_opt,
-      contactId: member.contact_id,
-      ipOpt: member.ip_opt
-    }))
+    // **OPTIMIZATION 6: Calculate totals from daily metrics instead of separate query**
+    const dailyTotals = dailyMetrics.reduce(
+      (acc, curr) => ({
+        desktop: acc.desktop + curr.desktopCount,
+        mobile: acc.mobile + curr.mobileCount
+      }),
+      { desktop: 0, mobile: 0 }
+    )
 
     return NextResponse.json(
       {
-        testimonialsCount: testimonials.length,
-        users,
-        usersCount: users.length,
+        testimonialsCount,
+        usersCount,
         user,
-        campApplications,
-        campApplicationCount: campApplications.length,
-        questions,
-        questionCount: questions.length,
-        logs,
-        logCount: logs.length,
-        metric,
+        campApplicationCount: campApplicationsCount,
+        questionCount: questionsCount,
+        metric: {
+          desktopCount: (metric?.desktopCount || 0) + dailyTotals.desktop,
+          mobileCount: (metric?.mobileCount || 0) + dailyTotals.mobile
+        },
         sliceName: sliceApp,
-        members,
-        mailchimpMembersCount: data.total_items
+        getLast7DaysData: getLast7DaysData(),
+        concertsCount,
+        teamMembersCount,
+        questionsCount,
+        photoGalleryImagesCount,
+        venuesCount
       },
       { status: 200 }
     )

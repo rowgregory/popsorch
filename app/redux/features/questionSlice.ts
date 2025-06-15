@@ -79,6 +79,8 @@ export const questionSlice = createSlice({
     builder
       .addMatcher(questionApi.endpoints.fetchQuestions.matchFulfilled, (state, { payload }: any) => {
         state.questions = payload.questions
+        state.noQuestions = payload.questions.length === 0
+        state.questionsCount = payload.questions.length
         state.loading = false
       })
       .addMatcher(questionApi.endpoints.createQuestion.matchFulfilled, (state) => {
