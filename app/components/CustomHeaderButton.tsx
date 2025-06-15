@@ -114,16 +114,49 @@ const CustomHeaderButton: React.FC<CustomHeaderButtonProps> = ({
       whileHover="hover"
       whileTap="tap"
       onClick={handleClick}
-      className="font-changa font-semibold px-6 py-3 rounded-sm transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-50 uppercase"
+      className="font-changa font-bold px-8 py-4 rounded-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-opacity-60 uppercase tracking-wider relative overflow-hidden cursor-pointer border-2 border-transparent hover:border-white/20"
       style={
         {
           backgroundColor,
           color: fontColor,
-          '--tw-ring-color': backgroundColor + '80'
+          '--tw-ring-color': backgroundColor + '80',
+          textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
+          background: `linear-gradient(135deg, ${backgroundColor} 0%, ${backgroundColor}dd 100%)`,
+          backdropFilter: 'blur(10px)'
         } as React.CSSProperties
       }
     >
-      {text}
+      {/* Animated background overlay */}
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-r from-white/10 via-white/20 to-white/10 opacity-0"
+        animate={{
+          x: ['-100%', '100%'],
+          opacity: [0, 1, 0]
+        }}
+        transition={{
+          duration: 2,
+          ease: 'linear',
+          repeat: Infinity,
+          repeatDelay: 3
+        }}
+      />
+
+      {/* Pulsing dot effect */}
+      <motion.div
+        className="absolute top-1 right-1 w-2 h-2 bg-white/60 rounded-full"
+        animate={{
+          scale: [1, 1.5, 1],
+          opacity: [0.6, 1, 0.6]
+        }}
+        transition={{
+          duration: 2,
+          ease: 'easeInOut',
+          repeat: Infinity
+        }}
+      />
+
+      {/* Button text with exciting styling */}
+      <span className="relative z-10 drop-shadow-lg">{text}</span>
     </motion.button>
   )
 }
