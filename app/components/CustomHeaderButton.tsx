@@ -114,7 +114,7 @@ const CustomHeaderButton: React.FC<CustomHeaderButtonProps> = ({
       whileHover="hover"
       whileTap="tap"
       onClick={handleClick}
-      className="font-changa font-bold px-8 py-4 rounded-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-opacity-60 uppercase tracking-wider relative overflow-hidden cursor-pointer border-2 border-transparent hover:border-white/20"
+      className="font-changa font-bold px-8 py-1 sm:py-4 rounded-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-opacity-60 uppercase tracking-wider relative overflow-hidden cursor-pointer border-2 border-transparent hover:border-white/20"
       style={
         {
           backgroundColor,
