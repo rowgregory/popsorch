@@ -34,7 +34,7 @@ const HeaderTop = () => {
           href={isAuthenticated ? '/admin/dashboard' : '/auth/login'}
           className="text-12 uppercase font-changa text-white duration-300 hover:text-blaze"
         >
-          {isAuthenticated ? 'Admin Dashboard' : 'Login / Register'}
+          Admin
         </Link>
       </div>
     </section>
