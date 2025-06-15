@@ -48,7 +48,9 @@ const HomeConcertCard: FC<ConcertCardProps> = ({ concert, index }) => {
           {concert.isOnSale ? (
             <Link
               href={concert?.allSeriesExternalLink}
+              target="_blank"
               className="bg-blaze hover:text-duskgray px-9 duration-700 rounded-sm py-3 font-changa text-12 uppercase w-full whitespace-nowrap flex items-center justify-center font-bold"
+              onClick={(e) => e.stopPropagation()}
             >
               Buy Tickets
             </Link>
