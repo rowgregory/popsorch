@@ -169,10 +169,8 @@ const SeasonPackageBanner = () => {
           {/* Premium Call to Action */}
           <motion.div variants={fadeInUp} className="mb-20">
             <motion.div
-              onClick={(e) => {
-                // Only open link if the click wasn't on the EditableTextArea
-                const target = e.target as Element
-                if (!target.closest('.editable-text-area')) {
+              onClick={() => {
+                if (!user.isAdmin) {
                   window.open('https://ci.ovationtix.com/35505/store/packages', '_blank')
                 }
               }}
@@ -198,7 +196,7 @@ const SeasonPackageBanner = () => {
                 initialValue={textBlockMap?.SEASON_PACKAGE_BANNER?.seasonPackageBannerButtonText}
                 type="SEASON_PACKAGE_BANNER"
                 textBlockKey="seasonPackageBannerButtonText"
-                className="relative z-10 tracking-wide editable-text-area"
+                className="relative z-10 tracking-wide"
               />
 
               <motion.svg
