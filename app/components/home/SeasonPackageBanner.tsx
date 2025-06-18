@@ -168,9 +168,14 @@ const SeasonPackageBanner = () => {
 
           {/* Premium Call to Action */}
           <motion.div variants={fadeInUp} className="mb-20">
-            <motion.a
-              href="https://ci.ovationtix.com/35505/store/packages"
-              target="_blank"
+            <motion.div
+              onClick={(e) => {
+                // Only open link if the click wasn't on the EditableTextArea
+                const target = e.target as Element
+                if (!target.closest('.editable-text-area')) {
+                  window.open('https://ci.ovationtix.com/35505/store/packages', '_blank')
+                }
+              }}
               className="group relative inline-flex items-center px-12 lg:px-16 py-6 lg:py-8 bg-gradient-to-r from-yellow-600 via-amber-600 to-yellow-500 text-white font-changa font-bold text-xl lg:text-2xl xl:text-3xl rounded-2xl shadow-2xl overflow-hidden transition-all duration-500"
               whileHover={{
                 scale: 1.05,
@@ -193,7 +198,7 @@ const SeasonPackageBanner = () => {
                 initialValue={textBlockMap?.SEASON_PACKAGE_BANNER?.seasonPackageBannerButtonText}
                 type="SEASON_PACKAGE_BANNER"
                 textBlockKey="seasonPackageBannerButtonText"
-                className="relative z-10 tracking-wide"
+                className="relative z-10 tracking-wide editable-text-area"
               />
 
               <motion.svg
@@ -207,7 +212,7 @@ const SeasonPackageBanner = () => {
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </motion.svg>
-            </motion.a>
+            </motion.div>
           </motion.div>
 
           {/* Premium Features Grid */}
