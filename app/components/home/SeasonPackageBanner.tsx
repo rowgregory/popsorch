@@ -167,7 +167,7 @@ const SeasonPackageBanner = () => {
           </motion.div>
 
           {/* Premium Call to Action */}
-          <motion.div variants={fadeInUp} className="mb-20">
+          <motion.div variants={fadeInUp} className="mb-20 cursor-pointer">
             <motion.div
               onClick={() => {
                 if (!user.isAdmin) {
@@ -196,7 +196,7 @@ const SeasonPackageBanner = () => {
                 initialValue={textBlockMap?.SEASON_PACKAGE_BANNER?.seasonPackageBannerButtonText}
                 type="SEASON_PACKAGE_BANNER"
                 textBlockKey="seasonPackageBannerButtonText"
-                className="relative z-10 tracking-wide"
+                className="relative z-10 tracking-wide cursor-pointer"
               />
 
               <motion.svg

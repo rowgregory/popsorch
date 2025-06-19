@@ -18,9 +18,9 @@ const EditableTextArea: FC<EditableTextAreaProps> = ({ tag: Tag, initialValue, t
   const { openModal } = useAppSelector((state: RootState) => state.app)
 
   const handleClick = (e: any) => {
-    e.stopPropagation()
-    e.preventDefault()
     if (isAuthenticated) {
+      e.stopPropagation()
+      e.preventDefault()
       dispatch(
         setOpenModal({
           show: openModal,
@@ -35,10 +35,7 @@ const EditableTextArea: FC<EditableTextAreaProps> = ({ tag: Tag, initialValue, t
   if (!initialValue) return
 
   return (
-    <Tag
-      onClick={handleClick}
-      className={`${className} ${isAuthenticated ? 'cursor-pointer' : 'cursor-default'} pointer-events-auto`}
-    >
+    <Tag onClick={handleClick} className={`${className} cursor-default`}>
       <span>{textBlockKey?.includes?.('PhoneNumber') ? formatPhoneNumber(String(initialValue)) : initialValue}</span>
     </Tag>
   )
