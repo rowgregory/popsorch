@@ -1,4 +1,4 @@
-import deleteFileFromFirebase from '@/app/utils/deleteFileFromFirebase'
+import deleteFileFromFirebase from '@/app/utils/firebase.delete'
 import { createLog } from '@/app/utils/logHelper'
 import prisma from '@/prisma/client'
 import { sliceVenue } from '@/public/data/api.data'

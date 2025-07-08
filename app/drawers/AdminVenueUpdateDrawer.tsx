@@ -6,7 +6,7 @@ import { resetVenue } from '../redux/features/venueSlice'
 import { createFormActions, resetForm, setIsNotCreating } from '../redux/features/formSlice'
 import VenueForm from '../forms/VenueForm'
 import { useUpdateVenueMutation } from '../redux/services/venueApi'
-import uploadFileToFirebase from '../utils/uploadFileToFirebase'
+import uploadFileToFirebase from '../utils/firebase.upload'
 import validateVenueForm from '../validations/validateVenueForm'
 import getCoordinatesFromAddress from '../utils/getCoordinatesFromAddress'
 

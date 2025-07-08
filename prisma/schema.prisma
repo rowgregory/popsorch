@@ -245,6 +245,14 @@ model SeasonPackageBanner {
   updatedAt DateTime @updatedAt
 }
 
+model FeatureToggleCard {
+  id        String   @id @default(cuid())
+  isVisible Boolean  @default(true)
+  isLive    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model HeaderButton {
   id              String   @id @default(cuid())
   animation       String   @default("scale")
@@ -256,4 +264,15 @@ model HeaderButton {
   isActive        Boolean  @default(false)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+}
+
+model PushSubscription {
+  id        String   @id @default(cuid())
+  userId    String // Link to admin user
+  endpoint  String   @unique
+  p256dh    String
+  auth      String
+  userAgent String? // Optional: track device/browser
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

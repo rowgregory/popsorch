@@ -172,7 +172,16 @@ export default {
     'fill-fuchsia-400',
     'fill-fuchsia-500',
     'fill-pink-400',
-    'fill-pink-500'
+    'fill-pink-500',
+
+    'bg-gradient-to-br from-blue-600 to-indigo-600',
+    'bg-gradient-to-br from-cyan-600 to-cyan-700',
+    'bg-gradient-to-br from-orange-600 to-red-600',
+    'bg-gradient-to-br from-emerald-600 to-green-600',
+    'bg-gradient-to-br from-purple-600 to-violet-600',
+    'bg-gradient-to-br from-pink-600 to-rose-600',
+    'bg-gradient-to-br from-amber-600 to-yellow-600',
+    'bg-gradient-to-br from-teal-600 to-cyan-700'
   ],
 
   theme: {

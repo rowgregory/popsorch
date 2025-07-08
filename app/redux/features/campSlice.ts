@@ -145,10 +145,19 @@ export const campSlice = createSlice({
       state.noCampApplications = state.campApplications.length === 0
     },
     removeCampApplicationFromState: (state, action) => {
+      const idsToRemove = Array.isArray(action.payload) ? action.payload : [action.payload]
+
+      // Filter out camp applications with matching IDs
+      const originalCount = state.campApplications.length
       state.campApplications = state.campApplications.filter(
-        (campApplication: { id: string }) => campApplication.id !== action.payload
+        (campApplication: { id: string }) => !idsToRemove.includes(campApplication.id)
       )
-      state.campApplicationsCount = state.campApplicationsCount - 1
+
+      // Calculate how many were actually removed
+      const removedCount = originalCount - state.campApplications.length
+
+      // Update count and check if empty
+      state.campApplicationsCount = state.campApplicationsCount - removedCount
       state.noCampApplications = state.campApplications.length === 0
     }
   },

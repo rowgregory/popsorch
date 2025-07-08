@@ -1,53 +1,73 @@
-import React, { useState } from 'react'
+'use client'
+
+import React from 'react'
 import { openViewDrawer } from '@/app/redux/features/dashboardSlice'
 import { createFormActions } from '@/app/redux/features/formSlice'
 import { useAppDispatch } from '@/app/redux/store'
-import { formatDate } from '@/app/utils/date.functions'
-import AdminTrashDeleteBtn from './AdminTrashDeleteBtn'
-import { resetCampApplication } from '@/app/redux/features/campSlice'
-import { decreaseCampApplicationsCount } from '@/app/redux/features/appSlice'
-import { useDeleteCampApplicationMutation } from '@/app/redux/services/campApi'
+import { motion } from 'framer-motion'
+import { Check, Eye } from 'lucide-react'
 
-const AdminCampApplicationRow = ({ application }: any) => {
+interface AdminCampApplicationRowProps {
+  application: any
+  isSelected: boolean
+  onSelect: () => void
+}
+
+const AdminCampApplicationRow: React.FC<AdminCampApplicationRowProps> = ({ application, isSelected, onSelect }) => {
   const dispatch = useAppDispatch()
   const { setInputs } = createFormActions('campApplication', dispatch)
-  const [loading, setLoading] = useState<Record<string, boolean>>({})
-  const [deleteCampApplication] = useDeleteCampApplicationMutation()
-
-  const handleCampApplicationDelete = async (e: MouseEvent, campApplicationId: string) => {
-    e.stopPropagation()
-    setLoading((prev) => ({ ...prev, [campApplicationId]: true }))
-
-    try {
-      await deleteCampApplication({ campApplicationId }).unwrap()
-
-      dispatch(resetCampApplication())
-      dispatch(decreaseCampApplicationsCount())
-    } catch {}
-
-    setLoading((prev) => ({ ...prev, [campApplicationId]: false }))
-  }
 
   return (
-    <div
-      onClick={() => {
-        dispatch(openViewDrawer())
-        setInputs(application)
-      }}
-      className="grid grid-cols-[3fr_3fr_2fr_2fr_2fr] gap-x-4 h-14 bg-midnightblack hover:bg-inkblack rounded-[5px] pl-4 py-2 pr-2 border-l-4 border-l-blue-400 items-center cursor-pointer text-white overflow-x-auto"
+    <motion.div
+      className={`
+        grid grid-cols-[1fr_2fr_2fr_3fr_2fr_1fr] gap-x-4 rounded-md pl-4 py-3 pr-2 bg-midnightblack relative overflow-hidden
+        transition-all duration-200 border-l-4 border-l-blue-400 text-white items-center
+        ${isSelected ? 'border-l-blue-500 shadow-sm' : ''}
+      `}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.2 }}
+      whileHover={{ boxShadow: '0 4px 20px rgba(59, 130, 246, 0.15)' }}
     >
-      <div className="truncate">{application?.student?.firstName}</div>
-      <div className="truncate">{application?.student?.lastName}</div>
-      <div className="truncate">{application?.student?.studentPhoneNumber}</div>
-      <div className="truncate">{formatDate(application?.createdAt)}</div>
+      {/* Checkbox */}
+      <div className="flex items-center">
+        <motion.label
+          className="relative flex items-center cursor-pointer"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <input type="checkbox" checked={isSelected} onChange={onSelect} className="sr-only" />
+          <div
+            className={`
+            w-5 h-5 rounded border-2 flex items-center justify-center transition-all duration-200
+            ${isSelected ? 'bg-blue-600 border-blue-600' : 'border-gray-300 hover:border-blue-400'}
+          `}
+          >
+            {isSelected && (
+              <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.15 }}>
+                <Check size={12} className="text-white" />
+              </motion.div>
+            )}
+          </div>
+        </motion.label>
+      </div>
+      {/* Application Data */}
+      <div className="truncate text-sm font-medium">{application.student?.firstName || 'N/A'}</div>
+      <div className="truncate text-sm">{application.student?.lastName || 'N/A'}</div>
+      <div className="truncate text-sm">{application.student?.studentEmailAddress || 'N/A'}</div>
+      <div className="truncate text-sm">
+        {application.createdAt ? new Date(application.createdAt).toLocaleDateString() : 'N/A'}
+      </div>
       <div>
-        <AdminTrashDeleteBtn
-          loading={loading}
-          id={application.id}
-          handleDelete={(e: any) => handleCampApplicationDelete(e, application.id)}
+        <Eye
+          onClick={() => {
+            dispatch(openViewDrawer())
+            setInputs(application)
+          }}
+          className="w-4 h-4 text-blue-400"
         />
       </div>
-    </div>
+    </motion.div>
   )
 }
 

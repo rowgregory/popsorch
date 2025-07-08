@@ -33,7 +33,7 @@ export async function POST(req: Request) {
     const hashedPassword = await hashData(password)
     const hashedSecurityAnswer = await hashData(securityAnswer)
 
-    await prisma.user.create({
+    const createdUser = await prisma.user.create({
       data: {
         firstName,
         lastName,
@@ -56,7 +56,7 @@ export async function POST(req: Request) {
       user: { firstName, lastName, email }
     })
 
-    return NextResponse.json({ sliceName: sliceAuth }, { status: 201 })
+    return NextResponse.json({ id: createdUser.id, sliceName: sliceAuth }, { status: 201 })
   } catch (error: any) {
     await createLog('error', `Registration failed: ${error.message}`, {
       errorLocation: parseStack(JSON.stringify(error)),

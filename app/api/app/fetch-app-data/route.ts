@@ -15,7 +15,8 @@ export async function GET(req: NextRequest) {
       photoGalleryImages,
       teamMembers,
       seasonPackageBanner,
-      headerButton
+      headerButton,
+      featureToggleCard
     ] = await Promise.all([
       prisma.textBlock.findMany(),
       prisma.concert.findMany(),
@@ -34,7 +35,13 @@ export async function GET(req: NextRequest) {
           isLive: true
         }
       }),
-      prisma.headerButton.findFirst({ where: { isActive: true } })
+      prisma.headerButton.findFirst({ where: { isActive: true } }),
+      prisma.featureToggleCard.findFirst({
+        select: {
+          isVisible: true,
+          isLive: true
+        }
+      })
     ])
 
     const sortedConcerts = concerts.sort((a: any, b: any) => {
@@ -78,7 +85,9 @@ export async function GET(req: NextRequest) {
         isSeasonPackageBannerToggledVisible: seasonPackageBanner?.isVisible ?? true,
         isSeasonPackageBannerToggledLive: seasonPackageBanner?.isLive ?? true,
         sliceName: sliceApp,
-        headerButton
+        headerButton,
+        isFeatureToggleCardVisible: featureToggleCard?.isVisible ?? true,
+        isFeatureToggleCardLive: featureToggleCard?.isLive ?? true
       },
       { status: 200 }
     )

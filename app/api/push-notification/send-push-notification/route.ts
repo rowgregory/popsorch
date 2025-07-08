@@ -1,7 +1,7 @@
 import webPush from 'web-push'
 import { NextRequest, NextResponse } from 'next/server'
-
-const sliceName = 'pushNotificationApi'
+import { slicePushNotification } from '@/public/data/api.data'
+import prisma from '@/prisma/client'
 
 // Ensure you have your VAPID keys stored in environment variables
 const vapidPublicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY
@@ -21,27 +21,88 @@ webPush.setVapidDetails(
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    const { endpoint, keys, message } = body
+    const { message, title } = body
 
-    const subscription = {
-      endpoint,
-      keys: {
-        p256dh: keys.p256dh,
-        auth: keys.auth
-      }
+    const subscriptions = await prisma.pushSubscription.findMany()
+
+    if (subscriptions.length === 0) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'No subscriptions found',
+          sliceName: slicePushNotification
+        },
+        { status: 404 }
+      )
     }
 
-    // Send the push notification using the Web Push library
-    await webPush.sendNotification(
-      subscription,
-      JSON.stringify({
-        title: message,
-        body: message // The message you want to send in the notification
-      })
-    )
+    // Send notifications to all subscriptions
+    const notificationPromises = subscriptions.map(async (sub) => {
+      const subscription = {
+        endpoint: sub.endpoint,
+        keys: {
+          p256dh: sub.p256dh,
+          auth: sub.auth
+        }
+      }
 
-    return NextResponse.json({ success: true, message: 'Notification sent successfully', sliceName }, { status: 200 })
+      try {
+        await webPush.sendNotification(
+          subscription,
+          JSON.stringify({
+            title: title || 'Notification',
+            body: message,
+            icon: '/icon-192x192.png', // Optional: add your app icon
+            badge: '/badge-72x72.png', // Optional: add badge icon
+            data: {
+              url: '/admin/camp-applications', // Optional: URL to open when clicked
+              timestamp: Date.now()
+            }
+          })
+        )
+        return { success: true, endpoint: sub.endpoint }
+      } catch (error: any) {
+        console.error(`Failed to send notification to ${sub.endpoint}:`, error)
+
+        // If subscription is invalid (410 status), remove it from database
+        if (error.statusCode === 410) {
+          try {
+            await prisma.pushSubscription.delete({
+              where: { endpoint: sub.endpoint }
+            })
+            console.log(`Removed invalid subscription: ${sub.endpoint}`)
+          } catch (deleteError) {
+            console.error('Error removing invalid subscription:', deleteError)
+          }
+        }
+
+        return { success: false, endpoint: sub.endpoint, error: error.message }
+      }
+    })
+
+    const results = await Promise.allSettled(notificationPromises)
+    const successful = results.filter((result) => result.status === 'fulfilled' && result.value.success).length
+
+    return NextResponse.json(
+      {
+        success: true,
+        message: `Notifications sent successfully to ${successful}/${subscriptions.length} subscribers`,
+        results: results.map((result) =>
+          result.status === 'fulfilled' ? result.value : { success: false, error: result.reason }
+        ),
+        sliceName: slicePushNotification
+      },
+      { status: 200 }
+    )
   } catch (error: unknown) {
-    return NextResponse.json({ message: 'Failed to send notification', error, sliceName }, { status: 500 })
+    console.error('Push notification error:', error)
+    return NextResponse.json(
+      {
+        message: 'Failed to send notification',
+        error: error instanceof Error ? error.message : 'Unknown error',
+        sliceName: slicePushNotification
+      },
+      { status: 500 }
+    )
   }
 }

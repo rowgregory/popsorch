@@ -6,7 +6,13 @@ export interface NavigationLinksProps {
   links?: { linkKey: string; textKey: string; active?: boolean; isExternal?: boolean }[]
 }
 
-export const getNavigationLinks = (path: string, thereAreConcerts: boolean): NavigationLinksProps[] => [
+export const getNavigationLinks = (
+  path: string,
+  thereAreConcerts: boolean,
+  isFeatureToggleCardLive: boolean,
+  isFeatureToggleCardToggledVisible: boolean,
+  isAdmin: boolean
+): NavigationLinksProps[] => [
   { linkKey: '/', textKey: 'Home', active: path === '/' },
   ...(thereAreConcerts
     ? [
@@ -33,11 +39,16 @@ export const getNavigationLinks = (path: string, thereAreConcerts: boolean): Nav
         linkKey: '/student-scholarships',
         active: path === '/student-scholarships'
       },
-      {
-        textKey: 'Camping With The Pops',
-        linkKey: '/camp-application',
-        active: path === '/camp-application'
-      }
+      // Show camping application if admin and feature toggle is visible, OR if feature toggle is live
+      ...((isAdmin && isFeatureToggleCardToggledVisible) || isFeatureToggleCardLive
+        ? [
+            {
+              textKey: 'Camping With The Pops',
+              linkKey: '/camp-application',
+              active: path === '/camp-application'
+            }
+          ]
+        : [])
     ]
   },
   {
@@ -69,6 +80,11 @@ export const getNavigationLinks = (path: string, thereAreConcerts: boolean): Nav
         textKey: 'Staff',
         linkKey: '/staff',
         active: path === '/staff'
+      },
+      {
+        textKey: 'Hidden Gems',
+        linkKey: '/hidden-gems',
+        active: path === '/hidden-gems'
       }
     ]
   },

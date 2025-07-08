@@ -6,9 +6,9 @@ import { closeDrawer } from '../redux/features/dashboardSlice'
 import { resetConcert } from '../redux/features/concertSlice'
 import { createFormActions, resetForm, setIsNotCreating } from '../redux/features/formSlice'
 import { useCreateConcertMutation } from '../redux/services/concertApi'
-import uploadFileToFirebase from '../utils/uploadFileToFirebase'
+import uploadFileToFirebase from '../utils/firebase.upload'
 import validateConcertForm from '../validations/validateConcertForm'
-import deleteFileFromFirebase from '../utils/deleteFileFromFirebase'
+import deleteFileFromFirebase from '../utils/firebase.delete'
 import { increaseConcertsCount } from '../redux/features/appSlice'
 
 const AdminConcertCreateDrawer = () => {

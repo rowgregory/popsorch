@@ -9,12 +9,22 @@ import CustomHeaderButton from './CustomHeaderButton'
 
 const NavigationDrawer = () => {
   const path = useCustomPathname()
-  const { navigationDrawer } = useAppSelector((state: RootState) => state.app)
+  const { navigationDrawer, isFeatureToggleCardLive, isFeatureToggleCardVisible } = useAppSelector(
+    (state: RootState) => state.app
+  )
   const { headerButton } = useAppSelector((state: RootState) => state.headerButton)
   const { concerts } = useAppSelector((state: RootState) => state.concert)
+  const { user } = useAppSelector((state: RootState) => state.user)
   const dispatch = useAppDispatch()
   const overlayRef = useRef(null)
-  const navLinks = getNavigationLinks(path, concerts?.length > 0)
+  const thereAreConcerts = concerts?.length > 0
+  const navLinks = getNavigationLinks(
+    path,
+    thereAreConcerts,
+    isFeatureToggleCardLive,
+    isFeatureToggleCardVisible,
+    user.isAdmin
+  )
   const closeDrawer = () => dispatch(closeNavigationDrawer())
 
   return (

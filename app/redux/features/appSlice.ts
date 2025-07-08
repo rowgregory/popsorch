@@ -63,6 +63,8 @@ export interface AppStatePayload {
   getLast7DaysData: any
   toggleHeaderButtonStudio: boolean
   inconspicuousSignInDrawer: boolean
+  isFeatureToggleCardLive: boolean
+  isFeatureToggleCardVisible: boolean
 }
 
 const mediaDataInitialState = {
@@ -114,7 +116,9 @@ const initialAppState: AppStatePayload = {
   isSeasonPackageBannerToggledLive: false,
   getLast7DaysData: [],
   toggleHeaderButtonStudio: false,
-  inconspicuousSignInDrawer: false
+  inconspicuousSignInDrawer: false,
+  isFeatureToggleCardLive: false,
+  isFeatureToggleCardVisible: false
 }
 
 export const appSlice = createSlice({
@@ -231,6 +235,8 @@ export const appSlice = createSlice({
     hydrateAppState: (state, { payload }) => {
       state.isSeasonPackageBannerToggledLive = payload.isSeasonPackageBannerToggledLive
       state.isSeasonPackageBannerToggledVisible = payload.isSeasonPackageBannerToggledVisible
+      state.isFeatureToggleCardLive = payload.isFeatureToggleCardLive
+      state.isFeatureToggleCardVisible = payload.isFeatureToggleCardVisible
     },
     setOpeneHeaderButtonStudio: (state) => {
       state.toggleHeaderButtonStudio = true
@@ -264,6 +270,12 @@ export const appSlice = createSlice({
       })
       .addMatcher(appApi.endpoints.toggleSeasonPackageBannerLive.matchFulfilled, (state, { payload }: any) => {
         state.isSeasonPackageBannerToggledLive = payload.isSeasonPackageBannerToggledLive
+      })
+      .addMatcher(appApi.endpoints.featureToggleCardLive.matchFulfilled, (state, { payload }: any) => {
+        state.isFeatureToggleCardLive = payload.isSeasonPackageBannerToggledLive
+      })
+      .addMatcher(appApi.endpoints.featureToggleCardVisible.matchFulfilled, (state, { payload }: any) => {
+        state.isFeatureToggleCardVisible = payload.isFeatureToggleCardToggledVisible
       })
 
       .addMatcher(

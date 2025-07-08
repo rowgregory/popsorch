@@ -1,6 +1,6 @@
 import { sectionColors } from '@/public/data/admin.data'
 import { LucideIcon } from 'lucide-react'
-import { Binoculars, Image, MessageCircle, Music, Newspaper, Star, Tent, Theater, Users, UserCheck } from 'lucide-react'
+import { Binoculars, Image, MessageCircle, Music, Newspaper, Star, Theater, Users, UserCheck } from 'lucide-react'
 
 export const highlightSection = (message: string) => {
   for (const { textKey, color } of sectionColors) {
@@ -53,15 +53,6 @@ export const dashboardData = (
     linkKey: '/admin/concerts',
     color: 'text-pink-400',
     fill: 'fill-pink-400',
-    isLoading: app?.loadingDashboardData
-  },
-  {
-    title: 'Camp Applications',
-    count: app?.campApplicationCount,
-    icon: Tent,
-    linkKey: '/admin/camp-applications',
-    color: 'text-blue-400',
-    fill: 'fill-blue-400',
     isLoading: app?.loadingDashboardData
   },
   {

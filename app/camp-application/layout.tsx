@@ -36,8 +36,10 @@ const CampApplicationLayout: FC<{ children: ReactNode }> = ({ children }) => {
   const { text, fade } = useRotatingText(campTestimonials)
   const { textBlockMap } = useAppSelector((state: RootState) => state.textBlock)
   const { loading } = useAppSelector((state: RootState) => state.app)
+  const { user } = useAppSelector((state: RootState) => state.user)
+  const { isFeatureToggleCardLive, isFeatureToggleCardVisible } = useAppSelector((state: RootState) => state.app)
 
-  return (
+  return isFeatureToggleCardLive || (user.isAdmin && isFeatureToggleCardVisible) ? (
     <>
       <Breadcrumb breadcrumb="Camp Application" classname="1200:max-w-screen-1400" />
       <div className="px-4 py-40 relative">
@@ -267,6 +269,8 @@ const CampApplicationLayout: FC<{ children: ReactNode }> = ({ children }) => {
         </div>
       </div>
     </>
+  ) : (
+    <div className="text-center py-20 flex items-center justify-center w-full">Check back next year!</div>
   )
 }
 

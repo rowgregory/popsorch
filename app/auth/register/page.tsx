@@ -28,7 +28,7 @@ const Register = () => {
     if (!isValid) return
 
     try {
-      await register({
+      const payload = await register({
         firstName: registerForm.inputs.firstName,
         lastName: registerForm.inputs.lastName,
         email: registerForm.inputs.email.trim().toLowerCase(),
@@ -38,7 +38,7 @@ const Register = () => {
         registerCode: registerForm.inputs.registerCode
       }).unwrap()
 
-      await requestNotificationPermission()
+      await requestNotificationPermission(payload.id)
       push('/auth/login')
       dispatch(resetAuth())
       dispatch(increaseUsersCount())

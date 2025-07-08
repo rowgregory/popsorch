@@ -11,9 +11,9 @@ import { heardOfPopsOptions } from '@/public/data/camp.data'
 import { useCreateCampApplicationMutation } from '../redux/services/campApi'
 import Spinner from '../components/common/Spinner'
 import LogoWRobyn from '../components/LogoWRobynHeader'
-import { useSendPushNotificationMutation } from '../redux/services/pushNotificationApi'
 import { increaseCampApplicationsCount } from '../redux/features/appSlice'
 import validateCampAppStepFourForm from '../validations/validateCampAppStepFourForm'
+import { usePushNotifications } from '../hooks/usePushNotifications'
 
 const instrumentGroups = [
   {
@@ -39,7 +39,7 @@ const CampAppStepFourForm = () => {
   const { message, success } = useAppSelector((state: RootState) => state.camp)
   const { handleInput, clearInputs, setErrors } = createFormActions('campForm', dispatch)
   const [createCampApplication, { isLoading }] = useCreateCampApplicationMutation()
-  const [sendPushNotification] = useSendPushNotificationMutation()
+  const { sendNotificationToAllAdmins } = usePushNotifications()
 
   const handleStepFour = async (e: FormEvent) => {
     e.preventDefault()
@@ -51,18 +51,7 @@ const CampAppStepFourForm = () => {
       await createCampApplication(campForm?.inputs)
         .unwrap()
         .then(async () => {
-          const storedSubscription = localStorage.getItem('pushSubscription')
-          const subscription = storedSubscription ? JSON.parse(storedSubscription) : null
-
-          try {
-            if (subscription && subscription.endpoint) {
-              await sendPushNotification({
-                endpoint: subscription.endpoint,
-                keys: subscription.keys,
-                message: 'New camp application submitted'
-              }).unwrap()
-            }
-          } catch {}
+          await sendNotificationToAllAdmins('New camp application submitted', 'Camp Application Alert')
           dispatch(increaseCampApplicationsCount())
         })
     } catch {}

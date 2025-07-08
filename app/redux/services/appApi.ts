@@ -37,6 +37,8 @@ export const appApi = api.injectEndpoints({
               teamMembers,
               isSeasonPackageBannerToggledLive,
               isSeasonPackageBannerToggledVisible,
+              isFeatureToggleCardLive,
+              isFeatureToggleCardVisible,
               headerButton
             }
           } = await queryFulfilled
@@ -47,7 +49,14 @@ export const appApi = api.injectEndpoints({
           dispatch(setVenues(venues))
           dispatch(setPhotoGalleryImages(photoGalleryImages))
           dispatch(setTeamMembers(teamMembers))
-          dispatch(hydrateAppState({ isSeasonPackageBannerToggledLive, isSeasonPackageBannerToggledVisible }))
+          dispatch(
+            hydrateAppState({
+              isSeasonPackageBannerToggledLive,
+              isSeasonPackageBannerToggledVisible,
+              isFeatureToggleCardLive,
+              isFeatureToggleCardVisible
+            })
+          )
           dispatch(hydrateHeaderButton(headerButton))
         } catch (error: any) {
           if (error instanceof Error && error.message === 'Network disconnected') {
@@ -82,6 +91,22 @@ export const appApi = api.injectEndpoints({
         body: {}
       }),
       invalidatesTags: ['App']
+    }),
+    featureToggleCardVisible: build.mutation({
+      query: () => ({
+        url: `${BASE_URL}/feature-toggle-card-visible`,
+        method: 'POST',
+        body: {}
+      }),
+      invalidatesTags: ['App']
+    }),
+    featureToggleCardLive: build.mutation({
+      query: () => ({
+        url: `${BASE_URL}/feature-toggle-card-live`,
+        method: 'POST',
+        body: {}
+      }),
+      invalidatesTags: ['App']
     })
   })
 })
@@ -90,5 +115,7 @@ export const {
   useFetchAppDataQuery,
   useFetchDashboardDataQuery,
   useToggleSeasonPackageBannerMutation,
-  useToggleSeasonPackageBannerLiveMutation
+  useToggleSeasonPackageBannerLiveMutation,
+  useFeatureToggleCardVisibleMutation,
+  useFeatureToggleCardLiveMutation
 } = appApi

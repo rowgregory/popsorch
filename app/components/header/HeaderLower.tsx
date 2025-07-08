@@ -14,9 +14,17 @@ const HeaderLower = () => {
   const path = useCustomPathname()
   const dispatch = useAppDispatch()
   const { concerts } = useAppSelector((state: RootState) => state.concert)
+  const { isFeatureToggleCardLive, isFeatureToggleCardVisible } = useAppSelector((state: RootState) => state.app)
+  const { user } = useAppSelector((state: RootState) => state.user)
   const { headerButton } = useAppSelector((state: RootState) => state.headerButton)
   const thereAreConcerts = concerts?.length >= 1
-  const navLinks = getNavigationLinks(path, thereAreConcerts)
+  const navLinks = getNavigationLinks(
+    path,
+    thereAreConcerts,
+    isFeatureToggleCardLive,
+    isFeatureToggleCardVisible,
+    user.isAdmin
+  )
   const [openDropdown, setOpenDropdown] = useState({ open: false, textKey: '' })
   const isHome = path === '/'
   const { headerRef } = useHeaderAtTop()

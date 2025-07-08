@@ -4,19 +4,19 @@ import React, { FormEvent } from 'react'
 import { RootState, useAppDispatch, useAppSelector } from '@/app/redux/store'
 import { useLoginMutation } from '@/app/redux/services/authApi'
 import LoginForm from '@/app/forms/LoginForm'
-import { useSendPushNotificationMutation } from '@/app/redux/services/pushNotificationApi'
 import { useRouter } from 'next/navigation'
 import validateLoginForm from '@/app/validations/validateLoginForm'
 import { createFormActions } from '@/app/redux/features/formSlice'
 import { getErrorMessage } from '@/app/utils/logHelper'
 import { hydrateUserState } from '@/app/redux/features/userSlice'
 import Link from 'next/link'
+import { usePushNotifications } from '@/app/hooks/usePushNotifications'
 
 const Login = () => {
   const { push } = useRouter()
   const { loginForm } = useAppSelector((state: RootState) => state.form)
   const [login, { isLoading, error }] = useLoginMutation()
-  const [sendPushNotification] = useSendPushNotificationMutation()
+  const { requestNotificationPermission } = usePushNotifications()
   const dispatch = useAppDispatch()
   const { setErrors } = createFormActions('loginForm', dispatch)
 
@@ -27,27 +27,15 @@ const Login = () => {
     if (!isValid) return
 
     try {
-      await login({
+      const payload = await login({
         email: loginForm.inputs.email.trim().toLowerCase(),
         password: loginForm.inputs.password
-      })
-        .unwrap()
-        .then(async (payload: { isAdmin: boolean }) => {
-          push('/admin/dashboard')
-          dispatch(hydrateUserState(payload))
-          const storedSubscription = localStorage.getItem('pushSubscription')
-          const subscription = storedSubscription ? JSON.parse(storedSubscription) : null
+      }).unwrap()
 
-          try {
-            if (subscription && subscription.endpoint) {
-              await sendPushNotification({
-                endpoint: subscription.endpoint,
-                keys: subscription.keys,
-                message: 'Login successful'
-              }).unwrap()
-            }
-          } catch {}
-        })
+      push('/admin/dashboard')
+      dispatch(hydrateUserState(payload))
+
+      await requestNotificationPermission(payload.id)
     } catch {}
   }
 

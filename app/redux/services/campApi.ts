@@ -19,8 +19,8 @@ export const campApi = api.injectEndpoints({
     deleteCampApplication: build.mutation({
       query: (body: any) => ({ url: `${BASE_URL}/delete-camp-application`, method: 'DELETE', body }),
       onQueryStarted: async (arg: any, { dispatch, queryFulfilled }: any) => {
-        await queryFulfilled
-        dispatch(removeCampApplicationFromState(arg.campApplicationId))
+        const { data } = await queryFulfilled
+        dispatch(removeCampApplicationFromState(data.deletedIds))
       }
     })
   })

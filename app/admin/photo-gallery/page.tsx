@@ -16,7 +16,7 @@ import {
 } from '@/app/redux/features/photoGalleryImageSlice'
 import { useCreatePhotoGalleryImageMutation } from '@/app/redux/services/photoGalleryImageApi'
 import { RootState, useAppDispatch, useAppSelector } from '@/app/redux/store'
-import uploadFileToFirebase from '@/app/utils/uploadFileToFirebase'
+import uploadFileToFirebase from '@/app/utils/firebase.upload'
 import React, { ChangeEvent, useRef, useState } from 'react'
 
 const PhotoGallery = () => {

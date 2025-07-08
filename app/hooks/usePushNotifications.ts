@@ -22,58 +22,154 @@ export const usePushNotifications = () => {
   const dispatch = useAppDispatch()
   const { isNotificationPermissionGranted, subscription } = useAppSelector((state: RootState) => state.pushNotification)
 
-  // Save subscription and notification state to localStorage
+  // Save subscription to database AND localStorage
+  const saveSubscriptionToDatabase = async (subscriptionData: any, userId?: string) => {
+    try {
+      const response = await fetch('/api/push-notification/save-push-notification', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          userId: userId, // Pass userId if available (from auth context/redux)
+          endpoint: subscriptionData.endpoint,
+          keys: subscriptionData.keys,
+          userAgent: navigator.userAgent
+        })
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to save subscription to database')
+      }
+
+      const result = await response.json()
+      console.log('Subscription saved to database:', result)
+      return result
+    } catch (error) {
+      console.error('Error saving subscription to database:', error)
+      // Still continue with localStorage as fallback
+      throw error
+    }
+  }
+
+  // Remove subscription from database
+  const removeSubscriptionFromDatabase = async (endpoint: string) => {
+    try {
+      const response = await fetch(
+        `/api/push-notification/delete-subscription?endpoint=${encodeURIComponent(endpoint)}`,
+        {
+          method: 'DELETE'
+        }
+      )
+
+      if (!response.ok) {
+        throw new Error('Failed to remove subscription from database')
+      }
+
+      console.log('Subscription removed from database')
+    } catch (error) {
+      console.error('Error removing subscription from database:', error)
+    }
+  }
+
+  // Save subscription and notification state to localStorage (keep your existing function)
   const saveToLocalStorage = (notificationsEnabled: boolean, subscription: any) => {
     try {
       localStorage.setItem('notificationsEnabled', JSON.stringify(notificationsEnabled))
       if (subscription) {
         localStorage.setItem('pushSubscription', JSON.stringify(subscription))
+      } else {
+        localStorage.removeItem('pushSubscription')
       }
     } catch {}
   }
 
-  const requestNotificationPermission = useCallback(async () => {
+  // Enhanced version that saves to both database and localStorage
+  const saveSubscription = useCallback(async (subscriptionData: any, userId?: string) => {
+    // Always save to localStorage first (immediate)
+    saveToLocalStorage(true, subscriptionData)
+
+    // Then try to save to database (background)
     try {
-      const permission = await Notification.requestPermission()
-      if (permission === 'granted') {
-        dispatch(setPermissionGranted(true))
+      await saveSubscriptionToDatabase(subscriptionData, userId)
+    } catch {
+      console.warn('Failed to save to database, but localStorage backup is available')
+    }
+  }, [])
 
-        const registration = await navigator.serviceWorker.ready
-        const existingSub = await registration.pushManager.getSubscription()
-        if (!existingSub) {
-          const sub = await registration.pushManager.subscribe({
-            userVisibleOnly: true,
-            applicationServerKey: urlBase64ToUint8Array(process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!)
-          })
+  const requestNotificationPermission = useCallback(
+    async (userId?: string) => {
+      try {
+        const permission = await Notification.requestPermission()
+        if (permission === 'granted') {
+          dispatch(setPermissionGranted(true))
 
-          const encodeKey = (key: ArrayBuffer | null) => {
-            if (key) {
-              const uint8Array = new Uint8Array(key)
-              const base64String = window
-                .btoa(String.fromCharCode(...uint8Array))
-                .replace(/\+/g, '-')
-                .replace(/\//g, '_')
-                .replace(/=+$/, '')
-              return base64String
+          const registration = await navigator.serviceWorker.ready
+          const existingSub = await registration.pushManager.getSubscription()
+
+          if (!existingSub) {
+            const sub = await registration.pushManager.subscribe({
+              userVisibleOnly: true,
+              applicationServerKey: urlBase64ToUint8Array(process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!)
+            })
+
+            const encodeKey = (key: ArrayBuffer | null) => {
+              if (key) {
+                const uint8Array = new Uint8Array(key)
+                const base64String = window
+                  .btoa(String.fromCharCode(...uint8Array))
+                  .replace(/\+/g, '-')
+                  .replace(/\//g, '_')
+                  .replace(/=+$/, '')
+                return base64String
+              }
+              return ''
             }
-            return ''
-          }
 
-          const subscriptionData = {
-            endpoint: sub.endpoint,
-            keys: {
-              p256dh: encodeKey(sub.getKey('p256dh')),
-              auth: encodeKey(sub.getKey('auth'))
+            const subscriptionData = {
+              endpoint: sub.endpoint,
+              keys: {
+                p256dh: encodeKey(sub.getKey('p256dh')),
+                auth: encodeKey(sub.getKey('auth'))
+              }
             }
-          }
 
-          // Dispatch subscription and save it to localStorage
-          dispatch(setSubscription(subscriptionData))
-          saveToLocalStorage(true, subscriptionData)
+            // Dispatch subscription and save it to both localStorage and database
+            dispatch(setSubscription(subscriptionData))
+            await saveSubscription(subscriptionData, userId)
+          } else {
+            // If subscription already exists, make sure it's in our database
+            const encodeKey = (key: ArrayBuffer | null) => {
+              if (key) {
+                const uint8Array = new Uint8Array(key)
+                const base64String = window
+                  .btoa(String.fromCharCode(...uint8Array))
+                  .replace(/\+/g, '-')
+                  .replace(/\//g, '_')
+                  .replace(/=+$/, '')
+                return base64String
+              }
+              return ''
+            }
+
+            const subscriptionData = {
+              endpoint: existingSub.endpoint,
+              keys: {
+                p256dh: encodeKey(existingSub.getKey('p256dh')),
+                auth: encodeKey(existingSub.getKey('auth'))
+              }
+            }
+
+            dispatch(setSubscription(subscriptionData))
+            await saveSubscription(subscriptionData, userId)
+          }
         }
+      } catch (error) {
+        console.error('Error requesting notification permission:', error)
       }
-    } catch {}
-  }, [dispatch])
+    },
+    [dispatch, saveSubscription]
+  )
 
   const unsubscribe = async () => {
     try {
@@ -81,6 +177,10 @@ export const usePushNotifications = () => {
       const sub = await registration.pushManager.getSubscription()
 
       if (sub) {
+        // Remove from database first
+        await removeSubscriptionFromDatabase(sub.endpoint)
+
+        // Then unsubscribe from browser
         const success = await sub.unsubscribe()
         if (success) {
           // Remove the subscription from Redux (set it to null)
@@ -91,9 +191,40 @@ export const usePushNotifications = () => {
           saveToLocalStorage(false, null)
         }
       }
-    } catch {}
+    } catch (error) {
+      console.error('Error unsubscribing:', error)
+    }
   }
 
+  // Send notification to all admins (new function)
+  const sendNotificationToAllAdmins = async (message: string, title?: string) => {
+    try {
+      const response = await fetch('/api/push-notification/send-push-notification', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message,
+          title: title || 'New Notification'
+        })
+      })
+
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.message || 'Failed to send notification')
+      }
+
+      console.log('Notification sent to all admins:', result)
+      return result
+    } catch (error) {
+      console.error('Error sending notification to admins:', error)
+      throw error
+    }
+  }
+
+  // 🔥 FIXED: This useEffect only checks subscription, doesn't save to database
   useEffect(() => {
     const checkSubscription = async () => {
       if ('serviceWorker' in navigator) {
@@ -124,9 +255,14 @@ export const usePushNotifications = () => {
             }
 
             dispatch(setSubscription(subscriptionData))
-            saveToLocalStorage(true, subscriptionData) // Save subscription data to localStorage
+            saveToLocalStorage(true, subscriptionData)
+
+            // ❌ REMOVED: Don't automatically save to database on page load
+            // await saveSubscriptionToDatabase(subscriptionData)
           }
-        } catch {}
+        } catch (error) {
+          console.error('Error checking subscription:', error)
+        }
       }
     }
 
@@ -179,6 +315,9 @@ export const usePushNotifications = () => {
     subscription,
     unsubscribe,
     requestNotificationPermission,
-    saveToLocalStorage
+    saveToLocalStorage,
+    saveSubscription,
+    sendNotificationToAllAdmins,
+    isPushNotificationSupported: isPushNotificationSupported()
   }
 }
