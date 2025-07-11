@@ -17,7 +17,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'c.ba.contentsquare.net'
+        hostname: 'c.ba.contentsquare.net/ping'
       }
     ]
   }
