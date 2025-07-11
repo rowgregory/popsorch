@@ -14,10 +14,6 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'firebasestorage.googleapis.com'
-      },
-      {
-        protocol: 'https',
-        hostname: 'c.ba.contentsquare.net/ping'
       }
     ]
   }

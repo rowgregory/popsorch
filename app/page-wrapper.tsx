@@ -22,11 +22,7 @@ import AwesomeIcon from './components/common/AwesomeIcon'
 import { checkCircleIcon, universalAccessIcon } from './lib/icons'
 import { setToggleAccessibilityDrawer } from './redux/features/appSlice'
 import { useCreateDailyMetricMutation } from './redux/services/metricApi'
-import Hotjar from '@hotjar/browser'
 import InconspicousSignInDrawer from './drawers/InconspicousSignInDrawer'
-
-const siteId = 6425784
-const hotjarVersion = 6
 
 const PageWrapper: FC<ClientPageProps> = ({ children, data }) => {
   const dispatch = useAppDispatch()
@@ -66,22 +62,6 @@ const PageWrapper: FC<ClientPageProps> = ({ children, data }) => {
       )
     }
   }, [memoizedUserData, dispatch, data])
-
-  // **OPTIMIZATION 4: Initialize Hotjar only once**
-  useEffect(() => {
-    let mounted = true
-
-    const initHotjar = async () => {
-      if (mounted && typeof window !== 'undefined') {
-        Hotjar.init(siteId, hotjarVersion)
-      }
-    }
-
-    initHotjar()
-    return () => {
-      mounted = false
-    }
-  }, [])
 
   // **OPTIMIZATION 5: Debounce daily metric creation and add session storage check**
   useEffect(() => {
