@@ -168,13 +168,13 @@ const SeasonPackageBanner = () => {
 
           {/* Premium Call to Action - Two Button Layout */}
           <motion.div variants={fadeInUp} className="mb-20">
-            <div className="flex flex-col sm:flex-row gap-4 lg:gap-6 justify-center items-center">
+            <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 justify-center items-center">
               {/* Single Tickets Button */}
               <motion.div
                 onClick={() => {
                   window.open('https://ci.ovationtix.com/35505', '_blank')
                 }}
-                className="group relative inline-flex items-center px-8 lg:px-12 py-5 lg:py-7 bg-gradient-to-r from-orange-600 via-red-600 to-orange-500 text-white font-changa font-bold text-lg lg:text-xl xl:text-2xl rounded-2xl shadow-2xl overflow-hidden transition-all duration-500 cursor-pointer w-full sm:w-auto min-w-[240px]"
+                className="group relative inline-flex items-center px-8 lg:px-12 py-5 lg:py-7 bg-gradient-to-r from-orange-600 via-red-600 to-orange-500 text-white font-changa font-bold text-lg lg:text-xl xl:text-2xl rounded-2xl shadow-2xl overflow-hidden transition-all duration-500 cursor-pointer w-full lg:w-auto min-w-[240px] justify-center"
                 whileHover={{
                   scale: 1.05,
                   boxShadow: '0 25px 50px -12px rgba(255, 165, 0, 0.6)',
@@ -201,7 +201,7 @@ const SeasonPackageBanner = () => {
                     window.open('https://ci.ovationtix.com/35505/store/packages', '_blank')
                   }
                 }}
-                className="group relative inline-flex items-center px-8 lg:px-12 py-5 lg:py-7 bg-gradient-to-r from-yellow-600 via-amber-600 to-yellow-500 text-white font-changa font-bold text-lg lg:text-xl xl:text-2xl rounded-2xl shadow-2xl overflow-hidden transition-all duration-500 cursor-pointer w-full sm:w-auto min-w-[240px]"
+                className="group relative inline-flex items-center px-8 lg:px-12 py-5 lg:py-7 bg-gradient-to-r from-yellow-600 via-amber-600 to-yellow-500 text-white font-changa font-bold text-lg lg:text-xl xl:text-2xl rounded-2xl shadow-2xl overflow-hidden transition-all duration-500 cursor-pointer w-full lg:w-auto min-w-[240px] justify-center"
                 whileHover={{
                   scale: 1.05,
                   boxShadow: '0 25px 50px -12px rgba(255, 215, 0, 0.6)',
