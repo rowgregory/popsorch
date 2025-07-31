@@ -108,6 +108,11 @@ export const getNavigationLinks = (
         linkKey: '/advertise-with-us',
         textKey: 'Advertise With Us',
         active: path === '/advertise-with-us'
+      },
+      {
+        linkKey: '/sponsorship-opportunities',
+        textKey: 'Sponsorship Opportunities',
+        active: path === '/sponsorship-opportunities'
       }
     ]
   },

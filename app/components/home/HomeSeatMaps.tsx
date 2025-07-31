@@ -7,6 +7,7 @@ import RiverviewPACFirstFloorSVG from '../svg/RiverviewPACFirstFloorSVG'
 import SCFNeelPACSVG from '../svg/SCFNeelPACSVG'
 import RiverviewBalconySVG from '../svg/RiverviewBalconySVG'
 import SCFNeel2ndHalf from '../svg/SCFNeel2ndHalf'
+import ManateeHSSVG from '../svg/ManateeHSSVG'
 
 interface SVGProps {
   visible: boolean
@@ -28,6 +29,7 @@ const HomeSeatMaps = () => {
   const [neel2ndHalf, setNeel2ndHalf] = useState<SVGProps>(SVGinitialState)
   const [riverview, setRiverview] = useState<SVGProps>(SVGinitialState)
   const [riverviewBalcony, setRiverviewBalcony] = useState<SVGProps>(SVGinitialState)
+  const [manatee, setManatee] = useState<SVGProps>(SVGinitialState)
 
   return (
     <div className="px-4 py-40">
@@ -89,6 +91,7 @@ const HomeSeatMaps = () => {
             <div className="pl-4">{neel.price && `$${neel.price}`}</div>
           </div>
         </div>
+        <div className="mb-20 w-full h-[1px] bg-zinc-700/70" />
         <h1 className="font-changa text-xl text-center mt-12">Neel SCF Performing Arts Center Second Half</h1>
         <div className="overflow-hidden w-full overflow-x-auto mt-6">
           <div className="min-w-[800px] w-full overflow-x-auto">
@@ -103,6 +106,22 @@ const HomeSeatMaps = () => {
             <div className="pl-4">{neel2ndHalf.seat}</div>
             <div className="font-semibold text-right pr-4 border-r border-[#555]">Price</div>
             <div className="pl-4">{neel2ndHalf.price && `$${neel2ndHalf.price}`}</div>
+          </div>
+        </div>
+        <h1 className="font-changa text-xl text-center mt-12">Manatee High School</h1>
+        <div className="overflow-hidden w-full overflow-x-auto mt-6">
+          <div className="min-w-[800px] w-full overflow-x-auto">
+            <ManateeHSSVG setManatee={setManatee} />
+          </div>
+        </div>
+        <div className="flex items-center justify-center mt-7">
+          <div className="grid grid-cols-2 gap-y-4 py-3 border-y border-zinc-700/70 text-white font-lato text-sm">
+            <div className="font-semibold text-right pr-4 border-r border-[#555]">Level</div>
+            <div className="pl-4">{manatee.level}</div>
+            <div className="font-semibold text-right pr-4 border-r border-[#555]">Seat</div>
+            <div className="pl-4">{manatee.seat}</div>
+            <div className="font-semibold text-right pr-4 border-r border-[#555]">Price</div>
+            <div className="pl-4">{manatee.price && `$${manatee.price}`}</div>
           </div>
         </div>
       </div>

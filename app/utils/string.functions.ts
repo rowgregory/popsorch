@@ -26,7 +26,8 @@ export const shouldShowFooter = (pathname: string) => {
     '/student-performers',
     '/student-scholarships',
     '/media',
-    '/hidden-gems'
+    '/hidden-gems',
+    '/sponsorship-opportunities'
   ]
 
   const validPatterns = [/^\/concerts\/[^\/]+$/]
@@ -62,7 +63,8 @@ export const shouldShowHeader = (pathname: string) => {
     '/student-performers',
     '/student-scholarships',
     '/media',
-    '/hidden-gems'
+    '/hidden-gems',
+    '/sponsorship-opportunities'
   ]
 
   const validPatterns = [/^\/concerts\/[^\/]+$/]
