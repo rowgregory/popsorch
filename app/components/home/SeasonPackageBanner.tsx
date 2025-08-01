@@ -4,11 +4,13 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { RootState, useAppSelector } from '@/app/redux/store'
 import EditableTextArea from '../common/EditableTextArea'
+import { useRouter } from 'next/navigation'
 
 const SeasonPackageBanner = () => {
   const app = useAppSelector((state: RootState) => state.app)
   const { user } = useAppSelector((state: RootState) => state.user)
   const { textBlockMap } = useAppSelector((state: RootState) => state.textBlock)
+  const { push } = useRouter()
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -171,9 +173,7 @@ const SeasonPackageBanner = () => {
             <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 justify-center items-center">
               {/* Single Tickets Button */}
               <motion.div
-                onClick={() => {
-                  window.open('https://ci.ovationtix.com/35505', '_blank')
-                }}
+                onClick={() => push('/concerts')}
                 className="group relative inline-flex items-center px-8 lg:px-12 py-5 lg:py-7 bg-gradient-to-r from-orange-600 via-red-600 to-orange-500 text-white font-changa font-bold text-lg lg:text-xl xl:text-2xl rounded-2xl shadow-2xl overflow-hidden transition-all duration-500 cursor-pointer w-full lg:w-auto min-w-[240px] justify-center"
                 whileHover={{
                   scale: 1.05,

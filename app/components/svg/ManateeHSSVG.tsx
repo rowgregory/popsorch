@@ -1558,7 +1558,7 @@ const ManateeHSSVG = ({ setManatee }: any) => {
               y={260}
               width={16}
               height={16}
-              className={magentaHover}
+              className={amethystHover}
               data-seat={seat}
               data-level={level}
               data-price={price}

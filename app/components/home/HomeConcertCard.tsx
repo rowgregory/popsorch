@@ -26,7 +26,7 @@ const HomeConcertCard: FC<ConcertCardProps> = ({ concert, index }) => {
       <div className="990:max-w-80 990:h-80 w-full overflow-hidden relative">
         <Picture
           src={concert.imageUrl ?? '/images'}
-          className="990:w-96 max-h-[440px] 990:max-h-auto w-full h-full object-cover rounded-sm group-hover:scale-125 duration-700"
+          className="990:w-96 max-h-[440px] 990:max-h-auto w-full h-full object-contain rounded-sm group-hover:scale-125 duration-700"
           priority={false}
         />
         <h3 className="absolute top-3 left-3 bg-blaze py-0.5 px-3 font-changa text-sm uppercase">{concert?.type}</h3>

@@ -18,7 +18,7 @@ const PublicConcertRow: FC<{ concert: ConcertProps }> = ({ concert }) => {
         <Picture
           src={memoizedImageUrl}
           priority={true}
-          className="aspecet-video 990:aspect-square relative z-0 object-cover rounded-tl-md rounded-bl-md h-full w-full bg-black group-hover:scale-110 duration-300"
+          className="aspecet-video 990:aspect-square relative z-0 object-contain rounded-tl-md rounded-bl-md h-full w-full bg-black group-hover:scale-110 duration-300"
         />
         <div className="absolute inset-0 z-10 bg-gradient-to-t from-transparent from-[60%] to-black/50 to-[100%] duration-300 flex flex-col items-end p-5">
           <h3 className="bg-blaze group-hover:bg-sunburst duration-300 py-0.5 px-3 font-changa text-sm uppercase absolute left-3 top-3">
