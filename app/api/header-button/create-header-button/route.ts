@@ -34,8 +34,10 @@ export async function POST(req: NextRequest) {
         backgroundColor: body.backgroundColor || 'da0032',
         fontColor: body.fontColor || 'ffffff',
         text: body.text,
-        linkType: body.linkType || 'internal',
-        link: body.link || ''
+        linkType: body?.dropdownItems ? '' : body.linkType || 'internal',
+        link: body?.dropdownItems ? '' : body.link || '',
+        type: body.buttonType || 'button',
+        dropdownItems: body?.dropdownItems || []
       }
     })
 

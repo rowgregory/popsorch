@@ -262,6 +262,8 @@ model HeaderButton {
   linkType        String   @default("internal")
   link            String
   isActive        Boolean  @default(false)
+  type            String   @default("button")
+  dropdownItems   Json?    @default("[]")
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }

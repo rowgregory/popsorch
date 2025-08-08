@@ -9,6 +9,8 @@ export interface HeaderButtonProps {
   text: string
   linkType: string
   link: string
+  type: string
+  dropdownItems: []
   createdAt: Date
   updatedAt: Date
 }
@@ -32,6 +34,8 @@ const headerButtonState: HeaderButtonProps = {
   text: '',
   linkType: '',
   link: '',
+  type: '',
+  dropdownItems: [],
   createdAt: new Date(),
   updatedAt: new Date()
 }

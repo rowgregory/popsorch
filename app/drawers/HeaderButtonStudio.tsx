@@ -1,6 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Home, Globe, Phone, Palette, Type, Link, Play, Sparkles } from 'lucide-react'
+import {
+  X,
+  Home,
+  Globe,
+  Phone,
+  Palette,
+  Type,
+  Link,
+  Play,
+  Sparkles,
+  ExternalLink,
+  ChevronDown,
+  Plus,
+  GripVertical,
+  Trash2,
+  Hand
+} from 'lucide-react'
 import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
 import { setCloseHeaderButtonStudio } from '../redux/features/appSlice'
 import {
@@ -66,6 +82,7 @@ const animations = [
 ]
 
 const navigationTabs = [
+  { id: 'type', label: 'Type', icon: Hand },
   { id: 'text', label: 'Text', icon: Type },
   { id: 'colors', label: 'Colors', icon: Palette },
   { id: 'link', label: 'Link', icon: Link },
@@ -77,16 +94,18 @@ const HeaderButtonStudio = () => {
   const { toggleHeaderButtonStudio } = useAppSelector((state: RootState) => state.app)
   const { headerButtons, successUpdate } = useAppSelector((state: RootState) => state.headerButton)
   const [isPlaying, setIsPlaying] = useState(false)
-  const [activeTab, setActiveTab] = useState('text')
+  const [activeTab, setActiveTab] = useState('type')
   const initialButtonState = {
     text: 'Get Started',
     fontColor: '#ffffff',
     backgroundColor: '#3b82f6',
     linkType: 'internal',
     link: '/get-started',
-    id: ''
+    id: '',
+    buttonType: 'button', // 'button' or 'dropdown'
+    dropdownItems: []
   }
-  const [buttonConfig, setButtonConfig] = useState(initialButtonState)
+  const [buttonConfig, setButtonConfig] = useState(initialButtonState) as any
   const dispatch = useAppDispatch()
   const onClose = () => dispatch(setCloseHeaderButtonStudio())
   const [createHeaderButton, { isLoading: loadingCreate }] = useCreateHeaderButtonMutation()
@@ -138,6 +157,34 @@ const HeaderButtonStudio = () => {
     }
   }
 
+  const addDropdownItem = () => {
+    setButtonConfig({
+      ...buttonConfig,
+      dropdownItems: [
+        ...buttonConfig.dropdownItems,
+        {
+          id: Date.now(),
+          text: '',
+          linkType: 'internal',
+          link: '',
+          icon: ''
+        }
+      ]
+    })
+  }
+
+  const updateDropdownItem = (index: number, field: any, value: any) => {
+    const updatedItems = buttonConfig.dropdownItems.map((item: any, i: number) =>
+      i === index ? { ...item, [field]: value } : item
+    )
+    setButtonConfig({ ...buttonConfig, dropdownItems: updatedItems })
+  }
+
+  const removeDropdownItem = (index: number) => {
+    const updatedItems = buttonConfig.dropdownItems.filter((_: any, i: number) => i !== index)
+    setButtonConfig({ ...buttonConfig, dropdownItems: updatedItems })
+  }
+
   const renderTabContent = () => {
     switch (activeTab) {
       case 'text':
@@ -152,7 +199,7 @@ const HeaderButtonStudio = () => {
               <input
                 type="text"
                 value={buttonConfig.text}
-                onChange={(e) => setButtonConfig((prev) => ({ ...prev, text: e.target.value }))}
+                onChange={(e) => setButtonConfig((prev: any) => ({ ...prev, text: e.target.value }))}
                 className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none text-lg"
                 placeholder="Enter button text"
               />
@@ -174,13 +221,13 @@ const HeaderButtonStudio = () => {
                   <input
                     type="color"
                     value={buttonConfig.fontColor}
-                    onChange={(e) => setButtonConfig((prev) => ({ ...prev, fontColor: e.target.value }))}
+                    onChange={(e) => setButtonConfig((prev: any) => ({ ...prev, fontColor: e.target.value }))}
                     className="w-12 h-12 rounded-lg border border-gray-600 bg-gray-800 cursor-pointer"
                   />
                   <input
                     type="text"
                     value={buttonConfig.fontColor}
-                    onChange={(e) => setButtonConfig((prev) => ({ ...prev, fontColor: e.target.value }))}
+                    onChange={(e) => setButtonConfig((prev: any) => ({ ...prev, fontColor: e.target.value }))}
                     className="flex-1 px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white text-sm"
                   />
                 </div>
@@ -191,13 +238,13 @@ const HeaderButtonStudio = () => {
                   <input
                     type="color"
                     value={buttonConfig.backgroundColor}
-                    onChange={(e) => setButtonConfig((prev) => ({ ...prev, backgroundColor: e.target.value }))}
+                    onChange={(e) => setButtonConfig((prev: any) => ({ ...prev, backgroundColor: e.target.value }))}
                     className="w-12 h-12 rounded-lg border border-gray-600 bg-gray-800 cursor-pointer"
                   />
                   <input
                     type="text"
                     value={buttonConfig.backgroundColor}
-                    onChange={(e) => setButtonConfig((prev) => ({ ...prev, backgroundColor: e.target.value }))}
+                    onChange={(e) => setButtonConfig((prev: any) => ({ ...prev, backgroundColor: e.target.value }))}
                     className="flex-1 px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white text-sm"
                   />
                 </div>
@@ -226,7 +273,7 @@ const HeaderButtonStudio = () => {
                     key={type.value}
                     whileHover={{ scale: 1.01 }}
                     whileTap={{ scale: 0.99 }}
-                    onClick={() => setButtonConfig((prev) => ({ ...prev, linkType: type.value, link: '' }))}
+                    onClick={() => setButtonConfig((prev: any) => ({ ...prev, linkType: type.value, link: '' }))}
                     className={`p-4 rounded-lg border-2 transition-all text-left ${
                       buttonConfig.linkType === type.value
                         ? 'border-blue-500 bg-blue-500/10 text-blue-400'
@@ -259,7 +306,7 @@ const HeaderButtonStudio = () => {
               <input
                 type="text"
                 value={buttonConfig.link}
-                onChange={(e) => setButtonConfig((prev) => ({ ...prev, link: e.target.value }))}
+                onChange={(e) => setButtonConfig((prev: any) => ({ ...prev, link: e.target.value }))}
                 className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none"
                 placeholder={getLinkPlaceholder()}
               />
@@ -331,9 +378,166 @@ const HeaderButtonStudio = () => {
         )
 
       default:
-        return null
+        return renderTypeTab()
     }
   }
+
+  const renderTypeTab = () => (
+    <div className="space-y-6">
+      <div>
+        <label className="block text-sm font-medium text-gray-300 mb-4">Choose Button Type</label>
+        <div className="space-y-3">
+          <motion.label
+            className="flex items-center p-4 border border-gray-600 rounded-lg cursor-pointer hover:border-blue-500 transition-colors"
+            whileHover={{ scale: 1.02 }}
+          >
+            <input
+              type="radio"
+              name="buttonType"
+              value="button"
+              checked={buttonConfig.buttonType === 'button'}
+              onChange={(e) =>
+                setButtonConfig({
+                  ...buttonConfig,
+                  buttonType: e.target.value,
+                  dropdownItems: []
+                })
+              }
+              className="mr-3 text-blue-600"
+            />
+            <div className="flex items-center">
+              <ExternalLink className="w-5 h-5 mr-3 text-blue-400" />
+              <div>
+                <span className="text-white font-medium">Regular Button</span>
+                <p className="text-sm text-gray-400">Simple button that links to a page</p>
+              </div>
+            </div>
+          </motion.label>
+
+          <motion.label
+            className="flex items-center p-4 border border-gray-600 rounded-lg cursor-pointer hover:border-blue-500 transition-colors"
+            whileHover={{ scale: 1.02 }}
+          >
+            <input
+              type="radio"
+              name="buttonType"
+              value="dropdown"
+              checked={buttonConfig.buttonType === 'dropdown'}
+              onChange={(e) =>
+                setButtonConfig({
+                  ...buttonConfig,
+                  buttonType: e.target.value,
+                  link: ''
+                })
+              }
+              className="mr-3 text-blue-600"
+            />
+            <div className="flex items-center">
+              <ChevronDown className="w-5 h-5 mr-3 text-purple-400" />
+              <div>
+                <span className="text-white font-medium">Dropdown Menu</span>
+                <p className="text-sm text-gray-400">Button with multiple menu options</p>
+              </div>
+            </div>
+          </motion.label>
+        </div>
+      </div>
+
+      {buttonConfig.buttonType === 'dropdown' && (
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          exit={{ opacity: 0, height: 0 }}
+          className="space-y-4"
+        >
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-medium text-white">Dropdown Items</h3>
+            <motion.button
+              onClick={addDropdownItem}
+              className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2 text-sm"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <Plus className="w-4 h-4" />
+              Add Item
+            </motion.button>
+          </div>
+
+          {buttonConfig.dropdownItems.length === 0 ? (
+            <div className="text-center py-6 border border-gray-600 border-dashed rounded-lg">
+              <ChevronDown className="w-8 h-8 text-gray-600 mx-auto mb-2" />
+              <p className="text-gray-400 text-sm">No dropdown items yet</p>
+            </div>
+          ) : (
+            <div className="space-y-3 max-h-60 overflow-y-auto">
+              {buttonConfig.dropdownItems.map((item: any, index: number) => (
+                <motion.div
+                  key={item.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-gray-800 border border-gray-700 rounded-lg p-3"
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <GripVertical className="w-4 h-4 text-gray-500" />
+                      <span className="text-xs font-medium text-gray-300">Item {index + 1}</span>
+                    </div>
+                    <button
+                      onClick={() => removeDropdownItem(index)}
+                      className="p-1 hover:bg-gray-700 rounded text-red-400 hover:text-red-300 transition-colors"
+                    >
+                      <Trash2 className="w-3 h-3" />
+                    </button>
+                  </div>
+
+                  <div className="space-y-2">
+                    <input
+                      type="text"
+                      value={item.text}
+                      onChange={(e) => updateDropdownItem(index, 'text', e.target.value)}
+                      className="w-full px-2 py-1 bg-gray-900 border border-gray-600 rounded text-white placeholder-gray-500 text-sm"
+                      placeholder="Menu item text"
+                    />
+
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => updateDropdownItem(index, 'linkType', 'internal')}
+                        className={`flex-1 px-2 py-1 rounded text-xs font-medium transition-colors ${
+                          item.linkType === 'internal'
+                            ? 'bg-blue-600 text-white'
+                            : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                        }`}
+                      >
+                        Internal
+                      </button>
+                      <button
+                        onClick={() => updateDropdownItem(index, 'linkType', 'external')}
+                        className={`flex-1 px-2 py-1 rounded text-xs font-medium transition-colors ${
+                          item.linkType === 'external'
+                            ? 'bg-blue-600 text-white'
+                            : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                        }`}
+                      >
+                        External
+                      </button>
+                    </div>
+
+                    <input
+                      type="text"
+                      value={item.link}
+                      onChange={(e) => updateDropdownItem(index, 'link', e.target.value)}
+                      className="w-full px-2 py-1 bg-gray-900 border border-gray-600 rounded text-white placeholder-gray-500 text-sm"
+                      placeholder={item.linkType === 'external' ? 'https://example.com' : '/link-url'}
+                    />
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
+        </motion.div>
+      )}
+    </div>
+  )
 
   const handleCreateHeaderButton = async () => {
     const buttonData = {
@@ -385,6 +589,8 @@ const HeaderButtonStudio = () => {
       return () => clearTimeout(timer)
     }
   }, [dispatch, successUpdate])
+
+  console.log('BUTTON CONFIG: ', buttonConfig)
 
   return (
     <AnimatePresence>
@@ -495,7 +701,7 @@ const HeaderButtonStudio = () => {
                         setButtonConfig(initialButtonState)
                         setActiveTab('text')
                       } else {
-                        setButtonConfig(button)
+                        setButtonConfig({ ...button, buttonType: button.type })
                       }
                     }}
                   >
@@ -537,19 +743,31 @@ const HeaderButtonStudio = () => {
 
                       <div className="text-xs text-gray-400 space-y-1">
                         <div className="flex items-center gap-2">
+                          <span>Button Type:</span>
+                          <span className="text-blue-300 capitalize">{button.type}</span>
+                        </div>
+                        {button.type === 'dropdown' && (
+                          <div className="flex items-center gap-2">
+                            <span>Dropdown item total:</span>
+                            <span className="text-blue-300 capitalize">{button.dropdownItems.length}</span>
+                          </div>
+                        )}
+                        <div className="flex items-center gap-2">
                           <span>Animation:</span>
                           <span className="text-blue-300 capitalize">{button.animation}</span>
                           <span className="text-lg">{animations.find((a) => a.id === button.animation)?.icon}</span>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <span>Link:</span>
-                          <span className="text-blue-300 capitalize">{button.linkType}</span>
-                          {button.link && (
-                            <span className="text-gray-500 truncate max-w-32" title={button.link}>
-                              {button.linkType === 'phone' ? `tel:${button.link}` : button.link}
-                            </span>
-                          )}
-                        </div>
+                        {button.link && (
+                          <div className="flex items-center gap-2">
+                            <span>Link:</span>
+                            <span className="text-blue-300 capitalize">{button.linkType}</span>
+                            {button.link && (
+                              <span className="text-gray-500 truncate max-w-32" title={button.link}>
+                                {button.linkType === 'phone' ? `tel:${button.link}` : button.link}
+                              </span>
+                            )}
+                          </div>
+                        )}
                         <div className="flex items-center gap-2">
                           <span>Colors:</span>
                           <div className="flex gap-1">
@@ -609,43 +827,75 @@ const HeaderButtonStudio = () => {
             <div className="flex-1 flex items-center justify-center p-8">
               <div className="max-w-2xl w-full">
                 {/* Preview Area */}
-                <div className="bg-gray-800/50 rounded-2xl border border-gray-700 p-12 flex flex-col items-center justify-center min-h-96">
+                <div className="bg-gray-800/50 rounded-2xl border border-gray-700 p-12 flex flex-col items-center justify-center min-h-96 relative">
                   <AnimatePresence mode="wait">
-                    <motion.button
-                      key={selectedAnimation}
-                      className="px-8 py-4 rounded-xl font-semibold text-lg relative overflow-hidden shadow-lg"
-                      variants={animations.find((a) => a.id === selectedAnimation)?.variants}
-                      initial="initial"
-                      animate={isPlaying ? 'hover' : 'initial'}
-                      whileHover="hover"
-                      style={{
-                        backgroundColor: buttonConfig.backgroundColor,
-                        color: buttonConfig.fontColor
-                      }}
-                    >
-                      <span className="relative z-10">{buttonConfig.text}</span>
+                    {buttonConfig.type === 'dropdown' || buttonConfig.buttonType === 'dropdown' ? (
+                      <div className="relative inline-block">
+                        <motion.button
+                          style={{
+                            backgroundColor: buttonConfig.backgroundColor,
+                            color: buttonConfig.fontColor
+                          }}
+                          className="flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-colors"
+                          variants={animations.find((a) => a.id === selectedAnimation)?.variants}
+                          initial="initial"
+                          whileHover="hover"
+                          animate={isPlaying ? 'hover' : 'initial'}
+                        >
+                          {buttonConfig.text}
+                          <ChevronDown className="w-4 h-4" />
+                        </motion.button>
 
-                      {/* Glow effect background for glow animation */}
-                      {selectedAnimation === 'glow' && (
-                        <motion.div
-                          className="absolute inset-0 bg-gradient-to-r from-purple-400/20 to-pink-400/20 rounded-xl"
-                          animate={
-                            isPlaying
-                              ? {
-                                  opacity: [0.5, 0.8, 0.5],
-                                  scale: [1, 1.05, 1]
-                                }
-                              : {}
-                          }
-                          transition={{ duration: 1.5, repeat: isPlaying ? Infinity : 0 }}
-                        />
-                      )}
-                    </motion.button>
+                        {buttonConfig.dropdownItems.length > 0 && (
+                          <div className="absolute top-full right-0 mt-2 bg-[#1a1a1a] group border border-zinc-900 rounded-lg shadow-lg min-w-48 z-10">
+                            {buttonConfig.dropdownItems.map((item: any, index: number) => (
+                              <div
+                                key={index}
+                                className="px-4 py-2 text-white first:rounded-t-lg last:rounded-b-lg transition-colors hover:text-blaze cursor-pointer"
+                              >
+                                {item.text || `Item ${index + 1}`}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <motion.button
+                        key={selectedAnimation}
+                        className="px-6 py-3 rounded-xl font-semibold text-lg relative overflow-hidden shadow-lg"
+                        variants={animations.find((a) => a.id === selectedAnimation)?.variants}
+                        initial="initial"
+                        animate={isPlaying ? 'hover' : 'initial'}
+                        whileHover="hover"
+                        style={{
+                          backgroundColor: buttonConfig.backgroundColor,
+                          color: buttonConfig.fontColor
+                        }}
+                      >
+                        <span className="relative z-10">{buttonConfig.text}</span>
+
+                        {/* Glow effect background for glow animation */}
+                        {selectedAnimation === 'glow' && (
+                          <motion.div
+                            className="absolute inset-0 bg-gradient-to-r from-purple-400/20 to-pink-400/20 rounded-xl"
+                            animate={
+                              isPlaying
+                                ? {
+                                    opacity: [0.5, 0.8, 0.5],
+                                    scale: [1, 1.05, 1]
+                                  }
+                                : {}
+                            }
+                            transition={{ duration: 1.5, repeat: isPlaying ? Infinity : 0 }}
+                          />
+                        )}
+                      </motion.button>
+                    )}
                   </AnimatePresence>
 
-                  <div className="mt-8 text-center">
+                  <div className="absolute left-1/2 -translate-x-1/2 bottom-2 text-center">
                     <p className="text-sm text-gray-400 mb-2">
-                      {isPlaying ? '🎬 Playing preview animation...' : '🖱️ Hover over the button to see the animation'}
+                      {isPlaying ? '🎬 Playing preview animation...' : 'Hover over the button to see the animation'}
                     </p>
                     <p className="text-xs text-gray-500">
                       {buttonConfig.linkType === 'phone' && 'Will dial: '}

@@ -13,6 +13,8 @@ interface UpdateHeaderButtonBody {
   animation: string
   link: string
   linkType: 'external' | 'internal' | 'phone'
+  buttonType: string
+  dropdownItems: []
 }
 
 export async function PUT(req: NextRequest) {
@@ -23,10 +25,10 @@ export async function PUT(req: NextRequest) {
     const userHeader = req.headers.get('x-user')!
     parsedUser = JSON.parse(userHeader)
 
-    if (!body.text || !body.link || !body.id) {
+    if (!body.text || !body.id) {
       return NextResponse.json(
         {
-          error: 'All fields are required: text, link, id'
+          error: 'All fields are required: text, id'
         },
         { status: 400 }
       )
@@ -64,6 +66,12 @@ export async function PUT(req: NextRequest) {
     }
     if (body.linkType && body.linkType.trim() !== '') {
       updateData.linkType = body.linkType
+    }
+    if (body.buttonType && body.buttonType.trim() !== '') {
+      updateData.type = body.buttonType
+    }
+    if (body.dropdownItems) {
+      updateData.dropdownItems = body.dropdownItems
     }
 
     // Update the button
