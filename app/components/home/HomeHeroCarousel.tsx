@@ -15,7 +15,7 @@ const HomeHeroCarousel: FC<{ images: any; interval: number }> = ({ images, inter
           }`}
         ></div>
       ))}
-      <div className="absolute bottom-0 left-0 right-0 z-40 h-48 bg-gradient-to-t from-[#1a1a1a] to-transparent pointer-events-none z-10" />
+      <div className="absolute bottom-0 left-0 right-0 z-40 h-48 bg-gradient-to-t from-black to-transparent pointer-events-none" />
     </div>
   )
 }

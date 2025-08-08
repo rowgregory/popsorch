@@ -15,7 +15,7 @@ const HomeContact = () => {
       <Picture
         src="/images/contact.png"
         className="hidden 990:block object-cover w-full h-full absolute inset-0"
-        priority={false}
+        priority={true}
       />
       <Picture
         src="/images/contact-no-singer.png"
