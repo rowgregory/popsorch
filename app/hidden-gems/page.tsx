@@ -30,15 +30,15 @@ const HiddenGemsPage = () => {
     {
       name: 'Sarasota Contemporary Dance',
       description:
-        "Sarasota Contemporary Dance (SCD) is a premier dance company in its 19th season, bringing innovative dance performances, education, and community engagement to Sarasota. SCD's studio offers 16+ diverse movement classes, summer dance intensives, workshops, and is home to the Sarasota Contemporary Dance Ensemble (SCDE) for aspiring dancers.",
+        'Sarasota Contemporary Dance (SCD) proudly celebrates its 20th season, continuing to bring innovative dance performances, transformative educational programming, and meaningful community collaborations to Sarasota and beyond. Our studio offers 16+ diverse movement classes, summer dance intensives, workshops, and serves as the home of the Sarasota Contemporary Dance Ensemble (SCDE), providing aspiring dancers with professional training and performance opportunities. ',
       ensembleLink: 'https://sarasotacontemporarydance.org/scd-ensemble/',
       danceForJoyText:
-        'SCD\'s "Dance for Joy" class welcomes movers of all ages and abilities, focusing on rhythm, creative play, and community building. This class, which supports individuals with movement disorders, combines seated and standing exercises to promote joy and well-being.',
+        'SCD’s Dance for Joy class and Inclusive Dance program welcome movers of all ages and abilities, focusing on rhythm, creative play, and community connection. Designed to support individuals with movement disorders, the class blends seated and standing exercises to foster joy, mobility, and well-being.',
       danceForJoyLink: 'https://sarasotacontemporarydance.org/dance-for-joy/',
       seasonText:
-        'The 2024-2025 season will feature four Main Stage performances and over 15 In-Studio showings, complete with live audiences and artist Q&A sessions.',
+        'The 2025–2026 milestone season will feature four Main Stage productions and more than 15 In-Studio showings, each paired with a live Q&A session after every performance, offering a behind-the-scenes look at the creative process.',
       highlights: ['19th Season', '16+ Movement Classes', 'Dance for Joy Program'],
-      photo: 'https://choralartistssarasota.org/wp-content/uploads/2024/11/Shine_FB-Cover.jpg',
+      photo: '/images/scd.jpg',
       contact: {
         address: '1400 Boulevard of the Arts, Ste 300, Sarasota, FL 34236',
         phone: '941-260-8485',
@@ -53,10 +53,10 @@ const HiddenGemsPage = () => {
       description:
         'As a top performing arts group in a unique, culturally rich community, The Pops Orchestra attracts full-time residents, Suncoast "Snowbirds," and vacationers to its concerts, proving to be a cultural and economic asset to the Greater Sarasota community. Led by conductor Robyn Bell, The Pops presents high-quality musical entertainment at affordable prices.',
       communityText:
-        'Who plays in The Pops Orchestra? They are teachers, parents, neighbors, students. They have jobs. They have children. They have homes, schedules and commitments. They teach at local colleges, high schools, middle schools, and elementary schools. They work in business, the arts and health care. Some are retired. Some are military veterans. They live in Sarasota, Bradenton, Venice, Anna Maria Island, Punta Gorda, Nokomis, Sun City Center, St. Petersburg, and Holmes Beach, among others. Some of them are snowbirds. And they are all musicians with The Pops Orchestra. This season, there are more than 65 musicians who bring their skill, passion, and talent to the stage.',
+        'Who plays in The Pops Orchestra? They are teachers, parents, neighbors, students. They have jobs. They have children. They have homes, schedules and commitments. They teach at local colleges, high schools, middle schools, and elementary schools. They work in business, the arts and health care. Some are retired. Some are military veterans. They live in Sarasota, Bradenton, Venice, Anna Maria Island, Punta Gorda, Nokomis, Sun City Center, St. Petersburg, and Holmes Beach, among others. Some of them are snowbirds. And they are all musicians with The Pops Orchestra. This season, there are more than 65 musicians who bring their skill, passion, and talent to the stage. ',
+      thisYearText: `This year’s 50th season is a crafted series of celebratory shows that are certain to keep you entertained, lift your spirits, and take you back in time when you turned your radio up and let your worries whisk away in the wind. Enjoy our expanded concert offerings, including a Saturday matinee option for our season subscriptions, and three “add-on” performances: Hocus Pocus Pops, All You Need is Love, and Organ-ized Pipes & Pops. This season, enjoy the Pops Orchestra from October to May!`,
       highlights: ['65+ Musicians', 'Community-Based', 'Affordable Concerts'],
-      photo:
-        'https://choralartistssarasota.org/wp-content/uploads/2024/11/mhollerRobynBell2023_04-scaled-1-e1703696442135-819x1024.webp',
+      photo: '/images/season-marketing.jpg',
       contact: {
         address: 'PO Box 1622, Sarasota, FL 34230',
         phone: '941-926-7677',
@@ -259,6 +259,8 @@ const HiddenGemsPage = () => {
                           {org.specialtyText && <p className="text-gray-300 mb-2 text-sm">{org.specialtyText}</p>}
 
                           {org.outreachText && <p className="text-gray-300 mb-2 text-sm">{org.outreachText}</p>}
+
+                          {org.thisYearText && <p className="text-gray-300 mb-2 text-sm">{org.thisYearText}</p>}
 
                           {org.seasonLink && (
                             <p className="text-gray-300 mb-4 text-sm">
