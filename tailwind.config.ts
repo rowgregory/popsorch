@@ -251,6 +251,7 @@ export default {
         headerbg: "url('/images/header-bg.png')",
         golden50Logo: "url('/images/golden-logo.png')",
         white50Logo: "url('/images/white-logo.png')",
+        grain: "url('/images/grain.png')",
         'gold-gradient': 'linear-gradient(to right, #db9e45, #f5b424)'
       },
       animation: {
@@ -265,7 +266,8 @@ export default {
         'rotate-ring': 'rotateRing 15s linear infinite',
         'translate-y-up': 'translate-y-up 0.3s ease-out',
         'underline-grow': 'grow 1s ease-out forwards',
-        rotateToTwoOClock: 'rotateToTwoOClock 375ms ease-in-out forwards'
+        rotateToTwoOClock: 'rotateToTwoOClock 375ms ease-in-out forwards',
+        grain: 'grain 8s steps(10) infinite'
       },
       keyframes: {
         equalizer: {
@@ -300,6 +302,38 @@ export default {
           '0%': { transform: 'rotate(0deg)' },
           '40%': { transform: 'rotate(30deg)' },
           '100%': { transform: 'rotate(0deg)' }
+        },
+        grain: {
+          '0%, 100%': {
+            transform: 'translate(0, 0)'
+          },
+          '10%': {
+            transform: 'translate(-5%, -10%)'
+          },
+          '20%': {
+            transform: 'translate(-10%, 5%)'
+          },
+          '30%': {
+            transform: 'translate(5%, -5%)'
+          },
+          '40%': {
+            transform: 'translate(-2%, 10%)'
+          },
+          '50%': {
+            transform: 'translate(8%, 2%)'
+          },
+          '60%': {
+            transform: 'translate(-8%, -3%)'
+          },
+          '70%': {
+            transform: 'translate(3%, 8%)'
+          },
+          '80%': {
+            transform: 'translate(-6%, -8%)'
+          },
+          '90%': {
+            transform: 'translate(4%, -2%)'
+          }
         }
       },
       screens: {

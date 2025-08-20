@@ -67,7 +67,8 @@ import {
   faTextHeight,
   faRefresh,
   faCheckCircle,
-  faBinoculars
+  faBinoculars,
+  faGift
 } from '@fortawesome/free-solid-svg-icons'
 import { faFacebook, faInstagram, faYoutube } from '@fortawesome/free-brands-svg-icons'
 
@@ -143,3 +144,4 @@ export const textHeightIcon = faTextHeight
 export const refreshIcon = faRefresh
 export const checkCircleIcon = faCheckCircle
 export const binocularsIcon = faBinoculars
+export const giftIcon = faGift

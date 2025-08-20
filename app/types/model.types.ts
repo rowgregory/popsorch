@@ -13,3 +13,18 @@ export type VenueProps = {
   createdAt: Date
   updatedAt: Date
 }
+
+export type SponsorLevel = 'platinum' | 'gold' | 'silver' | 'bronze' | 'partner' | 'community'
+
+export interface ISponsor {
+  id: string // @id @default(cuid())
+  filePath: string // Path to uploaded file
+  filename: string // Display name for the sponsor
+  externalLink: string // Sponsor website URL
+  level: SponsorLevel // Sponsorship tier
+  color: string // Brand color (hex format)
+  description: string // Sponsor description
+  clicks: number // Click tracking count
+  createdAt: Date // @default(now())
+  updatedAt: Date // @updatedAt
+}

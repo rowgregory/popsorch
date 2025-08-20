@@ -38,7 +38,8 @@ export const api = createApi({
     'Mailchimp',
     'Log',
     'Metric',
-    'Header-Button'
+    'Header-Button',
+    'Sponsor'
   ],
   endpoints: () => ({})
 })

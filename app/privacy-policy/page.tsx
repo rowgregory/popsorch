@@ -20,7 +20,7 @@ const PrivacyPolicy = () => {
             https://thepopsorchestra.org
           </a>
           . Our site was built by{' '}
-          <a href="https://sqysh.io" className="text-lime-400 underline">
+          <a href="https://sqysh.io?lead_source=the_pops_orchestra" className="text-lime-400 underline">
             Sqysh
           </a>
           , who helps us maintain a secure and user-friendly experience.

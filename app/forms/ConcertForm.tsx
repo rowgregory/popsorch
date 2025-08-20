@@ -51,7 +51,7 @@ const ConcertForm: FC<{ handleSubmit: any; loading: boolean }> = ({ handleSubmit
                   value={concert?.inputs?.type}
                   onChange={handleInput}
                   label="Concert Type*"
-                  list={['Choose One', 'Season', 'Add-On']}
+                  list={['Choose One', 'Season', 'Add-On', 'Sundays-at-Neel']}
                   error={concert?.errors?.type}
                 />
                 <AdminTextarea

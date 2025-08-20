@@ -1,6 +1,7 @@
 import {
   dashboardIcon,
   databaseIcon,
+  giftIcon,
   imageIcon,
   musicIcon,
   newspaperIcon,
@@ -35,6 +36,13 @@ export const adminNavigationLinkData = (
       active: isStringInPath(path, 'concerts'),
       icon: musicIcon,
       color: 'text-pink-400'
+    },
+    {
+      textKey: 'Sponsors',
+      linkKey: '/admin/sponsors',
+      active: isStringInPath(path, 'sponsors'),
+      icon: giftIcon,
+      color: 'text-fuchsia-400'
     },
     {
       textKey: 'Camp Applications',

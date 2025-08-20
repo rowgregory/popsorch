@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { ChangeEvent } from 'react'
 import { UserProps } from './userSlice'
+import { initialSponsorData } from '@/app/lib/initial-state/sponsor'
 
 export type Inputs = {
   [key: string]: string | number | boolean | undefined | unknown
@@ -133,6 +134,10 @@ const formInitialState = {
   },
   teamMember: {
     inputs: { firstName: '', lastName: '', position: '', imageUrl: '', role: 'Board-Member', bio: '' },
+    errors: {}
+  },
+  sponsorForm: {
+    inputs: initialSponsorData,
     errors: {}
   }
 } as any

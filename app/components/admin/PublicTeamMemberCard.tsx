@@ -13,7 +13,11 @@ const PublicTeamMemberCard: FC<{
   return (
     <div
       onClick={() =>
-        isSqysh ? window.open('https://sqysh.io', '_blank') : handleOpenDrawer ? handleOpenDrawer(teamMember) : {}
+        isSqysh
+          ? window.open('https://sqysh.io?lead_source=the_pops_orchestra', '_blank')
+          : handleOpenDrawer
+          ? handleOpenDrawer(teamMember)
+          : {}
       }
       className={`col-span-12 990:col-span-6 1200:col-span-4 cursor-pointer group`}
     >

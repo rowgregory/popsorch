@@ -96,7 +96,7 @@ const Footer = () => {
         <div className="w-full mx-auto flex flex-col gap-y-2 items-center justify-center text-lg text-white">
           <div className="font-changa text-12 uppercase">Copyright &copy; {new Date().getFullYear()}</div>
           <Link
-            href="https://sqysh.io"
+            href="https://sqysh.io?lead_source=the_pops_orchestra"
             target="_blank"
             className="text-white text-sm font-bold font-raleway duration-300 hover:text-lime-400"
           >
