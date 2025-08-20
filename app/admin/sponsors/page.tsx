@@ -10,6 +10,7 @@ import CreateBtn from '@/app/components/admin/CreateBtn'
 import { setOpenSponsorDrawer } from '@/app/redux/features/sponsorSlice'
 import AdminPageSpinner from '@/app/components/admin/AdminPageSpinner'
 import AdminSponsorDrawer from '@/app/drawers/AdminSponsorDrawer'
+import Picture from '@/app/components/common/Picture'
 
 // Mock data - replace with your actual data source
 const mockSponsors = [
@@ -117,6 +118,16 @@ const AdminSponsorsPage = () => {
 
   const sponsorsCount = sponsors.length
   const noSponsors = filteredSponsors.length === 0
+
+  const isUnderConstruction = true
+  if (isUnderConstruction) {
+    return (
+      <div>
+        <Picture src="/images/sqysh-typing.gif" priority={true} className="w-72 h-auto" />
+        <h1 className="mt-4 text-xl font-changa">Under Construction</h1>
+      </div>
+    )
+  }
 
   return (
     <div className="relative">
