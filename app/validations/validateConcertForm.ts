@@ -4,6 +4,7 @@ interface ValidationErrors {
   pressRelease: string
   description: string
   imageUrl: string
+  cardDate: string
   eventDetails: []
   allSeriesExternalLink: string
 }
@@ -25,6 +26,9 @@ const validateConcertForm = (inputs: ValidationErrors, setErrors: any) => {
   }
   if (!inputs?.imageUrl) {
     newErrors.imageUrl = 'Photo is required'
+  }
+  if (!inputs?.cardDate) {
+    newErrors.cardDate = 'Display date is required'
   }
   if (inputs?.eventDetails.length === 0 || !inputs?.eventDetails) {
     newErrors.eventDetails = 'At least one show'

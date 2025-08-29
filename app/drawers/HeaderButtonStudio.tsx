@@ -590,8 +590,6 @@ const HeaderButtonStudio = () => {
     }
   }, [dispatch, successUpdate])
 
-  console.log('BUTTON CONFIG: ', buttonConfig)
-
   return (
     <AnimatePresence>
       {toggleHeaderButtonStudio && (

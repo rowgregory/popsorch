@@ -3,8 +3,9 @@ import React, { DragEvent, useState } from 'react'
 import AwesomeIcon from '../common/AwesomeIcon'
 import { trashIcon } from '@/app/lib/icons'
 import { useAppDispatch } from '@/app/redux/store'
+import { setInputs } from '@/app/redux/features/formSlice'
 
-const AdminConcertDetailsList = ({ concert, removeConcertDetails, setInputs }: any) => {
+const AdminConcertDetailsList = ({ inputs, removeConcertDetails }: any) => {
   const dispatch = useAppDispatch()
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null)
 
@@ -29,7 +30,7 @@ const AdminConcertDetailsList = ({ concert, removeConcertDetails, setInputs }: a
     e.preventDefault()
 
     if (draggedIndex !== null) {
-      const newEventDetails = [...concert.inputs.eventDetails]
+      const newEventDetails = [...inputs.eventDetails]
       const draggedEvent = newEventDetails[draggedIndex]
 
       // Remove the dragged item from its original position
@@ -39,7 +40,7 @@ const AdminConcertDetailsList = ({ concert, removeConcertDetails, setInputs }: a
       newEventDetails.splice(dropIndex, 0, draggedEvent)
 
       // Update the state with the new order
-      dispatch(setInputs({ eventDetails: newEventDetails }))
+      dispatch(setInputs({ formName: 'concert', data: { eventDetails: newEventDetails } }))
       setDraggedIndex(null) // Reset the dragged item index
     }
   }
@@ -57,19 +58,22 @@ const AdminConcertDetailsList = ({ concert, removeConcertDetails, setInputs }: a
   const openConcertDetailsDrawer = (eventDetail: EventDetailProps) => {
     dispatch(openBottomOverlayDrawer('details'))
     setInputs({
-      eventDetailId: eventDetail.id,
-      time: eventDetail.time,
-      date: eventDetail.date,
-      city: eventDetail.city,
-      dayOfWeek: eventDetail.dayOfWeek,
-      location: eventDetail.location,
-      externalLink: eventDetail.externalLink
+      formName: 'concert',
+      data: {
+        eventDetailId: eventDetail.id,
+        time: eventDetail.time,
+        date: eventDetail.date,
+        city: eventDetail.city,
+        dayOfWeek: eventDetail.dayOfWeek,
+        location: eventDetail.location,
+        externalLink: eventDetail.externalLink
+      }
     })
   }
 
   return (
     <div className="w-full flex flex-col gap-y-5">
-      {concert?.inputs?.eventDetails?.map((eventDetail: EventDetailProps, i: number) => (
+      {inputs?.eventDetails?.map((eventDetail: EventDetailProps, i: number) => (
         <div
           key={eventDetail.id}
           className="px-5 py-4 bg-midnightblack grid grid-cols-12 gap-x-4 border-l-4 border-l-pink-400 cursor-pointer hover:shadow-md duration-300 hover:-translate-y-0.5 gap-y-1"

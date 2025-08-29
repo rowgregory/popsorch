@@ -10,9 +10,9 @@ import { ConcertProps } from '../redux/features/concertSlice'
 import Link from 'next/link'
 import Marquee from 'react-fast-marquee'
 
-const artists = ['SQYSH', 'SQYSH', 'SQYSH', 'SQYSH', 'SQYSH', 'SQYSH', 'SQYSH', 'SQYSH']
+const orchestraSections = ['Strings', 'Woodwinds', 'Brass', 'Percussion', 'Harp', 'Piano', 'Conductor', 'Choir']
 
-const venues = ['SQYSH', 'SQYSH', 'SQYSH', 'SQYSH', 'SQYSH', 'SQYSH', 'SQYSH', 'SQYSH']
+const orchestraMovements = ['Overture', 'Allegro', 'Adagio', 'Scherzo', 'Finale', 'Cadenza', 'Intermezzo', 'Reprise']
 
 const MuziconWebsite = () => {
   const { concerts } = useAppSelector((state: RootState) => state.concert)
@@ -114,7 +114,7 @@ const MuziconWebsite = () => {
               speed={100}
               className="py-2 bg-blaze/90 backdrop-blur-sm border-y border-white/20 shadow-2xl"
             >
-              {artists.map((artist, index) => (
+              {orchestraSections.map((artist, index) => (
                 <div key={index} className="mx-12 flex items-center">
                   <span className="text-white font-bold text-3xl md:text-4xl tracking-wider drop-shadow-lg font-changa uppercase">
                     {artist}
@@ -143,7 +143,7 @@ const MuziconWebsite = () => {
               direction="right"
               className="py-2 bg-sunburst/90 backdrop-blur-sm border-y border-white/20 shadow-2xl"
             >
-              {venues.map((venue, index) => (
+              {orchestraMovements.map((venue, index) => (
                 <div key={index} className="mx-12 flex items-center">
                   <span className="text-white font-bold text-3xl md:text-4xl tracking-wider drop-shadow-lg font-changa uppercase">
                     {venue}

@@ -33,9 +33,10 @@ const Concerts = () => {
                 {filteredConcerts?.length === 0 ? (
                   <div className="font-changa text-sm uppercase text-left font-medium tracking-wider">No results</div>
                 ) : (
-                  filteredConcerts?.map((concert: ConcertProps) => (
-                    <PublicConcertRow key={concert.id} concert={concert} />
-                  ))
+                  filteredConcerts?.map(
+                    (concert: ConcertProps) =>
+                      concert.type !== 'Sundays-at-Neel' && <PublicConcertRow key={concert.id} concert={concert} />
+                  )
                 )}
               </>
             )}

@@ -23,7 +23,7 @@ const AdminSelect: FC<AdminSelectProps> = ({ name, value, onChange, label, error
         value={value || ''}
         onChange={onChange}
         aria-label={label}
-        className={`camp-input bg-transparent border-1 text-white py-3 px-6 placeholder:text-white placeholder:text-11 placeholder:uppercase placeholder:italic text-sm w-full rounded-sm focus:outline-none focus:placeholder:text-transparent ${
+        className={`camp-input bg-transparent border-1 text-white py-3 px-5 placeholder:text-white placeholder:text-11 placeholder:uppercase placeholder:italic text-sm w-full rounded-sm focus:outline-none focus:placeholder:text-transparent ${
           error
             ? 'border-blaze hover:border-blazehover'
             : 'border-[#b2b2b2] hover:border-zinc-300 focus:border-zinc-300'

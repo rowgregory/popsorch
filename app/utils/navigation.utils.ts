@@ -126,6 +126,11 @@ export const getNavigationLinks = (
     linkKey: '/media',
     textKey: 'Media',
     active: path === '/media'
+  },
+  {
+    linkKey: '/sundays-at-neel',
+    textKey: 'Sundays at Neel',
+    active: path === '/sundays-at-neel'
   }
 ]
 

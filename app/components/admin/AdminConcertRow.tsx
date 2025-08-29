@@ -1,5 +1,5 @@
 import { openUpdateDrawer } from '@/app/redux/features/dashboardSlice'
-import { createFormActions } from '@/app/redux/features/formSlice'
+import { setInputs } from '@/app/redux/features/formSlice'
 import { useDeleteConcertMutation, useUpdateConcertMutation } from '@/app/redux/services/concertApi'
 import { useAppDispatch } from '@/app/redux/store'
 import React, { FC, MouseEvent, useState } from 'react'
@@ -10,7 +10,6 @@ import { decreaseConcertsCount } from '@/app/redux/features/appSlice'
 
 const AdminConcertRow: FC<{ concert: ConcertProps }> = ({ concert }) => {
   const dispatch = useAppDispatch()
-  const { setInputs } = createFormActions('concert', dispatch)
   const [deleteConcert] = useDeleteConcertMutation()
   const [updateConcert] = useUpdateConcertMutation()
   const [loading, setLoading] = useState<Record<string, boolean>>({})
@@ -47,7 +46,7 @@ const AdminConcertRow: FC<{ concert: ConcertProps }> = ({ concert }) => {
     <div
       onClick={() => {
         dispatch(openUpdateDrawer())
-        setInputs(concert)
+        dispatch(setInputs({ formName: 'concert', data: { ...concert, isUpdating: true } }))
       }}
       className="grid grid-cols-[4fr_4fr_3fr_1fr] gap-x-4 h-14 bg-midnightblack hover:bg-inkblack rounded-[5px] py-2 pl-4 pr-2  border-l-4 border-l-pink-400 items-center cursor-pointer"
     >

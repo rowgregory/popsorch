@@ -40,7 +40,7 @@ const HeaderLower = () => {
         href="/"
         className={`${
           isHome ? 'bg-golden50Logo' : 'bg-white50Logo'
-        } bg-no-repeat bg-contain bg-center w-24 1200:w-40 h-[80px] 1200:h-[120px]`}
+        } bg-no-repeat bg-contain bg-center w-24 1200:w-40 h-[80px] 1200:h-[100px]`}
       />
       <div className="hidden absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 1200:flex items-center px-5 gap-x-5 h-full">
         {navLinks.map((link, i) =>
