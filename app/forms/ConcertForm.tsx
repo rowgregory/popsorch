@@ -201,7 +201,7 @@ const ConcertForm: FC<IConcertForm> = ({
 
                       {/* Event Details List */}
                       <div className="mt-4">
-                        <AdminConcertDetailsList concert={inputs} removeConcertDetails={removeConcertDetails} />
+                        <AdminConcertDetailsList inputs={inputs} removeConcertDetails={removeConcertDetails} />
                       </div>
                     </div>
                   </div>

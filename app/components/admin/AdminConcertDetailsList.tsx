@@ -57,18 +57,20 @@ const AdminConcertDetailsList = ({ inputs, removeConcertDetails }: any) => {
 
   const openConcertDetailsDrawer = (eventDetail: EventDetailProps) => {
     dispatch(openBottomOverlayDrawer('details'))
-    setInputs({
-      formName: 'concert',
-      data: {
-        eventDetailId: eventDetail.id,
-        time: eventDetail.time,
-        date: eventDetail.date,
-        city: eventDetail.city,
-        dayOfWeek: eventDetail.dayOfWeek,
-        location: eventDetail.location,
-        externalLink: eventDetail.externalLink
-      }
-    })
+    dispatch(
+      setInputs({
+        formName: 'concert',
+        data: {
+          eventDetailId: eventDetail.id,
+          time: eventDetail.time,
+          date: eventDetail.date,
+          city: eventDetail.city,
+          dayOfWeek: eventDetail.dayOfWeek,
+          location: eventDetail.location,
+          externalLink: eventDetail.externalLink
+        }
+      })
+    )
   }
 
   return (
