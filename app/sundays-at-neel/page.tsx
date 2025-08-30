@@ -2,19 +2,20 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import { MapPin, Users, Ticket } from 'lucide-react'
-import Picture from '../components/common/Picture'
 import TitleWithLine from '../components/common/TitleWithLine'
 import { RootState, useAppSelector } from '../redux/store'
 import { ConcertProps } from '../redux/features/concertSlice'
 import Link from 'next/link'
 import Marquee from 'react-fast-marquee'
+import PricingBanner from '../components/sundays-at-neel/PricingBanner'
+import ConcertCard from '../components/sundays-at-neel/ConcertCard'
+import { Star } from 'lucide-react'
 
 const orchestraSections = ['Strings', 'Woodwinds', 'Brass', 'Percussion', 'Harp', 'Piano', 'Conductor', 'Choir']
 
 const orchestraMovements = ['Overture', 'Allegro', 'Adagio', 'Scherzo', 'Finale', 'Cadenza', 'Intermezzo', 'Reprise']
 
-const MuziconWebsite = () => {
+const SundaysAtNeel = () => {
   const { concerts } = useAppSelector((state: RootState) => state.concert)
 
   const containerVariants = {
@@ -23,19 +24,6 @@ const MuziconWebsite = () => {
       opacity: 1,
       transition: {
         staggerChildren: 0.1
-      }
-    }
-  }
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: 'spring',
-        stiffness: 100,
-        damping: 20
       }
     }
   }
@@ -167,9 +155,14 @@ const MuziconWebsite = () => {
             viewport={{ once: true }}
           >
             <TitleWithLine title="Featured Events" textBlockKey="sundaysAtNeelPageTitle" type="SUNDAYS_AT_NEEL" />
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-8">
               Don&apos;t miss these incredible upcoming performances
             </p>
+
+            {/* Pricing Banner */}
+            <div className="w-full max-w-4xl">
+              <PricingBanner />
+            </div>
           </motion.div>
 
           <motion.div
@@ -179,81 +172,33 @@ const MuziconWebsite = () => {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            {filteredConcerts?.map((concert: ConcertProps) => (
-              <motion.div
-                key={concert.id}
-                variants={cardVariants}
-                whileHover={{ y: -10, scale: 1.02 }}
-                className="group cursor-pointer"
-              >
-                <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700 hover:border-blaze transition-all duration-300">
-                  <div className="relative overflow-hidden">
-                    <Picture
-                      priority={false}
-                      src={concert.imageUrl}
-                      className="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-                    <div className="absolute top-4 left-4">
-                      <span className="bg-blaze text-white px-3 py-1 rounded-full text-sm font-medium">
-                        {concert.type}
-                      </span>
-                    </div>
-                    <div className="absolute top-4 right-4">
-                      <span
-                        className={`px-3 py-1 rounded-full text-sm font-medium ${
-                          concert.isOnSale ? 'bg-lime-500 text-white' : 'bg-blaze text-white'
-                        }`}
-                      >
-                        {concert.isOnSale ? 'On Sale' : 'Sold Out'}
-                      </span>
-                    </div>
-                    <div className="absolute bottom-4 left-4">
-                      <div className="text-white">
-                        <div className="text-2xl font-bold">{concert.cardDate}</div>
-                        <div className="text-sm text-gray-300">{concert.eventDetails[0]?.time}</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-blaze transition-colors">
-                      {concert.name}
-                    </h3>
-
-                    <p className="text-gray-400 text-sm mb-4 line-clamp-2">{concert.description}</p>
-
-                    <div className="space-y-2 mb-4">
-                      <div className="flex items-center gap-2 text-gray-300 text-sm">
-                        <MapPin className="w-4 h-4 text-blaze" />
-                        <span>{concert.eventDetails[0]?.location.name}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-gray-300 text-sm">
-                        <Users className="w-4 h-4 text-blaze" />
-                        <span>{concert.eventDetails[0]?.city}</span>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between">
-                      <div className="text-white">
-                        <span className="text-lg font-bold">From $45</span>
-                      </div>
-                      <motion.a
-                        href={concert.allSeriesExternalLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="bg-gradient-to-r from-blaze to-sunbusrt text-white px-4 py-2 rounded-lg text-sm font-semibold inline-flex items-center gap-2"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        <Ticket className="w-4 h-4" />
-                        Get Tickets
-                      </motion.a>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
+            {filteredConcerts?.map((concert: ConcertProps, index: number) => (
+              <ConcertCard key={concert.id} concert={concert} index={index} />
             ))}
+          </motion.div>
+
+          {/* Call to Action */}
+          <motion.div
+            className="text-center mt-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <div className="bg-gradient-to-r from-blaze/10 to-sunburst/10 border border-blaze/30 rounded-2xl p-8">
+              <h3 className="text-2xl font-bold text-white mb-4">Ready to experience all three concerts?</h3>
+              <p className="text-gray-400 mb-6">
+                Get the best value and save $30 when you purchase tickets to all three performances
+              </p>
+              <motion.button
+                className="bg-gradient-to-r from-blaze to-sunburst text-white px-8 py-4 rounded-lg text-lg font-semibold inline-flex items-center gap-3"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Star className="w-5 h-5" />
+                Buy All 3 Concerts - Save $30
+              </motion.button>
+              <div className="text-sm text-lime-400 mt-2">Only $75 total (normally $105)</div>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -261,4 +206,4 @@ const MuziconWebsite = () => {
   )
 }
 
-export default MuziconWebsite
+export default SundaysAtNeel
