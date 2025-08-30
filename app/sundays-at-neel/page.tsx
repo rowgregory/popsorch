@@ -172,8 +172,8 @@ const SundaysAtNeel = () => {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            {filteredConcerts?.map((concert: ConcertProps, index: number) => (
-              <ConcertCard key={concert.id} concert={concert} index={index} />
+            {filteredConcerts?.map((concert: ConcertProps) => (
+              <ConcertCard key={concert.id} concert={concert} />
             ))}
           </motion.div>
 

@@ -15,9 +15,9 @@ const cardVariants = {
   }
 }
 
-const ConcertCard = ({ concert, index }: { concert: any; index: number }) => (
-  <motion.div variants={cardVariants} whileHover={{ y: -10, scale: 1.02 }} className="group cursor-pointer">
-    <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700 hover:border-blaze transition-all duration-300">
+const ConcertCard = ({ concert }: { concert: any }) => (
+  <motion.div variants={cardVariants} whileHover={{ y: -10, scale: 1.02 }} className="group cursor-pointer h-full">
+    <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700 hover:border-blaze transition-all duration-300 h-full flex flex-col">
       <div className="relative overflow-hidden">
         <Picture
           priority={false}
@@ -25,14 +25,6 @@ const ConcertCard = ({ concert, index }: { concert: any; index: number }) => (
           className="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-
-        {/* Concert Number Badge */}
-        <div className="absolute top-4 left-4 flex gap-2">
-          <span className="bg-blaze text-white px-3 py-1 rounded-full text-sm font-medium">{concert.type}</span>
-          <span className="bg-black/60 backdrop-blur text-white px-3 py-1 rounded-full text-sm font-medium">
-            Concert {index + 1}
-          </span>
-        </div>
 
         <div className="absolute top-4 right-4">
           <span
@@ -52,12 +44,12 @@ const ConcertCard = ({ concert, index }: { concert: any; index: number }) => (
         </div>
       </div>
 
-      <div className="p-6">
+      <div className="p-6 flex-1 flex flex-col">
         <h3 className="text-xl font-bold text-white mb-2 group-hover:text-blaze transition-colors">{concert.name}</h3>
 
         <p className="text-gray-400 text-sm mb-4 line-clamp-2">{concert.description}</p>
 
-        <div className="space-y-2 mb-4">
+        <div className="space-y-2 mb-4 flex-shrink-0">
           <div className="flex items-center gap-2 text-gray-300 text-sm">
             <MapPin className="w-4 h-4 text-blaze" />
             <span>{concert.eventDetails[0]?.location.name}</span>
@@ -69,7 +61,7 @@ const ConcertCard = ({ concert, index }: { concert: any; index: number }) => (
         </div>
 
         {/* Dynamic Pricing Display */}
-        <div className="bg-black/30 rounded-lg p-3 mb-4 border border-white/10">
+        <div className="bg-black/30 rounded-lg p-3 mb-4 border border-white/10 flex-shrink-0">
           <div className="text-xs text-gray-400 mb-1">Pricing Options:</div>
           <div className="space-y-1 text-xs">
             <div className="flex justify-between">
