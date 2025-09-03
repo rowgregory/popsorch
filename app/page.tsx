@@ -6,6 +6,7 @@ import HomeContact from './components/home/HomeContact'
 import HomeHero from './components/home/HomeHero'
 import HomeSignUp from './components/home/HomeSignUp'
 import TicketsBlock from './components/home/TicketsBlock'
+import SponsorsBlock from './components/blocks/SponsorsBlock'
 
 const Home = () => {
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -22,6 +23,7 @@ const Home = () => {
         <HomeConcertDates />
       </div>
       <HomeContact />
+      <SponsorsBlock />
       <HomeSignUp />
     </>
   )

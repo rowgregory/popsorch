@@ -5,10 +5,9 @@ export const initialSponsorData: ISponsor = {
   filename: '',
   filePath: '',
   externalLink: '',
-  level: 'platinum',
-  color: '#3B82F6', // Default blue color
-  description: '',
-  clicks: 0,
+  level: 'sustaining',
+  amount: '250',
+  name: '',
   createdAt: new Date(),
   updatedAt: new Date()
 }

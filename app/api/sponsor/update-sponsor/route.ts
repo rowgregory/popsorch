@@ -12,11 +12,11 @@ export async function PUT(req: NextRequest) {
     const userHeader = req.headers.get('x-user')! // Exlmation point <----
     parsedUser = JSON.parse(userHeader)
 
-    const { id, externalLink, filePath, filename } = body
+    const { id, externalLink, filePath, filename, name, amount, level } = body
 
-    const updatedQuestion = await prisma.sponsor.update({
+    const updatedSonsor = await prisma.sponsor.update({
       where: { id },
-      data: { externalLink, filePath, filename }
+      data: { externalLink, filePath, filename, name, amount, level }
     })
 
     await createLog('info', 'Question updated', {
@@ -29,7 +29,7 @@ export async function PUT(req: NextRequest) {
       user: parsedUser
     })
 
-    return NextResponse.json({ sponsor: updatedQuestion, sliceName: sliceSponsor }, { status: 200 })
+    return NextResponse.json({ sponsor: updatedSonsor, sliceName: sliceSponsor }, { status: 200 })
   } catch (error: any) {
     await createLog('error', `Updating sponsor failed: ${error.message}`, {
       errorLocation: parseStack(JSON.stringify(error)),

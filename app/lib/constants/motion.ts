@@ -1,7 +1,7 @@
 export const drawerVariants = {
-  initial: { y: '100%' },
-  animate: { y: 0 },
-  exit: { y: '100%' }
+  initial: { x: '100%' },
+  animate: { x: 0 },
+  exit: { x: '100%' }
 }
 
 export const backdropVariants = {

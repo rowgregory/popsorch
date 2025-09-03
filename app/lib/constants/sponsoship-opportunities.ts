@@ -82,7 +82,7 @@ export const sponsorshipTiers = [
 
 export const stats = [
   { icon: Users, number: '15,000', label: 'concert attendees' },
-  { icon: TrendingUp, number: '4,300', label: 'MailChimp subscribers' },
+  { icon: TrendingUp, number: '10,000+', label: 'MailChimp subscribers' },
   { icon: Eye, number: '50%', label: 'email open rate' },
   { icon: Users, number: '5,000', label: 'website visitors a month during season' },
   { icon: Music, number: '800', label: 'YouTube subscribers' },

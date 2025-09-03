@@ -41,23 +41,6 @@ export const sponsorSlice = createSlice({
     resetSponsorError: (state) => {
       state.error = null
     },
-    addSponsorToState: (state, action) => {
-      state.sponsors.push(action.payload)
-      state.sponsorsCount = state.sponsorsCount + 1
-      state.noSponsors = state.sponsors.length === 0
-    },
-    updateSponsorInState: (state, action) => {
-      const updatedSponsor = action.payload
-      const index = state.sponsors.findIndex((sponsor) => sponsor.id === updatedSponsor.id)
-      if (index !== -1) {
-        state.sponsors[index] = updatedSponsor
-      }
-    },
-    removeSponsorFromState: (state, action) => {
-      state.sponsors = state.sponsors.filter((sponsor) => sponsor.id !== action.payload)
-      state.sponsorsCount = state.sponsorsCount - 1
-      state.noSponsors = state.sponsors.length === 0
-    },
     setOpenSponsorDrawer: (state) => {
       state.sponsorDrawer = true
     },
@@ -101,13 +84,5 @@ export const sponsorSlice = createSlice({
 
 export const sponsorReducer = sponsorSlice.reducer as Reducer<SponsorStatePayload>
 
-export const {
-  resetSponsor,
-  setSponsors,
-  resetSponsorError,
-  addSponsorToState,
-  updateSponsorInState,
-  removeSponsorFromState,
-  setOpenSponsorDrawer,
-  setCloseSponsorDrawer
-} = sponsorSlice.actions
+export const { resetSponsor, setSponsors, resetSponsorError, setOpenSponsorDrawer, setCloseSponsorDrawer } =
+  sponsorSlice.actions

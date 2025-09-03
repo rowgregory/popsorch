@@ -14,17 +14,16 @@ export type VenueProps = {
   updatedAt: Date
 }
 
-export type SponsorLevel = 'platinum' | 'gold' | 'silver' | 'bronze' | 'partner' | 'community'
+export type SponsorLevel = 'season' | 'concert' | 'guest-artist' | 'principal' | 'associate' | 'sustaining'
 
 export interface ISponsor {
   id: string // @id @default(cuid())
   filePath: string // Path to uploaded file
+  name: string
   filename: string // Display name for the sponsor
   externalLink: string // Sponsor website URL
+  amount: string
   level: SponsorLevel // Sponsorship tier
-  color: string // Brand color (hex format)
-  description: string // Sponsor description
-  clicks: number // Click tracking count
   createdAt: Date // @default(now())
   updatedAt: Date // @updatedAt
 }

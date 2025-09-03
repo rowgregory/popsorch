@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Music } from 'lucide-react'
 import { containerVariants, itemVariants } from '../lib/constants/advertise-with-us'
 import { benefits, sponsorshipTiers, stats } from '../lib/constants/sponsoship-opportunities'
 import Breadcrumb from '../components/common/Breadcrumb'
@@ -77,19 +76,6 @@ const SponsorshipPage = () => {
               </h1>
               <h2 className="text-3xl text-gray-300 mb-6">with the Pops Orchestra</h2>
               <p className="text-xl text-gray-400 mb-8">2025-2026 Celebrating Our 50th Season</p>
-              <div className="flex items-center justify-center space-x-4">
-                <motion.div
-                  className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-amber-600 rounded-full flex items-center justify-center shadow-lg shadow-yellow-500/25"
-                  whileHover={{ scale: 1.1, rotate: 15 }}
-                  transition={{ type: 'spring', stiffness: 300 }}
-                >
-                  <Music className="w-8 h-8 text-black" />
-                </motion.div>
-                <div className="text-left">
-                  <div className="text-2xl font-bold text-yellow-400">50</div>
-                  <div className="text-sm text-gray-400">ANNIVERSARY</div>
-                </div>
-              </div>
             </motion.div>
           </div>
         </motion.div>

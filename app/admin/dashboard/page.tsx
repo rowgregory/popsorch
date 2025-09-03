@@ -12,6 +12,7 @@ import { cardColors } from '@/public/data/admin.data'
 import PageViewsCard, { cardVariants, containerVariants } from '@/app/components/admin/dashboard/PageViewsCard'
 import DefaultCard from '@/app/components/admin/dashboard/DefaultCard'
 import CampApplicationsToggleCard from '@/app/components/admin/dashboard/CampApplicationsToggleCard'
+import SponsorsCard from '@/app/components/admin/dashboard/SponsorsCard'
 
 const Dashboard = () => {
   const { data, isLoading } = useFetchDashboardDataQuery(undefined) as any
@@ -53,6 +54,8 @@ const Dashboard = () => {
             className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6"
             variants={containerVariants}
           >
+            <SponsorsCard loading={isLoading} />
+
             <CampApplicationsToggleCard loading={isLoading} />
 
             <HeaderButtonStudioCard cardColors={cardColors} cardVariants={cardVariants} />

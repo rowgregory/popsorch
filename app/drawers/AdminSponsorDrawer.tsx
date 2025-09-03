@@ -21,7 +21,10 @@ const getTypeFromFile = (fileName: string): 'image' | 'video' => {
 const AdminSponsorDrawer = () => {
   const dispatch = useAppDispatch()
   const { sponsorDrawer } = useAppSelector((state: RootState) => state.sponsor)
-  const closeDrawer = () => dispatch(setCloseSponsorDrawer())
+  const closeDrawer = () => {
+    dispatch(setCloseSponsorDrawer())
+    dispatch(clearInputs({ formName: 'sponsorForm' }))
+  }
   const { handleInput, setErrors, handleUploadProgress } = createFormActions('sponsorForm', dispatch)
   const { sponsorForm } = useAppSelector((state: RootState) => state.form)
   const [submitting, setSubmitting] = useState(false)
@@ -35,8 +38,8 @@ const AdminSponsorDrawer = () => {
   const prepareSponsorData = () => ({
     externalLink: sponsorForm.inputs.externalLink,
     level: sponsorForm.inputs.level,
-    color: sponsorForm.inputs.color,
-    description: sponsorForm.inputs.description
+    amount: sponsorForm.inputs.amount,
+    name: sponsorForm.inputs.name
   })
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
@@ -49,50 +52,44 @@ const AdminSponsorDrawer = () => {
 
       const sponsorData = prepareSponsorData()
 
-      let mediaUrl = null
+      let newFilePath = null
       if (isUpdateMode) {
         const fileToDelete = sponsorForm.inputs.fileName
 
         const fileType = getTypeFromFile(fileToDelete)
 
-        if (sponsorForm.inputs.wantsToRemove) {
+        if (sponsorForm.inputs.file) {
           await deleteFileFromFirebase(fileToDelete, fileType)
-        }
-        if (sponsorForm.inputs.wantsToReplace) {
-          if (sponsorForm.inputs.shouldDeleteOriginal) {
-            await deleteFileFromFirebase(fileToDelete, fileType)
-          }
 
-          mediaUrl = await uploadFileToFirebase(
-            sponsorForm.inputs.media,
+          newFilePath = await uploadFileToFirebase(
+            sponsorForm.inputs.file,
             handleUploadProgress,
-            getTypeFromFile(sponsorForm.inputs.media.name)
+            getTypeFromFile(sponsorForm.inputs.file.name)
           )
         }
-      } else if (sponsorForm.inputs.media) {
-        mediaUrl = await uploadFileToFirebase(
-          sponsorForm.inputs.media,
+      } else if (sponsorForm.inputs.file) {
+        newFilePath = await uploadFileToFirebase(
+          sponsorForm.inputs.file,
           handleUploadProgress,
-          getTypeFromFile(sponsorForm.inputs.media.name)
+          getTypeFromFile(sponsorForm.inputs.file.name)
         )
       }
 
       const finalSponsorData = {
         ...sponsorData,
-        ...(mediaUrl && { filePath: mediaUrl, fileName: sponsorForm.inputs.media.name }),
-        ...(sponsorForm.inputs.wantsToRemove && { filePath: null, fileName: null })
+        ...(newFilePath && { filePath: newFilePath, filename: sponsorForm.inputs.file.name })
       }
 
       if (isUpdateMode) {
         await updateSponsor({
-          sponsorId: sponsorForm.inputs.id,
+          id: sponsorForm.inputs.id,
           ...finalSponsorData
         }).unwrap()
       } else {
         await createSponsor(finalSponsorData).unwrap()
       }
 
-      dispatch(clearInputs({ formName: 'sponsorForm' }))
+      closeDrawer()
     } catch {
     } finally {
       setSubmitting(false)
