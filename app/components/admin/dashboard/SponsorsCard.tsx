@@ -8,7 +8,7 @@ const cardVariants = {
   visible: { opacity: 1, y: 0 }
 }
 
-const SponsorsCard: FC<{ loading: boolean }> = ({ loading }) => {
+const SponsorsCard: FC<{ loading: boolean; sponsorsCount: number }> = ({ loading, sponsorsCount }) => {
   const { push } = useRouter()
   const theme = {
     bgGradient: 'bg-gradient-to-br from-green-600 via-green-700 to-green-800',
@@ -56,7 +56,7 @@ const SponsorsCard: FC<{ loading: boolean }> = ({ loading }) => {
                 <Users className={`w-5 h-5 ${theme.icon}`} />
                 <span className={`${theme.text} font-medium`}>Active Sponsors</span>
               </div>
-              <span className={`${theme.highlight} font-bold text-lg`}>{loading ? '...' : '12'}</span>
+              <span className={`${theme.highlight} font-bold text-lg`}>{loading ? '...' : sponsorsCount}</span>
             </div>
           </div>
 

@@ -3,16 +3,8 @@ import { motion } from 'framer-motion'
 import Picture from '../common/Picture'
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      type: 'spring',
-      stiffness: 100,
-      damping: 20
-    }
-  }
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 }
 }
 
 const ConcertCard = ({ concert }: { concert: any }) => (
@@ -99,7 +91,7 @@ const ConcertCard = ({ concert }: { concert: any }) => (
             whileTap={{ scale: 0.95 }}
           >
             <Ticket className="w-4 h-4" />
-            Select Concerts
+            Buy Tickets
           </motion.a>
         </div>
       </div>

@@ -148,7 +148,7 @@ const Venues = () => {
           <>
             <motion.div className={seatMapContainer} variants={seatMapVariants} initial="hidden" animate="visible">
               <div className={seatMapInner}>
-                <div className="pt-12 flex items-center justify-center flex-col relative">
+                <div className="flex justify-center flex-col relative">
                   <motion.h1
                     className="text-xl mb-6 text-center font-changa"
                     initial={{ opacity: 0, y: -20 }}

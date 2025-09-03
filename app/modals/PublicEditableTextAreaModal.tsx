@@ -2,10 +2,65 @@ import React, { useEffect, useRef, useState } from 'react'
 import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
 import useForm from '../hooks/useForm'
 import { useFetchTextBlocksQuery, useUpdateTextBlockMutation } from '../redux/services/textBlockApi'
-import Spinner from '../components/common/Spinner'
 import { setCloseModal } from '../redux/features/appSlice'
-import PublicModal from '../components/common/PublicModal'
 import { ErrorType } from '../types/common.types'
+import { AnimatePresence, motion } from 'framer-motion'
+
+const modalVariants = {
+  hidden: {
+    opacity: 0,
+    scale: 0.8,
+    y: 50
+  },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: {
+      type: 'spring',
+      stiffness: 300,
+      damping: 30,
+      duration: 0.4
+    }
+  },
+  exit: {
+    opacity: 0,
+    scale: 0.8,
+    y: 50,
+    transition: {
+      duration: 0.3
+    }
+  }
+}
+
+const overlayVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 },
+  exit: { opacity: 0 }
+}
+
+const contentVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: 0.1,
+      duration: 0.3
+    }
+  }
+}
+
+const buttonVariants = {
+  hover: {
+    scale: 1.02,
+    transition: { duration: 0.2 }
+  },
+  tap: {
+    scale: 0.98,
+    transition: { duration: 0.1 }
+  }
+}
 
 const PublicEditableTextAreaModal = () => {
   const dispatch = useAppDispatch()
@@ -67,53 +122,121 @@ const PublicEditableTextAreaModal = () => {
   }
 
   return (
-    <PublicModal show={openModal} reset={reset}>
-      <div className="px-4 pt-12 480:py-20 480:mb-20 max-w-md mx-auto flex flex-col items-center justify-center w-full max-h-1000:h-[calc(100vh-58px)]">
-        <h1 className="font-medium text-stealthGray text-xl mt-2 mb-4">Edit Text Area</h1>
-        <form onSubmit={handleUpdate} className="w-full grid grid-cols-12 items-end relative">
-          {modadlData.textBlockKey === 'countdownTimer' ? (
-            <input
-              type="date"
-              name={modadlData.textBlockKey}
-              value={(inputs[modadlData.textBlockKey] as string) || ''}
-              onChange={handleInput}
-              className={`col-span-12 p-3 border-1 border-gray-300 bg-transparent relative focus:outline-none w-full break-words`}
-            />
-          ) : (
-            <textarea
-              ref={inputRef}
-              rows={8}
-              name={modadlData.textBlockKey}
-              value={(inputs[modadlData.textBlockKey] as string) || ''}
-              onChange={handleInput}
-              className={`col-span-12 p-3 border-1 border-gray-300 bg-transparent relative focus:outline-none w-full break-words`}
-            />
-          )}
-          {(errors?.textBlock || error?.data?.message) && (
-            <div className={`text-xs absolute -bottom-6 text-blaze font-semibold col-span-12`}>
-              {errors?.textBlock || error?.data?.message}
-            </div>
-          )}
-        </form>
-      </div>
-      <div className="bg-midnightblack p-3 480:py-6 480:px-5 w-full flex items-center justify-between">
-        <button
+    <AnimatePresence>
+      {openModal && (
+        <motion.div
+          variants={overlayVariants}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50"
           onClick={reset}
-          disabled={loading}
-          type="button"
-          className="bg-zinc-500 font-changa uppercase text-12 font-medium tracking-wider py-2 w-36 disabled:cursor-not-allowed"
         >
-          Back
-        </button>
-        <button
-          onClick={handleUpdate}
-          disabled={loading}
-          className="min-w-36 font-changa uppercase text-12 font-medium tracking-wider bg-blaze py-2 w-36 disabled:cursor-not-allowed"
-        >
-          {loading ? <Spinner wAndH="w-4 h-4" fill="fill-white" track="text-blaze" /> : 'Update'}
-        </button>
-      </div>
-    </PublicModal>
+          <motion.div
+            variants={modalVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            className="bg-inkblack rounded-2xl shadow-2xl overflow-hidden max-w-md w-full mx-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <motion.div variants={contentVariants} className="px-6 pt-8 pb-6 border-b border-neutral-700">
+              <h1 className="text-2xl font-semibold text-white text-center">Edit Text Area</h1>
+              <div className="w-16 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mt-3 rounded-full" />
+            </motion.div>
+
+            {/* Content */}
+            <motion.div variants={contentVariants} className="px-6 py-6">
+              <form onSubmit={handleUpdate} className="space-y-4">
+                <div className="relative">
+                  {modadlData.textBlockKey === 'countdownTimer' ? (
+                    <motion.input
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.2 }}
+                      type="date"
+                      name={modadlData.textBlockKey}
+                      value={(inputs[modadlData.textBlockKey] as string) || ''}
+                      onChange={handleInput}
+                      className="w-full px-4 py-3 border-2 border-neutral-700 rounded-xl bg-inkblack focus:border-blaze focus:outline-none transition-all duration-200 text-white"
+                    />
+                  ) : (
+                    <motion.textarea
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.2 }}
+                      ref={inputRef}
+                      rows={8}
+                      name={modadlData.textBlockKey}
+                      value={(inputs[modadlData.textBlockKey] as string) || ''}
+                      onChange={handleInput}
+                      placeholder="Enter your text here..."
+                      className="w-full px-4 py-3 border-2 border-neutral-700 rounded-xl bg-inkblack focus:border-blaze focus:outline-none transition-all duration-200 text-white resize-none"
+                    />
+                  )}
+
+                  <AnimatePresence>
+                    {(errors?.textBlock || error?.data?.message) && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="absolute -bottom-6 left-0 text-sm text-red-500 font-medium"
+                      >
+                        {errors?.textBlock || error?.data?.message}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </form>
+            </motion.div>
+
+            {/* Footer */}
+            <motion.div
+              variants={contentVariants}
+              className="px-6 py-6 bg-neutral-800 border-t border-neutral-700 flex items-center justify-between gap-4"
+            >
+              <motion.button
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="tap"
+                onClick={reset}
+                disabled={loading}
+                type="button"
+                className="flex-1 px-6 py-3 bg-gray-500 hover:bg-gray-600 text-white font-medium rounded-xl transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Cancel
+              </motion.button>
+
+              <motion.button
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="tap"
+                onClick={handleUpdate}
+                disabled={loading}
+                className="flex-1 px-6 py-3 bg-gradient-to-r from-blaze to-sunburst hover:from-sunburst hover:to-blaze text-white font-medium rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+              >
+                {loading ? (
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-2">
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                      className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
+                    />
+                    <span>Updating...</span>
+                  </motion.div>
+                ) : (
+                  <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                    Update
+                  </motion.span>
+                )}
+              </motion.button>
+            </motion.div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   )
 }
 

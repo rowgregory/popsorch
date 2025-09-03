@@ -67,23 +67,23 @@ const HiddenGemsPage = () => {
       icon: Award
     },
     {
-      name: 'Choral Artists of Sarasota',
+      name: 'Via Nova Chorale',
       description:
-        "The Choral Artists of Sarasota, entering its 46th season, features the region's most notable professional singers and apprentice singers. The group celebrates the rich, artistic expressiveness of choral music through innovative repertoire, inspired performances and stimulating educational outreach.",
+        'In 2023, Steven Phillips was appointed Artistic Director of Musica Sacra Cantorum, bringing a broader focus – from purely sacred music to exploring all that is sacred in life, and the choir was re-branded to Via Nova Chorale. Our repertoire draws from many cultures, time periods, and spiritual traditions, garnering enthusiastic approval from audiences and chorus members alike.',
       directorText:
-        'Under the artistic direction of Dr. Joseph Holt, Choral Artists of Sarasota performs a repertoire spanning four centuries, and includes symphonic choral works, intimate madrigals, folk songs, close-harmony jazz, and Broadway show music.',
+        'Under the artistic direction of Steven Phillips, Via Nova Chorale explores repertoire ranging from sacred classics to spirituals, Gregorian chant to jazz, tripling both audience size and donor base since the transition.',
       specialtyText:
-        'The ensemble also specializes in premiere performances of lesser-known choral works—particularly music by living American composers. Choral Artists of Sarasota has performed premieres by René Clausen, Dick Hyman, Robert Levin, Gwyneth Walker and James Grant.',
+        'Now in our 16th season, Choral Artists of Sarasota has merged with Via Nova Chorale, creating a larger choir while combining the legacy of Choral Artists with our vision to find new ways to be together as a human family on our shared planet, via music.',
       outreachText:
-        "As part of the organization's educational outreach, eight young singers from area schools, colleges and universities, ages 16 to 22, are invited to join the group each year.",
-      seasonLink: 'https://choralartistssarasota.org/season/2024-2025-season/',
-      highlights: ['46th Season', 'Professional Singers', 'Educational Outreach'],
-      photo: 'https://choralartistssarasota.org/wp-content/uploads/2024/03/group-with-joe-and-glenn-crop-1024x437.jpg',
+        'With deep gratitude for all that has come before, we invite you to expand your vision with us. We believe a sustainable future depends on all of us finding new ways together. Music is our medium, and a deepening connection to the earth and one another is our dream.',
+      seasonLink: 'https://www.vianovachorale.org',
+      highlights: ['16th Season', 'Multicultural Repertoire', 'Earth & Human Connection'],
+      photo: '/images/via-nova.png',
       contact: {
         address: 'PO Box 52987, Sarasota, FL 34232',
         phone: '941-387-6046',
-        website: 'ChoralArtistsSarasota.org',
-        websiteUrl: 'https://choralartistssarasota.org'
+        website: 'vianovachorale.org',
+        websiteUrl: 'https://www.vianovachorale.org'
       },
       color: 'from-emerald-500 to-teal-600',
       icon: Music
