@@ -84,7 +84,7 @@ const SundaysAtNeel = () => {
               }
               type="SUNDAYS_AT_NEEL"
               textBlockKey="sundaysAtNeelPageSubtitle"
-              className="text-xl text-gray-300 max-w-2xl mx-auto mb-8"
+              className="text-xl text-gray-300 max-w-2xl mx-auto mb-8 relative z-[60]"
             />
 
             {/* Pricing Banner */}
