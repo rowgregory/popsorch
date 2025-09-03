@@ -240,7 +240,7 @@ const CustomHeaderButton: React.FC<CustomHeaderButtonProps> = ({
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.95 }}
               transition={{ duration: 0.2, ease: 'easeOut' }}
-              className="absolute top-full right-0 mt-2 min-w-48 bg-[#1a1a1a] backdrop-blur-lg rounded-lg shadow-xl z-50 overflow-hidden"
+              className="absolute top-full right-0 mt-2 min-w-60 bg-[#1a1a1a] backdrop-blur-lg rounded-lg shadow-xl z-50 overflow-hidden"
             >
               {dropdownItems.map((item, index) => (
                 <motion.button
@@ -255,7 +255,7 @@ const CustomHeaderButton: React.FC<CustomHeaderButtonProps> = ({
                 >
                   <div className="flex items-center gap-2">
                     {item.icon && <span className="text-sm">{item.icon}</span>}
-                    <span className="font-medium">{item.text}</span>
+                    <span className="font-medium whitespace-nowrap">{item.text}</span>
                     {item.linkType === 'external' && (
                       <svg
                         className="w-3 h-3 text-gray-400 ml-auto"
