@@ -138,7 +138,7 @@ const BoardMembersAndStaff = () => {
                       draggedItem === teamMember.id ? 'opacity-50 scale-105' : ''
                     } ${
                       draggedOver === teamMember.id && draggedItem !== teamMember.id && draggedFromList === role
-                        ? 'border-t-2 border-purple-500'
+                        ? 'border-t-3 border-purple-500'
                         : ''
                     }`}
                   >
