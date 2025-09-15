@@ -14,7 +14,7 @@ const Staff = () => {
   const dispatch = useAppDispatch()
   const { drawer, loading } = useAppSelector((state: RootState) => state.app)
   const { textBlockMap } = useAppSelector((state: RootState) => state.textBlock)
-  const { teamMembers } = useAppSelector((state: RootState) => state.teamMember)
+  const { staff } = useAppSelector((state: RootState) => state.teamMember)
 
   const handleOpenDrawer = (selectedMember: TeamMemberProps) => {
     const combinedList: TeamMemberProps[] = [...staff]
@@ -30,13 +30,7 @@ const Staff = () => {
     )
   }
 
-  const staff: TeamMemberProps[] = []
-
-  teamMembers?.forEach((teamMember: TeamMemberProps) => {
-    if (teamMember.role === 'Staff') {
-      staff.push(teamMember)
-    }
-  })
+  const sortedStaff = [...staff].sort((a, b) => a.displayOrder - b.displayOrder)
 
   return (
     <>
@@ -64,7 +58,7 @@ const Staff = () => {
                 textBlockKey="staffTitle"
               />
               <div className="grid grid-cols-12 gap-y-6 760:gap-7 mt-12 w-full">
-                {staff.map((teamMember: TeamMemberProps) => (
+                {sortedStaff?.map((teamMember: TeamMemberProps) => (
                   <PublicTeamMemberCard
                     key={teamMember.id}
                     teamMember={teamMember}

@@ -78,10 +78,7 @@ const SundaysAtNeel = () => {
             />
             <EditableTextArea
               tag="p"
-              initialValue={
-                textBlockMap?.ABOUT_PAGE?.aboutPageMainP1 ||
-                `Though The Pops Orchestra won't be performing, these are acts we know you will love. All shows are on Sundays at 3:00 p.m., at the Neel Performing Arts Center on the campus of State College of Florida: 5840 26th St. W., Bradenton, FL 34207`
-              }
+              initialValue={textBlockMap?.SUNDAYS_AT_NEEL?.sundaysAtNeelPageSubtitle}
               type="SUNDAYS_AT_NEEL"
               textBlockKey="sundaysAtNeelPageSubtitle"
               className="text-xl text-gray-300 max-w-2xl mx-auto mb-8 relative z-[60]"

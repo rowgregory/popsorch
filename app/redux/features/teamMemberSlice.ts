@@ -10,6 +10,7 @@ export interface TeamMemberProps {
   role: string
   imageUrl: string
   imageFilename: string
+  displayOrder: any
   createdAt: Date
   updatedAt: Date
 }
@@ -22,6 +23,8 @@ export interface TeamMemberStatePayload {
   teamMember: TeamMemberProps
   teamMembersCount: number
   noTeamMembers: boolean
+  staff: any[]
+  boardMembers: any[]
 }
 
 const teamMemberState: TeamMemberProps = {
@@ -33,6 +36,7 @@ const teamMemberState: TeamMemberProps = {
   role: '',
   imageUrl: '',
   imageFilename: '',
+  displayOrder: 0,
   createdAt: new Date(),
   updatedAt: new Date()
 }
@@ -44,7 +48,9 @@ const initialTeamMemberState: TeamMemberStatePayload = {
   teamMembers: [],
   teamMember: teamMemberState,
   teamMembersCount: 0,
-  noTeamMembers: false
+  noTeamMembers: false,
+  staff: [],
+  boardMembers: []
 }
 
 export const teamMemberSlice = createSlice({
@@ -55,10 +61,18 @@ export const teamMemberSlice = createSlice({
       state.error = null
       state.teamMember = teamMemberState
     },
-    setTeamMembers: (state, { payload }: any) => {
+    setTeamMembers: (state, { payload }) => {
       state.teamMembers = payload
       state.teamMembersCount = payload?.length
       state.noTeamMembers = payload?.length === 0
+    },
+    setStaff: (state, { payload }) => {
+      const sortedMembers = [...payload].sort((a, b) => a.displayOrder - b.displayOrder)
+      state.staff = sortedMembers
+    },
+    setBoardMembers: (state, { payload }) => {
+      const sortedMembers = [...payload].sort((a, b) => a.displayOrder - b.displayOrder)
+      state.boardMembers = sortedMembers
     },
     resetTeamMemberError: (state) => {
       state.error = null
@@ -100,6 +114,10 @@ export const teamMemberSlice = createSlice({
         state.success = true
         state.loading = false
       })
+      .addMatcher(teamMemberApi.endpoints.updateTeamMemberList.matchFulfilled, (state) => {
+        state.success = true
+        state.loading = false
+      })
       .addMatcher(
         (action) => action.type.endsWith('rejected') && action.payload?.data?.sliceName === 'teamMemberApi',
         (state, { payload }: any) => {
@@ -118,5 +136,7 @@ export const {
   resetTeamMemberError,
   addTeamMemberToState,
   updateTeamMemberInState,
-  removeTeamMemberFromState
+  removeTeamMemberFromState,
+  setStaff,
+  setBoardMembers
 } = teamMemberSlice.actions

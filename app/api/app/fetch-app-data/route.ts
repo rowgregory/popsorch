@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
           { id: 'asc' } // Secondary sort to break ties
         ]
       }),
-      prisma.teamMember.findMany({ orderBy: { createdAt: 'asc' } }),
+      prisma.teamMember.findMany(),
       prisma.seasonPackageBanner.findFirst({
         select: {
           isVisible: true,
@@ -68,6 +68,10 @@ export async function GET(req: NextRequest) {
 
       return acc
     }, {})
+    const staff = teamMembers.filter((user) => user.role === 'Staff')
+    const sortedStaff = [...staff].sort((a, b) => a.displayOrder - b.displayOrder)
+    const boardMembers = teamMembers.filter((user) => user.role === 'Board-Member')
+    const sortedBoardMembers = [...boardMembers].sort((a, b) => a.displayOrder - b.displayOrder)
 
     return NextResponse.json(
       {
@@ -81,6 +85,8 @@ export async function GET(req: NextRequest) {
         photoGalleryImages,
         photoGalleryImagesCount: photoGalleryImages?.length,
         teamMembers,
+        staff: sortedStaff,
+        boardMembers: sortedBoardMembers,
         teamMembersCount: teamMembers?.length,
         isSeasonPackageBannerToggledVisible: seasonPackageBanner?.isVisible ?? true,
         isSeasonPackageBannerToggledLive: seasonPackageBanner?.isLive ?? true,

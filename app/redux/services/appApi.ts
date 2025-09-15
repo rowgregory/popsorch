@@ -2,7 +2,7 @@ import { handleOffline } from '@/app/utils/handleOffline'
 import { setConcerts } from '../features/concertSlice'
 import { setDashboardError } from '../features/dashboardSlice'
 import { setPhotoGalleryImages } from '../features/photoGalleryImageSlice'
-import { setTeamMembers } from '../features/teamMemberSlice'
+import { setBoardMembers, setStaff, setTeamMembers } from '../features/teamMemberSlice'
 import { setTestimonials } from '../features/testimonialSlice'
 import { setTextBlocks } from '../features/textBlockSlice'
 import { setVenues } from '../features/venueSlice'
@@ -35,6 +35,8 @@ export const appApi = api.injectEndpoints({
               venues,
               photoGalleryImages,
               teamMembers,
+              staff,
+              boardMembers,
               isSeasonPackageBannerToggledLive,
               isSeasonPackageBannerToggledVisible,
               isFeatureToggleCardLive,
@@ -42,13 +44,14 @@ export const appApi = api.injectEndpoints({
               headerButton
             }
           } = await queryFulfilled
-
           dispatch(setTextBlocks(textBlocks))
           dispatch(setConcerts(concerts))
           dispatch(setTestimonials(testimonials))
           dispatch(setVenues(venues))
           dispatch(setPhotoGalleryImages(photoGalleryImages))
           dispatch(setTeamMembers(teamMembers))
+          dispatch(setStaff(staff))
+          dispatch(setBoardMembers(boardMembers))
           dispatch(
             hydrateAppState({
               isSeasonPackageBannerToggledLive,

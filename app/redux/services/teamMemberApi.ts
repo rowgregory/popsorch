@@ -7,7 +7,8 @@ export const teamMemberApi = api.injectEndpoints({
   overrideExisting: true,
   endpoints: (build: any) => ({
     fetchTeamMembers: build.query({
-      query: () => `${BASE_URL}/fetch-team-members`
+      query: () => `${BASE_URL}/fetch-team-members`,
+      providesTags: ['Team-Member']
     }),
     createTeamMember: build.mutation({
       query: (body: any) => ({ url: `${BASE_URL}/create-team-member`, method: 'POST', body }),
@@ -29,6 +30,10 @@ export const teamMemberApi = api.injectEndpoints({
         await queryFulfilled
         dispatch(removeTeamMemberFromState(arg.id))
       }
+    }),
+    updateTeamMemberList: build.mutation({
+      query: (body: any) => ({ url: `${BASE_URL}/update-team-member-list`, method: 'PUT', body }),
+      invalidatesTags: ['Team-Member', 'App']
     })
   })
 })
@@ -37,5 +42,6 @@ export const {
   useFetchTeamMembersQuery,
   useCreateTeamMemberMutation,
   useUpdateTeamMemberMutation,
-  useDeleteTeamMemberMutation
+  useDeleteTeamMemberMutation,
+  useUpdateTeamMemberListMutation
 } = teamMemberApi
