@@ -3,6 +3,65 @@ import { motion } from 'framer-motion'
 import { ExternalLink } from 'lucide-react'
 import { useFetchSponsorsQuery } from '@/app/redux/services/sponsorApi'
 import { ISponsor } from '@/app/types/model.types'
+import Picture from '../common/Picture'
+
+const SponsorCard = ({ sponsor, size = 'medium' }: any) => {
+  const sizeClasses: Record<string, string> = {
+    large: 'w-80 h-56 p-4',
+    medium: 'w-64 h-44 p-3',
+    small: 'w-52 h-36 p-3'
+  }
+
+  const imageSizes: Record<string, string> = {
+    large: 'h-40',
+    medium: 'h-32',
+    small: 'h-26'
+  }
+
+  return (
+    <motion.a
+      href={sponsor.externalLink}
+      target="_blank"
+      rel="noopener noreferrer"
+      whileHover={{ scale: 1.02, y: -2 }}
+      className={`group relative bg-neutral-900 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer overflow-hidden ${sizeClasses[size]}`}
+    >
+      {/* Main image area - takes up most of the card */}
+      <div className={`${imageSizes[size]} w-full bg-gray-50 flex items-center justify-center p-4`}>
+        <Picture
+          src={sponsor.filePath}
+          alt={sponsor.name}
+          className="max-h-full max-w-full w-full h-full object-contain"
+          priority={false}
+        />
+      </div>
+
+      {/* Compact name bar at bottom */}
+      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-neutral-900/95 to-transparent p-3">
+        <h3 className="font-medium text-white text-sm text-center leading-tight truncate">{sponsor.name}</h3>
+      </div>
+
+      {/* External link indicator */}
+      <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="w-7 h-7 bg-black/80 rounded-full flex items-center justify-center">
+          <ExternalLink size={14} className="text-white" />
+        </div>
+      </div>
+
+      {/* Subtle hover overlay */}
+      <div className="absolute inset-0 bg-neutral-900/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+    </motion.a>
+  )
+}
+
+const sponsorConfig = [
+  { level: 'season', title: 'Media Season Sponsors', size: 'large' },
+  { level: 'concert', title: 'Media Concert Sponsors', size: 'large' },
+  { level: 'guest-artist', title: 'Media Guest Artist Sponsors', size: 'medium' },
+  { level: 'principal', title: 'Media Principal Sponsors', size: 'medium' },
+  { level: 'associate', title: 'Media Associate Sponsors', size: 'small' },
+  { level: 'sustaining', title: 'Media Sustaining Sponsors', size: 'small' }
+]
 
 const SponsorsBlock = () => {
   const { data } = useFetchSponsorsQuery({}) as { data: { sponsors: ISponsor[] } }
@@ -16,334 +75,36 @@ const SponsorsBlock = () => {
       })
     : []
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.05
-      }
-    }
-  }
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.4,
-        ease: 'easeOut'
-      }
-    }
-  }
-
-  const formatAmount = (amount: string) => {
-    const num = parseInt(amount.replace('$', ''))
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 0
-    }).format(num)
-  }
-
   return (
     <section className="py-20 bg-gradient-to-r from-neutral-900 via-neutral-800 to-neutral-900">
       <div className="max-w-6xl mx-auto px-6">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-10"
-        >
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} className="text-center mb-12">
           <h2 className="text-3xl font-bold text-white mb-3">Our Sponsors</h2>
-          <p className="text-gray-400 max-w-2xl mx-auto">Thank you to our generous sponsors who support our mission</p>
+          <p className="text-gray-400">Thank you to our generous sponsors who support our mission</p>
         </motion.div>
 
-        {/* Sponsors Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="space-y-8"
-        >
-          {/* Season Sponsors */}
-          {sortedSponsors?.filter((s) => s.level === 'season').length > 0 && (
-            <div>
-              <h3 className="text-xl font-semibold text-[#da0032] mb-4 text-center">Season Sponsors</h3>
-              <div className="flex flex-wrap justify-center items-center gap-6">
-                {sortedSponsors
-                  .filter((s) => s.level === 'season')
-                  .map((sponsor) => (
-                    <motion.a
-                      key={sponsor.id}
-                      href={sponsor.externalLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      variants={cardVariants}
-                      whileHover={{
-                        scale: 1.05,
-                        boxShadow: '0 10px 25px rgba(218, 0, 50, 0.3)'
-                      }}
-                      className="relative bg-neutral-900 rounded-lg border-2 border-[#da0032] p-6 w-48 h-32 transition-all duration-300 cursor-pointer"
-                    >
-                      <div className="flex flex-col items-center justify-center h-full">
-                        <div className="w-12 h-12 text-xl bg-[#da0032] rounded-lg flex items-center justify-center font-bold text-white mb-2">
-                          {sponsor.name.charAt(0)}
-                        </div>
+        <div className="space-y-12">
+          {sponsorConfig.map(({ level, title, size }) => {
+            const levelSponsors = sortedSponsors?.filter((s) => s.level === level) || []
+            if (levelSponsors.length === 0) return null
 
-                        <div className="text-center">
-                          <h3 className="font-semibold text-white leading-tight text-base">
-                            {sponsor.name.length > 18 ? sponsor.name.substring(0, 18) + '...' : sponsor.name}
-                          </h3>
-
-                          <div className="font-bold mt-1 text-[#da0032] text-lg">{formatAmount(sponsor.amount)}</div>
-                        </div>
-                      </div>
-
-                      <div className="absolute top-2 right-2">
-                        <ExternalLink size={16} className="text-[#da0032]" />
-                      </div>
-                    </motion.a>
+            return (
+              <div key={level}>
+                <h3 className="text-xl font-semibold text-white mb-6 text-center">{title}</h3>
+                <div className="flex flex-wrap justify-center gap-6">
+                  {levelSponsors.map((sponsor) => (
+                    <SponsorCard key={sponsor.id} sponsor={sponsor} size={size} />
                   ))}
+                </div>
               </div>
-            </div>
-          )}
+            )
+          })}
+        </div>
 
-          {/* Concert Sponsors */}
-          {sortedSponsors?.filter((s) => s.level === 'concert').length > 0 && (
-            <div>
-              <h3 className="text-xl font-semibold text-[#da0032] mb-4 text-center">Concert Sponsors</h3>
-              <div className="flex flex-wrap justify-center items-center gap-6">
-                {sortedSponsors
-                  .filter((s) => s.level === 'concert')
-                  .map((sponsor) => (
-                    <motion.a
-                      key={sponsor.id}
-                      href={sponsor.externalLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      variants={cardVariants}
-                      whileHover={{
-                        scale: 1.05,
-                        boxShadow: '0 10px 25px rgba(218, 0, 50, 0.3)'
-                      }}
-                      className="relative bg-neutral-900 rounded-lg border-2 border-[#da0032] p-6 w-48 h-32 transition-all duration-300 cursor-pointer"
-                    >
-                      <div className="flex flex-col items-center justify-center h-full">
-                        <div className="w-12 h-12 text-xl bg-[#da0032] rounded-lg flex items-center justify-center font-bold text-white mb-2">
-                          {sponsor.name.charAt(0)}
-                        </div>
-
-                        <div className="text-center">
-                          <h3 className="font-semibold text-white leading-tight text-base">
-                            {sponsor.name.length > 18 ? sponsor.name.substring(0, 18) + '...' : sponsor.name}
-                          </h3>
-
-                          <div className="font-bold mt-1 text-[#da0032] text-lg">{formatAmount(sponsor.amount)}</div>
-                        </div>
-                      </div>
-
-                      <div className="absolute top-2 right-2">
-                        <ExternalLink size={16} className="text-[#da0032]" />
-                      </div>
-                    </motion.a>
-                  ))}
-              </div>
-            </div>
-          )}
-
-          {/* Guest Artist Sponsors */}
-          {sortedSponsors?.filter((s) => s.level === 'guest-artist').length > 0 && (
-            <div>
-              <h3 className="text-xl font-semibold text-[#ff9000] mb-4 text-center">Guest Artist Sponsors</h3>
-              <div className="flex flex-wrap justify-center items-center gap-6">
-                {sortedSponsors
-                  .filter((s) => s.level === 'guest-artist')
-                  .map((sponsor) => (
-                    <motion.a
-                      key={sponsor.id}
-                      href={sponsor.externalLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      variants={cardVariants}
-                      whileHover={{
-                        scale: 1.05,
-                        boxShadow: '0 5px 15px rgba(255, 144, 0, 0.3)'
-                      }}
-                      className="relative bg-neutral-900 rounded-lg border-2 border-[#ff9000] p-4 w-40 h-28 transition-all duration-300 cursor-pointer"
-                    >
-                      <div className="flex flex-col items-center justify-center h-full">
-                        <div className="w-10 h-10 text-lg bg-[#ff9000] rounded-lg flex items-center justify-center font-bold text-white mb-2">
-                          {sponsor.name.charAt(0)}
-                        </div>
-
-                        <div className="text-center">
-                          <h3 className="font-semibold text-white leading-tight text-sm">
-                            {sponsor.name.length > 18 ? sponsor.name.substring(0, 18) + '...' : sponsor.name}
-                          </h3>
-
-                          <div className="font-bold mt-1 text-[#ff9000] text-sm">{formatAmount(sponsor.amount)}</div>
-                        </div>
-                      </div>
-
-                      <div className="absolute top-2 right-2">
-                        <ExternalLink size={12} className="text-[#ff9000]" />
-                      </div>
-                    </motion.a>
-                  ))}
-              </div>
-            </div>
-          )}
-
-          {/* Principal Sponsors */}
-          {sortedSponsors?.filter((s) => s.level === 'principal').length > 0 && (
-            <div>
-              <h3 className="text-lg font-semibold text-sunburst mb-4 text-center">Principal Sponsors</h3>
-              <div className="flex flex-wrap justify-center items-center gap-4">
-                {sortedSponsors
-                  .filter((s) => s.level === 'principal')
-                  .map((sponsor) => (
-                    <motion.a
-                      key={sponsor.id}
-                      href={sponsor.externalLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      variants={cardVariants}
-                      whileHover={{
-                        scale: 1.05,
-                        boxShadow: '0 5px 15px rgba(255, 144, 0, 0.3)'
-                      }}
-                      className="relative bg-neutral-900 rounded-lg border-2 border-sunburst p-3 w-32 h-24 transition-all duration-300 cursor-pointer"
-                    >
-                      <div className="flex flex-col items-center justify-center h-full">
-                        <div className="w-8 h-8 text-sm bg-sunburst rounded-lg flex items-center justify-center font-bold text-white mb-2">
-                          {sponsor.name.charAt(0)}
-                        </div>
-
-                        <div className="text-center">
-                          <h3 className="font-semibold text-white leading-tight text-xs">
-                            {sponsor.name.length > 18 ? sponsor.name.substring(0, 18) + '...' : sponsor.name}
-                          </h3>
-
-                          <div className="font-bold mt-1 text-sunburst text-xs">{formatAmount(sponsor.amount)}</div>
-                        </div>
-                      </div>
-
-                      <div className="absolute top-2 right-2">
-                        <ExternalLink size={12} className="text-sunburst" />
-                      </div>
-                    </motion.a>
-                  ))}
-              </div>
-            </div>
-          )}
-
-          {/* Associate Sponsors */}
-          {sortedSponsors?.filter((s) => s.level === 'associate').length > 0 && (
-            <div>
-              <h3 className="text-lg font-semibold text-gray-400 mb-4 text-center">Associate Sponsors</h3>
-              <div className="flex flex-wrap justify-center items-center gap-4">
-                {sortedSponsors
-                  .filter((s) => s.level === 'associate')
-                  .map((sponsor) => (
-                    <motion.a
-                      key={sponsor.id}
-                      href={sponsor.externalLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      variants={cardVariants}
-                      whileHover={{
-                        scale: 1.05,
-                        boxShadow: '0 5px 15px rgba(255, 144, 0, 0.3)'
-                      }}
-                      className="relative bg-neutral-900 rounded-lg border-2 border-gray-600 p-3 w-32 h-24 transition-all duration-300 cursor-pointer"
-                    >
-                      <div className="flex flex-col items-center justify-center h-full">
-                        <div className="w-8 h-8 text-sm bg-gray-600 rounded-lg flex items-center justify-center font-bold text-white mb-2">
-                          {sponsor.name.charAt(0)}
-                        </div>
-
-                        <div className="text-center">
-                          <h3 className="font-semibold text-white leading-tight text-xs">
-                            {sponsor.name.length > 18 ? sponsor.name.substring(0, 18) + '...' : sponsor.name}
-                          </h3>
-
-                          <div className="font-bold mt-1 text-gray-400 text-xs">{formatAmount(sponsor.amount)}</div>
-                        </div>
-                      </div>
-
-                      <div className="absolute top-2 right-2">
-                        <ExternalLink size={12} className="text-gray-400" />
-                      </div>
-                    </motion.a>
-                  ))}
-              </div>
-            </div>
-          )}
-
-          {/* Sustaining Sponsors */}
-          {sortedSponsors?.filter((s) => s.level === 'sustaining').length > 0 && (
-            <div>
-              <h3 className="text-lg font-semibold text-gray-400 mb-4 text-center">Sustaining Sponsors</h3>
-              <div className="flex flex-wrap justify-center items-center gap-4">
-                {sortedSponsors
-                  .filter((s) => s.level === 'sustaining')
-                  .map((sponsor) => (
-                    <motion.a
-                      key={sponsor.id}
-                      href={sponsor.externalLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      variants={cardVariants}
-                      whileHover={{
-                        scale: 1.05,
-                        boxShadow: '0 5px 15px rgba(255, 144, 0, 0.3)'
-                      }}
-                      className="relative bg-neutral-900 rounded-lg border-2 border-gray-600 p-3 w-32 h-24 transition-all duration-300 cursor-pointer"
-                    >
-                      <div className="flex flex-col items-center justify-center h-full">
-                        <div className="w-8 h-8 text-sm bg-gray-600 rounded-lg flex items-center justify-center font-bold text-white mb-2">
-                          {sponsor.name.charAt(0)}
-                        </div>
-
-                        <div className="text-center">
-                          <h3 className="font-semibold text-white leading-tight text-xs">
-                            {sponsor.name.length > 18 ? sponsor.name.substring(0, 18) + '...' : sponsor.name}
-                          </h3>
-
-                          <div className="font-bold mt-1 text-gray-400 text-xs">{formatAmount(sponsor.amount)}</div>
-                        </div>
-                      </div>
-
-                      <div className="absolute top-2 right-2">
-                        <ExternalLink size={12} className="text-gray-400" />
-                      </div>
-                    </motion.a>
-                  ))}
-              </div>
-            </div>
-          )}
-        </motion.div>
-
-        {/* Stats Bar */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3, duration: 0.6 }}
-          className="mt-10 text-center"
-        >
-          <div className="inline-flex items-center gap-8 bg-neutral-900 rounded-lg px-8 py-4 border border-gray-700">
-            <div>
-              <div className="text-2xl font-bold text-[#da0032] mb-1">{sortedSponsors?.length}</div>
-              <div className="text-xs text-gray-400 uppercase tracking-wide">
-                Sponsor{sortedSponsors?.length !== 1 && 's'}
-              </div>
-            </div>
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} className="mt-12 text-center">
+          <div className="inline-flex items-center bg-neutral-900 rounded-lg px-6 py-3 border border-gray-700">
+            <span className="text-2xl font-bold text-white mr-2">{sortedSponsors?.length}</span>
+            <span className="text-gray-400">Sponsors</span>
           </div>
         </motion.div>
       </div>

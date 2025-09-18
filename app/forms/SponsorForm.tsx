@@ -6,12 +6,12 @@ import Picture from '../components/common/Picture'
 import { setInputs } from '../redux/features/formSlice'
 
 const sponsorLevels = [
-  { value: 'season', label: 'Season Sponsor', price: '50000' },
-  { value: 'concert', label: 'Concert Sponsor', price: '10000' },
-  { value: 'guest-artist', label: 'Guest Artist Sponsor', price: '5000' },
-  { value: 'principal', label: 'Principal', price: '1000' },
-  { value: 'associate', label: 'Associate', price: '500' },
-  { value: 'sustaining', label: 'Sustaining', price: '250' }
+  { value: 'season', label: 'Media Season Sponsor', price: '50000' },
+  { value: 'concert', label: 'Media Concert Sponsor', price: '10000' },
+  { value: 'guest-artist', label: 'Media Guest Artist Sponsor', price: '5000' },
+  { value: 'principal', label: 'Media Principal Sponsor', price: '1000' },
+  { value: 'associate', label: 'Media Associate Sponsor', price: '500' },
+  { value: 'sustaining', label: 'Media Sustaining Sponsor', price: '250' }
 ]
 
 const SponsorForm = ({ inputs, errors, handleInput, close, handleSubmit, loading, isUpdating }: any) => {
@@ -181,11 +181,11 @@ const SponsorForm = ({ inputs, errors, handleInput, close, handleSubmit, loading
               <div className="space-y-6">
                 {/* Sponsorship Level */}
                 <div>
-                  <label className="block text-sm font-semibold text-neutral-300 mb-3">
+                  <label className="block text-sm font-semibold text-neutral-300 mb-4">
                     <Crown className="w-4 h-4 inline mr-2" />
                     Sponsorship Level *
                   </label>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-3">
                     {sponsorLevels.map((level) => (
                       <motion.button
                         key={level.value}
@@ -195,25 +195,60 @@ const SponsorForm = ({ inputs, errors, handleInput, close, handleSubmit, loading
                             setInputs({ formName: 'sponsorForm', data: { level: level.value, amount: level.price } })
                           )
                         }}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        className={`p-4 rounded-lg border-2 text-left transition-all bg-neutral-700/50 ${
+                        whileHover={{ scale: 1.01 }}
+                        whileTap={{ scale: 0.99 }}
+                        className={`group relative w-full p-5 rounded-xl border-2 text-left transition-all duration-200 ${
                           inputs?.level === level.value
-                            ? 'border-fuchsia-500 bg-fuchsia-600/50'
-                            : 'border-neutral-600 hover:border-neutral-500 hover:bg-neutral-600/30'
+                            ? 'border-fuchsia-500 bg-gradient-to-br from-fuchsia-600/20 to-fuchsia-700/10 shadow-lg shadow-fuchsia-500/20'
+                            : 'border-neutral-600 bg-gradient-to-br from-neutral-700/30 to-neutral-800/20 hover:border-fuchsia-400/50 hover:bg-gradient-to-br hover:from-fuchsia-600/10 hover:to-fuchsia-700/5'
                         }`}
                       >
-                        <div className="flex items-center space-x-2">
-                          <div>
-                            <p className="font-medium text-neutral-200">{level.label}</p>
-                            <div className="w-8 h-1 rounded-full mt-1 bg-fuchsia-500" />
+                        <div className="flex items-center justify-between">
+                          {/* Left side - Level info */}
+                          <div className="flex-1">
+                            <h3 className="font-semibold text-neutral-100 text-lg mb-1">{level.label}</h3>
+                            <div
+                              className={`h-1 w-16 rounded-full transition-all duration-200 ${
+                                inputs?.level === level.value
+                                  ? 'bg-fuchsia-400 shadow-sm shadow-fuchsia-400/50'
+                                  : 'bg-fuchsia-500 group-hover:bg-fuchsia-400'
+                              }`}
+                            />
+                          </div>
+
+                          {/* Right side - Price */}
+                          <div className="text-right">
+                            <div
+                              className={`px-4 py-2 rounded-lg backdrop-blur-sm transition-all duration-200 ${
+                                inputs?.level === level.value
+                                  ? 'bg-fuchsia-500/20 ring-2 ring-fuchsia-400/30'
+                                  : 'bg-neutral-600/30 group-hover:bg-fuchsia-500/15 group-hover:ring-1 group-hover:ring-fuchsia-400/20'
+                              }`}
+                            >
+                              <span
+                                className={`text-2xl font-bold transition-colors duration-200 ${
+                                  inputs?.level === level.value ? 'text-fuchsia-300' : 'text-fuchsia-400'
+                                }`}
+                              >
+                                ${level.price?.toLocaleString()}
+                              </span>
+                            </div>
                           </div>
                         </div>
+
+                        {/* Selection indicator */}
+                        {inputs?.level === level.value && (
+                          <motion.div
+                            initial={{ scale: 0, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            className="absolute top-3 right-3 w-3 h-3 bg-fuchsia-400 rounded-full shadow-lg shadow-fuchsia-400/50"
+                          />
+                        )}
                       </motion.button>
                     ))}
                   </div>
                   {errors?.level && (
-                    <p className="mt-2 text-sm text-red-400 flex items-center">
+                    <p className="mt-3 text-sm text-red-400 flex items-center">
                       <AlertCircle className="w-4 h-4 mr-1" />
                       {errors?.level}
                     </p>

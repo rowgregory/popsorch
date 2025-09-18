@@ -90,6 +90,28 @@ body {
   font-family: "Lato", sans-serif !important;
 }
 
+.auth-input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px rgba(23, 23, 23, 0.5) inset !important;
+  box-shadow: 0 0 0 1000px rgba(23, 23, 23, 0.5) inset !important;
+  -webkit-text-fill-color: rgb(245, 245, 245) !important;
+  color: rgb(245, 245, 245) !important;
+  background-color: rgba(23, 23, 23, 0.5) !important;
+  background-clip: border-box !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+  font-family: "Lato", sans-serif !important;
+}
+
+.auth-input:-webkit-autofill:hover {
+  -webkit-box-shadow: 0 0 0 1000px rgba(23, 23, 23, 0.5) inset !important;
+  box-shadow: 0 0 0 1000px rgba(23, 23, 23, 0.5) inset !important;
+}
+
+.auth-input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px rgba(23, 23, 23, 0.5) inset !important;
+  box-shadow: 0 0 0 1000px rgba(23, 23, 23, 0.5) inset !important;
+  border-color: rgb(163, 163, 163) !important;
+}
+
 body.high-contrast {
   background-color: #000000; /* Dark background */
   color: #ffffff; /* Light text */

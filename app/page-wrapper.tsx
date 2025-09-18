@@ -23,11 +23,13 @@ import { checkCircleIcon, universalAccessIcon } from './lib/icons'
 import { setToggleAccessibilityDrawer } from './redux/features/appSlice'
 import { useCreateDailyMetricMutation } from './redux/services/metricApi'
 import InconspicousSignInDrawer from './drawers/InconspicousSignInDrawer'
+import Link from 'next/link'
 
 const PageWrapper: FC<ClientPageProps> = ({ children, data }) => {
   const dispatch = useAppDispatch()
   const path = useCustomPathname()
   const { openModal, accessibility } = useAppSelector((state: RootState) => state.app)
+  const auth = useAppSelector((state: RootState) => state.auth)
   const [showCheckmark, setShowCheckmark] = useState(false)
   const [createDailyMetric] = useCreateDailyMetricMutation()
 
@@ -137,6 +139,8 @@ const PageWrapper: FC<ClientPageProps> = ({ children, data }) => {
     []
   )
 
+  console.log('auth: ', auth)
+
   return (
     <Provider store={store}>
       <div className="main-content">
@@ -158,6 +162,14 @@ const PageWrapper: FC<ClientPageProps> = ({ children, data }) => {
           <AwesomeIcon icon={checkCircleIcon} className="w-5 h-5 text-lime-500 fixed bottom-12 left-14 z-[120]" />
         )}
       </div>
+      {data?.isAuthenticated && !path.includes('/admin') && (
+        <Link
+          href="/admin/dashboard"
+          className="px-6 py-2 rounded-full text-white fixed bottom-2 right-2 z-50 border-2 border-blaze bg-neutral-900 duration-300 hover:bg-blaze"
+        >
+          Launch App
+        </Link>
+      )}
     </Provider>
   )
 }

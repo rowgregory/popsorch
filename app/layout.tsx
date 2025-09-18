@@ -122,6 +122,7 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
   const userData = (await cookies()).get('authToken')?.value
+  console.log('USER DATA: ', userData)
 
   let payload
   try {

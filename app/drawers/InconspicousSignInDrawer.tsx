@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { X, Settings } from 'lucide-react'
+import { X } from 'lucide-react'
 import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
 import { setCloseInconspicuousSignInDrawer } from '../redux/features/appSlice'
 
@@ -53,11 +53,10 @@ const InconspicuousSignInDrawer = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-all duration-200 font-medium"
+            className="flex items-center px-4 py-3 text-gray-300 hover:bg-neutral-800 hover:text-sunburst rounded-lg transition-all duration-200 font-medium"
             onClick={() => dispatch(setCloseInconspicuousSignInDrawer())}
           >
-            <Settings className="w-5 h-5 mr-3" />
-            Admin
+            Launch App
           </motion.a>
         </div>
       </motion.div>
