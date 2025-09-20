@@ -1,17 +1,14 @@
 import React, { FC, MouseEvent, useState } from 'react'
 import { useAppDispatch } from '@/app/redux/store'
-import { openUpdateDrawer } from '@/app/redux/features/dashboardSlice'
 import { motion } from 'framer-motion'
-import { createFormActions } from '@/app/redux/features/formSlice'
-import { resetTeamMember, TeamMemberProps } from '@/app/redux/features/teamMemberSlice'
+import { setInputs } from '@/app/redux/features/formSlice'
+import { resetTeamMember, setOpenTeamMemberDrawer, TeamMemberProps } from '@/app/redux/features/teamMemberSlice'
 import { useDeleteTeamMemberMutation } from '@/app/redux/services/teamMemberApi'
 import AdminTrashDeleteBtn from './AdminTrashDeleteBtn'
-import { decreaseTeamMembersCount } from '@/app/redux/features/appSlice'
 import Picture from '../common/Picture'
 
-const AdminTeamMemberRow: FC<{ teamMember: TeamMemberProps }> = ({ teamMember }) => {
+const TeamMemberRow: FC<{ teamMember: TeamMemberProps }> = ({ teamMember }) => {
   const dispatch = useAppDispatch()
-  const { setInputs } = createFormActions('teamMember', dispatch)
   const [deleteTeamMember] = useDeleteTeamMemberMutation()
   const [loading, setLoading] = useState<Record<string, boolean>>({})
 
@@ -22,7 +19,6 @@ const AdminTeamMemberRow: FC<{ teamMember: TeamMemberProps }> = ({ teamMember })
     try {
       await deleteTeamMember({ id: teamMemberId, imageFilename: teamMember?.imageFilename }).unwrap()
       dispatch(resetTeamMember())
-      dispatch(decreaseTeamMembersCount())
     } catch {}
 
     setLoading((prev) => ({ ...prev, [teamMemberId]: false }))
@@ -44,8 +40,8 @@ const AdminTeamMemberRow: FC<{ teamMember: TeamMemberProps }> = ({ teamMember })
       whileTap={{ scale: 0.99 }}
       transition={{ duration: 0.2 }}
       onClick={() => {
-        dispatch(openUpdateDrawer())
-        setInputs(teamMember)
+        dispatch(setOpenTeamMemberDrawer())
+        dispatch(setInputs({ formName: 'teamMemberForm', data: { ...teamMember, isUpdating: true } }))
       }}
       className="bg-neutral-800/50 hover:bg-neutral-700/60 backdrop-blur-sm rounded-xl p-5 border border-neutral-700/50 hover:border-purple-500/30 transition-all duration-300 cursor-pointer group shadow-lg hover:shadow-xl"
     >
@@ -121,4 +117,4 @@ const AdminTeamMemberRow: FC<{ teamMember: TeamMemberProps }> = ({ teamMember })
   )
 }
 
-export default AdminTeamMemberRow
+export default TeamMemberRow

@@ -6,15 +6,9 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(req: NextRequest) {
   try {
-    const concerts = await prisma.concert.findMany()
+    const concerts = await prisma.concert.findMany({ orderBy: { createdAt: 'desc' } })
 
-    const sortedConcerts = concerts.sort((a: any, b: any) => {
-      const aDate: any = new Date(a.eventDetails[0]?.date)
-      const bDate: any = new Date(b.eventDetails[0]?.date)
-      return aDate - bDate
-    })
-
-    return NextResponse.json({ concerts: sortedConcerts, sliceName: sliceConcert }, { status: 200 })
+    return NextResponse.json({ concerts, sliceName: sliceConcert }, { status: 200 })
   } catch (error: any) {
     await createLog('error', `Fetching concerts failed: ${error.message}`, {
       errorLocation: parseStack(JSON.stringify(error)),

@@ -31,3 +31,18 @@ export interface FloatingSelectProps {
   capitalName: string
   options: string[]
 }
+
+export interface IForm {
+  inputs: any
+  handleInput: any
+  handleSubmit: any
+  loading: boolean
+  errors?: any
+  close?: () => void
+  handleToggle?: any
+  uploadingVideo?: boolean
+  isUpdating?: boolean
+  user?: null | undefined
+  users?: null | undefined
+  ref?: any
+}

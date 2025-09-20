@@ -1,8 +1,10 @@
 interface ValidationErrors {
+  imageUrl: any
+  imageFilenameToDelete: any
   firstName: string
   lastName: string
   position: string
-  imageUrl: string
+  file: File
   role: string
   bio: string
 }
@@ -20,10 +22,7 @@ const validateTeamMemberForm = (inputs: ValidationErrors, setErrors: any) => {
   if (!inputs?.position?.trim()) {
     newErrors.position = 'Position is required'
   }
-  if (!inputs?.imageUrl?.trim()) {
-    newErrors.imageUrl = 'Photo is required'
-  }
-  if (!inputs?.imageUrl?.trim()) {
+  if (!inputs?.file?.name && !inputs?.imageUrl) {
     newErrors.imageUrl = 'Photo is required'
   }
 

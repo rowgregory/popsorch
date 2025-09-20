@@ -10,6 +10,7 @@ export interface VenueStatePayload {
   venue: VenueProps
   venuesCount: number
   noVenues: boolean
+  venueDrawer: boolean
 }
 
 const venueState: VenueProps = {
@@ -35,7 +36,8 @@ const initialVenueState: VenueStatePayload = {
   venues: [],
   venue: venueState,
   venuesCount: 0,
-  noVenues: false
+  noVenues: false,
+  venueDrawer: false
 }
 
 export const venueSlice = createSlice({
@@ -70,6 +72,12 @@ export const venueSlice = createSlice({
       state.venues = state.venues.filter((venue) => venue.id !== action.payload)
       state.venuesCount = state.venuesCount - 1
       state.noVenues = state.venues.length === 0
+    },
+    setOpenVenueDrawer: (state) => {
+      state.venueDrawer = true
+    },
+    setCloseVenueDrawer: (state) => {
+      state.venueDrawer = false
     }
   },
   extraReducers: (builder) => {
@@ -108,5 +116,13 @@ export const venueSlice = createSlice({
 
 export const venueReducer = venueSlice.reducer as Reducer<VenueStatePayload>
 
-export const { resetVenue, setVenues, resetVenueError, addVenueToState, updateVenueInState, removeVenueFromState } =
-  venueSlice.actions
+export const {
+  resetVenue,
+  setVenues,
+  resetVenueError,
+  addVenueToState,
+  updateVenueInState,
+  removeVenueFromState,
+  setOpenVenueDrawer,
+  setCloseVenueDrawer
+} = venueSlice.actions

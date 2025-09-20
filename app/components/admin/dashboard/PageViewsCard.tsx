@@ -1,17 +1,10 @@
 'use client'
 
-import { cardColors } from '@/public/data/admin.data'
 import { motion } from 'framer-motion'
-import { ArrowUpRight, Monitor, Smartphone, Sparkles, TrendingUp } from 'lucide-react'
+import { BarChart3, Binoculars, Sparkles } from 'lucide-react'
 import { FC } from 'react'
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts'
 import CustomTooltip from './CustomTooltip'
-
-export const getIconComponent = (IconComponent: any) => {
-  // Since we're now passing the actual Lucide icon component from dashboardData,
-  // we can just return it directly
-  return IconComponent || TrendingUp
-}
 
 export const cardVariants = {
   hidden: { opacity: 0, y: 40, scale: 0.9 },
@@ -38,77 +31,65 @@ export const containerVariants = {
 }
 
 const PageViewsCard: FC<{ info: any; getLast7DaysData: any }> = ({ info, getLast7DaysData }) => {
-  const IconComponent = getIconComponent(info.icon)
-  const theme = cardColors[0] // Cyan theme for page views
-
   const chartData = getLast7DaysData
 
   return (
     <motion.div
       variants={cardVariants}
-      className={`col-span-2 ${theme.bgGradient} p-6 transition-all duration-500 group hover:shadow-2xl ${theme.shadow} relative overflow-hidden`}
-      whileHover={{ y: -8, scale: 1.02 }}
+      className="col-span-4 bg-gradient-to-r from-sky-900/30 via-blue-900/20 to-sky-900/30 border border-sky-500/30 rounded-xl p-6 hover:border-sky-400/50 transition-all"
     >
       <div className="relative z-10">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-4">
-            <div className={`p-4 bg-black/20`}>
-              <IconComponent className={`w-7 h-7 ${theme.icon}`} />
+        {/* Header */}
+        <div className="flex flex-col md:flex-row m:items-center md:justify-between mb-6">
+          <div className="flex items-center space-x-4">
+            <div className="w-12 h-12 bg-gradient-to-r from-sky-500 to-blue-500 rounded-lg flex items-center justify-center">
+              <Binoculars className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h3 className={`text-lg font-bold ${theme.text} mb-1`}>{info?.title} - 7 Day Trend</h3>
+              <h3 className="text-white font-semibold text-lg">Page Views - 7 Day Trend</h3>
               <div className="flex items-center gap-2">
-                <Sparkles className={`w-4 h-4 ${theme.highlight}`} />
-                <span className={`text-sm ${theme.highlight} font-medium`}>Daily Analytics</span>
+                <Sparkles className="w-4 h-4 text-sky-400" />
+                <span className="text-sm text-sky-300 font-medium">Daily Analytics</span>
               </div>
             </div>
           </div>
-          <ArrowUpRight
-            className={`w-5 h-5 ${theme.accent} group-hover:${theme.highlight} transition-colors duration-300`}
-          />
+
+          <button className="mt-3 md:mt-0 bg-sky-600/20 hover:bg-sky-600/30 border border-sky-500/30 hover:border-sky-400/50 rounded-lg px-6 py-3 text-sky-300 font-medium transition-all flex items-center space-x-2">
+            <BarChart3 className="w-4 h-4" />
+            <span>View Details</span>
+          </button>
         </div>
 
-        {/* Current totals */}
-        <div className="grid grid-cols-2 gap-4 mb-6">
-          <motion.div
-            className="flex items-center justify-between p-4 bg-black/30 transition-all duration-300"
-            whileHover={{ scale: 1.02 }}
-          >
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-black/20">
-                <Monitor className={`w-5 h-5 ${theme.highlight}`} />
-              </div>
-              <span className={`${theme.text} font-semibold`}>Desktop</span>
+        {/* Status Grid */}
+        <div className="grid md:grid-cols-3 gap-6 mb-6">
+          <div className="text-center p-4 bg-slate-800/30 rounded-lg">
+            <div className="text-2xl font-bold text-sky-400 mb-1">{info?.metric?.desktopCount}</div>
+            <div className="text-slate-400 text-sm">Desktop Views</div>
+          </div>
+          <div className="text-center p-4 bg-slate-800/30 rounded-lg">
+            <div className="text-2xl font-bold text-blue-400 mb-1">{info?.metric?.mobileCount}</div>
+            <div className="text-slate-400 text-sm">Mobile Views</div>
+          </div>
+          <div className="text-center p-4 bg-slate-800/30 rounded-lg">
+            <div className="text-2xl font-bold text-sky-300 mb-1">
+              {(info?.metric?.desktopCount || 0) + (info?.metric?.mobileCount || 0)}
             </div>
-            <span className={`text-2xl font-bold ${theme.text}`}>{info?.count}</span>
-          </motion.div>
-
-          <motion.div
-            className="flex items-center justify-between p-4 bg-black/30 transition-all duration-300"
-            whileHover={{ scale: 1.02 }}
-          >
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-black/20">
-                <Smartphone className={`w-5 h-5 ${theme.highlight}`} />
-              </div>
-              <span className={`${theme.text} font-semibold`}>Mobile</span>
-            </div>
-            <span className={`text-2xl font-bold ${theme.text}`}>{info?.count2}</span>
-          </motion.div>
+            <div className="text-slate-400 text-sm">Total Views</div>
+          </div>
         </div>
 
-        {/* Chart */}
-        <div className="bg-black/20 p-4 mb-4">
+        {/* Chart Section */}
+        <div className="bg-black/20 border border-sky-500/20 rounded-lg p-6 mb-4">
           <div className="flex items-center justify-between mb-4">
-            <h4 className={`${theme.text} font-semibold`}>Daily Views</h4>
+            <h4 className="text-white font-semibold">Daily Views</h4>
             <div className="flex items-center gap-4 text-sm">
               <div className="flex items-center gap-2">
-                <div className={`w-3 h-3 ${theme.bg}`}></div>
-                <span className={theme.accent}>Desktop</span>
+                <div className="w-3 h-3 bg-sky-500 rounded-full"></div>
+                <span className="text-slate-300">Desktop</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className={`w-3 h-3 ${theme.highlight} bg-cyan-500`}></div>
-                <span className={theme.accent}>Mobile</span>
+                <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                <span className="text-slate-300">Mobile</span>
               </div>
             </div>
           </div>
@@ -116,28 +97,19 @@ const PageViewsCard: FC<{ info: any; getLast7DaysData: any }> = ({ info, getLast
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fill: '#a5f3fc', fontSize: 12 }} />
+                <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fill: '#7dd3fc', fontSize: 12 }} />
                 <YAxis
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fill: '#a5f3fc', fontSize: 12 }}
+                  tick={{ fill: '#7dd3fc', fontSize: 12 }}
                   domain={[0, 'dataMax + 100']}
                 />
                 <Tooltip content={<CustomTooltip />} />
-                <Bar dataKey="desktop" fill="#22d3ee" name="Desktop" />
-                <Bar dataKey="mobile" fill="#06b6d4" name="Mobile" />
+                <Bar dataKey="desktop" fill="#0ea5e9" name="Desktop" />
+                <Bar dataKey="mobile" fill="#3b82f6" name="Mobile" />
               </BarChart>
             </ResponsiveContainer>
           </div>
-        </div>
-
-        {/* Pulse indicator */}
-        <div className="flex items-center gap-3 pt-4 border-t border-white/20">
-          <div className="relative">
-            <div className={`w-3 h-3 ${theme.highlight} bg-cyan-400`}></div>
-            <div className={`absolute inset-0 w-3 h-3 ${theme.highlight} bg-cyan-400 animate-ping opacity-75`}></div>
-          </div>
-          <span className={`text-sm ${theme.text} font-medium`}>Updated every 5 minutes</span>
         </div>
       </div>
     </motion.div>

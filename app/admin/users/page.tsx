@@ -1,24 +1,18 @@
 'use client'
 
 import React from 'react'
-import { RootState, useAppSelector } from '@/app/redux/store'
-import { resetUserError, UserProps } from '@/app/redux/features/userSlice'
-import ToastMessage from '@/app/components/common/ToastMessage'
-import AdminTitleAndTotal from '@/app/components/admin/AdminTitleAndTotal'
+import { useUserSelector } from '@/app/redux/store'
+import { UserProps } from '@/app/redux/features/userSlice'
 import AdminPageSpinner from '@/app/components/admin/AdminPageSpinner'
 import AdminUserRow from '@/app/components/admin/AdminUserRow'
 import { useFetchUsersQuery } from '@/app/redux/services/userApi'
 
 const Users = () => {
-  const { error, noUsers, usersCount } = useAppSelector((state: RootState) => state.user)
   const { data, isLoading } = useFetchUsersQuery(undefined) as any
+  const { noUsers } = useUserSelector()
 
   return (
-    <>
-      <ToastMessage message={error} resetError={() => resetUserError()} />
-      <div className="mb-12 sticky top-0 bg-duskgray z-20 py-2">
-        <AdminTitleAndTotal title="Users" total={usersCount} bgcolor="bg-emerald-400" textcolor="text-emerald-400" />
-      </div>
+    <div className="p-6">
       {isLoading ? (
         <AdminPageSpinner fill="fill-emerald-400" />
       ) : noUsers ? (
@@ -42,7 +36,7 @@ const Users = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   )
 }
 

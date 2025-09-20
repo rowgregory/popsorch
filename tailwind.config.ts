@@ -181,7 +181,32 @@ export default {
     'bg-gradient-to-br from-purple-600 to-violet-600',
     'bg-gradient-to-br from-pink-600 to-rose-600',
     'bg-gradient-to-br from-amber-600 to-yellow-600',
-    'bg-gradient-to-br from-teal-600 to-cyan-700'
+    'bg-gradient-to-br from-teal-600 to-cyan-700',
+
+    'bg-gradient-to-r from-green-900/30 via-emerald-900/20 to-green-900/30',
+    'bg-gradient-to-r from-pink-900/30 via-rose-900/20 to-pink-900/30',
+    'bg-gradient-to-r from-blue-900/30 via-indigo-900/20 to-blue-900/30',
+    'bg-gradient-to-r from-amber-900/30 via-yellow-900/20 to-amber-900/30',
+
+    'border-green-500/30',
+    'border-pink-500/30',
+    'border-amber-500/30',
+    'border-blue-500/30',
+
+    'bg-green-600/20 hover:bg-green-600/30 border-green-500/30 hover:border-green-400/50 text-green-300',
+    'bg-pink-600/20 hover:bg-pink-600/30 border-pink-500/30 hover:border-pink-400/50 text-pink-300',
+    'bg-amber-600/20 hover:bg-amber-600/30 border-amber-500/30 hover:border-amber-400/50 text-amber-300',
+    'bg-blue-600/20 hover:bg-blue-600/30 border-blue-500/30 hover:border-blue-400/50 text-blue-300',
+
+    'from-green-500 to-emerald-500',
+    'from-pink-500 to-rose-500',
+    'from-blue-500 to-indigo-500',
+    'from-amber-500 to-yellow-500',
+
+    'shadow-green-500/20',
+    'shadow-pink-500/20',
+    'shadow-blue-500/20',
+    'shadow-amber-500/20'
   ],
 
   theme: {

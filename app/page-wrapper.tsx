@@ -24,12 +24,12 @@ import { setToggleAccessibilityDrawer } from './redux/features/appSlice'
 import { useCreateDailyMetricMutation } from './redux/services/metricApi'
 import InconspicousSignInDrawer from './drawers/InconspicousSignInDrawer'
 import Link from 'next/link'
+import Toast from './components/common/Toast'
 
 const PageWrapper: FC<ClientPageProps> = ({ children, data }) => {
   const dispatch = useAppDispatch()
   const path = useCustomPathname()
   const { openModal, accessibility } = useAppSelector((state: RootState) => state.app)
-  const auth = useAppSelector((state: RootState) => state.auth)
   const [showCheckmark, setShowCheckmark] = useState(false)
   const [createDailyMetric] = useCreateDailyMetricMutation()
 
@@ -59,7 +59,9 @@ const PageWrapper: FC<ClientPageProps> = ({ children, data }) => {
       dispatch(
         setAuthState({
           isAuthenticated: memoizedUserData.isAuthenticated,
-          userId: memoizedUserData.id
+          userId: memoizedUserData.id,
+          isAdmin: memoizedUserData.isAdmin,
+          isSuperUser: memoizedUserData.isSuperUser
         })
       )
     }
@@ -139,8 +141,6 @@ const PageWrapper: FC<ClientPageProps> = ({ children, data }) => {
     []
   )
 
-  console.log('auth: ', auth)
-
   return (
     <Provider store={store}>
       <div className="main-content">
@@ -150,18 +150,21 @@ const PageWrapper: FC<ClientPageProps> = ({ children, data }) => {
         {showHeader && <Header />}
         {children}
         {showFooter && <Footer />}
+        <Toast />
       </div>
 
-      <div className="relative">
-        <AwesomeIcon
-          icon={universalAccessIcon}
-          className="p-2 bg-indigo-600 text-white rounded-full w-8 h-8 fixed z-[110] bottom-5 left-5 cursor-pointer hover:animate-rotateToTwoOClock"
-          onClick={handleAccessibilityToggle}
-        />
-        {showCheckmark && (
-          <AwesomeIcon icon={checkCircleIcon} className="w-5 h-5 text-lime-500 fixed bottom-12 left-14 z-[120]" />
-        )}
-      </div>
+      {!path.includes('/admin') && (
+        <div className="relative">
+          <AwesomeIcon
+            icon={universalAccessIcon}
+            className="p-2 bg-indigo-600 text-white rounded-full w-8 h-8 fixed z-[110] bottom-5 left-5 cursor-pointer hover:animate-rotateToTwoOClock"
+            onClick={handleAccessibilityToggle}
+          />
+          {showCheckmark && (
+            <AwesomeIcon icon={checkCircleIcon} className="w-5 h-5 text-lime-500 fixed bottom-12 left-14 z-[120]" />
+          )}
+        </div>
+      )}
       {data?.isAuthenticated && !path.includes('/admin') && (
         <Link
           href="/admin/dashboard"

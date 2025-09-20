@@ -1,3 +1,4 @@
+import { AlertCircle } from 'lucide-react'
 import React, { FC } from 'react'
 
 interface AdminTextareaProps {
@@ -9,40 +10,32 @@ interface AdminTextareaProps {
   error?: string
   rows?: number
   placeholder?: string
+  isRequired?: boolean
 }
 
-const AdminTextarea: FC<AdminTextareaProps> = ({
-  name,
-  value,
-  onChange,
-  label,
-  subLabel,
-  error,
-  rows,
-  placeholder
-}) => {
+const AdminTextarea: FC<AdminTextareaProps> = ({ name, value, onChange, label, subLabel, error, rows, isRequired }) => {
   return (
-    <div className="flex flex-col gap-y-1">
-      <div className="flex flex-col gap-x-1 mb-1">
-        <label htmlFor={name} className="flex flex-col font-medium text-sm font-lato capitalize">
-          {label ?? name}
-          <span className="text-12">{placeholder && placeholder}</span>
-        </label>
-        <div className="text-13 font-lato text-lime-400">{subLabel}</div>
-      </div>
+    <div>
+      <label htmlFor="name" className="block text-sm font-semibold text-neutral-300 mb-2">
+        {label} {isRequired && '*'}
+      </label>
+      {subLabel && <p className="text-xs text-neutral-400 mb-3">{subLabel}</p>}
       <textarea
         id={name}
         name={name}
         value={value || ''}
         onChange={onChange}
-        className={`camp-input bg-transparent border-1 text-white py-3 px-5 placeholder:text-white placeholder:text-11 placeholder:uppercase placeholder:italic text-sm w-full rounded-sm focus:outline-none focus:placeholder:text-transparent ${
-          error
-            ? 'border-blaze hover:border-blazehover'
-            : 'border-[#b2b2b2] hover:border-zinc-300 focus:border-zinc-300'
+        className={`w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-neutral-500 focus:border-neutral-500 transition-colors focus:outline-none text-neutral-200 placeholder-neutral-500 ${
+          error ? 'border-red-500' : 'border-neutral-600'
         }`}
         rows={rows ?? 10}
       />
-      {error && <div className="text-blaze text-sm font-lato">{error}</div>}
+      {error && (
+        <p className="mt-2 text-sm text-red-400 flex items-center">
+          <AlertCircle className="w-4 h-4 mr-1" />
+          {error}
+        </p>
+      )}
     </div>
   )
 }

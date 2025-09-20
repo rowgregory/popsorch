@@ -1,26 +1,10 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import PageTitle from '@/app/components/admin/PageTitle'
 import { usePushNotifications } from '@/app/hooks/usePushNotifications'
 import Switch from '@/app/forms/elements/Switch'
 import { RootState, useAppSelector } from '@/app/redux/store'
-
-const useBrowserAPIs = () => {
-  const [isClient, setIsClient] = useState(false)
-
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
-
-  return {
-    isClient,
-    hasNotificationAPI: isClient && 'Notification' in window,
-    hasServiceWorker: isClient && 'serviceWorker' in navigator,
-    hasPushManager: isClient && 'PushManager' in window,
-    notificationPermission: isClient && 'Notification' in window ? Notification.permission : 'default'
-  }
-}
+import { Bell } from 'lucide-react'
 
 const Profile = () => {
   const {
@@ -30,8 +14,6 @@ const Profile = () => {
     saveToLocalStorage,
     saveSubscription
   } = usePushNotifications()
-
-  const { isClient, notificationPermission } = useBrowserAPIs()
 
   const [notificationsEnabled, setNotificationsEnabled] = useState<boolean>(isNotificationPermissionGranted)
   const [isSwitchLoading, setIsSwitchLoading] = useState(false)
@@ -148,31 +130,35 @@ const Profile = () => {
   }
 
   return (
-    <>
-      <div className="mb-20">
-        <PageTitle title="Profile" color="bg-indigo-500" />
-      </div>
-      <div className="p-9 bg-inkblack rounded-sm aspect-square max-w-96 flex flex-col items-center justify-center">
-        <h2 className="text-2xl text-white mb-3 font-changa">Push Notifications</h2>
-        <Switch
-          enabled={notificationsEnabled}
-          onChange={handleNotificationToggle}
-          isLoading={isSwitchLoading}
-          name="push-notification"
-          color="indigo-500"
-        />
-
-        {/* Debug info - remove in production */}
-        {process.env.NODE_ENV === 'development' && (
-          <div className="mt-4 text-xs text-gray-400 text-center">
-            <div>Permission: {notificationPermission}</div>
-            <div>Enabled: {notificationsEnabled ? 'Yes' : 'No'}</div>
-            <div>User ID: {userId}</div>
-            <div>Client: {isClient ? 'Yes' : 'No'}</div>
+    <div className="p-6">
+      <div className="bg-neutral-900/50 border border-neutral-700/50 rounded-xl p-6 max-w-md hover:border-neutral-600/60 transition-all">
+        <div className="flex items-center gap-4 mb-6">
+          <div className="w-12 h-12 bg-indigo-500/20 rounded-lg flex items-center justify-center">
+            <Bell className="w-6 h-6 text-indigo-400" />
           </div>
-        )}
+          <div>
+            <h3 className="text-white font-semibold text-lg">Push Notifications</h3>
+            <p className="text-neutral-400 text-sm">Stay updated with important alerts</p>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between p-4 bg-neutral-800/40 rounded-lg">
+          <div>
+            <div className="text-neutral-200 font-medium">Enable Notifications</div>
+            <div className="text-neutral-400 text-sm">
+              {notificationsEnabled ? "You'll receive real-time updates" : 'Turn on to stay informed'}
+            </div>
+          </div>
+          <Switch
+            enabled={notificationsEnabled}
+            onChange={handleNotificationToggle}
+            isLoading={isSwitchLoading}
+            name="push-notification"
+            color="indigo-500"
+          />
+        </div>
       </div>
-    </>
+    </div>
   )
 }
 

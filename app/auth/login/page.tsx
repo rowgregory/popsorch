@@ -36,15 +36,15 @@ const Login = () => {
         password: loginForm.inputs.password
       }).unwrap()
 
-      dispatch(hydrateUserState(payload))
       push('/admin/dashboard')
+      dispatch(hydrateUserState(payload))
 
       await requestNotificationPermission(payload.id)
     } catch {}
   }
 
   return (
-    <div className="min-h-[calc(100dvh-74px)] bg-neutral-900 flex items-center justify-center p-6">
+    <div className="min-h-[calc(100dvh-74px)] flex items-center justify-center p-6">
       <div className="w-full max-w-md">
         {/* Header */}
         <motion.div

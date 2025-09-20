@@ -25,6 +25,7 @@ export interface TeamMemberStatePayload {
   noTeamMembers: boolean
   staff: any[]
   boardMembers: any[]
+  teamMemberDrawer: boolean
 }
 
 const teamMemberState: TeamMemberProps = {
@@ -50,7 +51,8 @@ const initialTeamMemberState: TeamMemberStatePayload = {
   teamMembersCount: 0,
   noTeamMembers: false,
   staff: [],
-  boardMembers: []
+  boardMembers: [],
+  teamMemberDrawer: false
 }
 
 export const teamMemberSlice = createSlice({
@@ -93,6 +95,12 @@ export const teamMemberSlice = createSlice({
       state.teamMembers = state.teamMembers.filter((teamMember) => teamMember.id !== action.payload)
       state.teamMembersCount = state.teamMembersCount - 1
       state.noTeamMembers = state.teamMembers.length === 0
+    },
+    setOpenTeamMemberDrawer: (state) => {
+      state.teamMemberDrawer = true
+    },
+    setCloseTeamMemberDrawer: (state) => {
+      state.teamMemberDrawer = false
     }
   },
   extraReducers: (builder) => {
@@ -138,5 +146,7 @@ export const {
   updateTeamMemberInState,
   removeTeamMemberFromState,
   setStaff,
-  setBoardMembers
+  setBoardMembers,
+  setOpenTeamMemberDrawer,
+  setCloseTeamMemberDrawer
 } = teamMemberSlice.actions

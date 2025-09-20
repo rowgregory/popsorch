@@ -1,22 +1,16 @@
 'use client'
 
 import React, { useState } from 'react'
-import AdminTeamMemberRow from '@/app/components/admin/AdminTeamMemberRow'
-import CreateBtn from '@/app/components/admin/CreateBtn'
-import AdminTeamMemberCreateDrawer from '@/app/drawers/AdminTeamMemberCreateDrawer'
-import AdminTeamMemberUpdateDrawer from '@/app/drawers/AdminTeamMemberUpdateDrawer'
-import { openCreateDrawer } from '@/app/redux/features/dashboardSlice'
+import TeamMemberRow from '@/app/components/admin/TeamMemberRow'
 import { resetTeamMemberError, setBoardMembers, setStaff, TeamMemberProps } from '@/app/redux/features/teamMemberSlice'
 import { RootState, useAppDispatch, useAppSelector } from '@/app/redux/store'
 import AdminPageSpinner from '@/app/components/admin/AdminPageSpinner'
 import ToastMessage from '@/app/components/common/ToastMessage'
-import AdminTitleAndTotal from '@/app/components/admin/AdminTitleAndTotal'
 import { useUpdateTeamMemberListMutation } from '@/app/redux/services/teamMemberApi'
+import { showToast } from '@/app/redux/features/toastSlice'
 
 const BoardMembersAndStaff = () => {
-  const { staff, boardMembers, error, teamMembersCount, noTeamMembers } = useAppSelector(
-    (state: RootState) => state.teamMember
-  )
+  const { staff, boardMembers, error, noTeamMembers } = useAppSelector((state: RootState) => state.teamMember)
   const { loading } = useAppSelector((state: RootState) => state.app)
   const [updateTeamMemberList] = useUpdateTeamMemberListMutation()
   const dispatch = useAppDispatch()
@@ -89,9 +83,8 @@ const BoardMembersAndStaff = () => {
     // Save to backend
     try {
       await updateTeamMemberList(completeUpdatedList).unwrap()
-    } catch (error) {
-      // Revert on error
-      console.error('Failed to save new order:', error)
+    } catch (error: any) {
+      dispatch(showToast({ type: 'error', message: 'Failed', description: error?.data?.message }))
     }
 
     setDraggedItem(null)
@@ -157,7 +150,7 @@ const BoardMembersAndStaff = () => {
                       </svg>
                     </div>
                     <div className="pl-8">
-                      <AdminTeamMemberRow teamMember={teamMember} />
+                      <TeamMemberRow teamMember={teamMember} />
                     </div>
                   </div>
                 ))}
@@ -170,24 +163,8 @@ const BoardMembersAndStaff = () => {
   }
 
   return (
-    <div className="relative">
-      <AdminTeamMemberCreateDrawer />
-      <AdminTeamMemberUpdateDrawer />
+    <div className="relative p-6">
       <ToastMessage message={error} resetError={() => resetTeamMemberError()} />
-      <div className="flex gap-y-10 760:gap-y-0 flex-col 760:flex-row 760:items-center 760:justify-between mb-12 sticky top-0 bg-[#222222] z-20 py-2">
-        <AdminTitleAndTotal
-          title="Board Members & Staff"
-          total={teamMembersCount}
-          bgcolor="bg-purple-500"
-          textcolor="text-purple-500"
-        />
-        <CreateBtn
-          btnText="Create Team Member"
-          createFunc={openCreateDrawer}
-          bgColor="bg-purple-500"
-          hvbgcolor="bg-purple-600"
-        />
-      </div>
       {loading ? (
         <AdminPageSpinner fill="fill-purple-500" />
       ) : noTeamMembers ? (

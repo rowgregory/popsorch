@@ -11,6 +11,11 @@ export interface AuthStatePayload {
   status: string
   checks: any
   passwordReset: boolean
+  isAdmin: boolean
+  isSuperUser: boolean
+  role: string
+  firstName: string
+  email: string
 }
 
 const errorState = { data: { message: '' } }
@@ -24,7 +29,12 @@ export const initialAuthState: AuthStatePayload = {
   userId: '',
   status: '',
   checks: null,
-  passwordReset: false
+  passwordReset: false,
+  isAdmin: false,
+  isSuperUser: false,
+  role: '',
+  firstName: '',
+  email: ''
 }
 
 export const authSlice = createSlice({
@@ -59,7 +69,12 @@ export const authSlice = createSlice({
       .addMatcher(authApi.endpoints.login.matchFulfilled, (state, { payload }: any) => {
         state.loading = false
         state.isAuthenticated = payload.isAuthenticated
+        state.isAdmin = payload.isAdmin
+        state.isSuperUser = payload.isSuperUser
         state.userId = payload.id
+        state.firstName = payload.firstName
+        state.email = payload.email
+        state.role = payload.role
       })
       .addMatcher(authApi.endpoints.logout.matchFulfilled, (state) => {
         state.loading = false

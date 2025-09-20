@@ -18,12 +18,6 @@ const HomeHeroCarousel: FC<{ images: any; interval: number }> = ({ images, inter
           <div className="absolute inset-0 bg-black/20" />
         </div>
       ))}
-
-      {/* Bottom gradient for better text contrast */}
-      <div className="absolute bottom-0 left-0 right-0 z-30 h-32 sm:h-40 md:h-48 lg:h-56 xl:h-64 bg-gradient-to-t from-black/60 via-black/30 to-transparent pointer-events-none" />
-
-      {/* Top gradient for header area */}
-      <div className="absolute top-0 left-0 right-0 z-30 h-20 sm:h-24 md:h-28 lg:h-32 bg-gradient-to-b from-black/40 to-transparent pointer-events-none" />
     </div>
   )
 }

@@ -59,7 +59,11 @@ export async function POST(req: NextRequest) {
     const payload = {
       isAuthenticated: true,
       id: existingUser.id,
-      isAdmin: true
+      isAdmin: true,
+      isSuperUser: existingUser.isSuperUser,
+      firstName: existingUser.firstName,
+      email: existingUser.email,
+      role: existingUser.role
     }
 
     const token = await new SignJWT(payload)

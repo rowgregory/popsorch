@@ -2,31 +2,23 @@
 
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { useState } from 'react'
-import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
+import { useAppDispatch, useFormSelector, useSponsorSelector } from '../redux/store'
 import { backdropVariants, drawerVariants } from '../lib/constants/motion'
 import { setCloseSponsorDrawer } from '../redux/features/sponsorSlice'
 import SponsorForm from '../forms/SponsorForm'
-import { clearInputs, createFormActions } from '../redux/features/formSlice'
+import { clearErrors, clearInputs, createFormActions } from '../redux/features/formSlice'
 import validateSponsorForm from '../validations/validateSponsorForm'
 import { useCreateSponsorMutation, useUpdateSponsorMutation } from '../redux/services/sponsorApi'
 import deleteFileFromFirebase from '../utils/firebase.delete'
 import uploadFileToFirebase from '../utils/firebase.upload'
+import getTypeFromFile from '../lib/utils/getTypeFromFile'
 
-const getTypeFromFile = (fileName: string): 'image' | 'video' => {
-  const extension = fileName?.toLowerCase()?.split?.('.')?.pop()
-  const videoExtensions = ['mp4', 'mov', 'avi', 'webm', 'quicktime']
-  return videoExtensions.includes(extension || '') ? 'video' : 'image'
-}
-
-const AdminSponsorDrawer = () => {
+const SponsorDrawer = () => {
   const dispatch = useAppDispatch()
-  const { sponsorDrawer } = useAppSelector((state: RootState) => state.sponsor)
-  const closeDrawer = () => {
-    dispatch(setCloseSponsorDrawer())
-    dispatch(clearInputs({ formName: 'sponsorForm' }))
-  }
+  const { sponsorDrawer } = useSponsorSelector()
+
   const { handleInput, setErrors, handleUploadProgress } = createFormActions('sponsorForm', dispatch)
-  const { sponsorForm } = useAppSelector((state: RootState) => state.form)
+  const { sponsorForm } = useFormSelector()
   const [submitting, setSubmitting] = useState(false)
 
   const [createSponsor, { isLoading: isCreating }] = useCreateSponsorMutation()
@@ -96,6 +88,12 @@ const AdminSponsorDrawer = () => {
     }
   }
 
+  const closeDrawer = () => {
+    dispatch(setCloseSponsorDrawer())
+    dispatch(clearInputs({ formName: 'sponsorForm' }))
+    dispatch(clearErrors({ formName: 'sponsorForm' }))
+  }
+
   return (
     <AnimatePresence>
       {sponsorDrawer && (
@@ -136,4 +134,4 @@ const AdminSponsorDrawer = () => {
   )
 }
 
-export default AdminSponsorDrawer
+export default SponsorDrawer

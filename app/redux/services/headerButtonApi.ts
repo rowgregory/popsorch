@@ -1,9 +1,3 @@
-import {
-  addHeaderButtonToState,
-  hydrateHeaderButton,
-  removeHeaderButtonFromState,
-  updateHeaderButtonInState
-} from '../features/headerButtonSlice'
 import { api } from './api'
 
 const BASE_URL = '/header-button'
@@ -17,35 +11,19 @@ export const headerButtonApi = api.injectEndpoints({
     }),
     createHeaderButton: build.mutation({
       query: (body: any) => ({ url: `${BASE_URL}/create-header-button`, method: 'POST', body }),
-      onQueryStarted: async (_: any, { dispatch, queryFulfilled }: any) => {
-        const { data } = await queryFulfilled
-        dispatch(addHeaderButtonToState(data.headerButton))
-      }
+      invalidatesTags: ['Header-Button']
     }),
     assignHeaderButton: build.mutation({
       query: (body: any) => ({ url: `${BASE_URL}/assign-header-button`, method: 'PUT', body }),
-      invalidatesTags: ['Header-Button'],
-      onQueryStarted: async (arg: any, { dispatch, queryFulfilled }: any) => {
-        const { data } = await queryFulfilled
-        dispatch(hydrateHeaderButton(data.headerButton))
-      }
+      invalidatesTags: ['Header-Button']
     }),
     deleteHeaderButton: build.mutation({
       query: (body: any) => ({ url: `${BASE_URL}/delete-header-button`, method: 'DELETE', body }),
-      onQueryStarted: async (arg: any, { dispatch, queryFulfilled }: any) => {
-        const { data } = await queryFulfilled
-
-        dispatch(removeHeaderButtonFromState(data.id))
-      }
+      invalidatesTags: ['Header-Button']
     }),
     updateHeaderButton: build.mutation({
       query: (body: any) => ({ url: `${BASE_URL}/update-header-button`, method: 'PUT', body }),
-      onQueryStarted: async (arg: any, { dispatch, queryFulfilled }: any) => {
-        const { data } = await queryFulfilled
-
-        dispatch(updateHeaderButtonInState(data.headerButton))
-        dispatch(hydrateHeaderButton(data.headerButton))
-      }
+      invalidatesTags: ['Header-Button']
     })
   })
 })

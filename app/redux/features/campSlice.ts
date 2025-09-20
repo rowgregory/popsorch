@@ -64,6 +64,7 @@ export interface CampStatePayload {
   campApplication: CampApplication
   campApplicationsCount: number
   noCampApplications: boolean
+  campApplicationDrawer: boolean
 }
 
 const initialCampApplicationState: CampApplication = {
@@ -117,7 +118,8 @@ const initialCampState: CampStatePayload = {
   campApplications: [],
   campApplication: initialCampApplicationState,
   campApplicationsCount: 0,
-  noCampApplications: false
+  noCampApplications: false,
+  campApplicationDrawer: false
 }
 
 export const campSlice = createSlice({
@@ -139,26 +141,11 @@ export const campSlice = createSlice({
       state.error = null
       state.campApplication = initialCampApplicationState
     },
-    addCampApplicationToState: (state, action) => {
-      state.campApplications.push(action.payload)
-      state.campApplicationsCount = state.campApplicationsCount + 1
-      state.noCampApplications = state.campApplications.length === 0
+    setOpenCampApplicationDrawer: (state) => {
+      state.campApplicationDrawer = true
     },
-    removeCampApplicationFromState: (state, action) => {
-      const idsToRemove = Array.isArray(action.payload) ? action.payload : [action.payload]
-
-      // Filter out camp applications with matching IDs
-      const originalCount = state.campApplications.length
-      state.campApplications = state.campApplications.filter(
-        (campApplication: { id: string }) => !idsToRemove.includes(campApplication.id)
-      )
-
-      // Calculate how many were actually removed
-      const removedCount = originalCount - state.campApplications.length
-
-      // Update count and check if empty
-      state.campApplicationsCount = state.campApplicationsCount - removedCount
-      state.noCampApplications = state.campApplications.length === 0
+    setCloseCampApplicationDrawer: (state) => {
+      state.campApplicationDrawer = false
     }
   },
   extraReducers: (builder) => {
@@ -195,6 +182,6 @@ export const {
   resetCampSuccess,
   setCampApplications,
   resetCampApplication,
-  removeCampApplicationFromState,
-  addCampApplicationToState
+  setOpenCampApplicationDrawer,
+  setCloseCampApplicationDrawer
 } = campSlice.actions

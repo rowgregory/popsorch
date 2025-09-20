@@ -105,13 +105,11 @@ export const dateToInputFormat = (date: string | number | Date | null | undefine
 
     // Check if date is valid
     if (isNaN(d.getTime())) {
-      console.warn('Invalid date provided to dateToInputFormat:', date)
       return new Date().toISOString().split('T')[0] // Return today's date as fallback
     }
 
     return d.toISOString().split('T')[0]
-  } catch (error) {
-    console.error('Error in dateToInputFormat:', error, 'Input was:', date)
+  } catch {
     return new Date().toISOString().split('T')[0] // Return today's date as fallback
   }
 }

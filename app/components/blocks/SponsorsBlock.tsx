@@ -76,7 +76,7 @@ const SponsorsBlock = () => {
     : []
 
   return (
-    <section className="py-20 bg-gradient-to-r from-neutral-900 via-neutral-800 to-neutral-900">
+    <section className="py-40">
       <div className="max-w-6xl mx-auto px-6">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} className="text-center mb-12">
           <h2 className="text-3xl font-bold text-white mb-3">Our Sponsors</h2>
@@ -100,13 +100,6 @@ const SponsorsBlock = () => {
             )
           })}
         </div>
-
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} className="mt-12 text-center">
-          <div className="inline-flex items-center bg-neutral-900 rounded-lg px-6 py-3 border border-gray-700">
-            <span className="text-2xl font-bold text-white mr-2">{sortedSponsors?.length}</span>
-            <span className="text-gray-400">Sponsors</span>
-          </div>
-        </motion.div>
       </div>
     </section>
   )

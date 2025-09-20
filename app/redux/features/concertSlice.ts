@@ -59,6 +59,7 @@ export interface ConcertStatePayload {
   concert: ConcertProps
   concertsCount: number
   noConcerts: boolean
+  concertDrawer: boolean
 }
 
 const concertState: ConcertProps = {
@@ -84,7 +85,8 @@ const initialConcertState: ConcertStatePayload = {
   concerts: [],
   concert: concertState,
   concertsCount: 0,
-  noConcerts: false
+  noConcerts: false,
+  concertDrawer: false
 }
 
 export const concertSlice = createSlice({
@@ -102,7 +104,6 @@ export const concertSlice = createSlice({
     },
     resetConcertError: (state) => {
       state.error = null
-      state.concerts = []
     },
     addConcertToState: (state, action) => {
       state.concerts.push(action.payload)
@@ -120,6 +121,12 @@ export const concertSlice = createSlice({
       state.concerts = state.concerts.filter((concert) => concert.id !== action.payload)
       state.concertsCount = state.concertsCount - 1
       state.noConcerts = state.concerts.length === 0
+    },
+    setOpenConcertDrawer: (state) => {
+      state.concertDrawer = true
+    },
+    setCloseConcertDrawer: (state) => {
+      state.concertDrawer = false
     }
   },
   extraReducers: (builder) => {
@@ -163,5 +170,7 @@ export const {
   resetConcertError,
   addConcertToState,
   updateConcertInState,
-  removeConcertFromState
+  removeConcertFromState,
+  setOpenConcertDrawer,
+  setCloseConcertDrawer
 } = concertSlice.actions

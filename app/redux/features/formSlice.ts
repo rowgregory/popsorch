@@ -53,7 +53,7 @@ export type ConcertProps = {
 
 const formInitialState = {
   isCreating: false,
-  concert: {
+  concertForm: {
     inputs: {
       name: '',
       pressRelease: '',
@@ -73,7 +73,7 @@ const formInitialState = {
     },
     errors: {}
   },
-  testimonial: { id: '', name: '', review: '', createdAt: '', updatedAt: '' },
+  testimonialForm: { id: '', name: '', review: '', createdAt: '', updatedAt: '' },
   newsletterForm: {
     inputs: {
       firstName: '',
@@ -86,7 +86,7 @@ const formInitialState = {
       isSelectAll: false
     }
   },
-  contact: { inputs: { name: '', email: '', message: '' }, errors: {} },
+  contactForm: { inputs: { name: '', email: '', message: '' }, errors: {} },
   progress: 0,
   home: { inputs: { src: '', mimeType: '', type: '', textBlockKey: '' } },
   questionForm: { inputs: { name: '', email: '', message: '', hasResponded: false } },
@@ -117,8 +117,7 @@ const formInitialState = {
   text: '',
   loginForm: { inputs: { email: '', password: '' }, errors: {} },
   forgotPasswordForm: { inputs: { email: '', securityQuestion: '', securityAnswer: '' }, errors: {} },
-  question: { inputs: {}, errors: {} },
-  venue: {
+  venueForm: {
     inputs: {
       name: '',
       capacity: '',
@@ -132,7 +131,7 @@ const formInitialState = {
     },
     errors: {}
   },
-  teamMember: {
+  teamMemberForm: {
     inputs: { firstName: '', lastName: '', position: '', imageUrl: '', role: 'Board-Member', bio: '' },
     errors: {}
   },
@@ -272,18 +271,18 @@ const formSlice = createSlice({
         externalLink: ''
       }
     },
-    updateConcertDetails: (state, { payload }: PayloadAction<{ formName: string; eventDetaildId: string }>) => {
-      const { formName, eventDetaildId } = payload
+    updateConcertDetails: (state, { payload }: PayloadAction<{ formName: string; eventDetailsId: string }>) => {
+      const { formName, eventDetailsId } = payload
       if (!state[formName]) return
 
       const { time, date, location, eventDetails, city, dayOfWeek, externalLink } = state[formName].inputs
       const parsedEventDetails = (eventDetails && JSON.parse(JSON.stringify(eventDetails))) ?? []
 
-      const eventIndex = parsedEventDetails.findIndex((e: any) => e.id === eventDetaildId)
+      const eventIndex = parsedEventDetails.findIndex((e: any) => e.id === eventDetailsId)
 
       if (eventIndex !== -1) {
         const updatedEventDetails = eventDetails.map((e: any) =>
-          e.id === eventDetaildId
+          e.id === eventDetailsId
             ? { ...e, time, date, location, city, dayOfWeek, externalLink } // Update the existing event
             : e
         )
@@ -350,8 +349,8 @@ export const createFormActions = (formName: string, dispatch: any) => ({
     dispatch(formSlice.actions.handleToggle({ formName, name: e.target.name, checked: e.target.checked })),
   addVenue: (venue: any) => dispatch(formSlice.actions.addVenue({ formName, venue })),
   addConcertDetails: (newId: string) => dispatch(formSlice.actions.addConcertDetails({ formName, newId })),
-  updateConcertDetails: (eventDetaildId: string) =>
-    dispatch(formSlice.actions.updateConcertDetails({ formName, eventDetaildId })),
+  updateConcertDetails: (eventDetailsId: string) =>
+    dispatch(formSlice.actions.updateConcertDetails({ formName, eventDetailsId })),
   removeConcertDetails: (concertId: string) =>
     dispatch(formSlice.actions.removeConcertDetails({ formName, concertId })),
   handleFileChange: (event: ChangeEvent<HTMLInputElement>) => {

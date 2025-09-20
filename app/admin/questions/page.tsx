@@ -2,23 +2,17 @@
 
 import React from 'react'
 import { RootState, useAppSelector } from '@/app/redux/store'
-import { QuestionProps, resetQuestionError } from '@/app/redux/features/questionSlice'
+import { QuestionProps } from '@/app/redux/features/questionSlice'
 import AdminQuestionRow from '@/app/components/admin/AdminQuestionRow'
-import ToastMessage from '@/app/components/common/ToastMessage'
-import AdminTitleAndTotal from '@/app/components/admin/AdminTitleAndTotal'
 import AdminPageSpinner from '@/app/components/admin/AdminPageSpinner'
 import { useFetchQuestionsQuery } from '@/app/redux/services/questionApi'
 
 const Questions = () => {
-  const { error, noQuestions, questionsCount } = useAppSelector((state: RootState) => state.question)
+  const { noQuestions } = useAppSelector((state: RootState) => state.question)
   const { data, isLoading } = useFetchQuestionsQuery(undefined) as any
 
   return (
-    <>
-      <ToastMessage message={error} resetError={() => resetQuestionError()} />
-      <div className="mb-12 sticky top-0 bg-duskgray z-20 py-2">
-        <AdminTitleAndTotal title="Questions" total={questionsCount} bgcolor="bg-sky-500" textcolor="text-sky-500" />
-      </div>
+    <div className="p-6">
       {isLoading ? (
         <AdminPageSpinner fill="fill-sky-500" />
       ) : noQuestions ? (
@@ -41,7 +35,7 @@ const Questions = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   )
 }
 

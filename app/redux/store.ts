@@ -5,8 +5,6 @@ import { configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { api } from './services/api'
 import { appReducer } from './features/appSlice'
-import { scraperReducer } from './features/scraperSlice'
-import { lunchReducer } from './features/lunchSlice'
 import { authReducer } from './features/authSlice'
 import { dashboardReducer } from './features/dashboardSlice'
 import { textBlockReducer } from './features/textBlockSlice'
@@ -25,11 +23,10 @@ import { mailChimpReducer } from './features/mailchimpSlice'
 import { metricReducer } from './features/metricSlice'
 import { headerButtonReducer } from './features/headerButtonSlice'
 import { sponsorReducer } from './features/sponsorSlice'
+import { toastReducer } from './features/toastSlice'
 
 const rootReducer = combineReducers({
   app: appReducer,
-  scraper: scraperReducer,
-  lunch: lunchReducer,
   auth: authReducer,
   dashboard: dashboardReducer,
   textBlock: textBlockReducer,
@@ -48,6 +45,7 @@ const rootReducer = combineReducers({
   metric: metricReducer,
   headerButton: headerButtonReducer,
   sponsor: sponsorReducer,
+  toast: toastReducer,
   [api.reducerPath]: api.reducer
 })
 
@@ -69,3 +67,14 @@ export type AppSelector = typeof store.getState
 export const useAppDispatch: () => AppDispatch = useDispatch
 
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
+
+export const useUserSelector = () => useAppSelector((state) => state.user)
+export const useSponsorSelector = () => useAppSelector((state) => state.sponsor)
+export const useConcertSelector = () => useAppSelector((state) => state.concert)
+export const useTeamMemberSelector = () => useAppSelector((state) => state.teamMember)
+export const useFormSelector = () => useAppSelector((state) => state.form)
+export const useToastSelector = () => useAppSelector((state) => state.toast)
+export const useVenueSelector = () => useAppSelector((state) => state.venue)
+export const useCampSelector = () => useAppSelector((state) => state.camp)
+export const usePhotoSelector = () => useAppSelector((state) => state.photoGalleryImage)
+export const useMailchimpSelector = () => useAppSelector((state) => state.mailchimp)
