@@ -10,13 +10,17 @@ import HeaderButtonStudio from '@/app/drawers/HeaderButtonStudio'
 import PageViewsCard, { containerVariants } from '@/app/components/admin/dashboard/PageViewsCard'
 import DefaultCard from '@/app/components/admin/dashboard/DefaultCard'
 import CampApplicationsToggleCard from '@/app/components/admin/dashboard/CampApplicationsToggleCard'
-import { AlertTriangle, Calendar, ChevronRight, Edit3, MessageCircle, MoreHorizontal, Palette } from 'lucide-react'
+import { AlertTriangle, ChevronRight, Edit3, MessageCircle, MoreHorizontal, Palette, WandSparkles } from 'lucide-react'
 import { setOpeneHeaderButtonStudio } from '@/app/redux/features/appSlice'
+import { formatTimeAgo } from '@/app/lib/utils/dateUtils'
+import { setCurrentDialogue, setOpenConductorModal } from '@/app/redux/features/dashboardSlice'
+import useSoundEffect from '@/app/hooks/useSoundEffect'
 
 const Dashboard = () => {
   const { data } = useFetchDashboardDataQuery(undefined) as any
   const { totalItems } = useMailchimpSelector()
   const dispatch = useAppDispatch()
+  const { play } = useSoundEffect('/mp3/magical-reveal.mp3', true)
 
   return (
     <div className="bg-neutral-950">
@@ -27,12 +31,9 @@ const Dashboard = () => {
           <div className="min-h-screen">
             <motion.div className="mx-auto" initial="hidden" animate="visible" variants={containerVariants}>
               {/* Cards Grid - Responsive columns */}
-              <motion.div
-                className="md:grid md:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-4 gap-6"
-                variants={containerVariants}
-              >
+              <motion.div className="grid grid-cols-12 gap-6" variants={containerVariants}>
                 {/* Header Button Studio Card - Full Width */}
-                <div className="col-span-4">
+                <div className="col-span-12">
                   <div className="bg-gradient-to-r from-indigo-900/30 via-purple-900/20 to-indigo-900/30 border border-indigo-500/30 rounded-xl p-6 hover:border-indigo-400/50 transition-all">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
                       <div className="flex items-center space-x-4">
@@ -56,15 +57,17 @@ const Dashboard = () => {
 
                     <div className="grid grid-cols-3 gap-6">
                       <div className="text-center p-4 bg-slate-800/30 rounded-lg">
-                        <div className="text-2xl font-bold text-white mb-1">12</div>
-                        <div className="text-slate-400 text-sm">Active Components</div>
+                        <div className="text-2xl font-bold text-white mb-1">1</div>
+                        <div className="text-slate-400 text-sm">Active Component</div>
                       </div>
                       <div className="text-center p-4 bg-slate-800/30 rounded-lg">
-                        <div className="text-2xl font-bold text-indigo-400 mb-1">3</div>
+                        <div className="text-2xl font-bold text-indigo-400 mb-1">{data?.headerButtonCount}</div>
                         <div className="text-slate-400 text-sm">Templates</div>
                       </div>
                       <div className="text-center p-4 bg-slate-800/30 rounded-lg">
-                        <div className="text-2xl font-bold text-purple-400 mb-1">2h</div>
+                        <div className="text-2xl font-bold text-purple-400 mb-1">
+                          {formatTimeAgo(data?.lastModifiedHeaderButton)}
+                        </div>
                         <div className="text-slate-400 text-sm">Last Modified</div>
                       </div>
                     </div>
@@ -88,7 +91,7 @@ const Dashboard = () => {
           </div>
         </div>
         {/* Right Sidebar */}
-        <div className="block w-full md:w-80 bg-gray-800/30 border-l border-gray-700/50 p-6 overflow-y-auto">
+        <div className="block w-full md:w-60 xl:w-80 bg-gray-800/30 border-l border-gray-700/50 p-6 overflow-y-auto">
           {/* Sponsors*/}
           <div className="mb-8">
             <div className="mb-4 flex items-center justify-between">
@@ -164,7 +167,7 @@ const Dashboard = () => {
                 {
                   id: 1,
                   title: 'Signal First Chair',
-                  description: 'Direct message to Sqysh',
+                  description: 'Direct message to Sqysh (coming soon)',
                   icon: MessageCircle,
                   color: 'blue',
                   action: () => {
@@ -174,7 +177,7 @@ const Dashboard = () => {
                 {
                   id: 2,
                   title: 'Report Discord',
-                  description: 'Report technical issues',
+                  description: 'Report technical issues (coming soon)',
                   icon: AlertTriangle,
                   color: 'red',
                   action: () => {
@@ -183,12 +186,14 @@ const Dashboard = () => {
                 },
                 {
                   id: 3,
-                  title: 'Request Rehearsal',
-                  description: 'Schedule practice session',
-                  icon: Calendar,
-                  color: 'purple',
+                  title: 'Cast Spell',
+                  description: 'Orchestrating events with magic',
+                  icon: WandSparkles,
+                  color: 'gray',
                   action: () => {
-                    /* Handle rehearsal request */
+                    dispatch(setOpenConductorModal())
+                    dispatch(setCurrentDialogue(2))
+                    play()
                   }
                 }
               ].map((button) => (

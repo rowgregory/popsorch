@@ -21,7 +21,7 @@ const CampApplicationsToggleCard = () => {
   return (
     <motion.div
       variants={cardVariants}
-      className="bg-neutral-900/50 border border-neutral-700/40 rounded-xl p-6 hover:border-neutral-600/60 transition-all col-span-1 lg:col-span-2 backdrop-blur-sm"
+      className="bg-neutral-900/50 border border-neutral-700/40 rounded-xl p-6 hover:border-neutral-600/60 transition-all col-span-12 lg:col-span-6 backdrop-blur-sm"
     >
       <div className="relative z-10">
         {/* Semicircle Status Bar at Top */}
@@ -54,6 +54,7 @@ const CampApplicationsToggleCard = () => {
                     strokeDashoffset: currentLiveState ? 0 : currentVisibleState ? 125.6 : 251.2
                   }}
                   transition={{ duration: 1, ease: 'easeInOut' }}
+                  initial={{ strokeDashoffset: 251.2 }}
                 />
               </svg>
             </div>

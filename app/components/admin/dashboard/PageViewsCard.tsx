@@ -36,7 +36,7 @@ const PageViewsCard: FC<{ info: any; getLast7DaysData: any }> = ({ info, getLast
   return (
     <motion.div
       variants={cardVariants}
-      className="col-span-4 bg-gradient-to-r from-sky-900/30 via-blue-900/20 to-sky-900/30 border border-sky-500/30 rounded-xl p-6 hover:border-sky-400/50 transition-all"
+      className="col-span-12 bg-gradient-to-r from-sky-900/30 via-blue-900/20 to-sky-900/30 border border-sky-500/30 rounded-xl p-6 hover:border-sky-400/50 transition-all"
     >
       <div className="relative z-10">
         {/* Header */}

@@ -14,7 +14,7 @@ import {
   userTieIcon
 } from '@/app/lib/icons'
 import { isStringInPath } from '@/app/utils/string.functions'
-import { IconDefinition } from '@fortawesome/free-solid-svg-icons'
+import { faWandMagicSparkles, IconDefinition } from '@fortawesome/free-solid-svg-icons'
 
 export const adminNavigationLinkData = (
   path: string,
@@ -26,6 +26,7 @@ export const adminNavigationLinkData = (
   icon: IconDefinition
   color?: string
   description?: string
+  isPrimaVista?: boolean
 }[] => {
   const baselinks = [
     {
@@ -126,6 +127,16 @@ export const adminNavigationLinkData = (
       icon: userIcon,
       color: 'text-indigo-500',
       description: 'Personal settings'
+    },
+    {
+      id: 'apothecary',
+      textKey: 'Apothecary',
+      linkKey: '/admin/apothecary/codex',
+      active: isStringInPath(path, 'apothecary'),
+      icon: faWandMagicSparkles,
+      color: 'text-violet-500',
+      description: 'Orchestrating events with magic',
+      isPrimaVista: true
     }
   ]
 

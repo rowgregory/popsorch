@@ -16,6 +16,7 @@ import TeamMemberDrawer from '../drawers/TeamMemberDrawer'
 import VenueDrawer from '../drawers/VenueDrawer'
 import getCurrentPageId from '../lib/utils/getCurrentPageId'
 import { useFetchSubscribersQuery } from '../redux/services/mailchimpApi'
+import ConductorModal from '../modals/ConductorModal'
 
 const AdminLayout: FC<ChildrenProps> = ({ children }) => {
   useFetchSubscribersQuery(undefined)
@@ -33,6 +34,7 @@ const AdminLayout: FC<ChildrenProps> = ({ children }) => {
       <SponsorDrawer />
       <TeamMemberDrawer />
       <VenueDrawer />
+      <ConductorModal />
       <div className="min-h-screen bg-neutral-950 flex">
         {/* Fixed Left Navigation Panel */}
         <FixedLeftNavigationPanel

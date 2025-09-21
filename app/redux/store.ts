@@ -24,6 +24,7 @@ import { metricReducer } from './features/metricSlice'
 import { headerButtonReducer } from './features/headerButtonSlice'
 import { sponsorReducer } from './features/sponsorSlice'
 import { toastReducer } from './features/toastSlice'
+import { quoteReducer } from './features/quoteSlice'
 
 const rootReducer = combineReducers({
   app: appReducer,
@@ -46,6 +47,7 @@ const rootReducer = combineReducers({
   headerButton: headerButtonReducer,
   sponsor: sponsorReducer,
   toast: toastReducer,
+  quote: quoteReducer,
   [api.reducerPath]: api.reducer
 })
 
@@ -78,3 +80,4 @@ export const useVenueSelector = () => useAppSelector((state) => state.venue)
 export const useCampSelector = () => useAppSelector((state) => state.camp)
 export const usePhotoSelector = () => useAppSelector((state) => state.photoGalleryImage)
 export const useMailchimpSelector = () => useAppSelector((state) => state.mailchimp)
+export const useDashboardSelector = () => useAppSelector((state) => state.dashboard)

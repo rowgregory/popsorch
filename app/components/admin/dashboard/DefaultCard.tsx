@@ -17,7 +17,12 @@ const DefaultCard: FC<{ info: any; i: number }> = ({ info, i }) => {
   const IconComponent = getIconComponent(info.icon)
 
   return (
-    <Link href={info.linkKey} className={`${i === 0 ? 'pointer-events-none' : ''} block`}>
+    <Link
+      href={info.linkKey}
+      className={`${
+        i === 0 ? 'pointer-events-none' : ''
+      } col-span-12 sm:col-span-6 2xl:col-span-3 flex-1 flex flex-col`}
+    >
       <motion.div
         variants={cardVariants}
         className="bg-gradient-to-r from-neutral-900/30 via-gray-900/20 to-neutral-900/30 border border-neutral-500/30 rounded-xl p-6 hover:border-neutral-400/50 transition-all duration-500 group hover:shadow-2xl shadow-neutral-500/20 h-full relative overflow-hidden min-h-[280px]"

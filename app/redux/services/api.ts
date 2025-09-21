@@ -39,7 +39,8 @@ export const api = createApi({
     'Log',
     'Metric',
     'Header-Button',
-    'Sponsor'
+    'Sponsor',
+    'Quote'
   ],
   endpoints: () => ({})
 })

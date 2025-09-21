@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Plus, ChevronDown, Music, Gift, TheaterIcon, User, Tent, GalleryHorizontal } from 'lucide-react'
+import { Plus, ChevronDown, Music, Gift, TheaterIcon, User, Tent, GalleryHorizontal, Wand } from 'lucide-react'
 import { useAppDispatch, useCampSelector } from '@/app/redux/store'
 import { setOpenConcertDrawer } from '@/app/redux/features/concertSlice'
 import { setOpenSponsorDrawer } from '@/app/redux/features/sponsorSlice'
@@ -11,6 +11,9 @@ import { createFormActions } from '@/app/redux/features/formSlice'
 import { useCreatePhotoGalleryImageMutation } from '@/app/redux/services/photoGalleryImageApi'
 import uploadFileToFirebase from '@/app/utils/firebase.upload'
 import { resetPhotoGalleryImage } from '@/app/redux/features/photoGalleryImageSlice'
+import Link from 'next/link'
+import { setOpenConductorModal } from '@/app/redux/features/dashboardSlice'
+import useSoundEffect from '@/app/hooks/useSoundEffect'
 
 const actionItems = () => [
   {
@@ -52,6 +55,13 @@ const actionItems = () => [
     label: 'Upload Photo Gallery Image',
     icon: GalleryHorizontal,
     isUpload: true
+  },
+  {
+    action: 'cast-spell',
+    label: 'Cast Spell',
+    icon: Wand,
+    linkKey: '/admin/apothecary/codex',
+    isAthothecary: true
   }
 ]
 
@@ -95,6 +105,7 @@ const ActionButtonWithDropdown = () => {
   const { handleUploadProgress } = createFormActions('photoGallery', dispatch)
   const [createPhotoGalleryImage] = useCreatePhotoGalleryImageMutation()
   const [loading, setLoading] = useState(false)
+  const { play } = useSoundEffect('/mp3/magical-reveal.mp3', true)
 
   const handleActionClick = (item: any) => {
     setIsActionsOpen(false)
@@ -161,6 +172,19 @@ const ActionButtonWithDropdown = () => {
                       }
                     />
                   </div>
+                ) : item.isAthothecary ? (
+                  <Link
+                    key={i}
+                    href={item.linkKey}
+                    onClick={() => {
+                      dispatch(setOpenConductorModal())
+                      play()
+                    }}
+                    className="w-full px-4 py-3 text-left text-gray-200 hover:text-white transition-all flex items-center space-x-3 hover:bg-indigo-500/10"
+                  >
+                    <item.icon className="w-4 h-4 text-indigo-500" />
+                    <span className="font-medium text-sm whitespace-nowrap">{item.label}</span>
+                  </Link>
                 ) : (
                   <motion.button
                     key={i}

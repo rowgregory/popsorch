@@ -11,6 +11,8 @@ export interface DashboardStatePayload {
   bottomOverlayDrawer: boolean
   isUpdating: boolean
   type: string
+  conductorModal: boolean
+  currentDialogue: number
 }
 
 const initialDashboardState: DashboardStatePayload = {
@@ -23,7 +25,9 @@ const initialDashboardState: DashboardStatePayload = {
   error: null,
   bottomOverlayDrawer: false,
   isUpdating: false,
-  type: ''
+  type: '',
+  conductorModal: false,
+  currentDialogue: 0
 }
 
 export const dashboardSlice = createSlice({
@@ -74,6 +78,15 @@ export const dashboardSlice = createSlice({
     },
     setDashboardError: (state, { payload }) => {
       state.error = { data: { message: payload } }
+    },
+    setOpenConductorModal: (state) => {
+      state.conductorModal = true
+    },
+    setCloseConductorModal: (state) => {
+      state.conductorModal = false
+    },
+    setCurrentDialogue: (state, { payload }) => {
+      state.currentDialogue = payload
     }
   }
 })
@@ -93,5 +106,8 @@ export const {
   openBottomOverlayDrawer,
   closeBottomOverlayDrawer,
   openViewDrawer,
-  setDashboardError
+  setDashboardError,
+  setOpenConductorModal,
+  setCloseConductorModal,
+  setCurrentDialogue
 } = dashboardSlice.actions

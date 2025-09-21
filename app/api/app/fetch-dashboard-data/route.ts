@@ -22,6 +22,7 @@ export async function GET(req: NextRequest) {
       teamMembersCount,
       photoGalleryImagesCount,
       sponsorCount,
+      headerButtons,
       metric,
       dailyMetrics
     ] = await Promise.all([
@@ -41,6 +42,7 @@ export async function GET(req: NextRequest) {
       prisma.teamMember.count(),
       prisma.photoGalleryImage.count(),
       prisma.sponsor.count(),
+      prisma.headerButton.findMany({ orderBy: { createdAt: 'desc' } }),
 
       // **OPTIMIZATION 3: Single metric query**
       prisma.appMetric.findUnique({
@@ -127,7 +129,9 @@ export async function GET(req: NextRequest) {
         questionsCount,
         photoGalleryImagesCount,
         sponsorCount,
-        venuesCount
+        venuesCount,
+        headerButtonCount: headerButtons.length,
+        lastModifiedHeaderButton: headerButtons[0].updatedAt
       },
       { status: 200 }
     )

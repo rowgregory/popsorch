@@ -206,7 +206,9 @@ export default {
     'shadow-green-500/20',
     'shadow-pink-500/20',
     'shadow-blue-500/20',
-    'shadow-amber-500/20'
+    'shadow-amber-500/20',
+
+    'bg-indigo-500'
   ],
 
   theme: {
@@ -366,6 +368,7 @@ export default {
         'min-h-768': { raw: '(min-height: 768px)' },
         'max-h-1000': { raw: '(max-height: 1000px)' },
         'max-h-1200': { raw: '(max-height: 1200px)' },
+        'min-h-1400': { raw: '(min-height: 1400px)' },
         430: '430px',
         480: '480px',
         576: '576px',
@@ -414,7 +417,8 @@ export default {
         600: '600px'
       },
       maxHeight: {
-        '1000': '1000px'
+        '1000': '1000px',
+        '1600': '1600px'
       },
       fontFamily: {
         inter: ['var(--font-inter)'],

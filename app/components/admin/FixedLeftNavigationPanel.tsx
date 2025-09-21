@@ -4,6 +4,9 @@ import { ChevronLeft, ChevronRight, Crown, Music3, Shield } from 'lucide-react'
 import Link from 'next/link'
 import { itemVariants } from '@/app/lib/constants/advertise-with-us'
 import AwesomeIcon from '../common/AwesomeIcon'
+import { setOpenConductorModal } from '@/app/redux/features/dashboardSlice'
+import { useAppDispatch } from '@/app/redux/store'
+import useSoundEffect from '@/app/hooks/useSoundEffect'
 
 interface IFixedLeftNavigationPanel {
   isNavigationCollapsed: boolean
@@ -18,6 +21,14 @@ const FixedLeftNavigationPanel: FC<IFixedLeftNavigationPanel> = ({
   links,
   data
 }: any) => {
+  const dispatch = useAppDispatch()
+  const { play } = useSoundEffect('/mp3/magical-reveal.mp3', true)
+
+  const handlePrimaVistaClick = () => {
+    dispatch(setOpenConductorModal())
+    play()
+  }
+
   return (
     <motion.div
       initial={false}
@@ -66,6 +77,7 @@ const FixedLeftNavigationPanel: FC<IFixedLeftNavigationPanel> = ({
               <motion.div
                 key={item.id}
                 variants={itemVariants}
+                onClick={() => (item.isPrimaVista ? handlePrimaVistaClick() : {})}
                 initial="closed"
                 animate="open"
                 custom={index}
@@ -73,7 +85,11 @@ const FixedLeftNavigationPanel: FC<IFixedLeftNavigationPanel> = ({
                   w-full flex items-center justify-center space-x-3 px-3 py-3 rounded-xl transition-all
                   ${
                     item.active
-                      ? 'bg-gradient-to-r from-red-600/20 to-orange-600/20 text-red-400 border border-red-600/30'
+                      ? `bg-gradient-to-r ${
+                          item.isPrimaVista
+                            ? 'from-indigo-600/20 to-violet-600/20 text-indigo-400 border border-indigo-600/30'
+                            : 'from-red-600/20 to-orange-600/20 text-red-400 border border-red-600/30'
+                        }`
                       : 'text-neutral-400 hover:text-white hover:bg-neutral-800/30'
                   }
                 `}
@@ -90,7 +106,11 @@ const FixedLeftNavigationPanel: FC<IFixedLeftNavigationPanel> = ({
                   >
                     <div className="font-medium">{item.textKey}</div>
                     {item.description && (
-                      <div className={`${item.active ? 'text-red-700' : 'text-neutral-500'} text-xs mt-0.5`}>
+                      <div
+                        className={`${
+                          item.active ? (item.isPrimaVista ? 'text-indigo-700' : 'text-red-700') : 'text-neutral-500'
+                        } text-xs mt-0.5`}
+                      >
                         {item.description}
                       </div>
                     )}
