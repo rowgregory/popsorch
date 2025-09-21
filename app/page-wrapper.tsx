@@ -55,7 +55,7 @@ const PageWrapper: FC<ClientPageProps> = ({ children, data }) => {
 
   useEffect(() => {
     if (memoizedUserData) {
-      dispatch(hydrateUserState(data))
+      dispatch(hydrateUserState(memoizedUserData))
       dispatch(
         setAuthState({
           isAuthenticated: memoizedUserData.isAuthenticated,
@@ -136,6 +136,7 @@ const PageWrapper: FC<ClientPageProps> = ({ children, data }) => {
         <PublicImageUploaderModal />
         <HeaderFixed />
         <AccessibilityDrawer />
+        <InconspicousSignInDrawer />
       </>
     ),
     []
@@ -144,7 +145,6 @@ const PageWrapper: FC<ClientPageProps> = ({ children, data }) => {
   return (
     <Provider store={store}>
       <div className="main-content">
-        <InconspicousSignInDrawer />
         {StaticComponents}
         {openModal && <PublicEditableTextAreaModal />}
         {showHeader && <Header />}

@@ -10,7 +10,6 @@ export async function GET(req: NextRequest) {
     const [
       textBlocks,
       concerts,
-      testimonials,
       venues,
       photoGalleryImages,
       teamMembers,
@@ -20,13 +19,9 @@ export async function GET(req: NextRequest) {
     ] = await Promise.all([
       prisma.textBlock.findMany(),
       prisma.concert.findMany(),
-      prisma.testimonial.findMany(),
       prisma.venue.findMany(),
       prisma.photoGalleryImage.findMany({
-        orderBy: [
-          { createdAt: 'asc' },
-          { id: 'asc' } // Secondary sort to break ties
-        ]
+        orderBy: [{ createdAt: 'asc' }]
       }),
       prisma.teamMember.findMany(),
       prisma.seasonPackageBanner.findFirst({
@@ -63,11 +58,12 @@ export async function GET(req: NextRequest) {
           fileName: item.fileName || null
         }
       } else {
-        acc[item.type][item.key] = item.value // Assign value directly for non-media items
+        acc[item.type][item.key] = item.value
       }
 
       return acc
     }, {})
+
     const staff = teamMembers.filter((user) => user.role === 'Staff')
     const sortedStaff = [...staff].sort((a, b) => a.displayOrder - b.displayOrder)
     const boardMembers = teamMembers.filter((user) => user.role === 'Board-Member')
@@ -78,8 +74,6 @@ export async function GET(req: NextRequest) {
         textBlocks: transformedTextBlocks,
         concerts: sortedConcerts,
         concertsCount: sortedConcerts?.length,
-        testimonials,
-        testimonialsCount: testimonials?.length,
         venues,
         venuesCount: venues?.length,
         photoGalleryImages,

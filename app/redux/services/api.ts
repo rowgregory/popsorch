@@ -29,7 +29,6 @@ export const api = createApi({
     'Venue',
     'Team-Member',
     'Photo-Gallery-Image',
-    'Testimonial',
     'User',
     'Question',
     'Push-Notification',

@@ -55,7 +55,6 @@ export interface AppStatePayload {
   accessibility: boolean
   metric: { desktopCount: number; mobileCount: number }
   noCampApplications: boolean
-  noTestimonials: boolean
   noQuestions: boolean
   noUsers: boolean
   isSeasonPackageBannerToggledVisible: boolean
@@ -109,7 +108,6 @@ const initialAppState: AppStatePayload = {
   accessibility: false,
   metric: { desktopCount: 0, mobileCount: 0 },
   noCampApplications: false,
-  noTestimonials: false,
   noQuestions: false,
   noUsers: false,
   isSeasonPackageBannerToggledVisible: false,
@@ -186,12 +184,6 @@ export const appSlice = createSlice({
     },
     decreasePhotoGalleryImageCount: (state) => {
       state.photoGalleryImagesCount = state.photoGalleryImagesCount - 1
-    },
-    increaseTestimonialsCount: (state) => {
-      state.testimonialsCount = state.testimonialsCount + 1
-    },
-    decreaseTestimonialsCount: (state) => {
-      state.testimonialsCount = state.testimonialsCount - 1
     },
     increaseConcertsCount: (state) => {
       state.concertsCount = state.concertsCount + 1
@@ -307,8 +299,6 @@ export const {
   goToPrevDrawerItem,
   increasePhotoGalleryImageCount,
   decreasePhotoGalleryImageCount,
-  increaseTestimonialsCount,
-  decreaseTestimonialsCount,
   increaseConcertsCount,
   decreaseConcertsCount,
   increaseVenuesCount,

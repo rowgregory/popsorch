@@ -17,7 +17,6 @@ export interface ErrorType {
 
 export interface DrawerProps {
   isOpen: boolean
-  onClose: () => void
   children: ReactNode
   height?: string
   bgColor?: string

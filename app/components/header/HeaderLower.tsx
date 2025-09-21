@@ -9,6 +9,7 @@ import { HeaderNavLink } from './HeaderNavLink'
 import { openNavigationDrawer } from '@/app/redux/features/appSlice'
 import Link from 'next/link'
 import CustomHeaderButton from '../CustomHeaderButton'
+import { motion } from 'framer-motion'
 
 const HeaderLower = () => {
   const path = useCustomPathname()
@@ -42,21 +43,39 @@ const HeaderLower = () => {
           isHome ? 'bg-golden50Logo' : 'bg-white50Logo'
         } bg-no-repeat bg-contain bg-center w-24 1200:w-40 h-[80px] 1200:h-[100px]`}
       />
-      <div className="hidden absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 1200:flex items-center px-5 gap-x-5 h-full">
-        {navLinks.map((link, i) =>
-          link.isButton ? (
-            <HeaderNavLink
-              key={i}
-              link={link}
-              openDropdown={openDropdown}
-              setOpenDropdown={setOpenDropdown}
-              linkClassname="text-white"
-            />
-          ) : (
-            <HeaderNavLink key={i} link={link} setOpenDropdown={setOpenDropdown} linkClassname="text-white" />
-          )
-        )}
-      </div>
+
+      <motion.div
+        className="hidden absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 1200:flex items-center px-5 gap-x-5 h-full"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        {navLinks.map((link, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              delay: i * 0.1,
+              duration: 0.6,
+              type: 'spring',
+              stiffness: 100
+            }}
+            whileTap={{ scale: 0.95 }}
+          >
+            {link.isButton ? (
+              <HeaderNavLink
+                link={link}
+                openDropdown={openDropdown}
+                setOpenDropdown={setOpenDropdown}
+                linkClassname="text-white"
+              />
+            ) : (
+              <HeaderNavLink link={link} setOpenDropdown={setOpenDropdown} linkClassname="text-white" />
+            )}
+          </motion.div>
+        ))}
+      </motion.div>
       <div className="flex items-center gap-x-4">
         <AwesomeIcon
           onClick={() => dispatch(openNavigationDrawer())}

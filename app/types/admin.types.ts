@@ -22,8 +22,6 @@ export type Tag =
   | { type: 'Camp'; id: 'LIST' }
   | { type: 'Question'; id: string }
   | { type: 'Question'; id: 'LIST' }
-  | { type: 'Testimonial'; id: string }
-  | { type: 'Testimonial'; id: 'LIST' }
   | { type: 'Team-Member'; id: string }
   | { type: 'Team-Member'; id: 'LIST' }
   | { type: 'Log'; id: string }

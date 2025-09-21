@@ -13,7 +13,6 @@ export async function GET(req: NextRequest) {
     // **OPTIMIZATION 1: Parallelize all database queries**
     const [
       userResult,
-      testimonialsCount,
       usersCount,
       campApplicationsCount,
       questionsCount,
@@ -33,7 +32,6 @@ export async function GET(req: NextRequest) {
       }),
 
       // **OPTIMIZATION 2: Use count() instead of findMany().length**
-      prisma.testimonial.count(),
       prisma.user.count(),
       prisma.campApplication.count(),
       prisma.question.count(),
@@ -113,7 +111,6 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(
       {
-        testimonialsCount,
         usersCount,
         user,
         campApplicationCount: campApplicationsCount,

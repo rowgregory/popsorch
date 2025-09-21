@@ -1,13 +1,14 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
 import { setToggleAccessibilityDrawer } from '../redux/features/appSlice'
-import LeftDrawer from '../components/common/LeftDrawer'
 import useCustomPathname from '../hooks/useCustomPathname'
 import AwesomeIcon from '../components/common/AwesomeIcon'
 import { circleHaltStrokeIcon, linkIcon, refreshIcon, textHeightIcon, textWidthIcon } from '../lib/icons'
+import { backdropVariants, drawerVariants } from '../lib/constants/motion'
+import { X } from 'lucide-react'
 
 const textSteps = [1, 1.1, 1.2, 1.3, 1.4] // 5 levels: normal → bigger → biggest
 
@@ -204,98 +205,192 @@ const AccessibilityDrawer = () => {
   }
 
   return (
-    <LeftDrawer isOpen={accessibility} onClose={() => dispatch(setToggleAccessibilityDrawer(true))}>
-      <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} className="mt-10 p-4">
-        <div className="text-xl text-center mb-3 font-changa">Accessibility Options</div>
+    <AnimatePresence>
+      {accessibility && (
+        <>
+          <motion.div
+            variants={backdropVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="fixed inset-0 bg-black/20 backdrop-blur-sm z-50"
+          />
 
-        <div className="grid grid-cols-12 gap-2 w-full items-center">
-          <div
-            onClick={cycleTextSize}
-            className="col-span-12 430:col-span-6 relative h-full w-full bg-duskgray p-4 rounded-sm flex items-end justify-center aspect-square cursor-pointer duration-300 hover:bg-[#333]"
+          <motion.div
+            variants={drawerVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            transition={{
+              type: 'tween',
+              duration: 0.3,
+              ease: 'easeInOut'
+            }}
+            className="h-dvh w-full xl:w-1/2 fixed top-0 right-0 z-[100] bg-neutral-950 shadow-[-10px_0_30px_-5px_rgba(0,0,0,0.2)] flex flex-col overflow-hidden"
           >
-            <div className="absolute left-1/2 -translate-x-1/2 top-[20%] mx-auto flex items-center gap-x-1">
-              <div className="accessibility-item text-lg">T</div>
-              <div className="accessibility-item text-3xl">T</div>
-            </div>
-            <div className="flex flex-col">
-              <div className="text-center text-sm text-white font-lato font-semibold tracking-wider">Bigger Text</div>
-              <StepIndicator currentStep={stepIndex} />
-            </div>
-          </div>
-          <div
-            onClick={() => setHighContrast(!highContrast)}
-            className="col-span-12 430:col-span-6 relative h-full w-full bg-duskgray p-4 rounded-sm flex items-end justify-center aspect-square cursor-pointer duration-300 hover:bg-[#333]"
-          >
-            <div className="absolute left-1/2 -translate-x-1/2 top-[20%] mx-auto flex items-center gap-x-1">
-              <AwesomeIcon icon={circleHaltStrokeIcon} className="w-8 h-8" />
-            </div>
-            <div className="flex flex-col items-center">
-              <div className="text-center text-sm text-white font-lato font-semibold tracking-wider">High Contast</div>
-              <div className={`w-3 h-3 rounded-full mt-4 ${highContrast ? 'bg-blaze' : 'bg-midnightblack'}`}></div>
-            </div>
-          </div>
-          <div
-            onClick={() => setHighlightLinks(!highlightLinks)}
-            className="col-span-12 430:col-span-6 relative h-full w-full bg-duskgray p-4 rounded-sm flex items-end justify-center aspect-square cursor-pointer duration-300 hover:bg-[#333]"
-          >
-            <div className="absolute left-1/2 -translate-x-1/2 top-[20%] mx-auto flex items-center gap-x-1">
-              <AwesomeIcon icon={linkIcon} className="w-8 h-8" />
-            </div>
-            <div className="flex flex-col items-center">
-              <div className="text-center text-sm text-white font-lato font-semibold tracking-wider">
-                Hightlight Links
+            <div className="flex-1 overflow-y-auto p-6 relative">
+              <X
+                className="text-white w-5 h-5 absolute top-2 right-2 z-50"
+                onClick={() => dispatch(setToggleAccessibilityDrawer(true))}
+              />
+              <div className="max-w-4xl mx-auto">
+                <div className="text-center mb-8">
+                  <h2 className="text-2xl font-changa font-bold text-neutral-100 mb-2">Accessibility Options</h2>
+                  <p className="text-neutral-400 text-sm">Customize your viewing experience for better accessibility</p>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                  {/* Text Size */}
+                  <div
+                    onClick={cycleTextSize}
+                    className="group relative bg-gradient-to-br from-neutral-800 to-neutral-900 p-6 rounded-xl border border-neutral-700/50 hover:border-neutral-600/50 cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-black/20 hover:-translate-y-1"
+                  >
+                    <div className="flex flex-col items-center space-y-4">
+                      <div className="flex items-center justify-center w-16 h-16 bg-neutral-700/50 rounded-full group-hover:bg-neutral-600/50 transition-colors">
+                        <div className="flex items-center gap-1">
+                          <span className="text-sm font-medium text-neutral-300">T</span>
+                          <span className="text-xl font-medium text-neutral-100">T</span>
+                        </div>
+                      </div>
+
+                      <div className="text-center">
+                        <h3 className="text-neutral-100 font-semibold mb-1">Text Size</h3>
+                        <p className="text-neutral-400 text-xs mb-3">Adjust text size for readability</p>
+                        <StepIndicator currentStep={stepIndex} />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* High Contrast */}
+                  <div
+                    onClick={() => setHighContrast(!highContrast)}
+                    className="group relative bg-gradient-to-br from-neutral-800 to-neutral-900 p-6 rounded-xl border border-neutral-700/50 hover:border-neutral-600/50 cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-black/20 hover:-translate-y-1"
+                  >
+                    <div className="flex flex-col items-center space-y-4">
+                      <div className="flex items-center justify-center w-16 h-16 bg-neutral-700/50 rounded-full group-hover:bg-neutral-600/50 transition-colors">
+                        <AwesomeIcon icon={circleHaltStrokeIcon} className="w-8 h-8 text-neutral-300" />
+                      </div>
+
+                      <div className="text-center">
+                        <h3 className="text-neutral-100 font-semibold mb-1">High Contrast</h3>
+                        <p className="text-neutral-400 text-xs mb-3">Enhanced visual contrast</p>
+                        <div
+                          className={`w-3 h-3 rounded-full transition-all duration-200 ${
+                            highContrast ? 'bg-blaze shadow-lg shadow-blaze/50' : 'bg-neutral-600'
+                          }`}
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Highlight Links */}
+                  <div
+                    onClick={() => setHighlightLinks(!highlightLinks)}
+                    className="group relative bg-gradient-to-br from-neutral-800 to-neutral-900 p-6 rounded-xl border border-neutral-700/50 hover:border-neutral-600/50 cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-black/20 hover:-translate-y-1"
+                  >
+                    <div className="flex flex-col items-center space-y-4">
+                      <div className="flex items-center justify-center w-16 h-16 bg-neutral-700/50 rounded-full group-hover:bg-neutral-600/50 transition-colors">
+                        <AwesomeIcon icon={linkIcon} className="w-8 h-8 text-neutral-300" />
+                      </div>
+
+                      <div className="text-center">
+                        <h3 className="text-neutral-100 font-semibold mb-1">Highlight Links</h3>
+                        <p className="text-neutral-400 text-xs mb-3">Make links more visible</p>
+                        <div
+                          className={`w-3 h-3 rounded-full transition-all duration-200 ${
+                            highlightLinks ? 'bg-blaze shadow-lg shadow-blaze/50' : 'bg-neutral-600'
+                          }`}
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Text Spacing */}
+                  <div
+                    onClick={() => setTextSpacing(!textSpacing)}
+                    className="group relative bg-gradient-to-br from-neutral-800 to-neutral-900 p-6 rounded-xl border border-neutral-700/50 hover:border-neutral-600/50 cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-black/20 hover:-translate-y-1"
+                  >
+                    <div className="flex flex-col items-center space-y-4">
+                      <div className="flex items-center justify-center w-16 h-16 bg-neutral-700/50 rounded-full group-hover:bg-neutral-600/50 transition-colors">
+                        <AwesomeIcon icon={textWidthIcon} className="w-8 h-8 text-neutral-300" />
+                      </div>
+
+                      <div className="text-center">
+                        <h3 className="text-neutral-100 font-semibold mb-1">Text Spacing</h3>
+                        <p className="text-neutral-400 text-xs mb-3">Increase letter spacing</p>
+                        <div
+                          className={`w-3 h-3 rounded-full transition-all duration-200 ${
+                            textSpacing ? 'bg-blaze shadow-lg shadow-blaze/50' : 'bg-neutral-600'
+                          }`}
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Dyslexia-Friendly */}
+                  <div
+                    onClick={() => setDyslexiaFriendly(!dyslexiaFriendly)}
+                    className="group relative bg-gradient-to-br from-neutral-800 to-neutral-900 p-6 rounded-xl border border-neutral-700/50 hover:border-neutral-600/50 cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-black/20 hover:-translate-y-1"
+                  >
+                    <div className="flex flex-col items-center space-y-4">
+                      <div className="flex items-center justify-center w-16 h-16 bg-neutral-700/50 rounded-full group-hover:bg-neutral-600/50 transition-colors">
+                        <span className="text-xl font-bold text-neutral-300">Aa</span>
+                      </div>
+
+                      <div className="text-center">
+                        <h3 className="text-neutral-100 font-semibold mb-1">Dyslexia-Friendly</h3>
+                        <p className="text-neutral-400 text-xs mb-3">Easier-to-read font</p>
+                        <div
+                          className={`w-3 h-3 rounded-full transition-all duration-200 ${
+                            dyslexiaFriendly ? 'bg-blaze shadow-lg shadow-blaze/50' : 'bg-neutral-600'
+                          }`}
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Line Height */}
+                  <div
+                    onClick={() => setLineHeight(!lineHeight)}
+                    className="group relative bg-gradient-to-br from-neutral-800 to-neutral-900 p-6 rounded-xl border border-neutral-700/50 hover:border-neutral-600/50 cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-black/20 hover:-translate-y-1"
+                  >
+                    <div className="flex flex-col items-center space-y-4">
+                      <div className="flex items-center justify-center w-16 h-16 bg-neutral-700/50 rounded-full group-hover:bg-neutral-600/50 transition-colors">
+                        <AwesomeIcon icon={textHeightIcon} className="w-8 h-8 text-neutral-300" />
+                      </div>
+
+                      <div className="text-center">
+                        <h3 className="text-neutral-100 font-semibold mb-1">Line Height</h3>
+                        <p className="text-neutral-400 text-xs mb-3">Increase line spacing</p>
+                        <div
+                          className={`w-3 h-3 rounded-full transition-all duration-200 ${
+                            lineHeight ? 'bg-blaze shadow-lg shadow-blaze/50' : 'bg-neutral-600'
+                          }`}
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Reset Button */}
+                <div className="flex justify-center">
+                  <button
+                    onClick={() => reset()}
+                    className="group flex items-center gap-3 bg-gradient-to-r from-blaze to-blazehover hover:from-blazehover hover:to-blaze px-8 py-4 rounded-xl font-changa uppercase text-sm font-bold tracking-wider text-white transition-all duration-300 hover:shadow-xl hover:shadow-blaze/25 hover:-translate-y-0.5"
+                  >
+                    <AwesomeIcon
+                      icon={refreshIcon}
+                      className="w-5 h-5 group-hover:rotate-180 transition-transform duration-500"
+                    />
+                    Reset All Settings
+                  </button>
+                </div>
               </div>
-              <div className={`w-3 h-3 rounded-full mt-4 ${highlightLinks ? 'bg-blaze' : 'bg-midnightblack'}`}></div>
             </div>
-          </div>
-          <div
-            onClick={() => setTextSpacing(!textSpacing)}
-            className="col-span-12 430:col-span-6 relative h-full w-full bg-duskgray p-4 rounded-sm flex items-end justify-center aspect-square cursor-pointer duration-300 hover:bg-[#333]"
-          >
-            <div className="absolute left-1/2 -translate-x-1/2 top-[20%] mx-auto flex items-center gap-x-1">
-              <AwesomeIcon icon={textWidthIcon} className="w-8 h-8" />
-            </div>
-            <div className="flex flex-col items-center">
-              <div className="text-center text-sm text-white font-lato font-semibold tracking-wider">Text Spacing</div>
-              <div className={`w-3 h-3 rounded-full mt-4 ${textSpacing ? 'bg-blaze' : 'bg-midnightblack'}`}></div>
-            </div>
-          </div>
-          <div
-            onClick={() => setDyslexiaFriendly(!dyslexiaFriendly)}
-            className="col-span-12 430:col-span-6 relative h-full w-full bg-duskgray p-4 rounded-sm flex items-end justify-center aspect-square cursor-pointer duration-300 hover:bg-[#333]"
-          >
-            <div className="absolute left-1/2 -translate-x-1/2 top-[20%] mx-auto flex items-center gap-x-1">
-              <div className="text-2xol font-bold">Pqbd</div>
-            </div>
-            <div className="flex flex-col items-center">
-              <div className="text-center text-sm text-white font-lato font-semibold tracking-wider">
-                Dyslexia-Friendly Text
-              </div>
-              <div className={`w-3 h-3 rounded-full mt-4 ${dyslexiaFriendly ? 'bg-blaze' : 'bg-midnightblack'}`}></div>
-            </div>
-          </div>
-          <div
-            onClick={() => setLineHeight(!lineHeight)}
-            className="col-span-12 430:col-span-6 relative h-full w-full bg-duskgray p-4 rounded-sm flex items-end justify-center aspect-square cursor-pointer duration-300 hover:bg-[#333]"
-          >
-            <div className="absolute left-1/2 -translate-x-1/2 top-[20%] mx-auto flex items-center gap-x-1">
-              <AwesomeIcon icon={textHeightIcon} className="w-8 h-8" />
-            </div>
-            <div className="flex flex-col items-center">
-              <div className="text-center text-sm text-white font-lato font-semibold tracking-wider">Line Height</div>
-              <div className={`w-3 h-3 rounded-full mt-4 ${lineHeight ? 'bg-blaze' : 'bg-midnightblack'}`}></div>
-            </div>
-          </div>
-          <div
-            onClick={() => reset()}
-            className="col-span-12 bg-blaze hover:bg-blazehover duration-300 whitespace-nowrap font-changa uppercase text-sm mt-12 px-8 py-2 rounded-sm flex items-center gap-x-3"
-          >
-            <AwesomeIcon icon={refreshIcon} className="w-4 h-4" />
-            Reset All Accessibility Settings
-          </div>
-        </div>
-      </motion.div>
-    </LeftDrawer>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
   )
 }
 

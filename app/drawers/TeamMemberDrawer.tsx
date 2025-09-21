@@ -109,17 +109,19 @@ const TeamMemberDrawer = () => {
               duration: 0.3,
               ease: 'easeInOut'
             }}
-            className="min-h-dvh w-full xl:w-1/2 fixed top-0 right-0 z-50 bg-white shadow-[-10px_0_30px_-5px_rgba(0,0,0,0.2)] flex flex-col"
+            className="h-dvh w-full xl:w-1/2 fixed top-0 right-0 z-50 bg-white shadow-[-10px_0_30px_-5px_rgba(0,0,0,0.2)] flex flex-col overflow-hidden"
           >
-            <TeamMemberForm
-              inputs={inputs}
-              errors={errors}
-              handleInput={handleInput}
-              close={closeDrawer}
-              handleSubmit={handleSubmit}
-              loading={isLoading}
-              isUpdating={isUpdateMode}
-            />
+            <div className="flex-1 overflow-y-auto">
+              <TeamMemberForm
+                inputs={inputs}
+                errors={errors}
+                handleInput={handleInput}
+                close={closeDrawer}
+                handleSubmit={handleSubmit}
+                loading={isLoading}
+                isUpdating={isUpdateMode}
+              />
+            </div>
           </motion.div>
         </>
       )}

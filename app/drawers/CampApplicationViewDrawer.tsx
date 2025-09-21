@@ -17,7 +17,7 @@ const CampApplicationViewDrawer = () => {
   }
 
   return (
-    <BottomDrawer isOpen={campApplicationDrawer} onClose={reset}>
+    <BottomDrawer isOpen={campApplicationDrawer}>
       <div className="w-full mx-auto h-full flex items-center flex-col max-h-1000:justify-start justify-center max-h-1000:my-20 overflow-y-auto">
         <div className="space-y-7 max-w-screen-md w-full">
           <div className="flex flex-col items-start justify-start w-fit">

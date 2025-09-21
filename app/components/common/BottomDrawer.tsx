@@ -1,12 +1,10 @@
 import React, { FC } from 'react'
 import useRemoveScroll from '@/app/hooks/useRemoveScroll'
-import AwesomeIcon from './AwesomeIcon'
-import { timesIcon } from '@/app/lib/icons'
 import { DrawerProps } from '@/app/types/common.types'
 
 import { motion, AnimatePresence } from 'framer-motion'
 
-const BottomDrawer: FC<DrawerProps> = ({ isOpen, onClose, height, bgColor, children }) => {
+const BottomDrawer: FC<DrawerProps> = ({ isOpen, height, bgColor, children }) => {
   useRemoveScroll(isOpen)
 
   return (
@@ -26,11 +24,6 @@ const BottomDrawer: FC<DrawerProps> = ({ isOpen, onClose, height, bgColor, child
               height ?? 'h-dvh'
             } ${height && 'rounded-tl-3xl rounded-tr-3xl shadow-[0_-4px_12px_rgba(0,0,0,0.2)]'}`}
           >
-            <AwesomeIcon
-              icon={timesIcon}
-              className="w-6 h-6 absolute z-[60] top-6 right-6 cursor-pointer duration-500 hover:rotate-90 text-white hover:text-blaze"
-              onClick={onClose}
-            />
             {children}
           </motion.div>
         )}

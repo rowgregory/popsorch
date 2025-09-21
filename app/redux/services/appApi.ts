@@ -3,7 +3,6 @@ import { setConcerts } from '../features/concertSlice'
 import { setDashboardError } from '../features/dashboardSlice'
 import { setPhotoGalleryImages } from '../features/photoGalleryImageSlice'
 import { setBoardMembers, setStaff, setTeamMembers } from '../features/teamMemberSlice'
-import { setTestimonials } from '../features/testimonialSlice'
 import { setTextBlocks } from '../features/textBlockSlice'
 import { setVenues } from '../features/venueSlice'
 import { api } from './api'
@@ -31,7 +30,6 @@ export const appApi = api.injectEndpoints({
             data: {
               textBlocks,
               concerts,
-              testimonials,
               venues,
               photoGalleryImages,
               teamMembers,
@@ -46,7 +44,6 @@ export const appApi = api.injectEndpoints({
           } = await queryFulfilled
           dispatch(setTextBlocks(textBlocks))
           dispatch(setConcerts(concerts))
-          dispatch(setTestimonials(testimonials))
           dispatch(setVenues(venues))
           dispatch(setPhotoGalleryImages(photoGalleryImages))
           dispatch(setTeamMembers(teamMembers))

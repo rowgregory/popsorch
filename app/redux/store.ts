@@ -13,7 +13,6 @@ import { formReducer } from './features/formSlice'
 import { venueReducer } from './features/venueSlice'
 import { teamMemberReducer } from './features/teamMemberSlice'
 import { photoGalleryImageReducer } from './features/photoGalleryImageSlice'
-import { testimonialReducer } from './features/testimonialSlice'
 import { userReducer } from './features/userSlice'
 import { questionReducer } from './features/questionSlice'
 import { pushNotificationReducer } from './features/pushNotificationSlice'
@@ -36,7 +35,6 @@ const rootReducer = combineReducers({
   venue: venueReducer,
   teamMember: teamMemberReducer,
   photoGalleryImage: photoGalleryImageReducer,
-  testimonial: testimonialReducer,
   user: userReducer,
   question: questionReducer,
   pushNotification: pushNotificationReducer,
