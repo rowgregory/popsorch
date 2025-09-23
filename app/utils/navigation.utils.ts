@@ -129,7 +129,7 @@ export const getNavigationLinks = (
   },
   {
     linkKey: '/sundays-at-neel',
-    textKey: 'Sundays at Neel',
+    textKey: 'Sundays@Neel',
     active: path === '/sundays-at-neel'
   }
 ]

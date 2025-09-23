@@ -55,7 +55,7 @@ const SundaysAtNeel = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
           >
-            Sundays @{' '}
+            Sundays@
             <span className="bg-gradient-to-r from-blaze to-sunburst bg-clip-text text-transparent">Neel</span>
           </motion.h1>
         </div>
