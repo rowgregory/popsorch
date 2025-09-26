@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import { Music, Calendar, MapPin, Phone, ExternalLink, Users, Award } from 'lucide-react'
+import { Music, MapPin, Phone, ExternalLink, Users, Award } from 'lucide-react'
 import Picture from '../components/common/Picture'
 
 const HiddenGemsPage = () => {
@@ -317,75 +317,7 @@ const HiddenGemsPage = () => {
           </div>
         </motion.section>
 
-        {/* Events Section */}
-        <motion.section
-          id="events"
-          className="py-20 px-4 bg-gradient-to-r from-gray-900/50 to-black/50"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          <div className="max-w-7xl mx-auto">
-            <motion.div className="text-center mb-16" variants={itemVariants}>
-              <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text text-transparent">
-                Upcoming Events
-              </h2>
-              <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-                Don&apos;t miss these exciting performances and events from Sarasota&apos;s hidden gems.
-              </p>
-            </motion.div>
-
-            <motion.div
-              className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-700/50"
-              variants={itemVariants}
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="flex items-center mb-6">
-                <Calendar className="w-8 h-8 text-sunburst mr-4" />
-                <h3 className="text-3xl font-bold text-white">Sarasota Jazz Festival</h3>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-8">
-                <div>
-                  <p className="text-gray-300 mb-4 leading-relaxed">
-                    The annual Jazz Festival features Terell Stafford as Music Director, Emmett Cohen Trio with Georgia
-                    Heers, Tony Monaco & Eric Alexander, Marcus Miller and much more.
-                  </p>
-                  <div className="flex items-center text-sunburst mb-2">
-                    <Calendar className="w-5 h-5 mr-2" />
-                    <span className="font-semibold">March 17-22, 2025</span>
-                  </div>
-                  <div className="flex items-center text-gray-400">
-                    <MapPin className="w-5 h-5 mr-2" />
-                    <span>Various Venues, Sarasota</span>
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <h4 className="text-xl font-semibold text-white">Featured Artists:</h4>
-                  <div className="space-y-2">
-                    {['Terell Stafford', 'Emmett Cohen Trio', 'Marcus Miller', 'Tony Monaco & Eric Alexander'].map(
-                      (artist, i) => (
-                        <motion.div
-                          key={i}
-                          className="flex items-center p-3 bg-gray-700/30 rounded-lg"
-                          initial={{ opacity: 0, x: -20 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          transition={{ delay: i * 0.1 }}
-                        >
-                          <Music className="w-5 h-5 text-sunburst mr-3" />
-                          <span className="text-gray-300">{artist}</span>
-                        </motion.div>
-                      )
-                    )}
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </motion.section>
+        <div data-tockify-component="calendar" data-tockify-calendar="hiddengems"></div>
       </div>
     </div>
   )

@@ -8,6 +8,7 @@ import 'ol/ol.css'
 import 'swiper/css'
 import 'swiper/css/effect-fade'
 import 'swiper/css/pagination'
+import Script from 'next/script'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -136,6 +137,12 @@ export default async function RootLayout({
         className={`${inter.variable} ${oswald.variable} ${raleway.variable} ${changa.variable} ${lato.variable} antialiased`}
       >
         <ReduxWrapper data={payload}>{children}</ReduxWrapper>
+        <Script
+          src="https://public.tockify.com/browser/embed.js"
+          data-cfasync="false"
+          data-tockify-script="embed"
+          strategy="lazyOnload" // or "afterInteractive"
+        />
       </body>
     </html>
   )
