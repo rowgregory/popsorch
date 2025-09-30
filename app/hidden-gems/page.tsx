@@ -4,6 +4,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { Music, MapPin, Phone, ExternalLink, Users, Award } from 'lucide-react'
 import Picture from '../components/common/Picture'
+import Link from 'next/link'
 
 const HiddenGemsPage = () => {
   const organizations = [
@@ -81,7 +82,7 @@ const HiddenGemsPage = () => {
       photo: '/images/via-nova.png',
       contact: {
         address: 'PO Box 52987, Sarasota, FL 34232',
-        phone: '941-387-6046',
+        phone: '941-263-2086',
         website: 'vianovachorale.org',
         websiteUrl: 'https://www.vianovachorale.org'
       },
@@ -173,12 +174,14 @@ const HiddenGemsPage = () => {
                         {/* Organization Photo */}
                         <div className="md:col-span-3">
                           <div className="aspect-video overflow-hidden rounded-xl">
-                            <Picture
-                              src={org.photo}
-                              alt={org.name}
-                              className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500"
-                              priority={false}
-                            />
+                            <Link href={org.contact.websiteUrl} target="_blank">
+                              <Picture
+                                src={org.photo}
+                                alt={org.name}
+                                className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500"
+                                priority={false}
+                              />
+                            </Link>
                           </div>
                         </div>
 
@@ -270,7 +273,7 @@ const HiddenGemsPage = () => {
                                 target="_blank"
                                 rel="noopener noreferrer"
                               >
-                                Learn more about their 46th season
+                                Learn more about their 16th season
                               </a>
                             </p>
                           )}

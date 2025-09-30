@@ -29,7 +29,16 @@ import Toast from './components/common/Toast'
 const PageWrapper: FC<ClientPageProps> = ({ children, data }) => {
   const dispatch = useAppDispatch()
   const path = useCustomPathname()
-  const { openModal, accessibility } = useAppSelector((state: RootState) => state.app)
+  const {
+    openModal,
+    accessibility,
+    highContrast,
+    highlightLinks,
+    stepIndex,
+    textSpacing,
+    dyslexiaFriendly,
+    lineHeight
+  } = useAppSelector((state: RootState) => state.app)
   const [showCheckmark, setShowCheckmark] = useState(false)
   const [createDailyMetric] = useCreateDailyMetricMutation()
 
@@ -95,33 +104,12 @@ const PageWrapper: FC<ClientPageProps> = ({ children, data }) => {
     return () => clearTimeout(timeoutId)
   }, [createDailyMetric])
 
-  // **OPTIMIZATION 6: Memoize accessibility settings check**
-  const accessibilitySettings = useMemo(() => {
-    if (typeof window === 'undefined') return null
-
-    return {
-      highContrast: localStorage.getItem('highContrast') === 'true',
-      highlightLinks: localStorage.getItem('highlightLinks') === 'true',
-      stepIndex: parseInt(localStorage.getItem('stepIndex') || '0', 10),
-      textSpacing: localStorage.getItem('textSpacing') === 'true',
-      dyslexiaFriendly: localStorage.getItem('dyslexiaFriendly') === 'true',
-      lineHeight: localStorage.getItem('lineHeight') === 'true'
-    }
-  }, [])
-
   useEffect(() => {
-    if (!accessibilitySettings) return
-
     const hasAnyAccessibilityFeature =
-      accessibilitySettings.highContrast ||
-      accessibilitySettings.highlightLinks ||
-      accessibilitySettings.stepIndex > 0 ||
-      accessibilitySettings.textSpacing ||
-      accessibilitySettings.dyslexiaFriendly ||
-      accessibilitySettings.lineHeight
+      highContrast || highlightLinks || stepIndex > 0 || textSpacing || dyslexiaFriendly || lineHeight
 
     setShowCheckmark(hasAnyAccessibilityFeature)
-  }, [accessibilitySettings])
+  }, [dyslexiaFriendly, highContrast, highlightLinks, lineHeight, stepIndex, textSpacing])
 
   // **OPTIMIZATION 7: Memoize accessibility button handler**
   const handleAccessibilityToggle = useCallback(() => {

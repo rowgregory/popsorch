@@ -3,26 +3,27 @@
 import { useState, useEffect, useRef } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
-import { setToggleAccessibilityDrawer } from '../redux/features/appSlice'
+import { setAccessibilitySettings, setToggleAccessibilityDrawer } from '../redux/features/appSlice'
 import useCustomPathname from '../hooks/useCustomPathname'
 import AwesomeIcon from '../components/common/AwesomeIcon'
 import { circleHaltStrokeIcon, linkIcon, refreshIcon, textHeightIcon, textWidthIcon } from '../lib/icons'
 import { backdropVariants, drawerVariants } from '../lib/constants/motion'
 import { X } from 'lucide-react'
 
-const textSteps = [1, 1.1, 1.2, 1.3, 1.4] // 5 levels: normal → bigger → biggest
+const textSteps = [1, 1.1, 1.2, 1.3, 1.4, 1.5] // 6 levels: normal + 5 size increases
 
 interface StepIndicatorProps {
   currentStep: number // This will track the current step index
 }
 
 const StepIndicator: React.FC<StepIndicatorProps> = ({ currentStep }) => {
+  console.log('current step: ', currentStep)
   return (
     <div className="flex justify-center gap-2 mt-4">
       {Array.from({ length: 5 }, (_, index) => (
         <div
           key={index}
-          className={`w-3 h-3 rounded-full ${currentStep >= index ? 'bg-blaze' : 'bg-midnightblack'}`}
+          className={`w-3 h-3 rounded-full ${currentStep > index ? 'bg-blaze' : 'bg-midnightblack'}`}
         ></div>
       ))}
     </div>
@@ -43,24 +44,37 @@ const AccessibilityDrawer = () => {
   // Use a ref to store the original font sizes of the elements
   const originalFontSizesRef = useRef<Map<HTMLElement, string>>(new Map())
 
-  // Load settings from localStorage when the component mounts
+  // Load from localStorage on mount and initialize both local state AND Redux
   useEffect(() => {
     const savedHighContrast = localStorage.getItem('highContrast') === 'true'
     const savedHighlightLinks = localStorage.getItem('highlightLinks') === 'true'
     const savedStepIndex = parseInt(localStorage.getItem('stepIndex') || '0')
-    const savedTextSpacing = localStorage.getItem('stepIndex') === 'true'
+    const savedTextSpacing = localStorage.getItem('textSpacing') === 'true' // Fix: was 'stepIndex'
     const savedDyslexiaFriendly = localStorage.getItem('dyslexiaFriendly') === 'true'
     const savedLineHeight = localStorage.getItem('lineHeight') === 'true'
 
+    // Set local state
     setHighContrast(savedHighContrast)
     setHighlightLinks(savedHighlightLinks)
     setStepIndex(savedStepIndex)
     setTextSpacing(savedTextSpacing)
     setDyslexiaFriendly(savedDyslexiaFriendly)
     setLineHeight(savedLineHeight)
-  }, [path])
 
-  // Save settings to localStorage when they change
+    // Set Redux state
+    dispatch(
+      setAccessibilitySettings({
+        highContrast: savedHighContrast,
+        highlightLinks: savedHighlightLinks,
+        stepIndex: savedStepIndex,
+        textSpacing: savedTextSpacing,
+        dyslexiaFriendly: savedDyslexiaFriendly,
+        lineHeight: savedLineHeight
+      })
+    )
+  }, [dispatch]) // Only run on mount
+
+  // Sync changes to both localStorage AND Redux when local state changes
   useEffect(() => {
     localStorage.setItem('highContrast', String(highContrast))
     localStorage.setItem('highlightLinks', String(highlightLinks))
@@ -68,7 +82,18 @@ const AccessibilityDrawer = () => {
     localStorage.setItem('textSpacing', String(textSpacing))
     localStorage.setItem('dyslexiaFriendly', String(dyslexiaFriendly))
     localStorage.setItem('lineHeight', String(lineHeight))
-  }, [highContrast, highlightLinks, stepIndex, textSpacing, dyslexiaFriendly, lineHeight])
+
+    dispatch(
+      setAccessibilitySettings({
+        highContrast,
+        highlightLinks,
+        stepIndex,
+        textSpacing,
+        dyslexiaFriendly,
+        lineHeight
+      })
+    )
+  }, [dispatch, dyslexiaFriendly, highContrast, highlightLinks, lineHeight, stepIndex, textSpacing])
 
   useEffect(() => {
     // Function to handle font size scaling

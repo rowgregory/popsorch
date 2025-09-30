@@ -64,6 +64,12 @@ export interface AppStatePayload {
   inconspicuousSignInDrawer: boolean
   isFeatureToggleCardLive: boolean
   isFeatureToggleCardVisible: boolean
+  highContrast: boolean
+  highlightLinks: boolean
+  stepIndex: number
+  textSpacing: boolean
+  dyslexiaFriendly: boolean
+  lineHeight: boolean
 }
 
 const mediaDataInitialState = {
@@ -116,7 +122,13 @@ const initialAppState: AppStatePayload = {
   toggleHeaderButtonStudio: false,
   inconspicuousSignInDrawer: false,
   isFeatureToggleCardLive: false,
-  isFeatureToggleCardVisible: false
+  isFeatureToggleCardVisible: false,
+  highContrast: false,
+  highlightLinks: false,
+  stepIndex: 0,
+  textSpacing: false,
+  dyslexiaFriendly: false,
+  lineHeight: false
 }
 
 export const appSlice = createSlice({
@@ -241,6 +253,14 @@ export const appSlice = createSlice({
     },
     setCloseInconspicuousSignInDrawer: (state) => {
       state.inconspicuousSignInDrawer = false
+    },
+    setAccessibilitySettings: (state, { payload }) => {
+      state.highContrast = payload.highContrast
+      state.highlightLinks = payload.highlightLinks
+      state.stepIndex = payload.stepIndex
+      state.textSpacing = payload.textSpacing
+      state.dyslexiaFriendly = payload.dyslexiaFriendly
+      state.lineHeight = payload.lineHeight
     }
   },
   extraReducers: (builder) => {
@@ -316,5 +336,6 @@ export const {
   setOpeneHeaderButtonStudio,
   setCloseHeaderButtonStudio,
   setOpenInconspicuousSignInDrawer,
-  setCloseInconspicuousSignInDrawer
+  setCloseInconspicuousSignInDrawer,
+  setAccessibilitySettings
 } = appSlice.actions
