@@ -14,7 +14,7 @@ const BoardMembers = () => {
   const dispatch = useAppDispatch()
   const { drawer, loading } = useAppSelector((state: RootState) => state.app)
   const { textBlockMap } = useAppSelector((state: RootState) => state.textBlock)
-  const { teamMembers } = useAppSelector((state: RootState) => state.teamMember)
+  const { boardMembers } = useAppSelector((state: RootState) => state.teamMember)
 
   const handleOpenDrawer = (selectedMember: TeamMemberProps) => {
     const combinedList: TeamMemberProps[] = [...boardMembers]
@@ -30,13 +30,7 @@ const BoardMembers = () => {
     )
   }
 
-  const boardMembers: TeamMemberProps[] = []
-
-  teamMembers?.forEach((teamMember: TeamMemberProps) => {
-    if (teamMember.role === 'Board-Member') {
-      boardMembers.push(teamMember)
-    }
-  })
+  const sortedBoardMembers = [...boardMembers].sort((a, b) => a.displayOrder - b.displayOrder)
 
   return (
     <>
@@ -64,7 +58,7 @@ const BoardMembers = () => {
                 textBlockKey="boardMemberTitle"
               />
               <div className="grid grid-cols-12 gap-y-6 760:gap-7 mt-12 mb-32">
-                {boardMembers.map((teamMember: TeamMemberProps) => (
+                {sortedBoardMembers?.map((teamMember: TeamMemberProps) => (
                   <PublicTeamMemberCard
                     key={teamMember.id}
                     teamMember={teamMember}
