@@ -25,6 +25,16 @@ export const getNavigationLinks = (
       ]
     : []),
   {
+    linkKey: '/sundays-at-neel',
+    textKey: 'Sundays@Neel',
+    active: path === '/sundays-at-neel'
+  },
+  {
+    linkKey: '/bubble-bash',
+    textKey: 'Golden Bubble Bash',
+    active: path === '/bubble-bash'
+  },
+  {
     isButton: true,
     textKey: 'Education',
     active: ['/student-performers', '/student-scholarships', '/camp-application'].includes(path),
@@ -90,8 +100,15 @@ export const getNavigationLinks = (
   },
   {
     isButton: true,
-    textKey: 'Support',
-    active: ['/chair-sponsorships', '/advertise-with-us'].includes(path),
+    textKey: 'More',
+    active: [
+      '/chair-sponsorships',
+      '/advertise-with-us',
+      '/sponsorship-opportunities',
+      '/contact',
+      '/connect-with-us',
+      '/media'
+    ].includes(path),
     links: [
       {
         linkKey: 'https://ci.ovationtix.com/35505/store/donations',
@@ -99,38 +116,17 @@ export const getNavigationLinks = (
         active: false,
         isExternal: true
       },
-      {
-        linkKey: '/chair-sponsorships',
-        textKey: 'Chair Sponsorships',
-        active: path === '/chair-sponsorships'
-      },
-      {
-        linkKey: '/advertise-with-us',
-        textKey: 'Advertise With Us',
-        active: path === '/advertise-with-us'
-      },
+      { linkKey: '/chair-sponsorships', textKey: 'Chair Sponsorships', active: path === '/chair-sponsorships' },
+      { linkKey: '/advertise-with-us', textKey: 'Advertise With Us', active: path === '/advertise-with-us' },
       {
         linkKey: '/sponsorship-opportunities',
         textKey: 'Sponsorship Opportunities',
         active: path === '/sponsorship-opportunities'
-      }
+      },
+      { linkKey: '/contact', textKey: 'Contact', active: path === '/contact' },
+      { linkKey: '/connect-with-us', textKey: 'Connect With Us', active: path === '/connect-with-us' },
+      { linkKey: '/media', textKey: 'Media', active: path === '/media' }
     ]
-  },
-  { linkKey: '/contact', textKey: 'Contact', active: path === '/contact' },
-  {
-    linkKey: '/connect-with-us',
-    textKey: 'Connect With Us',
-    active: path === '/connect-with-us'
-  },
-  {
-    linkKey: '/media',
-    textKey: 'Media',
-    active: path === '/media'
-  },
-  {
-    linkKey: '/sundays-at-neel',
-    textKey: 'Sundays@Neel',
-    active: path === '/sundays-at-neel'
   }
 ]
 

@@ -20,9 +20,9 @@ const Concerts = () => {
 
   const concertCounts = concerts?.reduce(
     (acc, concert) => {
-      if (concert.type === 'season') acc.season++
-      if (concert.type === 'add-on') acc.addOn++
-      if (concert.type === 'sundays-at-neel') acc.sundaysAtNeel++
+      if (concert.type === 'Aeason') acc.season++
+      if (concert.type === 'Add-On') acc.addOn++
+      if (concert.type === 'Sundays-at-Neel') acc.sundaysAtNeel++
 
       return acc
     },

@@ -50,6 +50,7 @@ export const HeaderNavLink: FC<HeaderNavLinkProps> = ({
           {link?.links.map((sublink, j, arr) => (
             <Link
               key={j}
+              onClick={() => setOpenDropdown({ open: false, textKey: '' })}
               href={sublink.linkKey}
               target={sublink.isExternal ? '_blank' : ''}
               className={`${sublink.active ? 'text-blaze' : 'text-white'} ${
