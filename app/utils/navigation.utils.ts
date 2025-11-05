@@ -31,7 +31,7 @@ export const getNavigationLinks = (
   },
   {
     linkKey: '/bubble-bash',
-    textKey: 'Golden Bubble Bash',
+    textKey: 'Golden Bubbles Bash',
     active: path === '/bubble-bash'
   },
   {
