@@ -577,7 +577,7 @@ const BubbleBash = () => {
 
         {/* FOOTER */}
         <footer className="mt-20 text-center text-gray-500 text-sm border-t border-[#1a1a1a] pt-6">
-          © 2026 The Pops Orchestra of Bradenton and Sarasota. All rights reserved.
+          © {new Date().getFullYear()} The Pops Orchestra of Bradenton and Sarasota. All rights reserved.
         </footer>
       </div>
     </div>
