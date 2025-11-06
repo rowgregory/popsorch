@@ -1,11 +1,11 @@
 'use client'
 import { motion } from 'framer-motion'
-import Picture from '../components/common/Picture'
 import Link from 'next/link'
+import Picture from '../components/common/Picture'
 
 const tickets = [
   {
-    tier: 'Ultimate',
+    tier: 'Ultimate VIP Table for 6',
     price: '$1,250',
     gradient: 'from-[#ff9000] to-[#da0032]',
     accent: 'shadow-[0_0_30px_#ff9000aa]',
@@ -18,7 +18,7 @@ const tickets = [
     ]
   },
   {
-    tier: 'Sponsor',
+    tier: 'Sponsor VIP Table for 8',
     price: '$1,050',
     gradient: 'from-[#da0032] to-[#ff9000]',
     accent: 'shadow-[0_0_25px_#da0032aa]',
@@ -70,19 +70,30 @@ const BubbleBash = () => {
     <div className="min-h-screen bg-[#040608] text-white">
       <PopsLogo />
       {/* HERO SECTION */}
-      <section className="relative h-screen w-full overflow-hidden">
+      <section className="relative h-screen w-full overflow-hidden flex items-center justify-center">
+        {/* Video Background */}
+        <video autoPlay loop muted playsInline className="fixed inset-0 object-cover object-center h-full w-full">
+          <source src="/videos/bubbles.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+
+        {/* Black Overlay */}
+        <div className="fixed inset-0 bg-black/60"></div>
+
+        {/* Image on top */}
         <Picture
-          src="/images/bubbles.png"
+          src="/images/bubbles-logo.png"
           alt="The Pops Orchestra 50th Anniversary Gala"
           priority
-          className="object-contain object-center h-full w-full"
+          className="relative object-contain object-center h-full w-full max-w-2xl 2xl:max-w-4xl z-10"
         />
+
         {/* Scroll Indicator */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1, duration: 1 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 cursor-pointer z-10"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 cursor-pointer z-20"
           onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
         >
           {/* Text */}
@@ -127,9 +138,9 @@ const BubbleBash = () => {
       </section>
 
       {/* MAIN CONTENT */}
-      <div className="max-w-5xl mx-auto px-6 py-20">
+      <div className="max-w-6xl mx-auto px-6 py-20">
         <section className="relative py-24 overflow-hidden">
-          {/* Animated iridescent bubbles background */}
+          {/* Animated champagne bubbles background */}
           <div className="absolute inset-0">
             {/* Large bubbles */}
             <motion.div
@@ -138,8 +149,10 @@ const BubbleBash = () => {
               className="absolute top-10 left-[15%] w-24 h-24 rounded-full"
               style={{
                 background:
-                  'radial-gradient(circle at 30% 30%, rgba(255, 182, 193, 0.6), rgba(135, 206, 250, 0.5), rgba(186, 85, 211, 0.4))',
-                boxShadow: '0 0 40px rgba(255, 182, 193, 0.4), inset -10px -10px 20px rgba(255, 255, 255, 0.3)'
+                  'radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(255, 252, 240, 0.4), rgba(255, 255, 255, 0.1))',
+                boxShadow:
+                  '0 0 30px rgba(255, 255, 255, 0.3), inset -8px -8px 16px rgba(255, 255, 255, 0.6), inset 8px 8px 16px rgba(255, 252, 240, 0.2)',
+                border: '1px solid rgba(255, 255, 255, 0.3)'
               }}
             ></motion.div>
 
@@ -149,8 +162,10 @@ const BubbleBash = () => {
               className="absolute top-32 right-[12%] w-32 h-32 rounded-full"
               style={{
                 background:
-                  'radial-gradient(circle at 30% 30%, rgba(135, 206, 250, 0.6), rgba(255, 215, 0, 0.5), rgba(186, 85, 211, 0.4))',
-                boxShadow: '0 0 50px rgba(135, 206, 250, 0.4), inset -10px -10px 20px rgba(255, 255, 255, 0.3)'
+                  'radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.85), rgba(255, 252, 240, 0.5), rgba(255, 255, 255, 0.1))',
+                boxShadow:
+                  '0 0 40px rgba(255, 255, 255, 0.4), inset -10px -10px 20px rgba(255, 255, 255, 0.7), inset 10px 10px 20px rgba(255, 252, 240, 0.2)',
+                border: '1px solid rgba(255, 255, 255, 0.4)'
               }}
             ></motion.div>
 
@@ -160,8 +175,10 @@ const BubbleBash = () => {
               className="absolute bottom-20 left-[10%] w-28 h-28 rounded-full"
               style={{
                 background:
-                  'radial-gradient(circle at 30% 30%, rgba(255, 215, 0, 0.6), rgba(255, 182, 193, 0.5), rgba(135, 206, 250, 0.4))',
-                boxShadow: '0 0 45px rgba(255, 215, 0, 0.4), inset -10px -10px 20px rgba(255, 255, 255, 0.3)'
+                  'radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(255, 250, 230, 0.4), rgba(255, 255, 255, 0.1))',
+                boxShadow:
+                  '0 0 35px rgba(255, 255, 255, 0.35), inset -9px -9px 18px rgba(255, 255, 255, 0.65), inset 9px 9px 18px rgba(255, 250, 230, 0.2)',
+                border: '1px solid rgba(255, 255, 255, 0.35)'
               }}
             ></motion.div>
 
@@ -171,39 +188,47 @@ const BubbleBash = () => {
               className="absolute bottom-40 right-[20%] w-20 h-20 rounded-full"
               style={{
                 background:
-                  'radial-gradient(circle at 30% 30%, rgba(186, 85, 211, 0.6), rgba(135, 206, 250, 0.5), rgba(255, 215, 0, 0.4))',
-                boxShadow: '0 0 35px rgba(186, 85, 211, 0.4), inset -10px -10px 20px rgba(255, 255, 255, 0.3)'
+                  'radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.75), rgba(255, 252, 240, 0.4), rgba(255, 255, 255, 0.1))',
+                boxShadow:
+                  '0 0 25px rgba(255, 255, 255, 0.3), inset -7px -7px 14px rgba(255, 255, 255, 0.6), inset 7px 7px 14px rgba(255, 252, 240, 0.2)',
+                border: '1px solid rgba(255, 255, 255, 0.3)'
               }}
             ></motion.div>
 
             {/* Small bubbles */}
             <motion.div
-              animate={{ y: [0, -15, 0], opacity: [0.6, 1, 0.6] }}
+              animate={{ y: [0, -15, 0], opacity: [0.5, 0.8, 0.5] }}
               transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
               className="absolute top-[25%] left-[25%] w-12 h-12 rounded-full"
               style={{
-                background: 'radial-gradient(circle at 30% 30%, rgba(135, 206, 250, 0.7), rgba(255, 215, 0, 0.5))',
-                boxShadow: '0 0 20px rgba(135, 206, 250, 0.5), inset -5px -5px 10px rgba(255, 255, 255, 0.4)'
+                background:
+                  'radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), rgba(255, 252, 240, 0.5), rgba(255, 255, 255, 0.15))',
+                boxShadow: '0 0 20px rgba(255, 255, 255, 0.4), inset -5px -5px 10px rgba(255, 255, 255, 0.7)',
+                border: '1px solid rgba(255, 255, 255, 0.4)'
               }}
             ></motion.div>
 
             <motion.div
-              animate={{ y: [0, 10, 0], opacity: [0.5, 0.9, 0.5] }}
+              animate={{ y: [0, 10, 0], opacity: [0.4, 0.7, 0.4] }}
               transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
               className="absolute top-[60%] right-[30%] w-10 h-10 rounded-full"
               style={{
-                background: 'radial-gradient(circle at 30% 30%, rgba(255, 182, 193, 0.7), rgba(186, 85, 211, 0.5))',
-                boxShadow: '0 0 20px rgba(255, 182, 193, 0.5), inset -5px -5px 10px rgba(255, 255, 255, 0.4)'
+                background:
+                  'radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.85), rgba(255, 252, 240, 0.45), rgba(255, 255, 255, 0.1))',
+                boxShadow: '0 0 18px rgba(255, 255, 255, 0.35), inset -4px -4px 8px rgba(255, 255, 255, 0.65)',
+                border: '1px solid rgba(255, 255, 255, 0.35)'
               }}
             ></motion.div>
 
             <motion.div
-              animate={{ y: [0, -12, 0], opacity: [0.6, 1, 0.6] }}
+              animate={{ y: [0, -12, 0], opacity: [0.5, 0.8, 0.5] }}
               transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
               className="absolute bottom-[30%] left-[35%] w-14 h-14 rounded-full"
               style={{
-                background: 'radial-gradient(circle at 30% 30%, rgba(255, 215, 0, 0.7), rgba(135, 206, 250, 0.5))',
-                boxShadow: '0 0 25px rgba(255, 215, 0, 0.5), inset -5px -5px 10px rgba(255, 255, 255, 0.4)'
+                background:
+                  'radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), rgba(255, 250, 230, 0.5), rgba(255, 255, 255, 0.15))',
+                boxShadow: '0 0 22px rgba(255, 255, 255, 0.4), inset -6px -6px 12px rgba(255, 255, 255, 0.7)',
+                border: '1px solid rgba(255, 255, 255, 0.4)'
               }}
             ></motion.div>
 
@@ -211,26 +236,32 @@ const BubbleBash = () => {
             <div
               className="absolute top-[15%] right-[40%] w-6 h-6 rounded-full"
               style={{
-                background: 'radial-gradient(circle at 30% 30%, rgba(135, 206, 250, 0.8), rgba(255, 215, 0, 0.6))',
-                boxShadow: '0 0 15px rgba(135, 206, 250, 0.6)'
+                background:
+                  'radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.95), rgba(255, 252, 240, 0.6), rgba(255, 255, 255, 0.2))',
+                boxShadow: '0 0 12px rgba(255, 255, 255, 0.5), inset -3px -3px 6px rgba(255, 255, 255, 0.8)',
+                border: '1px solid rgba(255, 255, 255, 0.5)'
               }}
             ></div>
             <div
               className="absolute top-[45%] left-[20%] w-5 h-5 rounded-full"
               style={{
-                background: 'radial-gradient(circle at 30% 30%, rgba(186, 85, 211, 0.8), rgba(255, 182, 193, 0.6))',
-                boxShadow: '0 0 12px rgba(186, 85, 211, 0.6)'
+                background:
+                  'radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), rgba(255, 252, 240, 0.55), rgba(255, 255, 255, 0.15))',
+                boxShadow: '0 0 10px rgba(255, 255, 255, 0.45), inset -2px -2px 5px rgba(255, 255, 255, 0.75)',
+                border: '1px solid rgba(255, 255, 255, 0.45)'
               }}
             ></div>
             <div
               className="absolute bottom-[25%] right-[15%] w-8 h-8 rounded-full"
               style={{
-                background: 'radial-gradient(circle at 30% 30%, rgba(255, 215, 0, 0.8), rgba(255, 182, 193, 0.6))',
-                boxShadow: '0 0 18px rgba(255, 215, 0, 0.6)'
+                background:
+                  'radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), rgba(255, 250, 230, 0.5), rgba(255, 255, 255, 0.15))',
+                boxShadow: '0 0 15px rgba(255, 255, 255, 0.45), inset -4px -4px 8px rgba(255, 255, 255, 0.75)',
+                border: '1px solid rgba(255, 255, 255, 0.45)'
               }}
             ></div>
 
-            {/* Golden music notes */}
+            {/* Golden music notes - kept as is */}
             <motion.div
               animate={{ rotate: [0, 10, 0], y: [0, -10, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
@@ -474,7 +505,7 @@ const BubbleBash = () => {
             </motion.div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto relative">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto relative">
             {tickets.map((ticket, i) => (
               <motion.div
                 key={i}
@@ -486,27 +517,45 @@ const BubbleBash = () => {
               >
                 {/* Golden glow effect on hover */}
                 <div
-                  className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-30 blur-xl transition-opacity duration-500"
+                  className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-40 blur-2xl transition-opacity duration-500"
                   style={{
-                    background: 'radial-gradient(circle, rgba(212, 175, 55, 0.6), transparent)'
+                    background: 'radial-gradient(circle, rgba(212, 175, 55, 0.8), transparent)'
                   }}
                 ></div>
 
-                {/* Card */}
-                <div className="relative bg-gradient-to-b from-[#1a1a1a] to-[#0d0f10] border border-[#2a2a2a] rounded-2xl overflow-hidden shadow-2xl h-full flex flex-col group-hover:border-[#d4af37]/50 transition-colors duration-300">
-                  {/* Golden accent bar */}
+                {/* Card with glass morphism */}
+                <div className="relative rounded-3xl overflow-hidden shadow-2xl h-full flex flex-col backdrop-blur-xl border border-white/20 group-hover:border-[#d4af37]/40 transition-all duration-300">
+                  {/* Frosted glass background */}
                   <div
-                    className="h-1.5"
+                    className="absolute inset-0 bg-gradient-to-br from-white/10 via-white/5 to-transparent"
                     style={{
-                      background: 'linear-gradient(to right, #d4af37, #f4d03f, #d4af37)',
-                      boxShadow: '0 2px 10px rgba(212, 175, 55, 0.4)'
+                      backdropFilter: 'blur(20px) saturate(180%)',
+                      WebkitBackdropFilter: 'blur(20px) saturate(180%)'
                     }}
                   ></div>
 
-                  <div className="p-8 flex flex-col flex-grow">
+                  {/* Top light reflection */}
+                  <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent"></div>
+
+                  {/* Golden accent bar with glass effect */}
+                  <div
+                    className="relative h-1.5 z-10"
+                    style={{
+                      background:
+                        'linear-gradient(to right, rgba(212, 175, 55, 0.6), rgba(244, 208, 63, 0.8), rgba(212, 175, 55, 0.6))',
+                      boxShadow: '0 2px 15px rgba(212, 175, 55, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3)'
+                    }}
+                  ></div>
+
+                  <div className="relative p-8 flex flex-col flex-grow z-10">
                     {/* Header */}
                     <div className="mb-8">
-                      <h3 className="text-2xl font-bold mb-2 text-white tracking-tight" style={{ fontFamily: 'serif' }}>
+                      <h3
+                        className="text-2xl font-bold mb-2 tracking-tight text-white/95"
+                        style={{
+                          textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)'
+                        }}
+                      >
                         {ticket.tier}
                       </h3>
                       <div className="flex items-baseline gap-2">
@@ -517,7 +566,7 @@ const BubbleBash = () => {
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
                             backgroundClip: 'text',
-                            filter: 'drop-shadow(0 2px 6px rgba(212, 175, 55, 0.3))'
+                            filter: 'drop-shadow(0 2px 8px rgba(212, 175, 55, 0.4))'
                           }}
                         >
                           {ticket.price}
@@ -528,13 +577,13 @@ const BubbleBash = () => {
                     {/* Perks */}
                     <ul className="space-y-4 mb-8 flex-grow">
                       {ticket.perks.map((perk, idx) => (
-                        <li key={idx} className="flex items-start gap-3 text-gray-300">
+                        <li key={idx} className="flex items-start gap-3">
                           <svg
                             className="w-5 h-5 flex-shrink-0 mt-0.5"
                             fill="#d4af37"
                             viewBox="0 0 20 20"
                             style={{
-                              filter: 'drop-shadow(0 0 4px rgba(212, 175, 55, 0.4))'
+                              filter: 'drop-shadow(0 0 6px rgba(212, 175, 55, 0.5))'
                             }}
                           >
                             <path
@@ -543,28 +592,48 @@ const BubbleBash = () => {
                               clipRule="evenodd"
                             />
                           </svg>
-                          <span className="text-sm leading-relaxed">{perk}</span>
+                          <span
+                            className="text-sm leading-relaxed text-white/85"
+                            style={{
+                              textShadow: '0 1px 2px rgba(0, 0, 0, 0.2)'
+                            }}
+                          >
+                            {perk}
+                          </span>
                         </li>
                       ))}
                     </ul>
 
-                    {/* CTA Button */}
-
+                    {/* CTA Button with glass effect */}
                     <a
                       href="https://ci.ovationtix.com/35505/production/1252045?performanceId=11696147"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="relative w-full px-6 py-4 rounded-xl text-center font-bold text-white overflow-hidden group/btn"
+                      className="relative w-full px-4 py-4 rounded-2xl text-center font-bold text-white overflow-hidden group/btn backdrop-blur-sm"
                     >
+                      {/* Glass button background */}
                       <div
-                        className="absolute inset-0 transition-transform duration-300 group-hover/btn:scale-105"
+                        className="absolute inset-0 transition-all duration-300 group-hover/btn:scale-[1.02]"
                         style={{
-                          background: 'linear-gradient(135deg, #d4af37, #f4d03f, #c9a961)',
-                          boxShadow: '0 4px 15px rgba(212, 175, 55, 0.3)'
+                          background:
+                            'linear-gradient(135deg, rgba(212, 175, 55, 0.9), rgba(244, 208, 63, 0.95), rgba(201, 169, 97, 0.9))',
+                          boxShadow:
+                            '0 4px 20px rgba(212, 175, 55, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.2)'
                         }}
                       ></div>
-                      <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700"></div>
-                      <span className="relative" style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)' }}>
+
+                      {/* Light shimmer effect */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000"></div>
+
+                      {/* Top highlight */}
+                      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/50 to-transparent"></div>
+
+                      <span
+                        className="relative font-semibold tracking-wide text-gray-900"
+                        style={{
+                          textShadow: '0 1px 3px rgba(0, 0, 0, 0.4)'
+                        }}
+                      >
                         Select {ticket.tier}
                       </span>
                     </a>
