@@ -26,7 +26,7 @@ const HomeConcertDates = () => {
   const { textBlockMap } = useAppSelector((state: RootState) => state.textBlock)
 
   return (
-    <div className="px-4 py-40">
+    <div className="px-4 pt-12 pb-40">
       <div className=" mx-auto w-full flex flex-col items-center">
         {!loading && (
           <>

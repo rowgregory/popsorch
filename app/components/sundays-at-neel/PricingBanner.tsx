@@ -10,13 +10,10 @@ interface IPricingTier {
 
 const PRICING_TIERS: Record<string, IPricingTier> = {
   single: { price: 35, label: 'Single Concert' },
-  double: { price: 30, label: 'Any 2 Concerts', savings: 10 },
-  triple: { price: 25, label: 'All 3 Concerts', savings: 30 }
+  double: { price: 60, label: 'Get your tickets to both remaining shows for only $30 each', savings: 10 }
 }
 
 const CONCERT_PACKAGES = [
-  { label: 'Stiletto Brass and Essentially Ellington', url: 'https://ci.ovationtix.com/35505/store/packages/149084' },
-  { label: 'Stiletto Brass and John Denver', url: 'https://ci.ovationtix.com/35505/store/packages/149085' },
   { label: 'Essentially Ellington and John Denver', url: 'https://ci.ovationtix.com/35505/store/packages/149086' }
 ]
 
@@ -41,9 +38,9 @@ const PricingBanner = ({ scrollToSection }: any) => {
           <span className="text-red-400 font-semibold">Volume Discounts Available</span>
         </div>
         <h3 className="text-2xl font-bold text-white mb-4">
-          Tickets starting at <span className="text-orange-400">$25</span>
+          Tickets starting at <span className="text-orange-400">$35</span>
         </h3>
-        <div className="grid md:grid-cols-3 gap-4 text-sm">
+        <div className="grid md:grid-cols-2 gap-4 text-sm">
           {Object.entries(PRICING_TIERS).map(([key, tier]) => (
             <div key={key} className="relative">
               {key === 'double' ? (
@@ -93,19 +90,13 @@ const PricingBanner = ({ scrollToSection }: any) => {
                   </AnimatePresence>
                 </div>
               ) : (
-                // Single Concert and All 3 Concerts
+                // Single Concert
                 <div
-                  onClick={
-                    key === 'single'
-                      ? (e) => {
-                          e.preventDefault()
-                          e.stopPropagation()
-                          scrollToSection()
-                        }
-                      : key === 'triple'
-                      ? () => window.open('https://ci.ovationtix.com/35505/store/packages/149083', '_blank')
-                      : undefined
-                  }
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    scrollToSection()
+                  }}
                   className={`bg-black/40 rounded-lg p-4 border border-white/20 h-full min-h-[100px] flex flex-col justify-center text-center ${
                     key === 'single' || key === 'triple' ? 'cursor-pointer hover:bg-black/50 transition-colors' : ''
                   }`}

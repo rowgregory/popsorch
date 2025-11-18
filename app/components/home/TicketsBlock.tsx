@@ -89,6 +89,42 @@ const TicketCard = ({ ticket, isSeason, index }: any) => {
   )
 }
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 0.8,
+      staggerChildren: 0.1
+    }
+  }
+}
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6 }
+  }
+}
+
+const Badge = ({ textBlockMap }: any) => (
+  <motion.div variants={fadeInUp} className="mb-6 w-full mx-auto flex justify-center pt-24">
+    <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-yellow-600/20 to-amber-600/20 border border-yellow-400/30 rounded-full">
+      <div className="w-2 h-2 bg-yellow-400 rounded-full mr-2" />
+      <EditableTextArea
+        tag="span"
+        initialValue={textBlockMap?.SEASON_PACKAGE_BANNER?.topBadgeText || 'Season Packages Available'}
+        type="SEASON_PACKAGE_BANNER"
+        textBlockKey="topBadgeText"
+        className="text-yellow-100 font-semibold text-sm uppercase tracking-wide"
+      />
+      <div className="w-2 h-2 bg-yellow-400 rounded-full ml-2" />
+    </div>
+  </motion.div>
+)
+
 const MergedSeasonTickets = () => {
   const [ticketType, setTicketType] = useState('season')
   const app = useAppSelector((state: RootState) => state.app)
@@ -99,29 +135,10 @@ const MergedSeasonTickets = () => {
   const isSeason = ticketType === 'season'
   const isSingle = ticketType === 'single'
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        duration: 0.8,
-        staggerChildren: 0.1
-      }
-    }
-  }
-
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 }
-    }
-  }
-
   const shouldShowBanner =
     app.isSeasonPackageBannerToggledLive || (app.isSeasonPackageBannerToggledVisible && user?.isAdmin)
-  if (!shouldShowBanner) return null
+
+  if (!shouldShowBanner) return <Badge textBlockMap={textBlockMap} />
 
   return (
     <div className="relative w-full text-white">
@@ -135,21 +152,6 @@ const MergedSeasonTickets = () => {
         <div className="max-w-6xl mx-auto">
           {/* Header Section */}
           <div className="text-center mb-16">
-            {/* Badge */}
-            <motion.div variants={fadeInUp} className="mb-6">
-              <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-yellow-600/20 to-amber-600/20 border border-yellow-400/30 rounded-full">
-                <div className="w-2 h-2 bg-yellow-400 rounded-full mr-2" />
-                <EditableTextArea
-                  tag="span"
-                  initialValue={textBlockMap?.SEASON_PACKAGE_BANNER?.topBadgeText || 'Season Packages Available'}
-                  type="SEASON_PACKAGE_BANNER"
-                  textBlockKey="topBadgeText"
-                  className="text-yellow-100 font-semibold text-sm uppercase tracking-wide"
-                />
-                <div className="w-2 h-2 bg-yellow-400 rounded-full ml-2" />
-              </div>
-            </motion.div>
-
             {/* Magnificent Main Headline */}
             <motion.div variants={fadeInUp} className="mb-12">
               <motion.h1
