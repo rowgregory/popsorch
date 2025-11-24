@@ -9,6 +9,7 @@ const tickets = [
     price: '$1,250',
     gradient: 'from-[#ff9000] to-[#da0032]',
     accent: 'shadow-[0_0_30px_#ff9000aa]',
+    halfTableNote: '(1/2 table also available)',
     perks: [
       'VIP admission for 6 guests',
       'Valet parking',
@@ -22,6 +23,7 @@ const tickets = [
     price: '$1,050',
     gradient: 'from-[#da0032] to-[#ff9000]',
     accent: 'shadow-[0_0_25px_#da0032aa]',
+    halfTableNote: '(1/2 table also available)',
     perks: [
       'VIP admission for 8 guests',
       'Valet parking',
@@ -558,6 +560,16 @@ const BubbleBash = () => {
                       >
                         {ticket.tier}
                       </h3>
+                      {ticket.halfTableNote && (
+                        <p
+                          className="text-sm text-white/70 italic mb-3"
+                          style={{
+                            textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)'
+                          }}
+                        >
+                          {ticket.halfTableNote}
+                        </p>
+                      )}
                       <div className="flex items-baseline gap-2">
                         <span
                           className="text-5xl font-extrabold"
@@ -605,6 +617,7 @@ const BubbleBash = () => {
                     </ul>
 
                     {/* CTA Button with glass effect */}
+
                     <a
                       href="https://ci.ovationtix.com/35505/production/1252045?performanceId=11696147"
                       target="_blank"

@@ -2,23 +2,35 @@
 
 import React, { useState } from 'react'
 import TeamMemberRow from '@/app/components/admin/TeamMemberRow'
-import { resetTeamMemberError, setBoardMembers, setStaff, TeamMemberProps } from '@/app/redux/features/teamMemberSlice'
+import {
+  resetTeamMemberError,
+  setBoardMembers,
+  setMusicians,
+  setStaff,
+  TeamMemberProps
+} from '@/app/redux/features/teamMemberSlice'
 import { RootState, useAppDispatch, useAppSelector } from '@/app/redux/store'
 import AdminPageSpinner from '@/app/components/admin/AdminPageSpinner'
 import ToastMessage from '@/app/components/common/ToastMessage'
 import { useUpdateTeamMemberListMutation } from '@/app/redux/services/teamMemberApi'
 import { showToast } from '@/app/redux/features/toastSlice'
 
-const BoardMembersAndStaff = () => {
-  const { staff, boardMembers, error, noTeamMembers } = useAppSelector((state: RootState) => state.teamMember)
+const Team = () => {
+  const { staff, boardMembers, musicians, error, noTeamMembers } = useAppSelector(
+    (state: RootState) => state.teamMember
+  )
   const { loading } = useAppSelector((state: RootState) => state.app)
   const [updateTeamMemberList] = useUpdateTeamMemberListMutation()
   const dispatch = useAppDispatch()
   const [draggedItem, setDraggedItem] = useState<string | null>(null)
   const [draggedOver, setDraggedOver] = useState<string | null>(null)
-  const [draggedFromList, setDraggedFromList] = useState<'Board-Member' | 'Staff' | null>(null)
+  const [draggedFromList, setDraggedFromList] = useState<'Board-Member' | 'Staff' | 'Musician' | null>(null)
 
-  const handleDragStart = (e: React.DragEvent, teamMemberId: string, memberRole: 'Board-Member' | 'Staff') => {
+  const handleDragStart = (
+    e: React.DragEvent,
+    teamMemberId: string,
+    memberRole: 'Board-Member' | 'Staff' | 'Musician'
+  ) => {
     setDraggedItem(teamMemberId)
     setDraggedFromList(memberRole)
     e.dataTransfer.effectAllowed = 'move'
@@ -34,7 +46,11 @@ const BoardMembersAndStaff = () => {
     setDraggedOver(null)
   }
 
-  const handleDrop = async (e: React.DragEvent, targetId: string, targetRole: 'Board-Member' | 'Staff') => {
+  const handleDrop = async (
+    e: React.DragEvent,
+    targetId: string,
+    targetRole: 'Board-Member' | 'Staff' | 'Musician'
+  ) => {
     e.preventDefault()
 
     if (!draggedItem || draggedItem === targetId || draggedFromList !== targetRole) {
@@ -45,7 +61,7 @@ const BoardMembersAndStaff = () => {
     }
 
     // Get the appropriate list based on role
-    const currentList = targetRole === 'Board-Member' ? boardMembers : staff
+    const currentList = targetRole === 'Board-Member' ? boardMembers : targetRole === 'Staff' ? staff : musicians
 
     const draggedIndex = currentList.findIndex((member) => member.id === draggedItem)
     const targetIndex = currentList.findIndex((member) => member.id === targetId)
@@ -63,12 +79,18 @@ const BoardMembersAndStaff = () => {
       displayOrder: index + 1
     }))
 
-    // Merge with the other role's list to create the complete team members array
-    const otherRoleMembers = targetRole === 'Board-Member' ? staff : boardMembers
+    // Merge with the other roles' lists to create the complete team members array
+    const otherRoleMembers = [
+      ...(targetRole !== 'Board-Member' ? boardMembers : []),
+      ...(targetRole !== 'Staff' ? staff : []),
+      ...(targetRole !== 'Musician' ? musicians : [])
+    ]
+
     const completeUpdatedList: TeamMemberProps[] | any = [...updatedList, ...otherRoleMembers].sort((a, b) => {
-      // Sort by role first (Board-Member before Staff), then by displayOrder
+      // Sort by role first (Board-Member, then Staff, then Musician), then by displayOrder
+      const roleOrder = { 'Board-Member': 1, Staff: 2, Musician: 3 }
       if (a.role !== b.role) {
-        return a.role === 'Board-Member' ? -1 : 1
+        return roleOrder[a.role as keyof typeof roleOrder] - roleOrder[b.role as keyof typeof roleOrder]
       }
       return a.displayOrder - b.displayOrder
     })
@@ -76,8 +98,10 @@ const BoardMembersAndStaff = () => {
     // Optimistically update UI
     if (targetRole === 'Staff') {
       dispatch(setStaff(updatedList))
-    } else {
+    } else if (targetRole === 'Board-Member') {
       dispatch(setBoardMembers(updatedList))
+    } else {
+      dispatch(setMusicians(updatedList))
     }
 
     // Save to backend
@@ -98,7 +122,11 @@ const BoardMembersAndStaff = () => {
     setDraggedFromList(null)
   }
 
-  const renderTeamMembersList = (members: TeamMemberProps[], role: 'Board-Member' | 'Staff', title: string) => {
+  const renderTeamMembersList = (
+    members: TeamMemberProps[],
+    role: 'Board-Member' | 'Staff' | 'Musician',
+    title: string
+  ) => {
     // Sort members by displayOrder before rendering
     const sortedMembers = [...members].sort((a, b) => a.displayOrder - b.displayOrder)
 
@@ -173,10 +201,11 @@ const BoardMembersAndStaff = () => {
         <div>
           {renderTeamMembersList(boardMembers, 'Board-Member', 'Board Members')}
           {renderTeamMembersList(staff, 'Staff', 'Staff Members')}
+          {renderTeamMembersList(musicians, 'Musician', 'Musicians')}
         </div>
       )}
     </div>
   )
 }
 
-export default BoardMembersAndStaff
+export default Team

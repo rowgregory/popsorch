@@ -25,6 +25,7 @@ export interface TeamMemberStatePayload {
   noTeamMembers: boolean
   staff: any[]
   boardMembers: any[]
+  musicians: any[]
   teamMemberDrawer: boolean
 }
 
@@ -51,6 +52,7 @@ const initialTeamMemberState: TeamMemberStatePayload = {
   teamMembersCount: 0,
   noTeamMembers: false,
   staff: [],
+  musicians: [],
   boardMembers: [],
   teamMemberDrawer: false
 }
@@ -73,6 +75,10 @@ export const teamMemberSlice = createSlice({
       state.staff = sortedMembers
     },
     setBoardMembers: (state, { payload }) => {
+      const sortedMembers = [...payload].sort((a, b) => a.displayOrder - b.displayOrder)
+      state.boardMembers = sortedMembers
+    },
+    setMusicians: (state, { payload }) => {
       const sortedMembers = [...payload].sort((a, b) => a.displayOrder - b.displayOrder)
       state.boardMembers = sortedMembers
     },
@@ -147,6 +153,7 @@ export const {
   removeTeamMemberFromState,
   setStaff,
   setBoardMembers,
+  setMusicians,
   setOpenTeamMemberDrawer,
   setCloseTeamMemberDrawer
 } = teamMemberSlice.actions

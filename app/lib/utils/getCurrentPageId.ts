@@ -3,7 +3,6 @@ const getCurrentPageId = (path: string, links: any) => {
   const lastSegment = pathSegments[pathSegments.length - 1]
 
   // Handle special cases for multi-word routes
-  if (path.includes('/board-members-and-staff')) return 'Board Members & Staff'
   if (path.includes('/camp-applications')) return 'Camp Applications'
   if (path.includes('/photo-gallery')) return 'Photo Gallery'
   if (path.includes('/mailchimp-members')) return 'Mailchimp Members'

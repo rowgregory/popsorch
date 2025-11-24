@@ -75,13 +75,13 @@ export const adminNavigationLinkData = (
       description: 'Location management'
     },
     {
-      id: 'board-members-and-staff',
-      textKey: 'Board Members & Staff',
-      linkKey: '/admin/board-members-and-staff',
-      active: isStringInPath(path, 'board-members-and-staff'),
+      id: 'team',
+      textKey: 'Team',
+      linkKey: '/admin/team',
+      active: isStringInPath(path, 'team'),
       icon: userTieIcon,
       color: 'text-purple-500',
-      description: 'Team directory'
+      description: 'Board Members, Staff & Musicians'
     },
     {
       id: 'photo-gallery',

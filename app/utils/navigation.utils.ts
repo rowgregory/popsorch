@@ -69,7 +69,7 @@ export const getNavigationLinks = (
   {
     isButton: true,
     textKey: 'About',
-    active: ['/about', '/robyn-bell', '/board-members', '/staff'].includes(path),
+    active: ['/about', '/robyn-bell', '/board-members', '/staff', '/musicians'].includes(path),
     links: [
       {
         textKey: 'The Pops Orchestra',
@@ -90,6 +90,11 @@ export const getNavigationLinks = (
         textKey: 'Staff',
         linkKey: '/staff',
         active: path === '/staff'
+      },
+      {
+        textKey: 'Musicians',
+        linkKey: '/musicians',
+        active: path === '/musicians'
       },
       {
         textKey: 'Hidden Gems',

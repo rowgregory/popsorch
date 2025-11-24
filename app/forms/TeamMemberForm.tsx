@@ -161,7 +161,7 @@ const TeamMemberForm: FC<IForm> = ({ inputs, errors, handleInput, close, handleS
                   name="role"
                   value={inputs?.role}
                   onChange={handleInput}
-                  list={['Choose One', 'Board-Member', 'Staff']}
+                  list={['Choose One', 'Board-Member', 'Staff', 'Musician']}
                   error={errors?.role}
                 />
               </motion.div>
