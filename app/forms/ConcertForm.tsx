@@ -2,9 +2,11 @@
 
 import React, { FC, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Calendar, Trash2, Check, Upload, AlertCircle, FileText } from 'lucide-react'
+import { Calendar, Trash2, Check, Upload, AlertCircle, FileText, X } from 'lucide-react'
 import Picture from '../components/common/Picture'
 import { useFetchVenuesQuery } from '../redux/services/venueApi'
+import { setInputs } from '../redux/features/formSlice'
+import { useAppDispatch } from '../redux/store'
 
 export const showTimes: string[] = [
   '12:00 AM',
@@ -119,6 +121,7 @@ const ConcertForm: FC<ConcertFormProps> = ({ inputs, errors, formActions, onSubm
   const [eventDetailsId, setEventDetailsId] = useState<string | null>(null)
   const { data } = useFetchVenuesQuery(undefined) as any
   const venues = data?.venues
+  const dispatch = useAppDispatch()
 
   const {
     handleInput,
@@ -169,6 +172,10 @@ const ConcertForm: FC<ConcertFormProps> = ({ inputs, errors, formActions, onSubm
     { id: 'basic', label: 'Basic Info', count: null },
     { id: 'details', label: 'Event Details', count: inputs.eventDetails?.length || 0 }
   ] as const
+
+  const removeFile = () => {
+    dispatch(setInputs({ formName: 'concertForm', data: { ...inputs, imageFilename: '', imageUrl: '' } }))
+  }
 
   return (
     <div className="min-h-screen bg-neutral-900 py-8 px-4 sm:px-6 lg:px-8">
@@ -416,13 +423,13 @@ const ConcertForm: FC<ConcertFormProps> = ({ inputs, errors, formActions, onSubm
                               )}
                             </div>
                           </div>
-                          {/* <button
-                        type="button"
-                        onClick={removeFile}
-                        className="text-red-400 hover:text-red-300 transition-colors p-1"
-                      >
-                        <X className="w-5 h-5" />
-                      </button> */}
+                          <button
+                            type="button"
+                            onClick={removeFile}
+                            className="text-red-400 hover:text-red-300 transition-colors p-1"
+                          >
+                            <X className="w-5 h-5" />
+                          </button>
                         </div>
                         {(inputs?.file?.name || inputs?.imageUrl) && (
                           <div className="mt-3">

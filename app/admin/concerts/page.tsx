@@ -107,16 +107,7 @@ const Concerts = () => {
 
         {isLoading ? (
           <AdminPageSpinner fill="fill-pink-400" />
-        ) : (
-          <div className="grid md:grid-cols-2 2xl:grid-cols-4 gap-y-4 md:gap-4">
-            {concerts?.map((concert: ConcertProps) => (
-              <AdminConcertCard key={concert.id} concert={concert} />
-            ))}
-          </div>
-        )}
-
-        {/* Empty State (if no concerts) */}
-        {noConcerts && (
+        ) : noConcerts ? (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -133,6 +124,12 @@ const Concerts = () => {
               Add Your First Concert
             </button>
           </motion.div>
+        ) : (
+          <div className="grid md:grid-cols-2 2xl:grid-cols-4 gap-y-4 md:gap-4">
+            {concerts?.map((concert: ConcertProps) => (
+              <AdminConcertCard key={concert.id} concert={concert} />
+            ))}
+          </div>
         )}
       </div>
     </>
