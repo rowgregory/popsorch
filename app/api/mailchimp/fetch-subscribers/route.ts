@@ -61,15 +61,6 @@ export async function GET(req: NextRequest) {
       ipOpt: member.ip_opt
     }))
 
-    await createLog('info', 'Fetched Mailchimp subscribers successfully', {
-      location: ['fetch route - GET /api/fetch-subscribers'],
-      message: `Fetched ${members.length} subscribers`,
-      name: 'MailchimpFetchSubscribersSuccess',
-      timestamp: new Date().toISOString(),
-      url: req.url,
-      method: req.method
-    })
-
     return NextResponse.json({ members, sliceName: sliceMailchimp, totalItems: data.total_items }, { status: 200 })
   } catch (error: any) {
     await createLog('error', `Failed to fetch Mailchimp subscribers: ${error.message}`, {
