@@ -26,7 +26,10 @@ export async function PUT(request: NextRequest) {
     }
 
     const isValidTeamMembers = teamMembers.every(
-      (member) => member.id && member.role && (member.role === 'Board-Member' || member.role === 'Staff')
+      (member) =>
+        member.id &&
+        member.role &&
+        (member.role === 'Board-Member' || member.role === 'Staff' || member.role === 'Musician')
     )
 
     if (!isValidTeamMembers) {
@@ -42,6 +45,7 @@ export async function PUT(request: NextRequest) {
     // Separate team members by role
     const boardMembers = teamMembers.filter((member: any) => member.role === 'Board-Member')
     const staffMembers = teamMembers.filter((member: any) => member.role === 'Staff')
+    const musicians = teamMembers.filter((member: any) => member.role === 'Musician')
 
     // Recalculate display order for each role group starting from 1
     const updatedBoardMembers = boardMembers.map((member: any, index: number) => ({
@@ -54,16 +58,23 @@ export async function PUT(request: NextRequest) {
       displayOrder: index + 1
     }))
 
+    const updatedMusicians = musicians.map((member: any, index: number) => ({
+      ...member,
+      displayOrder: index + 1
+    }))
+
     // Update database with the recalculated orders
     await updateTeamMembersOrder(updatedStaffMembers)
     await updateTeamMembersOrder(updatedBoardMembers)
+    await updateTeamMembersOrder(updatedMusicians)
 
     return NextResponse.json({
       success: true,
       message: 'Team members order updated successfully',
       data: {
         boardMembersCount: updatedBoardMembers.length,
-        staffMembersCount: updatedStaffMembers.length
+        staffMembersCount: updatedStaffMembers.length,
+        musicianCount: updatedMusicians.length
       }
     })
   } catch {

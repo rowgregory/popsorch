@@ -9,16 +9,14 @@ import {
   setStaff,
   TeamMemberProps
 } from '@/app/redux/features/teamMemberSlice'
-import { RootState, useAppDispatch, useAppSelector } from '@/app/redux/store'
+import { RootState, useAppDispatch, useAppSelector, useTeamMemberSelector } from '@/app/redux/store'
 import AdminPageSpinner from '@/app/components/admin/AdminPageSpinner'
 import ToastMessage from '@/app/components/common/ToastMessage'
 import { useUpdateTeamMemberListMutation } from '@/app/redux/services/teamMemberApi'
 import { showToast } from '@/app/redux/features/toastSlice'
 
 const Team = () => {
-  const { staff, boardMembers, musicians, error, noTeamMembers } = useAppSelector(
-    (state: RootState) => state.teamMember
-  )
+  const { staff, boardMembers, musicians, error, noTeamMembers } = useTeamMemberSelector()
   const { loading } = useAppSelector((state: RootState) => state.app)
   const [updateTeamMemberList] = useUpdateTeamMemberListMutation()
   const dispatch = useAppDispatch()

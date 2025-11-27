@@ -17,7 +17,6 @@ interface StepIndicatorProps {
 }
 
 const StepIndicator: React.FC<StepIndicatorProps> = ({ currentStep }) => {
-  console.log('current step: ', currentStep)
   return (
     <div className="flex justify-center gap-2 mt-4">
       {Array.from({ length: 5 }, (_, index) => (

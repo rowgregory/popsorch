@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect, useMemo } from 'react'
 import { setInputs } from '../redux/features/formSlice'
 import AdminInput from './elements/AdminInput'
 import AdminSelect from './elements/AdminSelect'
@@ -11,6 +11,21 @@ import Picture from '../components/common/Picture'
 
 const TeamMemberForm: FC<IForm> = ({ inputs, errors, handleInput, close, handleSubmit, loading, isUpdating }) => {
   const dispatch = useAppDispatch()
+
+  const imagePreviewUrl = useMemo(() => {
+    if (inputs?.file) {
+      return URL.createObjectURL(inputs.file)
+    }
+    return inputs?.imageUrl
+  }, [inputs?.file, inputs?.imageUrl])
+
+  useEffect(() => {
+    return () => {
+      if (imagePreviewUrl && inputs?.file) {
+        URL.revokeObjectURL(imagePreviewUrl)
+      }
+    }
+  }, [imagePreviewUrl, inputs?.file])
 
   const handleFileChange = (e: any) => {
     const selectedFile = e.target.files[0]
@@ -110,7 +125,7 @@ const TeamMemberForm: FC<IForm> = ({ inputs, errors, handleInput, close, handleS
                       <div className="mt-3">
                         <Picture
                           priority={false}
-                          src={inputs?.file?.name ? URL.createObjectURL(inputs?.file) : inputs?.imageUrl}
+                          src={imagePreviewUrl || inputs?.imageUrl}
                           className="w-full h-32 object-contain bg-neutral-700 rounded-lg border border-neutral-600"
                         />
                       </div>

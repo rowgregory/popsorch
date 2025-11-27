@@ -80,7 +80,7 @@ export const teamMemberSlice = createSlice({
     },
     setMusicians: (state, { payload }) => {
       const sortedMembers = [...payload].sort((a, b) => a.displayOrder - b.displayOrder)
-      state.boardMembers = sortedMembers
+      state.musicians = sortedMembers
     },
     resetTeamMemberError: (state) => {
       state.error = null

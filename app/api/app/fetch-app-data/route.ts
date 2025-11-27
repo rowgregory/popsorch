@@ -68,6 +68,14 @@ export async function GET(req: NextRequest) {
     const sortedStaff = [...staff].sort((a, b) => a.displayOrder - b.displayOrder)
     const boardMembers = teamMembers.filter((user) => user.role === 'Board-Member')
     const sortedBoardMembers = [...boardMembers].sort((a, b) => a.displayOrder - b.displayOrder)
+    const musicians = teamMembers.filter((user) => user.role === 'Musician')
+    const sortedMusicians = [...musicians].sort((a, b) => {
+      // If either is 0, push it to the end
+      if (a.displayOrder === 0 && b.displayOrder !== 0) return 1
+      if (b.displayOrder === 0 && a.displayOrder !== 0) return -1
+      // Otherwise sort normally
+      return a.displayOrder - b.displayOrder
+    })
 
     return NextResponse.json(
       {
@@ -81,6 +89,7 @@ export async function GET(req: NextRequest) {
         teamMembers,
         staff: sortedStaff,
         boardMembers: sortedBoardMembers,
+        musicians: sortedMusicians,
         teamMembersCount: teamMembers?.length,
         isSeasonPackageBannerToggledVisible: seasonPackageBanner?.isVisible ?? true,
         isSeasonPackageBannerToggledLive: seasonPackageBanner?.isLive ?? true,
