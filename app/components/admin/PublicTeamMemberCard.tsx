@@ -4,10 +4,14 @@ import Picture from '../common/Picture'
 import AwesomeIcon from '../common/AwesomeIcon'
 import { expandIcon } from '@/app/lib/icons'
 
-const PublicTeamMemberCard: FC<{
+interface IPublicTeamMemberCard {
   teamMember: TeamMemberProps
+  index: number
   handleOpenDrawer?: (teamMember: TeamMemberProps) => void
-}> = ({ teamMember, handleOpenDrawer }) => {
+  height?: number
+}
+
+const PublicTeamMemberCard: FC<IPublicTeamMemberCard> = ({ teamMember, index, handleOpenDrawer, height = 400 }) => {
   const isSqysh = teamMember.firstName === 'Sqysh'
 
   return (
@@ -24,8 +28,11 @@ const PublicTeamMemberCard: FC<{
       <div className="overflow-hidden relative rounded-tl-md rounded-tr-md">
         <Picture
           src={teamMember.imageUrl}
-          className="aspect-square w-full h-full object-cover group-hover:scale-110 duration-500"
-          priority={true}
+          alt={teamMember.firstName}
+          className="aspect-[9/13] w-full h-full object-cover group-hover:scale-110 duration-500"
+          priority={index < 6}
+          width={400}
+          height={height}
         />
         <div className="flex flex-col justify-center items-center h-full p-10 bg-none group-hover:bg-duskygray/50 group-hover:backdrop-blur-md absolute inset-0 z-10 duration-500">
           <AwesomeIcon

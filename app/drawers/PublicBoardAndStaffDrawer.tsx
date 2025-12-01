@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import BottomDrawer from '../components/common/BottomDrawer'
 import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
 import { goToNextDrawerItem, goToPrevDrawerItem, setCloseDrawer } from '../redux/features/appSlice'
@@ -11,15 +11,25 @@ const PublicBoardAndStaffDrawer = () => {
   const { drawer, selectedIndex, drawerList } = useAppSelector((state: RootState) => state.app)
   const dispatch = useAppDispatch()
 
-  const reset = () => {
-    dispatch(setCloseDrawer())
-  }
+  const reset = () => dispatch(setCloseDrawer())
 
   const currentMember: TeamMemberProps = drawerList?.[selectedIndex ?? 0]
   const hasPrevious = selectedIndex > 0
   const hasNext = selectedIndex < drawerList?.length - 1
 
   const bioItems = currentMember?.bio?.split('|').filter((part) => part.trim()) || []
+
+  useEffect(() => {
+    // Preload all images in the drawer list when drawer opens
+    if (drawer && drawerList) {
+      drawerList.forEach((member: any) => {
+        if (member?.imageUrl) {
+          const img = new Image()
+          img.src = member.imageUrl
+        }
+      })
+    }
+  }, [drawer, drawerList])
 
   return (
     <BottomDrawer isOpen={drawer} height="h-dvh" bgColor="bg-[#1a1a1a]">
@@ -57,87 +67,101 @@ const PublicBoardAndStaffDrawer = () => {
 
         {/* Scrollable content */}
         <div className="flex-1 overflow-y-auto">
-          <div className="px-4 sm:px-6 lg:px-12 py-8 max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
-              {/* Profile Image */}
-              <div className="lg:col-span-1">
-                <div className="relative group">
-                  {currentMember?.imageUrl ? (
-                    <div className="relative overflow-hidden rounded-2xl bg-zinc-800/50 aspect-square">
-                      <Picture
-                        src={currentMember.imageUrl}
-                        priority={false}
-                        className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
-                        alt={`${currentMember.firstName} ${currentMember.lastName}`}
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <div className="px-4 sm:px-6 lg:px-8 py-12 max-w-7xl mx-auto">
+            {/* Hero Section - Image Front and Center */}
+            <div className="mb-12">
+              <div className="relative max-w-2xl mx-auto">
+                {currentMember?.imageUrl ? (
+                  <div className="relative overflow-hidden rounded-3xl bg-zinc-900/50 aspect-[4/5] shadow-2xl">
+                    <Picture
+                      src={currentMember.imageUrl}
+                      priority={true}
+                      className="object-cover w-full h-full"
+                      alt={`${currentMember.firstName} ${currentMember.lastName}`}
+                      width={800}
+                      height={1000}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+
+                    {/* Name Overlay on Image */}
+                    <div className="absolute bottom-0 left-0 right-0 p-8 text-center">
+                      <h1 className="text-white font-changa text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-3 drop-shadow-2xl">
+                        {currentMember?.firstName} {currentMember?.lastName}
+                      </h1>
+                      {currentMember?.position && (
+                        <div className="inline-flex items-center px-6 py-3 bg-blaze/90 backdrop-blur-sm rounded-full shadow-lg">
+                          <h2 className="text-white text-base font-semibold uppercase tracking-wider">
+                            {currentMember.position}
+                          </h2>
+                        </div>
+                      )}
                     </div>
-                  ) : (
-                    <div className="aspect-square rounded-2xl bg-zinc-800/50 flex items-center justify-center">
-                      <div className="w-16 h-16 rounded-full bg-zinc-700/50 flex items-center justify-center">
-                        <span className="text-2xl font-bold text-zinc-400">
+                  </div>
+                ) : (
+                  <div className="aspect-[4/5] rounded-3xl bg-zinc-900/50 flex items-center justify-center shadow-2xl">
+                    <div className="text-center">
+                      <div className="w-24 h-24 rounded-full bg-zinc-800/50 flex items-center justify-center mx-auto mb-4">
+                        <span className="text-4xl font-bold text-zinc-400">
                           {currentMember?.firstName?.[0]}
                           {currentMember?.lastName?.[0]}
                         </span>
                       </div>
+                      <h1 className="text-white font-changa text-3xl sm:text-4xl font-bold mb-2">
+                        {currentMember?.firstName} {currentMember?.lastName}
+                      </h1>
+                      {currentMember?.position && (
+                        <div className="inline-flex items-center px-6 py-3 bg-blaze/10 border border-blaze/20 rounded-full">
+                          <h2 className="text-blaze text-base font-semibold uppercase tracking-wider">
+                            {currentMember.position}
+                          </h2>
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
+            </div>
 
-              {/* Member Details */}
-              <div className="lg:col-span-2 flex flex-col">
-                <div className="text-center lg:text-left mb-8">
-                  <h1 className="text-white font-changa text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight mb-2">
-                    {currentMember?.firstName} {currentMember?.lastName}
-                  </h1>
-
-                  {currentMember?.position && (
-                    <div className="inline-flex items-center px-4 py-2 bg-blaze/10 border border-blaze/20 rounded-full">
-                      <h2 className="text-blaze text-sm font-medium uppercase tracking-wider">
-                        {currentMember.position}
-                      </h2>
-                    </div>
-                  )}
-                </div>
-
-                {/* Biography */}
-                {bioItems.length > 0 && (
-                  <div className="flex-1">
-                    <h3 className="text-white text-lg font-semibold mb-4 flex items-center">
-                      <span className="w-1 h-6 bg-blaze rounded-full mr-3"></span>
+            {/* Biography Section */}
+            <div className="max-w-4xl mx-auto">
+              {bioItems.length > 0 ? (
+                <div className="space-y-6">
+                  <div className="flex items-center justify-center mb-8">
+                    <div className="h-px bg-gradient-to-r from-transparent via-blaze/30 to-transparent flex-1 max-w-xs"></div>
+                    <h3 className="text-white text-2xl font-changa font-bold mx-6 uppercase tracking-wide">
                       Biography
                     </h3>
-
-                    <div className="space-y-4">
-                      {bioItems.map((part, index) => (
-                        <div
-                          key={index}
-                          className="flex items-start space-x-3 p-4 rounded-xl bg-zinc-800/30 border border-zinc-700/30 hover:bg-zinc-800/50 transition-colors duration-200"
-                        >
-                          <div className="w-2 h-2 bg-blaze/60 rounded-full mt-2 flex-shrink-0"></div>
-                          <p className="text-zinc-300 leading-relaxed font-lato text-sm lg:text-base">{part.trim()}</p>
-                        </div>
-                      ))}
-                    </div>
+                    <div className="h-px bg-gradient-to-r from-transparent via-blaze/30 to-transparent flex-1 max-w-xs"></div>
                   </div>
-                )}
 
-                {/* Empty state */}
-                {bioItems.length === 0 && (
-                  <div className="flex-1 flex items-center justify-center text-center py-12">
-                    <div className="max-w-md">
-                      <div className="w-16 h-16 bg-zinc-800/50 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <AwesomeIcon icon={userIcon} className="w-8 h-8 text-zinc-500" />
+                  <div className="space-y-6">
+                    {bioItems.map((part, index) => (
+                      <div
+                        key={index}
+                        className="relative p-6 lg:p-8 rounded-2xl bg-zinc-900/40 border border-zinc-800/50 backdrop-blur-sm hover:border-blaze/20 transition-all duration-300 group"
+                      >
+                        <div className="absolute left-4 top-6 w-1 h-8 bg-gradient-to-b from-blaze to-blaze/40 rounded-full opacity-60 group-hover:opacity-100 transition-opacity"></div>
+                        <p className="text-zinc-200 leading-relaxed font-lato text-base lg:text-lg pl-6">
+                          {part.trim()}
+                        </p>
                       </div>
-                      <p className="text-zinc-400 text-lg mb-2">No biography available</p>
-                      <p className="text-zinc-500 text-sm">
-                        Biography information for this team member will be added soon.
-                      </p>
-                    </div>
+                    ))}
                   </div>
-                )}
-              </div>
+                </div>
+              ) : (
+                <div className="flex items-center justify-center text-center py-20">
+                  <div className="max-w-md">
+                    <div className="w-20 h-20 bg-zinc-900/50 rounded-full flex items-center justify-center mx-auto mb-6 border border-zinc-800/50">
+                      <AwesomeIcon icon={userIcon} className="w-10 h-10 text-zinc-500" />
+                    </div>
+                    <h3 className="text-white text-2xl font-changa font-bold mb-3">Biography Coming Soon</h3>
+                    <p className="text-zinc-400 text-base leading-relaxed">
+                      Detailed biography information for {currentMember?.firstName} {currentMember?.lastName} will be
+                      available shortly.
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

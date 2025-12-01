@@ -58,11 +58,12 @@ const BoardMembers = () => {
                 textBlockKey="boardMemberTitle"
               />
               <div className="grid grid-cols-12 gap-y-6 760:gap-7 mt-12 mb-32">
-                {sortedBoardMembers?.map((teamMember: TeamMemberProps) => (
+                {sortedBoardMembers?.map((teamMember: TeamMemberProps, index: number) => (
                   <PublicTeamMemberCard
                     key={teamMember.id}
                     teamMember={teamMember}
                     handleOpenDrawer={handleOpenDrawer}
+                    index={index}
                   />
                 ))}
               </div>

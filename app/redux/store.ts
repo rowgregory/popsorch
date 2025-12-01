@@ -24,6 +24,8 @@ import { headerButtonReducer } from './features/headerButtonSlice'
 import { sponsorReducer } from './features/sponsorSlice'
 import { toastReducer } from './features/toastSlice'
 import { quoteReducer } from './features/quoteSlice'
+import storage from 'redux-persist/lib/storage'
+import { persistStore, persistReducer } from 'redux-persist'
 
 const rootReducer = combineReducers({
   app: appReducer,
@@ -49,14 +51,24 @@ const rootReducer = combineReducers({
   [api.reducerPath]: api.reducer
 })
 
+const persistConfig = {
+  key: 'root',
+  storage,
+  whitelist: ['teamMember'] // Only persist teamMembers slice
+}
+
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
 export const store = configureStore({
-  reducer: rootReducer,
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       immutableCheck: false,
       serializableCheck: false
     }).concat(api.middleware)
 })
+
+export const persistor = persistStore(store)
 
 export type RootState = ReturnType<typeof store.getState>
 

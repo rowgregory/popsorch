@@ -58,11 +58,12 @@ const Musicians = () => {
                 textBlockKey="musiciansTitle"
               />
               <div className="grid grid-cols-12 gap-y-6 760:gap-7 mt-12 w-full">
-                {sortedMusicians?.map((teamMember: TeamMemberProps) => (
+                {sortedMusicians?.map((teamMember: TeamMemberProps, index: number) => (
                   <PublicTeamMemberCard
                     key={teamMember.id}
                     teamMember={teamMember}
                     handleOpenDrawer={handleOpenDrawer}
+                    index={index}
                   />
                 ))}
               </div>

@@ -22,7 +22,7 @@ const BottomDrawer: FC<DrawerProps> = ({ isOpen, height, bgColor, children }) =>
             }}
             className={`${bgColor ?? 'bg-[#1a1a1a]'} px-4 pb-20 fixed z-[70] bottom-0 left-0 w-full overflow-y-auto ${
               height ?? 'h-dvh'
-            } ${height && 'rounded-tl-3xl rounded-tr-3xl shadow-[0_-4px_12px_rgba(0,0,0,0.2)]'}`}
+            }`}
           >
             {children}
           </motion.div>
