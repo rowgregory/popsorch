@@ -17,11 +17,6 @@ export interface DashboardStatePayload {
   user: any
   campApplicationCount: number
   questionCount: number
-  metric: {
-    desktopCount: number
-    mobileCount: number
-  }
-  getLast7DaysData: []
   concertsCount: number
   teamMembersCount: number
   questionsCount: number
@@ -51,11 +46,6 @@ const initialDashboardState: DashboardStatePayload = {
   user: {},
   campApplicationCount: 0,
   questionCount: 0,
-  metric: {
-    desktopCount: 0,
-    mobileCount: 0
-  },
-  getLast7DaysData: [],
   concertsCount: 0,
   teamMembersCount: 0,
   questionsCount: 0,

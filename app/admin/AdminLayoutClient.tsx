@@ -1,4 +1,3 @@
-// app/admin/AdminClientLayout.tsx (Client Component)
 'use client'
 
 import React, { FC, ReactNode, useState, useEffect } from 'react'
@@ -37,16 +36,6 @@ interface DashboardData {
   usersCount: number
   campApplicationCount: number
   questionCount: number
-  metric: {
-    desktopCount: number
-    mobileCount: number
-  }
-  getLast7DaysData: Array<{
-    day: string
-    date: string
-    desktop: number
-    mobile: number
-  }>
   concertsCount: number
   teamMembersCount: number
   questionsCount: number
@@ -74,7 +63,6 @@ const AdminClientLayout: FC<AdminClientLayoutProps> = ({ children, dashboardData
   const selectedPage = getCurrentPageId(pathname, navigationLinks)
   const dispatch = useAppDispatch()
 
-  // Hydrate Redux with dashboard data if you're using Redux
   useEffect(() => {
     dispatch(setDashboardData(dashboardData))
     dispatch(setSponsors(dashboardData.sponsors))

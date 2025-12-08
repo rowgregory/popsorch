@@ -1,11 +1,11 @@
 import React from 'react'
-import { Users, Target, Anchor, User, Mail, Music } from 'lucide-react'
+import { Users, Target, Anchor, User, Music, Theater } from 'lucide-react'
 import StatCard from './StatCard'
-import { useDashboardSelector, useMailchimpSelector } from '@/app/redux/store'
+import { useDashboardSelector } from '@/app/redux/store'
 
 const DashboardStatsGrid = () => {
-  const { usersCount, teamMembersCount, sponsorCount, concertsCount, questionCount } = useDashboardSelector()
-  const { mailchimpMembersCount } = useMailchimpSelector()
+  const { usersCount, teamMembersCount, sponsorCount, concertsCount, questionCount, venuesCount } =
+    useDashboardSelector()
 
   const stats = [
     {
@@ -31,11 +31,11 @@ const DashboardStatsGrid = () => {
       tooltip: 'This shows the total number of sponsors currently stored in your system.'
     },
     {
-      title: 'MAILCHIMP',
-      value: mailchimpMembersCount || 0,
-      icon: Mail,
+      title: 'VENUES',
+      value: venuesCount || 0,
+      icon: Theater,
       color: 'from-neutral-400 to-neutral-300',
-      tooltip: 'This shows the total number of members currently stored in your connected Mailchimp audience.'
+      tooltip: 'This shows the total number of venues currently stored in your system.'
     },
     {
       title: 'CONCERTS',

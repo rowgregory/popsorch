@@ -1,5 +1,4 @@
 import { Reducer, createSlice } from '@reduxjs/toolkit'
-import { appApi } from '../services/appApi'
 
 export interface FetchDashboardDataQueryTypes {
   error: { data: { message: string } }
@@ -59,7 +58,6 @@ export interface AppStatePayload {
   noUsers: boolean
   isSeasonPackageBannerToggledVisible: boolean
   isSeasonPackageBannerToggledLive: boolean
-  getLast7DaysData: any
   toggleHeaderButtonStudio: boolean
   inconspicuousSignInDrawer: boolean
   isFeatureToggleCardLive: boolean
@@ -118,7 +116,6 @@ const initialAppState: AppStatePayload = {
   noUsers: false,
   isSeasonPackageBannerToggledVisible: false,
   isSeasonPackageBannerToggledLive: false,
-  getLast7DaysData: [],
   toggleHeaderButtonStudio: false,
   inconspicuousSignInDrawer: false,
   isFeatureToggleCardLive: false,
@@ -262,41 +259,6 @@ export const appSlice = createSlice({
       state.dyslexiaFriendly = payload.dyslexiaFriendly
       state.lineHeight = payload.lineHeight
     }
-  },
-  extraReducers: (builder) => {
-    builder
-      .addMatcher(appApi.endpoints.fetchAppData.matchFulfilled, (state, { payload }: any) => {
-        state.success = true
-        state.concertsCount = payload.concertsCount
-        state.venuesCount = payload.venuesCount
-        state.teamMembersCount = payload.teamMembersCount
-        state.photoGalleryImagesCount = payload.photoGalleryImagesCount
-        state.testimonialsCount = payload.testimonialsCount
-        state.loading = false
-      })
-      .addMatcher(appApi.endpoints.fetchDashboardData.matchFulfilled, (state) => {
-        state.success = true
-      })
-      .addMatcher(appApi.endpoints.toggleSeasonPackageBanner.matchFulfilled, (state, { payload }: any) => {
-        state.isSeasonPackageBannerToggledVisible = payload.isSeasonPackageBannerToggledVisible
-      })
-      .addMatcher(appApi.endpoints.toggleSeasonPackageBannerLive.matchFulfilled, (state, { payload }: any) => {
-        state.isSeasonPackageBannerToggledLive = payload.isSeasonPackageBannerToggledLive
-      })
-      .addMatcher(appApi.endpoints.featureToggleCardLive.matchFulfilled, (state, { payload }: any) => {
-        state.isFeatureToggleCardLive = payload.isSeasonPackageBannerToggledLive
-      })
-      .addMatcher(appApi.endpoints.featureToggleCardVisible.matchFulfilled, (state, { payload }: any) => {
-        state.isFeatureToggleCardVisible = payload.isFeatureToggleCardToggledVisible
-      })
-
-      .addMatcher(
-        (action: any) => action.type.endsWith('/rejected') && action.payload?.data?.sliceName === 'appApi',
-        (state, action: any) => {
-          state.loading = false
-          state.error = action.payload?.data || 'An error occurred.'
-        }
-      )
   }
 })
 

@@ -21,8 +21,6 @@ export const api = createApi({
   baseQuery: baseQueryWithRetry,
   tagTypes: [
     'App',
-    'Scraper',
-    'Lunch',
     'Auth',
     'Text-Block',
     'Concert',
@@ -36,7 +34,6 @@ export const api = createApi({
     'Question',
     'Mailchimp',
     'Log',
-    'Metric',
     'Header-Button',
     'Sponsor',
     'Quote'

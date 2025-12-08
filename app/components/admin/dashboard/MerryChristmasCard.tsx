@@ -88,8 +88,8 @@ const MerryChristmasCard = () => {
         {/* Announcement Content */}
         <div className="bg-neutral-800/50 backdrop-blur-sm rounded-lg sm:rounded-xl p-4 sm:p-5 md:p-6 mb-4 sm:mb-6 border border-neutral-700/50">
           <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4 mb-4">
-            <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
-              <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+            <div className="flex-shrink-0 w-7 h-7 xl:w-12 xl:h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
+              <TrendingUp className="w-2.5 h-2.5 xl:w-6 xl:h-6 text-white" />
             </div>
             <div className="flex-1 min-w-0">
               <h4 className="text-white font-bold text-base sm:text-lg md:text-xl mb-2">
@@ -102,7 +102,7 @@ const MerryChristmasCard = () => {
               </p>
 
               {/* Stats Preview */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 mb-4">
+              <div className="grid grid-cols-1 xl:grid-cols-3 gap-2 sm:gap-3 mb-4">
                 <div className="bg-neutral-900/50 rounded-lg p-2.5 sm:p-3">
                   <p className="text-neutral-500 text-[10px] sm:text-xs font-medium uppercase tracking-wider mb-1">
                     Page Views

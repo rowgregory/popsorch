@@ -1,13 +1,13 @@
 'use client'
 
 import React from 'react'
-import { useMailchimpSelector } from '@/app/redux/store'
 import AdminMailChimpSubscriberRow from '@/app/components/admin/AdminMailChimpSubscriberRow'
 import { Users } from 'lucide-react'
 import { MemberProps } from '@/app/redux/features/mailchimpSlice'
+import { useFetchSubscribersQuery } from '@/app/redux/services/mailchimpApi'
 
 const MailchimpMembers = () => {
-  const { members, mailchimpMembersCount } = useMailchimpSelector()
+  const { data } = useFetchSubscribersQuery(undefined) as any
 
   return (
     <div className="bg-gradient-to-br from-neutral-900 to-black rounded-xl border border-neutral-800 shadow-2xl overflow-hidden">
@@ -20,7 +20,7 @@ const MailchimpMembers = () => {
             </div>
             <div>
               <h2 className="text-white font-bold text-lg">Mailchimp Members</h2>
-              <p className="text-neutral-400 text-sm">{mailchimpMembersCount || 0} subscribers</p>
+              <p className="text-neutral-400 text-sm">{data?.totalItems || 0} subscribers</p>
             </div>
           </div>
         </div>
@@ -28,13 +28,13 @@ const MailchimpMembers = () => {
 
       {/* Members List */}
       <div className="p-4 space-y-3">
-        {members?.map((member: MemberProps) => (
+        {data?.members?.map((member: MemberProps) => (
           <AdminMailChimpSubscriberRow key={member.contactId} {...member} />
         ))}
       </div>
 
       {/* Empty State */}
-      {(!members || members.length === 0) && (
+      {(!data?.members || data?.members?.length === 0) && (
         <div className="flex flex-col items-center justify-center py-16 px-4">
           <Users className="w-16 h-16 text-neutral-700 mb-4" />
           <p className="text-neutral-400 text-lg font-semibold mb-2">No subscribers yet</p>
