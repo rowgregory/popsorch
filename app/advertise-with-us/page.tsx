@@ -7,22 +7,9 @@ import EditableTextArea from '../components/common/EditableTextArea'
 import { RootState, useAppSelector } from '../redux/store'
 import { motion } from 'framer-motion'
 import { containerVariants, fadeInVariants, itemVariants, scaleVariants } from '../lib/constants/advertise-with-us'
-import PopsLoader from '../components/PopsLoader'
 
 const AdvertiseWithUs = () => {
   const { textBlockMap } = useAppSelector((state: RootState) => state.textBlock)
-  const { loading } = useAppSelector((state: RootState) => state.app)
-
-  if (loading) {
-    return (
-      <>
-        <Breadcrumb breadcrumb="Advertise With Us" />
-        <div className="flex h-[calc(100dvh-304px)] w-full items-center justify-center">
-          <PopsLoader size="sm" className="my-4" />
-        </div>
-      </>
-    )
-  }
 
   return (
     <>

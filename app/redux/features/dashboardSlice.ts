@@ -13,6 +13,25 @@ export interface DashboardStatePayload {
   type: string
   conductorModal: boolean
   currentDialogue: number
+  usersCount: number
+  user: any
+  campApplicationCount: number
+  questionCount: number
+  metric: {
+    desktopCount: number
+    mobileCount: number
+  }
+  getLast7DaysData: []
+  concertsCount: number
+  teamMembersCount: number
+  questionsCount: number
+  photoGalleryImagesCount: number
+  sponsorCount: number
+  venuesCount: number
+  headerButtonCount: number
+  lastModifiedHeaderButton: Date
+  logs: []
+  members: []
 }
 
 const initialDashboardState: DashboardStatePayload = {
@@ -27,7 +46,26 @@ const initialDashboardState: DashboardStatePayload = {
   isUpdating: false,
   type: '',
   conductorModal: false,
-  currentDialogue: 0
+  currentDialogue: 0,
+  usersCount: 0,
+  user: {},
+  campApplicationCount: 0,
+  questionCount: 0,
+  metric: {
+    desktopCount: 0,
+    mobileCount: 0
+  },
+  getLast7DaysData: [],
+  concertsCount: 0,
+  teamMembersCount: 0,
+  questionsCount: 0,
+  photoGalleryImagesCount: 0,
+  sponsorCount: 0,
+  venuesCount: 0,
+  headerButtonCount: 0,
+  lastModifiedHeaderButton: new Date(),
+  logs: [],
+  members: []
 }
 
 export const dashboardSlice = createSlice({
@@ -40,39 +78,6 @@ export const dashboardSlice = createSlice({
     closeNavigationDrawer: (state) => {
       state.navigationDrawer = false
     },
-    openCreateModal: (state) => {
-      state.modal = true
-    },
-    openUpdateModal: (state, { payload }: any) => {
-      state.modal = true
-      state.modalContent = payload
-    },
-    closeModal: (state) => {
-      state.modal = false
-      state.modalContent = null
-    },
-    openViewDrawer: (state) => {
-      state.drawer = true
-    },
-    openCreateDrawer: (state) => {
-      state.drawer = true
-    },
-    openUpdateDrawer: (state) => {
-      state.drawer = true
-      state.isUpdating = true
-    },
-    closeDrawer: (state) => {
-      state.drawer = false
-      state.isUpdating = false
-    },
-    openBottomOverlayDrawer: (state, { payload }) => {
-      state.bottomOverlayDrawer = true
-      state.type = payload
-    },
-    closeBottomOverlayDrawer: (state) => {
-      state.bottomOverlayDrawer = false
-    },
-
     resetDashboardError: (state) => {
       state.error = null
     },
@@ -87,6 +92,22 @@ export const dashboardSlice = createSlice({
     },
     setCurrentDialogue: (state, { payload }) => {
       state.currentDialogue = payload
+    },
+    setDashboardData: (state, { payload }) => {
+      state.usersCount = payload.usersCount
+      state.user = payload.user
+      state.campApplicationCount = payload.campApplicationCount
+      state.questionCount = payload.questionCount
+      state.concertsCount = payload.concertsCount
+      state.teamMembersCount = payload.teamMembersCount
+      state.questionsCount = payload.questionsCount
+      state.photoGalleryImagesCount = payload.photoGalleryImagesCount
+      state.sponsorCount = payload.sponsorCount
+      state.venuesCount = payload.venuesCount
+      state.headerButtonCount = payload.headerButtonCount
+      state.lastModifiedHeaderButton = payload.lastModifiedHeaderButton
+      state.logs = payload.logs
+      state.members = payload.members
     }
   }
 })
@@ -96,18 +117,10 @@ export const dashboardReducer = dashboardSlice.reducer as Reducer<DashboardState
 export const {
   openNavigationDrawer,
   closeNavigationDrawer,
-  openCreateModal,
-  openUpdateModal,
-  closeModal,
-  openCreateDrawer,
-  openUpdateDrawer,
-  closeDrawer,
   resetDashboardError,
-  openBottomOverlayDrawer,
-  closeBottomOverlayDrawer,
-  openViewDrawer,
   setDashboardError,
   setOpenConductorModal,
   setCloseConductorModal,
-  setCurrentDialogue
+  setCurrentDialogue,
+  setDashboardData
 } = dashboardSlice.actions

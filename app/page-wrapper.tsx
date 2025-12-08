@@ -1,34 +1,42 @@
 'use client'
 
-import React, { FC, useCallback, useEffect, useMemo, useState } from 'react'
-import { shouldShowFooter, shouldShowHeader } from './utils/string.functions'
-import useCustomPathname from './hooks/useCustomPathname'
+import React, { FC, ReactNode, useCallback, useEffect, useMemo, useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { Provider } from 'react-redux'
-import { RootState, store, useAppDispatch, useAppSelector } from './redux/store'
-import NavigationDrawer from './components/NavigationDrawer'
-import Header from './components/header/Header'
-import PublicEditableTextAreaModal from './modals/PublicEditableTextAreaModal'
-import { useFetchAppDataQuery } from './redux/services/appApi'
-import { ClientPageProps } from './types/common.types'
-import { hydrateUserState } from './redux/features/userSlice'
-import PublicImageUploaderModal from './modals/PublicImageUploaderModal'
-import { setAuthState } from './redux/features/authSlice'
-import Footer from './components/Footer'
-import useScrollToTop from './hooks/useScrollToTop'
-import HeaderFixed from './components/header/HeaderFixed'
-import useNetworkStatus from './hooks/useNetworkStatus'
-import AccessibilityDrawer from './drawers/AccessibilityDrawer'
-import AwesomeIcon from './components/common/AwesomeIcon'
-import { checkCircleIcon, universalAccessIcon } from './lib/icons'
-import { setToggleAccessibilityDrawer } from './redux/features/appSlice'
-import { useCreateDailyMetricMutation } from './redux/services/metricApi'
-import InconspicousSignInDrawer from './drawers/InconspicousSignInDrawer'
 import Link from 'next/link'
+import { RootState, store, useAppDispatch, useAppSelector } from './redux/store'
+import { hydrateUserState } from './redux/features/userSlice'
+import { setAuthState } from './redux/features/authSlice'
+import { hydrateAppState, setToggleAccessibilityDrawer } from './redux/features/appSlice'
+import useNetworkStatus from './hooks/useNetworkStatus'
+import useScrollToTop from './hooks/useScrollToTop'
+import NavigationDrawer from './components/NavigationDrawer'
+import PublicImageUploaderModal from './modals/PublicImageUploaderModal'
+import HeaderFixed from './components/header/HeaderFixed'
+import AccessibilityDrawer from './drawers/AccessibilityDrawer'
+import InconspicuousSignInDrawer from './drawers/InconspicousSignInDrawer'
 import Toast from './components/common/Toast'
+import PublicEditableTextAreaModal from './modals/PublicEditableTextAreaModal'
+import Header from './components/header/Header'
+import Footer from './components/Footer'
+import { Accessibility, CheckCircle } from 'lucide-react'
+import { setTextBlocks } from './redux/features/textBlockSlice'
+import { setConcerts } from './redux/features/concertSlice'
+import { setVenues } from './redux/features/venueSlice'
+import { setPhotoGalleryImages } from './redux/features/photoGalleryImageSlice'
+import { setBoardMembers, setMusicians, setStaff, setTeamMembers } from './redux/features/teamMemberSlice'
+import { hydrateHeaderButton } from './redux/features/headerButtonSlice'
+import { shouldShowFooter, shouldShowHeader } from './utils/string.functions'
 
-const PageWrapper: FC<ClientPageProps> = ({ children, data }) => {
+interface PageWrapperProps {
+  children: ReactNode
+  userId: string | null
+  appData: any // Type this properly based on your data structure
+}
+
+const PageWrapperContent: FC<PageWrapperProps> = ({ children, userId, appData }) => {
   const dispatch = useAppDispatch()
-  const path = useCustomPathname()
+  const pathname = usePathname()
   const {
     openModal,
     accessibility,
@@ -38,129 +46,112 @@ const PageWrapper: FC<ClientPageProps> = ({ children, data }) => {
     textSpacing,
     dyslexiaFriendly,
     lineHeight
-  } = useAppSelector((state: RootState) => state.app)
+  } = useAppSelector((state) => state.app)
+  const isAuthenticated = useAppSelector((state: RootState) => state.auth.isAuthenticated)
   const [showCheckmark, setShowCheckmark] = useState(false)
-  const [createDailyMetric] = useCreateDailyMetricMutation()
+  const showFooter = useMemo(() => shouldShowFooter(pathname), [pathname])
+  const showHeader = useMemo(() => shouldShowHeader(pathname), [pathname])
+  const isAdminPath = pathname.includes('/admin')
 
-  // **OPTIMIZATION 1: Memoize expensive calculations**
-  const showFooter = useMemo(() => shouldShowFooter(path), [path])
-  const showHeader = useMemo(() => shouldShowHeader(path), [path])
-
-  // **OPTIMIZATION 2: Move hooks to avoid unnecessary re-renders**
-  useFetchAppDataQuery(
-    {},
-    {
-      // Add options to reduce unnecessary refetches
-      refetchOnMountOrArgChange: true,
-      refetchOnFocus: false,
-      refetchOnReconnect: true
-    }
-  )
   useNetworkStatus()
   useScrollToTop()
 
-  // **OPTIMIZATION 3: Memoize user data effect**
-  const memoizedUserData = useMemo(() => data, [data])
-
+  // Hydrate Redux with server-fetched data on mount
   useEffect(() => {
-    if (memoizedUserData) {
-      dispatch(hydrateUserState(memoizedUserData))
+    if (appData) {
+      dispatch(hydrateUserState(appData.user))
+      dispatch(setTextBlocks(appData.textBlocks))
+      dispatch(setConcerts(appData.concerts))
+      dispatch(setVenues(appData.venues))
+      dispatch(setPhotoGalleryImages(appData.photoGalleryImages))
+      dispatch(setTeamMembers(appData.teamMembers))
+      dispatch(setStaff(appData.staff))
+      dispatch(setBoardMembers(appData.boardMembers))
+      dispatch(setMusicians(appData.musicians))
+      dispatch(
+        hydrateAppState({
+          isSeasonPackageBannerToggledLive: appData.isSeasonPackageBannerToggledLive,
+          isSeasonPackageBannerToggledVisible: appData.isSeasonPackageBannerToggledVisible,
+          isFeatureToggleCardLive: appData.isFeatureToggleCardLive,
+          isFeatureToggleCardVisible: appData.isFeatureToggleCardVisible
+        })
+      )
+      dispatch(hydrateHeaderButton(appData.headerButton))
+    }
+
+    if (userId) {
       dispatch(
         setAuthState({
-          isAuthenticated: memoizedUserData.isAuthenticated,
-          userId: memoizedUserData.id,
-          isAdmin: memoizedUserData.isAdmin,
-          isSuperUser: memoizedUserData.isSuperUser
+          isAuthenticated: appData.isAuthenticated,
+          userId,
+          isAdmin: appData?.user.isAdmin || false,
+          isSuperUser: appData?.user.isSuperUser || false
         })
       )
     }
-  }, [memoizedUserData, dispatch, data])
+  }, [appData, userId, dispatch])
 
-  // **OPTIMIZATION 5: Debounce daily metric creation and add session storage check**
+  // Show checkmark if any accessibility features are enabled
   useEffect(() => {
-    const createMetricOnce = async () => {
-      try {
-        // Check if already tracked this session
-        const sessionKey = `dailyMetric_${new Date().toISOString().split('T')[0]}`
-        if (sessionStorage.getItem(sessionKey)) {
-          return // Already tracked today in this session
-        }
+    const hasFeature = highContrast || highlightLinks || stepIndex > 0 || textSpacing || dyslexiaFriendly || lineHeight
+    setShowCheckmark(hasFeature)
+  }, [highContrast, highlightLinks, stepIndex, textSpacing, dyslexiaFriendly, lineHeight])
 
-        const isMobile =
-          /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-          window.innerWidth <= 768
-
-        const currentDate = new Date().toISOString().split('T')[0]
-
-        await createDailyMetric({ isMobile, currentDate }).unwrap()
-
-        // Mark as tracked for this session
-        sessionStorage.setItem(sessionKey, 'true')
-      } catch {}
-    }
-
-    // Debounce to avoid multiple rapid calls
-    const timeoutId = setTimeout(createMetricOnce, 1000)
-    return () => clearTimeout(timeoutId)
-  }, [createDailyMetric])
-
-  useEffect(() => {
-    const hasAnyAccessibilityFeature =
-      highContrast || highlightLinks || stepIndex > 0 || textSpacing || dyslexiaFriendly || lineHeight
-
-    setShowCheckmark(hasAnyAccessibilityFeature)
-  }, [dyslexiaFriendly, highContrast, highlightLinks, lineHeight, stepIndex, textSpacing])
-
-  // **OPTIMIZATION 7: Memoize accessibility button handler**
   const handleAccessibilityToggle = useCallback(() => {
     dispatch(setToggleAccessibilityDrawer(accessibility))
   }, [dispatch, accessibility])
 
-  // **OPTIMIZATION 8: Memoize static components**
-  const StaticComponents = useMemo(
-    () => (
-      <>
-        <NavigationDrawer />
-        <PublicImageUploaderModal />
-        <HeaderFixed />
-        <AccessibilityDrawer />
-        <InconspicousSignInDrawer />
-      </>
-    ),
-    []
-  )
-
   return (
-    <Provider store={store}>
-      <div className="main-content">
-        {StaticComponents}
-        {openModal && <PublicEditableTextAreaModal />}
-        {showHeader && <Header />}
-        {children}
-        {showFooter && <Footer />}
-        <Toast />
-      </div>
+    <div className="main-content">
+      {/* Global Components */}
+      <NavigationDrawer />
+      <PublicImageUploaderModal />
+      <HeaderFixed />
+      <AccessibilityDrawer />
+      <InconspicuousSignInDrawer />
+      <Toast />
 
-      {!path.includes('/admin') && (
-        <div className="relative">
-          <AwesomeIcon
-            icon={universalAccessIcon}
-            className="p-2 bg-indigo-600 text-white rounded-full w-8 h-8 fixed z-[110] bottom-5 left-5 cursor-pointer hover:animate-rotateToTwoOClock"
+      {/* Conditional Modals */}
+      {openModal && <PublicEditableTextAreaModal />}
+
+      {/* Page Layout */}
+      {showHeader && <Header />}
+      {children}
+      {showFooter && <Footer />}
+
+      {/* Accessibility Button */}
+      {!isAdminPath && (
+        <div className="fixed bottom-5 left-5 z-[110]">
+          <button
             onClick={handleAccessibilityToggle}
-          />
-          {showCheckmark && (
-            <AwesomeIcon icon={checkCircleIcon} className="w-5 h-5 text-lime-500 fixed bottom-12 left-14 z-[120]" />
-          )}
+            className="relative p-2 bg-indigo-600 text-white rounded-full w-12 h-12 hover:bg-indigo-700 hover:scale-110 transition-all shadow-lg"
+            aria-label="Toggle accessibility options"
+          >
+            <Accessibility className="w-8 h-8" />
+            {showCheckmark && <CheckCircle className="absolute -top-1 -right-1 w-5 h-5 text-lime-500 drop-shadow-lg" />}
+          </button>
         </div>
       )}
-      {data?.isAuthenticated && !path.includes('/admin') && (
+
+      {/* Admin Launch Button */}
+      {isAuthenticated && !isAdminPath && (
         <Link
           href="/admin/dashboard"
-          className="px-6 py-2 rounded-full text-white fixed bottom-2 right-2 z-50 border-2 border-blaze bg-neutral-900 duration-300 hover:bg-blaze"
+          className="fixed bottom-5 right-5 z-50 px-6 py-3 rounded-full text-white bg-neutral-900 border-2 border-indigo-600 hover:bg-indigo-600 transition-all shadow-lg font-semibold"
         >
           Launch App
         </Link>
       )}
+    </div>
+  )
+}
+
+const PageWrapper: FC<PageWrapperProps> = ({ children, userId, appData }) => {
+  return (
+    <Provider store={store}>
+      <PageWrapperContent userId={userId} appData={appData}>
+        {children}
+      </PageWrapperContent>
     </Provider>
   )
 }

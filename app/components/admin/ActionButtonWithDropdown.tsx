@@ -6,11 +6,11 @@ import { setOpenConcertDrawer } from '@/app/redux/features/concertSlice'
 import { setOpenSponsorDrawer } from '@/app/redux/features/sponsorSlice'
 import { setOpenTeamMemberDrawer } from '@/app/redux/features/teamMemberSlice'
 import { setOpenVenueDrawer } from '@/app/redux/features/venueSlice'
-import exportCampApplications from '@/app/lib/utils/exportCampApplications'
+import exportCampApplications from '@/app/lib/utils/admin/exportCampApplications'
 import { createFormActions } from '@/app/redux/features/formSlice'
 import { useCreatePhotoGalleryImageMutation } from '@/app/redux/services/photoGalleryImageApi'
 import uploadFileToFirebase from '@/app/utils/firebase.upload'
-import { resetPhotoGalleryImage } from '@/app/redux/features/photoGalleryImageSlice'
+import { addPhotoGalleryImageToState, resetPhotoGalleryImage } from '@/app/redux/features/photoGalleryImageSlice'
 import Link from 'next/link'
 import { setOpenConductorModal } from '@/app/redux/features/dashboardSlice'
 import useSoundEffect from '@/app/hooks/useSoundEffect'
@@ -85,7 +85,8 @@ const handleUploadPhotoGalleryImage = async (
     for (const file of validFiles) {
       const imageUrl = await uploadFileToFirebase(file, handleUploadProgress, 'image')
 
-      await createPhotoGalleryImage({ imageUrl, imageFilename: file.name }).unwrap()
+      const response = await createPhotoGalleryImage({ imageUrl, imageFilename: file.name }).unwrap()
+      dispatch(addPhotoGalleryImageToState(response.photoGalleryImage))
 
       dispatch(resetPhotoGalleryImage())
     }

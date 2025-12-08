@@ -1,7 +1,6 @@
 import { Reducer, createSlice } from '@reduxjs/toolkit'
-import { initialSponsorData } from '@/app/lib/initial-state/sponsor'
-import { sponsorApi } from '../services/sponsorApi'
 import { ISponsor } from '@/app/types/model.types'
+import { sponsorData } from '@/app/lib/initial-state/sponsor'
 
 interface SponsorStatePayload {
   loading: boolean
@@ -19,7 +18,7 @@ const initialSponsorState: SponsorStatePayload = {
   error: null,
   success: false,
   sponsors: [],
-  sponsor: initialSponsorData,
+  sponsor: sponsorData,
   sponsorsCount: 0,
   noSponsors: false,
   sponsorDrawer: false
@@ -31,9 +30,9 @@ export const sponsorSlice = createSlice({
   reducers: {
     resetSponsor: (state) => {
       state.error = null
-      state.sponsor = initialSponsorData
+      state.sponsor = sponsorData
     },
-    setSponsors: (state, { payload }: any) => {
+    setSponsors: (state, { payload }) => {
       state.sponsors = payload
       state.sponsorsCount = payload?.length
       state.noSponsors = payload?.length === 0
@@ -41,48 +40,41 @@ export const sponsorSlice = createSlice({
     resetSponsorError: (state) => {
       state.error = null
     },
+    addSponsorToState: (state, { payload }) => {
+      state.sponsors.push(payload)
+      state.sponsorsCount = state.sponsorsCount + 1
+      state.noSponsors = state.sponsors.length === 0
+    },
+    updateSponsorInState: (state, { payload }) => {
+      const index = state.sponsors.findIndex((sponsor) => sponsor.id === payload.id)
+
+      if (index !== -1) {
+        state.sponsors[index] = payload
+      }
+    },
+    removeSponsorFromState: (state, { payload }) => {
+      state.sponsors = state.sponsors.filter((sponsor) => sponsor.id !== payload)
+      state.sponsorsCount = state.sponsorsCount - 1
+      state.noSponsors = state.sponsors.length === 0
+    },
     setOpenSponsorDrawer: (state) => {
       state.sponsorDrawer = true
     },
     setCloseSponsorDrawer: (state) => {
       state.sponsorDrawer = false
     }
-  },
-  extraReducers: (builder) => {
-    builder
-      .addMatcher(sponsorApi.endpoints.createSponsor.matchPending, (state) => {
-        state.loading = true
-      })
-      .addMatcher(sponsorApi.endpoints.updateSponsor.matchPending, (state) => {
-        state.loading = true
-      })
-      .addMatcher(sponsorApi.endpoints.fetchSponsors.matchFulfilled, (state, { payload }: any) => {
-        state.sponsors = payload.sponsors
-        state.loading = false
-      })
-      .addMatcher(sponsorApi.endpoints.createSponsor.matchFulfilled, (state) => {
-        state.success = true
-        state.loading = false
-      })
-      .addMatcher(sponsorApi.endpoints.updateSponsor.matchFulfilled, (state) => {
-        state.success = true
-        state.loading = false
-      })
-      .addMatcher(sponsorApi.endpoints.deleteSponsor.matchFulfilled, (state) => {
-        state.success = true
-        state.loading = false
-      })
-      .addMatcher(
-        (action) => action.type.endsWith('rejected') && action.payload?.data?.sliceName === 'sponsorApi',
-        (state, { payload }: any) => {
-          state.loading = false
-          state.error = payload?.data?.message
-        }
-      )
   }
 })
 
 export const sponsorReducer = sponsorSlice.reducer as Reducer<SponsorStatePayload>
 
-export const { resetSponsor, setSponsors, resetSponsorError, setOpenSponsorDrawer, setCloseSponsorDrawer } =
-  sponsorSlice.actions
+export const {
+  resetSponsor,
+  setSponsors,
+  resetSponsorError,
+  addSponsorToState,
+  removeSponsorFromState,
+  updateSponsorInState,
+  setOpenSponsorDrawer,
+  setCloseSponsorDrawer
+} = sponsorSlice.actions

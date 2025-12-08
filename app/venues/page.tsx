@@ -3,8 +3,6 @@
 import React, { useState } from 'react'
 import Picture from '@/app/components/common/Picture'
 import { RootState, useAppSelector } from '@/app/redux/store'
-import { useFetchVenuesQuery } from '@/app/redux/services/venueApi'
-import Spinner from '@/app/components/common/Spinner'
 import Breadcrumb from '../components/common/Breadcrumb'
 import { VenueProps } from '../types/model.types'
 import RiverviewPACFirstFloorSVG from '../components/svg/RiverviewPACFirstFloorSVG'
@@ -30,7 +28,6 @@ const SVG_INITIAL_STATE: SVGProps = {
 }
 
 const Venues = () => {
-  const { isLoading } = useFetchVenuesQuery({})
   const { venues } = useAppSelector((state: RootState) => state.venue)
 
   const [neel, setNeel] = useState<SVGProps>(SVG_INITIAL_STATE)
@@ -313,26 +310,6 @@ const Venues = () => {
     if (venueName === 'SCF Neel Performing Arts Center') return 'scf-neel'
     if (venueName === 'Manatee High School Davis Performing Arts Center') return 'manatee'
     return ''
-  }
-
-  if (isLoading) {
-    return (
-      <>
-        <Breadcrumb breadcrumb="Venues" />
-        <div className="px-4 py-14 md:px-12 990:py-36">
-          <div className="max-w-[516px] 760:max-w-[700px] 990:max-w-[960px] w-full mx-auto">
-            <motion.div
-              className="flex items-center justify-center"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
-            >
-              <Spinner fill="fill-blaze" track="text-inkblack" wAndH="w-10 h-10" />
-            </motion.div>
-          </div>
-        </div>
-      </>
-    )
   }
 
   return (

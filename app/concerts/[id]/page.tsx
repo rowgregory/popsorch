@@ -1,86 +1,129 @@
-'use client'
+'use server'
 
-import React, { useEffect, useState } from 'react'
-import AwesomeIcon from '@/app/components/common/AwesomeIcon'
-import Picture from '@/app/components/common/Picture'
-import Spinner from '@/app/components/common/Spinner'
-import { shareNodesIcon } from '@/app/lib/icons'
-import { useFetchConcertByIdQuery } from '@/app/redux/services/concertApi'
-import { formatDate } from '@/app/utils/date.functions'
-import { ConcertEventDetailsProps, concertEventDetailsState } from '@/app/redux/features/concertSlice'
+import { notFound } from 'next/navigation'
+import prisma from '@/prisma/client'
+import ConcertDetailsClient from './ConcertDetailsClient'
 import Breadcrumb from '@/app/components/common/Breadcrumb'
-import OrchMapLight from '@/app/components/OrchMapLight'
-import PublicConcertDetailsEventLocator from '@/app/components/admin/PublicConcertDetailsEventLocator'
+import Picture from '@/app/components/common/Picture'
+import ShareButton from '@/app/components/concerts/ShareButton'
+import { IConcertEventDetails } from '@/app/types/entities/concert'
 
-const ConcertDetails = ({ concertId }: any) => {
-  const { data, isLoading } = useFetchConcertByIdQuery(concertId.id)
-  const concert = data?.concert
-  const [eventDetails, setEventDetails] = useState<ConcertEventDetailsProps>(concertEventDetailsState)
-  const [isInitialized, setIsInitialized] = useState(false)
+async function getConcert(id: string) {
+  const concert = await prisma.concert.findUnique({
+    where: { id }
+  })
 
-  useEffect(() => {
-    if (concert?.eventDetails && concert?.eventDetails?.length > 0 && !isInitialized) {
-      setEventDetails({
-        ...concert?.eventDetails[0]
-      })
-      setIsInitialized(true)
-    }
-  }, [concert?.eventDetails, isInitialized])
+  if (!concert) return null
+
+  // Type guard and parse JSON eventDetails
+  let eventDetails: IConcertEventDetails[] = []
+
+  if (Array.isArray(concert.eventDetails)) {
+    eventDetails = concert.eventDetails as unknown as IConcertEventDetails[]
+  }
+
+  return {
+    ...concert,
+    eventDetails
+  }
+}
+interface ConcertDetailsPageProps {
+  params: Promise<{ id: string }>
+}
+
+export default async function ConcertDetailsPage({ params }: ConcertDetailsPageProps) {
+  const { id } = await params
+  const concert = await getConcert(id)
+
+  if (!concert) {
+    notFound()
+  }
+
+  const initialEventDetails = concert.eventDetails[0] || null
 
   return (
     <>
-      <Breadcrumb breadcrumb={concert?.name} secondCrumb="Concerts" />
-      <section className="max-w-[520px] 760:max-w-screen-576 990:max-w-[800px] 1200:max-w-screen-1160 1590:max-w-screen-1400 w-full mx-auto  gap-x-8 pt-24 pb-36">
-        <div className="flex flex-col mb-12">
-          {isLoading ? (
-            <div className="flex justify-center">
-              <Spinner wAndH="w-10 h-10" fill="fill-blaze" track="text-[#1a1a1a]" />
+      <Breadcrumb breadcrumb={concert.name} secondCrumb="Concerts" />
+      {/* Hero Section - Split Layout */}
+      <section className="relative w-full bg-gradient-to-br from-neutral-900 via-black to-neutral-900">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 lg:gap-12 items-center p-6 sm:p-8 md:p-12 lg:p-16">
+          {/* Left Column - Content */}
+          <div className="order-2 lg:order-1 space-y-6">
+            {/* Badges */}
+            <div className="flex flex-wrap items-center gap-2">
+              {concert.isOnSale && (
+                <span className="px-4 py-1.5 bg-green-500 text-white text-xs font-semibold uppercase tracking-wider rounded-full animate-pulse">
+                  Tickets Available
+                </span>
+              )}
             </div>
-          ) : (
-            <>
-              <Picture
-                src={concert?.imageUrl}
-                priority={true}
-                className="w-full h-auto aspect-video object-cover bg-black"
-              />
-              <div className="bg-duskgray p-4 675:p-14">
-                <div className="flex items-center justify-between">
-                  <h1 className="text-white uppercase font-changa text-12">{formatDate(concert?.createdAt)}</h1>
-                  <AwesomeIcon icon={shareNodesIcon} className="text-blaze w-4 h-4" />
-                </div>
-                <div className="h-[1px] bg-zinc-700/90 my-6" />
-                <h2 className="text-2xl font-changa mb-3">{concert?.name}</h2>
-                <p className="font-lato text-white">{concert?.description}</p>
-                <div className="h-[1px] bg-zinc-700/90 my-6" />
-                <h2 className="text-17 font-changa mb-5">
-                  Click the time, date, and venue below to see the location update on the map.
-                </h2>
-                <div className="w-full flex flex-col 1200:flex-row gap-y-16 990:gap-x-16">
-                  {concert?.eventDetails?.map((detail: ConcertEventDetailsProps, i: number) => (
-                    <PublicConcertDetailsEventLocator
-                      key={i}
-                      setEventDetails={setEventDetails}
-                      detail={detail}
-                      eventDetails={eventDetails}
-                      isOnSale={concert?.isOnSale}
-                    />
-                  ))}
-                </div>
-                <div className="w-full h-[500px] relative my-4 mt-12">
-                  <OrchMapLight
-                    latitude={eventDetails?.location?.latitude}
-                    longitude={eventDetails?.location?.longitude}
-                    address={eventDetails?.location?.address}
-                  />
-                </div>
-                <div className="w-full h-[1px] bg-zinc-700/90 mt-3 mb-5" />
+
+            {/* Title */}
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+              {concert.name}
+            </h1>
+
+            {/* Description */}
+            <p className="text-base md:text-lg lg:text-xl text-neutral-300 leading-relaxed">{concert.description}</p>
+
+            {/* CTA Buttons */}
+            {concert.isOnSale && (
+              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                <ShareButton concertId={concert.id} />
               </div>
-            </>
-          )}
+            )}
+          </div>
+
+          {/* Right Column - Image */}
+          <div className="order-1 lg:order-2">
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-neutral-800">
+              <Picture
+                src={concert.imageUrl}
+                width={800}
+                height={600}
+                priority={true}
+                className="w-full h-auto"
+                alt={concert.name}
+              />
+              {/* Subtle gradient overlay on image only */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Content Section */}
+      <section className="bg-gradient-to-b from-neutral-900 to-black py-16 md:py-24">
+        <div className="max-w-7xl mx-auto px-4 md:px-8">
+          {/* Event Details Section */}
+          <div className="mb-16">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Event Details</h2>
+              <p className="text-lg text-neutral-400 max-w-2xl mx-auto">
+                Select a date below to view venue details and get directions
+              </p>
+            </div>
+
+            <ConcertDetailsClient concert={concert} initialEventDetails={initialEventDetails} />
+          </div>
         </div>
       </section>
     </>
   )
 }
 
-export default ConcertDetails
+export async function generateMetadata({ params }: ConcertDetailsPageProps) {
+  const { id } = await params
+  const concert = await getConcert(id)
+
+  if (!concert) {
+    return {
+      title: 'Concert Not Found'
+    }
+  }
+
+  return {
+    title: concert.name,
+    description: concert.description
+  }
+}

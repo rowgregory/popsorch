@@ -1,8 +1,8 @@
 import React, { FormEvent } from 'react'
 import ConcertForm from '../forms/ConcertForm'
 import { useAppDispatch, useConcertSelector, useFormSelector } from '../redux/store'
-import { setCloseConcertDrawer } from '../redux/features/concertSlice'
-import { clearErrors, clearInputs, createFormActions } from '../redux/features/formSlice'
+import { addConcertToState, setCloseConcertDrawer, updateConcertInState } from '../redux/features/concertSlice'
+import { createFormActions, resetForm } from '../redux/features/formSlice'
 import { useCreateConcertMutation, useUpdateConcertMutation } from '../redux/services/concertApi'
 import uploadFileToFirebase from '../utils/firebase.upload'
 import validateConcertForm from '../validations/validateConcertForm'
@@ -14,7 +14,7 @@ import { showToast } from '../redux/features/toastSlice'
 const ConcertDrawer = () => {
   const dispatch = useAppDispatch()
   const { concertDrawer } = useConcertSelector()
-  const { concertForm, submitted } = useFormSelector()
+  const { concertForm } = useFormSelector()
   const [createConcert, { isLoading: isCreating }] = useCreateConcertMutation()
   const [updateConcert, { isLoading: isUpdating }] = useUpdateConcertMutation()
   const formActions = createFormActions('concertForm', dispatch)
@@ -22,7 +22,7 @@ const ConcertDrawer = () => {
   const inputs = concertForm?.inputs
   const errors = concertForm?.errors
 
-  const isLoading = isUpdating || isCreating || submitted
+  const isLoading = isUpdating || isCreating || concertForm.submitted
   const isUpdateMode = inputs?.isUpdating
 
   const prepareConcertData = (uploadedImageURL: string) => ({
@@ -40,8 +40,7 @@ const ConcertDrawer = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
 
-    const isValid = validateConcertForm(inputs, formActions.setErrors)
-    if (!isValid) return
+    if (!validateConcertForm(inputs, formActions.setErrors)) return
 
     try {
       formActions.setSubmitted(true)
@@ -66,10 +65,13 @@ const ConcertDrawer = () => {
         const concertData = prepareConcertData(uploadedImageURL)
 
         if (isUpdateMode) {
-          await updateConcert({ id: inputs.id, ...concertData }).unwrap()
+          const response = await updateConcert({ id: inputs.id, ...concertData }).unwrap()
+          dispatch(updateConcertInState(response.concert))
         } else {
-          await createConcert(concertData).unwrap()
+          const response = await createConcert(concertData).unwrap()
+          dispatch(addConcertToState(response.concert))
         }
+
         dispatch(
           showToast({
             type: 'success',
@@ -77,6 +79,7 @@ const ConcertDrawer = () => {
             message: `${isUpdateMode ? 'Updated' : 'Created'} the concert successfully`
           })
         )
+        reset()
       } catch (apiError: any) {
         dispatch(showToast({ type: 'error', description: 'Failed', message: apiError?.data?.message }))
       }
@@ -84,15 +87,12 @@ const ConcertDrawer = () => {
       if (inputs.file) {
         await deleteFileFromFirebase(inputs.file.name, 'image')
       }
-    } finally {
-      reset()
     }
   }
 
   const reset = () => {
     dispatch(setCloseConcertDrawer())
-    dispatch(clearErrors({ formName: 'concertForm' }))
-    dispatch(clearInputs({ formName: 'concertForm' }))
+    dispatch(resetForm('concertForm'))
     formActions.setSubmitted(false)
   }
 

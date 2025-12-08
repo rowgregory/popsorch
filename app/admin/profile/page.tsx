@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import { usePushNotifications } from '@/app/hooks/usePushNotifications'
 import Switch from '@/app/forms/elements/Switch'
-import { RootState, useAppSelector } from '@/app/redux/store'
+import { useUserSelector } from '@/app/redux/store'
 import { Bell } from 'lucide-react'
 
 const Profile = () => {
@@ -17,7 +17,7 @@ const Profile = () => {
 
   const [notificationsEnabled, setNotificationsEnabled] = useState<boolean>(isNotificationPermissionGranted)
   const [isSwitchLoading, setIsSwitchLoading] = useState(false)
-  const user = useAppSelector((state: RootState) => state.user)
+  const user = useUserSelector()
   const userId = user.user.id
 
   useEffect(() => {
@@ -56,11 +56,7 @@ const Profile = () => {
 
             saveToLocalStorage(true, subscriptionData)
             // Also save to database
-            try {
-              await saveSubscription(subscriptionData, userId)
-            } catch (error) {
-              console.warn('Failed to save subscription to database:', error)
-            }
+            await saveSubscription(subscriptionData, userId)
           }
         } else {
           // Otherwise, disable it and clear the sub
@@ -120,8 +116,7 @@ const Profile = () => {
           saveToLocalStorage(true, subscriptionData)
         }
       }
-    } catch (error) {
-      console.error('Error toggling notifications:', error)
+    } catch {
       // Reset to previous state on error
       setNotificationsEnabled(!notificationsEnabled)
     }

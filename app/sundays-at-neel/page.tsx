@@ -4,11 +4,11 @@ import React, { useRef } from 'react'
 import { motion } from 'framer-motion'
 import TitleWithLine from '../components/common/TitleWithLine'
 import { RootState, useAppSelector } from '../redux/store'
-import { ConcertProps } from '../redux/features/concertSlice'
 import Link from 'next/link'
 import PricingBanner from '../components/sundays-at-neel/PricingBanner'
 import ConcertCard from '../components/sundays-at-neel/ConcertCard'
 import EditableTextArea from '../components/common/EditableTextArea'
+import { IConcert } from '../types/entities/concert'
 
 const SundaysAtNeel = () => {
   const { concerts } = useAppSelector((state: RootState) => state.concert)
@@ -97,7 +97,7 @@ const SundaysAtNeel = () => {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            {filteredConcerts?.map((concert: ConcertProps) => (
+            {filteredConcerts?.map((concert: IConcert) => (
               <ConcertCard key={concert.id} concert={concert} />
             ))}
           </motion.div>

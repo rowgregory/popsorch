@@ -7,7 +7,6 @@ import { NextRequest, NextResponse } from 'next/server'
 export async function PUT(req: NextRequest) {
   try {
     const body = await req.json()
-
     const updatedPhotoGalleryImage = await prisma.photoGalleryImage.update({
       where: { id: body.id },
       data: { isHomeHero: body.isHomeHero }

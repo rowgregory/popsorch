@@ -19,7 +19,6 @@ import { pushNotificationReducer } from './features/pushNotificationSlice'
 import { campReducer } from './features/campSlice'
 import { logReducer } from './features/logSlice'
 import { mailChimpReducer } from './features/mailchimpSlice'
-import { metricReducer } from './features/metricSlice'
 import { headerButtonReducer } from './features/headerButtonSlice'
 import { sponsorReducer } from './features/sponsorSlice'
 import { toastReducer } from './features/toastSlice'
@@ -43,7 +42,6 @@ const rootReducer = combineReducers({
   camp: campReducer,
   log: logReducer,
   mailchimp: mailChimpReducer,
-  metric: metricReducer,
   headerButton: headerButtonReducer,
   sponsor: sponsorReducer,
   toast: toastReducer,
@@ -92,3 +90,5 @@ export const usePhotoSelector = () => useAppSelector((state) => state.photoGalle
 export const useMailchimpSelector = () => useAppSelector((state) => state.mailchimp)
 export const useDashboardSelector = () => useAppSelector((state) => state.dashboard)
 export const useTextBlockSelector = () => useAppSelector((state) => state.textBlock)
+export const useQuestionSelector = () => useAppSelector((state) => state.question)
+export const useLogSelector = () => useAppSelector((state) => state.log)

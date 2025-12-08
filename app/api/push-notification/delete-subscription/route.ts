@@ -16,7 +16,6 @@ export async function DELETE(req: NextRequest) {
 
     return NextResponse.json({ success: true, message: 'Subscription removed' })
   } catch (error: any) {
-    console.error('Error removing push subscription:', error)
     return NextResponse.json(
       {
         message: 'Failed to remove subscription',

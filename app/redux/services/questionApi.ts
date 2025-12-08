@@ -4,21 +4,21 @@ const BASE_URL = '/question'
 
 export const questionApi = api.injectEndpoints({
   overrideExisting: true,
-  endpoints: (build: any) => ({
+  endpoints: (build) => ({
     fetchQuestions: build.query({
       query: () => `${BASE_URL}/fetch-questions`,
       providesTags: ['Question']
     }),
     createQuestion: build.mutation({
-      query: (body: any) => ({ url: `${BASE_URL}/create-question`, method: 'POST', body }),
+      query: (body) => ({ url: `${BASE_URL}/create-question`, method: 'POST', body }),
       invalidatesTags: ['Question']
     }),
     updateQuestion: build.mutation({
-      query: (body: any) => ({ url: `${BASE_URL}/update-question`, method: 'PUT', body }),
+      query: (body) => ({ url: `${BASE_URL}/update-question`, method: 'PUT', body }),
       invalidatesTags: ['Question']
     }),
     deleteQuestion: build.mutation({
-      query: (body: any) => ({ url: `${BASE_URL}/delete-question`, method: 'DELETE', body }),
+      query: (body) => ({ url: `${BASE_URL}/delete-question`, method: 'DELETE', body }),
       invalidatesTags: ['Question']
     })
   })

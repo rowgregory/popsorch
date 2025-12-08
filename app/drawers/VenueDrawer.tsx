@@ -1,13 +1,12 @@
 import React, { FormEvent } from 'react'
 import { useAppDispatch, useFormSelector, useVenueSelector } from '../redux/store'
-import { setCloseVenueDrawer } from '../redux/features/venueSlice'
-import { clearErrors, clearInputs, createFormActions } from '../redux/features/formSlice'
+import { addVenueToState, setCloseVenueDrawer, updateVenueInState } from '../redux/features/venueSlice'
+import { createFormActions, resetForm } from '../redux/features/formSlice'
 import VenueForm from '../forms/VenueForm'
 import { useCreateVenueMutation, useUpdateVenueMutation } from '../redux/services/venueApi'
 import uploadFileToFirebase from '../utils/firebase.upload'
 import validateVenueForm from '../validations/validateVenueForm'
 import deleteFileFromFirebase from '../utils/firebase.delete'
-import getTypeFromFile from '../lib/utils/getTypeFromFile'
 import { AnimatePresence, motion } from 'framer-motion'
 import { backdropVariants, drawerVariants } from '../lib/constants/motion'
 import getCoordinatesFromAddress from '../utils/getCoordinatesFromAddress'
@@ -16,7 +15,7 @@ import { showToast } from '../redux/features/toastSlice'
 const VenueDrawer = () => {
   const dispatch = useAppDispatch()
   const { venueDrawer } = useVenueSelector()
-  const { venueForm, submitting } = useFormSelector()
+  const { venueForm } = useFormSelector()
   const { handleInput, setErrors, handleUploadProgress, setSubmitted } = createFormActions('venueForm', dispatch)
   const [createVenue, { isLoading: isCreating }] = useCreateVenueMutation()
   const [updateVenue, { isLoading: isUpdating }] = useUpdateVenueMutation()
@@ -24,10 +23,10 @@ const VenueDrawer = () => {
   const inputs = venueForm?.inputs
   const errors = venueForm?.errors
 
-  const isLoading = isUpdating || isCreating || submitting
+  const isLoading = isUpdating || isCreating || venueForm.submitted
   const isUpdateMode = inputs?.isUpdating
 
-  const prepareVenueData = (coordinates: any) => ({
+  const prepareVenueData = (coordinates: any, uploadedImageURL: string) => ({
     name: inputs?.name,
     capacity: inputs?.capacity,
     accessibility: inputs?.accessibility,
@@ -35,21 +34,20 @@ const VenueDrawer = () => {
     parking: inputs?.parking,
     address: inputs?.address,
     latitude: String(coordinates.lat),
-    longitude: String(coordinates.lng)
+    longitude: String(coordinates.lng),
+    imageUrl: uploadedImageURL || inputs?.imageUrl,
+    imageFilename: inputs?.file?.name || inputs?.imageFilename
   })
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    setSubmitted(true)
 
-    if (!validateVenueForm(inputs, setErrors)) {
-      setSubmitted(false)
-      return
-    }
+    if (!validateVenueForm(inputs, setErrors)) return
 
     try {
+      setSubmitted(true)
       let coordinates: any
-
+      let uploadedImageURL = ''
       try {
         coordinates = await getCoordinatesFromAddress(inputs?.address)
       } catch (error: any) {
@@ -64,64 +62,55 @@ const VenueDrawer = () => {
         return
       }
 
-      const venueData = prepareVenueData(coordinates)
-
-      let newFilePath = null
-
-      if (isUpdateMode) {
-        const fileToDelete = inputs.imageFilenameToDelete
-
-        const fileType = getTypeFromFile(fileToDelete)
-
-        if (inputs.file) {
-          await deleteFileFromFirebase(fileToDelete, fileType)
-
-          newFilePath = await uploadFileToFirebase(inputs.file, handleUploadProgress, getTypeFromFile(inputs.file.name))
+      if (inputs?.file) {
+        try {
+          uploadedImageURL = await uploadFileToFirebase(inputs.file, handleUploadProgress, 'image')
+        } catch (error: any) {
+          dispatch(
+            showToast({
+              type: 'error',
+              description: 'Failed to upload image to Firebase',
+              message: error?.data?.message
+            })
+          )
+          return
         }
-      } else if (inputs.file) {
-        newFilePath = await uploadFileToFirebase(inputs.file, handleUploadProgress, getTypeFromFile(inputs.file.name))
       }
 
-      const finalVenueData = {
-        ...venueData,
-        ...(newFilePath && { imageUrl: newFilePath, imageFilename: inputs.file.name })
+      try {
+        const venueData = prepareVenueData(coordinates, uploadedImageURL)
+
+        if (isUpdateMode) {
+          const response = await updateVenue({ id: inputs.id, ...venueData }).unwrap()
+          dispatch(updateVenueInState(response.venue))
+        } else {
+          const response = await createVenue(venueData).unwrap()
+          dispatch(addVenueToState(response.venue))
+        }
+
+        dispatch(
+          showToast({
+            type: 'success',
+            description: 'Success',
+            message: `${isUpdateMode ? 'Updated' : 'Created'} the venue successfully`
+          })
+        )
+        reset()
+      } catch (apiError: any) {
+        dispatch(showToast({ type: 'error', description: 'Failed', message: apiError?.data?.message }))
+        setSubmitted(false)
       }
-
-      if (isUpdateMode) {
-        await updateVenue({
-          id: inputs.id,
-          ...finalVenueData
-        }).unwrap()
-      } else {
-        await createVenue(finalVenueData).unwrap()
+    } catch {
+      if (inputs.file) {
+        await deleteFileFromFirebase(inputs.file.name, 'image')
       }
-
-      dispatch(
-        showToast({
-          type: 'success',
-          message: `${isUpdating ? 'Update' : 'Create'} Success`,
-          description: `Venue has been successfully ${isUpdating ? 'updated' : 'created'}`
-        })
-      )
-
-      closeDrawer()
-    } catch (error: any) {
-      dispatch(
-        showToast({
-          type: 'error',
-          message: `${isUpdating ? 'Update' : 'Create'} Failed`,
-          description: error
-        })
-      )
-    } finally {
-      setSubmitted(false)
     }
   }
 
-  const closeDrawer = () => {
+  const reset = () => {
     dispatch(setCloseVenueDrawer())
-    dispatch(clearErrors({ formName: 'venueForm' }))
-    dispatch(clearInputs({ formName: 'venueForm' }))
+    dispatch(resetForm('venueForm'))
+    setSubmitted(false)
   }
 
   return (
@@ -134,7 +123,7 @@ const VenueDrawer = () => {
             animate="animate"
             exit="exit"
             className="fixed inset-0 bg-black/20 backdrop-blur-sm z-50"
-            onClick={closeDrawer}
+            onClick={reset}
           />
           <motion.div
             variants={drawerVariants}
@@ -153,10 +142,10 @@ const VenueDrawer = () => {
                 inputs={inputs}
                 errors={errors}
                 handleInput={handleInput}
-                close={closeDrawer}
                 handleSubmit={handleSubmit}
-                loading={isLoading}
                 isUpdating={isUpdateMode}
+                close={reset}
+                loading={isLoading}
               />
             </div>
           </motion.div>

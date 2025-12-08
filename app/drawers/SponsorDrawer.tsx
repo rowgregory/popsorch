@@ -1,97 +1,98 @@
 'use client'
 
+import React, { FormEvent } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import React, { useState } from 'react'
 import { useAppDispatch, useFormSelector, useSponsorSelector } from '../redux/store'
 import { backdropVariants, drawerVariants } from '../lib/constants/motion'
-import { setCloseSponsorDrawer } from '../redux/features/sponsorSlice'
+import { addSponsorToState, setCloseSponsorDrawer, updateSponsorInState } from '../redux/features/sponsorSlice'
 import SponsorForm from '../forms/SponsorForm'
-import { clearErrors, clearInputs, createFormActions } from '../redux/features/formSlice'
+import { createFormActions, resetForm } from '../redux/features/formSlice'
 import validateSponsorForm from '../validations/validateSponsorForm'
 import { useCreateSponsorMutation, useUpdateSponsorMutation } from '../redux/services/sponsorApi'
 import deleteFileFromFirebase from '../utils/firebase.delete'
 import uploadFileToFirebase from '../utils/firebase.upload'
-import getTypeFromFile from '../lib/utils/getTypeFromFile'
+import { showToast } from '../redux/features/toastSlice'
 
 const SponsorDrawer = () => {
   const dispatch = useAppDispatch()
   const { sponsorDrawer } = useSponsorSelector()
-
-  const { handleInput, setErrors, handleUploadProgress } = createFormActions('sponsorForm', dispatch)
   const { sponsorForm } = useFormSelector()
-  const [submitting, setSubmitting] = useState(false)
-
   const [createSponsor, { isLoading: isCreating }] = useCreateSponsorMutation()
   const [updateSponsor, { isLoading: isUpdating }] = useUpdateSponsorMutation()
+  const { handleInput, setErrors, handleUploadProgress, setSubmitted } = createFormActions('sponsorForm', dispatch)
 
-  const isLoading = isUpdating || isCreating || submitting
+  const inputs = sponsorForm?.inputs
+  const errors = sponsorForm?.errors
+
+  const isLoading = isUpdating || isCreating || sponsorForm.submitted
   const isUpdateMode = sponsorForm?.inputs?.isUpdating
 
-  const prepareSponsorData = () => ({
-    externalLink: sponsorForm.inputs.externalLink,
-    level: sponsorForm.inputs.level,
-    amount: sponsorForm.inputs.amount,
-    name: sponsorForm.inputs.name
+  const prepareSponsorData = (uploadedImageURL: string) => ({
+    externalLink: inputs.externalLink,
+    level: inputs.level,
+    amount: inputs.amount,
+    name: inputs.name,
+    filePath: uploadedImageURL || inputs?.filePath,
+    filename: inputs?.file?.name || inputs?.filename
   })
 
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
 
-    if (!validateSponsorForm(sponsorForm.inputs, setErrors)) return
+    if (!validateSponsorForm(inputs, setErrors)) return
 
     try {
-      setSubmitting(true)
+      setSubmitted(true)
+      let uploadedImageURL = ''
 
-      const sponsorData = prepareSponsorData()
-
-      let newFilePath = null
-      if (isUpdateMode) {
-        const fileToDelete = sponsorForm.inputs.fileName
-
-        const fileType = getTypeFromFile(fileToDelete)
-
-        if (sponsorForm.inputs.file) {
-          await deleteFileFromFirebase(fileToDelete, fileType)
-
-          newFilePath = await uploadFileToFirebase(
-            sponsorForm.inputs.file,
-            handleUploadProgress,
-            getTypeFromFile(sponsorForm.inputs.file.name)
+      if (inputs?.file) {
+        try {
+          uploadedImageURL = await uploadFileToFirebase(inputs.file, handleUploadProgress, 'image')
+        } catch (error: any) {
+          dispatch(
+            showToast({
+              type: 'error',
+              description: 'Failed to upload image to Firebase',
+              message: error?.data?.message
+            })
           )
+          return
         }
-      } else if (sponsorForm.inputs.file) {
-        newFilePath = await uploadFileToFirebase(
-          sponsorForm.inputs.file,
-          handleUploadProgress,
-          getTypeFromFile(sponsorForm.inputs.file.name)
+      }
+
+      try {
+        const sponsorData = prepareSponsorData(uploadedImageURL)
+
+        if (isUpdateMode) {
+          const response = await updateSponsor({ id: inputs.id, ...sponsorData }).unwrap()
+          dispatch(updateSponsorInState(response.sponsor))
+        } else {
+          const response = await createSponsor(sponsorData).unwrap()
+          dispatch(addSponsorToState(response.sponsor))
+        }
+
+        dispatch(
+          showToast({
+            type: 'success',
+            description: 'Success',
+            message: `${isUpdateMode ? 'Updated' : 'Created'} the sponsor successfully`
+          })
         )
+        reset()
+      } catch (apiError: any) {
+        dispatch(showToast({ type: 'error', description: 'Failed', message: apiError?.data?.message }))
       }
-
-      const finalSponsorData = {
-        ...sponsorData,
-        ...(newFilePath && { filePath: newFilePath, filename: sponsorForm.inputs.file.name })
-      }
-
-      if (isUpdateMode) {
-        await updateSponsor({
-          id: sponsorForm.inputs.id,
-          ...finalSponsorData
-        }).unwrap()
-      } else {
-        await createSponsor(finalSponsorData).unwrap()
-      }
-
-      closeDrawer()
     } catch {
-    } finally {
-      setSubmitting(false)
+      if (inputs.file) {
+        await deleteFileFromFirebase(inputs.file.name, 'image')
+      }
     }
   }
 
-  const closeDrawer = () => {
+  const reset = () => {
     dispatch(setCloseSponsorDrawer())
-    dispatch(clearInputs({ formName: 'sponsorForm' }))
-    dispatch(clearErrors({ formName: 'sponsorForm' }))
+    dispatch(resetForm('sponsorForm'))
+    setSubmitted(false)
   }
 
   return (
@@ -104,7 +105,7 @@ const SponsorDrawer = () => {
             animate="animate"
             exit="exit"
             className="fixed inset-0 bg-black/20 backdrop-blur-sm z-50"
-            onClick={closeDrawer}
+            onClick={reset}
           />
           <motion.div
             variants={drawerVariants}
@@ -120,13 +121,13 @@ const SponsorDrawer = () => {
           >
             <div className="flex-1 overflow-y-auto">
               <SponsorForm
-                inputs={sponsorForm.inputs}
-                errors={sponsorForm.errors}
+                inputs={inputs}
+                errors={errors}
                 handleInput={handleInput}
-                close={closeDrawer}
                 handleSubmit={handleSubmit}
-                loading={isLoading}
                 isUpdating={isUpdateMode}
+                close={reset}
+                loading={isLoading}
               />
             </div>
           </motion.div>

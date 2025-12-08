@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
 import useCustomPathname from '@/app/hooks/useCustomPathname'
-import AwesomeIcon from '../common/AwesomeIcon'
 import { RootState, useAppDispatch, useAppSelector } from '@/app/redux/store'
 import useScrollFromTop from '@/app/hooks/useScrollFromTop'
 import { getNavigationLinks } from '@/app/utils/navigation.utils'
 import { HeaderNavLink } from './HeaderNavLink'
 import { openNavigationDrawer } from '@/app/redux/features/appSlice'
-import { barsIcon } from '@/app/lib/icons'
 import Link from 'next/link'
 import CustomHeaderButton from '../CustomHeaderButton'
+import { Menu } from 'lucide-react'
 
 const HeaderFixed = () => {
   const dispatch = useAppDispatch()
@@ -62,9 +61,8 @@ const HeaderFixed = () => {
             )}
         </div>
         <div className="flex items-center gap-x-4">
-          <AwesomeIcon
+          <Menu
             onClick={() => dispatch(openNavigationDrawer())}
-            icon={barsIcon}
             className="w-6 h-6 text-white 1200:hidden block duration-300 hover:text-blaze cursor-pointer"
           />
           <CustomHeaderButton {...headerButton} />

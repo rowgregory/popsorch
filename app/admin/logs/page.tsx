@@ -1,20 +1,16 @@
 'use client'
 
-import PageTitle from '@/app/components/admin/PageTitle'
-import Spinner from '@/app/components/common/Spinner'
-import { RootState, useAppSelector } from '@/app/redux/store'
+import { useLogSelector } from '@/app/redux/store'
 import { formatDate } from '@/app/utils/date.functions'
 import React, { useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { ChevronDown, Clock, FileJson, FileText } from 'lucide-react'
 
 const Logs = () => {
-  const { logs } = useAppSelector((state: RootState) => state.log)
-  const { loading, logCount } = useAppSelector((state: RootState) => state.app)
-
+  const { logs } = useLogSelector()
   const [expandedRow, setExpandedRow] = useState<string | null>(null)
 
-  const handleRowClick = (id: string) => {
-    setExpandedRow((prev) => (prev === id ? null : id))
-  }
+  const handleRowClick = (id: string) => setExpandedRow((prev) => (prev === id ? null : id))
 
   const renderMetadata = (metadata: any) => {
     if (!metadata) return null
@@ -27,30 +23,28 @@ const Logs = () => {
     }
 
     return (
-      <pre className="text-sm text-white p-3 rounded-md overflow-x-auto leading-6 font-mono whitespace-pre-wrap">
+      <pre className="text-xs sm:text-sm text-white p-3 rounded-lg bg-neutral-950/50 overflow-x-auto leading-6 font-mono whitespace-pre-wrap border border-neutral-800">
         {json.split('\n').map((line, i) => {
           return (
             <div key={i}>
               {line.split(/(".*?"|\btrue\b|\bfalse\b|\bnull\b|-?\d+(\.\d+)?)/g).map((part, j) => {
-                // Check if the part is a key (inside quotes) and style it as blue
+                // Keys (blue)
                 if (/^".*"$/.test(part) && !/[:,]$/.test(part)) {
                   return (
-                    <span key={j} className="text-sky-400">
-                      {part.slice(1, -1)} {/* Remove quotes from keys */}
+                    <span key={j} className="text-cyan-400">
+                      {part.slice(1, -1)}
                     </span>
                   )
                 }
-
-                // Check if the part is a string value (inside quotes) and style it as green
+                // String values (green)
                 else if (/^".*"$/.test(part)) {
                   return (
                     <span key={j} className="text-green-400">
-                      {part} {/* Keep quotes for string values */}
+                      {part}
                     </span>
                   )
                 }
-
-                // Boolean true/false
+                // Booleans
                 else if (part === 'true' || part === 'false') {
                   return (
                     <span key={j} className="text-rose-400">
@@ -58,26 +52,23 @@ const Logs = () => {
                     </span>
                   )
                 }
-
-                // Null values
+                // Null
                 else if (part === 'null') {
                   return (
-                    <span key={j} className="text-zinc-500 italic">
+                    <span key={j} className="text-neutral-500 italic">
                       {part}
                     </span>
                   )
                 }
-
                 // Numbers
                 else if (/^-?\d+(\.\d+)?$/.test(part)) {
                   return (
-                    <span key={j} className="text-amber-300">
+                    <span key={j} className="text-amber-400">
                       {part}
                     </span>
                   )
                 }
-
-                // For anything else, just return as plain text
+                // Plain text
                 else {
                   return <span key={j}>{part}</span>
                 }
@@ -89,56 +80,123 @@ const Logs = () => {
     )
   }
 
+  const getLevelBadge = (level: string) => {
+    if (level === 'info') {
+      return 'bg-green-500/20 text-green-400 border-green-500/30'
+    } else if (level === 'error') {
+      return 'bg-red-500/20 text-red-400 border-red-500/30'
+    } else if (level === 'warn') {
+      return 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30'
+    }
+    return 'bg-neutral-500/20 text-neutral-400 border-neutral-500/30'
+  }
+
   return (
-    <>
-      <div className="flex gap-y-10 760:gap-y-0 flex-col 760:flex-row 760:items-center gap-x-3 mb-20">
-        <PageTitle title="Logs" color="bg-fuchsia-500" />
-        <h1 className="text-fuchsia-500 font-semibold text-2xl">({logCount})</h1>
-      </div>
-      {loading ? (
-        <div className="w-full flex items-center justify-center pt-10">
-          <Spinner wAndH="w-10 h-10" fill="fill-fuchsia-500" track="text-duskgray" />
-        </div>
-      ) : (
-        <div className="overflow-x-auto">
-          <div className="grid grid-cols-[1fr_2fr_5fr_1fr_auto] gap-x-4 rounded-md py-2 pr-2 mb-3 text-sm text-zinc-400 font-semibold min-w-[700px]">
-            <div className="w-16 pl-3">Level</div>
-            <div className="min-w-[200px]">Date & Time</div>
-            <div className="min-w-[280px] truncate">Message</div>
-            <div className="min-w-[40px]"></div>
-          </div>
-          <div className="flex flex-col gap-y-3 min-w-[700px]">
-            {logs?.map(
-              (log: { id: string; level: string; message: string; metadata: string | object; createdAt: string }) => (
-                <div key={log.id}>
-                  <div
-                    className="grid grid-cols-[1fr_2fr_5fr_1fr_auto] gap-x-4 py-2 text-sm text-white cursor-pointer font-lato duration-300 hover:bg-midnightblack"
-                    onClick={() => handleRowClick(log.id)}
-                  >
-                    <div className={`${log.level === 'info' ? 'text-lime-500' : 'text-rose-500'} pl-3 w-16`}>
-                      {log.level}
+    <div className="p-4 sm:p-6">
+      {/* Logs List */}
+      <div className="space-y-3">
+        {logs?.map(
+          (
+            log: { id: string; level: string; message: string; metadata: string | object; createdAt: string },
+            index: number
+          ) => {
+            const isExpanded = expandedRow === log.id
+
+            return (
+              <motion.div
+                key={log.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.02 }}
+                className="bg-gradient-to-br from-neutral-900 to-black border border-neutral-800 rounded-xl hover:border-neutral-700/70 transition-all duration-300 shadow-xl overflow-hidden"
+              >
+                {/* Log Row */}
+                <div
+                  onClick={() => handleRowClick(log.id)}
+                  className="p-4 cursor-pointer hover:bg-neutral-800/30 transition-colors"
+                >
+                  <div className="flex items-start gap-3 sm:gap-4">
+                    {/* Level Badge */}
+                    <div className="flex-shrink-0">
+                      <span
+                        className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider border ${getLevelBadge(
+                          log.level
+                        )}`}
+                      >
+                        {log.level}
+                      </span>
                     </div>
-                    <div className="min-w-[200px] truncate">
-                      {formatDate(log.createdAt, { minute: 'numeric', second: 'numeric', hour: 'numeric' })}
-                    </div>
-                    <div className="min-w-[280px] truncate">{log.message}</div>
-                    <div className={`${log.level === 'info' ? 'text-lime-500' : 'text-rose-500'} min-w-[40px]`}>
-                      {expandedRow === log.id ? '▲' : '▼'}
+
+                    {/* Content */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between gap-3 mb-2">
+                        <p className="text-sm sm:text-base font-medium text-white line-clamp-2">{log.message}</p>
+                        <motion.div
+                          animate={{ rotate: isExpanded ? 180 : 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="flex-shrink-0"
+                        >
+                          <ChevronDown
+                            className={`w-5 h-5 ${log.level === 'info' ? 'text-green-400' : 'text-red-400'}`}
+                          />
+                        </motion.div>
+                      </div>
+
+                      <div className="flex items-center gap-2 text-xs text-neutral-400">
+                        <Clock className="w-3.5 h-3.5" />
+                        <span>
+                          {formatDate(log.createdAt, { minute: 'numeric', second: 'numeric', hour: 'numeric' })}
+                        </span>
+                      </div>
                     </div>
                   </div>
-
-                  {expandedRow === log.id && (
-                    <div className="p-4 border-l-4 border-fuchsia-500 bg-midnightblack">
-                      {renderMetadata(log.metadata)}
-                    </div>
-                  )}
                 </div>
-              )
-            )}
+
+                {/* Expanded Metadata */}
+                <AnimatePresence>
+                  {isExpanded && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="border-t border-neutral-800"
+                    >
+                      <div className="p-4 bg-neutral-900/50">
+                        <div className="flex items-center gap-2 mb-3">
+                          <FileJson className="w-4 h-4 text-neutral-400" />
+                          <h4 className="text-sm font-semibold text-neutral-300">Metadata</h4>
+                        </div>
+                        {renderMetadata(log.metadata)}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            )
+          }
+        )}
+      </div>
+
+      {/* Empty State */}
+      {logs?.length === 0 && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="bg-gradient-to-br from-neutral-900 to-black border border-neutral-800 rounded-2xl p-12 text-center shadow-xl"
+        >
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-16 h-16 rounded-full bg-neutral-800/50 flex items-center justify-center">
+              <FileText className="w-8 h-8 text-neutral-600" />
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-1">No Logs Found</h3>
+              <p className="text-sm text-neutral-400">System logs will appear here when available.</p>
+            </div>
           </div>
-        </div>
+        </motion.div>
       )}
-    </>
+    </div>
   )
 }
 

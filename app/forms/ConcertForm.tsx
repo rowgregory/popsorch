@@ -259,7 +259,7 @@ const ConcertForm: FC<ConcertFormProps> = ({ inputs, errors, formActions, onSubm
                       className={`w-full px-4 py-3 bg-neutral-800 border rounded-lg focus:ring-2 focus:ring-neutral-500 focus:border-neutral-500 transition-colors focus:outline-none text-neutral-200 placeholder-neutral-500 ${
                         errors.allSeriesExternalLink ? 'border-red-500' : 'border-neutral-600'
                       }`}
-                      placeholder="Summer Music Festival"
+                      placeholder="https://refer-sqysh.com"
                     />
                     {errors.allSeriesExternalLink && (
                       <p className="mt-2 text-sm text-red-400 flex items-center">
@@ -281,7 +281,7 @@ const ConcertForm: FC<ConcertFormProps> = ({ inputs, errors, formActions, onSubm
                       className={`w-full px-4 py-3 bg-neutral-800 border rounded-lg focus:ring-2 focus:ring-neutral-500 focus:border-neutral-500 transition-colors focus:outline-none text-neutral-200 placeholder-neutral-500 ${
                         errors.cardDate ? 'border-red-500' : 'border-neutral-600'
                       }`}
-                      placeholder="Summer Music Festival"
+                      placeholder="Sunday, March 29, 2026"
                     />
                     {errors.cardDate && (
                       <p className="mt-2 text-sm text-red-400 flex items-center">

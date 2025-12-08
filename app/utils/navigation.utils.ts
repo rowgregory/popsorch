@@ -115,12 +115,6 @@ export const getNavigationLinks = (
       '/media'
     ].includes(path),
     links: [
-      {
-        linkKey: 'https://ci.ovationtix.com/35505/store/donations',
-        textKey: 'Make a Donation',
-        active: false,
-        isExternal: true
-      },
       { linkKey: '/chair-sponsorships', textKey: 'Chair Sponsorships', active: path === '/chair-sponsorships' },
       { linkKey: '/advertise-with-us', textKey: 'Advertise With Us', active: path === '/advertise-with-us' },
       {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { Upload, Link, FileText, Save, X, AlertCircle, Crown, Gift } from 'lucide-react'
 import { useAppDispatch } from '../redux/store'
@@ -16,6 +16,13 @@ const sponsorLevels = [
 
 const SponsorForm = ({ inputs, errors, handleInput, close, handleSubmit, loading, isUpdating }: any) => {
   const dispatch = useAppDispatch()
+
+  const imagePreviewUrl = useMemo(() => {
+    if (inputs?.file) {
+      return URL.createObjectURL(inputs.file)
+    }
+    return inputs?.filePath
+  }, [inputs?.file, inputs?.filePath])
 
   // Handle file upload
   const handleFileChange = (e: any) => {
@@ -110,7 +117,7 @@ const SponsorForm = ({ inputs, errors, handleInput, close, handleSubmit, loading
                       <div className="mt-3">
                         <Picture
                           priority={false}
-                          src={inputs?.file?.name ? URL.createObjectURL(inputs?.file) : inputs?.filePath}
+                          src={imagePreviewUrl || inputs?.filePath}
                           className="w-full h-32 object-contain bg-neutral-700 rounded-lg border border-neutral-600"
                         />
                       </div>

@@ -1,5 +1,4 @@
 import { Reducer, createSlice } from '@reduxjs/toolkit'
-import { venueApi } from '../services/venueApi'
 import { VenueProps } from '@/app/types/model.types'
 
 export interface VenueStatePayload {
@@ -79,38 +78,6 @@ export const venueSlice = createSlice({
     setCloseVenueDrawer: (state) => {
       state.venueDrawer = false
     }
-  },
-  extraReducers: (builder) => {
-    builder
-      .addMatcher(venueApi.endpoints.createVenue.matchPending, (state) => {
-        state.loading = true
-      })
-      .addMatcher(venueApi.endpoints.updateVenue.matchPending, (state) => {
-        state.loading = true
-      })
-      .addMatcher(venueApi.endpoints.fetchVenues.matchFulfilled, (state, { payload }: any) => {
-        state.venues = payload.venues
-        state.loading = false
-      })
-      .addMatcher(venueApi.endpoints.createVenue.matchFulfilled, (state) => {
-        state.success = true
-        state.loading = false
-      })
-      .addMatcher(venueApi.endpoints.updateVenue.matchFulfilled, (state) => {
-        state.success = true
-        state.loading = false
-      })
-      .addMatcher(venueApi.endpoints.deleteVenue.matchFulfilled, (state) => {
-        state.success = true
-        state.loading = false
-      })
-      .addMatcher(
-        (action) => action.type.endsWith('rejected') && action.payload?.data?.sliceName === 'venueApi',
-        (state, { payload }: any) => {
-          state.loading = false
-          state.error = payload?.data?.message
-        }
-      )
   }
 })
 

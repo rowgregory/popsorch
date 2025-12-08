@@ -1,15 +1,19 @@
-import React from 'react'
+import React, { FormEvent } from 'react'
 import { useAppDispatch, useFormSelector, useTeamMemberSelector } from '../redux/store'
-import { setCloseTeamMemberDrawer } from '../redux/features/teamMemberSlice'
-import { clearErrors, clearInputs, createFormActions } from '../redux/features/formSlice'
+import {
+  addTeamMemberToState,
+  setCloseTeamMemberDrawer,
+  updateTeamMemberInState
+} from '../redux/features/teamMemberSlice'
+import { createFormActions, resetForm } from '../redux/features/formSlice'
 import { useCreateTeamMemberMutation, useUpdateTeamMemberMutation } from '../redux/services/teamMemberApi'
 import uploadFileToFirebase from '../utils/firebase.upload'
 import TeamMemberForm from '../forms/TeamMemberForm'
 import validateTeamMemberForm from '../validations/validateTeamMemberForm'
 import { AnimatePresence, motion } from 'framer-motion'
 import { backdropVariants, drawerVariants } from '../lib/constants/motion'
-import getTypeFromFile from '../lib/utils/getTypeFromFile'
 import deleteFileFromFirebase from '../utils/firebase.delete'
+import { showToast } from '../redux/features/toastSlice'
 
 const TeamMemberDrawer = () => {
   const dispatch = useAppDispatch()
@@ -26,65 +30,74 @@ const TeamMemberDrawer = () => {
   const inputs = teamMemberForm?.inputs
   const errors = teamMemberForm?.errors
 
-  const prepareTeamMemberData = () => ({
+  const prepareTeamMemberData = (uploadedImageURL: string) => ({
     firstName: inputs.firstName,
     lastName: inputs.lastName,
     position: inputs.position,
     bio: inputs.bio,
     role: inputs.role,
-    displayOrder: inputs.displayOrder
+    displayOrder: inputs.displayOrder,
+    imageUrl: uploadedImageURL || inputs?.imageUrl,
+    imageFilename: inputs?.file?.name || inputs?.imageFilename
   })
 
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
 
     if (!validateTeamMemberForm(inputs, setErrors)) return
 
     try {
       setSubmitted(true)
+      let uploadedImageURL = ''
 
-      const teamMemberData = prepareTeamMemberData()
-
-      let newFilePath = null
-      if (isUpdateMode) {
-        const fileToDelete = inputs.imageFilenameToDelete
-
-        const fileType = getTypeFromFile(fileToDelete)
-
-        if (inputs.file) {
-          await deleteFileFromFirebase(fileToDelete, fileType)
-
-          newFilePath = await uploadFileToFirebase(inputs.file, handleUploadProgress, getTypeFromFile(inputs.file.name))
+      if (inputs?.file) {
+        try {
+          uploadedImageURL = await uploadFileToFirebase(inputs.file, handleUploadProgress, 'image')
+        } catch (error: any) {
+          dispatch(
+            showToast({
+              type: 'error',
+              description: 'Failed to upload image to Firebase',
+              message: error?.data?.message
+            })
+          )
+          return
         }
-      } else if (inputs.file) {
-        newFilePath = await uploadFileToFirebase(inputs.file, handleUploadProgress, getTypeFromFile(inputs.file.name))
       }
 
-      const finalTeamMemberData = {
-        ...teamMemberData,
-        ...(newFilePath && { imageUrl: newFilePath, imageFilename: inputs.file.name })
-      }
+      try {
+        const teamMemberData = prepareTeamMemberData(uploadedImageURL)
 
-      if (isUpdateMode) {
-        await updateTeamMember({
-          id: inputs.id,
-          ...finalTeamMemberData
-        }).unwrap()
-      } else {
-        await createTeamMember(finalTeamMemberData).unwrap()
-      }
+        if (isUpdateMode) {
+          const response = await updateTeamMember({ id: inputs.id, ...teamMemberData }).unwrap()
+          dispatch(updateTeamMemberInState(response.teamMember))
+        } else {
+          const response = await createTeamMember(teamMemberData).unwrap()
+          dispatch(addTeamMemberToState(response.teamMember))
+        }
 
-      closeDrawer()
+        dispatch(
+          showToast({
+            type: 'success',
+            description: 'Success',
+            message: `${isUpdateMode ? 'Updated' : 'Created'} the teamMember successfully`
+          })
+        )
+        reset()
+      } catch (apiError: any) {
+        dispatch(showToast({ type: 'error', description: 'Failed', message: apiError?.data?.message }))
+      }
     } catch {
-    } finally {
-      setSubmitted(false)
+      if (inputs.file) {
+        await deleteFileFromFirebase(inputs.file.name, 'image')
+      }
     }
   }
 
-  const closeDrawer = () => {
+  const reset = () => {
     dispatch(setCloseTeamMemberDrawer())
-    dispatch(clearErrors({ formName: 'teamMemberForm' }))
-    dispatch(clearInputs({ formName: 'teamMemberForm' }))
+    dispatch(resetForm('teamMemberForm'))
+    setSubmitted(false)
   }
 
   return (
@@ -97,7 +110,7 @@ const TeamMemberDrawer = () => {
             animate="animate"
             exit="exit"
             className="fixed inset-0 bg-black/20 backdrop-blur-sm z-50"
-            onClick={closeDrawer}
+            onClick={reset}
           />
           <motion.div
             variants={drawerVariants}
@@ -116,7 +129,7 @@ const TeamMemberDrawer = () => {
                 inputs={inputs}
                 errors={errors}
                 handleInput={handleInput}
-                close={closeDrawer}
+                close={reset}
                 handleSubmit={handleSubmit}
                 loading={isLoading}
                 isUpdating={isUpdateMode}

@@ -6,13 +6,12 @@ import { TeamMemberProps } from '../redux/features/teamMemberSlice'
 import { resetDrawerData, setCloseDrawer, setOpenDrawer } from '../redux/features/appSlice'
 import PublicBoardAndStaffDrawer from '../drawers/PublicBoardAndStaffDrawer'
 import Breadcrumb from '../components/common/Breadcrumb'
-import Spinner from '../components/common/Spinner'
 import TitleWithLine from '../components/common/TitleWithLine'
-import PublicTeamMemberCard from '../components/admin/PublicTeamMemberCard'
+import PublicTeamMemberCard from '../components/team/TeamMemberCard'
 
 const Musicians = () => {
   const dispatch = useAppDispatch()
-  const { drawer, loading } = useAppSelector((state: RootState) => state.app)
+  const { drawer } = useAppSelector((state: RootState) => state.app)
   const { textBlockMap } = useTextBlockSelector()
   const { musicians } = useTeamMemberSelector()
 
@@ -46,29 +45,21 @@ const Musicians = () => {
       )}
       <div className="bg-[#1a1a1a] px-4 990:px-12 xl:px-4 relative z-0">
         <div className="max-w-[520px] 760:max-w-screen-576 990:max-w-[800px] 1200:max-w-screen-1160 1590:max-w-screen-1400 w-full mx-auto flex flex-col items-center py-28">
-          {loading ? (
-            <div className="flex justify-center">
-              <Spinner wAndH="w-10 h-10" fill="fill-blaze" track="text-[#1a1a1a]" />
-            </div>
-          ) : (
-            <>
-              <TitleWithLine
-                title={textBlockMap?.MUSICIANS_PAGE?.musiciansTitle || 'Musicians'}
-                type="MUSICIANS_PAGE"
-                textBlockKey="musiciansTitle"
+          <TitleWithLine
+            title={textBlockMap?.MUSICIANS_PAGE?.musiciansTitle || 'Musicians'}
+            type="MUSICIANS_PAGE"
+            textBlockKey="musiciansTitle"
+          />
+          <div className="grid grid-cols-12 gap-y-6 760:gap-7 mt-12 w-full">
+            {sortedMusicians?.map((teamMember: TeamMemberProps, index: number) => (
+              <PublicTeamMemberCard
+                key={teamMember.id}
+                teamMember={teamMember}
+                handleOpenDrawer={handleOpenDrawer}
+                index={index}
               />
-              <div className="grid grid-cols-12 gap-y-6 760:gap-7 mt-12 w-full">
-                {sortedMusicians?.map((teamMember: TeamMemberProps, index: number) => (
-                  <PublicTeamMemberCard
-                    key={teamMember.id}
-                    teamMember={teamMember}
-                    handleOpenDrawer={handleOpenDrawer}
-                    index={index}
-                  />
-                ))}
-              </div>
-            </>
-          )}
+            ))}
+          </div>
         </div>
       </div>
     </>

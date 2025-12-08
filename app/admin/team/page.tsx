@@ -3,21 +3,20 @@
 import React, { useState } from 'react'
 import TeamMemberRow from '@/app/components/admin/TeamMemberRow'
 import {
-  resetTeamMemberError,
   setBoardMembers,
   setMusicians,
+  setOpenTeamMemberDrawer,
   setStaff,
-  TeamMemberProps
+  TeamMemberProps,
+  updateTeamMemberListInState
 } from '@/app/redux/features/teamMemberSlice'
-import { RootState, useAppDispatch, useAppSelector, useTeamMemberSelector } from '@/app/redux/store'
-import AdminPageSpinner from '@/app/components/admin/AdminPageSpinner'
-import ToastMessage from '@/app/components/common/ToastMessage'
+import { useAppDispatch, useTeamMemberSelector } from '@/app/redux/store'
 import { useUpdateTeamMemberListMutation } from '@/app/redux/services/teamMemberApi'
 import { showToast } from '@/app/redux/features/toastSlice'
+import EmptyState from '@/app/components/common/EmptyState'
 
 const Team = () => {
-  const { staff, boardMembers, musicians, error, noTeamMembers } = useTeamMemberSelector()
-  const { loading } = useAppSelector((state: RootState) => state.app)
+  const { staff, boardMembers, musicians, noTeamMembers } = useTeamMemberSelector()
   const [updateTeamMemberList] = useUpdateTeamMemberListMutation()
   const dispatch = useAppDispatch()
   const [draggedItem, setDraggedItem] = useState<string | null>(null)
@@ -104,7 +103,15 @@ const Team = () => {
 
     // Save to backend
     try {
-      await updateTeamMemberList(completeUpdatedList).unwrap()
+      const response = await updateTeamMemberList(completeUpdatedList).unwrap()
+
+      dispatch(
+        updateTeamMemberListInState({
+          savedStaff: response.savedStaff,
+          savedBoardMembers: response.savedBoardMembers,
+          savedMusicians: response.savedMusicians
+        })
+      )
     } catch (error: any) {
       dispatch(showToast({ type: 'error', message: 'Failed', description: error?.data?.message }))
     }
@@ -189,20 +196,26 @@ const Team = () => {
   }
 
   return (
-    <div className="relative p-6">
-      <ToastMessage message={error} resetError={() => resetTeamMemberError()} />
-      {loading ? (
-        <AdminPageSpinner fill="fill-purple-500" />
-      ) : noTeamMembers ? (
-        <div className="font-sm font-lato text-gray-400">No Team Members</div>
-      ) : (
+    <>
+      <div className="relative p-6">
         <div>
           {renderTeamMembersList(boardMembers, 'Board-Member', 'Board Members')}
           {renderTeamMembersList(staff, 'Staff', 'Staff Members')}
           {renderTeamMembersList(musicians, 'Musician', 'Musicians')}
         </div>
+      </div>
+      {/* Empty State (if no team members) */}
+      {noTeamMembers && (
+        <EmptyState
+          searchQuery=""
+          typeFilter="all"
+          title="Team Member"
+          advice="Add your first team member to get started"
+          func={setOpenTeamMemberDrawer}
+          action="Add Team Member"
+        />
       )}
-    </div>
+    </>
   )
 }
 

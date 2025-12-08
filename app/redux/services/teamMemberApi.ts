@@ -4,25 +4,25 @@ const BASE_URL = '/team-member'
 
 export const teamMemberApi = api.injectEndpoints({
   overrideExisting: true,
-  endpoints: (build: any) => ({
+  endpoints: (build) => ({
     fetchTeamMembers: build.query({
       query: () => `${BASE_URL}/fetch-team-members`,
       providesTags: ['Team-Member']
     }),
     createTeamMember: build.mutation({
-      query: (body: any) => ({ url: `${BASE_URL}/create-team-member`, method: 'POST', body }),
+      query: (body) => ({ url: `${BASE_URL}/create-team-member`, method: 'POST', body }),
       invalidatesTags: ['Team-Member', 'App']
     }),
     updateTeamMember: build.mutation({
-      query: (body: any) => ({ url: `${BASE_URL}/update-team-member`, method: 'PUT', body }),
+      query: (body) => ({ url: `${BASE_URL}/update-team-member`, method: 'PUT', body }),
       invalidatesTags: ['Team-Member', 'App']
     }),
     deleteTeamMember: build.mutation({
-      query: (body: any) => ({ url: `${BASE_URL}/delete-team-member`, method: 'DELETE', body }),
+      query: (body) => ({ url: `${BASE_URL}/delete-team-member`, method: 'DELETE', body }),
       invalidatesTags: ['Team-Member', 'App']
     }),
     updateTeamMemberList: build.mutation({
-      query: (body: any) => ({ url: `${BASE_URL}/update-team-member-list`, method: 'PUT', body }),
+      query: (body) => ({ url: `${BASE_URL}/update-team-member-list`, method: 'PUT', body }),
       invalidatesTags: ['Team-Member', 'App']
     })
   })

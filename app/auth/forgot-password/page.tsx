@@ -4,7 +4,6 @@ import React, { FormEvent } from 'react'
 import { RootState, useAppDispatch, useAppSelector } from '@/app/redux/store'
 import { useForgotPasswordMutation, useResetPasswordMutation } from '@/app/redux/services/authApi'
 import ForgotPasswordForm from '@/app/forms/ForgotPasswordForm'
-import LogoWRobyn from '@/app/components/LogoWRobynHeader'
 import validateForgotPasswordForm from '@/app/validations/validateForgotPasswordForm'
 import { clearInputs, createFormActions } from '@/app/redux/features/formSlice'
 import ResetPasswordForm from '@/app/forms/ResetPasswordForm'
@@ -55,9 +54,6 @@ const ForgotPassword = () => {
 
   return (
     <div className="flex max-h-1000:items-start items-center justify-center flex-col gap-y-7 h-dvh max-h-1000:py-20">
-      <div className="max-h-1000:hidden block">
-        <LogoWRobyn imgDimensions="h-40" logoClassname="h-40 text-blaze" />
-      </div>
       {passwordReset ? (
         <>
           <h1 className="text-2xl font-changa text-center mb-4">Your password has been reset</h1>

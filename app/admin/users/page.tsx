@@ -3,37 +3,43 @@
 import React from 'react'
 import { useUserSelector } from '@/app/redux/store'
 import { UserProps } from '@/app/redux/features/userSlice'
-import AdminPageSpinner from '@/app/components/admin/AdminPageSpinner'
+import { motion } from 'framer-motion'
 import AdminUserRow from '@/app/components/admin/AdminUserRow'
-import { useFetchUsersQuery } from '@/app/redux/services/userApi'
+import { User } from 'lucide-react'
 
 const Users = () => {
-  const { data, isLoading } = useFetchUsersQuery(undefined) as any
-  const { noUsers } = useUserSelector()
+  const { noUsers, users } = useUserSelector()
 
   return (
-    <div className="p-6">
-      {isLoading ? (
-        <AdminPageSpinner fill="fill-emerald-400" />
-      ) : noUsers ? (
-        <div className="font-sm font-lato">No Users</div>
-      ) : (
-        <div className="overflow-hidden">
-          <div className="overflow-x-auto">
-            <div className="grid grid-cols-[2fr_2fr_2fr_2fr_2fr_1fr] gap-x-4 rounded-md pl-4 py-2 pr-2 mb-3 text-sm min-w-[600px]">
-              <div className="whitespace-nowrap">First Name</div>
-              <div className="whitespace-nowrap">Last Name</div>
-              <div className="whitespace-nowrap">Email</div>
-              <div className="whitespace-nowrap">Role</div>
-              <div className="whitespace-nowrap">Date & Time</div>
-              <div></div>
+    <div className="p-4 sm:p-6">
+      {noUsers ? (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="bg-gradient-to-br from-neutral-900 to-black border border-neutral-800 rounded-2xl p-12 text-center shadow-xl"
+        >
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-16 h-16 rounded-full bg-neutral-800/50 flex items-center justify-center">
+              <User className="w-8 h-8 text-neutral-600" />
             </div>
-            <div className="flex flex-col gap-y-3 min-w-[600px]">
-              {data?.users?.map((user: UserProps) => (
-                <AdminUserRow key={user.id} user={user} />
-              ))}
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-1">No Users Found</h3>
+              <p className="text-sm text-neutral-400">There are currently no users in the system.</p>
             </div>
           </div>
+        </motion.div>
+      ) : (
+        <div className="space-y-3">
+          {users?.map((user: UserProps, index: number) => (
+            <motion.div
+              key={user.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: index * 0.05 }}
+            >
+              <AdminUserRow user={user} />
+            </motion.div>
+          ))}
         </div>
       )}
     </div>

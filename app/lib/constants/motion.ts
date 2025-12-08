@@ -10,16 +10,6 @@ export const backdropVariants = {
   exit: { opacity: 0 }
 }
 
-export const containerVariants: any = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1
-    }
-  }
-}
-
 export const itemVariants: any = {
   hidden: { opacity: 0, y: 20 },
   visible: {
@@ -47,6 +37,27 @@ export const searchBoxVariants: any = {
       type: 'spring',
       stiffness: 100,
       damping: 15
+    }
+  }
+}
+
+export const cardVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6
+    }
+  }
+}
+
+export const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.03
     }
   }
 }

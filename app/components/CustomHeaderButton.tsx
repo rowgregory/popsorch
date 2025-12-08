@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { sendGAEvent } from '@next/third-parties/google'
 
 interface DropdownItem {
   id: string
@@ -23,6 +24,60 @@ interface CustomHeaderButtonProps {
   type: string
   dropdownItems?: DropdownItem[]
 }
+
+// All available animations
+const animations = [
+  {
+    id: 'scale',
+    name: 'Scale',
+    description: 'Smooth scaling effect',
+    icon: '📏',
+    variants: {
+      initial: { scale: 1 },
+      hover: { scale: 1.05 }
+    }
+  },
+  {
+    id: 'slide',
+    name: 'Slide',
+    description: 'Slide animation with shadow',
+    icon: '🎯',
+    variants: {
+      initial: { x: 0, boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' },
+      hover: { x: 4, boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }
+    }
+  },
+  {
+    id: 'bounce',
+    name: 'Bounce',
+    description: 'Playful bounce effect',
+    icon: '🏀',
+    variants: {
+      initial: { y: 0 },
+      hover: { y: -8 }
+    }
+  },
+  {
+    id: 'glow',
+    name: 'Glow',
+    description: 'Glowing border effect',
+    icon: '✨',
+    variants: {
+      initial: { boxShadow: '0 0 0 0 rgba(59, 130, 246, 0)' },
+      hover: { boxShadow: '0 0 20px 5px rgba(59, 130, 246, 0.3)' }
+    }
+  },
+  {
+    id: 'rotate',
+    name: 'Rotate',
+    description: 'Subtle rotation effect',
+    icon: '🔄',
+    variants: {
+      initial: { rotate: 0 },
+      hover: { rotate: 2 }
+    }
+  }
+]
 
 const CustomHeaderButton: React.FC<CustomHeaderButtonProps> = ({
   animation,
@@ -49,59 +104,28 @@ const CustomHeaderButton: React.FC<CustomHeaderButtonProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  // All available animations
-  const animations = [
-    {
-      id: 'scale',
-      name: 'Scale',
-      description: 'Smooth scaling effect',
-      icon: '📏',
-      variants: {
-        initial: { scale: 1 },
-        hover: { scale: 1.05 }
-      }
-    },
-    {
-      id: 'slide',
-      name: 'Slide',
-      description: 'Slide animation with shadow',
-      icon: '🎯',
-      variants: {
-        initial: { x: 0, boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' },
-        hover: { x: 4, boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }
-      }
-    },
-    {
-      id: 'bounce',
-      name: 'Bounce',
-      description: 'Playful bounce effect',
-      icon: '🏀',
-      variants: {
-        initial: { y: 0 },
-        hover: { y: -8 }
-      }
-    },
-    {
-      id: 'glow',
-      name: 'Glow',
-      description: 'Glowing border effect',
-      icon: '✨',
-      variants: {
-        initial: { boxShadow: '0 0 0 0 rgba(59, 130, 246, 0)' },
-        hover: { boxShadow: '0 0 20px 5px rgba(59, 130, 246, 0.3)' }
-      }
-    },
-    {
-      id: 'rotate',
-      name: 'Rotate',
-      description: 'Subtle rotation effect',
-      icon: '🔄',
-      variants: {
-        initial: { rotate: 0 },
-        hover: { rotate: 2 }
-      }
-    }
-  ]
+  const handleGAEvent = (item?: DropdownItem) => {
+    const isDropdownItem = !!item
+
+    sendGAEvent('event', isDropdownItem ? 'click_dropdown_item' : 'click_header_button', {
+      button_id: isDropdownItem ? item.id : '',
+      button_text: isDropdownItem ? item.text : text,
+      link_type: isDropdownItem ? item.linkType : linkType,
+      link_url: isDropdownItem ? item.link : link,
+      has_dropdown: type === 'dropdown',
+      dropdown_length: dropdownItems.length,
+      button_animation: animation,
+      button_background: backgroundColor,
+      button_font_color: fontColor,
+      page_url: window.location.href,
+      user_scroll_depth: Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100),
+      time_on_page: Math.round((Date.now() - performance.timeOrigin) / 1000),
+      viewport_width: window.innerWidth,
+      viewport_height: window.innerHeight,
+      device_type: window.innerWidth < 768 ? 'mobile' : window.innerWidth < 1024 ? 'tablet' : 'desktop',
+      timestamp: new Date().toISOString()
+    })
+  }
 
   // Animation variants based on animation type
   const getAnimationVariants = () => {
@@ -176,7 +200,7 @@ const CustomHeaderButton: React.FC<CustomHeaderButtonProps> = ({
           whileHover="hover"
           whileTap="tap"
           onClick={handleClick}
-          className="font-changa font-bold px-8 py-1 sm:py-4 rounded-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-opacity-60 uppercase tracking-wider relative overflow-hidden cursor-pointer border-2 border-transparent hover:border-white/20 flex items-center gap-2"
+          className="font-changa font-bold px-8 py-1 sm:py-4 rounded-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-opacity-60 uppercase tracking-wider relative overflow-hidden cursor-pointer border-2 border-transparent hover:border-white/20 flex items-center gap-2 flex-1"
           style={
             {
               backgroundColor,
@@ -245,7 +269,10 @@ const CustomHeaderButton: React.FC<CustomHeaderButtonProps> = ({
               {dropdownItems.map((item, index) => (
                 <motion.button
                   key={item.id}
-                  onClick={() => handleDropdownItemClick(item)}
+                  onClick={() => {
+                    handleGAEvent(item)
+                    handleDropdownItemClick(item)
+                  }}
                   className="w-full px-4 py-3 text-left text-white hover:text-blaze transition-colors duration-200 first:rounded-t-lg last:rounded-b-lg"
                   whileHover={{ x: 4 }}
                   whileTap={{ scale: 0.98 }}

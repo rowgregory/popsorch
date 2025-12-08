@@ -1,7 +1,6 @@
 import React, { FC, ReactNode } from 'react'
 import useRemoveScroll from '@/app/hooks/useRemoveScroll'
-import AwesomeIcon from './AwesomeIcon'
-import { timesIcon } from '@/app/lib/icons'
+import { X } from 'lucide-react'
 
 const PublicModal: FC<{ show: boolean; children: ReactNode; onClose?: any; reset?: any }> = ({
   show,
@@ -22,7 +21,7 @@ const PublicModal: FC<{ show: boolean; children: ReactNode; onClose?: any; reset
         className={`public-modal bg-inkblack transform transition-all duration-300 ease-out overflow-y-auto no-scrollbar`}
         onClick={(e) => e.stopPropagation()}
       >
-        <AwesomeIcon icon={timesIcon} onClick={reset} className="w-5 h-5 absolute top-5 right-5 z-10 cursor-pointer" />
+        <X onClick={reset} className="w-5 h-5 absolute top-5 right-5 z-10 cursor-pointer" />
         {children}
       </div>
     </div>

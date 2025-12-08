@@ -1,5 +1,4 @@
 import { Reducer, createSlice } from '@reduxjs/toolkit'
-import { teamMemberApi } from '../services/teamMemberApi'
 
 export interface TeamMemberProps {
   id: string
@@ -85,21 +84,60 @@ export const teamMemberSlice = createSlice({
     resetTeamMemberError: (state) => {
       state.error = null
     },
-    addTeamMemberToState: (state, action) => {
-      state.teamMembers.push(action.payload)
+    addTeamMemberToState: (state, { payload }) => {
+      state.teamMembers.push(payload)
       state.teamMembersCount = state.teamMembersCount + 1
       state.noTeamMembers = state.teamMembers.length === 0
-    },
-    updateTeamMemberInState: (state, action) => {
-      const updatedTeamMember = action.payload
-      const index = state.teamMembers.findIndex((teamMember) => teamMember.id === updatedTeamMember.id)
-      if (index !== -1) {
-        state.teamMembers[index] = updatedTeamMember
+
+      // Add to specific array based on memberType
+      if (payload.role === 'Staff') {
+        state.staff.push(payload)
+      } else if (payload.role === 'Board-Member') {
+        state.boardMembers.push(payload)
+      } else if (payload.role === 'Musician') {
+        state.musicians.push(payload)
       }
     },
-    removeTeamMemberFromState: (state, action) => {
-      state.teamMembers = state.teamMembers.filter((teamMember) => teamMember.id !== action.payload)
-      state.teamMembersCount = state.teamMembersCount - 1
+    updateTeamMemberInState: (state, { payload }) => {
+      // Remove from all arrays first
+      state.staff = state.staff.filter((member) => member.id !== payload.id)
+      state.boardMembers = state.boardMembers.filter((member) => member.id !== payload.id)
+      state.musicians = state.musicians.filter((member) => member.id !== payload.id)
+
+      // Add to correct array based on memberType
+      if (payload.role === 'Staff') {
+        state.staff.push(payload)
+      } else if (payload.role === 'Board-Member') {
+        state.boardMembers.push(payload)
+      } else if (payload.role === 'Musician') {
+        state.musicians.push(payload)
+      }
+    },
+    updateTeamMemberListInState: (state, { payload }) => {
+      const { savedStaff, savedBoardMembers, savedMusicians } = payload
+
+      // Combine all updated members
+      const allUpdatedMembers = [...(savedStaff || []), ...(savedBoardMembers || []), ...(savedMusicians || [])]
+
+      // Create a map for quick lookup
+      const updatedMap = new Map(allUpdatedMembers.map((member) => [member.id, member]))
+
+      // Update state
+      state.teamMembers = state.teamMembers.map((member) =>
+        updatedMap.has(member.id) ? updatedMap.get(member.id)! : member
+      )
+    },
+    removeTeamMemberFromState: (state, { payload }) => {
+      // Remove from main array
+      state.teamMembers = state.teamMembers.filter((teamMember) => teamMember.id !== payload)
+
+      // Remove from specific arrays
+      state.staff = state.staff.filter((member) => member.id !== payload)
+      state.boardMembers = state.boardMembers.filter((member) => member.id !== payload)
+      state.musicians = state.musicians.filter((member) => member.id !== payload)
+
+      // Update counts
+      state.teamMembersCount = state.teamMembers.length
       state.noTeamMembers = state.teamMembers.length === 0
     },
     setOpenTeamMemberDrawer: (state) => {
@@ -108,37 +146,6 @@ export const teamMemberSlice = createSlice({
     setCloseTeamMemberDrawer: (state) => {
       state.teamMemberDrawer = false
     }
-  },
-  extraReducers: (builder) => {
-    builder
-      .addMatcher(teamMemberApi.endpoints.fetchTeamMembers.matchFulfilled, (state, { payload }: any) => {
-        state.teamMembers = payload.teamMembers
-        state.loading = false
-        state.success = true
-      })
-      .addMatcher(teamMemberApi.endpoints.createTeamMember.matchFulfilled, (state) => {
-        state.success = true
-        state.loading = false
-      })
-      .addMatcher(teamMemberApi.endpoints.updateTeamMember.matchFulfilled, (state) => {
-        state.success = true
-        state.loading = false
-      })
-      .addMatcher(teamMemberApi.endpoints.deleteTeamMember.matchFulfilled, (state) => {
-        state.success = true
-        state.loading = false
-      })
-      .addMatcher(teamMemberApi.endpoints.updateTeamMemberList.matchFulfilled, (state) => {
-        state.success = true
-        state.loading = false
-      })
-      .addMatcher(
-        (action) => action.type.endsWith('rejected') && action.payload?.data?.sliceName === 'teamMemberApi',
-        (state, { payload }: any) => {
-          state.loading = false
-          state.error = payload?.data?.message
-        }
-      )
   }
 })
 
@@ -150,6 +157,7 @@ export const {
   resetTeamMemberError,
   addTeamMemberToState,
   updateTeamMemberInState,
+  updateTeamMemberListInState,
   removeTeamMemberFromState,
   setStaff,
   setBoardMembers,

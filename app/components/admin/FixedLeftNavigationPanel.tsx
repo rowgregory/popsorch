@@ -3,7 +3,6 @@ import { motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight, Crown, Music3, Shield } from 'lucide-react'
 import Link from 'next/link'
 import { itemVariants } from '@/app/lib/constants/advertise-with-us'
-import AwesomeIcon from '../common/AwesomeIcon'
 import { setOpenConductorModal } from '@/app/redux/features/dashboardSlice'
 import { useAppDispatch } from '@/app/redux/store'
 import useSoundEffect from '@/app/hooks/useSoundEffect'
@@ -50,7 +49,7 @@ const FixedLeftNavigationPanel: FC<IFixedLeftNavigationPanel> = ({
             >
               <Link
                 href="/"
-                className="bg-gradient-to-r from-blaze to-sunburst bg-clip-text text-transparent uppercase text-2xl font-bold cursor-pointer hover:bg-gradient-to-r hover:from-teal-400 hover:via-blue-400 hover:to-cyan-400 flex items-center"
+                className="bg-gradient-to-r from-blaze to-sunburst bg-clip-text text-transparent uppercase text-2xl font-bold cursor-pointer hover:bg-gradient-to-r hover:from-violet-400 hover:via-purple-400 hover:to-indigo-400 flex items-center"
               >
                 The Pops
               </Link>
@@ -72,53 +71,59 @@ const FixedLeftNavigationPanel: FC<IFixedLeftNavigationPanel> = ({
       {/* Navigation Items */}
       <div className="flex-1 overflow-y-auto py-4">
         <nav className="space-y-2 px-3">
-          {links.map((item: any, index: number) => (
-            <Link href={item.linkKey} key={index}>
-              <motion.div
-                key={item.id}
-                variants={itemVariants}
-                onClick={() => (item.isPrimaVista ? handlePrimaVistaClick() : {})}
-                initial="closed"
-                animate="open"
-                custom={index}
-                className={`
-                  w-full flex items-center justify-center space-x-3 px-3 py-3 rounded-xl transition-all
-                  ${
-                    item.active
-                      ? `bg-gradient-to-r ${
-                          item.isPrimaVista
-                            ? 'from-indigo-600/20 to-violet-600/20 text-indigo-400 border border-indigo-600/30'
-                            : 'from-red-600/20 to-orange-600/20 text-red-400 border border-red-600/30'
-                        }`
-                      : 'text-neutral-400 hover:text-white hover:bg-neutral-800/30'
-                  }
-                `}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <AwesomeIcon icon={item.icon} className="w-5 h-5 flex-shrink-0" />
-                {!isNavigationCollapsed && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="flex-1"
-                  >
-                    <div className="font-medium">{item.textKey}</div>
-                    {item.description && (
-                      <div
-                        className={`${
-                          item.active ? (item.isPrimaVista ? 'text-indigo-700' : 'text-red-700') : 'text-neutral-500'
-                        } text-xs mt-0.5`}
-                      >
-                        {item.description}
-                      </div>
-                    )}
-                  </motion.div>
-                )}
-              </motion.div>
-            </Link>
-          ))}
+          {links.map((item: any, index: number) => {
+            const IconComponent = item.icon // Store the icon component
+
+            return (
+              <Link href={item.linkKey} key={index}>
+                <motion.div
+                  key={item.id}
+                  variants={itemVariants}
+                  onClick={() => (item.isPrimaVista ? handlePrimaVistaClick() : {})}
+                  initial="closed"
+                  animate="open"
+                  custom={index}
+                  className={`
+          w-full flex items-center justify-center space-x-3 px-3 py-3 rounded-xl transition-all
+          ${
+            item.active
+              ? `bg-linear-to-r ${
+                  item.isPrimaVista
+                    ? 'from-indigo-600/20 to-violet-600/20 text-indigo-400 border border-indigo-600/30'
+                    : 'from-red-600/20 to-orange-600/20 text-red-400 border border-red-600/30'
+                }`
+              : 'text-neutral-400 hover:text-white hover:bg-neutral-800/30'
+          }
+        `}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  {/* Render the icon component */}
+                  <IconComponent className="w-5 h-5 flex-shrink-0" />
+
+                  {!isNavigationCollapsed && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="flex-1"
+                    >
+                      <div className="font-medium">{item.textKey}</div>
+                      {item.description && (
+                        <div
+                          className={`${
+                            item.active ? (item.isPrimaVista ? 'text-indigo-700' : 'text-red-700') : 'text-neutral-500'
+                          } text-xs mt-0.5`}
+                        >
+                          {item.description}
+                        </div>
+                      )}
+                    </motion.div>
+                  )}
+                </motion.div>
+              </Link>
+            )
+          })}
         </nav>
       </div>
 

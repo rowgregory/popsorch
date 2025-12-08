@@ -1,6 +1,6 @@
 import { ISponsor } from '@/app/types/model.types'
 
-export const initialSponsorData: ISponsor = {
+export const sponsorData: ISponsor = {
   id: '',
   filename: '',
   filePath: '',

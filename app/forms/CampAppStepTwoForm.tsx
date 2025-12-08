@@ -3,8 +3,7 @@ import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
 import { createFormActions } from '../redux/features/formSlice'
 import { setStep } from '../redux/features/campSlice'
 import CampInput from './elements/CampInput'
-import AwesomeIcon from '../components/common/AwesomeIcon'
-import { caretLeftIcon, caretRightIcon } from '../lib/icons'
+import { ArrowLeft, ArrowRight } from 'lucide-react'
 
 const CampAppStepTwoForm = () => {
   const dispatch = useAppDispatch()
@@ -59,7 +58,7 @@ const CampAppStepTwoForm = () => {
           type="button"
           className="text-white bg-zinc-400 font-lato duration-300 hover:bg-sunbursthover px-4 py-1 flex items-center gap-x-2 rounded-sm"
         >
-          <AwesomeIcon icon={caretLeftIcon} className="text-white w-3 h-3" />
+          <ArrowLeft className="text-white w-3 h-3" />
           Backward
         </button>
         <button
@@ -68,7 +67,7 @@ const CampAppStepTwoForm = () => {
           className="text-white bg-sunburst px-4 py-1 flex items-center gap-x-2"
         >
           Forward
-          <AwesomeIcon icon={caretRightIcon} className="text-white w-3 h-3" />
+          <ArrowRight className="text-white w-3 h-3" />
         </button>
       </div>
     </form>

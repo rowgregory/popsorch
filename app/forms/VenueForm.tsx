@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useMemo } from 'react'
 import { setInputs } from '../redux/features/formSlice'
 import AdminInput from './elements/AdminInput'
 import AdminTextarea from './elements/AdminTextarea'
@@ -11,10 +11,21 @@ import Picture from '../components/common/Picture'
 const VenueForm: FC<IForm> = ({ inputs, errors, handleSubmit, handleInput, loading, isUpdating, close }) => {
   const dispatch = useAppDispatch()
 
+  const imagePreviewUrl = useMemo(() => {
+    if (inputs?.file) {
+      return URL.createObjectURL(inputs.file)
+    }
+    return inputs?.imageUrl
+  }, [inputs?.file, inputs?.imageUrl])
+
   const handleFileChange = (e: any) => {
     const selectedFile = e.target.files[0]
     if (selectedFile) {
       dispatch(setInputs({ formName: 'venueForm', data: { file: selectedFile } }))
+    }
+    // Auto-fill filename if not already set
+    if (!inputs?.imageFilename) {
+      dispatch(setInputs({ formName: 'venueForm', data: { imageFilename: selectedFile.name } }))
     }
   }
 
@@ -22,7 +33,7 @@ const VenueForm: FC<IForm> = ({ inputs, errors, handleSubmit, handleInput, loadi
     dispatch(
       setInputs({
         formName: 'venueForm',
-        data: { imageUrl: '', file: null, imageFilenameToDelete: inputs.imageFilename }
+        data: { imageFilename: '', imageUrl: '', file: null }
       })
     )
   }
@@ -106,7 +117,7 @@ const VenueForm: FC<IForm> = ({ inputs, errors, handleSubmit, handleInput, loadi
                       <div className="mt-3">
                         <Picture
                           priority={false}
-                          src={inputs?.file?.name ? URL.createObjectURL(inputs?.file) : inputs?.imageUrl}
+                          src={imagePreviewUrl || inputs?.imageUrl}
                           className="w-full h-32 object-contain bg-neutral-700 rounded-lg border border-neutral-600"
                         />
                       </div>

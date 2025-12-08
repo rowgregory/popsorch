@@ -4,7 +4,7 @@ interface ValidationErrors {
   accessibility: string
   parking: string
   immersiveEnvironment: string
-  imageUrl: string
+  imageFilename: string
   address: string
 }
 
@@ -24,15 +24,15 @@ const validateVenueForm = (inputs: ValidationErrors, setErrors: any) => {
   if (!inputs?.parking?.trim()) {
     newErrors.parking = 'Parking is required'
   }
-  if (!inputs?.imageUrl?.trim()) {
-    newErrors.imageUrl = 'Photo is required'
+  if (!inputs?.imageFilename?.trim()) {
+    newErrors.imageFilename = 'Image is required'
   }
 
   if (!inputs?.immersiveEnvironment?.trim()) {
     newErrors.immersiveEnvironment = 'Immersive environment is required'
   }
   if (!inputs?.address?.trim()) {
-    newErrors.address = 'Address os required'
+    newErrors.address = 'Address is required'
   }
 
   setErrors(newErrors)

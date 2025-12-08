@@ -14,7 +14,7 @@ export const concertApi = api.injectEndpoints({
       providesTags: ['Concert']
     }),
     createConcert: build.mutation({
-      query: (body: any) => ({ url: `${BASE_URL}/create-concert`, method: 'POST', body }),
+      query: (body) => ({ url: `${BASE_URL}/create-concert`, method: 'POST', body }),
       invalidatesTags: ['Concert']
     }),
     updateConcert: build.mutation({

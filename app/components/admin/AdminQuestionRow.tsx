@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react'
 import AdminCheckbox from '@/app/forms/elements/AdminCheckbox'
-import { QuestionProps } from '@/app/redux/features/questionSlice'
+import { QuestionProps, removeQuestionFromState, updateQuestionInState } from '@/app/redux/features/questionSlice'
 import { useDeleteQuestionMutation, useUpdateQuestionMutation } from '@/app/redux/services/questionApi'
 import { formatDate } from '@/app/utils/date.functions'
 import AdminTrashDeleteBtn from './AdminTrashDeleteBtn'
@@ -20,7 +20,8 @@ const AdminQuestionRow: FC<{ question: QuestionProps }> = ({ question }) => {
     setIsLoading({ [questionId]: true })
 
     try {
-      await updateQuestion({ id: questionId, hasResponded: e.target.checked }).unwrap()
+      const response = await updateQuestion({ id: questionId, hasResponded: e.target.checked }).unwrap()
+      dispatch(updateQuestionInState(response.question))
     } catch {
     } finally {
       setIsLoading({ [questionId]: false })
@@ -32,8 +33,8 @@ const AdminQuestionRow: FC<{ question: QuestionProps }> = ({ question }) => {
     setIsDeleting({ [questionId]: true })
 
     try {
-      await deleteQuestion({ id: questionId }).unwrap()
-
+      const response = await deleteQuestion({ id: questionId }).unwrap()
+      dispatch(removeQuestionFromState(response.id))
       dispatch(decreaseQuestionCount())
     } catch {
     } finally {

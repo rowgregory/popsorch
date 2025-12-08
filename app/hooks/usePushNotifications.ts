@@ -43,10 +43,9 @@ export const usePushNotifications = () => {
       }
 
       const result = await response.json()
-      console.log('Subscription saved to database:', result)
+
       return result
     } catch (error) {
-      console.error('Error saving subscription to database:', error)
       // Still continue with localStorage as fallback
       throw error
     }
@@ -54,34 +53,26 @@ export const usePushNotifications = () => {
 
   // Remove subscription from database
   const removeSubscriptionFromDatabase = async (endpoint: string) => {
-    try {
-      const response = await fetch(
-        `/api/push-notification/delete-subscription?endpoint=${encodeURIComponent(endpoint)}`,
-        {
-          method: 'DELETE'
-        }
-      )
-
-      if (!response.ok) {
-        throw new Error('Failed to remove subscription from database')
+    const response = await fetch(
+      `/api/push-notification/delete-subscription?endpoint=${encodeURIComponent(endpoint)}`,
+      {
+        method: 'DELETE'
       }
+    )
 
-      console.log('Subscription removed from database')
-    } catch (error) {
-      console.error('Error removing subscription from database:', error)
+    if (!response.ok) {
+      throw new Error('Failed to remove subscription from database')
     }
   }
 
   // Save subscription and notification state to localStorage (keep your existing function)
   const saveToLocalStorage = (notificationsEnabled: boolean, subscription: any) => {
-    try {
-      localStorage.setItem('notificationsEnabled', JSON.stringify(notificationsEnabled))
-      if (subscription) {
-        localStorage.setItem('pushSubscription', JSON.stringify(subscription))
-      } else {
-        localStorage.removeItem('pushSubscription')
-      }
-    } catch {}
+    localStorage.setItem('notificationsEnabled', JSON.stringify(notificationsEnabled))
+    if (subscription) {
+      localStorage.setItem('pushSubscription', JSON.stringify(subscription))
+    } else {
+      localStorage.removeItem('pushSubscription')
+    }
   }
 
   // Enhanced version that saves to both database and localStorage
@@ -89,179 +80,153 @@ export const usePushNotifications = () => {
     // Always save to localStorage first (immediate)
     saveToLocalStorage(true, subscriptionData)
 
-    // Then try to save to database (background)
-    try {
-      await saveSubscriptionToDatabase(subscriptionData, userId)
-    } catch {
-      console.warn('Failed to save to database, but localStorage backup is available')
-    }
+    await saveSubscriptionToDatabase(subscriptionData, userId)
   }, [])
 
   const requestNotificationPermission = useCallback(
     async (userId?: string) => {
-      try {
-        const permission = await Notification.requestPermission()
-        if (permission === 'granted') {
-          dispatch(setPermissionGranted(true))
+      const permission = await Notification.requestPermission()
+      if (permission === 'granted') {
+        dispatch(setPermissionGranted(true))
 
-          const registration = await navigator.serviceWorker.ready
-          const existingSub = await registration.pushManager.getSubscription()
+        const registration = await navigator.serviceWorker.ready
+        const existingSub = await registration.pushManager.getSubscription()
 
-          if (!existingSub) {
-            const sub = await registration.pushManager.subscribe({
-              userVisibleOnly: true,
-              applicationServerKey: urlBase64ToUint8Array(process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!)
-            })
+        if (!existingSub) {
+          const sub = await registration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: urlBase64ToUint8Array(process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!)
+          })
 
-            const encodeKey = (key: ArrayBuffer | null) => {
-              if (key) {
-                const uint8Array = new Uint8Array(key)
-                const base64String = window
-                  .btoa(String.fromCharCode(...uint8Array))
-                  .replace(/\+/g, '-')
-                  .replace(/\//g, '_')
-                  .replace(/=+$/, '')
-                return base64String
-              }
-              return ''
+          const encodeKey = (key: ArrayBuffer | null) => {
+            if (key) {
+              const uint8Array = new Uint8Array(key)
+              const base64String = window
+                .btoa(String.fromCharCode(...uint8Array))
+                .replace(/\+/g, '-')
+                .replace(/\//g, '_')
+                .replace(/=+$/, '')
+              return base64String
             }
-
-            const subscriptionData = {
-              endpoint: sub.endpoint,
-              keys: {
-                p256dh: encodeKey(sub.getKey('p256dh')),
-                auth: encodeKey(sub.getKey('auth'))
-              }
-            }
-
-            // Dispatch subscription and save it to both localStorage and database
-            dispatch(setSubscription(subscriptionData))
-            await saveSubscription(subscriptionData, userId)
-          } else {
-            // If subscription already exists, make sure it's in our database
-            const encodeKey = (key: ArrayBuffer | null) => {
-              if (key) {
-                const uint8Array = new Uint8Array(key)
-                const base64String = window
-                  .btoa(String.fromCharCode(...uint8Array))
-                  .replace(/\+/g, '-')
-                  .replace(/\//g, '_')
-                  .replace(/=+$/, '')
-                return base64String
-              }
-              return ''
-            }
-
-            const subscriptionData = {
-              endpoint: existingSub.endpoint,
-              keys: {
-                p256dh: encodeKey(existingSub.getKey('p256dh')),
-                auth: encodeKey(existingSub.getKey('auth'))
-              }
-            }
-
-            dispatch(setSubscription(subscriptionData))
-            await saveSubscription(subscriptionData, userId)
+            return ''
           }
+
+          const subscriptionData = {
+            endpoint: sub.endpoint,
+            keys: {
+              p256dh: encodeKey(sub.getKey('p256dh')),
+              auth: encodeKey(sub.getKey('auth'))
+            }
+          }
+
+          // Dispatch subscription and save it to both localStorage and database
+          dispatch(setSubscription(subscriptionData))
+          await saveSubscription(subscriptionData, userId)
+        } else {
+          // If subscription already exists, make sure it's in our database
+          const encodeKey = (key: ArrayBuffer | null) => {
+            if (key) {
+              const uint8Array = new Uint8Array(key)
+              const base64String = window
+                .btoa(String.fromCharCode(...uint8Array))
+                .replace(/\+/g, '-')
+                .replace(/\//g, '_')
+                .replace(/=+$/, '')
+              return base64String
+            }
+            return ''
+          }
+
+          const subscriptionData = {
+            endpoint: existingSub.endpoint,
+            keys: {
+              p256dh: encodeKey(existingSub.getKey('p256dh')),
+              auth: encodeKey(existingSub.getKey('auth'))
+            }
+          }
+
+          dispatch(setSubscription(subscriptionData))
+          await saveSubscription(subscriptionData, userId)
         }
-      } catch (error) {
-        console.error('Error requesting notification permission:', error)
       }
     },
     [dispatch, saveSubscription]
   )
 
   const unsubscribe = async () => {
-    try {
-      const registration = await navigator.serviceWorker.ready
-      const sub = await registration.pushManager.getSubscription()
+    const registration = await navigator.serviceWorker.ready
+    const sub = await registration.pushManager.getSubscription()
 
-      if (sub) {
-        // Remove from database first
-        await removeSubscriptionFromDatabase(sub.endpoint)
+    if (sub) {
+      // Remove from database first
+      await removeSubscriptionFromDatabase(sub.endpoint)
 
-        // Then unsubscribe from browser
-        const success = await sub.unsubscribe()
-        if (success) {
-          // Remove the subscription from Redux (set it to null)
-          dispatch(setSubscription(null))
-          dispatch(setPermissionGranted(false))
+      // Then unsubscribe from browser
+      const success = await sub.unsubscribe()
+      if (success) {
+        // Remove the subscription from Redux (set it to null)
+        dispatch(setSubscription(null))
+        dispatch(setPermissionGranted(false))
 
-          // Save the new state to localStorage
-          saveToLocalStorage(false, null)
-        }
+        // Save the new state to localStorage
+        saveToLocalStorage(false, null)
       }
-    } catch (error) {
-      console.error('Error unsubscribing:', error)
     }
   }
 
   // Send notification to all admins (new function)
   const sendNotificationToAllAdmins = async (message: string, title?: string) => {
-    try {
-      const response = await fetch('/api/push-notification/send-push-notification', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          message,
-          title: title || 'New Notification'
-        })
+    const response = await fetch('/api/push-notification/send-push-notification', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message,
+        title: title || 'New Notification'
       })
+    })
 
-      const result = await response.json()
+    const result = await response.json()
 
-      if (!response.ok) {
-        throw new Error(result.message || 'Failed to send notification')
-      }
-
-      console.log('Notification sent to all admins:', result)
-      return result
-    } catch (error) {
-      console.error('Error sending notification to admins:', error)
-      throw error
+    if (!response.ok) {
+      throw new Error(result.message || 'Failed to send notification')
     }
+
+    return result
   }
 
   // 🔥 FIXED: This useEffect only checks subscription, doesn't save to database
   useEffect(() => {
     const checkSubscription = async () => {
       if ('serviceWorker' in navigator) {
-        try {
-          const registration = await navigator.serviceWorker.ready
-          const subscription = await registration.pushManager.getSubscription()
+        const registration = await navigator.serviceWorker.ready
+        const subscription = await registration.pushManager.getSubscription()
 
-          if (subscription) {
-            const encodeKey = (key: ArrayBuffer | null) => {
-              if (key) {
-                const uint8Array = new Uint8Array(key)
-                const base64String = window
-                  .btoa(String.fromCharCode(...uint8Array))
-                  .replace(/\+/g, '-')
-                  .replace(/\//g, '_')
-                  .replace(/=+$/, '')
-                return base64String
-              }
-              return ''
+        if (subscription) {
+          const encodeKey = (key: ArrayBuffer | null) => {
+            if (key) {
+              const uint8Array = new Uint8Array(key)
+              const base64String = window
+                .btoa(String.fromCharCode(...uint8Array))
+                .replace(/\+/g, '-')
+                .replace(/\//g, '_')
+                .replace(/=+$/, '')
+              return base64String
             }
-
-            const subscriptionData = {
-              endpoint: subscription.endpoint,
-              keys: {
-                p256dh: encodeKey(subscription.getKey('p256dh')),
-                auth: encodeKey(subscription.getKey('auth'))
-              }
-            }
-
-            dispatch(setSubscription(subscriptionData))
-            saveToLocalStorage(true, subscriptionData)
-
-            // ❌ REMOVED: Don't automatically save to database on page load
-            // await saveSubscriptionToDatabase(subscriptionData)
+            return ''
           }
-        } catch (error) {
-          console.error('Error checking subscription:', error)
+
+          const subscriptionData = {
+            endpoint: subscription.endpoint,
+            keys: {
+              p256dh: encodeKey(subscription.getKey('p256dh')),
+              auth: encodeKey(subscription.getKey('auth'))
+            }
+          }
+
+          dispatch(setSubscription(subscriptionData))
+          saveToLocalStorage(true, subscriptionData)
         }
       }
     }
@@ -272,14 +237,12 @@ export const usePushNotifications = () => {
   useEffect(() => {
     // Register the service worker
     const registerServiceWorker = async () => {
-      try {
-        if (isPushNotificationSupported()) {
-          await navigator.serviceWorker.register('/push-notifications-sw.js', {
-            scope: '/',
-            updateViaCache: 'none'
-          })
-        }
-      } catch {}
+      if (isPushNotificationSupported()) {
+        await navigator.serviceWorker.register('/push-notifications-sw.js', {
+          scope: '/',
+          updateViaCache: 'none'
+        })
+      }
     }
 
     // Only call these if push notifications are supported by the browser
@@ -294,19 +257,15 @@ export const usePushNotifications = () => {
     const storedSubscription = localStorage.getItem('pushSubscription')
 
     if (storedNotificationState) {
-      try {
-        const parsedState = JSON.parse(storedNotificationState)
-        if (typeof parsedState === 'boolean') {
-          dispatch(setPermissionGranted(parsedState))
-        }
-      } catch {}
+      const parsedState = JSON.parse(storedNotificationState)
+      if (typeof parsedState === 'boolean') {
+        dispatch(setPermissionGranted(parsedState))
+      }
     }
 
     if (storedSubscription) {
-      try {
-        const parsedSubscription = JSON.parse(storedSubscription)
-        dispatch(setSubscription(parsedSubscription))
-      } catch {}
+      const parsedSubscription = JSON.parse(storedSubscription)
+      dispatch(setSubscription(parsedSubscription))
     }
   }, [dispatch])
 

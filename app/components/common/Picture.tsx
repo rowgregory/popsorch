@@ -9,9 +9,39 @@ interface PictureProps {
   onClick?: MouseEventHandler<HTMLImageElement>
   width?: number
   height?: number
+  fill?: boolean
+  sizes?: string
 }
 
-const Picture: FC<PictureProps> = ({ src, alt, className, priority = false, onClick, width, height }) => {
+const Picture: FC<PictureProps> = ({
+  src,
+  alt,
+  className,
+  priority = false,
+  onClick,
+  width,
+  height,
+  fill,
+  sizes = '100vw'
+}) => {
+  // If fill is true, don't use width/height
+  if (fill) {
+    return (
+      <Image
+        onClick={onClick}
+        src={src}
+        alt={alt || 'The Pops'}
+        fill
+        className={className}
+        priority={priority}
+        sizes={sizes}
+        unoptimized
+        style={{ objectFit: 'cover' }}
+      />
+    )
+  }
+
+  // Otherwise use width/height
   return (
     <Image
       onClick={onClick}
@@ -23,7 +53,7 @@ const Picture: FC<PictureProps> = ({ src, alt, className, priority = false, onCl
       priority={priority}
       loading={priority ? 'eager' : 'lazy'}
       fetchPriority={priority ? 'high' : 'auto'}
-      sizes="100vw"
+      sizes={sizes}
       unoptimized
       decoding="async"
       style={{ contentVisibility: 'auto' }}

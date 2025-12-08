@@ -64,9 +64,9 @@ export async function PUT(request: NextRequest) {
     }))
 
     // Update database with the recalculated orders
-    await updateTeamMembersOrder(updatedStaffMembers)
-    await updateTeamMembersOrder(updatedBoardMembers)
-    await updateTeamMembersOrder(updatedMusicians)
+    const savedStaff = await updateTeamMembersOrder(updatedStaffMembers)
+    const savedBoardMembers = await updateTeamMembersOrder(updatedBoardMembers)
+    const savedMusicians = await updateTeamMembersOrder(updatedMusicians)
 
     return NextResponse.json({
       success: true,
@@ -74,7 +74,10 @@ export async function PUT(request: NextRequest) {
       data: {
         boardMembersCount: updatedBoardMembers.length,
         staffMembersCount: updatedStaffMembers.length,
-        musicianCount: updatedMusicians.length
+        musicianCount: updatedMusicians.length,
+        savedStaff,
+        savedBoardMembers,
+        savedMusicians
       }
     })
   } catch {

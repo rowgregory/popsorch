@@ -2,6 +2,7 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Picture from '../components/common/Picture'
+import { sendGAEvent } from '@next/third-parties/google'
 
 const tickets = [
   {
@@ -620,6 +621,28 @@ const BubbleBash = () => {
 
                     <a
                       href="https://ci.ovationtix.com/35505/production/1252045?performanceId=11696147"
+                      onClick={() => {
+                        sendGAEvent('event', 'select_ticket_tier', {
+                          tier_name: ticket.tier,
+                          tier_price: ticket.price,
+                          perks_count: ticket.perks.length,
+                          perks_list: ticket.perks,
+                          has_half_table_option: Boolean(ticket.halfTableNote),
+                          gradient_style: ticket.gradient,
+                          accent_style: ticket.accent,
+                          source_page: 'golden_bubbles_bash_page',
+                          ticket_url: 'https://ci.ovationtix.com/35505/production/1252045?performanceId=11696147',
+                          user_scroll_depth: Math.round(
+                            (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100
+                          ),
+                          time_on_page: Math.round((Date.now() - performance.timeOrigin) / 1000),
+                          viewport_width: window.innerWidth,
+                          viewport_height: window.innerHeight,
+                          device_type:
+                            window.innerWidth < 768 ? 'mobile' : window.innerWidth < 1024 ? 'tablet' : 'desktop',
+                          timestamp: new Date().toISOString()
+                        })
+                      }}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="relative w-full px-4 py-4 rounded-2xl text-center font-bold text-white overflow-hidden group/btn backdrop-blur-sm"

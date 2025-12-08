@@ -10,11 +10,9 @@ const getCoordinatesFromAddress = async (address: string): Promise<{ lat: number
       const { lat, lng } = data.results[0].geometry
       return { lat, lng }
     } else {
-      console.error('No coordinates found for this address.')
       return null
     }
-  } catch (err) {
-    console.error('Geocoding error:', err)
+  } catch {
     return null
   }
 }

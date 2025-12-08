@@ -2,14 +2,13 @@ import React, { useState } from 'react'
 import useCustomPathname from '@/app/hooks/useCustomPathname'
 import { RootState, useAppDispatch, useAppSelector } from '@/app/redux/store'
 import { getNavigationLinks } from '@/app/utils/navigation.utils'
-import AwesomeIcon from '../common/AwesomeIcon'
-import { barsIcon } from '@/app/lib/icons'
 import { useHeaderAtTop } from '@/app/hooks/useHeaderAtTop'
 import { HeaderNavLink } from './HeaderNavLink'
 import { openNavigationDrawer } from '@/app/redux/features/appSlice'
 import Link from 'next/link'
 import CustomHeaderButton from '../CustomHeaderButton'
 import { motion } from 'framer-motion'
+import { Menu } from 'lucide-react'
 
 const HeaderLower = () => {
   const path = useCustomPathname()
@@ -45,7 +44,7 @@ const HeaderLower = () => {
       />
 
       <motion.div
-        className="hidden absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 1200:flex items-center px-5 gap-x-5 h-full"
+        className="hidden 1360:flex items-center px-5 gap-x-5 h-full"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
@@ -77,12 +76,23 @@ const HeaderLower = () => {
         ))}
       </motion.div>
       <div className="flex items-center gap-x-4">
-        <AwesomeIcon
+        <Menu
           onClick={() => dispatch(openNavigationDrawer())}
-          icon={barsIcon}
-          className="w-6 h-6 text-white 1200:hidden block duration-300 hover:text-blaze cursor-pointer"
+          className="w-6 h-6 text-white 1360:hidden block duration-300 hover:text-blaze cursor-pointer"
         />
-        <div className="hidden 1200:block">
+        <div className="hidden 1360:flex space-x-4">
+          <CustomHeaderButton
+            text="Buy Tickets"
+            link="/concerts"
+            linkType="internal"
+            dropdownItems={[]}
+            type="button"
+            fontColor="#fff"
+            backgroundColor="#da0032"
+            animation="scale"
+            createdAt={new Date()}
+            id="123"
+          />
           <CustomHeaderButton {...headerButton} />
         </div>
       </div>

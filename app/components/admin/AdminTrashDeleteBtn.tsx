@@ -1,7 +1,6 @@
 import React, { FC } from 'react'
 import Spinner from '../common/Spinner'
-import AwesomeIcon from '../common/AwesomeIcon'
-import { trashIcon } from '@/app/lib/icons'
+import { Trash } from 'lucide-react'
 
 interface AdminTrashDeleteBtn {
   loading: any
@@ -19,7 +18,7 @@ const AdminTrashDeleteBtn: FC<AdminTrashDeleteBtn> = ({ loading, id, handleDelet
           onClick={(e) => handleDelete(e, id)}
           className="w-8 h-8 rounded-full duration-150 hover:bg-midnightblack flex items-center justify-center cursor-pointer"
         >
-          <AwesomeIcon icon={trashIcon} className="w-4 h-4 text-blaze" />
+          <Trash className="w-4 h-4 text-blaze" />
         </div>
       )}
     </>

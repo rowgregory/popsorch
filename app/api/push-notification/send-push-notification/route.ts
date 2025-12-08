@@ -62,18 +62,11 @@ export async function POST(req: NextRequest) {
         )
         return { success: true, endpoint: sub.endpoint }
       } catch (error: any) {
-        console.error(`Failed to send notification to ${sub.endpoint}:`, error)
-
         // If subscription is invalid (410 status), remove it from database
         if (error.statusCode === 410) {
-          try {
-            await prisma.pushSubscription.delete({
-              where: { endpoint: sub.endpoint }
-            })
-            console.log(`Removed invalid subscription: ${sub.endpoint}`)
-          } catch (deleteError) {
-            console.error('Error removing invalid subscription:', deleteError)
-          }
+          await prisma.pushSubscription.delete({
+            where: { endpoint: sub.endpoint }
+          })
         }
 
         return { success: false, endpoint: sub.endpoint, error: error.message }
@@ -95,7 +88,6 @@ export async function POST(req: NextRequest) {
       { status: 200 }
     )
   } catch (error: unknown) {
-    console.error('Push notification error:', error)
     return NextResponse.json(
       {
         message: 'Failed to send notification',

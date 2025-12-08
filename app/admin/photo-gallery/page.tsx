@@ -1,32 +1,34 @@
 'use client'
 
 import React from 'react'
-import AdminPageSpinner from '@/app/components/admin/AdminPageSpinner'
 import AdminPhotoGalleryImage from '@/app/components/admin/AdminPhotoGalleryImage'
 import { PhotoGalleryImageProps } from '@/app/redux/features/photoGalleryImageSlice'
-import { RootState, useAppSelector, usePhotoSelector } from '@/app/redux/store'
-import { useFetchPhotoGalleryImagesQuery } from '@/app/redux/services/photoGalleryImageApi'
+import { usePhotoSelector } from '@/app/redux/store'
+import EmptyState from '@/app/components/common/EmptyState'
 
 const PhotoGallery = () => {
-  const { noPhotoGalleryImages } = usePhotoSelector()
-  const { loading: loadingPhotoGalleryImages } = useAppSelector((state: RootState) => state.app)
-  const { data } = useFetchPhotoGalleryImagesQuery(undefined) as any
+  const { noPhotoGalleryImages, photoGalleryImages } = usePhotoSelector()
 
   return (
     <>
       <div className="p-6">
-        {loadingPhotoGalleryImages ? (
-          <AdminPageSpinner fill="fill-amber-500" />
-        ) : noPhotoGalleryImages ? (
-          <div className="font-sm font-lato">No photo gallery images</div>
-        ) : (
-          <div className="grid grid-cols-12 gap-3">
-            {data?.photoGalleryImages?.map((photoGalleryImage: PhotoGalleryImageProps) => (
-              <AdminPhotoGalleryImage key={photoGalleryImage.id} photoGalleryImage={photoGalleryImage} />
-            ))}
-          </div>
-        )}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-4">
+          {photoGalleryImages?.map((photoGalleryImage: PhotoGalleryImageProps) => (
+            <AdminPhotoGalleryImage key={photoGalleryImage.id} photoGalleryImage={photoGalleryImage} />
+          ))}
+        </div>
       </div>
+      {/* Empty State (if no sponsors) */}
+      {noPhotoGalleryImages && (
+        <EmptyState
+          searchQuery=""
+          typeFilter="all"
+          title="Photo Gallery Image"
+          advice="Click the actions button to get started"
+          func={() => {}}
+          action=""
+        />
+      )}
     </>
   )
 }

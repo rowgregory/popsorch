@@ -3,9 +3,8 @@ import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
 import { createFormActions } from '../redux/features/formSlice'
 import { setStep } from '../redux/features/campSlice'
 import CampInput from './elements/CampInput'
-import AwesomeIcon from '../components/common/AwesomeIcon'
-import { caretRightIcon } from '../lib/icons'
 import validateCampAppStepOneForm from '../validations/validateCampAppStepOneForm'
+import { ArrowRight } from 'lucide-react'
 
 const CampAppStepOneForm = () => {
   const dispatch = useAppDispatch()
@@ -86,7 +85,7 @@ const CampAppStepOneForm = () => {
           className="text-white bg-sunburst px-4 py-1 flex items-center gap-x-2"
         >
           Forward
-          <AwesomeIcon icon={caretRightIcon} className="text-white w-3 h-3" />
+          <ArrowRight className="text-white w-3 h-3" />
         </button>
       </div>
     </form>

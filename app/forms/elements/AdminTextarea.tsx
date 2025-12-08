@@ -15,7 +15,7 @@ interface AdminTextareaProps {
 
 const AdminTextarea: FC<AdminTextareaProps> = ({ name, value, onChange, label, subLabel, error, rows, isRequired }) => {
   return (
-    <div>
+    <div className="mb-2">
       <label htmlFor="name" className="block text-sm font-semibold text-neutral-300 mb-2">
         {label} {isRequired && '*'}
       </label>
@@ -31,7 +31,7 @@ const AdminTextarea: FC<AdminTextareaProps> = ({ name, value, onChange, label, s
         rows={rows ?? 10}
       />
       {error && (
-        <p className="mt-2 text-sm text-red-400 flex items-center">
+        <p className="mt-1 text-sm text-red-400 flex items-center">
           <AlertCircle className="w-4 h-4 mr-1" />
           {error}
         </p>

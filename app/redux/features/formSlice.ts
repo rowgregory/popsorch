@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { ChangeEvent } from 'react'
 import { UserProps } from './userSlice'
-import { initialSponsorData } from '@/app/lib/initial-state/sponsor'
+import { sponsorData } from '@/app/lib/initial-state/sponsor'
 
 export type Inputs = {
   [key: string]: string | number | boolean | undefined | unknown
@@ -27,28 +27,6 @@ interface HandleInputProps {
   formName: string
   name: string
   value: any
-}
-
-export type ConcertProps = {
-  id: string
-  name: string
-  pressRelease: string
-  description: string
-  eventDetails: [
-    {
-      date: string
-      time: string
-      location: { venueId: string; name: string; address: string; longitude: string; latitude: string }
-      externalLink: string
-    }
-  ]
-
-  imageUrl: string
-  imageFilename: string
-  type: string
-  createdAt: string
-  allSeriesExternalLink: string
-  isOnSale: boolean
 }
 
 const formInitialState = {
@@ -89,7 +67,7 @@ const formInitialState = {
   contactForm: { inputs: { name: '', email: '', message: '' }, errors: {} },
   progress: 0,
   home: { inputs: { src: '', mimeType: '', type: '', textBlockKey: '' } },
-  questionForm: { inputs: { name: '', email: '', message: '', hasResponded: false } },
+  questionForm: { inputs: { name: '', email: '', message: '', hasResponded: false }, errors: {} },
   registerForm: {
     inputs: {
       firstName: '',
@@ -136,7 +114,7 @@ const formInitialState = {
     errors: {}
   },
   sponsorForm: {
-    inputs: initialSponsorData,
+    inputs: sponsorData,
     errors: {}
   }
 } as any

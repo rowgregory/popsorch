@@ -4,17 +4,27 @@ import React from 'react'
 import { getFooterLinks } from '../utils/navigation.utils'
 import useCustomPathname from '../hooks/useCustomPathname'
 import Link from 'next/link'
-import AwesomeIcon from './common/AwesomeIcon'
-import { chevronUpIcon, mapLocationDotIcon, pencilIcon, phoneIcon } from '../lib/icons'
 import TitleWithLine from './common/TitleWithLine'
 import { RootState, useAppSelector } from '../redux/store'
 import EditableTextArea from './common/EditableTextArea'
+import { ChevronUp, MapPin, Pencil, Phone } from 'lucide-react'
 import { socialLinks } from '@/public/data/home.data'
+import { sendGAEvent } from '@next/third-parties/google'
 
 const Footer = () => {
   const path = useCustomPathname()
   const footerLinks = getFooterLinks(path)
   const { textBlockMap } = useAppSelector((state: RootState) => state.textBlock)
+
+  const extractPlatform = (url: string): string => {
+    if (url.includes('facebook.com')) return 'Facebook'
+    if (url.includes('instagram.com')) return 'Instagram'
+    if (url.includes('twitter.com') || url.includes('x.com')) return 'Twitter'
+    if (url.includes('youtube.com')) return 'YouTube'
+    if (url.includes('linkedin.com')) return 'LinkedIn'
+    if (url.includes('tiktok.com')) return 'TikTok'
+    return 'Unknown'
+  }
 
   return (
     <footer className="border-t-3 border-t-blaze">
@@ -23,16 +33,29 @@ const Footer = () => {
           <div className="col-span-12 990:col-span-4 flex flex-col items-center gap-y-10">
             <Link href="/" className={`bg-golden50Logo bg-no-repeat bg-contain bg-center w-60 h-[200px]`} />
             <div className="w-full flex justify-center gap-x-2">
-              {socialLinks.map((link, i) => (
-                <a
-                  key={i}
-                  target="_blank"
-                  href={link.linkKey}
-                  className="w-12 h-12 rounded-full bg-inkblack border-2 border-inkblack flex items-center justify-center border-l-2 border-l-blaze hover:shadow-adminbtn duration-300"
-                >
-                  <AwesomeIcon icon={link.icon} className="w-4 h-4" />
-                </a>
-              ))}
+              {socialLinks.map((link, i) => {
+                const IconComponent = link.icon
+                return (
+                  <a
+                    key={i}
+                    onClick={() => {
+                      sendGAEvent('event', 'social_media_click', {
+                        platform: extractPlatform(link.linkKey),
+                        social_url: link.linkKey,
+                        icon_position: i + 1,
+                        click_location: 'footer_social_bar',
+                        source_page: window.location.pathname,
+                        engagement_type: 'outbound_social'
+                      })
+                    }}
+                    target="_blank"
+                    href={link.linkKey}
+                    className="w-12 h-12 rounded-full bg-inkblack border-2 border-inkblack flex items-center justify-center border-l-2 border-l-blaze hover:shadow-adminbtn duration-300"
+                  >
+                    <IconComponent className="w-4 h-4" />
+                  </a>
+                )
+              })}
             </div>
           </div>
           <div className="col-span-12 990:col-span-4 flex flex-col gap-y-10 items-center">
@@ -43,7 +66,7 @@ const Footer = () => {
             />
             <ul className="flex flex-col items-center gap-y-3 text-white font-lato">
               <li className="flex items-center gap-x-2">
-                <AwesomeIcon icon={pencilIcon} className="text-blaze w-3.5 h-3.5" />
+                <Pencil className="text-blaze w-3.5 h-3.5" />
                 <EditableTextArea
                   tag="div"
                   initialValue={textBlockMap?.FOOTER_BLOCK?.contactInfoLine1}
@@ -52,7 +75,7 @@ const Footer = () => {
                 />
               </li>
               <li className="flex items-center gap-x-2">
-                <AwesomeIcon icon={mapLocationDotIcon} className="text-blaze w-3.5 h-3.5" />
+                <MapPin className="text-blaze w-3.5 h-3.5" />
                 <EditableTextArea
                   tag="div"
                   initialValue={textBlockMap?.FOOTER_BLOCK?.contactInfoLine2}
@@ -61,7 +84,7 @@ const Footer = () => {
                 />
               </li>
               <li className="flex items-center gap-x-2">
-                <AwesomeIcon icon={phoneIcon} className="text-blaze w-3.5 h-3.5" />
+                <Phone className="text-blaze w-3.5 h-3.5" />
                 <EditableTextArea
                   tag="div"
                   initialValue={textBlockMap?.FOOTER_BLOCK?.contactInfoLine3 || '941 926 POPS (7677)'}
@@ -81,6 +104,17 @@ const Footer = () => {
               {footerLinks.map((link, i) => (
                 <Link
                   href={link.linkKey}
+                  onClick={() => {
+                    sendGAEvent('event', 'footer_link_click', {
+                      link_text: link.textKey,
+                      link_url: link.linkKey,
+                      link_type: link.linkKey.startsWith('http') ? 'external' : 'internal',
+                      link_position: i + 1,
+                      link_category: link.textKey === 'Donations' ? 'donation_cta' : 'footer_navigation',
+                      is_active: link.active,
+                      source_page: window.location.pathname
+                    })
+                  }}
                   target={link.textKey === 'Donations' ? '_blank' : ''}
                   key={i}
                   className="text-white font-lato cursor-pointer duration-300 hover:text-blaze"
@@ -97,15 +131,25 @@ const Footer = () => {
           <div className="font-changa text-12 uppercase">Copyright &copy; {new Date().getFullYear()}</div>
           <Link
             href="https://sqysh.io?lead_source=the_pops_orchestra"
+            onClick={() => {
+              sendGAEvent('event', 'developer_credit_click', {
+                link_text: 'Sqysh',
+                link_url: 'https://sqysh.io',
+                link_type: 'developer_attribution',
+                lead_source: 'the_pops_orchestra',
+                click_location: 'footer_credits',
+                source_page: window.location.pathname,
+                engagement_type: 'outbound_referral'
+              })
+            }}
             target="_blank"
             className="text-white text-sm font-bold font-raleway duration-300 hover:text-lime-400"
           >
             Sqysh
           </Link>
         </div>
-        <AwesomeIcon
+        <ChevronUp
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          icon={chevronUpIcon}
           className="absolute bottom-6 right-10 z-10 text-white w-5 h-5 cursor-pointer hover:text-blaze duration-300"
         />
       </section>

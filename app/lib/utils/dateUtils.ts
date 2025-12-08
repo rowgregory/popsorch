@@ -203,3 +203,6 @@ export const getTimeInfo = (date: Date) => ({
   relative: formatTimeAgo(date),
   date: formatDate(date, { style: 'month-day' })
 })
+
+// COMMON VARIABLES
+export const now = new Date()

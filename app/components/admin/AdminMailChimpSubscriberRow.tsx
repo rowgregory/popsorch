@@ -1,10 +1,7 @@
-import { formatDate } from '@/app/utils/date.functions'
 import React, { FC, useState } from 'react'
-import Pill from '../common/Pill'
 import Link from 'next/link'
-import AwesomeIcon from '../common/AwesomeIcon'
-import { externalLinkIcon } from '@/app/lib/icons'
 import { MemberProps } from '@/app/redux/features/mailchimpSlice'
+import { ExternalLink, ChevronDown, Heart, TrendingUp, Phone, Calendar } from 'lucide-react'
 
 const AdminMailChimpSubscriberRow: FC<MemberProps> = ({
   contactId,
@@ -14,109 +11,158 @@ const AdminMailChimpSubscriberRow: FC<MemberProps> = ({
   createdAt,
   status,
   interests,
-  address,
-  stats,
-  ipOpt
+  stats
 }) => {
-  const [expandedRow, setExpandedRow] = useState<string | null>(null)
+  const [isExpanded, setIsExpanded] = useState(false)
 
   const mappedEnabledOptions = (interests: any) => {
     return [
-      interests.isOption1 && { type: 'Season Tickets' },
-      interests.isOption2 && { type: 'Special Events' },
-      interests.isOption3 && { type: 'Youth Education' },
-      interests.isOption4 && { type: 'Other' }
+      interests.isOption1 && { type: 'Season Tickets', icon: '🎫' },
+      interests.isOption2 && { type: 'Special Events', icon: '🎉' },
+      interests.isOption3 && { type: 'Youth Education', icon: '🎓' },
+      interests.isOption4 && { type: 'Other', icon: '📌' }
     ].filter(Boolean)
   }
 
-  const toggleExpandedRow = (email: string) => {
-    if (expandedRow === email) {
-      setExpandedRow(null)
-    } else {
-      setExpandedRow(email)
+  const getStatusStyle = (status: string) => {
+    switch (status.toLowerCase()) {
+      case 'subscribed':
+        return 'bg-green-500/20 text-green-400 border-green-500/30'
+      case 'unsubscribed':
+        return 'bg-red-500/20 text-red-400 border-red-500/30'
+      case 'pending':
+        return 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30'
+      case 'cleaned':
+        return 'bg-neutral-500/20 text-neutral-400 border-neutral-500/30'
+      default:
+        return 'bg-neutral-500/20 text-neutral-400 border-neutral-500/30'
     }
   }
 
   return (
-    <>
-      <div
-        onClick={() => toggleExpandedRow(email)}
-        className="grid grid-cols-[2fr_2fr_2fr_2fr_2fr_1fr] h-12 gap-x-3 bg-midnightblack pl-4 pr-2 border-l-4 border-l-lime-500 items-center cursor-pointer font-lato hover:bg-inkblack duration-300"
-      >
-        <div className="truncate">{name}</div>
-        <div className="truncate">{email}</div>
-        <div className="truncate">{phoneNumber}</div>
-        <div className="truncate">
-          {formatDate(createdAt, {
-            minute: 'numeric',
-            second: 'numeric',
-            hour: 'numeric'
-          })}
-        </div>
-        <div className="truncate w-full justify-center items-end flex">
-          <Pill status={status} />
-        </div>
-        <div className="w-full justify-center items-end flex">
-          <Link
-            target="_blank"
-            href={`https://us2.admin.mailchimp.com/audience/contact-profile?contact_id=${contactId}`}
-          >
-            <AwesomeIcon icon={externalLinkIcon} className="w-4 h-4 text-lime-500" />
-          </Link>
+    <div className="bg-neutral-800/50 backdrop-blur-sm border border-neutral-700/50 rounded-xl overflow-hidden hover:border-neutral-600/70 transition-all">
+      {/* Main Card */}
+      <div onClick={() => setIsExpanded(!isExpanded)} className="p-4 cursor-pointer group">
+        <div className="flex items-center justify-between gap-4">
+          {/* User Info */}
+          <div className="flex items-center gap-4 flex-1 min-w-0">
+            <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0 shadow-lg">
+              {name?.charAt(0)?.toUpperCase() || email?.charAt(0)?.toUpperCase() || 'U'}
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-3 mb-1">
+                <h4 className="text-white font-semibold truncate">{name || 'No name'}</h4>
+                <span
+                  className={`px-2 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border ${getStatusStyle(
+                    status
+                  )}`}
+                >
+                  {status}
+                </span>
+              </div>
+              <p className="text-neutral-400 text-sm truncate">{email}</p>
+            </div>
+          </div>
+
+          {/* Meta Info */}
+          <div className="hidden md:flex items-center gap-6">
+            {phoneNumber && (
+              <div className="flex items-center gap-2">
+                <Phone className="w-4 h-4 text-neutral-500" />
+                <span className="text-neutral-300 text-sm">{phoneNumber}</span>
+              </div>
+            )}
+            <div className="flex items-center gap-2">
+              <Calendar className="w-4 h-4 text-neutral-500" />
+              <span className="text-neutral-400 text-sm">
+                {new Date(createdAt).toLocaleDateString('en-US', {
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric'
+                })}
+              </span>
+            </div>
+          </div>
+
+          {/* Actions */}
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <Link
+              target="_blank"
+              href={`https://us2.admin.mailchimp.com/audience/contact-profile?contact_id=${contactId}`}
+              onClick={(e) => e.stopPropagation()}
+              className="p-2 hover:bg-neutral-700 rounded-lg transition-colors"
+            >
+              <ExternalLink className="w-4 h-4 text-emerald-400 hover:text-emerald-300" />
+            </Link>
+            <ChevronDown
+              className={`w-5 h-5 text-neutral-500 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+            />
+          </div>
         </div>
       </div>
 
-      {expandedRow === email && (
-        <div className="grid grid-cols-12 gap-y-3 990:gap-x-16 bg-midnightblack text-white mt-2 p-6 font-lato">
-          <div className="col-span-12 990:col-span-4 pb-4">
-            <h3 className="text-2xl font-changa mb-2">Interests</h3>
-            {interests?.length > 0 ? (
-              <ul className="grid grid-cols-12 gap-3">
-                {mappedEnabledOptions(interests).map((option: any, index: number) => (
-                  <li key={index} className="col-span-12 1160:col-span-6">
-                    {option.type}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              'No interests selected'
-            )}
-          </div>
+      {/* Expanded Details */}
+      {isExpanded && (
+        <div className="border-t border-neutral-700/50 bg-neutral-900/50 p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Interests */}
+            <div>
+              <div className="flex items-center gap-2 mb-3">
+                <Heart className="w-4 h-4 text-emerald-400" />
+                <h3 className="text-white font-bold text-sm uppercase tracking-wider">Interests</h3>
+              </div>
+              {mappedEnabledOptions(interests).length > 0 ? (
+                <div className="space-y-2">
+                  {mappedEnabledOptions(interests).map((option: any, index: number) => (
+                    <div key={index} className="flex items-center gap-2 px-3 py-2 bg-neutral-800/50 rounded-lg">
+                      <span className="text-lg">{option.icon}</span>
+                      <span className="text-neutral-300 text-sm">{option.type}</span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-neutral-500 text-sm italic">No interests selected</p>
+              )}
+            </div>
 
-          <div className="col-span-12 990:col-span-4 pt-4 990:pt-0">
-            <h3 className="text-2xl font-changa mb-2">Address</h3>
-            {address ? (
-              <p>
-                {address?.addr1}, {address?.city}, {address?.state} {address?.zip}
-              </p>
-            ) : (
-              'No address provided'
-            )}
-          </div>
-          <div className="col-span-12 990:col-span-4 pt-4 990:pt-0">
-            <h3 className="text-2xl font-changa mb-2">Engagement Metrics</h3>
-            <ul className="text-white">
-              <li className="flex items-center gap-x-2">
-                Average Open Rate: <span className="text-white font-changa text-xl">{stats.avgOpenRate}</span>
-              </li>
-              <li className="flex items-center gap-x-2">
-                Average Click Rate: <span className="text-white font-changa text-xl">{stats.avgClickRate}</span>
-              </li>
-              <li className="flex items-center gap-x-2 group">
-                IP Opt:{' '}
-                <Link
-                  href={`https://whatismyipaddress.com/ip/${ipOpt}`}
-                  target="_blank"
-                  className="text-white font-changa text-xl duration-300 group-hover:text-lime-500"
-                >
-                  {ipOpt}
-                </Link>
-              </li>
-            </ul>
+            {/* Engagement Metrics */}
+            <div>
+              <div className="flex items-center gap-2 mb-3">
+                <TrendingUp className="w-4 h-4 text-emerald-400" />
+                <h3 className="text-white font-bold text-sm uppercase tracking-wider">Engagement</h3>
+              </div>
+              <div className="space-y-3">
+                <div className="bg-neutral-800/50 rounded-lg p-3">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-neutral-400 text-xs">Open Rate</span>
+                    <span className="text-emerald-400 font-bold text-lg">{stats.avgOpenRate}%</span>
+                  </div>
+                  <div className="w-full bg-neutral-700 rounded-full h-1.5">
+                    <div
+                      className="bg-emerald-500 h-1.5 rounded-full transition-all"
+                      style={{ width: `${stats.avgOpenRate}%` }}
+                    />
+                  </div>
+                </div>
+
+                <div className="bg-neutral-800/50 rounded-lg p-3">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-neutral-400 text-xs">Click Rate</span>
+                    <span className="text-teal-400 font-bold text-lg">{stats.avgClickRate}%</span>
+                  </div>
+                  <div className="w-full bg-neutral-700 rounded-full h-1.5">
+                    <div
+                      className="bg-teal-500 h-1.5 rounded-full transition-all"
+                      style={{ width: `${stats.avgClickRate}%` }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}
-    </>
+    </div>
   )
 }
 

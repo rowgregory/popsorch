@@ -1,34 +1,45 @@
 import React, { FC, FormEvent } from 'react'
-import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
-import { createFormActions } from '../redux/features/formSlice'
+import { useAppDispatch, useFormSelector } from '../redux/store'
+import { createFormActions, resetForm } from '../redux/features/formSlice'
 import ContactFormTextarea from './elements/ContactFormTextarea'
 import { useCreateQuestionMutation } from '../redux/services/questionApi'
 import CampInput from './elements/CampInput'
 import validateContactForm from '../validations/validateContactForm'
 import Spinner from '../components/common/Spinner'
 import { increaseQuestionCount } from '../redux/features/appSlice'
+import { showToast } from '../redux/features/toastSlice'
+import { addQuestionToState } from '../redux/features/questionSlice'
 
 const ContactForm: FC<{ btnClassname?: string }> = ({ btnClassname }) => {
   const dispatch = useAppDispatch()
-  const { question } = useAppSelector((state: RootState) => state.form)
+  const { questionForm } = useFormSelector()
 
-  const { handleInput, clearInputs, setErrors } = createFormActions('question', dispatch)
+  const { handleInput, setErrors } = createFormActions('questionForm', dispatch)
   const [createQuestion, { isLoading }] = useCreateQuestionMutation()
+
+  const inputs = questionForm?.inputs
+  const errors = questionForm?.errors
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
 
-    const isValid = validateContactForm(question?.inputs, setErrors)
-    if (!isValid) return
+    if (!validateContactForm(inputs, setErrors)) return
 
     try {
-      await createQuestion({
-        name: question.inputs.name,
-        email: question.inputs.email,
-        message: question.inputs.message
+      const response = await createQuestion({
+        name: inputs.name,
+        email: inputs.email,
+        message: inputs.message
       }).unwrap()
-
-      clearInputs()
+      dispatch(addQuestionToState(response.question))
+      dispatch(
+        showToast({
+          type: 'success',
+          description: 'Success',
+          message: 'Question successfully transmitted.'
+        })
+      )
+      dispatch(resetForm('questionForm'))
       dispatch(increaseQuestionCount())
     } catch {}
   }
@@ -38,28 +49,28 @@ const ContactForm: FC<{ btnClassname?: string }> = ({ btnClassname }) => {
       <div className="col-span-12 990:col-span-6">
         <CampInput
           name="name"
-          value={question?.inputs?.name}
+          value={inputs?.name}
           handleInput={handleInput}
           placeholder="Your Name"
-          error={question?.errors?.name}
+          error={errors?.name}
         />
       </div>
       <div className="col-span-12 990:col-span-6">
         <CampInput
           name="email"
-          value={question?.inputs?.email}
+          value={inputs?.email}
           handleInput={handleInput}
           placeholder="Your Email"
-          error={question?.errors?.email}
+          error={errors?.email}
         />
       </div>
       <div className="col-span-12">
         <ContactFormTextarea
           name="message"
-          value={question?.inputs?.message}
+          value={inputs?.message}
           onChange={handleInput}
           placeholder="Ask your question here..."
-          error={question?.errors?.message}
+          error={errors?.message}
         />
       </div>
       <div className={`col-span-12 flex items-center ${btnClassname ?? 'justify-center'}  mt-3`}>

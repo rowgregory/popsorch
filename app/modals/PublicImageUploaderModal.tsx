@@ -5,11 +5,10 @@ import PublicModal from '../components/common/PublicModal'
 import { useUpdateTextBlockMutation } from '../redux/services/textBlockApi'
 import uploadFileToFirebase from '../utils/firebase.upload'
 import Picture from '../components/common/Picture'
-import AwesomeIcon from '../components/common/AwesomeIcon'
 import { createFormActions } from '../redux/features/formSlice'
 import { setCloseModalImageUploaderPublic } from '../redux/features/appSlice'
-import { arrowRightIcon } from '../lib/icons'
 import Spinner from '../components/common/Spinner'
+import { ArrowRight } from 'lucide-react'
 
 const ImageUploaderHeader = () => (
   <>
@@ -24,7 +23,7 @@ const ImageUploaderHeader = () => (
 const MediaLink = () => (
   <Link className="flex items-center gap-x-2 mb-10 mt-1.5" href="" target="_blank">
     <span className="text-neonIce font-medium w-fit text-sm">View All Media Stored on Firebase</span>
-    <AwesomeIcon icon={arrowRightIcon} className="w-4 h-4 text-neonIce -rotate-45" />
+    <ArrowRight className="w-4 h-4 text-neonIce -rotate-45" />
   </Link>
 )
 

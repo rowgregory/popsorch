@@ -13,7 +13,7 @@ export async function DELETE(req: NextRequest) {
     const userHeader = req.headers.get('x-user')! // Exlmation point <----
     parsedUser = JSON.parse(userHeader)
 
-    await prisma.sponsor.delete({
+    const deletedSponsor = await prisma.sponsor.delete({
       where: { id }
     })
 
@@ -27,7 +27,7 @@ export async function DELETE(req: NextRequest) {
       user: parsedUser
     })
 
-    return NextResponse.json({ sliceName: sliceSponsor }, { status: 200 })
+    return NextResponse.json({ id: deletedSponsor.id, sliceName: sliceSponsor }, { status: 200 })
   } catch (error: any) {
     await createLog('error', `Deleting sponsor failed: ${error.message}`, {
       errorLocation: parseStack(JSON.stringify(error)),

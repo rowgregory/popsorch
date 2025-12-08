@@ -9,6 +9,7 @@ const cardVariants = {
 
 import { useState } from 'react'
 import { ChevronDown, ChevronUp } from 'lucide-react'
+import { sendGAEvent } from '@next/third-parties/google'
 
 const ConcertCard = ({ concert }: { concert: any }) => {
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false)
@@ -22,6 +23,16 @@ const ConcertCard = ({ concert }: { concert: any }) => {
   return (
     <MotionLink
       href={concert.allSeriesExternalLink}
+      onClick={() => {
+        sendGAEvent('event', 'sundays_at_neel_buy_tickets_button', {
+          link_text: 'Sqysh',
+          link_url: concert.allSeriesExternalLink,
+          link_type: 'external',
+          lead_source: 'the_pops_orchestra',
+          click_location: 'Sundays@Neel',
+          source_page: window.location.pathname
+        })
+      }}
       target="_blank"
       variants={cardVariants}
       whileHover={{ y: -10, scale: 1.02 }}

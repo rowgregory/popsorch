@@ -36,7 +36,7 @@ export async function DELETE(req: NextRequest) {
       where: { id }
     })
 
-    return NextResponse.json({ sliceName: slicePhotoGallery }, { status: 200 })
+    return NextResponse.json({ id, sliceName: slicePhotoGallery }, { status: 200 })
   } catch (error: any) {
     await createLog('error', `Deleting photo failed: ${error.message}`, {
       errorLocation: parseStack(JSON.stringify(error)),

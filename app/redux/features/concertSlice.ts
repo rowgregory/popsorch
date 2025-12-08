@@ -1,25 +1,5 @@
 import { Reducer, createSlice } from '@reduxjs/toolkit'
-import { concertApi } from '../services/concertApi'
-
-export interface ConcertEventDetailsLocationProps {
-  name: string
-  id: string
-  address: string
-  latitude: number
-  longitude: number
-}
-
-export interface ConcertEventDetailsProps {
-  id: string
-  dayOfWeek: string
-  date: string
-  time: string
-  city: string
-  location: ConcertEventDetailsLocationProps
-  externalLink: string
-  latitude: number
-  longitude: number
-}
+import { IConcert } from '@/app/types/entities/concert'
 
 export const concertEventDetailsLocationState = { name: '', id: '', address: '', longitude: 0, latitude: 0 }
 
@@ -35,34 +15,18 @@ export const concertEventDetailsState = {
   longitude: 0
 }
 
-export interface ConcertProps {
-  id: string
-  name: string
-  description: string
-  eventDetails: ConcertEventDetailsProps[]
-  imageUrl: string
-  imageFilename: string
-  isOnSale: boolean
-  type: string
-  pressRelease: string
-  allSeriesExternalLink: string
-  cardDate: string
-  createdAt: Date
-  updatedAt: Date
-}
-
 export interface ConcertStatePayload {
   loading: boolean
   error: any
   success: boolean
-  concerts: ConcertProps[]
-  concert: ConcertProps
+  concerts: IConcert[]
+  concert: IConcert
   concertsCount: number
   noConcerts: boolean
   concertDrawer: boolean
 }
 
-const concertState: ConcertProps = {
+const concertState: IConcert = {
   id: '',
   name: '',
   description: '',
@@ -97,7 +61,7 @@ export const concertSlice = createSlice({
       state.error = null
       state.concert = concertState
     },
-    setConcerts: (state, { payload }: any) => {
+    setConcerts: (state, { payload }) => {
       state.concerts = payload
       state.concertsCount = payload?.length
       state.noConcerts = payload?.length === 0
@@ -105,20 +69,20 @@ export const concertSlice = createSlice({
     resetConcertError: (state) => {
       state.error = null
     },
-    addConcertToState: (state, action) => {
-      state.concerts.push(action.payload)
+    addConcertToState: (state, { payload }) => {
+      state.concerts.push(payload)
       state.concertsCount = state.concertsCount + 1
       state.noConcerts = state.concerts.length === 0
     },
-    updateConcertInState: (state, action) => {
-      const updatedConcert = action.payload
-      const index = state.concerts.findIndex((concert) => concert.id === updatedConcert.id)
+    updateConcertInState: (state, { payload }) => {
+      const index = state.concerts.findIndex((concert) => concert.id === payload.id)
+
       if (index !== -1) {
-        state.concerts[index] = updatedConcert
+        state.concerts[index] = payload
       }
     },
-    removeConcertFromState: (state, action) => {
-      state.concerts = state.concerts.filter((concert) => concert.id !== action.payload)
+    removeConcertFromState: (state, { payload }) => {
+      state.concerts = state.concerts.filter((concert) => concert.id !== payload)
       state.concertsCount = state.concertsCount - 1
       state.noConcerts = state.concerts.length === 0
     },
@@ -128,37 +92,6 @@ export const concertSlice = createSlice({
     setCloseConcertDrawer: (state) => {
       state.concertDrawer = false
     }
-  },
-  extraReducers: (builder) => {
-    builder
-      .addMatcher(concertApi.endpoints.fetchConcerts.matchFulfilled, (state, { payload }: any) => {
-        state.concerts = payload.concerts
-        state.loading = false
-        state.success = true
-      })
-      .addMatcher(concertApi.endpoints.fetchConcertById.matchFulfilled, (state, { payload }: any) => {
-        state.concert = payload.concert
-        state.loading = false
-      })
-      .addMatcher(concertApi.endpoints.createConcert.matchFulfilled, (state) => {
-        state.success = true
-        state.loading = false
-      })
-      .addMatcher(concertApi.endpoints.updateConcert.matchFulfilled, (state) => {
-        state.success = true
-        state.loading = false
-      })
-      .addMatcher(concertApi.endpoints.deleteConcert.matchFulfilled, (state) => {
-        state.success = true
-        state.loading = false
-      })
-      .addMatcher(
-        (action) => action.type.endsWith('rejected') && action.payload?.data?.sliceName === 'concertApi',
-        (state, { payload }: any) => {
-          state.loading = false
-          state.error = payload?.data?.message
-        }
-      )
   }
 })
 

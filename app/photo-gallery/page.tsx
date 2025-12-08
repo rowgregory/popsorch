@@ -6,8 +6,7 @@ import { RootState, useAppSelector } from '../redux/store'
 import Spinner from '../components/common/Spinner'
 import { PhotoGalleryImageProps } from '../redux/features/photoGalleryImageSlice'
 import Picture from '../components/common/Picture'
-import AwesomeIcon from '../components/common/AwesomeIcon'
-import { chevronLeftIcon, chevronRightIcon, timesIcon } from '../lib/icons'
+import { ChevronLeft, ChevronRight, X } from 'lucide-react'
 
 const PhotoGallery = () => {
   const { photoGalleryImages } = useAppSelector((state: RootState) => state.photoGalleryImage) as {
@@ -64,10 +63,7 @@ const PhotoGallery = () => {
         <div className="fixed inset-0 z-50 bg-black bg-opacity-75 w-full h-full">
           <div className="w-full h-full flex justify-center">
             <button className="absolute top-0 right-0 text-2xl p-4 z-10 group" onClick={closeLightbox}>
-              <AwesomeIcon
-                icon={timesIcon}
-                className="w-10 h-10 group-hover:text-blaze group-hover:rotate-90 duration-300"
-              />
+              <X className="w-10 h-10 group-hover:text-blaze group-hover:rotate-90 duration-300" />
             </button>
             <div className="relative">
               <Picture
@@ -78,10 +74,10 @@ const PhotoGallery = () => {
               />
 
               <button className="fixed left-4 top-1/2 transform -translate-y-1/2 text-3xl group" onClick={prevImage}>
-                <AwesomeIcon icon={chevronLeftIcon} className="w-10 h-10 group-hover:text-blaze duration-300" />
+                <ChevronLeft className="w-10 h-10 group-hover:text-blaze duration-300" />
               </button>
               <button className="fixed right-4 top-1/2 transform -translate-y-1/2 text-3xl group" onClick={nextImage}>
-                <AwesomeIcon icon={chevronRightIcon} className="w-10 h-10 group-hover:text-blaze duration-300" />
+                <ChevronRight className="w-10 h-10 group-hover:text-blaze duration-300" />
               </button>
             </div>
           </div>

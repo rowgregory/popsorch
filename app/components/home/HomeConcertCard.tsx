@@ -1,19 +1,24 @@
 import CallBoxOfficeBtn from '../common/CallBoxOfficeBtn'
 import Picture from '../common/Picture'
-import { ConcertProps } from '@/app/redux/features/concertSlice'
 import { motion } from 'framer-motion'
 import { FC } from 'react'
 import { useRouter } from 'next/navigation'
 import { Calendar, Clock, MapPin, Ticket, Info, Music } from 'lucide-react'
 import Link from 'next/link'
+import { sendGAEvent } from '@next/third-parties/google'
+import { IConcertCard } from '@/app/types/entities/concert'
 
-interface ConcertCardProps {
-  concert: ConcertProps
-  index: number
-}
-
-const HomeConcertCard: FC<ConcertCardProps> = ({ concert, index }) => {
+const HomeConcertCard: FC<IConcertCard> = ({ concert, index }) => {
   const { push } = useRouter()
+
+  const handleOpenConcert = () => {
+    sendGAEvent('concert', 'view_concert', {
+      item_id: concert.id,
+      item_name: concert.name,
+      item_category: concert.type
+    })
+    push(`/concerts/${concert.id}`)
+  }
 
   return (
     <motion.div
@@ -22,9 +27,7 @@ const HomeConcertCard: FC<ConcertCardProps> = ({ concert, index }) => {
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.6, delay: index * 0.15, ease: [0.22, 1, 0.36, 1] }}
       className="col-span-12 group relative overflow-hidden cursor-pointer rounded-3xl bg-gradient-to-r from-[#1a1a1a] via-[#0d0d0d] to-[#1a1a1a] border border-gray-800 hover:border-[#da0032]/50 transition-all duration-500 shadow-2xl"
-      onClick={() => push(`/concerts/${concert.id}`)}
-      whileHover={{ y: -10, scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
+      onClick={handleOpenConcert}
     >
       {/* Animated Background Elements */}
       <div className="absolute inset-0 bg-gradient-to-r from-[#da0032]/0 via-[#da0032]/0 to-[#da0032]/0 group-hover:from-[#da0032]/5 group-hover:via-[#da0032]/3 group-hover:to-[#da0032]/5 transition-all duration-700 rounded-3xl" />
@@ -132,9 +135,9 @@ const HomeConcertCard: FC<ConcertCardProps> = ({ concert, index }) => {
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 + index * 0.1 }}
-              className="mb-8"
+              className="mb-6 md:mb-8"
             >
-              <h4 className="font-changa text-3xl 990:text-4xl xl:text-5xl font-bold text-white leading-tight group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-[#da0032] group-hover:via-[#ff1744] group-hover:to-[#da0032] group-hover:bg-clip-text transition-all duration-500">
+              <h4 className="font-changa text-2xl sm:text-3xl 990:text-4xl xl:text-5xl font-bold text-white leading-tight group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-[#da0032] group-hover:via-[#ff1744] group-hover:to-[#da0032] group-hover:bg-clip-text transition-all duration-500">
                 {concert.name}
               </h4>
               {/* Subtle underline effect */}
@@ -143,7 +146,7 @@ const HomeConcertCard: FC<ConcertCardProps> = ({ concert, index }) => {
 
             {/* Event Details - Stacked Cards */}
             <motion.div
-              className="space-y-4 mb-8"
+              className="space-y-3 md:space-y-4 mb-6 md:mb-8"
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3 + index * 0.1 }}
@@ -157,32 +160,32 @@ const HomeConcertCard: FC<ConcertCardProps> = ({ concert, index }) => {
                   transition={{ delay: 0.4 + i * 0.1 }}
                   whileHover={{ x: 5 }}
                 >
-                  <div className="flex items-center gap-4 p-5 bg-gradient-to-r from-[#1a1a1a]/80 via-[#2a2a2a]/60 to-[#1a1a1a]/80 rounded-2xl border border-gray-600/50 group-hover:border-[#da0032]/30 group/detail-hover:bg-gradient-to-r group/detail-hover:from-[#da0032]/10 group/detail-hover:to-[#da0032]/10 transition-all duration-300 backdrop-blur-sm">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 p-4 sm:p-5 bg-gradient-to-r from-[#1a1a1a]/80 via-[#2a2a2a]/60 to-[#1a1a1a]/80 rounded-2xl border border-gray-600/50 group-hover:border-[#da0032]/30 group/detail-hover:bg-gradient-to-r group/detail-hover:from-[#da0032]/10 group/detail-hover:to-[#da0032]/10 transition-all duration-300 backdrop-blur-sm">
                     {/* Enhanced Icon */}
-                    <div className="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-[#da0032] to-[#b8002a] rounded-xl flex items-center justify-center shadow-lg group/detail-hover:shadow-[#da0032]/50 transition-all duration-300">
-                      <Calendar className="w-6 h-6 text-white group/detail-hover:scale-110 transition-transform duration-300" />
+                    <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-[#da0032] to-[#b8002a] rounded-xl flex items-center justify-center shadow-lg group/detail-hover:shadow-[#da0032]/50 transition-all duration-300">
+                      <Calendar className="w-5 h-5 sm:w-6 sm:h-6 text-white group/detail-hover:scale-110 transition-transform duration-300" />
                     </div>
 
                     {/* Event Info */}
-                    <div className="flex-1 min-w-0">
-                      <div className="font-changa font-bold text-[#da0032] text-xl uppercase tracking-wide mb-1">
+                    <div className="flex-1 min-w-0 w-full">
+                      <div className="font-changa font-bold text-[#da0032] text-lg sm:text-xl uppercase tracking-wide mb-1">
                         {eventDetail?.dayOfWeek}
                       </div>
-                      <div className="text-white font-bold text-xl mb-2">{eventDetail?.date}</div>
-                      <div className="flex items-center gap-6 text-gray-300">
+                      <div className="text-white font-bold text-lg sm:text-xl mb-2">{eventDetail?.date}</div>
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-6 text-gray-300 text-sm sm:text-base">
                         <span className="flex items-center gap-2 bg-black/30 px-3 py-1 rounded-full">
                           <Clock className="w-4 h-4" />
-                          {eventDetail?.time}
+                          <span className="whitespace-nowrap">{eventDetail?.time}</span>
                         </span>
                         <span className="flex items-center gap-2 bg-black/30 px-3 py-1 rounded-full">
                           <MapPin className="w-4 h-4" />
-                          {eventDetail?.city}
+                          <span className="truncate">{eventDetail?.city}</span>
                         </span>
                       </div>
                     </div>
 
-                    {/* Arrow with pulse effect */}
-                    <div className="text-[#da0032] group/detail-hover:translate-x-2 transition-transform duration-300">
+                    {/* Arrow with pulse effect - Hidden on mobile, shown on tablet+ */}
+                    <div className="hidden sm:block text-[#da0032] group/detail-hover:translate-x-2 transition-transform duration-300">
                       <div className="w-8 h-8 bg-[#da0032]/20 rounded-full flex items-center justify-center group/detail-hover:bg-[#da0032]/40 transition-all duration-300">
                         <span className="text-lg">→</span>
                       </div>
@@ -203,10 +206,21 @@ const HomeConcertCard: FC<ConcertCardProps> = ({ concert, index }) => {
             {concert.isOnSale ? (
               <motion.div className="flex-1" whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.98 }}>
                 <Link
-                  href={concert?.allSeriesExternalLink}
-                  target={concert?.allSeriesExternalLink?.startsWith('https://ci.ovationtix.com') ? '_blank' : ''}
+                  href={concert.allSeriesExternalLink}
+                  target="_blank"
                   className="group/btn relative inline-flex items-center justify-center w-full px-8 py-5 bg-gradient-to-r from-[#da0032] via-[#b8002a] to-[#da0032] text-white font-changa font-bold text-lg rounded-2xl shadow-2xl overflow-hidden transition-all duration-300 hover:shadow-[#da0032]/25"
-                  onClick={(e) => e.stopPropagation()}
+                  onClick={(e) => {
+                    sendGAEvent('event', 'buy_tickets_click', {
+                      concert_id: concert.id,
+                      concert_name: concert.name,
+                      concert_type: concert.type,
+                      concert_all_series_external_link: concert.allSeriesExternalLink, // if available
+                      source: 'home_concert_card', // where user clicked from
+                      timestamp: Date.now()
+                    })
+
+                    e.stopPropagation()
+                  }}
                 >
                   {/* Multiple animated layers */}
                   <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0 translate-x-[-200%] group-hover/btn:translate-x-[200%] transition-transform duration-700" />
@@ -219,33 +233,34 @@ const HomeConcertCard: FC<ConcertCardProps> = ({ concert, index }) => {
                 </Link>
               </motion.div>
             ) : (
-              <motion.div className="flex-1" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                <CallBoxOfficeBtn />
-              </motion.div>
+              <>
+                <motion.div className="flex-1" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                  <CallBoxOfficeBtn />
+                </motion.div>
+                <motion.button
+                  className="px-8 py-5 bg-gradient-to-r from-[#1a1a1a] to-[#2a2a2a] hover:from-[#2a2a2a] hover:to-[#3a3a3a] text-white font-semibold rounded-2xl border border-gray-600 hover:border-[#da0032]/30 transition-all duration-300 flex items-center justify-center gap-3 backdrop-blur-sm"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    push(`/concerts/${concert.id}`)
+                    sendGAEvent('event', 'concert_card_details_button', {
+                      concert_id: concert.id,
+                      concert_name: concert.name,
+                      concert_type: concert.type,
+                      source: 'home_concert_card', // where user clicked from
+                      timestamp: Date.now()
+                    })
+                  }}
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <Info className="w-5 h-5" />
+                  Details
+                </motion.button>
+              </>
             )}
-
-            <motion.button
-              className="px-8 py-5 bg-gradient-to-r from-[#1a1a1a] to-[#2a2a2a] hover:from-[#2a2a2a] hover:to-[#3a3a3a] text-white font-semibold rounded-2xl border border-gray-600 hover:border-[#da0032]/30 transition-all duration-300 flex items-center justify-center gap-3 backdrop-blur-sm"
-              onClick={(e) => {
-                e.stopPropagation()
-                push(`/concerts/${concert.id}`)
-              }}
-              whileHover={{ scale: 1.02, y: -2 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <Info className="w-5 h-5" />
-              Details
-            </motion.button>
           </motion.div>
         </div>
       </div>
-
-      {/* Enhanced Border Effects */}
-      <div className="absolute inset-0 rounded-3xl border border-gray-700/50 group-hover:border-[#da0032]/50 transition-colors duration-500 pointer-events-none" />
-
-      {/* Glowing corners that animate */}
-      <div className="absolute top-0 left-0 w-24 h-24 bg-gradient-to-br from-[#da0032]/0 to-transparent group-hover:from-[#da0032]/30 rounded-3xl transition-all duration-700 pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-24 h-24 bg-gradient-to-tl from-[#da0032]/0 to-transparent group-hover:from-[#da0032]/30 rounded-3xl transition-all duration-700 pointer-events-none" />
     </motion.div>
   )
 }

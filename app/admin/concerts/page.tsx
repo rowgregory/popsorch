@@ -1,138 +1,133 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import AdminConcertCard from '@/app/components/admin/AdminConcertCard'
-import AdminPageSpinner from '@/app/components/admin/AdminPageSpinner'
-import { ConcertProps, setOpenConcertDrawer } from '@/app/redux/features/concertSlice'
-import { motion } from 'framer-motion'
-import { Music2, Plus, PlusCircle, Rotate3d, Theater } from 'lucide-react'
-import { useFetchConcertsQuery } from '@/app/redux/services/concertApi'
-import { useAppDispatch } from '@/app/redux/store'
+import { setOpenConcertDrawer } from '@/app/redux/features/concertSlice'
+import { AnimatePresence, motion } from 'framer-motion'
+import { useConcertSelector } from '@/app/redux/store'
+import { IConcert } from '@/app/types/entities/concert'
+import { Search } from 'lucide-react'
+import EmptyState from '@/app/components/common/EmptyState'
+
+const getConcertStatusOptions = (concerts: IConcert[]) => [
+  { value: 'all', label: 'All Status', count: concerts?.length },
+  { value: 'Season', label: 'Season', count: concerts?.filter((f) => f.type === 'Season').length },
+  { value: 'Add-On', label: 'Add On', count: concerts?.filter((f) => f.type === 'Add-On').length },
+  {
+    value: 'Sundays-at-Neel',
+    label: 'Sundays@Neel',
+    count: concerts?.filter((f) => f.type === 'Sundays-at-Neel').length
+  }
+]
+
+const getParleyStatusColor = (status: string) => {
+  switch (status) {
+    case 'all':
+      return 'text-red-400 bg-red-400 border-red-400/20'
+    case 'Season':
+      return 'text-orange-400 bg-orange-400 border-orange-400/20'
+    case 'Add-On':
+      return 'text-yellow-400 bg-yellow-400 border-yellow-400/20'
+    default:
+      return 'text-green-400 bg-green-400 border-green-400/20'
+  }
+}
 
 const Concerts = () => {
-  const { data, isLoading } = useFetchConcertsQuery(undefined) as {
-    data: { concerts: ConcertProps[] }
-    isLoading: boolean
-  }
-  const concerts = data?.concerts
+  const { concerts } = useConcertSelector()
 
-  const dispatch = useAppDispatch()
-
-  const concertCounts = concerts?.reduce(
-    (acc, concert) => {
-      if (concert.type === 'Aeason') acc.season++
-      if (concert.type === 'Add-On') acc.addOn++
-      if (concert.type === 'Sundays-at-Neel') acc.sundaysAtNeel++
-
-      return acc
-    },
-    { season: 0, addOn: 0, sundaysAtNeel: 0 }
-  ) || { season: 0, addOn: 0, sundaysAtNeel: 0 }
-
-  const { season, addOn, sundaysAtNeel } = concertCounts
+  const [searchQuery, setSearchQuery] = useState('')
+  const [typeFilter, setTypeFilter] = useState('all')
 
   const totalConcerts = concerts?.length || 0
   const noConcerts = totalConcerts === 0
 
-  return (
-    <>
-      <div className="min-h-[calc(100dvh-68px)] p-6 w-full">
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-y-6 md:gap-6 mb-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-neutral-900/50 p-6 rounded-xl shadow-sm border border-neutral-800"
-          >
-            <div className="flex items-center gap-3">
-              <div className="p-3 bg-pink-900/50 rounded-lg">
-                <Music2 className="w-6 h-6 text-pink-400" />
-              </div>
-              <div>
-                <p className="text-sm text-neutral-400">Total Concerts</p>
-                <p className="text-2xl font-bold text-white">{totalConcerts}</p>
-              </div>
-            </div>
-          </motion.div>
+  const filteredConcerts = concerts?.filter((concert) => {
+    const matchesSearch = searchQuery === '' || concert.name.toLowerCase().includes(searchQuery.toLowerCase())
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="bg-neutral-900/50 p-6 rounded-xl shadow-sm border border-neutral-800"
-          >
-            <div className="flex items-center gap-3">
-              <div className="p-3 bg-pink-900/50 rounded-lg">
-                <Rotate3d className="w-6 h-6 text-pink-400" />
+    const matchesType = typeFilter === 'all' || concert.type === typeFilter
+
+    return matchesSearch && matchesType
+  })
+
+  return (
+    <div className="flex h-[calc(100vh-66px)]">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex-1 p-6 overflow-y-auto space-y-6"
+      >
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {getConcertStatusOptions(concerts).map((status, index) => (
+            <motion.div
+              key={status.value}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className="bg-neutral-800/50 backdrop-blur-sm border border-neutral-700 rounded-xl p-6"
+            >
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-neutral-400 text-sm">{status.label}</p>
+                  <p className="text-2xl font-bold text-white">{status.count}</p>
+                </div>
+                <div className={`p-1 rounded-full ${getParleyStatusColor(status.value)}`} />
               </div>
-              <div>
-                <p className="text-sm text-neutral-400">Season</p>
-                <p className="text-2xl font-bold text-white">{season}</p>
-              </div>
-            </div>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="bg-neutral-900/50 p-6 rounded-xl shadow-sm border border-neutral-800"
-          >
-            <div className="flex items-center gap-3">
-              <div className="p-3 bg-pink-900/50 rounded-lg">
-                <PlusCircle className="w-6 h-6 text-pink-400" />
-              </div>
-              <div>
-                <p className="text-sm text-neutral-400">Add On</p>
-                <p className="text-2xl font-bold text-white">{addOn}</p>
-              </div>
-            </div>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="bg-neutral-900/50 p-6 rounded-xl shadow-sm border border-neutral-800"
-          >
-            <div className="flex items-center gap-3">
-              <div className="p-3 bg-pink-900/50 rounded-lg">
-                <Theater className="w-6 h-6 text-pink-400" />
-              </div>
-              <div>
-                <p className="text-sm text-neutral-400">Sundays @ Neel</p>
-                <p className="text-2xl font-bold text-white">{sundaysAtNeel}</p>
-              </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          ))}
         </div>
 
-        {isLoading ? (
-          <AdminPageSpinner fill="fill-pink-400" />
-        ) : noConcerts ? (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-neutral-900 rounded-xl shadow-sm border border-neutral-800 p-12 text-center"
-          >
-            <Music2 className="w-16 h-16 text-neutral-600 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-white mb-2">No concerts yet</h3>
-            <p className="text-neutral-400 mb-6">Get started by adding your first concert</p>
-            <button
-              onClick={() => dispatch(setOpenConcertDrawer())}
-              className="inline-flex items-center gap-2 border-2 border-neutral-600 hover:bg-neutral-900 text-white px-6 py-3 rounded-lg font-medium transition-colors"
-            >
-              <Plus size={20} />
-              Add Your First Concert
-            </button>
-          </motion.div>
-        ) : (
-          <div className="grid md:grid-cols-2 2xl:grid-cols-4 gap-y-4 md:gap-4">
-            {concerts?.map((concert: ConcertProps) => (
-              <AdminConcertCard key={concert.id} concert={concert} />
-            ))}
+        {/* Filters and Search */}
+        <div className="sticky top-0 z-20 flex flex-col sm:flex-row gap-4">
+          {/* Search */}
+          <div className="flex-1 relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 w-5 h-5" />
+            <input
+              type="text"
+              placeholder="Search by member name or company..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 bg-neutral-800/50 border border-neutral-700 rounded-lg text-white placeholder-neutral-400 focus:ring-2 focus:ring-blaze focus:border-blaze transition-all focus:outline-none"
+            />
           </div>
+
+          {/* Filters */}
+          <div className="flex flex-wrap gap-2">
+            <select
+              value={typeFilter}
+              onChange={(e) => setTypeFilter(e.target.value)}
+              className="px-4 py-3 bg-neutral-800/50 border border-neutral-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blaze focus:border-blaze transition-all"
+            >
+              <option value="all">All Types</option>
+              <option value="Season">Season</option>
+              <option value="Sundays-at-Neel">Sundays@Neel</option>
+              <option value="Add-On">Add On</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Concert List */}
+        <div className="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-7">
+          <AnimatePresence>
+            {filteredConcerts?.map((concert, index) => (
+              <AdminConcertCard key={index} concert={concert} />
+            ))}
+          </AnimatePresence>
+        </div>
+        {/* Empty State */}
+        {noConcerts && (
+          <EmptyState
+            searchQuery={searchQuery}
+            typeFilter={typeFilter}
+            title="Concert"
+            advice="Schedule your first concert to get started"
+            func={setOpenConcertDrawer}
+            action="Create Concert"
+          />
         )}
-      </div>
-    </>
+      </motion.div>
+    </div>
   )
 }
 

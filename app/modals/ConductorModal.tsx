@@ -103,10 +103,6 @@ const ConductorModal = () => {
     }
   }, [conductorModal, currentDialogue, memoizedChatMessages])
 
-  const handleOptionSelect = (option: string) => {
-    console.log('Chose option ', option)
-  }
-
   return (
     <AnimatePresence>
       {conductorModal && (
@@ -196,17 +192,14 @@ const ConductorModal = () => {
                 {/* Mobile-optimized Options with scrolling */}
                 <div className="p-3 sm:p-4 space-y-2 sm:space-y-3 max-h-[40vh] sm:max-h-none overflow-y-auto">
                   <ActionButton
-                    onClick={() => handleOptionSelect('create-ticket')}
                     title="Conjure a New Ticket"
                     description="Generate a new orchestral event ticket to track attendance."
                   />
                   <ActionButton
-                    onClick={() => handleOptionSelect('edit-ticket')}
                     title="Enchant the Ticket"
                     description="Modify the details of an existing ticket or event."
                   />
                   <ActionButton
-                    onClick={() => handleOptionSelect('delete-ticket')}
                     title="Banish the Ticket"
                     description=" Remove an event ticket from the system entirely."
                     dotColor="bg-red-500"
@@ -240,21 +233,18 @@ const ConductorModal = () => {
                 {/* Mobile-optimized Options with scrolling */}
                 <div className="p-3 sm:p-4 space-y-2 sm:space-y-3 max-h-[40vh] sm:max-h-none overflow-y-auto">
                   <ActionButton
-                    onClick={() => handleOptionSelect('transmute-ticket')}
                     title="Transmute the Essence"
                     description="Transform ticket prices or seating arrangements through alchemical means."
                     dotColor="bg-amber-500"
                     variant="warning"
                   />
                   <ActionButton
-                    onClick={() => handleOptionSelect('divine-ticket')}
                     title="Divine Future Sales"
                     description="Scry into crystal balls to forecast attendance and revenue patterns."
                     dotColor="bg-emerald-500"
                     variant="success"
                   />
                   <ActionButton
-                    onClick={() => handleOptionSelect('brew-analytics')}
                     title="Brew Analytics Potion"
                     description="Concoct powerful elixirs that reveal hidden insights from your event data."
                     dotColor="bg-violet-500"

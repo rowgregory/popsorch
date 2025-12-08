@@ -1,5 +1,4 @@
 import { Reducer, createSlice } from '@reduxjs/toolkit'
-import { questionApi } from '../services/questionApi'
 
 export interface QuestionProps {
   id: string
@@ -57,51 +56,23 @@ export const questionSlice = createSlice({
     resetQuestionError: (state) => {
       state.error = null
     },
-    addQuestionToState: (state, action) => {
-      state.questions.push(action.payload)
+    addQuestionToState: (state, { payload }) => {
+      state.questions.push(payload)
       state.questionsCount = state.questionsCount + 1
       state.noQuestions = state.questions.length === 0
     },
-    updateQuestionInState: (state, action) => {
-      const updatedQuestion = action.payload
+    updateQuestionInState: (state, { payload }) => {
+      const updatedQuestion = payload
       const index = state.questions.findIndex((question) => question.id === updatedQuestion.id)
       if (index !== -1) {
         state.questions[index] = updatedQuestion
       }
     },
-    removeQuestionFromState: (state, action) => {
-      state.questions = state.questions.filter((question) => question.id !== action.payload)
+    removeQuestionFromState: (state, { payload }) => {
+      state.questions = state.questions.filter((question) => question.id !== payload)
       state.questionsCount = state.questionsCount - 1
       state.noQuestions = state.questions.length === 0
     }
-  },
-  extraReducers: (builder) => {
-    builder
-      .addMatcher(questionApi.endpoints.fetchQuestions.matchFulfilled, (state, { payload }: any) => {
-        state.questions = payload.questions
-        state.noQuestions = payload.questions.length === 0
-        state.questionsCount = payload.questions.length
-        state.loading = false
-      })
-      .addMatcher(questionApi.endpoints.createQuestion.matchFulfilled, (state) => {
-        state.success = true
-        state.loading = false
-      })
-      .addMatcher(questionApi.endpoints.updateQuestion.matchFulfilled, (state) => {
-        state.success = true
-        state.loading = false
-      })
-      .addMatcher(questionApi.endpoints.deleteQuestion.matchFulfilled, (state) => {
-        state.success = true
-        state.loading = false
-      })
-      .addMatcher(
-        (action) => action.type.endsWith('rejected') && action.payload?.data?.sliceName === 'questionApi',
-        (state, { payload }: any) => {
-          state.loading = false
-          state.error = payload?.data?.message
-        }
-      )
   }
 })
 

@@ -1,5 +1,4 @@
 import { Reducer, createSlice } from '@reduxjs/toolkit'
-import { photoGalleryImageApi } from '../services/photoGalleryImageApi'
 
 export interface PhotoGalleryImageProps {
   id: string
@@ -55,54 +54,24 @@ export const photoGalleryImageSlice = createSlice({
     resetPhotoGalleryImageError: (state) => {
       state.error = null
     },
-    addPhotoGalleryImageToState: (state, action) => {
-      state.photoGalleryImages.push(action.payload)
+    addPhotoGalleryImageToState: (state, { payload }) => {
+      state.photoGalleryImages.push(payload)
       state.photoGalleryImagesCount = state.photoGalleryImagesCount + 1
       state.noPhotoGalleryImages = state.photoGalleryImages.length === 0
     },
-    updatePhotoGalleryImageInState: (state, action) => {
-      const updatedPhotoGalleryImage = action.payload
-      const index = state.photoGalleryImages.findIndex(
-        (photoGalleryImage) => photoGalleryImage.id === updatedPhotoGalleryImage.id
-      )
+    updatePhotoGalleryImageInState: (state, { payload }) => {
+      const index = state.photoGalleryImages.findIndex((photoGalleryImage) => photoGalleryImage.id === payload.id)
       if (index !== -1) {
-        state.photoGalleryImages[index] = updatedPhotoGalleryImage
+        state.photoGalleryImages[index] = payload
       }
     },
-    removePhotoGalleryImageFromState: (state, action) => {
+    removePhotoGalleryImageFromState: (state, { payload }) => {
       state.photoGalleryImages = state.photoGalleryImages.filter(
-        (photoGalleryImage) => photoGalleryImage.id !== action.payload
+        (photoGalleryImage) => photoGalleryImage.id !== payload
       )
       state.photoGalleryImagesCount = state.photoGalleryImagesCount - 1
       state.noPhotoGalleryImages = state.photoGalleryImages.length === 0
     }
-  },
-  extraReducers: (builder) => {
-    builder
-      .addMatcher(photoGalleryImageApi.endpoints.fetchPhotoGalleryImages.matchFulfilled, (state, { payload }: any) => {
-        state.photoGalleryImages = payload.photoGalleryImages
-        state.loading = false
-      })
-      .addMatcher(photoGalleryImageApi.endpoints.createPhotoGalleryImage.matchFulfilled, (state) => {
-        state.success = true
-        state.loading = false
-      })
-      .addMatcher(photoGalleryImageApi.endpoints.deletePhotoGalleryImage.matchFulfilled, (state) => {
-        state.success = true
-        state.loading = false
-      })
-      .addMatcher(photoGalleryImageApi.endpoints.updatePhotoGalleryImage.matchFulfilled, (state) => {
-        state.success = true
-        state.loading = false
-      })
-      .addMatcher(
-        (action) => action.type.endsWith('rejected') && action.payload?.data?.sliceName === 'photoGalleryApi',
-        (state, { payload }: any) => {
-          state.loading = false
-          state.success = false
-          state.error = payload?.data?.message
-        }
-      )
   }
 })
 

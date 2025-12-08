@@ -5,10 +5,8 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
 import { setAccessibilitySettings, setToggleAccessibilityDrawer } from '../redux/features/appSlice'
 import useCustomPathname from '../hooks/useCustomPathname'
-import AwesomeIcon from '../components/common/AwesomeIcon'
-import { circleHaltStrokeIcon, linkIcon, refreshIcon, textHeightIcon, textWidthIcon } from '../lib/icons'
 import { backdropVariants, drawerVariants } from '../lib/constants/motion'
-import { X } from 'lucide-react'
+import { ALargeSmall, BetweenVerticalStart, Contrast, Link, RefreshCcw, X } from 'lucide-react'
 
 const textSteps = [1, 1.1, 1.2, 1.3, 1.4, 1.5] // 6 levels: normal + 5 size increases
 
@@ -234,6 +232,7 @@ const AccessibilityDrawer = () => {
         <>
           <motion.div
             variants={backdropVariants}
+            onClick={() => dispatch(setToggleAccessibilityDrawer(accessibility))}
             initial="initial"
             animate="animate"
             exit="exit"
@@ -292,7 +291,7 @@ const AccessibilityDrawer = () => {
                   >
                     <div className="flex flex-col items-center space-y-4">
                       <div className="flex items-center justify-center w-16 h-16 bg-neutral-700/50 rounded-full group-hover:bg-neutral-600/50 transition-colors">
-                        <AwesomeIcon icon={circleHaltStrokeIcon} className="w-8 h-8 text-neutral-300" />
+                        <Contrast className="w-8 h-8 text-neutral-300" />
                       </div>
 
                       <div className="text-center">
@@ -314,7 +313,7 @@ const AccessibilityDrawer = () => {
                   >
                     <div className="flex flex-col items-center space-y-4">
                       <div className="flex items-center justify-center w-16 h-16 bg-neutral-700/50 rounded-full group-hover:bg-neutral-600/50 transition-colors">
-                        <AwesomeIcon icon={linkIcon} className="w-8 h-8 text-neutral-300" />
+                        <Link className="w-8 h-8 text-neutral-300" />
                       </div>
 
                       <div className="text-center">
@@ -336,7 +335,7 @@ const AccessibilityDrawer = () => {
                   >
                     <div className="flex flex-col items-center space-y-4">
                       <div className="flex items-center justify-center w-16 h-16 bg-neutral-700/50 rounded-full group-hover:bg-neutral-600/50 transition-colors">
-                        <AwesomeIcon icon={textWidthIcon} className="w-8 h-8 text-neutral-300" />
+                        <BetweenVerticalStart className="w-8 h-8 text-neutral-300" />
                       </div>
 
                       <div className="text-center">
@@ -380,7 +379,7 @@ const AccessibilityDrawer = () => {
                   >
                     <div className="flex flex-col items-center space-y-4">
                       <div className="flex items-center justify-center w-16 h-16 bg-neutral-700/50 rounded-full group-hover:bg-neutral-600/50 transition-colors">
-                        <AwesomeIcon icon={textHeightIcon} className="w-8 h-8 text-neutral-300" />
+                        <ALargeSmall className="w-8 h-8 text-neutral-300" />
                       </div>
 
                       <div className="text-center">
@@ -402,10 +401,7 @@ const AccessibilityDrawer = () => {
                     onClick={() => reset()}
                     className="group flex items-center gap-3 bg-gradient-to-r from-blaze to-blazehover hover:from-blazehover hover:to-blaze px-8 py-4 rounded-xl font-changa uppercase text-sm font-bold tracking-wider text-white transition-all duration-300 hover:shadow-xl hover:shadow-blaze/25 hover:-translate-y-0.5"
                   >
-                    <AwesomeIcon
-                      icon={refreshIcon}
-                      className="w-5 h-5 group-hover:rotate-180 transition-transform duration-500"
-                    />
+                    <RefreshCcw className="w-5 h-5 group-hover:rotate-180 transition-transform duration-500" />
                     Reset All Settings
                   </button>
                 </div>

@@ -2,13 +2,14 @@
 
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { DollarSign, Edit2, ExternalLink, Gift, Plus, Trash2 } from 'lucide-react'
-import { useAppDispatch } from '@/app/redux/store'
-import { useDeleteSponsorMutation, useFetchSponsorsQuery } from '@/app/redux/services/sponsorApi'
-import { setOpenSponsorDrawer } from '@/app/redux/features/sponsorSlice'
+import { DollarSign, Edit2, ExternalLink, Gift, Trash2 } from 'lucide-react'
+import { useAppDispatch, useSponsorSelector } from '@/app/redux/store'
+import { useDeleteSponsorMutation } from '@/app/redux/services/sponsorApi'
+import { removeSponsorFromState, setOpenSponsorDrawer } from '@/app/redux/features/sponsorSlice'
 import { ISponsor } from '@/app/types/model.types'
 import { formatDateShort } from '@/app/lib/utils/dateUtils'
 import { setInputs } from '@/app/redux/features/formSlice'
+import EmptyState from '@/app/components/common/EmptyState'
 
 const levelColors: Record<string, string> = {
   Platinum: 'bg-zinc-300 text-zinc-900',
@@ -18,15 +19,13 @@ const levelColors: Record<string, string> = {
 }
 
 const AdminSponsorsPage = () => {
-  const { data } = useFetchSponsorsQuery({}) as { data: { sponsors: ISponsor[] } }
+  const data = useSponsorSelector()
   const dispatch = useAppDispatch()
   const [deleteSponsor] = useDeleteSponsorMutation()
   const [isLoading, setIsLoading] = useState<Record<string, boolean>>({})
 
   const totalSponsors = data?.sponsors?.length
   const totalAmount = data?.sponsors?.reduce((sum, sponsor) => sum + parseInt(sponsor.amount), 0)
-
-  const handleAddSponsor = () => dispatch(setOpenSponsorDrawer())
 
   const handleEditSponsor = (sponsor: ISponsor) => {
     dispatch(setOpenSponsorDrawer())
@@ -35,7 +34,8 @@ const AdminSponsorsPage = () => {
 
   const handleDeleteSponsor = async (id: string) => {
     setIsLoading({ [id]: true })
-    await deleteSponsor({ id }).unwrap()
+    const response = await deleteSponsor({ id }).unwrap()
+    dispatch(removeSponsorFromState(response.id))
     setIsLoading({ [id]: false })
   }
 
@@ -245,23 +245,15 @@ const AdminSponsorsPage = () => {
         </div>
 
         {/* Empty State (if no sponsors) */}
-        {data?.sponsors.length === 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-neutral-800 rounded-xl shadow-sm border border-neutral-800 p-12 text-center"
-          >
-            <Gift className="w-16 h-16 text-neutral-600 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-white mb-2">No sponsors yet</h3>
-            <p className="text-neutral-400 mb-6">Get started by adding your first sponsor</p>
-            <button
-              onClick={handleAddSponsor}
-              className="inline-flex items-center gap-2 border-2 border-neutral-600 hover:bg-neutral-900 text-white px-6 py-3 rounded-lg font-medium transition-colors"
-            >
-              <Plus size={20} />
-              Add Your First Sponsor
-            </button>
-          </motion.div>
+        {data.noSponsors && (
+          <EmptyState
+            searchQuery=""
+            typeFilter=""
+            title="Sponsor"
+            advice="Add your first sponsor to get started"
+            func={setOpenSponsorDrawer}
+            action="Add Sponsor"
+          />
         )}
       </div>
     </div>

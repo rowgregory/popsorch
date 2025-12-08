@@ -25,7 +25,6 @@ const AdminDeleteCampApplicationsModal: FC<IAdminDeleteCampApplicationsModal> = 
   const handleBulkDelete = async () => {
     setIsDeleting(true)
     try {
-      // Replace with your actual delete mutation/API call
       await deleteCampApplications({ campApplicationIds: Array.from(selectedApplications) })
 
       // Clear selection after successful delete

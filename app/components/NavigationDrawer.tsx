@@ -43,6 +43,18 @@ const NavigationDrawer = () => {
       >
         <div className="mb-10 px-8 py-16 flex flex-col gap-y-5">
           <CustomHeaderButton {...headerButton} />
+          <CustomHeaderButton
+            text="Buy Tickets"
+            link="/concerts"
+            linkType="internal"
+            dropdownItems={[]}
+            type="button"
+            fontColor="#fff"
+            backgroundColor="#da0032"
+            animation="scale"
+            createdAt={new Date()}
+            id="123"
+          />
           {navLinks.map((link, i) => (
             <div key={i} className="group">
               {link.linkKey ? (

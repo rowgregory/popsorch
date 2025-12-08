@@ -2,7 +2,12 @@ import React, { FC, MouseEvent, useState } from 'react'
 import { useAppDispatch } from '@/app/redux/store'
 import { motion } from 'framer-motion'
 import { setInputs } from '@/app/redux/features/formSlice'
-import { resetTeamMember, setOpenTeamMemberDrawer, TeamMemberProps } from '@/app/redux/features/teamMemberSlice'
+import {
+  removeTeamMemberFromState,
+  resetTeamMember,
+  setOpenTeamMemberDrawer,
+  TeamMemberProps
+} from '@/app/redux/features/teamMemberSlice'
 import { useDeleteTeamMemberMutation } from '@/app/redux/services/teamMemberApi'
 import AdminTrashDeleteBtn from './AdminTrashDeleteBtn'
 import Picture from '../common/Picture'
@@ -17,7 +22,8 @@ const TeamMemberRow: FC<{ teamMember: TeamMemberProps }> = ({ teamMember }) => {
     setLoading((prev) => ({ ...prev, [teamMemberId]: true }))
 
     try {
-      await deleteTeamMember({ id: teamMemberId, imageFilename: teamMember?.imageFilename }).unwrap()
+      const response = await deleteTeamMember({ id: teamMemberId, imageFilename: teamMember?.imageFilename }).unwrap()
+      dispatch(removeTeamMemberFromState(response.id))
       dispatch(resetTeamMember())
     } catch {}
 

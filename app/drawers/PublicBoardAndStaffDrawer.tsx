@@ -3,9 +3,8 @@ import BottomDrawer from '../components/common/BottomDrawer'
 import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
 import { goToNextDrawerItem, goToPrevDrawerItem, setCloseDrawer } from '../redux/features/appSlice'
 import Picture from '../components/common/Picture'
-import AwesomeIcon from '../components/common/AwesomeIcon'
-import { chevronLeftIcon, chevronRightIcon, userIcon } from '../lib/icons'
 import { TeamMemberProps } from '../redux/features/teamMemberSlice'
+import { ChevronLeft, ChevronRight, User } from 'lucide-react'
 
 const PublicBoardAndStaffDrawer = () => {
   const { drawer, selectedIndex, drawerList } = useAppSelector((state: RootState) => state.app)
@@ -44,7 +43,7 @@ const PublicBoardAndStaffDrawer = () => {
             }`}
             aria-label="Previous team member"
           >
-            <AwesomeIcon icon={chevronLeftIcon} className="w-5 h-5" />
+            <ChevronLeft className="w-5 h-5" />
           </button>
 
           <div className="flex items-center space-x-2">
@@ -61,7 +60,7 @@ const PublicBoardAndStaffDrawer = () => {
             }`}
             aria-label="Next team member"
           >
-            <AwesomeIcon icon={chevronRightIcon} className="w-5 h-5" />
+            <ChevronRight className="w-5 h-5" />
           </button>
         </header>
 
@@ -152,7 +151,7 @@ const PublicBoardAndStaffDrawer = () => {
                 <div className="flex items-center justify-center text-center py-20">
                   <div className="max-w-md">
                     <div className="w-20 h-20 bg-zinc-900/50 rounded-full flex items-center justify-center mx-auto mb-6 border border-zinc-800/50">
-                      <AwesomeIcon icon={userIcon} className="w-10 h-10 text-zinc-500" />
+                      <User className="w-10 h-10 text-zinc-500" />
                     </div>
                     <h3 className="text-white text-2xl font-changa font-bold mb-3">Biography Coming Soon</h3>
                     <p className="text-zinc-400 text-base leading-relaxed">

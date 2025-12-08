@@ -1,5 +1,4 @@
 import { Reducer, createSlice } from '@reduxjs/toolkit'
-import { userApi } from '../services/userApi'
 
 export interface UserProps {
   id: string
@@ -53,7 +52,7 @@ export const userSlice = createSlice({
       state.error = null
       state.user = userState
     },
-    setUsers: (state, { payload }: any) => {
+    setUsers: (state, { payload }) => {
       state.users = payload
       state.usersCount = payload?.length
       state.noUsers = payload?.length === 0
@@ -70,34 +69,6 @@ export const userSlice = createSlice({
     hydrateUserState: (state, { payload }) => {
       state.user = { ...state.user, ...payload }
     }
-  },
-  extraReducers: (builder) => {
-    builder
-      .addMatcher(userApi.endpoints.fetchUsers.matchFulfilled, (state, { payload }: any) => {
-        state.users = payload.users
-        state.usersCount = payload.users.length
-        state.noUsers = payload.users.length === 0
-        state.loading = false
-      })
-      .addMatcher(userApi.endpoints.updateUserRole.matchFulfilled, (state) => {
-        state.success = true
-        state.loading = false
-      })
-      .addMatcher(userApi.endpoints.updateUserProfile.matchFulfilled, (state) => {
-        state.success = true
-        state.loading = false
-      })
-      .addMatcher(userApi.endpoints.deleteUser.matchFulfilled, (state) => {
-        state.success = true
-        state.loading = false
-      })
-      .addMatcher(
-        (action) => action.type.endsWith('rejected') && action.payload?.data?.sliceName === 'userApi',
-        (state, { payload }: any) => {
-          state.loading = false
-          state.error = payload?.data?.message
-        }
-      )
   }
 })
 

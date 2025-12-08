@@ -31,7 +31,6 @@ export async function POST(req: NextRequest) {
       subscriptionId: subscription.id
     })
   } catch (error: any) {
-    console.error('Error saving push subscription:', error)
     return NextResponse.json(
       {
         message: 'Failed to save subscription',

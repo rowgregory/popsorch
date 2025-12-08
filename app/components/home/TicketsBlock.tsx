@@ -125,7 +125,7 @@ const Badge = ({ textBlockMap }: any) => (
   </motion.div>
 )
 
-const MergedSeasonTickets = () => {
+const TicketsBlock = () => {
   const [ticketType, setTicketType] = useState('season')
   const app = useAppSelector((state: RootState) => state.app)
   const { user } = useAppSelector((state: RootState) => state.user)
@@ -303,4 +303,4 @@ const MergedSeasonTickets = () => {
   )
 }
 
-export default MergedSeasonTickets
+export default TicketsBlock
