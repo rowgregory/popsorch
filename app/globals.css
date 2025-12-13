@@ -1,4 +1,8 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Tailwind's utility layer is automatically available, no @tailwind needed */
 
 :root {
   --background: #ffffff;
@@ -52,28 +56,27 @@ body {
   }
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+/* Remove @layer utilities wrapper - just define utilities directly */
+.text-balance {
+  text-wrap: balance;
+}
 
+.public-modal {
+  height: 100dvh;
+  width: 100vw;
+}
+
+@media (min-width: 990px) {
+  .public-modal {
+    height: auto;
+    width: 512px;
+  }
+}
+
+@media (max-height: 1000px) and (min-width: 1000px) {
   .public-modal {
     height: 100dvh;
     width: 100vw;
-  }
-
-  @media (min-width: 990px) {
-    .public-modal {
-      height: auto;
-      width: 512px;
-    }
-  }
-
-  @media (max-height: 1000px) and (min-width: 1000px) {
-    .public-modal {
-      height: 100dvh;
-      width: 100vw;
-    }
   }
 }
 
@@ -111,22 +114,22 @@ body {
 }
 
 body.high-contrast {
-  background-color: #000000; /* Dark background */
-  color: #ffffff; /* Light text */
+  background-color: #000000;
+  color: #ffffff;
 }
 
 body.high-contrast button,
 body.high-contrast input,
 body.high-contrast select,
 body.high-contrast textarea {
-  background-color: #ffffff; /* Light background for inputs */
-  color: #000000; /* Dark text for inputs */
-  border: 2px solid #000000; /* Strong border for better focus visibility */
+  background-color: #ffffff;
+  color: #000000;
+  border: 2px solid #000000;
 }
 
 body.high-contrast .main-content {
-  background-color: #000000; /* Dark background for main content */
-  color: #ffffff; /* Light text for the main content */
+  background-color: #000000;
+  color: #ffffff;
 }
 
 body.high-contrast h1,
@@ -135,7 +138,7 @@ body.high-contrast h3,
 body.high-contrast h4,
 body.high-contrast h5,
 body.high-contrast h6 {
-  color: #ff00ff; /* High-contrast headers in bright color */
+  color: #ff00ff;
 }
 
 .jumping-dot {
