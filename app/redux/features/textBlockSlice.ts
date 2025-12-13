@@ -1,5 +1,4 @@
 import { Reducer, createSlice } from '@reduxjs/toolkit'
-import { textBlockApi } from '../services/textBlockApi'
 
 export const initialTextBlockState = {
   textBlockMap: {},
@@ -33,32 +32,6 @@ export const textBlockSlice = createSlice({
       const { key, value, type } = action.payload
       state.textBlockMap[type] = { ...state.textBlockMap[type], [key]: value }
     }
-  },
-  extraReducers: (builder) => {
-    builder
-      .addMatcher(textBlockApi.endpoints.updateTextBlock.matchFulfilled, (state) => {
-        state.success = true
-        state.loading = false
-      })
-      .addMatcher(textBlockApi.endpoints.fetchTextBlocks.matchFulfilled, (state, { payload }: any) => {
-        state.textBlockMap = {
-          ...state.textBlockMap,
-          ...payload.transformedTextBlocks
-        }
-      })
-      .addMatcher(textBlockApi.endpoints.textBlockSystemStatus.matchFulfilled, (state, { payload }: any) => {
-        state.loading = false
-        state.message = payload.message
-        state.status = payload.status
-        state.systemStatus = payload.systemStatus
-      })
-      .addMatcher(
-        (action: any) => action.type.endsWith('/rejected'),
-        (state, action: any) => {
-          state.loading = false
-          state.error = action.payload?.data || 'An error occurred.'
-        }
-      )
   }
 })
 

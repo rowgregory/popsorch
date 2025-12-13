@@ -1,8 +1,7 @@
 {
   "name": "popsorch",
-  "version": "2.5.29",
+  "version": "2.5.30",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "npm run generate && next build",

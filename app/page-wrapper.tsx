@@ -121,7 +121,7 @@ const PageWrapperContent: FC<PageWrapperProps> = ({ children, userId, appData })
 
       {/* Accessibility Button */}
       {!isAdminPath && (
-        <div className="fixed bottom-5 left-5 z-[110]">
+        <div className="fixed bottom-5 left-5 z-110">
           <button
             onClick={handleAccessibilityToggle}
             className="relative p-2 bg-indigo-600 text-white rounded-full w-12 h-12 hover:bg-indigo-700 hover:scale-110 transition-all shadow-lg"
