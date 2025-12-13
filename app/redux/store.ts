@@ -1,6 +1,6 @@
 'use client'
 
-import { combineReducers } from 'redux'
+import { combineReducers, Reducer } from 'redux'
 import { configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { api } from './services/api'
@@ -23,8 +23,9 @@ import { headerButtonReducer } from './features/headerButtonSlice'
 import { sponsorReducer } from './features/sponsorSlice'
 import { toastReducer } from './features/toastSlice'
 import { quoteReducer } from './features/quoteSlice'
-import storage from 'redux-persist/lib/storage'
 import { persistStore, persistReducer } from 'redux-persist'
+import createWebStorage from 'redux-persist/es/storage/createWebStorage'
+import type { PersistPartial } from 'redux-persist/es/persistReducer'
 
 const rootReducer = combineReducers({
   app: appReducer,
@@ -49,6 +50,24 @@ const rootReducer = combineReducers({
   [api.reducerPath]: api.reducer
 })
 
+// Create a noop storage for SSR
+const createNoopStorage = () => {
+  return {
+    getItem(_key: string) {
+      return Promise.resolve(null)
+    },
+    setItem(_key: string, value: any) {
+      return Promise.resolve(value)
+    },
+    removeItem(_key: string) {
+      return Promise.resolve()
+    }
+  }
+}
+
+// Use localStorage on client, noop on server
+const storage = typeof window !== 'undefined' ? createWebStorage('local') : createNoopStorage()
+
 const persistConfig = {
   key: 'root',
   storage,
@@ -57,8 +76,11 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
+// Before configureStore, add this:
+type PersistedReducer = Reducer<ReturnType<typeof rootReducer> & PersistPartial>
+
 export const store = configureStore({
-  reducer: persistedReducer,
+  reducer: persistedReducer as PersistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       immutableCheck: false,
@@ -68,14 +90,12 @@ export const store = configureStore({
 
 export const persistor = persistStore(store)
 
-export type RootState = ReturnType<typeof store.getState>
+export type RootState = ReturnType<typeof rootReducer> & PersistPartial
 
 export type AppDispatch = typeof store.dispatch
-
 export type AppSelector = typeof store.getState
 
 export const useAppDispatch: () => AppDispatch = useDispatch
-
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
 export const useUserSelector = () => useAppSelector((state) => state.user)

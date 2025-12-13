@@ -24,7 +24,7 @@ export interface DashboardStatePayload {
   sponsorCount: number
   venuesCount: number
   headerButtonCount: number
-  lastModifiedHeaderButton: Date
+  lastModifiedHeaderButton: string
   logs: []
   members: []
 }
@@ -53,7 +53,7 @@ const initialDashboardState: DashboardStatePayload = {
   sponsorCount: 0,
   venuesCount: 0,
   headerButtonCount: 0,
-  lastModifiedHeaderButton: new Date(),
+  lastModifiedHeaderButton: new Date().toISOString(),
   logs: [],
   members: []
 }
