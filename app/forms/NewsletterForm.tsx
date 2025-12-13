@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
 import { createFormActions } from '../redux/features/formSlice'
 import Spinner from '../components/common/Spinner'

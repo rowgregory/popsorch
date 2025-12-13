@@ -1,6 +1,6 @@
 'use client'
 
-import React, { FC, ReactNode, useCallback, useEffect, useMemo, useState } from 'react'
+import { FC, ReactNode, useCallback, useEffect, useMemo, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { Provider } from 'react-redux'
 import Link from 'next/link'

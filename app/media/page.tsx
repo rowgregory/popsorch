@@ -1,6 +1,5 @@
 'use client'
 
-import React from 'react'
 import Breadcrumb from '../components/common/Breadcrumb'
 import MediaPhotoCarousel from '../components/media/MediaPhotoCarousel'
 import MediaVideoPlayer from '../components/media/MediaVideoPlayer'

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { FormEvent, useState } from 'react'
+import { FormEvent, useState } from 'react'
 import { RootState, useAppDispatch, useAppSelector } from '@/app/redux/store'
 import { useLoginMutation } from '@/app/redux/services/authApi'
 import { useRouter } from 'next/navigation'

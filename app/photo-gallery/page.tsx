@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Breadcrumb from '../components/common/Breadcrumb'
 import { RootState, useAppSelector } from '../redux/store'
 import Spinner from '../components/common/Spinner'

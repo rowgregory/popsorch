@@ -1,4 +1,3 @@
-import React from 'react'
 import HeaderLower from './HeaderLower'
 import { useAppDispatch } from '@/app/redux/store'
 import { setOpenInconspicuousSignInDrawer } from '@/app/redux/features/appSlice'

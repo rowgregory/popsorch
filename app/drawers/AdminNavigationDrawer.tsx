@@ -1,4 +1,3 @@
-import React from 'react'
 import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
 import { closeNavigationDrawer, setOpenConductorModal } from '../redux/features/dashboardSlice'
 import useCustomPathname from '../hooks/useCustomPathname'

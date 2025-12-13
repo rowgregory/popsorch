@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { DollarSign, Edit2, ExternalLink, Gift, Trash2 } from 'lucide-react'
 import { useAppDispatch, useSponsorSelector } from '@/app/redux/store'

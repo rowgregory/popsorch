@@ -1,6 +1,5 @@
 'use server'
 
-import { notFound } from 'next/navigation'
 import prisma from '@/prisma/client'
 import ConcertDetailsClient from './ConcertDetailsClient'
 import Breadcrumb from '@/app/components/common/Breadcrumb'
@@ -34,10 +33,6 @@ interface ConcertDetailsPageProps {
 export default async function ConcertDetailsPage({ params }: ConcertDetailsPageProps) {
   const { id } = await params
   const concert = await getConcert(id)
-
-  if (!concert) {
-    notFound()
-  }
 
   const initialEventDetails = concert.eventDetails[0] || null
 

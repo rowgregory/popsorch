@@ -1,4 +1,4 @@
-import React, { FC, MouseEvent, useState } from 'react'
+import { FC, MouseEvent, useState } from 'react'
 import { useAppDispatch } from '@/app/redux/store'
 import { motion } from 'framer-motion'
 import { setInputs } from '@/app/redux/features/formSlice'

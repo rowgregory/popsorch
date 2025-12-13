@@ -1,5 +1,3 @@
-import React from 'react'
-
 const BannerLogoSVG = () => {
   return (
     <svg
@@ -17,7 +15,10 @@ const BannerLogoSVG = () => {
           <feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0" colorInterpolationFilters="sRGB" />
         </filter>
         <filter x="0%" y="0%" width="100%" height="100%" id="7852b3251b">
-          <feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0.2126 0.7152 0.0722 0 0" colorInterpolationFilters="sRGB" />
+          <feColorMatrix
+            values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0.2126 0.7152 0.0722 0 0"
+            colorInterpolationFilters="sRGB"
+          />
         </filter>
         <clipPath id="d42c39ef74">
           <path d="M 0.292969 0 L 418 0 L 418 68 L 0.292969 68 Z M 0.292969 0 " clipRule="nonzero" />

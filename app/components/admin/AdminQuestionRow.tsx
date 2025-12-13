@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import { FC, useState } from 'react'
 import AdminCheckbox from '@/app/forms/elements/AdminCheckbox'
 import { QuestionProps, removeQuestionFromState, updateQuestionInState } from '@/app/redux/features/questionSlice'
 import { useDeleteQuestionMutation, useUpdateQuestionMutation } from '@/app/redux/services/questionApi'

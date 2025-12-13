@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Trash2, Check, Eye, ChevronRight } from 'lucide-react'
 import { useAppDispatch, useCampSelector } from '@/app/redux/store'

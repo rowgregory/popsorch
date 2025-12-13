@@ -9,7 +9,6 @@ export async function PATCH(req: NextRequest) {
     const data = await req.json()
 
     const { id, ...updatedFields } = Object.fromEntries(
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       Object.entries(data).filter(([_, value]) => value !== undefined) // We no longer need to use the key
     )
 

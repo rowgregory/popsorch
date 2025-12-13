@@ -1,5 +1,4 @@
 import { StatusEnum } from '@/app/redux/features/mailchimpSlice'
-import React from 'react'
 
 export interface PillProps {
   status: StatusEnum

@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 
 const CloseBtnSVG: FC<{ onClick: () => void; className?: string }> = ({ onClick, className }) => {
   return (

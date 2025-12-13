@@ -1,6 +1,5 @@
 'use client'
 
-import React from 'react'
 import TitleWithLine from '../common/TitleWithLine'
 import Picture from '../common/Picture'
 import { RootState, useAppSelector } from '@/app/redux/store'

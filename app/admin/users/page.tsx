@@ -1,6 +1,5 @@
 'use client'
 
-import React from 'react'
 import { useUserSelector } from '@/app/redux/store'
 import { UserProps } from '@/app/redux/features/userSlice'
 import { motion } from 'framer-motion'

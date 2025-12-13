@@ -1,4 +1,3 @@
-import React from 'react'
 import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
 import { createFormActions } from '../redux/features/formSlice'
 import { setStep } from '../redux/features/campSlice'

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { FormEvent } from 'react'
+import { FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import { RootState, useAppDispatch, useAppSelector } from '@/app/redux/store'
 import RegisterForm from '@/app/forms/RegisterForm'

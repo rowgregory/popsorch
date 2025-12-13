@@ -1,5 +1,5 @@
 import { AlertCircle } from 'lucide-react'
-import React, { FC } from 'react'
+import { FC } from 'react'
 
 interface AdminSelectProps {
   name: string

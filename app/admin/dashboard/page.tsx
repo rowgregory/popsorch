@@ -5,7 +5,7 @@ import ApothecaryCard from '@/app/components/admin/dashboard/ApothecaryCard'
 import MerryChristmasCard from '@/app/components/admin/dashboard/MerryChristmasCard'
 import MusicianSlots from '@/app/components/admin/dashboard/MusicianSlots'
 import QuickActions from '@/app/components/admin/dashboard/QuickActions'
-import React from 'react'
+
 import HeaderButtonStudioCard from '@/app/components/admin/dashboard/HeaderButtonStudioCard'
 import CampApplicationsToggleCard from '@/app/components/admin/dashboard/CampApplicationsToggleCard'
 import SeasonBannerToggleCard from '@/app/components/admin/dashboard/SeasonBannerToggleCard'

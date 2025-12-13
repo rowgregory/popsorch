@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
 import { clearErrors, createFormActions } from '../redux/features/formSlice'
 import { securityQuestions } from '@/public/data/auth.data'

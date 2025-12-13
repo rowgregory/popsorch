@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight, Crown, Music3, Shield } from 'lucide-react'
 import Link from 'next/link'

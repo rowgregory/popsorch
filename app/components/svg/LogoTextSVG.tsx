@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 
 const LogoTextSVG: FC<{ className: string }> = ({ className }) => {
   return (

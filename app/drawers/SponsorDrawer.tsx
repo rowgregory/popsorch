@@ -1,6 +1,6 @@
 'use client'
 
-import React, { FormEvent } from 'react'
+import { FormEvent } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useAppDispatch, useFormSelector, useSponsorSelector } from '../redux/store'
 import { backdropVariants, drawerVariants } from '../lib/constants/motion'

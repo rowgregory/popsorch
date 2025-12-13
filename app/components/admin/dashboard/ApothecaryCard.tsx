@@ -1,5 +1,5 @@
 import { Crown, Sparkles, TrendingUp, Zap } from 'lucide-react'
-import React from 'react'
+
 import CastSpellButton from './CastSpellButton'
 import ConductorWithEffect from './ConductorWithEffect'
 

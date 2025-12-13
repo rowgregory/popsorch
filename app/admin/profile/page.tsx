@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { usePushNotifications } from '@/app/hooks/usePushNotifications'
 import Switch from '@/app/forms/elements/Switch'
 import { useUserSelector } from '@/app/redux/store'

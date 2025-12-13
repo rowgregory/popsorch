@@ -1,6 +1,5 @@
 'use client'
 
-import React from 'react'
 import { getFooterLinks } from '../utils/navigation.utils'
 import useCustomPathname from '../hooks/useCustomPathname'
 import Link from 'next/link'

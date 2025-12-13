@@ -1,7 +1,5 @@
 'use client'
 
-import React from 'react'
-
 const amethystHover = 'fill-purple-700 hover:fill-purple-600 duration-200' // Slightly lighter
 const magentaHover = 'fill-pink-700 hover:fill-pink-600 duration-200' // Slightly lighter
 const forestHover = 'fill-lime-600 hover:fill-lime-500 duration-200'

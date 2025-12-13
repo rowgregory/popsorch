@@ -1,5 +1,3 @@
-import React from 'react'
-
 const H2 = () => {
   return (
     <svg

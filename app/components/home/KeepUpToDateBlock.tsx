@@ -1,6 +1,5 @@
 'use client'
 
-import React from 'react'
 import TitleWithLine from '../common/TitleWithLine'
 import Link from 'next/link'
 import { useTextBlockSelector } from '@/app/redux/store'

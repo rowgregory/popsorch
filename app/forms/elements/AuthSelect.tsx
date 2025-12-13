@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, FC } from 'react'
+import { ChangeEventHandler, FC } from 'react'
 
 interface AuthSelectProps {
   label: string

@@ -2,7 +2,7 @@
 
 import { useLogSelector } from '@/app/redux/store'
 import { formatDate } from '@/app/utils/date.functions'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronDown, Clock, FileJson, FileText } from 'lucide-react'
 

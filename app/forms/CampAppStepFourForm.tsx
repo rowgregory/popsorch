@@ -1,4 +1,4 @@
-import React, { FormEvent } from 'react'
+import { FormEvent } from 'react'
 import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
 import { createFormActions } from '../redux/features/formSlice'
 import { resetCampSuccess, setStep } from '../redux/features/campSlice'

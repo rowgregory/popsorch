@@ -1,4 +1,4 @@
-import React, { FC, JSX } from 'react'
+import { FC, JSX } from 'react'
 import { setOpenModal } from '@/app/redux/features/appSlice'
 import { RootState, useAppSelector } from '@/app/redux/store'
 import { formatPhoneNumber } from '@/app/utils/string.functions'

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import useCustomPathname from '@/app/hooks/useCustomPathname'
 import { RootState, useAppDispatch, useAppSelector } from '@/app/redux/store'
 import { getNavigationLinks } from '@/app/utils/navigation.utils'

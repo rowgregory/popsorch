@@ -1,6 +1,6 @@
 import { setOpenModalImageUploaderPublic } from '@/app/redux/features/appSlice'
 import { RootState, useAppSelector } from '@/app/redux/store'
-import React from 'react'
+
 import { useDispatch } from 'react-redux'
 import Picture from './Picture'
 

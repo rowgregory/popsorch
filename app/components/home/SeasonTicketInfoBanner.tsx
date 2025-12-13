@@ -1,6 +1,5 @@
 'use client'
 
-import React from 'react'
 import CallBoxOfficeBtn from '../common/CallBoxOfficeBtn'
 import EditableTextArea from '../common/EditableTextArea'
 import { RootState, useAppSelector } from '@/app/redux/store'

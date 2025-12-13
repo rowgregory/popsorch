@@ -1,4 +1,3 @@
-import React from 'react'
 import { motion } from 'framer-motion'
 import { useAppDispatch } from '@/app/redux/store'
 import { Menu } from 'lucide-react'

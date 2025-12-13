@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import BottomDrawer from '../components/common/BottomDrawer'
 import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
 import { goToNextDrawerItem, goToPrevDrawerItem, setCloseDrawer } from '../redux/features/appSlice'

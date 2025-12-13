@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { searchBoxVariants } from '@/app/lib/constants/motion'
 import { EyeIcon, FunnelIcon, PlusCircleIcon, Search, SparklesIcon, SunIcon, X } from 'lucide-react'

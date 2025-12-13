@@ -1,6 +1,6 @@
 'use client'
 
-import React, { FormEvent } from 'react'
+import { FormEvent } from 'react'
 import NewsletterForm from '../forms/NewsletterForm'
 import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
 import Breadcrumb from '../components/common/Breadcrumb'

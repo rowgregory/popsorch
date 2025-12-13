@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { Trash2 } from 'lucide-react'
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { useDeleteCampApplicationMutation } from '../redux/services/campApi'
 
 interface IAdminDeleteCampApplicationsModal {

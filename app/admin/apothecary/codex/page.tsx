@@ -1,6 +1,5 @@
 'use client'
 
-import React from 'react'
 import { Eye, Calendar, TrendingUp, Filter, Download, MoreHorizontal } from 'lucide-react'
 
 const seriesData = [

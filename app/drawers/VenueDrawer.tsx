@@ -1,4 +1,4 @@
-import React, { FormEvent } from 'react'
+import { FormEvent } from 'react'
 import { useAppDispatch, useFormSelector, useVenueSelector } from '../redux/store'
 import { addVenueToState, setCloseVenueDrawer, updateVenueInState } from '../redux/features/venueSlice'
 import { createFormActions, resetForm } from '../redux/features/formSlice'

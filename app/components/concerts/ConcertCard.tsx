@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from 'react'
+import { FC, useMemo } from 'react'
 import Picture from '../common/Picture'
 import Link from 'next/link'
 import CallBoxOfficeBtn from '../common/CallBoxOfficeBtn'

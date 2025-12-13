@@ -1,6 +1,6 @@
 'use client'
 
-import React, { FC, ReactNode } from 'react'
+import { FC, ReactNode } from 'react'
 import Breadcrumb from '../components/common/Breadcrumb'
 import { RootState, useAppSelector, useCampSelector, useTextBlockSelector, useUserSelector } from '../redux/store'
 import TitleWithLine from '../components/common/TitleWithLine'

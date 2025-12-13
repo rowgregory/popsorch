@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import { FC, useState } from 'react'
 import { motion } from 'framer-motion'
 import { removeUserFromState, resetUser, UserProps } from '@/app/redux/features/userSlice'
 import { useDeleteUserMutation } from '@/app/redux/services/userApi'

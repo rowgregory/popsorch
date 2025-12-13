@@ -1,6 +1,5 @@
 'use client'
 
-import React from 'react'
 import { useQuestionSelector } from '@/app/redux/store'
 import { QuestionProps } from '@/app/redux/features/questionSlice'
 import AdminQuestionRow from '@/app/components/admin/AdminQuestionRow'

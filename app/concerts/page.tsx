@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { RootState, useAppSelector } from '../redux/store'
 import ConcertCard from '../components/concerts/ConcertCard'
 import Breadcrumb from '../components/common/Breadcrumb'

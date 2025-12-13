@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 
 const LogoSVG: FC<{ className: string; fillPath?: string; removeMotto?: boolean }> = ({
   className,

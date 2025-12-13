@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useRef, useState } from 'react'
+import { ChangeEvent, FC, useRef, useState } from 'react'
 import Link from 'next/link'
 import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
 import PublicModal from '../components/common/PublicModal'

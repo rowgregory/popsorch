@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import useRemoveScroll from '@/app/hooks/useRemoveScroll'
 import { DrawerProps } from '@/app/types/common.types'
 

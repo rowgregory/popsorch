@@ -1,6 +1,5 @@
 'use client'
 
-import React from 'react'
 import { motion } from 'framer-motion'
 import { Music, MapPin, Phone, ExternalLink, Users, Award } from 'lucide-react'
 import Picture from '../components/common/Picture'

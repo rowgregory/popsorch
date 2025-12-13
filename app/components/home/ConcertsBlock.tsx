@@ -1,4 +1,3 @@
-import React from 'react'
 import { RootState, useAppSelector } from '@/app/redux/store'
 import TitleWithLine from '../common/TitleWithLine'
 import HomeConcertCard from './HomeConcertCard'

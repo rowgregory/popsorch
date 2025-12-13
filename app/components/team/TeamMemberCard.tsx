@@ -1,5 +1,5 @@
 import { TeamMemberProps } from '@/app/redux/features/teamMemberSlice'
-import React, { FC } from 'react'
+import { FC } from 'react'
 import Picture from '../common/Picture'
 import { Expand } from 'lucide-react'
 

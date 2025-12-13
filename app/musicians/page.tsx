@@ -1,6 +1,5 @@
 'use client'
 
-import React from 'react'
 import { RootState, useAppDispatch, useAppSelector, useTeamMemberSelector, useTextBlockSelector } from '../redux/store'
 import { TeamMemberProps } from '../redux/features/teamMemberSlice'
 import { resetDrawerData, setCloseDrawer, setOpenDrawer } from '../redux/features/appSlice'

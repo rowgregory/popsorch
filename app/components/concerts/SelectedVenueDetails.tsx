@@ -1,7 +1,7 @@
 import { IConcertEventDetails } from '@/app/types/entities/concert'
 import { sendGAEvent } from '@next/third-parties/google'
 import { Calendar, Clock, MapPin, Navigation } from 'lucide-react'
-import React, { FC } from 'react'
+import { FC } from 'react'
 
 const SelectedVenueDetails: FC<{ selectedEventDetails: IConcertEventDetails }> = ({ selectedEventDetails }) => {
   const getGoogleMapsUrl = () => {

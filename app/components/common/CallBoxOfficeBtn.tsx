@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import React, { FC } from 'react'
+import { FC } from 'react'
 
 const CallBoxOfficeBtn: FC<{ className?: string }> = ({ className }) => {
   return (

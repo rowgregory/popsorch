@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import HomeHeroCarousel from './HomeHeroCarousel'
 import { usePhotoSelector, useTextBlockSelector } from '@/app/redux/store'
 import EditableTextArea from '../common/EditableTextArea'

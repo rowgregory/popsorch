@@ -1,6 +1,5 @@
 'use client'
 
-import React from 'react'
 import { RootState, useAppSelector } from '../redux/store'
 import CampAppStepOneForm from '../forms/CampAppStepOneForm'
 import CampAppStepThreeForm from '../forms/CampAppStepThreeForm'

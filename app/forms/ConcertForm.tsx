@@ -1,6 +1,6 @@
 'use client'
 
-import React, { FC, useState } from 'react'
+import { FC, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Calendar, Trash2, Check, Upload, AlertCircle, FileText, X } from 'lucide-react'
 import Picture from '../components/common/Picture'

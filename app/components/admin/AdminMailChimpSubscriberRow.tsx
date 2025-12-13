@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import { FC, useState } from 'react'
 import Link from 'next/link'
 import { MemberProps } from '@/app/redux/features/mailchimpSlice'
 import { ExternalLink, ChevronDown, Heart, TrendingUp, Phone, Calendar } from 'lucide-react'

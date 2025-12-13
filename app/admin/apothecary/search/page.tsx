@@ -1,5 +1,4 @@
 import PrimaVistaPricingSection from '@/app/components/apothecary/ApothecaryPricingSection'
-import React from 'react'
 
 const Search = () => {
   return (

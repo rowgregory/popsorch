@@ -1,6 +1,5 @@
 'use client'
 
-import React from 'react'
 import { TeamMemberProps } from '../redux/features/teamMemberSlice'
 import PublicBoardAndStaffDrawer from '../drawers/PublicBoardAndStaffDrawer'
 import { RootState, useAppDispatch, useAppSelector } from '../redux/store'

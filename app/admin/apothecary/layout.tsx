@@ -4,7 +4,7 @@ import useCustomPathname from '@/app/hooks/useCustomPathname'
 import useSoundEffect from '@/app/hooks/useSoundEffect'
 import { ChildrenProps } from '@/app/types/common.types'
 import Link from 'next/link'
-import React, { FC } from 'react'
+import { FC } from 'react'
 
 const ApothecaryLayout: FC<ChildrenProps> = ({ children }) => {
   const path = useCustomPathname()

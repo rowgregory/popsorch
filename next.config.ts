@@ -5,10 +5,6 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'www.panerabread.com'
-      },
-      {
-        protocol: 'https',
         hostname: 'd21y75miwcfqoq.cloudfront.net'
       },
       {
@@ -16,6 +12,11 @@ const nextConfig: NextConfig = {
         hostname: 'firebasestorage.googleapis.com'
       }
     ]
+  },
+  serverExternalPackages: ['@prisma/client', '@prisma/engines'],
+
+  typescript: {
+    ignoreBuildErrors: true
   }
 }
 

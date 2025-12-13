@@ -1,6 +1,6 @@
 'use client'
 
-import React, { FC, ReactNode, useState, useEffect } from 'react'
+import { FC, ReactNode, useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { useAppDispatch } from '../redux/store'

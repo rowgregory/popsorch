@@ -1,6 +1,6 @@
 'use client'
 
-import React, { FormEvent } from 'react'
+import { FormEvent } from 'react'
 import { RootState, useAppDispatch, useAppSelector } from '@/app/redux/store'
 import { useForgotPasswordMutation, useResetPasswordMutation } from '@/app/redux/services/authApi'
 import ForgotPasswordForm from '@/app/forms/ForgotPasswordForm'

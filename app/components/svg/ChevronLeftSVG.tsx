@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 
 const ChevronLeftSVG: FC<{ onClick: () => void; isFirstSlide: boolean }> = ({ onClick, isFirstSlide }) => {
   return (

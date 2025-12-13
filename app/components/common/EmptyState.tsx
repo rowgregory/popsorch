@@ -1,5 +1,5 @@
 import { useAppDispatch } from '@/app/redux/store'
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { motion } from 'framer-motion'
 import { Contact, Image as LucideImage, Music, Plus, Theater, Users } from 'lucide-react'
 

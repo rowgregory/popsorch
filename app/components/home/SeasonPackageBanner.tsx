@@ -1,6 +1,5 @@
 'use client'
 
-import React from 'react'
 import { motion } from 'framer-motion'
 import { RootState, useAppSelector } from '@/app/redux/store'
 import EditableTextArea from '../common/EditableTextArea'

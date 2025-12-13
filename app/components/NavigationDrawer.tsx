@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import { useRef } from 'react'
 import Link from 'next/link'
 import useCustomPathname from '../hooks/useCustomPathname'
 import { RootState, useAppDispatch, useAppSelector } from '../redux/store'

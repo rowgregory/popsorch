@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import { FC, useState } from 'react'
 import Picture from '../common/Picture'
 import Spinner from '../common/Spinner'
 import {

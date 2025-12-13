@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import { useState } from 'react'
 import AdminConcertCard from '@/app/components/admin/AdminConcertCard'
 import { setOpenConcertDrawer } from '@/app/redux/features/concertSlice'
 import { AnimatePresence, motion } from 'framer-motion'

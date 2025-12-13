@@ -1,6 +1,5 @@
 'use client'
 
-import React from 'react'
 import AdminMailChimpSubscriberRow from '@/app/components/admin/AdminMailChimpSubscriberRow'
 import { Users } from 'lucide-react'
 import { MemberProps } from '@/app/redux/features/mailchimpSlice'

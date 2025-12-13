@@ -1,4 +1,3 @@
-import React from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { LogOut } from 'lucide-react'

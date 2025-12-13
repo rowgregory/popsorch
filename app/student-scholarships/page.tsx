@@ -1,6 +1,5 @@
 'use client'
 
-import React from 'react'
 import Breadcrumb from '../components/common/Breadcrumb'
 import { useTextBlockSelector } from '../redux/store'
 import TitleWithLine from '../components/common/TitleWithLine'

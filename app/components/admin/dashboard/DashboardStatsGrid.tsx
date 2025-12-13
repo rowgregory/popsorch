@@ -1,4 +1,3 @@
-import React from 'react'
 import { Users, Target, Anchor, User, Music, Theater } from 'lucide-react'
 import StatCard from './StatCard'
 import { useDashboardSelector } from '@/app/redux/store'

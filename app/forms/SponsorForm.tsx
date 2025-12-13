@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { Upload, Link, FileText, Save, X, AlertCircle, Crown, Gift } from 'lucide-react'
 import { useAppDispatch } from '../redux/store'

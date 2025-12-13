@@ -1,4 +1,3 @@
-import React from 'react'
 import { useAppDispatch, useCampSelector, useFormSelector } from '../redux/store'
 import BottomDrawer from '../components/common/BottomDrawer'
 import { clearInputs } from '../redux/features/formSlice'

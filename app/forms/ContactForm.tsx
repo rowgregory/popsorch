@@ -1,4 +1,4 @@
-import React, { FC, FormEvent } from 'react'
+import { FC, FormEvent } from 'react'
 import { useAppDispatch, useFormSelector } from '../redux/store'
 import { createFormActions, resetForm } from '../redux/features/formSlice'
 import ContactFormTextarea from './elements/ContactFormTextarea'

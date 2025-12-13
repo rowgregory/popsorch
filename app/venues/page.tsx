@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Picture from '@/app/components/common/Picture'
 import { RootState, useAppSelector } from '@/app/redux/store'
 import Breadcrumb from '../components/common/Breadcrumb'

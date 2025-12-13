@@ -1,6 +1,5 @@
 'use client'
 
-import React from 'react'
 import Breadcrumb from '../components/common/Breadcrumb'
 import Picture from '../components/common/Picture'
 import EditableTextArea from '../components/common/EditableTextArea'

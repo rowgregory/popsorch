@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useRef, useState } from 'react'
+import { ChangeEvent, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Plus, ChevronDown, Music, Gift, TheaterIcon, User, Tent, GalleryHorizontal, Wand } from 'lucide-react'
 import { useAppDispatch, useCampSelector } from '@/app/redux/store'

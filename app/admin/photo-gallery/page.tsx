@@ -1,6 +1,5 @@
 'use client'
 
-import React from 'react'
 import AdminPhotoGalleryImage from '@/app/components/admin/AdminPhotoGalleryImage'
 import { PhotoGalleryImageProps } from '@/app/redux/features/photoGalleryImageSlice'
 import { usePhotoSelector } from '@/app/redux/store'

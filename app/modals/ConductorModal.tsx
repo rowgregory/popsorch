@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useAppDispatch, useDashboardSelector } from '../redux/store'
 import { setCloseConductorModal, setCurrentDialogue } from '../redux/features/dashboardSlice'

@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo } from 'react'
+import { FC, useEffect, useMemo } from 'react'
 import { setInputs } from '../redux/features/formSlice'
 import AdminInput from './elements/AdminInput'
 import AdminSelect from './elements/AdminSelect'

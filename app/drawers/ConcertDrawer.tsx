@@ -1,4 +1,4 @@
-import React, { FormEvent } from 'react'
+import { FormEvent } from 'react'
 import ConcertForm from '../forms/ConcertForm'
 import { useAppDispatch, useConcertSelector, useFormSelector } from '../redux/store'
 import { addConcertToState, setCloseConcertDrawer, updateConcertInState } from '../redux/features/concertSlice'

@@ -1,7 +1,7 @@
 import { setInputs } from '@/app/redux/features/formSlice'
 import { useDeleteConcertMutation, useUpdateConcertMutation } from '@/app/redux/services/concertApi'
 import { useAppDispatch } from '@/app/redux/store'
-import React, { FC, MouseEvent, useState } from 'react'
+import { FC, MouseEvent, useState } from 'react'
 import Switch from '@/app/forms/elements/Switch'
 import AdminTrashDeleteBtn from './AdminTrashDeleteBtn'
 import {

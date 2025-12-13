@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useAppDispatch, useVenueSelector } from '@/app/redux/store'
 import { VenueProps } from '@/app/types/model.types'
 import { useDeleteVenueMutation } from '@/app/redux/services/venueApi'

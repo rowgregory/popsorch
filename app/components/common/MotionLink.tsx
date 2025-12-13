@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import { forwardRef } from 'react'
 import Link from 'next/link'
 import { motion, MotionProps } from 'framer-motion'
 import { LinkProps } from 'next/link'
@@ -75,45 +75,3 @@ export const motionLinkPresets = {
     transition: { type: 'spring', stiffness: 400, damping: 17 }
   }
 }
-
-// Usage examples:
-/*
-// Basic usage
-<MotionLink href="/about" whileHover={{ scale: 1.05 }}>
-  About
-</MotionLink>
-
-// With preset animations
-<MotionLink href="/contact" {...motionLinkPresets.lift}>
-  Contact
-</MotionLink>
-
-// With custom animations
-<MotionLink 
-  href="/products"
-  initial={{ opacity: 0, y: 20 }}
-  animate={{ opacity: 1, y: 0 }}
-  whileHover={{ scale: 1.1, rotate: 2 }}
-  transition={{ duration: 0.3 }}
-  className="text-blue-500 hover:text-blue-700"
->
-  Products
-</MotionLink>
-
-// With variants
-const linkVariants = {
-  hidden: { opacity: 0, x: -20 },
-  visible: { opacity: 1, x: 0 },
-  hover: { scale: 1.05, x: 5 }
-}
-
-<MotionLink 
-  href="/services"
-  variants={linkVariants}
-  initial="hidden"
-  animate="visible"
-  whileHover="hover"
->
-  Services
-</MotionLink>
-*/
