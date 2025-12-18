@@ -79,7 +79,7 @@ const FixedLeftNavigationPanel: FC<IFixedLeftNavigationPanel> = ({
                 <motion.div
                   key={item.id}
                   variants={itemVariants}
-                  onClick={() => (item.isPrimaVista ? handlePrimaVistaClick() : {})}
+                  onClick={() => (item.isApothecary ? handlePrimaVistaClick() : {})}
                   initial="closed"
                   animate="open"
                   custom={index}
@@ -88,7 +88,7 @@ const FixedLeftNavigationPanel: FC<IFixedLeftNavigationPanel> = ({
           ${
             item.active
               ? `bg-linear-to-r ${
-                  item.isPrimaVista
+                  item.isApothecary
                     ? 'from-indigo-600/20 to-violet-600/20 text-indigo-400 border border-indigo-600/30'
                     : 'from-red-600/20 to-orange-600/20 text-red-400 border border-red-600/30'
                 }`
@@ -112,7 +112,7 @@ const FixedLeftNavigationPanel: FC<IFixedLeftNavigationPanel> = ({
                       {item.description && (
                         <div
                           className={`${
-                            item.active ? (item.isPrimaVista ? 'text-indigo-700' : 'text-red-700') : 'text-neutral-500'
+                            item.active ? (item.isApothecary ? 'text-indigo-700' : 'text-red-700') : 'text-neutral-500'
                           } text-xs mt-0.5`}
                         >
                           {item.description}

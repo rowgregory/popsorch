@@ -13,7 +13,8 @@ import {
   User,
   Wand,
   Database,
-  FileQuestionIcon
+  FileQuestionIcon,
+  GitBranch
 } from 'lucide-react'
 
 export const adminNavigationLinkData = (
@@ -26,7 +27,7 @@ export const adminNavigationLinkData = (
   icon: LucideIcon
   color?: string
   description?: string
-  isPrimaVista?: boolean
+  isApothecary?: boolean
 }[] => {
   const baselinks = [
     {
@@ -136,7 +137,16 @@ export const adminNavigationLinkData = (
       icon: Wand,
       color: 'text-violet-500',
       description: 'Orchestrating events with magic',
-      isPrimaVista: true
+      isApothecary: true
+    },
+    {
+      id: 'changelog',
+      textKey: 'Changelog',
+      linkKey: '/admin/changelog',
+      active: isStringInPath(path, 'changelog'),
+      icon: GitBranch,
+      color: 'text-violet-500',
+      description: 'Version tracking'
     }
   ]
 

@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.thepopsorchestra.org
+
+# Sitemaps
+Sitemap: https://www.thepopsorchestra.org/sitemap.xml

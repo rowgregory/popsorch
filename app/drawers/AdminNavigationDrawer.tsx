@@ -87,7 +87,7 @@ const AdminNavigationDrawer = () => {
                       <Link
                         href={link.linkKey}
                         onClick={
-                          link.isPrimaVista
+                          link.isApothecary
                             ? () => handlePrimaVistaClick()
                             : link.textKey === 'Logout'
                             ? handleLogout

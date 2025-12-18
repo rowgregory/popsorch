@@ -1,18 +1,18 @@
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
-import type { Metadata } from 'next'
 import ReduxWrapper from './redux-wrapper'
+import Script from 'next/script'
+import { getUserId } from './lib/auth'
+import { getAppData } from './actions/app-actions'
+import { GoogleAnalytics } from '@next/third-parties/google'
 import { Changa, Inter, Lato, Oswald, Raleway } from 'next/font/google'
 import './globals.css'
 import 'ol/ol.css'
 import 'swiper/css'
 import 'swiper/css/effect-fade'
 import 'swiper/css/pagination'
-import Script from 'next/script'
-import { getUserId } from './lib/auth'
-import { getAppData } from './actions/app-actions'
-import { GoogleAnalytics } from '@next/third-parties/google'
+import { siteMetadata } from './metadata'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -48,78 +48,7 @@ const lato = Lato({
   variable: '--font-lato'
 })
 
-export const metadata: Metadata = {
-  metadataBase: new URL('https://thepopsorchestra.org'),
-  title: 'The Pops Orchestra',
-  description:
-    'The Pops Orchestra brings professional and passionate performances of popular and classical music to the community, inspiring audiences of all ages.',
-  keywords: [
-    'The Pops Orchestra',
-    'orchestra performances',
-    'live music',
-    'classical music',
-    'popular music orchestra',
-    'community orchestra',
-    'musical performances',
-    'symphony orchestra',
-    'live classical concerts',
-    'family music events',
-    'music education',
-    'orchestra events',
-    'live orchestra shows',
-    'music entertainment',
-    'community music programs',
-    'youth orchestra',
-    'music outreach',
-    'concert series',
-    'cultural events',
-    'orchestra near me',
-    'classical concerts near me',
-    'live music events',
-    'affordable concerts',
-    'professional musicians',
-    'music enrichment',
-    'music appreciation'
-  ],
-  openGraph: {
-    title: 'The Pops Orchestra',
-    description:
-      'Experience the magic of live music with The Pops Orchestra, blending popular hits and classical favorites for audiences of all ages.',
-    url: 'https://thepopsorchestra.org',
-    siteName: 'The Pops Orchestra',
-    images: [
-      {
-        url: 'https://firebasestorage.googleapis.com/v0/b/the-pops-orchestra.firebasestorage.app/o/images%2Frich-preview.png?alt=media&token=9d743b9c-1d75-4290-a057-35f1b45e9e52',
-        width: 1200,
-        height: 630,
-        alt: 'The Pops Orchestra logo'
-      }
-    ],
-    locale: 'en_US',
-    type: 'website'
-  },
-  robots: {
-    index: true,
-    follow: true,
-    'max-image-preview': 'large',
-    'max-snippet': -1,
-    'max-video-preview': -1,
-    googleBot: 'index, follow'
-  },
-  applicationName: 'The Pops Orchestra',
-  appleWebApp: {
-    title: 'The Pops Orchestra',
-    statusBarStyle: 'default',
-    capable: true
-  },
-  alternates: {
-    canonical: 'https://thepopsorchestra.org'
-  },
-  other: {
-    'apple-mobile-web-app-capable': 'yes',
-    'mobile-web-app-capable': 'yes'
-  }
-}
+export const metadata = siteMetadata
 
 export default async function RootLayout({
   children
@@ -131,6 +60,9 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID!} />
+      </head>
       <body
         className={`${inter.variable} ${oswald.variable} ${raleway.variable} ${changa.variable} ${lato.variable} antialiased`}
       >
@@ -143,7 +75,6 @@ export default async function RootLayout({
           data-tockify-script="embed"
           strategy="lazyOnload" // or "afterInteractive"
         />
-        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID!} />
       </body>
     </html>
   )
