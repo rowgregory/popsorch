@@ -27,6 +27,8 @@ export interface DashboardStatePayload {
   lastModifiedHeaderButton: string
   logs: []
   members: []
+  iceQueen: boolean
+  ga4: boolean
 }
 
 const initialDashboardState: DashboardStatePayload = {
@@ -55,7 +57,9 @@ const initialDashboardState: DashboardStatePayload = {
   headerButtonCount: 0,
   lastModifiedHeaderButton: new Date().toISOString(),
   logs: [],
-  members: []
+  members: [],
+  iceQueen: false,
+  ga4: false
 }
 
 export const dashboardSlice = createSlice({
@@ -98,6 +102,18 @@ export const dashboardSlice = createSlice({
       state.lastModifiedHeaderButton = payload.lastModifiedHeaderButton
       state.logs = payload.logs
       state.members = payload.members
+    },
+    setOpenIceQueen: (state) => {
+      state.iceQueen = true
+    },
+    setCloseIceQueen: (state) => {
+      state.iceQueen = false
+    },
+    setOpenGA4Drawer: (state) => {
+      state.ga4 = true
+    },
+    setCloseGA4Drawer: (state) => {
+      state.ga4 = false
     }
   }
 })
@@ -112,5 +128,9 @@ export const {
   setOpenConductorModal,
   setCloseConductorModal,
   setCurrentDialogue,
-  setDashboardData
+  setDashboardData,
+  setCloseIceQueen,
+  setOpenIceQueen,
+  setCloseGA4Drawer,
+  setOpenGA4Drawer
 } = dashboardSlice.actions

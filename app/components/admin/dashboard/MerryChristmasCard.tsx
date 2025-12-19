@@ -1,27 +1,74 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { Sparkles, Gift, TrendingUp, Check, Copy, EyeOff, Eye } from 'lucide-react'
+import { AnimatePresence, motion } from 'framer-motion'
+import {
+  Sparkles,
+  Gift,
+  TrendingUp,
+  Check,
+  Copy,
+  EyeOff,
+  Eye,
+  BarChart3,
+  ArrowUpRight,
+  ArrowRight,
+  BookOpen,
+  X
+} from 'lucide-react'
 import { useEffect, useState } from 'react'
 import ChristmasAnalyticsButton from './ChristmasAnalyticsButton'
 import { cardVariants } from '@/app/lib/constants/motion'
+import Picture from '../../common/Picture'
+import { useAppDispatch, useDashboardSelector } from '@/app/redux/store'
+import { setCloseGA4Drawer, setCloseIceQueen, setOpenGA4Drawer } from '@/app/redux/features/dashboardSlice'
+import useSoundEffect from '@/app/hooks/useSoundEffect'
 
 const MerryChristmasCard = () => {
-  const [snowflakes, setSnowflakes] = useState<{ id: number; left: number; delay: number; duration: number }[]>([])
+  const [snowflakes, setSnowflakes] = useState<
+    { id: number; left: number; delay: number; duration: number; intensity: number }[]
+  >([])
   const [showPassword, setShowPassword] = useState(false)
   const [copiedEmail, setCopiedEmail] = useState(false)
   const [copiedPassword, setCopiedPassword] = useState(false)
+  const { iceQueen } = useDashboardSelector()
+  const dispatch = useAppDispatch()
+  const { play, stop } = useSoundEffect('/mp3/snowstorm.mp3', true, true)
+
+  const [initialSnowflakes, setInitialSnowflakes] = useState([])
 
   useEffect(() => {
-    // Generate snowflakes
+    // Generate snowflakes once on mount
     const flakes = Array.from({ length: 50 }, (_, i) => ({
       id: i,
       left: Math.random() * 100,
       delay: Math.random() * 5,
-      duration: 5 + Math.random() * 10
+      duration: 5 + Math.random() * 10,
+      intensity: 0,
+      size: Math.random()
     }))
+    setInitialSnowflakes(flakes)
     setSnowflakes(flakes)
   }, [])
+
+  useEffect(() => {
+    if (iceQueen && snowflakes.length < 200) {
+      // When iceQueen turns ON, ADD more snowflakes
+      play()
+      const newFlakes = Array.from({ length: 150 }, (_, i) => ({
+        id: 50 + i,
+        left: Math.random() * 100,
+        delay: Math.random() * 5,
+        duration: 2 + Math.random() * 4,
+        intensity: Math.random() * 100,
+        size: Math.random()
+      }))
+      setSnowflakes([...initialSnowflakes, ...newFlakes])
+    } else if (!iceQueen && snowflakes.length > 50) {
+      // When iceQueen turns OFF, reset to initial snowflakes
+      stop()
+      setSnowflakes(initialSnowflakes)
+    }
+  }, [iceQueen, initialSnowflakes, play, stop, snowflakes.length])
 
   const copyToClipboard = async (text: string, type: 'email' | 'password') => {
     await navigator.clipboard.writeText(text)
@@ -47,7 +94,7 @@ const MerryChristmasCard = () => {
     >
       {/* Falling Snow */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {snowflakes.map((flake) => (
+        {snowflakes.map((flake, i) => (
           <motion.div
             key={flake.id}
             className="absolute w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full opacity-70"
@@ -56,18 +103,199 @@ const MerryChristmasCard = () => {
             animate={{
               top: '110%',
               opacity: [0, 1, 1, 0],
-              x: [0, Math.random() * 100 - 50, 0]
+              x: iceQueen
+                ? [0, flake.intensity * 2 - 100, Math.random() * 200 - 100, 0]
+                : [0, Math.random() * 100 - 50, 0]
             }}
             transition={{
               duration: flake.duration,
               delay: flake.delay,
               repeat: Infinity,
-              ease: 'linear'
+              ease: iceQueen ? 'easeInOut' : 'linear'
             }}
           />
         ))}
       </div>
 
+      <AnimatePresence>
+        {iceQueen && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.7, y: -30, x: -20 }}
+            animate={{ opacity: 1, scale: 1, y: 0, x: 0 }}
+            exit={{ opacity: 0, scale: 0.7, y: -30, x: -20 }}
+            transition={{
+              type: 'spring',
+              stiffness: 300,
+              damping: 25,
+              mass: 1
+            }}
+            className="absolute top-32 left-10 -translate-x-1/2 xl:left-80 2xl:left-48 z-50"
+          >
+            <motion.div>
+              <div className="bg-gradient-to-br from-red-950/95 via-red-900/95 to-green-950/95 backdrop-blur-xl rounded-2xl p-6 border border-red-500/50 shadow-2xl shadow-red-500/20 w-80">
+                <div className="absolute -top-3 -right-3 text-4xl animate-bounce opacity-70">🎄</div>
+
+                <h3 className="text-white font-bold text-xl mb-1 flex items-center gap-2">
+                  <Sparkles className="w-5 h-5 text-yellow-400" />
+                  Analytics Menu
+                </h3>
+                <p className="text-red-100 text-sm mb-6">Choose your festive insight:</p>
+
+                <div className="space-y-3">
+                  <motion.a
+                    href="https://analytics.google.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    whileHover={{ x: 8 }}
+                    className="flex items-center gap-3 p-3 bg-red-500/20 hover:bg-red-500/30 rounded-xl border border-red-400/50 transition-all group cursor-pointer"
+                  >
+                    <BarChart3 className="w-5 h-5 text-red-400 group-hover:text-red-300 flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-white font-semibold text-sm">GA4 Dashboard</p>
+                      <p className="text-red-100 text-xs">View live metrics</p>
+                    </div>
+                    <ArrowUpRight className="w-4 h-4 text-red-400 group-hover:translate-x-1 transition-transform flex-shrink-0" />
+                  </motion.a>
+
+                  <motion.button
+                    onClick={() => dispatch(setOpenGA4Drawer())}
+                    whileHover={{ x: 8 }}
+                    className="w-full flex items-center gap-3 p-3 bg-green-500/20 hover:bg-green-500/30 rounded-xl border border-green-400/50 transition-all group"
+                  >
+                    <BookOpen className="w-5 h-5 text-green-400 group-hover:text-green-300 flex-shrink-0" />
+                    <div className="flex-1 text-left min-w-0">
+                      <p className="text-white font-semibold text-sm">GA4 Guide</p>
+                      <p className="text-red-100 text-xs">Learn to interpret data</p>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-green-400 group-hover:translate-x-1 transition-transform flex-shrink-0" />
+                  </motion.button>
+
+                  <motion.button
+                    whileHover={{ x: 8 }}
+                    onClick={() => {
+                      stop()
+                      dispatch(setCloseIceQueen())
+                      dispatch(setCloseGA4Drawer())
+                    }}
+                    className="w-full flex items-center gap-3 p-3 bg-gray-500/20 hover:bg-gray-500/30 rounded-xl border border-gray-400/50 transition-all group"
+                  >
+                    <X className="w-5 h-5 text-gray-400 group-hover:text-gray-300 flex-shrink-0" />
+                    <div className="flex-1 text-left min-w-0">
+                      <p className="text-white font-semibold text-sm">Close</p>
+                      <p className="text-red-100 text-xs">Dismiss menu</p>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-gray-400 group-hover:translate-x-1 transition-transform flex-shrink-0" />
+                  </motion.button>
+                </div>
+
+                <p className="text-red-200/60 text-xs mt-6 text-center">🎅 Merry analytics for the season 🎅</p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {iceQueen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{
+            opacity: [0, 0.3, 0, 0.5, 0]
+          }}
+          transition={{
+            duration: 0.4,
+            delay: Math.random() * 8,
+            repeat: Infinity,
+            repeatDelay: 5 + Math.random() * 5
+          }}
+          className="absolute inset-0 bg-cyan-400/20 pointer-events-none"
+        />
+      )}
+
+      {iceQueen && (
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          {Array.from({ length: 20 }).map((_, i) => (
+            <motion.div
+              key={`hail-${i}`}
+              className="absolute w-1 h-1 bg-blue-200 rounded-full opacity-80 shadow-md"
+              style={{ left: `${Math.random() * 100}%` }}
+              initial={{ top: '-10%', opacity: 0 }}
+              animate={{
+                top: '110%',
+                opacity: [0, 1, 1, 0.5]
+              }}
+              transition={{
+                duration: 1 + Math.random() * 1.5,
+                delay: Math.random() * 5,
+                repeat: Infinity,
+                ease: 'linear'
+              }}
+            />
+          ))}
+        </div>
+      )}
+
+      {iceQueen && (
+        <svg className="absolute inset-0 pointer-events-none w-full h-full opacity-30">
+          <defs>
+            <linearGradient id="windGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="transparent" />
+              <stop offset="50%" stopColor="rgba(34, 211, 238, 0.4)" />
+              <stop offset="100%" stopColor="transparent" />
+            </linearGradient>
+          </defs>
+          <motion.line
+            x1="0"
+            y1="50%"
+            x2="100%"
+            y2="50%"
+            stroke="url(#windGradient)"
+            strokeWidth="2"
+            animate={{ x: [-100, 100] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          />
+          <motion.line
+            x1="0"
+            y1="70%"
+            x2="100%"
+            y2="70%"
+            stroke="url(#windGradient)"
+            strokeWidth="2"
+            animate={{ x: [100, -100] }}
+            transition={{ duration: 3, repeat: Infinity, delay: 0.5 }}
+          />
+        </svg>
+      )}
+      <AnimatePresence>
+        {iceQueen && (
+          <motion.div
+            initial={{ y: 150, opacity: 0, scale: 0.8 }}
+            animate={{ y: 0, opacity: 1, scale: 1 }}
+            exit={{ y: 150, opacity: 0, scale: 0.8 }}
+            transition={{
+              type: 'spring',
+              stiffness: 100,
+              damping: 20,
+              mass: 1.2
+            }}
+            className="absolute -bottom-4 2xl:left-1/2 2xl:-translate-x-1/2 z-20"
+          >
+            <motion.div
+              animate={{ y: [0, -8, 0] }}
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                ease: 'easeInOut'
+              }}
+            >
+              <Picture
+                src="/images/christmas-queen-2.png"
+                priority
+                className="w-auto object-cover h-96 2xl:scale-x-[-1] drop-shadow-2xl"
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <div className="relative z-10">
         {/* Header */}
         <div className="relative flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 gap-3 sm:gap-4">

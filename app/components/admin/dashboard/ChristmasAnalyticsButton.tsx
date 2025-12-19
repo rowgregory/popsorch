@@ -2,14 +2,17 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ExternalLink, Gift, Star, Sparkles } from 'lucide-react'
+import { ExternalLink, Gift, Star, Sparkles, WandSparkles } from 'lucide-react'
 import useSoundEffect from '@/app/hooks/useSoundEffect'
+import { setOpenIceQueen } from '@/app/redux/features/dashboardSlice'
+import { useAppDispatch } from '@/app/redux/store'
 
 const ChristmasAnalyticsButton = () => {
   const [isClicked, setIsClicked] = useState(false)
   const [presents, setPresents] = useState<{ id: number; x: number; rotation: number }[]>([])
   const [stars, setStars] = useState<{ id: number; x: number; y: number; delay: number }[]>([])
   const { play } = useSoundEffect('/mp3/sleigh-bells.mp3', true)
+  const dispatch = useAppDispatch()
 
   const handleClick = () => {
     setIsClicked(true)
@@ -37,7 +40,7 @@ const ChristmasAnalyticsButton = () => {
       setIsClicked(false)
       setPresents([])
       setStars([])
-      window.open('https://analytics.google.com', '_blank')
+      dispatch(setOpenIceQueen())
     }, 1500)
   }
 
@@ -91,9 +94,9 @@ const ChristmasAnalyticsButton = () => {
           >
             <Gift className="w-4 h-4 sm:w-5 sm:h-5" />
           </motion.div>
-          <span>View Your Analytics Dashboard</span>
+          <span>Summon Christmas Witch</span>
           <motion.div animate={isClicked ? { rotate: 360, scale: [1, 1.2, 1] } : {}} transition={{ duration: 0.6 }}>
-            <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform flex-shrink-0" />
+            <WandSparkles className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform flex-shrink-0" />
           </motion.div>
         </motion.div>
       </button>

@@ -23,6 +23,7 @@ import { setMailchimpMembers } from '../redux/features/mailchimpSlice'
 import { setQuestions } from '../redux/features/questionSlice'
 import HeaderButtonStudio from '../drawers/HeaderButtonStudio'
 import { setLogs } from '../redux/features/logSlice'
+import { GA4GuideDrawer } from '../drawers/GA4Drawer'
 
 interface DashboardData {
   user: {
@@ -84,6 +85,7 @@ const AdminClientLayout: FC<AdminClientLayoutProps> = ({ children, dashboardData
       <VenueDrawer />
       <ConductorModal />
       <HeaderButtonStudio />
+      <GA4GuideDrawer />
 
       <div className="min-h-screen bg-neutral-950 flex">
         {/* Fixed Left Navigation Panel */}
