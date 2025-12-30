@@ -108,6 +108,15 @@ const CHANGELOG_DATA: ChangelogEntry[] = [
     description:
       'Rethemed analytics announcement card with winter/ice-queen fantasy aesthetic. Updated color scheme from festive reds/greens to cyan/blue/purple frost palette, enchanted dialogue, new sound effect, and floating snowflake animations.',
     author: 'Sqysh'
+  },
+  {
+    date: '2025-12-30',
+    version: '2.5.33',
+    category: 'feature',
+    title: 'Facebook Pixel Coming Soon Component',
+    description:
+      'Created new winter-themed coming soon component for Meta Pixel integration. Features ice shard animations. Designed for dashboard sidebar with responsive 400-700px width.',
+    author: 'Sqysh'
   }
 ]
 

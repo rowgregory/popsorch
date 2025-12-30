@@ -24,7 +24,7 @@ import { useAppDispatch, useDashboardSelector } from '@/app/redux/store'
 import { setCloseGA4Drawer, setCloseIceQueen, setOpenGA4Drawer } from '@/app/redux/features/dashboardSlice'
 import useSoundEffect from '@/app/hooks/useSoundEffect'
 
-const MerryChristmasCard = () => {
+const WinterCard = () => {
   const [snowflakes, setSnowflakes] = useState<
     { id: number; left: number; delay: number; duration: number; intensity: number }[]
   >([])
@@ -443,4 +443,4 @@ const MerryChristmasCard = () => {
   )
 }
 
-export default MerryChristmasCard
+export default WinterCard
