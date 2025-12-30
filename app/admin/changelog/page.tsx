@@ -13,14 +13,14 @@ import {
   Search,
   Filter,
   Download,
-  TrendingUp
+  TrendingUp,
+  ScreenShare
 } from 'lucide-react'
 
 interface ChangelogEntry {
-  id: string
   date: string
   version: string
-  category: 'feature' | 'improvement' | 'bugfix' | 'security' | 'breaking'
+  category: 'feature' | 'improvement' | 'bugfix' | 'security' | 'breaking' | 'ui'
   title: string
   description: string
   author: string
@@ -28,57 +28,6 @@ interface ChangelogEntry {
 
 const CHANGELOG_DATA: ChangelogEntry[] = [
   {
-    id: '1',
-    date: '2025-12-17',
-    version: '2.5.32',
-    category: 'feature',
-    title: 'Automated Sitemap Generation',
-    description:
-      'Implemented next-sitemap with App Router support for automatic sitemap.xml and robots.txt generation. Configured to exclude admin and auth routes while including all public pages.',
-    author: 'Sqysh'
-  },
-  {
-    id: '2',
-    date: '2025-12-17',
-    version: '1.2.0',
-    category: 'improvement',
-    title: 'SEO Metadata Enhancement',
-    description:
-      'Comprehensive SEO optimization with 70+ location-specific keywords targeting Sarasota and Bradenton. Added structured data (JSON-LD), Twitter cards, OpenGraph tags, and geo-targeting metadata for better local search visibility.',
-    author: 'Sqysh'
-  },
-  {
-    id: '3',
-    date: '2025-12-17',
-    version: '1.2.0',
-    category: 'improvement',
-    title: 'Custom 404 Page with Dark Mode',
-    description:
-      'Created orchestra-themed 404 error page with musical branding, gradient styling. Includes navigation options back to home and concerts.',
-    author: 'Sqysh'
-  },
-  {
-    id: '5',
-    date: '2025-12-17',
-    version: '1.2.0',
-    category: 'improvement',
-    title: 'App Router Sitemap Integration',
-    description:
-      'Configured next-sitemap to work with Next.js App Router by reading app-paths-manifest.json and automatically generating routes while filtering admin/auth paths.',
-    author: 'Sqysh'
-  },
-  {
-    id: '6',
-    date: '2025-12-17',
-    version: '1.2.0',
-    category: 'feature',
-    title: 'Google Analytics 4 Integration',
-    description:
-      'Integrated GA4 tracking with proper head placement for analytics detection and user behavior tracking across the site.',
-    author: 'Sqysh'
-  },
-  {
-    id: '7',
     date: '2025-12-16',
     version: '1.1.5',
     category: 'security',
@@ -88,7 +37,6 @@ const CHANGELOG_DATA: ChangelogEntry[] = [
     author: 'Sqysh'
   },
   {
-    id: '8',
     date: '2025-12-16',
     version: '1.1.5',
     category: 'security',
@@ -98,13 +46,67 @@ const CHANGELOG_DATA: ChangelogEntry[] = [
     author: 'Sqysh'
   },
   {
-    id: '9',
     date: '2025-12-17',
-    version: '1.2.0',
+    version: '2.5.32',
+    category: 'feature',
+    title: 'Automated Sitemap Generation',
+    description:
+      'Implemented next-sitemap with App Router support for automatic sitemap.xml and robots.txt generation. Configured to exclude admin and auth routes while including all public pages.',
+    author: 'Sqysh'
+  },
+  {
+    date: '2025-12-17',
+    version: '2.5.32',
+    category: 'improvement',
+    title: 'SEO Metadata Enhancement',
+    description:
+      'Comprehensive SEO optimization with 70+ location-specific keywords targeting Sarasota and Bradenton. Added structured data (JSON-LD), Twitter cards, OpenGraph tags, and geo-targeting metadata for better local search visibility.',
+    author: 'Sqysh'
+  },
+  {
+    date: '2025-12-17',
+    version: '2.5.32',
+    category: 'improvement',
+    title: 'Custom 404 Page with Dark Mode',
+    description:
+      'Created orchestra-themed 404 error page with musical branding, gradient styling. Includes navigation options back to home and concerts.',
+    author: 'Sqysh'
+  },
+  {
+    date: '2025-12-17',
+    version: '2.5.32',
+    category: 'improvement',
+    title: 'App Router Sitemap Integration',
+    description:
+      'Configured next-sitemap to work with Next.js App Router by reading app-paths-manifest.json and automatically generating routes while filtering admin/auth paths.',
+    author: 'Sqysh'
+  },
+  {
+    date: '2025-12-17',
+    version: '2.5.32',
+    category: 'feature',
+    title: 'Google Analytics 4 Integration',
+    description:
+      'Integrated GA4 tracking with proper head placement for analytics detection and user behavior tracking across the site.',
+    author: 'Sqysh'
+  },
+
+  {
+    date: '2025-12-17',
+    version: '2.5.32',
     category: 'bugfix',
     title: 'GA4 Script Placement Fix',
     description:
       'Moved Google Analytics 4 tracking script from body to head tag for proper detection by GA4 dashboard. Ensures accurate analytics tracking and resolves tag detection issues.',
+    author: 'Sqysh'
+  },
+  {
+    date: '2025-12-30',
+    version: '2.5.33',
+    category: 'ui',
+    title: 'Ice Queen Analytics Theme Redesign',
+    description:
+      'Rethemed analytics announcement card with winter/ice-queen fantasy aesthetic. Updated color scheme from festive reds/greens to cyan/blue/purple frost palette, enchanted dialogue, new sound effect, and floating snowflake animations.',
     author: 'Sqysh'
   }
 ]
@@ -144,13 +146,20 @@ const CATEGORY_CONFIG = {
     color: 'text-orange-400',
     bg: 'bg-orange-500/10',
     border: 'border-orange-500/30'
+  },
+  ui: {
+    label: 'Ui',
+    icon: ScreenShare,
+    color: 'text-fuchsia-400',
+    bg: 'bg-fuchsia-500/10',
+    border: 'border-fuchsia-500/30'
   }
 }
 
 export default function ChangelogPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
-  const [expandedEntry, setExpandedEntry] = useState<string | null>(null)
+  const [expandedEntry, setExpandedEntry] = useState<number | null>(null)
 
   const filteredChangelog = useMemo(() => {
     return CHANGELOG_DATA.filter((entry) => {
@@ -299,75 +308,77 @@ export default function ChangelogPage() {
               <p className="text-neutral-400">No changelog entries found</p>
             </motion.div>
           ) : (
-            filteredChangelog.map((entry, index) => {
-              const config = CATEGORY_CONFIG[entry.category]
-              const Icon = config.icon
-              const isExpanded = expandedEntry === entry.id
+            filteredChangelog
+              .map((entry, index, arr) => {
+                const config = CATEGORY_CONFIG[entry.category]
+                const Icon = config.icon
+                const isExpanded = expandedEntry === index
 
-              return (
-                <motion.div
-                  key={entry.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                  className="bg-gradient-to-br from-neutral-800/50 to-neutral-900/50 backdrop-blur-sm rounded-2xl border border-neutral-700/50 hover:border-neutral-600/50 overflow-hidden transition-all"
-                >
-                  <button
-                    onClick={() => setExpandedEntry(isExpanded ? null : entry.id)}
-                    className="w-full p-6 text-left"
+                return (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: (arr.length - 1 - index) * 0.05 }}
+                    className="bg-gradient-to-br from-neutral-800/50 to-neutral-900/50 backdrop-blur-sm rounded-2xl border border-neutral-700/50 hover:border-neutral-600/50 overflow-hidden transition-all"
                   >
-                    <div className="flex items-start gap-4">
-                      {/* Icon */}
-                      <div
-                        className={`w-12 h-12 rounded-xl ${config.bg} flex items-center justify-center flex-shrink-0 border ${config.border}`}
-                      >
-                        <Icon className={`w-6 h-6 ${config.color}`} />
-                      </div>
-
-                      {/* Content */}
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-3 mb-2 flex-wrap">
-                          <span
-                            className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium border ${config.bg} ${config.color} ${config.border}`}
-                          >
-                            {config.label}
-                          </span>
-                          <span className="text-xs text-neutral-400 flex items-center gap-1">
-                            <Calendar className="w-3 h-3" />
-                            {formatDate(entry.date)}
-                          </span>
-                          <span className="text-xs text-neutral-500">v{entry.version}</span>
+                    <button
+                      onClick={() => setExpandedEntry(isExpanded ? null : index)}
+                      className="w-full p-6 text-left"
+                    >
+                      <div className="flex items-start gap-4">
+                        {/* Icon */}
+                        <div
+                          className={`w-12 h-12 rounded-xl ${config.bg} flex items-center justify-center flex-shrink-0 border ${config.border}`}
+                        >
+                          <Icon className={`w-6 h-6 ${config.color}`} />
                         </div>
 
-                        <h3 className="text-lg font-semibold text-white mb-1">{entry.title}</h3>
+                        {/* Content */}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-3 mb-2 flex-wrap">
+                            <span
+                              className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium border ${config.bg} ${config.color} ${config.border}`}
+                            >
+                              {config.label}
+                            </span>
+                            <span className="text-xs text-neutral-400 flex items-center gap-1">
+                              <Calendar className="w-3 h-3" />
+                              {formatDate(entry.date)}
+                            </span>
+                            <span className="text-xs text-neutral-500">v{entry.version}</span>
+                          </div>
 
-                        {isExpanded && (
-                          <motion.div
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: 'auto' }}
-                            exit={{ opacity: 0, height: 0 }}
-                            className="mt-3"
-                          >
-                            <p className="text-sm text-neutral-300 leading-relaxed">{entry.description}</p>
-                            <div className="mt-3 flex items-center gap-2 text-xs text-neutral-500">
-                              <span>Author:</span>
-                              <span className="font-medium text-neutral-400">{entry.author}</span>
-                            </div>
-                          </motion.div>
-                        )}
+                          <h3 className="text-lg font-semibold text-white mb-1">{entry.title}</h3>
+
+                          {isExpanded && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: 'auto' }}
+                              exit={{ opacity: 0, height: 0 }}
+                              className="mt-3"
+                            >
+                              <p className="text-sm text-neutral-300 leading-relaxed">{entry.description}</p>
+                              <div className="mt-3 flex items-center gap-2 text-xs text-neutral-500">
+                                <span>Author:</span>
+                                <span className="font-medium text-neutral-400">{entry.author}</span>
+                              </div>
+                            </motion.div>
+                          )}
+                        </div>
+
+                        {/* Expand Icon */}
+                        <ChevronDown
+                          className={`w-5 h-5 text-neutral-400 transition-transform flex-shrink-0 ${
+                            isExpanded ? 'rotate-180' : ''
+                          }`}
+                        />
                       </div>
-
-                      {/* Expand Icon */}
-                      <ChevronDown
-                        className={`w-5 h-5 text-neutral-400 transition-transform flex-shrink-0 ${
-                          isExpanded ? 'rotate-180' : ''
-                        }`}
-                      />
-                    </div>
-                  </button>
-                </motion.div>
-              )
-            })
+                    </button>
+                  </motion.div>
+                )
+              })
+              .reverse()
           )}
         </div>
       </div>

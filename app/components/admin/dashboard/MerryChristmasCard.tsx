@@ -13,7 +13,8 @@ import {
   ArrowUpRight,
   ArrowRight,
   BookOpen,
-  X
+  X,
+  Snowflake
 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import ChristmasAnalyticsButton from './ChristmasAnalyticsButton'
@@ -82,7 +83,7 @@ const MerryChristmasCard = () => {
   }
 
   const email = 'thepopsorchestra@gmail.com'
-  const password = 'desrhn(743*guHDB12'
+  const password = process.env.EMAIL_PASSWORD
 
   return (
     <motion.div
@@ -90,7 +91,7 @@ const MerryChristmasCard = () => {
       initial="hidden"
       animate="visible"
       transition={{ duration: 0.6 }}
-      className="col-span-12 xl:col-span-9 bg-gradient-to-br from-red-950/20 via-neutral-900 to-green-950/20 border border-red-500/30 rounded-xl sm:rounded-2xl p-4 sm:p-5 md:p-6 hover:border-red-500/50 transition-all duration-300 shadow-xl overflow-hidden relative"
+      className="col-span-12 xl:col-span-9 bg-gradient-to-br from-blue-950/20 via-neutral-900 to-sky-950/20 border border-sky-500/30 rounded-xl sm:rounded-2xl p-4 sm:p-5 md:p-6 hover:border-sky-500/50 transition-all duration-300 shadow-xl overflow-hidden relative"
     >
       {/* Falling Snow */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -132,14 +133,12 @@ const MerryChristmasCard = () => {
             className="absolute top-32 left-10 -translate-x-1/2 xl:left-80 2xl:left-48 z-50"
           >
             <motion.div>
-              <div className="bg-gradient-to-br from-red-950/95 via-red-900/95 to-green-950/95 backdrop-blur-xl rounded-2xl p-6 border border-red-500/50 shadow-2xl shadow-red-500/20 w-80">
-                <div className="absolute -top-3 -right-3 text-4xl animate-bounce opacity-70">🎄</div>
-
+              <div className="bg-gradient-to-br from-sky-950/95 via-sky-900/95 to-green-950/95 backdrop-blur-xl rounded-2xl p-6 border border-sky-500/50 shadow-2xl shadow-sky-500/20 w-80">
                 <h3 className="text-white font-bold text-xl mb-1 flex items-center gap-2">
-                  <Sparkles className="w-5 h-5 text-yellow-400" />
+                  <Sparkles className="w-5 h-5 text-blue-400" />
                   Analytics Menu
                 </h3>
-                <p className="text-red-100 text-sm mb-6">Choose your festive insight:</p>
+                <p className="text-cyan-100 text-sm mb-6">Command the power of winter:</p>
 
                 <div className="space-y-3">
                   <motion.a
@@ -147,27 +146,27 @@ const MerryChristmasCard = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     whileHover={{ x: 8 }}
-                    className="flex items-center gap-3 p-3 bg-red-500/20 hover:bg-red-500/30 rounded-xl border border-red-400/50 transition-all group cursor-pointer"
+                    className="flex items-center gap-3 p-3 bg-sky-500/20 hover:bg-sky-500/30 rounded-xl border border-sky-400/50 transition-all group cursor-pointer"
                   >
-                    <BarChart3 className="w-5 h-5 text-red-400 group-hover:text-red-300 flex-shrink-0" />
+                    <BarChart3 className="w-5 h-5 text-sky-400 group-hover:text-sky-300 flex-shrink-0" />
                     <div className="flex-1 min-w-0">
                       <p className="text-white font-semibold text-sm">GA4 Dashboard</p>
-                      <p className="text-red-100 text-xs">View live metrics</p>
+                      <p className="text-sky-100 text-xs">View live metrics</p>
                     </div>
-                    <ArrowUpRight className="w-4 h-4 text-red-400 group-hover:translate-x-1 transition-transform flex-shrink-0" />
+                    <ArrowUpRight className="w-4 h-4 text-sky-400 group-hover:translate-x-1 transition-transform flex-shrink-0" />
                   </motion.a>
 
                   <motion.button
                     onClick={() => dispatch(setOpenGA4Drawer())}
                     whileHover={{ x: 8 }}
-                    className="w-full flex items-center gap-3 p-3 bg-green-500/20 hover:bg-green-500/30 rounded-xl border border-green-400/50 transition-all group"
+                    className="w-full flex items-center gap-3 p-3 bg-sky-500/20 hover:bg-sky-500/30 rounded-xl border border-sky-400/50 transition-all group"
                   >
-                    <BookOpen className="w-5 h-5 text-green-400 group-hover:text-green-300 flex-shrink-0" />
+                    <BookOpen className="w-5 h-5 text-sky-400 group-hover:text-sky-300 flex-shrink-0" />
                     <div className="flex-1 text-left min-w-0">
                       <p className="text-white font-semibold text-sm">GA4 Guide</p>
-                      <p className="text-red-100 text-xs">Learn to interpret data</p>
+                      <p className="text-sky-100 text-xs">Learn to interpret data</p>
                     </div>
-                    <ArrowRight className="w-4 h-4 text-green-400 group-hover:translate-x-1 transition-transform flex-shrink-0" />
+                    <ArrowRight className="w-4 h-4 text-sky-400 group-hover:translate-x-1 transition-transform flex-shrink-0" />
                   </motion.button>
 
                   <motion.button
@@ -182,13 +181,15 @@ const MerryChristmasCard = () => {
                     <X className="w-5 h-5 text-gray-400 group-hover:text-gray-300 flex-shrink-0" />
                     <div className="flex-1 text-left min-w-0">
                       <p className="text-white font-semibold text-sm">Close</p>
-                      <p className="text-red-100 text-xs">Dismiss menu</p>
+                      <p className="text-sky-100 text-xs">Dismiss menu</p>
                     </div>
                     <ArrowRight className="w-4 h-4 text-gray-400 group-hover:translate-x-1 transition-transform flex-shrink-0" />
                   </motion.button>
                 </div>
 
-                <p className="text-red-200/60 text-xs mt-6 text-center">🎅 Merry analytics for the season 🎅</p>
+                <p className="text-cyan-200/60 text-xs mt-6 text-center">
+                  🧊 Hail to the power of frost-forged insights 🧊
+                </p>
               </div>
             </motion.div>
           </motion.div>
@@ -265,6 +266,7 @@ const MerryChristmasCard = () => {
           />
         </svg>
       )}
+
       <AnimatePresence>
         {iceQueen && (
           <motion.div
@@ -288,7 +290,7 @@ const MerryChristmasCard = () => {
               }}
             >
               <Picture
-                src="/images/christmas-queen-2.png"
+                src="/images/ice-queen-1.png"
                 priority
                 className="w-auto object-cover h-96 2xl:scale-x-[-1] drop-shadow-2xl"
               />
@@ -296,19 +298,19 @@ const MerryChristmasCard = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
       <div className="relative z-10">
         {/* Header */}
         <div className="relative flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 gap-3 sm:gap-4">
           <div className="space-y-1.5 sm:space-y-2">
             <div className="flex items-center gap-2 sm:gap-3">
-              <Gift className="w-5 h-5 sm:w-6 sm:h-6 text-red-500 animate-bounce flex-shrink-0" />
-              <h3 className="text-white font-bold text-xl sm:text-2xl md:text-3xl bg-gradient-to-r from-red-500 via-white to-green-500 bg-clip-text text-transparent">
-                Merry Christmas! 🎄
+              <Snowflake className="w-5 h-5 sm:w-6 sm:h-6 text-cyan-300 animate-pulse flex-shrink-0" />
+              <h3 className="font-bold text-xl sm:text-2xl md:text-3xl bg-gradient-to-r from-sky-500 via-white to-blue-500 bg-clip-text text-transparent">
+                Welcome to the Frozen Throne
               </h3>
-              <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-400 animate-pulse flex-shrink-0" />
             </div>
             <p className="text-neutral-300 text-xs sm:text-sm md:text-base">
-              We&apos;ve wrapped up a special gift for you this holiday season!
+              Gaze into the crystal of data and unveil the secrets of your realm
             </p>
           </div>
         </div>
@@ -316,12 +318,13 @@ const MerryChristmasCard = () => {
         {/* Announcement Content */}
         <div className="bg-neutral-800/50 backdrop-blur-sm rounded-lg sm:rounded-xl p-4 sm:p-5 md:p-6 mb-4 sm:mb-6 border border-neutral-700/50">
           <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4 mb-4">
-            <div className="flex-shrink-0 w-7 h-7 xl:w-12 xl:h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
+            <div className="flex-shrink-0 w-7 h-7 xl:w-12 xl:h-12 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-cyan-400/50 border border-cyan-300/60">
               <TrendingUp className="w-2.5 h-2.5 xl:w-6 xl:h-6 text-white" />
             </div>
             <div className="flex-1 min-w-0">
-              <h4 className="text-white font-bold text-base sm:text-lg md:text-xl mb-2">
-                🎁 New Feature: Google Analytics 4 Integration
+              <h4 className="text-white font-bold text-base flex items-center gap-x-1 sm:text-lg md:text-xl mb-2">
+                <Snowflake className="w-3 h-3 sm:w-4 sm:h-4 text-cyan-300 animate-pulse flex-shrink-0" /> New Feature:
+                Google Analytics 4 Integration
               </h4>
               <p className="text-neutral-400 text-xs sm:text-sm leading-relaxed mb-4">
                 Track your website performance, user behavior, and concert engagement with powerful analytics. See which
@@ -357,7 +360,7 @@ const MerryChristmasCard = () => {
         {/* Access Credentials */}
         <div className="bg-gradient-to-r from-neutral-800/80 to-neutral-900/80 backdrop-blur-sm rounded-lg sm:rounded-xl p-4 sm:p-5 md:p-6 mb-4 sm:mb-6 border border-neutral-700/50">
           <h4 className="text-white font-semibold text-sm sm:text-base mb-3 sm:mb-4 flex items-center gap-2">
-            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+            <span className="w-2 h-2 bg-cyan-500 rounded-full animate-pulse" />
             Analytics Dashboard Access
           </h4>
 
@@ -366,7 +369,7 @@ const MerryChristmasCard = () => {
             <div className="flex flex-col gap-2">
               <span className="text-neutral-400 text-xs sm:text-sm font-medium">Email:</span>
               <div className="flex items-center gap-2">
-                <code className="flex-1 bg-neutral-900/80 text-green-400 px-3 sm:px-4 py-2 rounded-lg font-mono text-xs sm:text-sm break-all">
+                <code className="flex-1 bg-neutral-900/80 text-sky-400 px-3 sm:px-4 py-2 rounded-lg font-mono text-xs sm:text-sm break-all">
                   {email}
                 </code>
                 <button
@@ -375,7 +378,7 @@ const MerryChristmasCard = () => {
                   title="Copy email"
                 >
                   {copiedEmail ? (
-                    <Check className="w-4 h-4 text-green-400" />
+                    <Check className="w-4 h-4 text-sky-400" />
                   ) : (
                     <Copy className="w-4 h-4 text-neutral-400 group-hover:text-white transition-colors" />
                   )}
@@ -387,7 +390,7 @@ const MerryChristmasCard = () => {
             <div className="flex flex-col gap-2">
               <span className="text-neutral-400 text-xs sm:text-sm font-medium">Password:</span>
               <div className="flex items-center gap-2">
-                <code className="flex-1 bg-neutral-900/80 text-green-400 px-3 sm:px-4 py-2 rounded-lg font-mono text-xs sm:text-sm break-all">
+                <code className="flex-1 bg-neutral-900/80 text-sky-400 px-3 sm:px-4 py-2 rounded-lg font-mono text-xs sm:text-sm break-all">
                   {showPassword ? password : '••••••••••••••••••'}
                 </code>
                 <button
@@ -407,7 +410,7 @@ const MerryChristmasCard = () => {
                   title="Copy password"
                 >
                   {copiedPassword ? (
-                    <Check className="w-4 h-4 text-green-400" />
+                    <Check className="w-4 h-4 text-sky-400" />
                   ) : (
                     <Copy className="w-4 h-4 text-neutral-400 group-hover:text-white transition-colors" />
                   )}
@@ -421,19 +424,19 @@ const MerryChristmasCard = () => {
         <ChristmasAnalyticsButton />
 
         {/* Footer Note */}
-        <p className="text-neutral-500 text-[10px] sm:text-xs mt-4 sm:mt-6 text-center">
-          🎅 Happy Holidays from Sqysh! May your metrics be merry and your conversions bright! ✨
+        <p className="text-cyan-200/50 text-[10px] sm:text-xs mt-4 sm:mt-6 text-center">
+          ❄️ From the frozen realm, we wish you crystalline insights and prosperous winters ahead! 🧊
         </p>
       </div>
 
       {/* Decorative Corner Lights */}
-      <div className="absolute top-3 right-3 sm:top-4 sm:right-4 w-2 h-2 sm:w-3 sm:h-3 bg-red-500 rounded-full animate-pulse opacity-70" />
+      <div className="absolute top-3 right-3 sm:top-4 sm:right-4 w-2 h-2 sm:w-3 sm:h-3 bg-cyan-500 rounded-full animate-pulse opacity-70" />
       <div
-        className="absolute top-6 right-6 sm:top-8 sm:right-8 w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-500 rounded-full animate-pulse opacity-70"
+        className="absolute top-6 right-6 sm:top-8 sm:right-8 w-1.5 h-1.5 sm:w-2 sm:h-2 bg-blue-500 rounded-full animate-pulse opacity-70"
         style={{ animationDelay: '0.5s' }}
       />
       <div
-        className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 w-2 h-2 sm:w-3 sm:h-3 bg-yellow-400 rounded-full animate-pulse opacity-70"
+        className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 w-2 h-2 sm:w-3 sm:h-3 bg-sky-400 rounded-full animate-pulse opacity-70"
         style={{ animationDelay: '1s' }}
       />
     </motion.div>

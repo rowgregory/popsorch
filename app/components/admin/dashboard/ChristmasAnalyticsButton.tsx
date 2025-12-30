@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ExternalLink, Gift, Star, Sparkles, WandSparkles } from 'lucide-react'
+import { Gift, Star, Sparkles, WandSparkles, Snowflake } from 'lucide-react'
 import useSoundEffect from '@/app/hooks/useSoundEffect'
 import { setOpenIceQueen } from '@/app/redux/features/dashboardSlice'
 import { useAppDispatch } from '@/app/redux/store'
@@ -11,7 +11,7 @@ const ChristmasAnalyticsButton = () => {
   const [isClicked, setIsClicked] = useState(false)
   const [presents, setPresents] = useState<{ id: number; x: number; rotation: number }[]>([])
   const [stars, setStars] = useState<{ id: number; x: number; y: number; delay: number }[]>([])
-  const { play } = useSoundEffect('/mp3/sleigh-bells.mp3', true)
+  const { play } = useSoundEffect('/mp3/fairy-wand.mp3', true)
   const dispatch = useAppDispatch()
 
   const handleClick = () => {
@@ -49,19 +49,19 @@ const ChristmasAnalyticsButton = () => {
       <button
         onClick={handleClick}
         rel="noopener noreferrer"
-        className="group relative inline-flex items-center justify-center gap-2 sm:gap-3 w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm uppercase tracking-wider shadow-2xl hover:shadow-green-500/50 transition-all duration-300 overflow-hidden"
+        className="group relative inline-flex items-center justify-center gap-2 sm:gap-3 w-full bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-500 hover:to-blue-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm uppercase tracking-wider shadow-2xl hover:shadow-sky-500/50 transition-all duration-300 overflow-hidden"
       >
         {/* Christmas Light Flash */}
         {isClicked && (
           <>
             <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-red-400 via-green-400 to-red-400"
+              className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-sky-400 to-cyan-400"
               initial={{ opacity: 0 }}
               animate={{ opacity: [0, 0.6, 0] }}
               transition={{ duration: 0.6, times: [0, 0.5, 1] }}
             />
             <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-yellow-300 via-white to-yellow-300"
+              className="absolute inset-0 bg-gradient-to-r from-sky-300 via-white to-sky-300"
               initial={{ opacity: 0 }}
               animate={{ opacity: [0, 0.8, 0] }}
               transition={{ duration: 0.4, delay: 0.2 }}
@@ -75,7 +75,7 @@ const ChristmasAnalyticsButton = () => {
         {/* Glowing Border on Click */}
         {isClicked && (
           <motion.div
-            className="absolute inset-0 rounded-lg sm:rounded-xl border-2 border-yellow-300"
+            className="absolute inset-0 rounded-lg sm:rounded-xl border-2 border-sky-300"
             initial={{ opacity: 1, scale: 1 }}
             animate={{ opacity: 0, scale: 1.1 }}
             transition={{ duration: 0.8 }}
@@ -92,16 +92,16 @@ const ChristmasAnalyticsButton = () => {
             animate={isClicked ? { rotate: [0, -15, 15, -15, 0], scale: [1, 1.2, 1] } : {}}
             transition={{ duration: 0.6 }}
           >
-            <Gift className="w-4 h-4 sm:w-5 sm:h-5" />
+            <Snowflake className="w-4 h-4 sm:w-5 sm:h-5" />
           </motion.div>
-          <span>Summon Christmas Witch</span>
+          <span>Call Upon Winter's Sovereign</span>
           <motion.div animate={isClicked ? { rotate: 360, scale: [1, 1.2, 1] } : {}} transition={{ duration: 0.6 }}>
             <WandSparkles className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform flex-shrink-0" />
           </motion.div>
         </motion.div>
       </button>
 
-      {/* Falling Presents */}
+      {/* Falling Snowflakes */}
       <AnimatePresence>
         {isClicked &&
           presents.map((present) => (
@@ -121,7 +121,7 @@ const ChristmasAnalyticsButton = () => {
                 ease: 'easeIn'
               }}
             >
-              <Gift className="w-4 h-4 text-red-500 drop-shadow-lg" />
+              <Snowflake className="w-4 h-4 text-cyan-500 drop-shadow-lg" />
             </motion.div>
           ))}
       </AnimatePresence>
@@ -154,7 +154,7 @@ const ChristmasAnalyticsButton = () => {
                 ease: 'easeOut'
               }}
             >
-              <Star className="w-3 h-3 fill-yellow-300 text-yellow-300 drop-shadow-glow" />
+              <Star className="w-3 h-3 fill-sky-300 text-sky-300 drop-shadow-glow" />
             </motion.div>
           ))}
       </AnimatePresence>
@@ -169,7 +169,7 @@ const ChristmasAnalyticsButton = () => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <Sparkles className="w-12 h-12 text-yellow-300" />
+            <Sparkles className="w-12 h-12 text-sky-300" />
           </motion.div>
         )}
       </AnimatePresence>
@@ -208,14 +208,14 @@ const ChristmasAnalyticsButton = () => {
         {isClicked && (
           <>
             <motion.div
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 border-4 border-red-500 border-dashed rounded-full pointer-events-none"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 border-4 border-cyan-500 border-dashed rounded-full pointer-events-none"
               initial={{ scale: 0.5, opacity: 1, rotate: 0 }}
               animate={{ scale: 2, opacity: 0, rotate: 180 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 1, ease: 'easeOut' }}
             />
             <motion.div
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 border-4 border-green-500 border-dashed rounded-full pointer-events-none"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 border-4 border-sky-500 border-dashed rounded-full pointer-events-none"
               initial={{ scale: 0.5, opacity: 1, rotate: 0 }}
               animate={{ scale: 2.5, opacity: 0, rotate: -180 }}
               exit={{ opacity: 0 }}

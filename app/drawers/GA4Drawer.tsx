@@ -143,23 +143,23 @@ export const GA4GuideDrawer = () => {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="fixed right-0 top-0 h-full w-full sm:w-96 bg-gradient-to-b from-red-950/95 via-red-900/95 to-green-950/95 border-l border-red-500/50 shadow-2xl z-[70] flex flex-col overflow-hidden"
+            className="fixed right-0 top-0 h-full w-full sm:w-96 bg-gradient-to-b from-sky-950/95 via-sky-900/95 to-blue-950/95 border-l border-sky-500/50 shadow-2xl z-[70] flex flex-col overflow-hidden"
           >
             {/* Header */}
-            <div className="flex-shrink-0 p-6 border-b border-red-500/30">
+            <div className="flex-shrink-0 p-6 border-b border-sky-500/30">
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
-                  <BarChart3 className="w-6 h-6 text-red-400" />
+                  <BarChart3 className="w-6 h-6 text-sky-400" />
                   <h2 className="text-white font-bold text-lg">GA4 Guide</h2>
                 </div>
                 <button
                   onClick={() => dispatch(setCloseGA4Drawer())}
-                  className="p-2 hover:bg-red-500/20 rounded-lg transition-colors"
+                  className="p-2 hover:bg-sky-500/20 rounded-lg transition-colors"
                 >
-                  <X className="w-5 h-5 text-red-300" />
+                  <X className="w-5 h-5 text-sky-300" />
                 </button>
               </div>
-              <p className="text-red-100 text-sm">Learn to interpret your analytics data</p>
+              <p className="text-sky-100 text-sm">Learn to interpret your analytics data</p>
             </div>
 
             {/* Content */}
@@ -173,15 +173,15 @@ export const GA4GuideDrawer = () => {
                     <motion.div key={section.id} layout>
                       <motion.button
                         onClick={() => setExpandedSection(isExpanded ? null : section.id)}
-                        className="w-full flex items-center gap-3 p-4 bg-red-500/20 hover:bg-red-500/30 rounded-lg border border-red-400/50 transition-all group"
+                        className="w-full flex items-center gap-3 p-4 bg-sky-500/20 hover:bg-sky-500/30 rounded-lg border border-sky-400/50 transition-all group"
                       >
-                        <Icon className="w-5 h-5 text-red-400 flex-shrink-0" />
+                        <Icon className="w-5 h-5 text-sky-400 flex-shrink-0" />
                         <div className="flex-1 text-left min-w-0">
                           <p className="text-white font-semibold text-sm">{section.title}</p>
-                          <p className="text-red-100 text-xs">{section.description}</p>
+                          <p className="text-sky-100 text-xs">{section.description}</p>
                         </div>
                         <motion.div animate={{ rotate: isExpanded ? 180 : 0 }} transition={{ duration: 0.2 }}>
-                          <ChevronDown className="w-4 h-4 text-red-400 flex-shrink-0" />
+                          <ChevronDown className="w-4 h-4 text-sky-400 flex-shrink-0" />
                         </motion.div>
                       </motion.button>
 
@@ -193,7 +193,7 @@ export const GA4GuideDrawer = () => {
                             animate={{ opacity: 1, height: 'auto' }}
                             exit={{ opacity: 0, height: 0 }}
                             transition={{ duration: 0.2 }}
-                            className="mt-2 ml-9 pl-4 border-l-2 border-red-400/30 space-y-3"
+                            className="mt-2 ml-9 pl-4 border-l-2 border-sky-400/30 space-y-3"
                           >
                             {section.content.map((item, idx) => (
                               <motion.div
@@ -202,8 +202,8 @@ export const GA4GuideDrawer = () => {
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: idx * 0.05 }}
                               >
-                                <p className="text-red-300 font-medium text-sm">{item.label}</p>
-                                <p className="text-red-100/70 text-xs mt-1 leading-relaxed">{item.explanation}</p>
+                                <p className="text-sky-300 font-medium text-sm">{item.label}</p>
+                                <p className="text-sky-100/70 text-xs mt-1 leading-relaxed">{item.explanation}</p>
                               </motion.div>
                             ))}
                           </motion.div>
@@ -216,9 +216,9 @@ export const GA4GuideDrawer = () => {
             </div>
 
             {/* Footer */}
-            <div className="flex-shrink-0 p-6 border-t border-red-500/30 bg-red-950/40">
-              <p className="text-red-200/60 text-xs text-center">
-                🎄 Pro Tip: Check your analytics weekly to track concert ticket sales trends! 📊
+            <div className="flex-shrink-0 p-6 border-t border-sky-500/30 bg-sky-950/40">
+              <p className="text-sky-200/60 text-xs text-center">
+                ✨ Winter's Secret: Track your metrics weekly to harness the power of frozen insights!
               </p>
             </div>
           </motion.div>
