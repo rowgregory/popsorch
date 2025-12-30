@@ -83,7 +83,7 @@ const WinterCard = () => {
   }
 
   const email = 'thepopsorchestra@gmail.com'
-  const password = process.env.EMAIL_PASSWORD
+  const password = process.env.NEXT_PUBLIC_EMAIL_PASSWORD
 
   return (
     <motion.div
