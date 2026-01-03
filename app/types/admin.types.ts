@@ -1,4 +1,4 @@
-import { Inputs } from '../hooks/useForm'
+import { Inputs } from '../redux/features/formSlice'
 
 export interface ConcertFormProps {
   inputs: Inputs | any

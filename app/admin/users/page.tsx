@@ -1,13 +1,12 @@
 'use client'
 
-import { useUserSelector } from '@/app/redux/store'
 import { UserProps } from '@/app/redux/features/userSlice'
 import { motion } from 'framer-motion'
 import AdminUserRow from '@/app/components/admin/AdminUserRow'
 import { User } from 'lucide-react'
 
-const Users = () => {
-  const { noUsers, users } = useUserSelector()
+const Users = ({ data }) => {
+  const { noUsers, users } = data
 
   return (
     <div className="p-4 sm:p-6">

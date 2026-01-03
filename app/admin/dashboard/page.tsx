@@ -5,13 +5,21 @@ import ApothecaryCard from '@/app/components/admin/dashboard/ApothecaryCard'
 import WinterCard from '@/app/components/admin/dashboard/WinterCard'
 import MusicianSlots from '@/app/components/admin/dashboard/MusicianSlots'
 import QuickActions from '@/app/components/admin/dashboard/QuickActions'
-
 import HeaderButtonStudioCard from '@/app/components/admin/dashboard/HeaderButtonStudioCard'
-import CampApplicationsToggleCard from '@/app/components/admin/dashboard/CampApplicationsToggleCard'
-import SeasonBannerToggleCard from '@/app/components/admin/dashboard/SeasonBannerToggleCard'
 import FBPixelComingSoon from '@/app/components/admin/dashboard/FBPixelComingSoon'
+import { useEffect } from 'react'
+import { useAppDispatch } from '@/app/redux/store'
+import { setDashboardData } from '@/app/redux/features/dashboardSlice'
 
-const Dashboard = () => {
+const Dashboard = ({ data }) => {
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    if (data.stats) {
+      dispatch(setDashboardData(data.stats))
+    }
+  }, [data.stats, dispatch])
+
   return (
     <div className="bg-gradient-to-br from-neutral-950 via-black to-neutral-950">
       {/* Main Layout */}
@@ -39,10 +47,7 @@ const Dashboard = () => {
           <ApothecaryCard />
 
           {/* Camp Application */}
-          <CampApplicationsToggleCard />
-
-          {/* Season Package Banner */}
-          <SeasonBannerToggleCard />
+          {/* <CampApplicationsToggleCard /> */}
         </div>
       </div>
     </div>

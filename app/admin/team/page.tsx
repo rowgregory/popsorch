@@ -1,26 +1,28 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useTransition } from 'react'
 import TeamMemberRow from '@/app/components/admin/TeamMemberRow'
 import {
   setBoardMembers,
   setMusicians,
   setOpenTeamMemberDrawer,
   setStaff,
-  TeamMemberProps,
-  updateTeamMemberListInState
+  TeamMemberProps
 } from '@/app/redux/features/teamMemberSlice'
-import { useAppDispatch, useTeamMemberSelector } from '@/app/redux/store'
-import { useUpdateTeamMemberListMutation } from '@/app/redux/services/teamMemberApi'
+import { useAppDispatch } from '@/app/redux/store'
 import { showToast } from '@/app/redux/features/toastSlice'
 import EmptyState from '@/app/components/common/EmptyState'
+import { useRouter } from 'next/navigation'
+import { updateTeamMembersOrder } from '@/app/actions/updateTeamMemberOrder'
 
-const Team = () => {
-  const { staff, boardMembers, musicians, noTeamMembers } = useTeamMemberSelector()
-  const [updateTeamMemberList] = useUpdateTeamMemberListMutation()
+const Team = ({ data }) => {
+  const { staff, boardMembers, musicians, noTeamMembers } = data
+  const [_, startTransition] = useTransition()
+  const router = useRouter()
   const dispatch = useAppDispatch()
   const [draggedItem, setDraggedItem] = useState<string | null>(null)
   const [draggedOver, setDraggedOver] = useState<string | null>(null)
+  const [dragPosition, setDragPosition] = useState<'top' | 'bottom' | null>(null)
   const [draggedFromList, setDraggedFromList] = useState<'Board-Member' | 'Staff' | 'Musician' | null>(null)
 
   const handleDragStart = (
@@ -36,11 +38,18 @@ const Team = () => {
   const handleDragOver = (e: React.DragEvent, teamMemberId: string) => {
     e.preventDefault()
     e.dataTransfer.dropEffect = 'move'
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect()
+    const midpoint = rect.height / 2
+    const offsetY = e.clientY - rect.top
+
+    const currentPosition = offsetY < midpoint ? 'top' : 'bottom'
+    setDragPosition(currentPosition)
     setDraggedOver(teamMemberId)
   }
 
   const handleDragLeave = () => {
     setDraggedOver(null)
+    setDragPosition(null)
   }
 
   const handleDrop = async (
@@ -102,19 +111,26 @@ const Team = () => {
     }
 
     // Save to backend
-    try {
-      const response = await updateTeamMemberList(completeUpdatedList).unwrap()
+    startTransition(async () => {
+      try {
+        await updateTeamMembersOrder(completeUpdatedList)
 
-      dispatch(
-        updateTeamMemberListInState({
-          savedStaff: response.savedStaff,
-          savedBoardMembers: response.savedBoardMembers,
-          savedMusicians: response.savedMusicians
-        })
-      )
-    } catch (error: any) {
-      dispatch(showToast({ type: 'error', message: 'Failed', description: error?.data?.message }))
-    }
+        router.refresh()
+        dispatch(
+          showToast({
+            message: 'Team members order updated successfully!',
+            type: 'success'
+          })
+        )
+      } catch (error) {
+        dispatch(
+          showToast({
+            message: error instanceof Error ? error.message : 'Failed to update order',
+            type: 'error'
+          })
+        )
+      }
+    })
 
     setDraggedItem(null)
     setDraggedOver(null)
@@ -125,6 +141,7 @@ const Team = () => {
     setDraggedItem(null)
     setDraggedOver(null)
     setDraggedFromList(null)
+    setDragPosition(null)
   }
 
   const renderTeamMembersList = (
@@ -164,7 +181,9 @@ const Team = () => {
                       draggedItem === teamMember.id ? 'opacity-50 scale-105' : ''
                     } ${
                       draggedOver === teamMember.id && draggedItem !== teamMember.id && draggedFromList === role
-                        ? 'border-t-3 border-purple-500'
+                        ? dragPosition === 'top'
+                          ? 'border-t-3 border-purple-500'
+                          : 'border-b-3 border-purple-500'
                         : ''
                     }`}
                   >

@@ -2,44 +2,7 @@ export const isStringInPath = (path: string, searchString: string) => {
   return path.includes(searchString)
 }
 
-export const shouldShowFooter = (pathname: string) => {
-  const validPaths = [
-    '/',
-    '/concerts',
-    '/venues',
-    '/about',
-    '/robyn-bell',
-    '/board-members',
-    '/staff',
-    '/contact',
-    '/education',
-    '/chair-sponsorships',
-    '/advertise-with-us',
-    '/connect-with-us',
-    '/camp-application',
-    '/camp-info',
-    '/photo-gallery',
-    '/coming-soon',
-    '/accessibility',
-    '/privacy-policy',
-    '/student-performers',
-    '/student-scholarships',
-    '/media',
-    '/hidden-gems',
-    '/sponsorship-opportunities',
-    '/musicians'
-  ]
-
-  const validPatterns = [/^\/concerts\/[^\/]+$/]
-
-  const isValidPath = validPaths.some((path) => pathname === path)
-  const containsPath = validPatterns.some((pattern: { test: (arg0: string) => any }) => pattern.test(pathname))
-
-  // If the current pathname is invalid (not in the valid paths), exclude header and footer
-  return isValidPath || containsPath
-}
-
-export const shouldShowHeader = (pathname: string) => {
+export const toggleHeaderFooter = (pathname: string) => {
   const validPaths = [
     '/',
     '/concerts',

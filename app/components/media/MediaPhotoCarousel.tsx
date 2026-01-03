@@ -1,11 +1,9 @@
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Pagination } from 'swiper/modules'
-import { RootState, useAppSelector } from '@/app/redux/store'
 import Picture from '../common/Picture'
 
-const MediaPhotoCarousel = () => {
-  const { photoGalleryImages } = useAppSelector((state: RootState) => state.photoGalleryImage)
-  const shouldLoop = photoGalleryImages.length >= 3
+const MediaPhotoCarousel = ({ photoGalleryImages }) => {
+  const shouldLoop = photoGalleryImages?.length >= 3
 
   return (
     <div className="relative w-full mx-auto pb-12">
@@ -17,7 +15,7 @@ const MediaPhotoCarousel = () => {
         className="h-[700px] rounded-xl media-swiper"
         grabCursor={true}
       >
-        {photoGalleryImages.map((photoGalleryImage, i) => (
+        {photoGalleryImages?.map((photoGalleryImage, i) => (
           <SwiperSlide key={i}>
             <Picture
               src={photoGalleryImage.imageUrl}

@@ -20,7 +20,7 @@ import { useEffect, useState } from 'react'
 import ChristmasAnalyticsButton from './ChristmasAnalyticsButton'
 import { cardVariants } from '@/app/lib/constants/motion'
 import Picture from '../../common/Picture'
-import { useAppDispatch, useDashboardSelector } from '@/app/redux/store'
+import { useAppDispatch, useDashboardSelector, useUserSelector } from '@/app/redux/store'
 import { setCloseGA4Drawer, setCloseIceQueen, setOpenGA4Drawer } from '@/app/redux/features/dashboardSlice'
 import useSoundEffect from '@/app/hooks/useSoundEffect'
 
@@ -33,7 +33,8 @@ const WinterCard = () => {
   const [copiedPassword, setCopiedPassword] = useState(false)
   const { iceQueen } = useDashboardSelector()
   const dispatch = useAppDispatch()
-  const { play, stop } = useSoundEffect('/mp3/snowstorm.mp3', true, true)
+  const { user } = useUserSelector()
+  const { play, stop } = useSoundEffect('/mp3/snowstorm.mp3', user?.isSoundEffectsOn, true)
 
   const [initialSnowflakes, setInitialSnowflakes] = useState([])
 

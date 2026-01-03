@@ -3,20 +3,23 @@
 import { useState, useCallback, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Trash2, Check, Eye, ChevronRight } from 'lucide-react'
-import { useAppDispatch, useCampSelector } from '@/app/redux/store'
-import AdminDeleteCampApplicationsModal from '@/app/modals/AdminDeleteCampApplicationsModal'
+import { useAppDispatch } from '@/app/redux/store'
+import AdminDeleteCampApplicationsModal from '@/app/components/modals/AdminDeleteCampApplicationsModal'
 import { formatDateShort } from '@/app/lib/utils/dateUtils'
 import { setOpenCampApplicationDrawer } from '@/app/redux/features/campSlice'
 import { setInputs } from '@/app/redux/features/formSlice'
 import EmptyState from '@/app/components/common/EmptyState'
 
-const CampApplications = () => {
-  const { noCampApplications, campApplications } = useCampSelector()
+const CampApplications = ({ data }) => {
   const dispatch = useAppDispatch()
   const [selectedApplications, setSelectedApplications] = useState<Set<string>>(new Set())
   const [isDeleting, setIsDeleting] = useState(false)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [expandedYears, setExpandedYears] = useState(new Set())
+
+  const campApplications = data?.campApplications
+  const totalCampApplications = data?.count
+  const noCampApplications = data?.noCampApplications
 
   // Handle individual checkbox selection
   const handleSelectApplication = useCallback((applicationId: string) => {

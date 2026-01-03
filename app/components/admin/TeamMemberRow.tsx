@@ -1,43 +1,53 @@
-import { FC, MouseEvent, useState } from 'react'
+import { FC, useState, useTransition } from 'react'
 import { useAppDispatch } from '@/app/redux/store'
 import { motion } from 'framer-motion'
 import { setInputs } from '@/app/redux/features/formSlice'
-import {
-  removeTeamMemberFromState,
-  resetTeamMember,
-  setOpenTeamMemberDrawer,
-  TeamMemberProps
-} from '@/app/redux/features/teamMemberSlice'
-import { useDeleteTeamMemberMutation } from '@/app/redux/services/teamMemberApi'
-import AdminTrashDeleteBtn from './AdminTrashDeleteBtn'
+import { setOpenTeamMemberDrawer, TeamMemberProps } from '@/app/redux/features/teamMemberSlice'
 import Picture from '../common/Picture'
+import { useRouter } from 'next/navigation'
+import { showToast } from '@/app/redux/features/toastSlice'
+import { Loader2, Trash2 } from 'lucide-react'
+import { deleteTeamMember } from '@/app/actions/deleteTeamMember'
+
+const getRoleColor = (role: string) => {
+  return role === 'Board-Member'
+    ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
+    : 'bg-green-500/20 text-green-300 border border-green-500/30'
+}
+
+const getRoleIcon = (role: string) => {
+  return role === 'Board-Member' ? '👔' : '⚡'
+}
 
 const TeamMemberRow: FC<{ teamMember: TeamMemberProps }> = ({ teamMember }) => {
+  const [deletingId, setDeletingId] = useState<string | null>(null)
+  const [_, startTransition] = useTransition()
+  const router = useRouter()
   const dispatch = useAppDispatch()
-  const [deleteTeamMember] = useDeleteTeamMemberMutation()
-  const [loading, setLoading] = useState<Record<string, boolean>>({})
 
-  const handleTeamMemberDelete = async (e: MouseEvent, teamMemberId: string) => {
-    e.stopPropagation()
-    setLoading((prev) => ({ ...prev, [teamMemberId]: true }))
-
-    try {
-      const response = await deleteTeamMember({ id: teamMemberId, imageFilename: teamMember?.imageFilename }).unwrap()
-      dispatch(removeTeamMemberFromState(response.id))
-      dispatch(resetTeamMember())
-    } catch {}
-
-    setLoading((prev) => ({ ...prev, [teamMemberId]: false }))
-  }
-
-  const getRoleColor = (role: string) => {
-    return role === 'Board-Member'
-      ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
-      : 'bg-green-500/20 text-green-300 border border-green-500/30'
-  }
-
-  const getRoleIcon = (role: string) => {
-    return role === 'Board-Member' ? '👔' : '⚡'
+  const handleDelete = async (teamMemberId: string) => {
+    setDeletingId(teamMemberId)
+    startTransition(async () => {
+      try {
+        await deleteTeamMember(teamMemberId)
+        router.refresh()
+        dispatch(
+          showToast({
+            message: 'Team member deleted successfully',
+            type: 'success'
+          })
+        )
+      } catch {
+        dispatch(
+          showToast({
+            message: 'Failed to delete team member',
+            type: 'error'
+          })
+        )
+      } finally {
+        setDeletingId(null)
+      }
+    })
   }
 
   return (
@@ -99,9 +109,20 @@ const TeamMemberRow: FC<{ teamMember: TeamMemberProps }> = ({ teamMember }) => {
           </div>
 
           {/* Delete Button */}
-          <div onClick={(e) => e.stopPropagation()}>
-            <AdminTrashDeleteBtn loading={loading} id={teamMember?.id} handleDelete={handleTeamMemberDelete} />
-          </div>
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              handleDelete(teamMember.id)
+            }}
+            disabled={deletingId === teamMember.id}
+            className="disabled:opacity-50 disabled:cursor-not-allowed p-2 text-neutral-400 hover:text-red-400 hover:bg-red-900/30 rounded-lg transition-colors"
+          >
+            {deletingId === teamMember.id ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <Trash2 className="w-4 h-4" />
+            )}
+          </button>
 
           {/* Edit Indicator */}
           <div className="text-neutral-500 group-hover:text-purple-400 transition-colors duration-200">

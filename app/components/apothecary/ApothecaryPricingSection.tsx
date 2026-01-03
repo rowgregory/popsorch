@@ -16,7 +16,7 @@ import {
 } from 'lucide-react'
 import { useSubmitQuoteMutation } from '@/app/redux/services/quoteApi'
 import { showToast } from '@/app/redux/features/toastSlice'
-import { useAppDispatch } from '@/app/redux/store'
+import { useAppDispatch, useUserSelector } from '@/app/redux/store'
 import { setCurrentDialogue, setOpenConductorModal } from '@/app/redux/features/dashboardSlice'
 import useSoundEffect from '@/app/hooks/useSoundEffect'
 
@@ -93,7 +93,8 @@ const testimonialStats = [
 const PrimaVistaPricingSection = () => {
   const [submitQuote, { isLoading }] = useSubmitQuoteMutation()
   const dispatch = useAppDispatch()
-  const { play } = useSoundEffect('/mp3/level-win.mp3', true)
+  const { user } = useUserSelector()
+  const { play } = useSoundEffect('/mp3/level-win.mp3', user?.isSoundEffectsOn)
 
   const handlePurchaseClick = async () => {
     try {

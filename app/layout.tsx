@@ -3,8 +3,6 @@ export const revalidate = 0
 
 import ReduxWrapper from './redux-wrapper'
 import Script from 'next/script'
-import { getUserId } from './lib/auth'
-import { getAppData } from './actions/app-actions'
 import { GoogleAnalytics } from '@next/third-parties/google'
 import { Changa, Inter, Lato, Oswald, Raleway } from 'next/font/google'
 import './globals.css'
@@ -13,6 +11,10 @@ import 'swiper/css'
 import 'swiper/css/effect-fade'
 import 'swiper/css/pagination'
 import { siteMetadata } from './metadata'
+import { getUser } from './actions/getUser'
+import { getUserId } from './actions/getUserById'
+import { getTextBlocks } from './actions/getTextBlocks'
+import { getActiveHeaderButton } from './actions/getActiveHeaderButton'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -55,8 +57,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const userId = await getUserId()
-  const appData = await getAppData()
+  const id = await getUserId()
+  const user = await getUser(id)
+  const textBlocks = await getTextBlocks()
+  const headerButton = await getActiveHeaderButton()
 
   return (
     <html lang="en">
@@ -66,7 +70,7 @@ export default async function RootLayout({
       <body
         className={`${inter.variable} ${oswald.variable} ${raleway.variable} ${changa.variable} ${lato.variable} antialiased`}
       >
-        <ReduxWrapper userId={userId ?? ''} appData={appData}>
+        <ReduxWrapper user={user} textBlocks={textBlocks} headerButton={headerButton}>
           {children}
         </ReduxWrapper>
         <Script

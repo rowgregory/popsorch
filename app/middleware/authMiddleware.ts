@@ -3,7 +3,6 @@ import { jwtVerify } from 'jose'
 
 export async function authMiddleware(req: NextRequest, authToken: any) {
   if (!authToken) {
-    // Clear cookies and redirect if no token is found
     const res = NextResponse.redirect(new URL('/auth/login', req.url))
     res.cookies.delete('authToken')
     return res
@@ -11,18 +10,15 @@ export async function authMiddleware(req: NextRequest, authToken: any) {
 
   try {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET!)
-    const { payload } = await jwtVerify(authToken.value, secret)
+    await jwtVerify(authToken.value, secret)
 
-    const requestHeaders = new Headers(req.headers)
-    requestHeaders.set('x-user', JSON.stringify(payload))
+    // If logged in and trying to access login page, redirect to dashboard
+    if (req.nextUrl.pathname === '/auth/login') {
+      return NextResponse.redirect(new URL('/admin/dashboard', req.url))
+    }
 
-    const res = NextResponse.next({
-      request: { headers: requestHeaders }
-    })
-
-    return res
+    return NextResponse.next()
   } catch {
-    // Clear cookies and redirect if the token is invalid
     const res = NextResponse.redirect(new URL('/auth/login', req.url))
     res.cookies.delete('authToken')
     return res

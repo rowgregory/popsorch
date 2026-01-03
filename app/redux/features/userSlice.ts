@@ -1,6 +1,9 @@
 import { Reducer, createSlice } from '@reduxjs/toolkit'
 
 export interface UserProps {
+  isSoundEffectsOn: boolean
+  isBackgroundMusicOn: boolean
+  isSupporter: boolean
   id: string
   firstName: string
   lastName: string
@@ -29,6 +32,9 @@ const userState: UserProps = {
   email: '',
   isAdmin: false,
   isSuperUser: false,
+  isSupporter: false,
+  isBackgroundMusicOn: false,
+  isSoundEffectsOn: false,
   role: '',
   createdAt: new Date(),
   updatedAt: new Date()

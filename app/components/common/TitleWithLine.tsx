@@ -3,8 +3,8 @@ import EditableTextArea from './EditableTextArea'
 
 interface TitleWithLinkProps {
   title: string
-  type: string
-  textBlockKey: string
+  type?: string
+  textBlockKey?: string
 }
 
 const TitleWithLine: FC<TitleWithLinkProps> = ({ title, type, textBlockKey }) => {

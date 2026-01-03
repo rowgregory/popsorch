@@ -1,5 +1,5 @@
 import { Reducer, createSlice } from '@reduxjs/toolkit'
-import { ISponsor } from '@/app/types/model.types'
+import { ISponsor } from '@/app/types/entities/sponsor'
 import { sponsorData } from '@/app/lib/initial-state/sponsor'
 
 interface SponsorStatePayload {

@@ -2,13 +2,15 @@
 
 import useCustomPathname from '@/app/hooks/useCustomPathname'
 import useSoundEffect from '@/app/hooks/useSoundEffect'
+import { useUserSelector } from '@/app/redux/store'
 import { ChildrenProps } from '@/app/types/common.types'
 import Link from 'next/link'
 import { FC } from 'react'
 
 const ApothecaryLayout: FC<ChildrenProps> = ({ children }) => {
+  const { user } = useUserSelector()
   const path = useCustomPathname()
-  const { play } = useSoundEffect('/mp3/material-chest-open.mp3', true)
+  const { play } = useSoundEffect('/mp3/material-chest-open.mp3', user?.isSoundEffectsOn)
 
   const handleNav = () => {
     play()

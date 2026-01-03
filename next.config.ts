@@ -12,11 +12,6 @@ const nextConfig: NextConfig = {
         hostname: 'firebasestorage.googleapis.com'
       }
     ]
-  },
-  serverExternalPackages: ['@prisma/client', '@prisma/engines'],
-
-  typescript: {
-    ignoreBuildErrors: true
   }
 }
 

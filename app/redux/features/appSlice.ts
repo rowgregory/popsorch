@@ -51,23 +51,13 @@ export interface AppStatePayload {
   logCount: number
   mailchimpMembersCount: number
   isOnline: boolean
-  accessibility: boolean
   metric: { desktopCount: number; mobileCount: number }
   noCampApplications: boolean
   noQuestions: boolean
   noUsers: boolean
-  isSeasonPackageBannerToggledVisible: boolean
-  isSeasonPackageBannerToggledLive: boolean
   toggleHeaderButtonStudio: boolean
-  inconspicuousSignInDrawer: boolean
   isFeatureToggleCardLive: boolean
   isFeatureToggleCardVisible: boolean
-  highContrast: boolean
-  highlightLinks: boolean
-  stepIndex: number
-  textSpacing: boolean
-  dyslexiaFriendly: boolean
-  lineHeight: boolean
 }
 
 const mediaDataInitialState = {
@@ -109,23 +99,13 @@ const initialAppState: AppStatePayload = {
   logCount: 0,
   mailchimpMembersCount: 0,
   isOnline: true,
-  accessibility: false,
   metric: { desktopCount: 0, mobileCount: 0 },
   noCampApplications: false,
   noQuestions: false,
   noUsers: false,
-  isSeasonPackageBannerToggledVisible: false,
-  isSeasonPackageBannerToggledLive: false,
   toggleHeaderButtonStudio: false,
-  inconspicuousSignInDrawer: false,
   isFeatureToggleCardLive: false,
-  isFeatureToggleCardVisible: false,
-  highContrast: false,
-  highlightLinks: false,
-  stepIndex: 0,
-  textSpacing: false,
-  dyslexiaFriendly: false,
-  lineHeight: false
+  isFeatureToggleCardVisible: false
 }
 
 export const appSlice = createSlice({
@@ -230,12 +210,8 @@ export const appSlice = createSlice({
     decreaseUsersCount: (state) => {
       state.usersCount = state.usersCount - 1
     },
-    setToggleAccessibilityDrawer: (state, { payload }) => {
-      state.accessibility = !payload
-    },
+
     hydrateAppState: (state, { payload }) => {
-      state.isSeasonPackageBannerToggledLive = payload.isSeasonPackageBannerToggledLive
-      state.isSeasonPackageBannerToggledVisible = payload.isSeasonPackageBannerToggledVisible
       state.isFeatureToggleCardLive = payload.isFeatureToggleCardLive
       state.isFeatureToggleCardVisible = payload.isFeatureToggleCardVisible
     },
@@ -244,20 +220,6 @@ export const appSlice = createSlice({
     },
     setCloseHeaderButtonStudio: (state) => {
       state.toggleHeaderButtonStudio = false
-    },
-    setOpenInconspicuousSignInDrawer: (state) => {
-      state.inconspicuousSignInDrawer = true
-    },
-    setCloseInconspicuousSignInDrawer: (state) => {
-      state.inconspicuousSignInDrawer = false
-    },
-    setAccessibilitySettings: (state, { payload }) => {
-      state.highContrast = payload.highContrast
-      state.highlightLinks = payload.highlightLinks
-      state.stepIndex = payload.stepIndex
-      state.textSpacing = payload.textSpacing
-      state.dyslexiaFriendly = payload.dyslexiaFriendly
-      state.lineHeight = payload.lineHeight
     }
   }
 })
@@ -293,11 +255,7 @@ export const {
   decreaseCampApplicationsCount,
   increaseUsersCount,
   decreaseUsersCount,
-  setToggleAccessibilityDrawer,
   hydrateAppState,
   setOpeneHeaderButtonStudio,
-  setCloseHeaderButtonStudio,
-  setOpenInconspicuousSignInDrawer,
-  setCloseInconspicuousSignInDrawer,
-  setAccessibilitySettings
+  setCloseHeaderButtonStudio
 } = appSlice.actions

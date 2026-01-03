@@ -239,35 +239,21 @@ model Changelog {
   updatedAt   DateTime @updatedAt
 }
 
-model SeasonPackageBanner {
-  id        String   @id @default(cuid())
-  isVisible Boolean  @default(true)
-  isLive    Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model FeatureToggleCard {
-  id        String   @id @default(cuid())
-  isVisible Boolean  @default(true)
-  isLive    Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 model HeaderButton {
-  id              String   @id @default(cuid())
-  animation       String   @default("scale")
+  id              String  @id @default(cuid())
+  animation       String  @default("scale")
   backgroundColor String
   fontColor       String
-  text            String   @default("Get Started")
-  linkType        String   @default("internal")
+  text            String  @default("Get Started")
+  linkType        String  @default("internal")
   link            String
-  isActive        Boolean  @default(false)
-  type            String   @default("button")
-  dropdownItems   Json?    @default("[]")
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  isActive        Boolean @default(false)
+  type            String  @default("button")
+  dropdownItems   Json?   @default("[]")
+  secondaryButton Json? // For double button type: { text, link, backgroundColor, fontColor }
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model PushSubscription {
@@ -291,4 +277,26 @@ model Sponsor {
   name         String
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+}
+
+model Page {
+  id        String  @id @default(cuid())
+  slug      String  @unique
+  content   Json
+  createdBy String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SiteSetting {
+  id          String  @id @default(cuid())
+  key         String  @unique // e.g., "campApplicationsEnabled", "newsletterSignupEnabled"
+  name        String // e.g., "Camp Applications"
+  description String?
+  value       Boolean @default(false)
+  type        String  @default("boolean") // for future: "string", "number", etc.
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

@@ -12,15 +12,16 @@ export const backdropVariants = {
 
 export const itemVariants: any = {
   hidden: { opacity: 0, y: 20 },
-  visible: {
+  visible: (i: number) => ({
     opacity: 1,
     y: 0,
     transition: {
       type: 'spring',
       stiffness: 100,
-      damping: 12
+      damping: 12,
+      delay: i * 0.03
     }
-  },
+  }),
   exit: {
     opacity: 0,
     x: -100,
@@ -55,9 +56,15 @@ export const cardVariants = {
 export const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
+    opacity: 1
+  }
+}
+
+export const fadeInUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
     opacity: 1,
-    transition: {
-      staggerChildren: 0.03
-    }
+    y: 0,
+    transition: { duration: 0.6 }
   }
 }

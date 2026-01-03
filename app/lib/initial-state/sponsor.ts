@@ -1,4 +1,4 @@
-import { ISponsor } from '@/app/types/model.types'
+import { ISponsor } from '@/app/types/entities/sponsor'
 
 export const sponsorData: ISponsor = {
   id: '',

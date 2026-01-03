@@ -21,3 +21,10 @@ export interface DrawerProps {
   height?: string
   bgColor?: string
 }
+
+export interface IWrapper {
+  children: ReactNode
+  user: any
+  textBlocks: any
+  headerButton: any
+}

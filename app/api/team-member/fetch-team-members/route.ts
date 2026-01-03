@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
   try {
     const teamMembers = await prisma.teamMember.findMany({ orderBy: { createdAt: 'asc' } })
 
-    return NextResponse.json({ teamMembers, sliceName: slicePhotoGallery }, { status: 200 })
+    return NextResponse.json({ teamMembers }, { status: 200 })
   } catch (error: any) {
     await createLog('error', `Fetching team members failed: ${error.message}`, {
       errorLocation: parseStack(JSON.stringify(error)),

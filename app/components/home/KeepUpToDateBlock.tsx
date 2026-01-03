@@ -1,16 +1,11 @@
 'use client'
 
-import TitleWithLine from '../common/TitleWithLine'
 import Link from 'next/link'
-import { useTextBlockSelector } from '@/app/redux/store'
-import EditableTextArea from '../common/EditableTextArea'
 import { motion } from 'framer-motion'
 import { ArrowRight, Bell, Mail, Sparkles, Star, UserPlus } from 'lucide-react'
 import { sendGAEvent } from '@next/third-parties/google'
 
-const KeepUpToDateBlock = () => {
-  const { textBlockMap } = useTextBlockSelector()
-
+const KeepUpToDateBlock = ({ pageData }) => {
   return (
     <div className="relative bg-gradient-to-b from-black via-neutral-950 to-black overflow-hidden">
       {/* Decorative Elements */}
@@ -52,24 +47,18 @@ const KeepUpToDateBlock = () => {
               </div>
 
               <div className="flex items-center justify-center w-full">
-                <TitleWithLine
-                  title={textBlockMap?.HOME_SIGN_UP_BLOCK?.homeSignUpTitle}
-                  type="HOME_SIGN_UP_BLOCK"
-                  textBlockKey="homeSignUpTitle"
-                />
+                <h2 className="text-center text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-4 max-w-4xl leading-tight">
+                  {pageData?.contact?.heading}
+                </h2>
               </div>
 
-              <EditableTextArea
-                tag="p"
-                initialValue={textBlockMap?.HOME_SIGN_UP_BLOCK?.homeSignUpSubtitle}
-                type="HOME_SIGN_UP_BLOCK"
-                textBlockKey="homeSignUpSubtitle"
-                className="text-neutral-300 text-lg leading-relaxed mt-6 mb-10 max-w-2xl mx-auto"
-              />
+              <p className="text-neutral-300 text-lg leading-relaxed mt-6 mb-10 max-w-2xl mx-auto">
+                {pageData?.contact?.subheading}
+              </p>
 
               {/* CTA Button */}
               <Link
-                href="/connect-with-us"
+                href={pageData?.contact?.buttonHref || '#'}
                 onClick={() => {
                   sendGAEvent('event', 'sign_up_intent', {
                     cta_text: 'Sign Me Up',
@@ -95,7 +84,7 @@ const KeepUpToDateBlock = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 group-hover:translate-x-full transition-transform duration-1000" />
 
                 <UserPlus className="w-6 h-6 group-hover:scale-110 transition-transform relative z-10" />
-                <span className="relative z-10">Sign Me Up</span>
+                <span className="relative z-10">{pageData?.contact?.buttonText}</span>
                 <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform relative z-10" />
 
                 {/* Glow Effect */}
@@ -106,15 +95,15 @@ const KeepUpToDateBlock = () => {
               <div className="flex flex-wrap items-center justify-center gap-4 mt-10">
                 <div className="flex items-center gap-2 px-4 py-2 bg-neutral-800/50 backdrop-blur-sm border border-neutral-700/50 rounded-full">
                   <Bell className="w-4 h-4 text-blaze" />
-                  <span className="text-sm text-neutral-300">Concert Updates</span>
+                  <span className="text-sm text-neutral-300">{pageData?.contact?.trustBadges[0]}</span>
                 </div>
                 <div className="flex items-center gap-2 px-4 py-2 bg-neutral-800/50 backdrop-blur-sm border border-neutral-700/50 rounded-full">
                   <Sparkles className="w-4 h-4 text-sunburst" />
-                  <span className="text-sm text-neutral-300">Exclusive Events</span>
+                  <span className="text-sm text-neutral-300">{pageData?.contact?.trustBadges[1]}</span>
                 </div>
                 <div className="flex items-center gap-2 px-4 py-2 bg-neutral-800/50 backdrop-blur-sm border border-neutral-700/50 rounded-full">
                   <Star className="w-4 h-4 text-orange-400" />
-                  <span className="text-sm text-neutral-300">Early Access</span>
+                  <span className="text-sm text-neutral-300">{pageData?.contact?.trustBadges[2]}</span>
                 </div>
               </div>
             </div>

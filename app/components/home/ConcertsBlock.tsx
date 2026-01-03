@@ -1,39 +1,50 @@
-import { RootState, useAppSelector } from '@/app/redux/store'
-import TitleWithLine from '../common/TitleWithLine'
 import HomeConcertCard from './HomeConcertCard'
 import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
 import { IConcert } from '@/app/types/entities/concert'
+import { fadeInUp } from '@/app/lib/constants/motion'
+import { motion } from 'framer-motion'
 
-const ConcertsBlock = () => {
-  const { concerts } = useAppSelector((state: RootState) => state.concert)
-  const { textBlockMap } = useAppSelector((state: RootState) => state.textBlock)
+const ConcertsBlock = ({ pageData, concerts }) => {
+  const { heading, subheading, btnText, btnHref } = pageData?.concerts || {}
+  const displayedConcerts = concerts?.slice(0, 3) || []
 
   return (
-    <div className="px-4 pt-12 pb-40">
-      <div className=" mx-auto w-full flex flex-col items-center">
-        <TitleWithLine
-          title={textBlockMap?.HOME_CONCERT_DATES_BLOCK?.homeConcertDatesBlockTitle}
-          type="HOME_CONCERT_DATES_BLOCK"
-          textBlockKey="homeConcertDatesBlockTitle"
-        />
+    <section className="px-4 pt-12 pb-40">
+      <div className="mx-auto w-full flex flex-col items-center">
+        {/* New Badge Design */}
+        <motion.div variants={fadeInUp} className="mb-12 w-full flex justify-center">
+          <div className="flex items-center gap-3 px-6 py-3 bg-black/40 border border-white/10 rounded-xl backdrop-blur-sm">
+            <span className="text-white font-bold text-xs uppercase tracking-widest">{heading}</span>
+          </div>
+        </motion.div>
 
-        <div className="max-w-[520px] 760:max-w-screen-576 990:max-w-[800px] 1200:max-w-screen-1160 1590:max-w-screen-1400 relative w-full mt-20 mb-10 h-full">
+        {/* New Title Design */}
+        <h2 className="text-center text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-20 max-w-4xl leading-tight">
+          {subheading}
+        </h2>
+
+        {/* Concerts Grid */}
+        <div className="max-w-[520px] 760:max-w-screen-576 990:max-w-[800px] 1200:max-w-screen-1160 1590:max-w-screen-1400 relative w-full mb-10 h-full">
           <div className="flex flex-col gap-y-8 transition-transform duration-300 ease-in-out">
-            {concerts
-              ?.map((concert: IConcert, i) => <HomeConcertCard concert={concert} key={concert.id} index={i} />)
-              .filter((_: any, i: number) => i < 3)}
+            {displayedConcerts.map((concert: IConcert, index: number) => (
+              <HomeConcertCard key={concert.id} concert={concert} index={index} />
+            ))}
           </div>
         </div>
-        <Link
-          href="/concerts"
-          className="font-lato duration-300 mt-5 hover:text-blaze text-15 flex items-center gap-x-2 group"
-        >
-          <span>View All Concerts</span>{' '}
-          <ChevronRight className="w-3 h-3 -mb-0.5 group-hover:translate-x-1 duration-300 group-hover:rotate-[360deg]" />
-        </Link>
+
+        {/* New CTA Button */}
+        <motion.div whileHover={{ x: 4 }} whileTap={{ scale: 0.98 }}>
+          <Link
+            href={btnHref || '/concerts'}
+            className="mt-8 px-8 py-3 bg-blaze text-white font-semibold rounded-lg hover:bg-blaze/90 transition-all duration-300 inline-flex items-center gap-2"
+          >
+            <span>{btnText}</span>
+            <ChevronRight className="w-4 h-4" />
+          </Link>
+        </motion.div>
       </div>
-    </div>
+    </section>
   )
 }
 

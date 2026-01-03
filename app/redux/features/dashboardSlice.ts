@@ -1,8 +1,9 @@
+import { cauldronFolders } from '@/app/lib/constants/admin'
 import { Reducer, createSlice } from '@reduxjs/toolkit'
 
 export interface DashboardStatePayload {
   loading: boolean
-  navigationDrawer: boolean
+  adminSidebar: boolean
   modal: boolean
   modalContent: any | null
   drawer: boolean
@@ -29,11 +30,14 @@ export interface DashboardStatePayload {
   members: []
   iceQueen: boolean
   ga4: boolean
+  pageSelectorModal: boolean
+  selectedCauldronFolder: string
+  theCauldronDrawer: boolean
 }
 
 const initialDashboardState: DashboardStatePayload = {
   loading: false,
-  navigationDrawer: false,
+  adminSidebar: false,
   modal: false,
   modalContent: null,
   drawer: false,
@@ -59,18 +63,24 @@ const initialDashboardState: DashboardStatePayload = {
   logs: [],
   members: [],
   iceQueen: false,
-  ga4: false
+  ga4: false,
+  pageSelectorModal: false,
+  selectedCauldronFolder: cauldronFolders[0].value,
+  theCauldronDrawer: false
 }
 
 export const dashboardSlice = createSlice({
   name: 'dashboard',
   initialState: initialDashboardState,
   reducers: {
-    openNavigationDrawer: (state) => {
-      state.navigationDrawer = true
+    setOpenAdminSidebar: (state) => {
+      state.adminSidebar = true
     },
-    closeNavigationDrawer: (state) => {
-      state.navigationDrawer = false
+    setCloseAdminSidebar: (state) => {
+      state.adminSidebar = false
+    },
+    setToggleAdminSidebar: (state, { payload }) => {
+      state.adminSidebar = !payload
     },
     resetDashboardError: (state) => {
       state.error = null
@@ -89,7 +99,6 @@ export const dashboardSlice = createSlice({
     },
     setDashboardData: (state, { payload }) => {
       state.usersCount = payload.usersCount
-      state.user = payload.user
       state.campApplicationCount = payload.campApplicationCount
       state.questionCount = payload.questionCount
       state.concertsCount = payload.concertsCount
@@ -98,10 +107,6 @@ export const dashboardSlice = createSlice({
       state.photoGalleryImagesCount = payload.photoGalleryImagesCount
       state.sponsorCount = payload.sponsorCount
       state.venuesCount = payload.venuesCount
-      state.headerButtonCount = payload.headerButtonCount
-      state.lastModifiedHeaderButton = payload.lastModifiedHeaderButton
-      state.logs = payload.logs
-      state.members = payload.members
     },
     setOpenIceQueen: (state) => {
       state.iceQueen = true
@@ -114,6 +119,24 @@ export const dashboardSlice = createSlice({
     },
     setCloseGA4Drawer: (state) => {
       state.ga4 = false
+    },
+    setOpenPageSelectorModal: (state) => {
+      state.pageSelectorModal = true
+    },
+    setClosePageSelectorModal: (state) => {
+      state.pageSelectorModal = false
+    },
+    setSelectedCauldronFolder: (state, { payload }) => {
+      state.selectedCauldronFolder = payload
+    },
+    clearSelectedCauldronFolder: (state) => {
+      state.selectedCauldronFolder = ''
+    },
+    setOpenTheCauldronDrawer: (state) => {
+      state.theCauldronDrawer = true
+    },
+    setCloseTheCauldonDrawer: (state) => {
+      state.theCauldronDrawer = false
     }
   }
 })
@@ -121,8 +144,8 @@ export const dashboardSlice = createSlice({
 export const dashboardReducer = dashboardSlice.reducer as Reducer<DashboardStatePayload>
 
 export const {
-  openNavigationDrawer,
-  closeNavigationDrawer,
+  setOpenAdminSidebar,
+  setCloseAdminSidebar,
   resetDashboardError,
   setDashboardError,
   setOpenConductorModal,
@@ -132,5 +155,12 @@ export const {
   setCloseIceQueen,
   setOpenIceQueen,
   setCloseGA4Drawer,
-  setOpenGA4Drawer
+  setOpenGA4Drawer,
+  setToggleAdminSidebar,
+  setClosePageSelectorModal,
+  setOpenPageSelectorModal,
+  setSelectedCauldronFolder,
+  clearSelectedCauldronFolder,
+  setCloseTheCauldonDrawer,
+  setOpenTheCauldronDrawer
 } = dashboardSlice.actions

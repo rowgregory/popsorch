@@ -1,6 +1,13 @@
 import { useState } from 'react'
 import useCustomPathname from '@/app/hooks/useCustomPathname'
-import { RootState, useAppDispatch, useAppSelector } from '@/app/redux/store'
+import {
+  RootState,
+  useAppDispatch,
+  useAppSelector,
+  useConcertSelector,
+  useHeaderButtonSelector,
+  useUserSelector
+} from '@/app/redux/store'
 import { getNavigationLinks } from '@/app/utils/navigation.utils'
 import { useHeaderAtTop } from '@/app/hooks/useHeaderAtTop'
 import { HeaderNavLink } from './HeaderNavLink'
@@ -13,10 +20,10 @@ import { Menu } from 'lucide-react'
 const HeaderLower = () => {
   const path = useCustomPathname()
   const dispatch = useAppDispatch()
-  const { concerts } = useAppSelector((state: RootState) => state.concert)
+  const { concerts } = useConcertSelector()
   const { isFeatureToggleCardLive, isFeatureToggleCardVisible } = useAppSelector((state: RootState) => state.app)
-  const { user } = useAppSelector((state: RootState) => state.user)
-  const { headerButton } = useAppSelector((state: RootState) => state.headerButton)
+  const { user } = useUserSelector()
+  const { headerButton } = useHeaderButtonSelector()
   const thereAreConcerts = concerts?.length >= 1
   const navLinks = getNavigationLinks(
     path,
@@ -34,13 +41,13 @@ const HeaderLower = () => {
       ref={headerRef}
       className={`${
         !isHome && 'bg-headerbg bg-cover bg-no-repeat bg-center'
-      } transition-all w-full px-4 pt-2 430:px-7 1280:px-14 flex items-center justify-between relative z-50 h-[110px] 1200:h-[160px]`}
+      } transition-all w-full px-4 pt-2 430:px-7 1280:px-14 flex items-center justify-between relative z-50 h-[100px]`}
     >
       <Link
         href="/"
         className={`${
           isHome ? 'bg-golden50Logo' : 'bg-white50Logo'
-        } bg-no-repeat bg-contain bg-center w-24 1200:w-40 h-[80px] 1200:h-[100px]`}
+        } bg-no-repeat bg-contain bg-center w-24 1200:w-40 h-[80px]`}
       />
 
       <motion.div
@@ -81,19 +88,32 @@ const HeaderLower = () => {
           className="w-6 h-6 text-white 1360:hidden block duration-300 hover:text-blaze cursor-pointer"
         />
         <div className="hidden 1360:flex space-x-4">
-          <CustomHeaderButton
-            text="Buy Tickets"
-            link="/concerts"
-            linkType="internal"
-            dropdownItems={[]}
-            type="button"
-            fontColor="#fff"
-            backgroundColor="#da0032"
-            animation="scale"
-            createdAt={new Date()}
-            id="123"
-          />
-          <CustomHeaderButton {...headerButton} />
+          {headerButton?.type === 'double' && headerButton.secondaryButton ? (
+            // Double Button
+            <>
+              <CustomHeaderButton
+                {...headerButton}
+                text={headerButton.text}
+                link={headerButton.link}
+                linkType={headerButton.linkType}
+                backgroundColor={headerButton.backgroundColor}
+                fontColor={headerButton.fontColor}
+                animation={headerButton.animation}
+              />
+              <CustomHeaderButton
+                {...headerButton}
+                text={headerButton.secondaryButton.text}
+                link={headerButton.secondaryButton.link}
+                linkType={headerButton.secondaryButton.linkType}
+                backgroundColor={headerButton.backgroundColor}
+                fontColor={headerButton.fontColor}
+                animation={headerButton.animation}
+              />
+            </>
+          ) : (
+            // Single Button
+            <CustomHeaderButton {...headerButton} />
+          )}
         </div>
       </div>
     </nav>

@@ -1,40 +1,60 @@
-import { FC } from 'react'
 import HomeHeroCarousel from './HomeHeroCarousel'
-import { usePhotoSelector, useTextBlockSelector } from '@/app/redux/store'
-import EditableTextArea from '../common/EditableTextArea'
 import { motion } from 'framer-motion'
+import { sendGAEvent } from '@next/third-parties/google'
 
-const HomeHero: FC<{ handleScroll: () => void }> = ({ handleScroll }) => {
-  const { photoGalleryImages } = usePhotoSelector()
-  const { textBlockMap } = useTextBlockSelector()
-  const filteredImages = photoGalleryImages?.filter((item: { isHomeHero: boolean }) => item.isHomeHero)
+const HomeHero = ({ pageData, ref, galleryImages }) => {
+  const filteredImages = galleryImages?.filter((item: { isHomeHero: boolean }) => item.isHomeHero)
+
+  const handleScroll = () => {
+    sendGAEvent('event', 'view_concerts', {
+      value: 'see_concerts',
+      button_text: 'See Concerts',
+      section: 'home_hero',
+      user_scroll_depth: Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100),
+      time_on_page: Math.round((Date.now() - performance.timeOrigin) / 1000),
+      referrer: document.referrer || 'direct',
+      viewport_width: window.innerWidth,
+      viewport_height: window.innerHeight,
+      device_type: window.innerWidth < 768 ? 'mobile' : window.innerWidth < 1024 ? 'tablet' : 'desktop',
+      timestamp: new Date().toISOString()
+    })
+    ref.current?.scrollIntoView({ behavior: 'smooth' })
+  }
 
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.35, ease: 'easeIn' }}
-      className="relative min-h-[600px] h-dvh w-full mt-[-160px]"
+      className="relative w-full min-h-screen h-dvh mt-[-100px]"
     >
-      <div className="absolute inset-0 z-40 bg-black/40 flex items-center justify-center px-4 sm:px-6 lg:px-8">
-        <div className="w-full max-w-xs sm:max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto text-center">
-          <EditableTextArea
-            tag="h1"
-            initialValue={textBlockMap?.HOME_HERO_BLOCK?.homeHeroBlockTitle1}
-            type="HOME_HERO_BLOCK"
-            textBlockKey="homeHeroBlockTitle1"
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold font-lato leading-tight text-white mb-2 sm:mb-4"
-          />
-          <EditableTextArea
-            tag="h2"
-            initialValue={textBlockMap?.HOME_HERO_BLOCK?.homeHeroBlockTitle2}
-            type="HOME_HERO_BLOCK"
-            textBlockKey="homeHeroBlockTitle2"
-            className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl font-medium font-lato leading-relaxed text-white mb-8 sm:mb-10 lg:mb-12 opacity-90"
-          />
-          <button
+      <div className="absolute inset-0 z-40 bg-black/40 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
+        <div className="w-full max-w-sm sm:max-w-2xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl mx-auto text-center">
+          {(() => {
+            const heading = pageData?.hero?.heading || ''
+            const parts = heading.split(' of ')
+
+            return (
+              <div className="mb-6 sm:mb-8 lg:mb-10 uppercase">
+                <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-[36px] font-bold leading-tight text-white">
+                  {parts[0]} of
+                </div>
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[140px] font-black leading-none bg-gradient-to-r from-blaze to-sunburst bg-clip-text text-transparent">
+                  {parts[1]}
+                </h1>
+              </div>
+            )
+          })()}
+
+          <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-medium font-lato leading-relaxed text-white mb-8 sm:mb-10 lg:mb-14 opacity-90 max-w-2xl mx-auto">
+            {pageData?.hero?.subheading}
+          </p>
+
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             onClick={handleScroll}
-            className="bg-blaze font-changa uppercase whitespace-nowrap rounded-lg text-xs sm:text-sm lg:text-base font-bold tracking-widest hover:bg-blazehover focus:outline-none focus:ring-2 focus:ring-blaze focus:ring-offset-2 focus:ring-offset-black transition-all duration-300 px-6 py-3 sm:px-8 sm:py-4 lg:px-10 lg:py-5 shadow-lg hover:shadow-xl transform hover:scale-105 focus:ring-opacity-60 relative overflow-hidden cursor-pointer border-2 border-transparent hover:border-white/20 gap-2"
+            className="relative inline-flex items-center gap-2 bg-blaze hover:bg-blaze/90 text-white font-changa uppercase whitespace-nowrap rounded-lg text-xs sm:text-sm md:text-base font-bold tracking-widest px-6 py-3 sm:px-8 sm:py-4 lg:px-10 lg:py-5 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border-2 border-transparent hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-blaze focus:ring-offset-2 focus:ring-offset-black"
           >
             {/* Animated background overlay */}
             <motion.div
@@ -63,8 +83,8 @@ const HomeHero: FC<{ handleScroll: () => void }> = ({ handleScroll }) => {
                 repeat: Infinity
               }}
             />
-            See Concerts
-          </button>
+            <span className="relative z-10">{pageData?.hero?.btnText}</span>
+          </motion.button>
         </div>
       </div>
       <HomeHeroCarousel images={filteredImages} interval={5000} />

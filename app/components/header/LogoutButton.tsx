@@ -18,10 +18,9 @@ const LogoutButton = () => {
 
   const handleLogout = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
-    dispatch(resetAuth())
 
     try {
-      logout({ id: user.id }).unwrap()
+      await logout({ id: user.id }).unwrap()
       push('/auth/login')
       const storedSubscription = localStorage.getItem('pushSubscription')
       const subscription = storedSubscription ? JSON.parse(storedSubscription) : null
@@ -37,6 +36,7 @@ const LogoutButton = () => {
       } catch (error: any) {
         dispatch(showToast({ type: 'error', description: 'Push Notification Failed', message: error }))
       }
+      dispatch(resetAuth())
       dispatch(resetUser())
     } catch (error: any) {
       dispatch(showToast({ type: 'error', description: 'Logout Failed', message: error }))
@@ -49,12 +49,12 @@ const LogoutButton = () => {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={handleLogout}
-        className="relative p-2 bg-neutral-800 border border-neutral-700 rounded-lg hover:bg-neutral-700 transition-all"
+        className="relative px-3.5 bg-neutral-800 border border-neutral-700 rounded-lg hover:bg-neutral-700 transition-all h-[28px]"
       >
         {isLoading ? (
-          <div className="w-5 h-5 border-2 border-t-0 border-blaze-400 animate-spin rounded-full" />
+          <div className="w-4 h-4 border-2 border-t-0 border-blaze-400 animate-spin rounded-full" />
         ) : (
-          <LogOut className="w-5 h-5 text-neutral-400" />
+          <LogOut className="w-4 h-4 text-neutral-400" />
         )}
       </motion.button>
     </>

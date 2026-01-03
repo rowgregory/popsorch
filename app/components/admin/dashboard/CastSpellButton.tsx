@@ -5,12 +5,14 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Sparkles, Zap } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import useSoundEffect from '@/app/hooks/useSoundEffect'
+import { useUserSelector } from '@/app/redux/store'
 
 const CastSpellButton = () => {
   const [isCasting, setIsCasting] = useState(false)
   const [particles, setParticles] = useState<{ id: number; x: number; y: number }[]>([])
   const { push } = useRouter()
-  const { play } = useSoundEffect('/mp3/magical-reveal.mp3', true)
+  const { user } = useUserSelector()
+  const { play } = useSoundEffect('/mp3/magical-reveal.mp3', user.isSoundEffectsOn)
 
   const handleClick = () => {
     setIsCasting(true)

@@ -4,7 +4,6 @@ import {
   Gift,
   Image as PhotoImage,
   LayoutDashboardIcon,
-  LucideIcon,
   Music,
   Tent,
   Theater,
@@ -14,154 +13,148 @@ import {
   Wand,
   Database,
   FileQuestionIcon,
-  GitBranch
+  GitBranch,
+  FlaskRound
 } from 'lucide-react'
 
-export const adminNavigationLinkData = (
-  path: string,
-  role: string
-): {
-  textKey: string
-  linkKey: string
-  active?: boolean
-  icon: LucideIcon
-  color?: string
-  description?: string
-  isApothecary?: boolean
-}[] => {
-  const baselinks = [
+export const adminNavigationLinkData = (path: string, role: string) => {
+  const dashboardGroup = [
     {
-      id: 'dashboard',
-      textKey: 'Dashboard',
-      linkKey: '/admin/dashboard',
-      active: isStringInPath(path, 'dashboard'),
       icon: LayoutDashboardIcon,
-      color: 'text-blaze',
-      description: 'Overview and analytics'
+      label: 'Dashboard',
+      path: '/admin/dashboard',
+      active: isStringInPath(path, 'dashboard')
+    }
+  ]
+
+  const contentGroup = [
+    {
+      icon: FlaskRound,
+      label: 'The Cauldron',
+      path: '/admin/the-cauldron',
+      active: isStringInPath(path, 'the-cauldron')
     },
     {
-      id: 'concerts',
-      textKey: 'Concerts',
-      linkKey: '/admin/concerts',
-      active: isStringInPath(path, 'concerts'),
-      icon: Music,
-      color: 'text-pink-400',
-      description: 'Manage performances'
-    },
-    {
-      id: 'sponsors',
-      textKey: 'Sponsors',
-      linkKey: '/admin/sponsors',
-      active: isStringInPath(path, 'sponsors'),
-      icon: Gift,
-      color: 'text-fuchsia-400',
-      description: 'Partnership management'
-    },
-    {
-      id: 'camp-applications',
-      textKey: 'Camp Applications',
-      linkKey: '/admin/camp-applications',
-      active: isStringInPath(path, 'camp-applications'),
-      icon: Tent,
-      color: 'text-blue-400',
-      description: 'Review submissions'
-    },
-    {
-      id: 'venues',
-      textKey: 'Venues',
-      linkKey: '/admin/venues',
-      active: isStringInPath(path, 'venues'),
-      icon: Theater,
-      color: 'text-yellow-400',
-      description: 'Location management'
-    },
-    {
-      id: 'team',
-      textKey: 'Team',
-      linkKey: '/admin/team',
-      active: isStringInPath(path, 'team'),
-      icon: BriefcaseBusiness,
-      color: 'text-purple-500',
-      description: 'Board Members, Staff & Musicians'
-    },
-    {
-      id: 'photo-gallery',
-      textKey: 'Photo Gallery',
-      linkKey: '/admin/photo-gallery',
-      active: isStringInPath(path, 'photo-gallery'),
       icon: PhotoImage,
-      color: 'text-amber-500',
-      description: 'Media library'
+      label: 'Photo Gallery',
+      path: '/admin/photo-gallery',
+      active: isStringInPath(path, 'photo-gallery')
+    }
+  ]
+
+  const businessGroup = [
+    {
+      icon: Music,
+      label: 'Concerts',
+      path: '/admin/concerts',
+      active: isStringInPath(path, 'concerts')
     },
     {
-      id: 'users',
-      textKey: 'Users',
-      linkKey: '/admin/users',
-      active: isStringInPath(path, 'users'),
+      icon: Gift,
+      label: 'Sponsors',
+      path: '/admin/sponsors',
+      active: isStringInPath(path, 'sponsors')
+    },
+    {
+      icon: Theater,
+      label: 'Venues',
+      path: '/admin/venues',
+      active: isStringInPath(path, 'venues')
+    },
+    {
+      icon: Tent,
+      label: 'Camp Applications',
+      path: '/admin/camp-applications',
+      active: isStringInPath(path, 'camp-applications')
+    },
+    {
+      icon: BriefcaseBusiness,
+      label: 'Team',
+      path: '/admin/team',
+      active: isStringInPath(path, 'team')
+    }
+  ]
+
+  const communicationGroup = [
+    {
       icon: Users,
-      color: 'text-emerald-400',
-      description: 'Account management'
+      label: 'Users',
+      path: '/admin/users',
+      active: isStringInPath(path, 'users')
     },
     {
-      id: 'mailchimp-members',
-      textKey: 'Mailchimp Members',
-      linkKey: '/admin/mailchimp-members',
-      active: isStringInPath(path, 'mailchimp-members'),
       icon: Newspaper,
-      color: 'text-lime-500',
-      description: 'Email subscribers'
+      label: 'Mailchimp Members',
+      path: '/admin/mailchimp-members',
+      active: isStringInPath(path, 'mailchimp-members')
     },
     {
-      id: 'questions',
-      textKey: 'Questions',
-      linkKey: '/admin/questions',
-      active: isStringInPath(path, 'questions'),
       icon: FileQuestionIcon,
-      color: 'text-sky-500',
-      description: 'Contact form management'
-    },
+      label: 'Questions',
+      path: '/admin/questions',
+      active: isStringInPath(path, 'questions')
+    }
+  ]
+
+  const toolsGroup = [
     {
-      id: 'profile',
-      textKey: 'Profile',
-      linkKey: '/admin/profile',
-      active: path === '/admin/profile',
-      icon: User,
-      color: 'text-indigo-500',
-      description: 'Personal settings'
-    },
-    {
-      id: 'apothecary',
-      textKey: 'Apothecary',
-      linkKey: '/admin/apothecary/codex',
-      active: isStringInPath(path, 'apothecary'),
-      icon: Wand,
-      color: 'text-violet-500',
-      description: 'Orchestrating events with magic',
-      isApothecary: true
-    },
-    {
-      id: 'changelog',
-      textKey: 'Changelog',
-      linkKey: '/admin/changelog',
-      active: isStringInPath(path, 'changelog'),
       icon: GitBranch,
-      color: 'text-violet-500',
-      description: 'Version tracking'
-    }
-  ]
-
-  const superUserLinks = [
+      label: 'Changelog',
+      path: '/admin/changelog',
+      active: isStringInPath(path, 'changelog')
+    },
     {
-      id: 'logs',
-      textKey: 'Logs',
-      linkKey: '/admin/logs',
-      active: path === '/admin/logs',
-      icon: Database,
-      color: 'text-fuchsia-500'
+      icon: User,
+      label: 'Profile',
+      path: '/admin/profile',
+      active: path === '/admin/profile'
+    },
+    ...(role === 'Super-User'
+      ? [
+          {
+            icon: Database,
+            label: 'Logs',
+            path: '/admin/logs',
+            active: path === '/admin/logs'
+          }
+        ]
+      : [])
+  ]
+
+  const ticketingGroup = [
+    {
+      icon: Wand,
+      label: 'Apothecary',
+      path: '/admin/apothecary/codex',
+      active: isStringInPath(path, 'apothecary'),
+      isApothecary: true
     }
   ]
 
-  const finalLinks = [...baselinks, ...(role === 'Super-User' ? superUserLinks : [])]
-
-  return finalLinks
+  return [
+    {
+      title: 'Dashboard',
+      items: dashboardGroup
+    },
+    {
+      title: 'Content',
+      items: contentGroup
+    },
+    {
+      title: 'Business',
+      items: businessGroup
+    },
+    {
+      title: 'Communication',
+      items: communicationGroup
+    },
+    {
+      title: 'Ticketing',
+      items: ticketingGroup
+    },
+    {
+      title: 'Tools',
+      items: toolsGroup
+    }
+  ]
 }

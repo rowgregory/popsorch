@@ -26,6 +26,7 @@ import { quoteReducer } from './features/quoteSlice'
 import { persistStore, persistReducer } from 'redux-persist'
 import createWebStorage from 'redux-persist/es/storage/createWebStorage'
 import type { PersistPartial } from 'redux-persist/es/persistReducer'
+import { accessibilityReducer } from './features/accessibilitySlice'
 
 const rootReducer = combineReducers({
   app: appReducer,
@@ -47,6 +48,7 @@ const rootReducer = combineReducers({
   sponsor: sponsorReducer,
   toast: toastReducer,
   quote: quoteReducer,
+  accessibility: accessibilityReducer,
   [api.reducerPath]: api.reducer
 })
 
@@ -71,7 +73,7 @@ const storage = typeof window !== 'undefined' ? createWebStorage('local') : crea
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['teamMember'] // Only persist teamMembers slice
+  whitelist: ['teamMember', 'accessibility'] // Only persist teamMembers slice
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
@@ -112,3 +114,7 @@ export const useDashboardSelector = () => useAppSelector((state) => state.dashbo
 export const useTextBlockSelector = () => useAppSelector((state) => state.textBlock)
 export const useQuestionSelector = () => useAppSelector((state) => state.question)
 export const useLogSelector = () => useAppSelector((state) => state.log)
+export const useAuthSelector = () => useAppSelector((state) => state.auth)
+export const useAccessibilitySelector = () => useAppSelector((state) => state.accessibility)
+export const useHeaderButtonSelector = () => useAppSelector((state) => state.headerButton)
+export const usePushNotificationSelector = () => useAppSelector((state) => state.pushNotification)

@@ -12,12 +12,18 @@ export async function proxy(req: NextRequest) {
     return NextResponse.next()
   }
 
-  // Default response if no authentication is found
-  return NextResponse.redirect(new URL('/', req.url))
+  // If trying to access admin routes without authentication, redirect to login
+  if (req.nextUrl.pathname.startsWith('/admin')) {
+    return NextResponse.redirect(new URL('/auth/login', req.url))
+  }
+
+  // Allow access to public routes like /auth/login
+  return NextResponse.next()
 }
 
 export const config = {
   matcher: [
+    '/auth/login',
     '/admin/:path*',
     '/api/app/fetch-dashboard-data',
     '/api/concert/create-concert',

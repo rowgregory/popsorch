@@ -1,16 +1,14 @@
 import HeaderLower from './HeaderLower'
-import { useAppDispatch } from '@/app/redux/store'
-import { setOpenInconspicuousSignInDrawer } from '@/app/redux/features/appSlice'
+import { useAuthSelector } from '@/app/redux/store'
+import Link from 'next/link'
 
 const Header = () => {
-  const dispatch = useAppDispatch()
+  const { isAuthenticated } = useAuthSelector()
 
   return (
     <>
-      <button
-        onClick={() => dispatch(setOpenInconspicuousSignInDrawer())}
-        className="fixed top-0 right-0 w-10 h-10 bg-transparent z-[100]"
-      />
+      {isAuthenticated && <Link href="/admin/dashboard" className="fixed top-0 right-0 w-10 h-10 z-[150]" />}
+      {!isAuthenticated && <Link href="/auth/login" className="fixed top-0 right-0 w-10 h-10 z-[150]" />}
       <HeaderLower />
     </>
   )

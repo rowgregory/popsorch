@@ -1,7 +1,7 @@
 import { ChangeEvent, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Plus, ChevronDown, Music, Gift, TheaterIcon, User, Tent, GalleryHorizontal, Wand } from 'lucide-react'
-import { useAppDispatch, useCampSelector } from '@/app/redux/store'
+import { useAppDispatch, useCampSelector, useUserSelector } from '@/app/redux/store'
 import { setOpenConcertDrawer } from '@/app/redux/features/concertSlice'
 import { setOpenSponsorDrawer } from '@/app/redux/features/sponsorSlice'
 import { setOpenTeamMemberDrawer } from '@/app/redux/features/teamMemberSlice'
@@ -106,7 +106,8 @@ const ActionButtonWithDropdown = () => {
   const { handleUploadProgress } = createFormActions('photoGallery', dispatch)
   const [createPhotoGalleryImage] = useCreatePhotoGalleryImageMutation()
   const [loading, setLoading] = useState(false)
-  const { play } = useSoundEffect('/mp3/magical-reveal.mp3', true)
+  const { user } = useUserSelector()
+  const { play } = useSoundEffect('/mp3/magical-reveal.mp3', user?.isSoundEffectsOn)
 
   const handleActionClick = (item: any) => {
     setIsActionsOpen(false)
@@ -120,16 +121,15 @@ const ActionButtonWithDropdown = () => {
   return (
     <div className="relative">
       <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+        whileHover={{ backgroundColor: 'rgba(59, 130, 246, 0.9)' }}
+        whileTap={{ opacity: 0.9 }}
         onClick={() => setIsActionsOpen(!isActionsOpen)}
-        className="px-4 py-2 bg-gradient-to-r from-blaze to-sunburst text-white rounded-lg hover:from-blaze/90 hover:to-sunburst/90 transition-all flex items-center space-x-2 font-medium shadow-lg text-sm"
+        className="px-3.5 bg-gradient-to-r from-sky-500 to-indigo-600 text-white rounded-lg hover:from-sky-500/90 hover:to-indigo-600/90 transition-all flex items-center space-x-2 font-medium shadow-lg text-sm h-[28px]"
       >
         <Plus className="w-4 h-4" />
         <span>Actions</span>
         <ChevronDown className={`w-4 h-4 transition-transform ${isActionsOpen ? 'rotate-180' : ''}`} />
       </motion.button>
-
       <AnimatePresence>
         {isActionsOpen && (
           <motion.div
@@ -146,12 +146,12 @@ const ActionButtonWithDropdown = () => {
                     <button
                       disabled={loading}
                       onClick={() => inputRef.current && inputRef?.current.click()}
-                      className="w-full px-4 py-3 text-left text-gray-200 hover:text-white transition-all flex items-center space-x-3 hover:bg-blaze/10"
+                      className="w-full px-4 py-3 text-left text-gray-200 hover:text-white transition-all flex items-center space-x-3 hover:bg-sky-500/10"
                     >
                       {loading ? (
-                        <div className="w-4 h-4 rounded-full border-2 border-blaze border-t-0 animate-spin" />
+                        <div className="w-4 h-4 rounded-full border-2 border-sky-500 border-t-0 animate-spin" />
                       ) : (
-                        <item.icon className="w-4 h-4 text-blaze" />
+                        <item.icon className="w-4 h-4 text-sky-500" />
                       )}
                       <span className="font-medium text-sm whitespace-nowrap">{item.label}</span>
                     </button>
@@ -193,9 +193,9 @@ const ActionButtonWithDropdown = () => {
                       setIsActionsOpen(false)
                       handleActionClick(item)
                     }}
-                    className="w-full px-4 py-3 text-left text-gray-200 hover:text-white transition-all flex items-center space-x-3 hover:bg-blaze/10"
+                    className="w-full px-4 py-3 text-left text-gray-200 hover:text-white transition-all flex items-center space-x-3 hover:bg-sky-500/10"
                   >
-                    <item.icon className="w-4 h-4 text-blaze" />
+                    <item.icon className="w-4 h-4 text-sky-500" />
                     <span className="font-medium text-sm whitespace-nowrap">{item.label}</span>
                   </motion.button>
                 )

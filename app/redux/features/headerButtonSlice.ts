@@ -2,6 +2,7 @@ import { Reducer, createSlice } from '@reduxjs/toolkit'
 import { headerButtonApi } from '../services/headerButtonApi'
 
 export interface HeaderButtonProps {
+  secondaryButton: any
   id: string
   animation: string
   backgroundColor: string
@@ -36,6 +37,7 @@ const headerButtonState: HeaderButtonProps = {
   link: '',
   type: '',
   dropdownItems: [],
+  secondaryButton: null,
   createdAt: new Date(),
   updatedAt: new Date()
 }

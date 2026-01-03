@@ -2,16 +2,17 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Gift, Star, Sparkles, WandSparkles, Snowflake } from 'lucide-react'
+import { Star, Sparkles, WandSparkles, Snowflake } from 'lucide-react'
 import useSoundEffect from '@/app/hooks/useSoundEffect'
 import { setOpenIceQueen } from '@/app/redux/features/dashboardSlice'
-import { useAppDispatch } from '@/app/redux/store'
+import { useAppDispatch, useUserSelector } from '@/app/redux/store'
 
 const ChristmasAnalyticsButton = () => {
   const [isClicked, setIsClicked] = useState(false)
   const [presents, setPresents] = useState<{ id: number; x: number; rotation: number }[]>([])
   const [stars, setStars] = useState<{ id: number; x: number; y: number; delay: number }[]>([])
-  const { play } = useSoundEffect('/mp3/fairy-wand.mp3', true)
+  const { user } = useUserSelector()
+  const { play } = useSoundEffect('/mp3/fairy-wand.mp3', user.isSoundEffectsOn)
   const dispatch = useAppDispatch()
 
   const handleClick = () => {

@@ -1,11 +1,16 @@
-'use server'
-
-import { getDashboardData } from '@/app/actions/dashboard-actions'
-
+import { getHeaderButtons } from '../actions/getHeaderButtons'
+import { getUser } from '../actions/getUser'
+import { getUserId } from '../actions/getUserById'
 import AdminClientLayout from './AdminLayoutClient'
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  const dashboardData = await getDashboardData()
+  const userId = await getUserId()
+  const data = await getUser(userId)
+  const buttons = await getHeaderButtons()
 
-  return <AdminClientLayout dashboardData={dashboardData}>{children}</AdminClientLayout>
+  return (
+    <AdminClientLayout data={data} buttons={buttons}>
+      {children}
+    </AdminClientLayout>
+  )
 }

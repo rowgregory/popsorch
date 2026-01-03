@@ -1,128 +1,170 @@
 'use client'
 
-import { useState } from 'react'
-import { useAppDispatch, useVenueSelector } from '@/app/redux/store'
-import { VenueProps } from '@/app/types/model.types'
-import { useDeleteVenueMutation } from '@/app/redux/services/venueApi'
-import { removeVenueFromState, setOpenVenueDrawer } from '@/app/redux/features/venueSlice'
+import { useState, useTransition } from 'react'
+import { useAppDispatch } from '@/app/redux/store'
+import { setOpenVenueDrawer } from '@/app/redux/features/venueSlice'
 import { setInputs } from '@/app/redux/features/formSlice'
 import { motion } from 'framer-motion'
-import { Edit2, Theater, Trash2 } from 'lucide-react'
+import { Edit2, Loader2, Trash2 } from 'lucide-react'
 import { formatDateShort } from '@/app/lib/utils/dateUtils'
 import EmptyState from '@/app/components/common/EmptyState'
+import { useRouter } from 'next/navigation'
+import { deleteVenue } from '@/app/actions/deleteVenue'
+import { showToast } from '@/app/redux/features/toastSlice'
+import { IVenue } from '@/app/types/entities/venue'
 
-const Venues = () => {
+const AdminVenues = ({ data }) => {
+  const [deletingId, setDeletingId] = useState<string | null>(null)
+  const [_, startTransition] = useTransition()
+  const router = useRouter()
   const dispatch = useAppDispatch()
-  const { venues, noVenues } = useVenueSelector()
-  const [deleteVenue] = useDeleteVenueMutation()
-  const [isLoading, setIsLoading] = useState<Record<string, boolean>>({})
+  const venues = data?.venues
+  const totalVenues = venues?.count
 
-  const totalVenues = venues?.length
-
-  const handleEditVenue = (venue: VenueProps) => {
+  const handleEditVenue = (venue: IVenue) => {
     dispatch(setOpenVenueDrawer())
     dispatch(setInputs({ formName: 'venueForm', data: { ...venue, isUpdating: true } }))
   }
 
-  const handleDeleteVenue = async (id: string) => {
-    setIsLoading({ [id]: true })
-    const response = await deleteVenue({ id }).unwrap()
-    dispatch(removeVenueFromState(response.id))
-    setIsLoading({ [id]: false })
+  const handleDelete = async (venueId: string) => {
+    setDeletingId(venueId)
+    startTransition(async () => {
+      try {
+        await deleteVenue(venueId)
+        router.refresh()
+        dispatch(
+          showToast({
+            message: 'Venue deleted successfully',
+            type: 'success'
+          })
+        )
+      } catch {
+        dispatch(
+          showToast({
+            message: 'Failed to delete venue',
+            type: 'error'
+          })
+        )
+      } finally {
+        setDeletingId(null)
+      }
+    })
   }
 
   return (
-    <div className="min-h-screen p-6">
-      <div className="mx-auto">
-        {/* Stats Card - Mobile */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-neutral-900/50 p-4 rounded-xl shadow-sm border border-neutral-800 mb-6"
-        >
-          <div className="flex items-center gap-3">
-            <div className="p-3 bg-purple-900/50 rounded-lg">
-              <Theater className="w-5 h-5 text-purple-400" />
-            </div>
-            <div>
-              <p className="text-sm text-neutral-400">Total Venues</p>
-              <p className="text-xl font-bold text-white">{totalVenues}</p>
-            </div>
-          </div>
-        </motion.div>
+    <div className="h-[calc(100vh-66px)] p-6">
+      {/* Stats Card - Mobile */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="bg-neutral-900/50 p-4 rounded-xl shadow-sm border border-neutral-800 mb-6"
+      >
+        <div className="flex items-center">
+          <p className="text-xs text-neutral-400 mb-1">Total Venues</p>
+          <p className="text-xl font-bold text-white">{totalVenues}</p>
+        </div>
+      </motion.div>
 
-        {/* Mobile Venue Cards */}
-        <div className="grid lg:grid-cols-2 2xl:grid-cols-3 gap-4">
-          {venues?.map((venue, index) => (
-            <motion.div
-              key={venue.id}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="bg-neutral-800/50 border border-neutral-700/50 rounded-xl p-4 hover:border-neutral-600/60 transition-all"
-            >
-              {/* Venue Header */}
-              <div className="flex items-start justify-between mb-3">
-                <div className="flex items-start gap-3 flex-1 min-w-0">
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-neutral-100 font-semibold text-base leading-tight mb-1 truncate">
-                      {venue.name}
-                    </h3>
-                    <p className="text-neutral-400 text-sm">Capacity: {venue.capacity}</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-1 ml-2">
-                  <button
-                    onClick={() => handleEditVenue(venue)}
-                    className="p-2 text-neutral-400 hover:text-yellow-400 hover:bg-yellow-900/30 rounded-lg transition-colors"
-                    title="Edit"
-                  >
-                    <Edit2 size={14} />
-                  </button>
-                  {isLoading[venue.id] ? (
-                    <div className="w-3 h-3 border-2 border-red-500 border-t-0 animate-spin rounded-full" />
-                  ) : (
-                    <button
-                      onClick={() => handleDeleteVenue(venue.id)}
-                      className="p-2 text-neutral-400 hover:text-red-400 hover:bg-red-900/30 rounded-lg transition-colors"
-                      title="Delete"
-                    >
-                      <Trash2 size={14} />
-                    </button>
-                  )}
-                </div>
-              </div>
-
-              {/* Venue Details */}
-              <div className="space-y-2">
-                <div className="p-3 bg-neutral-800/40 rounded-lg">
-                  <div className="text-neutral-200 font-medium text-sm mb-1">Address</div>
-                  <div className="text-neutral-400 text-sm">{venue.address}</div>
-                </div>
-
-                <div className="p-3 bg-neutral-800/40 rounded-lg">
-                  <div className="text-neutral-200 font-medium text-sm mb-1">Created</div>
-                  <div className="text-neutral-400 text-sm">{formatDateShort(venue.createdAt)}</div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+      {/* Venues Table */}
+      <div className="bg-neutral-900/50 rounded-xl shadow-sm border border-neutral-800 overflow-hidden">
+        <div className="p-6 border-b border-neutral-800">
+          <h2 className="text-xl font-semibold text-white">All Venues</h2>
         </div>
 
-        {/* Empty State - Mobile */}
-        {noVenues && (
-          <EmptyState
-            searchQuery=""
-            typeFilter="all"
-            title="venue"
-            advice="Add your first venue to get started"
-            func={setOpenVenueDrawer}
-            action="Add Venue"
-          />
-        )}
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead className="bg-neutral-950">
+              <tr>
+                <th className="px-6 py-4 text-left text-xs font-medium text-neutral-400 uppercase tracking-wider">
+                  Venue Name
+                </th>
+                <th className="px-6 py-4 text-left text-xs font-medium text-neutral-400 uppercase tracking-wider">
+                  City
+                </th>
+                <th className="px-6 py-4 text-left text-xs font-medium text-neutral-400 uppercase tracking-wider">
+                  Capacity
+                </th>
+                <th className="px-6 py-4 text-left text-xs font-medium text-neutral-400 uppercase tracking-wider">
+                  Parking
+                </th>
+                <th className="px-6 py-4 text-left text-xs font-medium text-neutral-400 uppercase tracking-wider">
+                  Created
+                </th>
+                <th className="px-6 py-4 text-left text-xs font-medium text-neutral-400 uppercase tracking-wider">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-neutral-900/50 divide-y divide-neutral-800">
+              {venues?.map((venue: IVenue, index: number) => (
+                <motion.tr
+                  key={venue.id}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="hover:bg-neutral-700/50 transition-colors"
+                >
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div>
+                      <p className="text-sm font-medium text-white">{venue.name}</p>
+                      <p className="text-xs text-neutral-400">{venue.address}</p>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className="text-sm text-neutral-300">{venue.parking}</span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className="text-sm text-neutral-400">
+                      {venue.capacity ? `${venue.capacity.toLocaleString()}` : 'N/A'}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className="text-sm text-neutral-400">{venue.parking || 'N/A'}</span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className="text-sm text-neutral-400">{formatDateShort(venue.createdAt)}</span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => handleEditVenue(venue)}
+                        className="p-2 text-neutral-400 hover:text-yellow-400 hover:bg-yellow-900/30 rounded-lg transition-colors"
+                        title="Edit"
+                      >
+                        <Edit2 size={16} />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(venue.id)}
+                        disabled={deletingId === venue.id}
+                        className="disabled:opacity-50 disabled:cursor-not-allowed p-2 text-neutral-400 hover:text-red-400 hover:bg-red-900/30 rounded-lg transition-colors"
+                      >
+                        {deletingId === venue.id ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <Trash2 className="w-4 h-4" />
+                        )}
+                      </button>
+                    </div>
+                  </td>
+                </motion.tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
+
+      {/* Empty State - Mobile */}
+      {data?.noVenues && (
+        <EmptyState
+          searchQuery=""
+          typeFilter="all"
+          title="venue"
+          advice="Add your first venue to get started"
+          func={setOpenVenueDrawer}
+          action="Add Venue"
+        />
+      )}
     </div>
   )
 }
-export default Venues
+export default AdminVenues

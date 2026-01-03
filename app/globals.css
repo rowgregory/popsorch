@@ -113,6 +113,13 @@ body {
   border-color: rgb(163, 163, 163) !important;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px rgb(23, 23, 23) inset !important;
+  -webkit-text-fill-color: rgb(229, 229, 229) !important;
+}
+
 body.high-contrast {
   background-color: #000000;
   color: #ffffff;

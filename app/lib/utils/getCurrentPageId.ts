@@ -1,17 +1,14 @@
-const getCurrentPageId = (path: string, links: any) => {
+const getCurrentPageId = (path: string, navigationGroups: any[]) => {
   const pathSegments = path.split('/').filter(Boolean)
   const lastSegment = pathSegments[pathSegments.length - 1]
 
-  // Handle special cases for multi-word routes
-  if (path.includes('/camp-applications')) return 'Camp Applications'
-  if (path.includes('/photo-gallery')) return 'Photo Gallery'
-  if (path.includes('/mailchimp-members')) return 'Mailchimp Members'
-  if (path.includes('/system-status')) return 'System Status'
+  // Flatten all navigation items from groups
+  const allItems = navigationGroups.flatMap((group) => group.items)
 
-  // Find matching navigation item
-  const matchingItem = links.find((item: any) => item.linkKey === path || item.id === lastSegment)
+  // Find matching navigation item by path or id
+  const matchingItem = allItems.find((item: any) => item.path === path || item.path?.includes(lastSegment))
 
-  return matchingItem?.id || 'dashboard'
+  return matchingItem?.label || 'Dashboard'
 }
 
 export default getCurrentPageId

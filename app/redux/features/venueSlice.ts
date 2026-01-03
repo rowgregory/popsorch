@@ -1,18 +1,18 @@
+import { IVenue } from '@/app/types/entities/venue'
 import { Reducer, createSlice } from '@reduxjs/toolkit'
-import { VenueProps } from '@/app/types/model.types'
 
 export interface VenueStatePayload {
   loading: boolean
   error: any
   success: boolean
-  venues: VenueProps[]
-  venue: VenueProps
+  venues: IVenue[]
+  venue: IVenue
   venuesCount: number
   noVenues: boolean
   venueDrawer: boolean
 }
 
-const venueState: VenueProps = {
+const venueState: IVenue = {
   id: '',
   name: '',
   capacity: '',

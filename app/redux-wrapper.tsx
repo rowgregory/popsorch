@@ -1,16 +1,17 @@
 'use client'
 
-import { FC, ReactNode } from 'react'
+import { FC } from 'react'
 import { Provider } from 'react-redux'
 import PageWrapper from './page-wrapper'
 import { persistor, store } from './redux/store'
 import { PersistGate } from 'redux-persist/integration/react'
+import { IWrapper } from './types/common.types'
 
-const ReduxWrapper: FC<{ children: ReactNode; userId: string; appData: any }> = ({ children, userId, appData }) => {
+const ReduxWrapper: FC<IWrapper> = ({ children, user, textBlocks, headerButton }) => {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <PageWrapper userId={userId} appData={appData}>
+        <PageWrapper user={user} textBlocks={textBlocks} headerButton={headerButton}>
           {children}
         </PageWrapper>
       </PersistGate>
