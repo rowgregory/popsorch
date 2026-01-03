@@ -1,3 +1,5 @@
+'use client'
+
 import { FC, useMemo } from 'react'
 import Picture from '../common/Picture'
 import Link from 'next/link'

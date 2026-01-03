@@ -19,7 +19,7 @@ const AdminVenues = ({ data }) => {
   const router = useRouter()
   const dispatch = useAppDispatch()
   const venues = data?.venues
-  const totalVenues = venues?.count
+  const totalVenues = data?.count
 
   const handleEditVenue = (venue: IVenue) => {
     dispatch(setOpenVenueDrawer())
@@ -59,7 +59,7 @@ const AdminVenues = ({ data }) => {
         animate={{ opacity: 1, y: 0 }}
         className="bg-neutral-900/50 p-4 rounded-xl shadow-sm border border-neutral-800 mb-6"
       >
-        <div className="flex items-center">
+        <div className="flex flex-col items-center">
           <p className="text-xs text-neutral-400 mb-1">Total Venues</p>
           <p className="text-xl font-bold text-white">{totalVenues}</p>
         </div>

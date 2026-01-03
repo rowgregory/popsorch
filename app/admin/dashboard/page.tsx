@@ -10,6 +10,7 @@ import FBPixelComingSoon from '@/app/components/admin/dashboard/FBPixelComingSoo
 import { useEffect } from 'react'
 import { useAppDispatch } from '@/app/redux/store'
 import { setDashboardData } from '@/app/redux/features/dashboardSlice'
+import TheCauldronCard from '@/app/components/the-cauldron/TheCauldronCard'
 
 const Dashboard = ({ data }) => {
   const dispatch = useAppDispatch()
@@ -40,6 +41,9 @@ const Dashboard = ({ data }) => {
 
         {/* Right Sidebar */}
         <div className="w-full md:w-80 bg-neutral-900/50 backdrop-blur-xl border-l border-neutral-800/50 p-6 overflow-y-auto shadow-2xl flex flex-col space-y-8">
+          {/* Cauldron Card */}
+          <TheCauldronCard />
+
           {/* FB Pixel Coming Soon Card */}
           <FBPixelComingSoon />
 

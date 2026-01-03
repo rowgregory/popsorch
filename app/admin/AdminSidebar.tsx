@@ -1,22 +1,27 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { setCloseAdminSidebar, setOpenTheCauldronDrawer } from '@/app/redux/features/dashboardSlice'
+import {
+  setCloseAdminSidebar,
+  setOpenConductorModal,
+  setOpenTheCauldronDrawer
+} from '@/app/redux/features/dashboardSlice'
 import { useAppDispatch, useUserSelector } from '@/app/redux/store'
-// import useSoundEffect from '@/app/hooks/useSoundEffect'
 import { X } from 'lucide-react'
 import { adminNavigationLinkData } from '@/public/data/navigation-link.data'
 import useCustomPathname from '../hooks/useCustomPathname'
+import useSoundEffect from '../hooks/useSoundEffect'
 
 const AdminSidebar = () => {
   const dispatch = useAppDispatch()
-  // const { play } = useSoundEffect('/mp3/magical-reveal.mp3', true)
-  const pathname = useCustomPathname()
   const { user } = useUserSelector()
+  const { play } = useSoundEffect('/mp3/magical-reveal.mp3', user?.isSoundEffectsOn)
+  const pathname = useCustomPathname()
   const onClose = () => dispatch(setCloseAdminSidebar())
-  // const handlePrimaVistaClick = () => {
-  //   dispatch(setOpenConductorModal())
-  //   play()
-  // }
+
+  const handleApothecaryClick = () => {
+    dispatch(setOpenConductorModal())
+    play()
+  }
 
   return (
     <aside className="w-64 bg-neutral-950 border-r border-neutral-800 h-screen overflow-y-auto flex flex-col">
@@ -46,6 +51,8 @@ const AdminSidebar = () => {
               {group.items.map((item) => {
                 const IconComponent = item.icon
                 const isActive = item.path && pathname === item.path
+                const isNew = item.path === '/admin/the-cauldron'
+
                 return (
                   <Link
                     key={item.path}
@@ -53,6 +60,9 @@ const AdminSidebar = () => {
                     onClick={() => {
                       if (item.path === '/admin/the-cauldron') {
                         dispatch(setOpenTheCauldronDrawer())
+                      }
+                      if (item.path === '/admin/apothecary/codex') {
+                        handleApothecaryClick()
                       }
                       onClose()
                     }}
@@ -63,7 +73,16 @@ const AdminSidebar = () => {
                     }`}
                   >
                     <IconComponent className="w-4 h-4" />
-                    {item.label}
+                    <div className="flex items-center gap-2">
+                      {item.label}
+                      {isNew && (
+                        <motion.div
+                          animate={{ scale: [1, 1.2, 1] }}
+                          transition={{ duration: 2, repeat: Infinity }}
+                          className="w-2 h-2 rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 shadow-lg shadow-purple-500/50"
+                        />
+                      )}
+                    </div>
                   </Link>
                 )
               })}

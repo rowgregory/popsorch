@@ -3,7 +3,7 @@ import Picture from '../common/Picture'
 import { motion } from 'framer-motion'
 import { FC } from 'react'
 import { useRouter } from 'next/navigation'
-import { Calendar, Clock, MapPin, Ticket, Info, Music } from 'lucide-react'
+import { Calendar, Clock, MapPin, Ticket, Info } from 'lucide-react'
 import Link from 'next/link'
 import { sendGAEvent } from '@next/third-parties/google'
 import { IConcertCard } from '@/app/types/entities/concert'
@@ -17,7 +17,6 @@ const HomeConcertCard: FC<IConcertCard> = ({ concert, index }) => {
       item_name: concert.name,
       item_category: concert.type
     })
-    push(`/concerts/${concert.id}`)
   }
 
   return (
@@ -85,33 +84,6 @@ const HomeConcertCard: FC<IConcertCard> = ({ concert, index }) => {
                 </div>
               </motion.div>
             )}
-
-            {/* Floating Music Notes */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden">
-              {[...Array(3)].map((_, i) => (
-                <motion.div
-                  key={i}
-                  className="absolute text-white/20 group-hover:text-[#da0032]/40"
-                  style={{
-                    left: `${25 + i * 25}%`,
-                    top: `${40 + i * 15}%`
-                  }}
-                  animate={{
-                    y: [0, -25, 0],
-                    opacity: [0.2, 0.6, 0.2],
-                    rotate: [0, 15, 0],
-                    scale: [0.8, 1.3, 0.8]
-                  }}
-                  transition={{
-                    duration: 4 + i * 0.5,
-                    repeat: Infinity,
-                    delay: i * 0.8
-                  }}
-                >
-                  <Music className="w-6 h-6" />
-                </motion.div>
-              ))}
-            </div>
           </div>
         </div>
 
@@ -206,8 +178,7 @@ const HomeConcertCard: FC<IConcertCard> = ({ concert, index }) => {
             {concert.isOnSale ? (
               <motion.div className="flex-1" whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.98 }}>
                 <Link
-                  href={concert.allSeriesExternalLink}
-                  target="_blank"
+                  href={`/concerts/${concert.id}`}
                   className="group/btn relative inline-flex items-center justify-center w-full px-8 py-5 bg-gradient-to-r from-[#da0032] via-[#b8002a] to-[#da0032] text-white font-changa font-bold text-lg rounded-2xl shadow-2xl overflow-hidden transition-all duration-300 hover:shadow-[#da0032]/25"
                   onClick={(e) => {
                     sendGAEvent('event', 'buy_tickets_click', {
