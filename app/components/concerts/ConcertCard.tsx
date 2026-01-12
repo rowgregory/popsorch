@@ -126,10 +126,12 @@ const ConcertCard: FC<{ concert: IConcert; index: number }> = ({ concert, index 
             </div>
 
             {/* Multiple dates indicator */}
-            {concert.eventDetails.length > 1 && (
+            {concert.eventDetails.length > 0 && (
               <div className="absolute bottom-4 left-4 right-4">
                 <div className="bg-black/60 backdrop-blur-md rounded-lg px-3 py-2 border border-white/10">
-                  <p className="text-xs text-white font-medium">{concert.eventDetails.length} dates available</p>
+                  <p className="text-xs text-white font-medium">
+                    {concert.eventDetails.filter((d) => d.isOnSale).length} date(s) available
+                  </p>
                 </div>
               </div>
             )}
@@ -223,7 +225,7 @@ const ConcertCard: FC<{ concert: IConcert; index: number }> = ({ concert, index 
                 </Link>
               </motion.div>
 
-              {!concert.isOnSale && <CallBoxOfficeBtn className="flex-1" />}
+              {!concert.isOnSale && <CallBoxOfficeBtn />}
 
               {concert.eventDetails.length > 1 && (
                 <div className="px-4 py-3 rounded-xl bg-neutral-800/50 border border-neutral-700 flex items-center gap-2">

@@ -17,6 +17,33 @@ interface ChangelogEntry {
 
 const changelogData: ChangelogEntry[] = [
   {
+    version: '3.0.1',
+    date: '2026-01-10',
+    changes: [
+      {
+        type: 'feature',
+        title: 'Event Detail On-Sale Toggle',
+        description:
+          'Added per-event-detail on-sale status. Admin can now control ticket availability at the venue/date level independently. Shows "Call Box Office" button when tickets are not on sale.',
+        impact: 'medium'
+      },
+      {
+        type: 'feature',
+        title: 'Past Event Indicator',
+        description:
+          'Automatically detects and displays completed shows. Past events are visually dimmed with "Show Completed" button, preventing accidental ticket purchase attempts for historical dates.',
+        impact: 'medium'
+      },
+      {
+        type: 'improvement',
+        title: 'Available Dates Display',
+        description:
+          'Concert cards now show all on-sale dates in a compact badge. Updated the multiple dates indicator to filter and display only venues with active ticket sales.',
+        impact: 'low'
+      }
+    ]
+  },
+  {
     version: '3.0.0',
     date: '2026-01-02',
     changes: [

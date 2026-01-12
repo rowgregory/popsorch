@@ -26,7 +26,7 @@ const AdminConcerts = ({ data }) => {
 
   const handleEditConcert = (concert: IConcert) => {
     dispatch(setOpenConcertDrawer())
-    dispatch(setInputs({ formName: 'concertForm', data: { ...concert, isUpdating: true } }))
+    dispatch(setInputs({ formName: 'concertForm', data: { ...concert, isUpdating: true, isOnSale: false } }))
   }
 
   const handleDelete = async (concertId: string) => {

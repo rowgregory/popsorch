@@ -19,17 +19,22 @@ const PublicConcertDetailsEventLocator: FC<IConcertDetailsEventLocator> = ({
       className={`
         group  transition-all duration-300 border-l-4 pl-6 py-4 relative
         ${isSelected ? 'border-l-blaze bg-blaze/5' : 'border-l-transparent hover:border-l-sunburst hover:bg-sunburst/5'}
+        ${!eventDetail.isOnSale ? 'opacity-60' : ''}
       `}
     >
       {/* Date & Time */}
       <div className="flex items-center gap-4 mb-3">
         <div className="flex items-center gap-2">
           <Calendar className={`w-5 h-5 ${isSelected ? 'text-blaze' : 'text-neutral-400 group-hover:text-sunburst'}`} />
-          <span className="text-white font-semibold">{formatDate(eventDetail.date)}</span>
+          <span className={`font-semibold ${!eventDetail.isOnSale ? 'text-neutral-500' : 'text-white'}`}>
+            {formatDate(eventDetail.date)}
+          </span>
         </div>
         <div className="flex items-center gap-2">
           <Clock className={`w-5 h-5 ${isSelected ? 'text-blaze' : 'text-neutral-400 group-hover:text-sunburst'}`} />
-          <span className="text-white font-medium">{eventDetail.time}</span>
+          <span className={`font-medium ${!eventDetail.isOnSale ? 'text-neutral-500' : 'text-white'}`}>
+            {eventDetail.time}
+          </span>
         </div>
       </div>
 
@@ -41,14 +46,22 @@ const PublicConcertDetailsEventLocator: FC<IConcertDetailsEventLocator> = ({
           }`}
         />
         <div>
-          <p className="text-white font-medium">{eventDetail.location.name}</p>
-          <p className="text-sm text-neutral-400">{eventDetail.location.address}</p>
+          <p className={`font-medium ${!eventDetail.isOnSale ? 'text-neutral-500' : 'text-white'}`}>
+            {eventDetail.location.name}
+          </p>
+          <p className={`text-sm ${!eventDetail.isOnSale ? 'text-neutral-600' : 'text-neutral-400'}`}>
+            {eventDetail.location.address}
+          </p>
         </div>
       </div>
 
       {/* CTA */}
       <div className="mt-4">
-        {concert.isOnSale ? (
+        {!eventDetail.isOnSale ? (
+          <div className="inline-flex items-center gap-2 px-6 py-3 bg-neutral-700/50 text-neutral-400 font-bold text-sm uppercase tracking-wider rounded-lg cursor-not-allowed opacity-50">
+            <span>Show Completed</span>
+          </div>
+        ) : eventDetail.isOnSale ? (
           <a
             href={eventDetail.externalLink || '#'}
             onClick={() =>

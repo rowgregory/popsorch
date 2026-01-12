@@ -62,6 +62,7 @@ const ConcertForm: FC<ConcertFormProps> = ({ inputs, errors, formActions, onSubm
     handleSelect({ target: { name: 'dayOfWeek', value: detail.dayOfWeek } })
     handleInput({ target: { name: 'location', value: detail.location } })
     handleInput({ target: { name: 'externalLink', value: detail.externalLink } })
+    handleInput({ target: { name: 'isOnSale', value: detail.isOnSale } })
   }
 
   const clearDetailForm = () => {
@@ -71,6 +72,7 @@ const ConcertForm: FC<ConcertFormProps> = ({ inputs, errors, formActions, onSubm
     handleSelect({ target: { name: 'dayOfWeek', value: '' } })
     handleInput({ target: { name: 'location', value: {} } })
     handleInput({ target: { name: 'externalLink', value: '' } })
+    handleInput({ target: { name: 'isOnSale', value: false } })
     setEventDetailsId(null)
   }
 
@@ -478,6 +480,19 @@ const ConcertForm: FC<ConcertFormProps> = ({ inputs, errors, formActions, onSubm
                           rows={2}
                           className="w-full px-4 py-3 bg-neutral-600 border border-neutral-500 rounded-lg focus:ring-2 focus:ring-neutral-400 focus:border-neutral-400 transition-colors focus:outline-none text-neutral-200 placeholder-neutral-400 resize-vertical"
                         />
+                      </div>
+
+                      <div className="mt-3 flex items-center gap-2">
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <input
+                            name="isOnSale"
+                            type="checkbox"
+                            checked={inputs.isOnSale || false}
+                            onChange={formActions.handleToggle}
+                            className="w-4 h-4 rounded accent-pink-400"
+                          />
+                          <span className="text-sm text-neutral-300">On Sale</span>
+                        </label>
                       </div>
                     </div>
 

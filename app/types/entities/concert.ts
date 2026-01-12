@@ -16,6 +16,7 @@ export interface IConcertEventDetails {
   externalLink: string
   latitude: number
   longitude: number
+  isOnSale: boolean
 }
 
 export interface IConcert {

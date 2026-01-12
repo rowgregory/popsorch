@@ -47,7 +47,8 @@ const formInitialState = {
       city: '',
       dayOfWeek: '',
       externalLink: '',
-      cardDate: ''
+      cardDate: '',
+      isOnSale: false
     },
     errors: {}
   },
@@ -232,9 +233,18 @@ const formSlice = createSlice({
       const { formName, newId } = payload
       if (!state[formName]) return
 
-      const { time, date, location, city, dayOfWeek, externalLink, eventDetails = [] } = state[formName].inputs
+      const {
+        time,
+        date,
+        location,
+        city,
+        dayOfWeek,
+        externalLink,
+        eventDetails = [],
+        isOnSale
+      } = state[formName].inputs
 
-      const newConcert = { id: newId, time, date, location, city, dayOfWeek, externalLink }
+      const newConcert = { id: newId, time, date, location, city, dayOfWeek, externalLink, isOnSale }
 
       const updatedEventDetails = [...JSON.parse(JSON.stringify(eventDetails)), newConcert]
 
@@ -253,7 +263,7 @@ const formSlice = createSlice({
       const { formName, eventDetailsId } = payload
       if (!state[formName]) return
 
-      const { time, date, location, eventDetails, city, dayOfWeek, externalLink } = state[formName].inputs
+      const { time, date, location, eventDetails, city, dayOfWeek, externalLink, isOnSale } = state[formName].inputs
       const parsedEventDetails = (eventDetails && JSON.parse(JSON.stringify(eventDetails))) ?? []
 
       const eventIndex = parsedEventDetails.findIndex((e: any) => e.id === eventDetailsId)
@@ -261,7 +271,7 @@ const formSlice = createSlice({
       if (eventIndex !== -1) {
         const updatedEventDetails = eventDetails.map((e: any) =>
           e.id === eventDetailsId
-            ? { ...e, time, date, location, city, dayOfWeek, externalLink } // Update the existing event
+            ? { ...e, time, date, location, city, dayOfWeek, externalLink, isOnSale } // Update the existing event
             : e
         )
 
