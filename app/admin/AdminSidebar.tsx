@@ -51,7 +51,7 @@ const AdminSidebar = () => {
               {group.items.map((item) => {
                 const IconComponent = item.icon
                 const isActive = item.path && pathname === item.path
-                const isNew = item.path === '/admin/the-cauldron'
+                const isNew = item.path === '/admin/the-cauldron' || item.path === '/admin/questions'
 
                 return (
                   <Link
