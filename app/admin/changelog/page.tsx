@@ -17,6 +17,19 @@ interface ChangelogEntry {
 
 const changelogData: ChangelogEntry[] = [
   {
+    version: '3.0.2',
+    date: '2026-01-21',
+    changes: [
+      {
+        type: 'bugfix',
+        title: 'Email Delivery Issue',
+        description:
+          'Isolated the email delivery issue and added the required SPF DNS record in HostGator to authorize Google servers, preventing emails from being marked as spoofed.',
+        impact: 'high'
+      }
+    ]
+  },
+  {
     version: '3.0.1',
     date: '2026-01-12',
     changes: [
