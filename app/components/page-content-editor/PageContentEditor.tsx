@@ -142,42 +142,111 @@ export const PageContentEditor: FC<PageContentEditorProps> = ({ initialContent, 
             >
               <div className="p-4 pt-0 space-y-2">
                 {Object.entries(sectionData).map(([field, value]) => {
+                  // Handle strings
                   if (typeof value === 'string') {
                     return renderField(sectionId, field, value, value.length > 100 ? 'textarea' : 'text')
-                  } else if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-                    return (
-                      <div key={field} className="ml-4 pl-4 border-l-2 border-neutral-800">
-                        <h4 className="text-sm font-medium text-neutral-400 mb-3 capitalize">{field}</h4>
-                        {Object.entries(value as Record<string, unknown>).map(([subField, subValue]) => (
-                          <div key={subField}>
-                            {typeof subValue === 'string' &&
-                              renderField(sectionId, `${field}.${subField}`, subValue, 'text')}
-                          </div>
-                        ))}
-                      </div>
-                    )
-                  } else if (Array.isArray(value)) {
-                    return (
-                      <div key={field} className="ml-4 pl-4 border-l-2 border-neutral-800">
-                        <h4 className="text-sm font-medium text-neutral-400 mb-3 capitalize">{field}</h4>
-                        {value.map((item, index) => (
-                          <div key={index} className="mb-4 p-3 bg-neutral-800/50 rounded-lg">
-                            <div className="flex items-center justify-between mb-2">
-                              <span className="text-xs text-neutral-500">Item {index + 1}</span>
+                  }
+
+                  // Handle arrays
+                  else if (Array.isArray(value)) {
+                    // Check if it's an array of strings
+                    const isStringArray = value.every((item) => typeof item === 'string')
+
+                    if (isStringArray) {
+                      // Array of strings (like paragraphs)
+                      return (
+                        <div key={field} className="ml-4 pl-4 border-l-2 border-neutral-800">
+                          <h4 className="text-sm font-medium text-neutral-400 mb-3 capitalize">
+                            {field.replace(/([A-Z])/g, ' $1')}
+                          </h4>
+                          {value.map((item, index) => (
+                            <div key={index} className="mb-3">
+                              <label className="text-xs text-neutral-500 mb-1 block">
+                                {field.slice(0, -1)} {index + 1}
+                              </label>
+                              {renderField(
+                                sectionId,
+                                `${field}[${index}]`,
+                                item as string,
+                                (item as string).length > 100 ? 'textarea' : 'text'
+                              )}
                             </div>
-                            {typeof item === 'string'
-                              ? renderField(sectionId, `${field}[${index}]`, item, 'text')
-                              : Object.entries(item as Record<string, unknown>).map(([itemField, itemValue]) => (
-                                  <div key={itemField}>
-                                    {typeof itemValue === 'string' &&
-                                      renderField(sectionId, `${field}[${index}].${itemField}`, itemValue, 'text')}
-                                  </div>
-                                ))}
-                          </div>
-                        ))}
+                          ))}
+                        </div>
+                      )
+                    } else {
+                      return (
+                        <div key={field} className="ml-4 pl-4 border-l-2 border-neutral-800">
+                          <h4 className="text-sm font-medium text-neutral-400 mb-3 capitalize">
+                            {field.replace(/([A-Z])/g, ' $1')}
+                          </h4>
+                          {value.map((item, index) => (
+                            <div key={index} className="mb-4 p-3 bg-neutral-800/50 rounded-lg">
+                              <div className="flex items-center justify-between mb-3">
+                                <span className="text-xs font-medium text-neutral-400">
+                                  {field.slice(0, -1)} {index + 1}
+                                </span>
+                              </div>
+                              {typeof item === 'string' ? (
+                                renderField(sectionId, `${field}[${index}]`, item, 'text')
+                              ) : (
+                                <div className="space-y-2">
+                                  {Object.entries(item as Record<string, unknown>).map(([itemField, itemValue]) => (
+                                    <div key={itemField}>
+                                      {typeof itemValue === 'string' && (
+                                        <div>
+                                          <label className="text-xs text-neutral-500 mb-1 block capitalize">
+                                            {itemField.replace(/([A-Z])/g, ' $1')}
+                                          </label>
+                                          {renderField(
+                                            sectionId,
+                                            `${field}[${index}].${itemField}`,
+                                            itemValue,
+                                            itemValue.length > 100 ? 'textarea' : 'text'
+                                          )}
+                                        </div>
+                                      )}
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )
+                    }
+                  }
+
+                  // Handle nested objects
+                  else if (typeof value === 'object' && value !== null) {
+                    return (
+                      <div key={field} className="ml-4 pl-4 border-l-2 border-neutral-800">
+                        <h4 className="text-sm font-medium text-neutral-400 mb-3 capitalize">
+                          {field.replace(/([A-Z])/g, ' $1')}
+                        </h4>
+                        <div className="space-y-2">
+                          {Object.entries(value as Record<string, unknown>).map(([subField, subValue]) => (
+                            <div key={subField}>
+                              {typeof subValue === 'string' && (
+                                <div>
+                                  <label className="text-xs text-neutral-500 mb-1 block capitalize">
+                                    {subField.replace(/([A-Z])/g, ' $1')}
+                                  </label>
+                                  {renderField(
+                                    sectionId,
+                                    `${field}.${subField}`,
+                                    subValue,
+                                    subValue.length > 100 ? 'textarea' : 'text'
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     )
                   }
+
                   return null
                 })}
               </div>

@@ -4,10 +4,23 @@ import { cauldronFolders } from '@/app/lib/constants/admin'
 import { setClosePageSelectorModal, setSelectedCauldronFolder } from '@/app/redux/features/dashboardSlice'
 import { useAppDispatch, useDashboardSelector } from '@/app/redux/store'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 const PageSelectorModal = () => {
   const dispatch = useAppDispatch()
-  const { pageSelectorModal, selectedCauldronFolder } = useDashboardSelector()
+  const router = useRouter()
+  const { pageSelectorModal } = useDashboardSelector()
+  const params = useSearchParams()
+  const selectedFolder = params.get('page')
+
+  const handlePageSelect = (pageSlug: string) => {
+    // Update Redux state
+    dispatch(setSelectedCauldronFolder(pageSlug))
+    dispatch(setClosePageSelectorModal())
+
+    // Update URL with page param
+    router.push(`/admin/the-cauldron?page=${pageSlug}`)
+  }
 
   return (
     <AnimatePresence>
@@ -33,7 +46,7 @@ const PageSelectorModal = () => {
             <div className="grid grid-cols-3 gap-4">
               {cauldronFolders.map((folder, index) => (
                 <motion.button
-                  disabled={folder.value !== 'home'}
+                  disabled={folder.value !== 'home' && folder.value !== 'about'}
                   key={folder.value}
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -41,12 +54,9 @@ const PageSelectorModal = () => {
                     delay: index * 0.02,
                     duration: 0.3
                   }}
-                  onClick={() => {
-                    dispatch(setSelectedCauldronFolder(folder.value))
-                    dispatch(setClosePageSelectorModal())
-                  }}
+                  onClick={() => handlePageSelect(folder.value)}
                   className={`p-4 rounded-lg font-medium text-sm transition-all capitalize ${
-                    selectedCauldronFolder === folder.value
+                    selectedFolder === folder.value
                       ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/50'
                       : 'bg-neutral-800 text-neutral-300 hover:bg-neutral-700 hover:text-white disabled:cursor-not-allowed'
                   }`}

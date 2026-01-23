@@ -56,7 +56,7 @@ const AdminSidebar = () => {
                 return (
                   <Link
                     key={item.path}
-                    href={item.path || ''}
+                    href={item.path === '/admin/the-cauldron' ? '/admin/the-cauldron?page=home' : item.path || ''}
                     onClick={() => {
                       if (item.path === '/admin/the-cauldron') {
                         dispatch(setOpenTheCauldronDrawer())

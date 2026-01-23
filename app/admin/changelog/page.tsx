@@ -22,6 +22,13 @@ const changelogData: ChangelogEntry[] = [
     changes: [
       {
         type: 'feature',
+        title: 'About Page Unlocked in The Cauldron',
+        description:
+          'Unlocked the about page for dynamic content management in The Cauldron. Admins can now edit the about page content including headings, subheadings, paragraphs arrays, and additional details through the admin interface. Extended existing CMS functionality to support the about page with full array and nested object editing capabilities.',
+        impact: 'medium'
+      },
+      {
+        type: 'feature',
         title: 'Flexible Sponsor Management System',
         description:
           'Completely redesigned sponsor form to give administrators full flexibility. Admins can now enter custom sponsorship amounts and create their own sponsor level categories on-the-fly for each sponsor, allowing for unique categorization without being limited to predefined options.',

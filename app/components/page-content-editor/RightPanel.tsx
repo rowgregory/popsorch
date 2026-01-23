@@ -47,12 +47,57 @@ const RightPanel = ({ sections, content }) => {
               )
             }
 
+            // Handle paragraphs array
+            if (key === 'paragraphs' && Array.isArray(value)) {
+              return (
+                <div key={`${section}-${key}`} className="w-full space-y-4 mb-6">
+                  {value.map((paragraph: string, index: number) => (
+                    <p key={`${section}-paragraph-${index}`} className="text-neutral-400 leading-relaxed">
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
+              )
+            }
+
+            // Handle additionalDetails array
+            if (key === 'additionalDetails' && Array.isArray(value)) {
+              return (
+                <div key={`${section}-${key}`} className="w-full space-y-4 mb-6">
+                  {value.map((detail: any, index: number) => {
+                    // If it's a simple object with title/description
+                    if (typeof detail === 'object' && detail !== null) {
+                      return (
+                        <div
+                          key={`${section}-detail-${index}`}
+                          className="p-4 bg-neutral-900 border border-neutral-800 rounded-lg"
+                        >
+                          {detail.title && <h4 className="font-semibold text-white mb-2">{detail.title}</h4>}
+                          {detail.description && <p className="text-neutral-400 text-sm">{detail.description}</p>}
+                          {detail.detail && <p className="text-neutral-300 text-sm mt-2">{detail.detail}</p>}
+                        </div>
+                      )
+                    }
+                    // If it's a string
+                    if (typeof detail === 'string') {
+                      return (
+                        <p key={`${section}-detail-${index}`} className="text-neutral-400 leading-relaxed">
+                          {detail}
+                        </p>
+                      )
+                    }
+                    return null
+                  })}
+                </div>
+              )
+            }
+
             if (key === 'trustBadges' && Array.isArray(value)) {
               return (
                 <div key={`${section}-${key}`} className="flex flex-wrap gap-2 mb-6 justify-center">
-                  {value.map((badge: string) => (
+                  {value.map((badge: string, index: number) => (
                     <span
-                      key={badge}
+                      key={`${section}-badge-${index}`}
                       className="inline-block px-3 py-1 bg-neutral-800 text-neutral-300 rounded-full text-sm"
                     >
                       {badge}
@@ -64,9 +109,12 @@ const RightPanel = ({ sections, content }) => {
 
             if (key === 'contactMethods' && Array.isArray(value)) {
               return (
-                <div key={`${section}-${key}`} className="space-y-4 mb-6">
-                  {value.map((method: any) => (
-                    <div key={method.title} className="p-4 rounded-lg border border-neutral-700 bg-neutral-900/50">
+                <div key={`${section}-${key}`} className="w-full space-y-4 mb-6">
+                  {value.map((method: any, index: number) => (
+                    <div
+                      key={`${section}-method-${index}`}
+                      className="p-4 rounded-lg border border-neutral-700 bg-neutral-900/50"
+                    >
                       <h3 className="font-bold text-white">{method.title}</h3>
                       <p className="text-sm text-neutral-400 mt-1">{method.description}</p>
                       <p className="text-indigo-400 font-semibold mt-2">{method.detail}</p>
@@ -76,12 +124,15 @@ const RightPanel = ({ sections, content }) => {
               )
             }
 
-            if (key === 'stats' && typeof value === 'object') {
+            if (key === 'stats' && typeof value === 'object' && !Array.isArray(value)) {
               return (
-                <div key={`${section}-${key}`} className="grid grid-cols-3 gap-4 mb-6">
+                <div key={`${section}-${key}`} className="grid grid-cols-3 gap-4 mb-6 w-full">
                   {Object.entries(value).map(([statKey, statValue]) => (
-                    <div key={statKey} className="bg-neutral-900 border border-neutral-800 p-4 rounded-lg text-center">
-                      <p className="text-2xl font-bold text-indigo-500 mb-1">{statValue}</p>
+                    <div
+                      key={`${section}-stat-${statKey}`}
+                      className="bg-neutral-900 border border-neutral-800 p-4 rounded-lg text-center"
+                    >
+                      <p className="text-2xl font-bold text-indigo-500 mb-1">{statValue as string}</p>
                       <p className="text-sm text-neutral-400 capitalize">
                         {statKey.replace(/([A-Z])/g, ' $1').toLowerCase()}
                       </p>
@@ -100,32 +151,28 @@ const RightPanel = ({ sections, content }) => {
             }
 
             if (key.startsWith('reason') && key.endsWith('Title') && typeof value === 'string') {
-              const number = key.slice(-1)
+              const number = key.match(/\d+/)?.[0]
               const description = content[section][`reason${number}Description`]
               return (
-                <div key={`${section}-${key}`} className="mb-6 p-4 bg-neutral-900 border border-neutral-800 rounded-lg">
+                <div
+                  key={`${section}-${key}`}
+                  className="mb-6 p-4 bg-neutral-900 border border-neutral-800 rounded-lg w-full"
+                >
                   <p className="font-semibold text-white mb-2">{value}</p>
-                  <p className="text-neutral-400 text-sm">{description}</p>
+                  {description && <p className="text-neutral-400 text-sm">{description}</p>}
                 </div>
               )
             }
 
             if (key.startsWith('bullet') && typeof value === 'string') {
               return (
-                <div key={`${section}-${key}`} className="mb-3 flex gap-3">
+                <div key={`${section}-${key}`} className="mb-3 flex gap-3 w-full">
                   <span className="text-indigo-500 font-bold">•</span>
                   <p className="text-neutral-400">{value}</p>
                 </div>
               )
             }
 
-            if (key === 'description' && typeof value === 'string') {
-              return (
-                <p key={`${section}-${key}`} className="text-neutral-400 leading-relaxed mb-6">
-                  {value}
-                </p>
-              )
-            }
             if (key === 'descriptionContinued' && typeof value === 'string') {
               return (
                 <p key={`${section}-${key}`} className="text-neutral-400 leading-relaxed mb-6">
@@ -134,31 +181,37 @@ const RightPanel = ({ sections, content }) => {
               )
             }
 
-            if (key.startsWith('testimonial') && key.endsWith('Author') === false && typeof value === 'string') {
-              const number = key.slice(-1)
+            if (key.startsWith('testimonial') && !key.endsWith('Author') && typeof value === 'string') {
+              const number = key.match(/\d+/)?.[0]
               const author = content[section][`testimonial${number}Author`]
               return (
-                <div key={`${section}-${key}`} className="mb-4 p-4 bg-neutral-900 border border-neutral-800 rounded-lg">
+                <div
+                  key={`${section}-${key}`}
+                  className="mb-4 p-4 bg-neutral-900 border border-neutral-800 rounded-lg w-full"
+                >
                   <p className="text-neutral-300 italic mb-2">"{value}"</p>
-                  <p className="text-sm text-neutral-500">— {author}</p>
+                  {author && <p className="text-sm text-neutral-500">— {author}</p>}
                 </div>
               )
             }
 
             if (key.startsWith('question') && typeof value === 'string') {
-              const number = key.slice(-1)
+              const number = key.match(/\d+/)?.[0]
               const answer = content[section][`answer${number}`]
               return (
-                <div key={`${section}-${key}`} className="mb-4 p-4 bg-neutral-900 border border-neutral-800 rounded-lg">
+                <div
+                  key={`${section}-${key}`}
+                  className="mb-4 p-4 bg-neutral-900 border border-neutral-800 rounded-lg w-full"
+                >
                   <p className="font-semibold text-white mb-2">{value}</p>
-                  <p className="text-neutral-400 text-sm">{answer}</p>
+                  {answer && <p className="text-neutral-400 text-sm">{answer}</p>}
                 </div>
               )
             }
 
             if (key === 'placeholderText' && typeof value === 'string') {
               return (
-                <div key={`${section}-${key}`} className="flex gap-2 mb-6">
+                <div key={`${section}-${key}`} className="flex gap-2 mb-6 w-full">
                   <input
                     type="email"
                     placeholder={value}
