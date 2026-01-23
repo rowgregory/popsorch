@@ -5,7 +5,7 @@ export const sponsorData: ISponsor = {
   filename: '',
   filePath: '',
   externalLink: '',
-  level: 'sustaining',
+  level: 'Media Sponsor',
   amount: '250',
   name: '',
   createdAt: new Date(),
