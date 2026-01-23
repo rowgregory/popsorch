@@ -17,6 +17,33 @@ interface ChangelogEntry {
 
 const changelogData: ChangelogEntry[] = [
   {
+    version: '3.0.3',
+    date: '2026-01-23',
+    changes: [
+      {
+        type: 'feature',
+        title: 'Flexible Sponsor Management System',
+        description:
+          'Completely redesigned sponsor form to give administrators full flexibility. Admins can now enter custom sponsorship amounts and create their own sponsor level categories on-the-fly for each sponsor, allowing for unique categorization without being limited to predefined options.',
+        impact: 'high'
+      },
+      {
+        type: 'improvement',
+        title: 'Dynamic Sponsor Grouping and Display',
+        description:
+          'Enhanced sponsor display to dynamically group sponsors by their custom levels (instead of hardcoded categories) and sort level groups by highest contribution amount. Sponsors are displayed in hierarchical order with dynamic card sizing based on tier. Improved amount parsing to handle various formats including currency symbols and commas.',
+        impact: 'medium'
+      },
+      {
+        type: 'improvement',
+        title: 'Improved Sponsor Form UX',
+        description:
+          'Enhanced sponsor form with better visual organization, including two-column layout, icon-labeled fields, inline "Add New Level" functionality, image preview with remove option, and comprehensive field validation with helpful placeholder text.',
+        impact: 'low'
+      }
+    ]
+  },
+  {
     version: '3.0.2',
     date: '2026-01-21',
     changes: [

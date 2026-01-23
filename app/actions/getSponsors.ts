@@ -5,7 +5,7 @@ export const getSponsors = unstable_cache(
   async () => {
     try {
       const sponsors = await prisma.sponsor.findMany({
-        orderBy: [{ level: 'asc' }]
+        orderBy: [{ createdAt: 'desc' }]
       })
 
       return {

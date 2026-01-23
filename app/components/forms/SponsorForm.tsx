@@ -1,21 +1,27 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Upload, Link, FileText, Save, X, AlertCircle, Crown, Gift } from 'lucide-react'
+import { Upload, Gift, Plus, DollarSign, LinkIcon, ImageIcon, Tag, X } from 'lucide-react'
 import { useAppDispatch } from '@/app/redux/store'
 import Picture from '@/app/components/common/Picture'
 import { setInputs } from '@/app/redux/features/formSlice'
 
-const sponsorLevels = [
-  { value: 'season', label: 'Media Season Sponsor', price: '50000' },
-  { value: 'concert', label: 'Media Concert Sponsor', price: '10000' },
-  { value: 'guest-artist', label: 'Media Guest Artist Sponsor', price: '5000' },
-  { value: 'principal', label: 'Media Principal Sponsor', price: '1000' },
-  { value: 'associate', label: 'Media Associate Sponsor', price: '500' },
-  { value: 'sustaining', label: 'Media Sustaining Sponsor', price: '250' }
-]
-
 const SponsorForm = ({ inputs, errors, handleInput, close, handleSubmit, loading, isUpdating }: any) => {
   const dispatch = useAppDispatch()
+  const [showNewLevelInput, setShowNewLevelInput] = useState(false)
+  const [newLevel, setNewLevel] = useState('')
+
+  console.log(inputs)
+
+  // Predefined sponsor levels (can be extended)
+  const [sponsorLevels, setSponsorLevels] = useState([
+    'Season Sponsor',
+    'Concert Sponsor',
+    'Guest Artist Sponsor',
+    'Principal Sponsor',
+    'Media Sponsor',
+    'Partner',
+    inputs?.level
+  ])
 
   const imagePreviewUrl = useMemo(() => {
     if (inputs?.file) {
@@ -41,6 +47,16 @@ const SponsorForm = ({ inputs, errors, handleInput, close, handleSubmit, loading
     dispatch(setInputs({ formName: 'sponsorForm', data: { filename: '', filePath: '', file: null } }))
   }
 
+  // Add new sponsor level
+  const addNewLevel = () => {
+    if (newLevel.trim() && !sponsorLevels.includes(newLevel.trim())) {
+      setSponsorLevels([...sponsorLevels, newLevel.trim()])
+      dispatch(setInputs({ formName: 'sponsorForm', data: { level: newLevel.trim() } }))
+      setNewLevel('')
+      setShowNewLevelInput(false)
+    }
+  }
+
   return (
     <form onSubmit={handleSubmit} className="min-h-screen bg-neutral-900">
       <motion.div
@@ -51,14 +67,19 @@ const SponsorForm = ({ inputs, errors, handleInput, close, handleSubmit, loading
       >
         {/* Header */}
         <div className="px-8 py-6 text-white border-b border-neutral-600">
-          <div className="flex items-center space-x-3">
-            <Gift className="w-8 h-8 text-neutral-300" />
-            <div>
-              <h1 className="text-3xl font-bold text-white">{isUpdating ? 'Update' : 'Create'} Sponsor</h1>
-              <p className="text-neutral-300">
-                {isUpdating ? 'Update an existing sponsor on the platform' : 'Add a new sponsor to the platform'}
-              </p>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <Gift className="w-8 h-8 text-neutral-300" />
+              <div>
+                <h1 className="text-3xl font-bold text-white">{isUpdating ? 'Update' : 'Create'} Sponsor</h1>
+                <p className="text-neutral-300">
+                  {isUpdating ? 'Update an existing sponsor on the platform' : 'Add a new sponsor to the platform'}
+                </p>
+              </div>
             </div>
+            <button type="button" onClick={close} className="p-2 hover:bg-neutral-700 rounded-lg transition-colors">
+              <X className="w-6 h-6 text-neutral-400" />
+            </button>
           </div>
         </div>
 
@@ -66,10 +87,135 @@ const SponsorForm = ({ inputs, errors, handleInput, close, handleSubmit, loading
           <div className="grid lg:grid-cols-2 gap-8">
             {/* Left Column */}
             <div className="space-y-6">
+              {/* Sponsor Name */}
+              <div>
+                <label className="block text-sm font-semibold text-neutral-300 mb-3">
+                  <Tag className="w-4 h-4 inline mr-2" />
+                  Sponsor Name *
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={inputs?.name || ''}
+                  onChange={handleInput}
+                  className="w-full px-4 py-3 bg-neutral-800 border border-neutral-600 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                  placeholder="Enter sponsor name"
+                />
+                {errors?.name && <p className="mt-2 text-sm text-red-400">{errors.name}</p>}
+              </div>
+
+              {/* Sponsor Level */}
+              <div>
+                <label className="block text-sm font-semibold text-neutral-300 mb-3">
+                  <Gift className="w-4 h-4 inline mr-2" />
+                  Sponsor Level *
+                </label>
+
+                {!showNewLevelInput ? (
+                  <div className="space-y-3">
+                    <select
+                      name="level"
+                      value={inputs?.level || ''}
+                      onChange={handleInput}
+                      className="w-full px-4 py-3 bg-neutral-800 border border-neutral-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                    >
+                      <option value="">Select sponsor level</option>
+                      {sponsorLevels.map((level) => (
+                        <option key={level} value={level}>
+                          {level}
+                        </option>
+                      ))}
+                    </select>
+
+                    <button
+                      type="button"
+                      onClick={() => setShowNewLevelInput(true)}
+                      className="flex items-center gap-2 text-sky-400 hover:text-sky-300 text-sm font-medium transition-colors"
+                    >
+                      <Plus className="w-4 h-4" />
+                      Add New Level
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={newLevel}
+                      onChange={(e) => setNewLevel(e.target.value)}
+                      onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addNewLevel())}
+                      className="flex-1 px-4 py-3 bg-neutral-800 border border-neutral-600 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                      placeholder="Enter new level name"
+                      autoFocus
+                    />
+                    <button
+                      type="button"
+                      onClick={addNewLevel}
+                      className="px-4 py-3 bg-sky-600 hover:bg-sky-700 text-white rounded-lg font-medium transition-colors"
+                    >
+                      Add
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowNewLevelInput(false)
+                        setNewLevel('')
+                      }}
+                      className="px-4 py-3 bg-neutral-700 hover:bg-neutral-600 text-white rounded-lg font-medium transition-colors"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                )}
+
+                {errors?.level && <p className="mt-2 text-sm text-red-400">{errors.level}</p>}
+              </div>
+
+              {/* Sponsorship Amount */}
+              <div>
+                <label className="block text-sm font-semibold text-neutral-300 mb-3">
+                  <DollarSign className="w-4 h-4 inline mr-2" />
+                  Sponsorship Amount
+                </label>
+                <div className="relative">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 text-lg">$</span>
+                  <input
+                    type="text"
+                    name="amount"
+                    value={inputs?.amount || ''}
+                    onChange={handleInput}
+                    className="w-full pl-8 pr-4 py-3 bg-neutral-800 border border-neutral-600 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                    placeholder="0.00"
+                  />
+                </div>
+                <p className="mt-2 text-xs text-neutral-400">Optional: Leave blank if not applicable</p>
+                {errors?.amount && <p className="mt-2 text-sm text-red-400">{errors.amount}</p>}
+              </div>
+
+              {/* External Link */}
+              <div>
+                <label className="block text-sm font-semibold text-neutral-300 mb-3">
+                  <LinkIcon className="w-4 h-4 inline mr-2" />
+                  External Link (Website)
+                </label>
+                <input
+                  type="url"
+                  name="externalLink"
+                  value={inputs?.externalLink || ''}
+                  onChange={handleInput}
+                  className="w-full px-4 py-3 bg-neutral-800 border border-neutral-600 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                  placeholder="https://sponsor-website.com"
+                />
+                <p className="mt-2 text-xs text-neutral-400">Optional: Link to sponsor's website</p>
+                {errors?.externalLink && <p className="mt-2 text-sm text-red-400">{errors.externalLink}</p>}
+              </div>
+            </div>
+
+            {/* Right Column */}
+            <div className="space-y-6">
               {/* File Upload */}
               <div>
                 <label className="block text-sm font-semibold text-neutral-300 mb-3">
-                  <Upload className="w-4 h-4 inline mr-2" />
+                  <ImageIcon className="w-4 h-4 inline mr-2" />
                   Sponsor Logo/Image *
                 </label>
 
@@ -82,219 +228,70 @@ const SponsorForm = ({ inputs, errors, handleInput, close, handleSubmit, loading
                       type="file"
                       onChange={handleFileChange}
                       className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                      accept="image/png, image/jpeg, image/jpg, image/gif"
+                      accept="image/png, image/jpeg, image/jpg, image/gif, image/svg+xml"
                     />
                   </div>
                 ) : (
-                  <div className="border border-neutral-700 rounded-xl p-4 bg-neutral-700/50">
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-12 h-12 bg-neutral-600 rounded-lg flex items-center justify-center border border-neutral-500">
-                          <FileText className="w-6 h-6 text-neutral-300" />
-                        </div>
-                        <div>
-                          <p className="font-medium text-neutral-200">
-                            {isUpdating ? inputs?.file?.name : inputs?.filename}
-                          </p>
-                          {isUpdating ? (
-                            <p className="text-sm text-neutral-400">{inputs?.filename}</p>
-                          ) : (
-                            <p className="text-sm text-neutral-400">
-                              {(inputs?.file?.size / 1024 / 1024).toFixed(2)} MB
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={removeFile}
-                        className="text-red-400 hover:text-red-300 transition-colors p-1"
-                      >
-                        <X className="w-5 h-5" />
-                      </button>
-                    </div>
-                    {(inputs?.file?.name || inputs?.filePath) && (
-                      <div className="mt-3">
-                        <Picture
-                          priority={false}
-                          src={imagePreviewUrl || inputs?.filePath}
-                          className="w-full h-32 object-contain bg-neutral-700 rounded-lg border border-neutral-600"
-                        />
-                      </div>
-                    )}
+                  <div className="relative border border-neutral-600 rounded-xl overflow-hidden bg-neutral-800">
+                    <Picture
+                      src={imagePreviewUrl}
+                      alt="Sponsor logo preview"
+                      className="w-full h-64 object-contain p-4"
+                      priority={true}
+                    />
+                    <button
+                      type="button"
+                      onClick={removeFile}
+                      className="absolute top-3 right-3 p-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
                   </div>
                 )}
-
-                {errors?.filePath && (
-                  <p className="mt-2 text-sm text-red-400 flex items-center">
-                    <AlertCircle className="w-4 h-4 mr-1" />
-                    {errors?.filePath}
-                  </p>
-                )}
+                {errors?.file && <p className="mt-2 text-sm text-red-400">{errors.file}</p>}
               </div>
 
-              {/* Filename */}
+              {/* Filename (auto-filled but editable) */}
               <div>
-                <label htmlFor="name" className="block text-sm font-semibold text-neutral-300 mb-2">
-                  Display Name *
-                </label>
+                <label className="block text-sm font-semibold text-neutral-300 mb-3">Filename</label>
                 <input
                   type="text"
-                  id="name"
-                  name="name"
-                  value={inputs?.name || ''}
+                  name="filename"
+                  value={inputs?.filename || ''}
                   onChange={handleInput}
-                  className={`w-full px-4 py-3 bg-neutral-700 border rounded-lg focus:ring-2 focus:ring-neutral-500 focus:border-neutral-500 transition-colors text-neutral-200 placeholder-neutral-500 ${
-                    errors?.name ? 'border-red-500' : 'border-neutral-600'
-                  }`}
-                  placeholder="Sqysh"
+                  className="w-full px-4 py-3 bg-neutral-800 border border-neutral-600 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                  placeholder="Auto-filled from upload"
+                  readOnly={!inputs?.file && !inputs?.filePath}
                 />
-                {errors?.name && (
-                  <p className="mt-2 text-sm text-red-400 flex items-center">
-                    <AlertCircle className="w-4 h-4 mr-1" />
-                    {errors?.name}
-                  </p>
-                )}
-              </div>
-
-              {/* External Link */}
-              <div>
-                <label htmlFor="externalLink" className="block text-sm font-semibold text-neutral-300 mb-2">
-                  <Link className="w-4 h-4 inline mr-2" />
-                  Sponsor Website *
-                </label>
-                <input
-                  type="url"
-                  id="externalLink"
-                  name="externalLink"
-                  value={inputs?.externalLink || ''}
-                  onChange={handleInput}
-                  className={`w-full px-4 py-3 bg-neutral-700 border rounded-lg focus:ring-2 focus:ring-neutral-500 focus:border-neutral-500 transition-colors text-neutral-200 placeholder-neutral-500 ${
-                    errors?.externalLink ? 'border-red-500' : 'border-neutral-600'
-                  }`}
-                  placeholder="https://sqysh.io"
-                />
-                {errors?.externalLink && (
-                  <p className="mt-2 text-sm text-red-400 flex items-center">
-                    <AlertCircle className="w-4 h-4 mr-1" />
-                    {errors?.externalLink}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            {/* Right Column */}
-            <div className="space-y-6">
-              {/* Sponsorship Level */}
-              <div>
-                <label className="block text-sm font-semibold text-neutral-300 mb-4">
-                  <Crown className="w-4 h-4 inline mr-2" />
-                  Sponsorship Level *
-                </label>
-                <div className="space-y-3">
-                  {sponsorLevels.map((level) => (
-                    <motion.button
-                      key={level.value}
-                      type="button"
-                      onClick={() => {
-                        dispatch(
-                          setInputs({ formName: 'sponsorForm', data: { level: level.value, amount: level.price } })
-                        )
-                      }}
-                      whileHover={{ scale: 1.01 }}
-                      whileTap={{ scale: 0.99 }}
-                      className={`group relative w-full p-5 rounded-xl border-2 text-left transition-all duration-200 ${
-                        inputs?.level === level.value
-                          ? 'border-fuchsia-500 bg-gradient-to-br from-fuchsia-600/20 to-fuchsia-700/10 shadow-lg shadow-fuchsia-500/20'
-                          : 'border-neutral-600 bg-gradient-to-br from-neutral-700/30 to-neutral-800/20 hover:border-fuchsia-400/50 hover:bg-gradient-to-br hover:from-fuchsia-600/10 hover:to-fuchsia-700/5'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between">
-                        {/* Left side - Level info */}
-                        <div className="flex-1">
-                          <h3 className="font-semibold text-neutral-100 text-lg mb-1">{level.label}</h3>
-                          <div
-                            className={`h-1 w-16 rounded-full transition-all duration-200 ${
-                              inputs?.level === level.value
-                                ? 'bg-fuchsia-400 shadow-sm shadow-fuchsia-400/50'
-                                : 'bg-fuchsia-500 group-hover:bg-fuchsia-400'
-                            }`}
-                          />
-                        </div>
-
-                        {/* Right side - Price */}
-                        <div className="text-right">
-                          <div
-                            className={`px-4 py-2 rounded-lg backdrop-blur-sm transition-all duration-200 ${
-                              inputs?.level === level.value
-                                ? 'bg-fuchsia-500/20 ring-2 ring-fuchsia-400/30'
-                                : 'bg-neutral-600/30 group-hover:bg-fuchsia-500/15 group-hover:ring-1 group-hover:ring-fuchsia-400/20'
-                            }`}
-                          >
-                            <span
-                              className={`text-2xl font-bold transition-colors duration-200 ${
-                                inputs?.level === level.value ? 'text-fuchsia-300' : 'text-fuchsia-400'
-                              }`}
-                            >
-                              ${level.price?.toLocaleString()}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Selection indicator */}
-                      {inputs?.level === level.value && (
-                        <motion.div
-                          initial={{ scale: 0, opacity: 0 }}
-                          animate={{ scale: 1, opacity: 1 }}
-                          className="absolute top-3 right-3 w-3 h-3 bg-fuchsia-400 rounded-full shadow-lg shadow-fuchsia-400/50"
-                        />
-                      )}
-                    </motion.button>
-                  ))}
-                </div>
-                {errors?.level && (
-                  <p className="mt-3 text-sm text-red-400 flex items-center">
-                    <AlertCircle className="w-4 h-4 mr-1" />
-                    {errors?.level}
-                  </p>
-                )}
+                <p className="mt-2 text-xs text-neutral-400">Automatically populated from uploaded file</p>
               </div>
             </div>
           </div>
-          <motion.button
-            type="submit"
-            disabled={loading}
-            whileHover={{ scale: loading ? 1 : 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className={` mt-8 w-full py-4 px-6 rounded-xl font-semibold flex items-center justify-center space-x-2 transition-all ${
-              loading ? 'bg-neutral-600 cursor-not-allowed' : 'bg-neutral-700 hover:bg-neutral-600'
-            } text-white`}
-          >
-            {loading ? (
-              <>
-                <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
-                <span>{isUpdating ? 'Updating' : 'Creating'} Sponsor...</span>
-              </>
-            ) : (
-              <>
-                <Save className="w-5 h-5" />
-                <span>{isUpdating ? 'Update' : 'Create'} Sponsor</span>
-              </>
-            )}
-          </motion.button>
 
-          <motion.button
-            onClick={close}
-            type="button"
-            whileHover={{ scale: loading ? 1 : 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className={`mt-4 w-full py-4 px-6 rounded-xl font-semibold flex items-center justify-center space-x-2 transition-all ${
-              loading ? 'bg-neutral-600 cursor-not-allowed' : 'bg-neutral-600 hover:bg-neutral-500'
-            } text-white`}
-          >
-            <span>Close</span>
-          </motion.button>
+          {/* Form Actions */}
+          <div className="flex gap-4 mt-8 pt-6 border-t border-neutral-700">
+            <button
+              type="button"
+              onClick={close}
+              className="px-6 py-3 bg-neutral-700 hover:bg-neutral-600 text-white rounded-lg font-semibold transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={loading}
+              className="flex-1 px-6 py-3 bg-sky-600 hover:bg-sky-700 disabled:bg-neutral-600 disabled:cursor-not-allowed text-white rounded-lg font-semibold transition-colors flex items-center justify-center gap-2"
+            >
+              {loading ? (
+                <>
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  {isUpdating ? 'Updating...' : 'Creating...'}
+                </>
+              ) : (
+                <>{isUpdating ? 'Update Sponsor' : 'Create Sponsor'}</>
+              )}
+            </button>
+          </div>
         </div>
       </motion.div>
     </form>

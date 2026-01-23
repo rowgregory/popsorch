@@ -52,7 +52,7 @@ const AdminSponsors = ({ data }) => {
   }
 
   return (
-    <div className="h-[calc(100vh-66px)] p-6">
+    <div className="min-h-[calc(100vh-66px)] p-6">
       {/* Stats Cards - Mobile */}
       <div className="grid grid-cols-2 gap-4 mb-6">
         <motion.div
@@ -109,10 +109,10 @@ const AdminSponsors = ({ data }) => {
             <tbody className="bg-neutral-900/50 divide-y divide-neutral-800">
               {sponsors?.map((sponsor: ISponsor, index: number) => (
                 <motion.tr
-                  key={sponsor.id}
+                  key={index}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
+                  transition={{ delay: index * 0.05 }}
                   className="hover:bg-neutral-700/50 transition-colors"
                 >
                   <td className="px-6 py-4 whitespace-nowrap">
