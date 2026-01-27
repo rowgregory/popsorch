@@ -45,7 +45,7 @@ export default function TheCauldronCard() {
         {/* CTA Button */}
         <MotionLink
           onClick={() => dispatch(setOpenTheCauldronDrawer())}
-          href="/admin/the-cauldron"
+          href="/admin/the-cauldron?page=home"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-semibold py-2 px-4 rounded-lg flex items-center justify-center gap-2 transition-all text-sm"
