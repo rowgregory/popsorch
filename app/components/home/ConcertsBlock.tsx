@@ -6,6 +6,10 @@ import { fadeInUp } from '@/app/lib/constants/motion'
 import { motion } from 'framer-motion'
 
 const ConcertsBlock = ({ pageData, concerts }) => {
+  if (!pageData || !Array.isArray(pageData)) {
+    return null // or return a fallback UI
+  }
+
   const displayedConcerts = concerts?.slice(0, 3) || []
 
   const concertData = pageData?.filter((page) => page?.id?.includes('concerts'))

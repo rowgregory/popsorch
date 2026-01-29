@@ -10,6 +10,8 @@ import KeepUpToDateBlock from '../home/KeepUpToDateBlock'
 const HomePage = ({ pageData, concerts, galleryImages, sponsors }) => {
   const scrollRef = useRef<HTMLDivElement>(null)
 
+  console.log(pageData)
+
   return (
     <>
       <HomeHero pageData={pageData} ref={scrollRef} galleryImages={galleryImages} />

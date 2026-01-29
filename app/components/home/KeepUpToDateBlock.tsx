@@ -6,6 +6,9 @@ import { ArrowRight, Bell, Mail, Sparkles, Star, UserPlus } from 'lucide-react'
 import { sendGAEvent } from '@next/third-parties/google'
 
 const KeepUpToDateBlock = ({ pageData }) => {
+  if (!pageData || !Array.isArray(pageData)) {
+    return null // or return a fallback UI
+  }
   const contactData = pageData?.filter((page) => page?.id?.includes('contact'))
 
   const contactsData = contactData.reduce((acc, field) => {

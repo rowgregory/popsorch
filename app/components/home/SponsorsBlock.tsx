@@ -1,6 +1,9 @@
 import { motion } from 'framer-motion'
 
 const SponsorsBlock = ({ pageData, sponsors }) => {
+  if (!pageData || !Array.isArray(pageData)) {
+    return null // or return a fallback UI
+  }
   // Parse amount and handle different formats ($2,500,000 or 2500000)
   const parseAmount = (amount) => {
     if (!amount || amount === '') return 0

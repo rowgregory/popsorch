@@ -7,7 +7,11 @@ import { motion } from 'framer-motion'
 import { sendGAEvent } from '@next/third-parties/google'
 
 const ContactUsBlock = ({ pageData }) => {
-  const questionData = pageData?.filter((page) => page?.id?.includes('question'))
+  if (!pageData || !Array.isArray(pageData)) {
+    return null // or return a fallback UI
+  }
+
+  const questionData = pageData.filter((page) => page?.id?.includes('question'))
 
   const question = questionData.reduce((acc, field) => {
     const key = field.id.replace('question_', '')

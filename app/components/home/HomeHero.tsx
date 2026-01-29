@@ -3,6 +3,10 @@ import { motion } from 'framer-motion'
 import { sendGAEvent } from '@next/third-parties/google'
 
 const HomeHero = ({ pageData, ref, galleryImages }) => {
+  if (!pageData || !Array.isArray(pageData)) {
+    return null // or return a fallback UI
+  }
+
   const filteredImages = galleryImages?.filter((item: { isHomeHero: boolean }) => item.isHomeHero)
 
   const handleScroll = () => {

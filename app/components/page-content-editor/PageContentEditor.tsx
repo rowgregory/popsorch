@@ -109,7 +109,20 @@ export function PageContentEditor({
 }) {
   const [content, setContent] = useState(fields)
   const [isPreviewVisible, setIsPreviewVisible] = useState(true)
+  console.log('🔍 Fields received:', fields)
+  console.log('🔍 Is array?', Array.isArray(fields))
+  console.log('🔍 Type:', typeof fields)
 
+  if (!fields || !Array.isArray(fields)) {
+    return (
+      <div className="h-screen flex items-center justify-center bg-neutral-950">
+        <div className="text-center">
+          <p className="text-neutral-400 mb-2">Invalid page content format</p>
+          <pre className="text-xs text-neutral-600">{JSON.stringify(fields, null, 2)}</pre>
+        </div>
+      </div>
+    )
+  }
   const sections = Array.from(new Set(content.map((f) => f.section)))
 
   const updateField = (id: string, newValue: string | string[]) => {
