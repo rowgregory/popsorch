@@ -21,6 +21,14 @@ const HomeHero = ({ pageData, ref, galleryImages }) => {
     ref.current?.scrollIntoView({ behavior: 'smooth' })
   }
 
+  const heroData = pageData?.filter((page) => page?.id?.includes('hero'))
+
+  const hero = heroData.reduce((acc, field) => {
+    const key = field.id.replace('hero_', '')
+    acc[key] = field.value
+    return acc
+  }, {})
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -31,7 +39,7 @@ const HomeHero = ({ pageData, ref, galleryImages }) => {
       <div className="absolute inset-0 z-40 bg-black/40 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
         <div className="w-full max-w-sm sm:max-w-2xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl mx-auto text-center">
           {(() => {
-            const heading = pageData?.hero?.heading || ''
+            const heading = hero?.heading || ''
             const parts = heading.split(' of ')
 
             return (
@@ -47,7 +55,7 @@ const HomeHero = ({ pageData, ref, galleryImages }) => {
           })()}
 
           <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-medium font-lato leading-relaxed text-white mb-8 sm:mb-10 lg:mb-14 opacity-90 max-w-2xl mx-auto">
-            {pageData?.hero?.subheading}
+            {hero?.subheading}
           </p>
 
           <motion.button
@@ -83,7 +91,7 @@ const HomeHero = ({ pageData, ref, galleryImages }) => {
                 repeat: Infinity
               }}
             />
-            <span className="relative z-10">{pageData?.hero?.btnText}</span>
+            <span className="relative z-10">{hero?.btnText}</span>
           </motion.button>
         </div>
       </div>

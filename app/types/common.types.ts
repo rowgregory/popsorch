@@ -28,3 +28,11 @@ export interface IWrapper {
   textBlocks: any
   headerButton: any
 }
+
+export interface PageField {
+  id: string // Unique identifier
+  section: string // Which section it belongs to (for grouping)
+  label: string // Display name
+  value: string | string[] // The actual content
+  type: 'text' | 'textarea' | 'url' | 'array'
+}

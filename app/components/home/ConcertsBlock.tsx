@@ -6,8 +6,15 @@ import { fadeInUp } from '@/app/lib/constants/motion'
 import { motion } from 'framer-motion'
 
 const ConcertsBlock = ({ pageData, concerts }) => {
-  const { heading, subheading, btnText, btnHref } = pageData?.concerts || {}
   const displayedConcerts = concerts?.slice(0, 3) || []
+
+  const concertData = pageData?.filter((page) => page?.id?.includes('concerts'))
+
+  const concert = concertData.reduce((acc, field) => {
+    const key = field.id.replace('concerts_', '')
+    acc[key] = field.value
+    return acc
+  }, {})
 
   return (
     <section className="px-4 pt-12 pb-40">
@@ -15,13 +22,13 @@ const ConcertsBlock = ({ pageData, concerts }) => {
         {/* New Badge Design */}
         <motion.div variants={fadeInUp} className="mb-12 w-full flex justify-center">
           <div className="flex items-center gap-3 px-6 py-3 bg-black/40 border border-white/10 rounded-xl backdrop-blur-sm">
-            <span className="text-white font-bold text-xs uppercase tracking-widest">{heading}</span>
+            <span className="text-white font-bold text-xs uppercase tracking-widest">{concert?.heading}</span>
           </div>
         </motion.div>
 
         {/* New Title Design */}
         <h2 className="text-center text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-20 max-w-4xl leading-tight">
-          {subheading}
+          {concert?.subheading}
         </h2>
 
         {/* Concerts Grid */}
@@ -36,10 +43,10 @@ const ConcertsBlock = ({ pageData, concerts }) => {
         {/* New CTA Button */}
         <motion.div whileHover={{ x: 4 }} whileTap={{ scale: 0.98 }}>
           <Link
-            href={btnHref || '/concerts'}
+            href={concert?.btnHref || '/concerts'}
             className="mt-8 px-8 py-3 bg-blaze text-white font-semibold rounded-lg hover:bg-blaze/90 transition-all duration-300 inline-flex items-center gap-2"
           >
-            <span>{btnText}</span>
+            <span>{concert?.btnText}</span>
             <ChevronRight className="w-4 h-4" />
           </Link>
         </motion.div>

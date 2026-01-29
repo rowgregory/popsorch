@@ -44,12 +44,20 @@ const SponsorsBlock = ({ pageData, sponsors }) => {
     return 'w-32 h-32' // Lower tiers - smallest
   }
 
+  const sponsorData = pageData?.filter((page) => page?.id?.includes('sponsors'))
+
+  const sponsorsData = sponsorData.reduce((acc, field) => {
+    const key = field.id.replace('sponsors_', '')
+    acc[key] = field.value
+    return acc
+  }, {})
+
   return (
     <section className="py-40">
       <div className="max-w-6xl mx-auto px-6">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-white mb-3">{pageData?.sponsors?.heading}</h2>
-          <p className="text-gray-400">{pageData?.sponsors?.subheading}</p>
+          <h2 className="text-3xl font-bold text-white mb-3">{sponsorsData?.heading}</h2>
+          <p className="text-gray-400">{sponsorsData?.subheading}</p>
         </motion.div>
 
         <div className="space-y-12">

@@ -1,278 +1,135 @@
-import { FC, JSX, useEffect, useState } from 'react'
-import { Eye, EyeOff, Edit2, Check, ChevronDown, ChevronRight } from 'lucide-react'
-import { AnimatePresence, motion } from 'framer-motion'
-import RightPanel from './RightPanel'
+import { useState } from 'react'
+import { Check, ChevronDown, ChevronRight, Edit2, Eye, EyeOff, Save, X } from 'lucide-react'
+import { PageField } from '@/app/types/common.types'
+import { RightPanel } from './RightPanel'
 
-interface PageContent {
-  [key: string]: Record<string, any>
-}
+export function Field({ field, onChange }: { field: PageField | any; onChange: (value: string | string[]) => void }) {
+  const [isEditing, setIsEditing] = useState(false)
 
-interface PageContentEditorProps {
-  initialContent: PageContent
-  onSave: (content: PageContent) => Promise<void>
-  isLoading: boolean
-}
-
-export const PageContentEditor: FC<PageContentEditorProps> = ({ initialContent, onSave, isLoading }) => {
-  const [content, setContent] = useState<PageContent>(initialContent)
-  const [expandedSections, setExpandedSections] = useState<string[]>(Object.keys(initialContent))
-  const [editingField, setEditingField] = useState<string | null>(null)
-  const [isPreviewVisible, setIsPreviewVisible] = useState(true)
-
-  useEffect(() => {
-    if (initialContent) {
-      setContent(initialContent)
-    }
-  }, [initialContent])
-
-  if (!content || typeof content !== 'object' || Object.keys(content).length === 0) {
+  if (field.type === 'array' && Array.isArray(field.value)) {
     return (
-      <div className="flex items-center justify-center h-full bg-neutral-950">
-        <p className="text-neutral-400">No content available</p>
-      </div>
-    )
-  }
-
-  const sections = Object.keys(content)
-
-  const toggleSection = (sectionId: string) => {
-    setExpandedSections((prev) =>
-      prev.includes(sectionId) ? prev.filter((s) => s !== sectionId) : [...prev, sectionId]
-    )
-  }
-
-  const handleEdit = (section: string, fieldPath: string, value: string) => {
-    const newContent = structuredClone(content)
-    const pathParts = fieldPath.split('.')
-    let current = newContent[section]
-
-    for (let i = 0; i < pathParts.length - 1; i++) {
-      if (!current[pathParts[i]]) {
-        current[pathParts[i]] = {}
-      }
-      current = current[pathParts[i]]
-    }
-
-    current[pathParts[pathParts.length - 1]] = value
-    setContent(newContent)
-  }
-
-  const handleSave = async () => await onSave(content)
-
-  const renderField = (
-    section: string,
-    fieldName: string,
-    value: string,
-    type: 'text' | 'textarea' = 'text'
-  ): JSX.Element => {
-    const fieldId = `${section}-${fieldName}`
-    const isEditing = editingField === fieldId
-
-    return (
-      <div key={fieldId} className="mb-4">
+      <div className="mb-4">
         <div className="flex items-center justify-between mb-2">
-          <label className="text-sm font-medium text-neutral-400">
-            {fieldName.charAt(0).toUpperCase() + fieldName.replace(/([A-Z])/g, ' $1').slice(1)}
-          </label>
-          <button
-            onClick={() => setEditingField(isEditing ? null : fieldId)}
-            className="p-1 hover:bg-neutral-800 rounded transition-colors"
-          >
+          <label className="text-sm font-medium text-neutral-400">{field.label}</label>
+          <button onClick={() => setIsEditing(!isEditing)} className="p-1 hover:bg-neutral-800 rounded">
             {isEditing ? <Check className="w-4 h-4 text-green-400" /> : <Edit2 className="w-4 h-4 text-neutral-500" />}
           </button>
         </div>
-
-        {type === 'textarea' ? (
-          <textarea
-            value={value}
-            onChange={(e) => handleEdit(section, fieldName, e.target.value)}
-            disabled={!isEditing}
-            rows={4}
-            className={`w-full px-3 py-2 bg-neutral-800 border rounded-lg text-white text-sm resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-              isEditing ? 'border-indigo-500' : 'border-neutral-700'
-            } ${!isEditing && 'cursor-not-allowed opacity-75'}`}
-          />
-        ) : (
-          <input
-            type={type}
-            value={value}
-            onChange={(e) => handleEdit(section, fieldName, e.target.value)}
-            disabled={!isEditing}
-            className={`w-full px-3 py-2 bg-neutral-800 border rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-              isEditing ? 'border-indigo-500' : 'border-neutral-700'
-            } ${!isEditing && 'cursor-not-allowed opacity-75'}`}
-          />
-        )}
-
-        {isEditing && <p className="text-xs text-neutral-500 mt-1">Click the checkmark to confirm changes</p>}
+        <div className="space-y-2">
+          {field.value.map((item, i) => (
+            <div key={i} className="flex gap-2">
+              <input
+                value={item}
+                onChange={(e) => {
+                  const newArray = [...field.value]
+                  newArray[i] = e.target.value
+                  onChange(newArray)
+                }}
+                disabled={!isEditing}
+                className={`flex-1 px-3 py-2 bg-neutral-800 border rounded-lg text-white text-sm ${
+                  isEditing ? 'border-indigo-500' : 'border-neutral-700 opacity-75'
+                }`}
+              />
+              {isEditing && (
+                <button
+                  onClick={() => onChange(field.value.filter((_, idx) => idx !== i))}
+                  className="px-3 bg-red-600 hover:bg-red-700 text-white rounded-lg"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+          ))}
+          {isEditing && (
+            <button
+              onClick={() => onChange([...field.value, ''])}
+              className="w-full px-3 py-2 bg-neutral-700 hover:bg-neutral-600 text-neutral-300 rounded-lg text-sm"
+            >
+              + Add Item
+            </button>
+          )}
+        </div>
       </div>
     )
   }
 
-  const renderSection = (sectionId: string, sectionData: Record<string, any>): JSX.Element => {
-    const isExpanded = expandedSections.includes(sectionId)
+  const InputComponent = field.type === 'textarea' ? 'textarea' : 'input'
 
-    return (
-      <div key={sectionId} className="bg-neutral-900 rounded-lg border border-neutral-800 mb-4">
-        <button
-          onClick={() => toggleSection(sectionId)}
-          className="w-full flex items-center justify-between p-4 hover:bg-neutral-800/50 transition-colors rounded-lg"
-        >
-          <div className="flex items-center gap-3">
-            {isExpanded ? (
-              <ChevronDown className="w-5 h-5 text-neutral-400" />
-            ) : (
-              <ChevronRight className="w-5 h-5 text-neutral-400" />
-            )}
-            <h3 className="text-base font-semibold text-white capitalize">
-              {sectionId.replace(/([A-Z])/g, ' $1')} Section
-            </h3>
-          </div>
-          <span className="text-xs text-neutral-500">{Object.keys(sectionData).length} fields</span>
+  return (
+    <div className="mb-4">
+      <div className="flex items-center justify-between mb-2">
+        <label className="text-sm font-medium text-neutral-400">{field.label}</label>
+        <button onClick={() => setIsEditing(!isEditing)} className="p-1 hover:bg-neutral-800 rounded">
+          {isEditing ? <Check className="w-4 h-4 text-green-400" /> : <Edit2 className="w-4 h-4 text-neutral-500" />}
         </button>
-
-        <AnimatePresence>
-          {isExpanded && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="overflow-hidden"
-            >
-              <div className="p-4 pt-0 space-y-2">
-                {Object.entries(sectionData).map(([field, value]) => {
-                  // Handle strings
-                  if (typeof value === 'string') {
-                    return renderField(sectionId, field, value, value.length > 100 ? 'textarea' : 'text')
-                  }
-
-                  // Handle arrays
-                  else if (Array.isArray(value)) {
-                    // Check if it's an array of strings
-                    const isStringArray = value.every((item) => typeof item === 'string')
-
-                    if (isStringArray) {
-                      // Array of strings (like paragraphs)
-                      return (
-                        <div key={field} className="ml-4 pl-4 border-l-2 border-neutral-800">
-                          <h4 className="text-sm font-medium text-neutral-400 mb-3 capitalize">
-                            {field.replace(/([A-Z])/g, ' $1')}
-                          </h4>
-                          {value.map((item, index) => (
-                            <div key={index} className="mb-3">
-                              <label className="text-xs text-neutral-500 mb-1 block">
-                                {field.slice(0, -1)} {index + 1}
-                              </label>
-                              {renderField(
-                                sectionId,
-                                `${field}[${index}]`,
-                                item as string,
-                                (item as string).length > 100 ? 'textarea' : 'text'
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      )
-                    } else {
-                      return (
-                        <div key={field} className="ml-4 pl-4 border-l-2 border-neutral-800">
-                          <h4 className="text-sm font-medium text-neutral-400 mb-3 capitalize">
-                            {field.replace(/([A-Z])/g, ' $1')}
-                          </h4>
-                          {value.map((item, index) => (
-                            <div key={index} className="mb-4 p-3 bg-neutral-800/50 rounded-lg">
-                              <div className="flex items-center justify-between mb-3">
-                                <span className="text-xs font-medium text-neutral-400">
-                                  {field.slice(0, -1)} {index + 1}
-                                </span>
-                              </div>
-                              {typeof item === 'string' ? (
-                                renderField(sectionId, `${field}[${index}]`, item, 'text')
-                              ) : (
-                                <div className="space-y-2">
-                                  {Object.entries(item as Record<string, unknown>).map(([itemField, itemValue]) => (
-                                    <div key={itemField}>
-                                      {typeof itemValue === 'string' && (
-                                        <div>
-                                          <label className="text-xs text-neutral-500 mb-1 block capitalize">
-                                            {itemField.replace(/([A-Z])/g, ' $1')}
-                                          </label>
-                                          {renderField(
-                                            sectionId,
-                                            `${field}[${index}].${itemField}`,
-                                            itemValue,
-                                            itemValue.length > 100 ? 'textarea' : 'text'
-                                          )}
-                                        </div>
-                                      )}
-                                    </div>
-                                  ))}
-                                </div>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      )
-                    }
-                  }
-
-                  // Handle nested objects
-                  else if (typeof value === 'object' && value !== null) {
-                    return (
-                      <div key={field} className="ml-4 pl-4 border-l-2 border-neutral-800">
-                        <h4 className="text-sm font-medium text-neutral-400 mb-3 capitalize">
-                          {field.replace(/([A-Z])/g, ' $1')}
-                        </h4>
-                        <div className="space-y-2">
-                          {Object.entries(value as Record<string, unknown>).map(([subField, subValue]) => (
-                            <div key={subField}>
-                              {typeof subValue === 'string' && (
-                                <div>
-                                  <label className="text-xs text-neutral-500 mb-1 block capitalize">
-                                    {subField.replace(/([A-Z])/g, ' $1')}
-                                  </label>
-                                  {renderField(
-                                    sectionId,
-                                    `${field}.${subField}`,
-                                    subValue,
-                                    subValue.length > 100 ? 'textarea' : 'text'
-                                  )}
-                                </div>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )
-                  }
-
-                  return null
-                })}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
-    )
+      <InputComponent
+        type={field.type === 'textarea' ? undefined : field.type}
+        value={field.value as string}
+        onChange={(e) => onChange(e.target.value)}
+        disabled={!isEditing}
+        rows={field.type === 'textarea' ? 4 : undefined}
+        className={`w-full px-3 py-2 bg-neutral-800 border rounded-lg text-white text-sm ${
+          field.type === 'textarea' ? 'resize-none' : ''
+        } ${isEditing ? 'border-indigo-500' : 'border-neutral-700 opacity-75'}`}
+      />
+    </div>
+  )
+}
+
+export function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  const [isOpen, setIsOpen] = useState(true)
+
+  return (
+    <div className="bg-neutral-900 rounded-lg border border-neutral-800 mb-4">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex items-center gap-3 p-4 hover:bg-neutral-800/50 transition-colors"
+      >
+        {isOpen ? (
+          <ChevronDown className="w-5 h-5 text-neutral-400" />
+        ) : (
+          <ChevronRight className="w-5 h-5 text-neutral-400" />
+        )}
+        <h3 className="text-base font-semibold text-white capitalize">{title}</h3>
+      </button>
+      {isOpen && <div className="p-4 pt-0 space-y-4">{children}</div>}
+    </div>
+  )
+}
+
+export function PageContentEditor({
+  fields,
+  onSave,
+  isLoading
+}: {
+  fields: PageField[]
+  onSave: any
+  isLoading: boolean
+}) {
+  const [content, setContent] = useState(fields)
+  const [isPreviewVisible, setIsPreviewVisible] = useState(true)
+
+  const sections = Array.from(new Set(content.map((f) => f.section)))
+
+  const updateField = (id: string, newValue: string | string[]) => {
+    setContent((prev) => prev.map((f) => (f.id === id ? { ...f, value: newValue } : f)))
   }
 
   return (
     <div className="pt-12 h-[calc(100dvh-60px)] flex flex-col md:flex-row bg-neutral-950">
-      {/* Left Panel - Editor */}
-      <div
-        className={`${
-          isPreviewVisible ? 'w-full md:w-1/2' : 'w-full'
-        } border-r border-neutral-800 flex flex-col overflow-hidden transition-all`}
-      >
-        {/* Header */}
-        <div className="bg-neutral-900 border-b border-neutral-800 px-6 py-3 flex items-center justify-between">
-          <h1 className="text-lg font-bold text-white">Page Content Editor</h1>
-        </div>
-
-        {/* Content Editor */}
-        <div className="flex-1 overflow-y-auto px-6 py-6">
-          {sections.map((section) => renderSection(section, content[section]))}
+      {/* Editor */}
+      <div className={`${isPreviewVisible ? 'md:w-1/2' : 'w-full'} flex flex-col border-r border-neutral-800`}>
+        <div className="flex-1 overflow-y-auto p-6">
+          {sections.map((section) => (
+            <Section key={section} title={section}>
+              {content
+                .filter((f) => f.section === section)
+                .map((field) => (
+                  <Field key={field.id} field={field} onChange={(v) => updateField(field.id, v)} />
+                ))}
+            </Section>
+          ))}
         </div>
 
         {/* Footer */}
@@ -287,7 +144,7 @@ export const PageContentEditor: FC<PageContentEditorProps> = ({ initialContent, 
             </button>
 
             <button
-              onClick={handleSave}
+              onClick={() => onSave(content)}
               disabled={isLoading}
               className="px-6 py-2 text-sm font-medium bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-600/50 disabled:cursor-not-allowed text-white rounded-lg transition-colors w-full md:w-fit"
             >
@@ -297,8 +154,8 @@ export const PageContentEditor: FC<PageContentEditorProps> = ({ initialContent, 
         </div>
       </div>
 
-      {/* Right Panel - Live Preview */}
-      {isPreviewVisible && <RightPanel content={content} sections={sections} />}
+      {/* Preview */}
+      {isPreviewVisible && <RightPanel fields={content} />}
     </div>
   )
 }

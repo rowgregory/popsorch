@@ -6,6 +6,14 @@ import { ArrowRight, Bell, Mail, Sparkles, Star, UserPlus } from 'lucide-react'
 import { sendGAEvent } from '@next/third-parties/google'
 
 const KeepUpToDateBlock = ({ pageData }) => {
+  const contactData = pageData?.filter((page) => page?.id?.includes('contact'))
+
+  const contactsData = contactData.reduce((acc, field) => {
+    const key = field.id.replace('contact_', '')
+    acc[key] = field.value
+    return acc
+  }, {})
+
   return (
     <div className="relative bg-gradient-to-b from-black via-neutral-950 to-black overflow-hidden">
       {/* Decorative Elements */}
@@ -48,17 +56,17 @@ const KeepUpToDateBlock = ({ pageData }) => {
 
               <div className="flex items-center justify-center w-full">
                 <h2 className="text-center text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-4 max-w-4xl leading-tight">
-                  {pageData?.contact?.heading}
+                  {contactsData?.heading}
                 </h2>
               </div>
 
               <p className="text-neutral-300 text-lg leading-relaxed mt-6 mb-10 max-w-2xl mx-auto">
-                {pageData?.contact?.subheading}
+                {contactsData?.subheading}
               </p>
 
               {/* CTA Button */}
               <Link
-                href={pageData?.contact?.buttonHref || '#'}
+                href={contactsData?.buttonHref || '#'}
                 onClick={() => {
                   sendGAEvent('event', 'sign_up_intent', {
                     cta_text: 'Sign Me Up',
@@ -84,7 +92,7 @@ const KeepUpToDateBlock = ({ pageData }) => {
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 group-hover:translate-x-full transition-transform duration-1000" />
 
                 <UserPlus className="w-6 h-6 group-hover:scale-110 transition-transform relative z-10" />
-                <span className="relative z-10">{pageData?.contact?.buttonText}</span>
+                <span className="relative z-10">{contactsData?.buttonText}</span>
                 <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform relative z-10" />
 
                 {/* Glow Effect */}
@@ -95,15 +103,15 @@ const KeepUpToDateBlock = ({ pageData }) => {
               <div className="flex flex-wrap items-center justify-center gap-4 mt-10">
                 <div className="flex items-center gap-2 px-4 py-2 bg-neutral-800/50 backdrop-blur-sm border border-neutral-700/50 rounded-full">
                   <Bell className="w-4 h-4 text-blaze" />
-                  <span className="text-sm text-neutral-300">{pageData?.contact?.trustBadges[0]}</span>
+                  <span className="text-sm text-neutral-300">{contactsData?.trustBadges[0]}</span>
                 </div>
                 <div className="flex items-center gap-2 px-4 py-2 bg-neutral-800/50 backdrop-blur-sm border border-neutral-700/50 rounded-full">
                   <Sparkles className="w-4 h-4 text-sunburst" />
-                  <span className="text-sm text-neutral-300">{pageData?.contact?.trustBadges[1]}</span>
+                  <span className="text-sm text-neutral-300">{contactsData?.trustBadges[1]}</span>
                 </div>
                 <div className="flex items-center gap-2 px-4 py-2 bg-neutral-800/50 backdrop-blur-sm border border-neutral-700/50 rounded-full">
                   <Star className="w-4 h-4 text-orange-400" />
-                  <span className="text-sm text-neutral-300">{pageData?.contact?.trustBadges[2]}</span>
+                  <span className="text-sm text-neutral-300">{contactsData?.trustBadges[2]}</span>
                 </div>
               </div>
             </div>

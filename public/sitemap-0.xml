@@ -32,6 +32,7 @@
 <url><loc>https://www.thepopsorchestra.org/api/auth/logout/route</loc></url>
 <url><loc>https://www.thepopsorchestra.org/api/auth/register/route</loc></url>
 <url><loc>https://www.thepopsorchestra.org/api/auth/reset-password/route</loc></url>
+<url><loc>https://www.thepopsorchestra.org/api/clear-cache/route</loc></url>
 <url><loc>https://www.thepopsorchestra.org/api/header-button/assign-header-button/route</loc></url>
 <url><loc>https://www.thepopsorchestra.org/api/header-button/create-header-button/route</loc></url>
 <url><loc>https://www.thepopsorchestra.org/api/header-button/delete-header-button/route</loc></url>

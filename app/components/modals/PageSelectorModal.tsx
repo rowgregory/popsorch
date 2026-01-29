@@ -46,7 +46,7 @@ const PageSelectorModal = () => {
             <div className="grid grid-cols-3 gap-4">
               {cauldronFolders.map((folder, index) => (
                 <motion.button
-                  disabled={folder.value !== 'home' && folder.value !== 'about'}
+                  disabled={folder.value !== 'home'}
                   key={folder.value}
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}

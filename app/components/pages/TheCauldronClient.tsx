@@ -2,7 +2,6 @@
 
 import { createPage } from '@/app/actions/createPage'
 import { updatePage } from '@/app/actions/updatePage'
-import { PageContentEditor } from '@/app/components/page-content-editor/PageContentEditor'
 import { showToast } from '@/app/redux/features/toastSlice'
 import { useAppDispatch, useDashboardSelector } from '@/app/redux/store'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -11,6 +10,7 @@ import { motion } from 'framer-motion'
 import { setOpenPageSelectorModal } from '@/app/redux/features/dashboardSlice'
 import { ChevronDown } from 'lucide-react'
 import { cauldronFolders } from '@/app/lib/constants/admin'
+import { PageContentEditor } from '../page-content-editor/PageContentEditor'
 
 export default function TheCauldronClient({ data }) {
   const dispatch = useAppDispatch()
@@ -73,7 +73,7 @@ export default function TheCauldronClient({ data }) {
         </div>
       </div>
 
-      <PageContentEditor initialContent={data?.content} onSave={handleSave} isLoading={isSaving} />
+      <PageContentEditor fields={data?.content} onSave={handleSave} isLoading={isSaving} />
     </>
   )
 }

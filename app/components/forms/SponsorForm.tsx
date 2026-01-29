@@ -10,8 +10,6 @@ const SponsorForm = ({ inputs, errors, handleInput, close, handleSubmit, loading
   const [showNewLevelInput, setShowNewLevelInput] = useState(false)
   const [newLevel, setNewLevel] = useState('')
 
-  console.log(inputs)
-
   // Predefined sponsor levels (can be extended)
   const [sponsorLevels, setSponsorLevels] = useState([
     'Season Sponsor',
