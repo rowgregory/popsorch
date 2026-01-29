@@ -15,6 +15,7 @@ import { getUser } from './actions/getUser'
 import { getUserId } from './actions/getUserById'
 import { getTextBlocks } from './actions/getTextBlocks'
 import { getActiveHeaderButton } from './actions/getActiveHeaderButton'
+import { getConcerts } from './actions/getConcerts'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -61,6 +62,7 @@ export default async function RootLayout({
   const user = await getUser(id)
   const textBlocks = await getTextBlocks()
   const headerButton = await getActiveHeaderButton()
+  const concerts = await getConcerts()
 
   return (
     <html lang="en">
@@ -70,7 +72,7 @@ export default async function RootLayout({
       <body
         className={`${inter.variable} ${oswald.variable} ${raleway.variable} ${changa.variable} ${lato.variable} antialiased`}
       >
-        <ReduxWrapper user={user} textBlocks={textBlocks} headerButton={headerButton}>
+        <ReduxWrapper user={user} textBlocks={textBlocks} headerButton={headerButton} concerts={concerts}>
           {children}
         </ReduxWrapper>
         <Script

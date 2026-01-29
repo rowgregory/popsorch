@@ -78,10 +78,7 @@ const ContactUsBlock = ({ pageData }) => {
                     <h3 className="text-white font-bold text-lg mb-2">{method.title}</h3>
                     <p className="text-white/60 text-sm mb-3">{method.description}</p>
 
-                    <a
-                      href={method.href}
-                      className="text-blaze hover:text-sunburst transition-colors font-semibold whitespace-pre-line"
-                    >
+                    <a href={method.href} className="text-white font-semibold whitespace-pre-line">
                       {method.detail}
                     </a>
                   </div>

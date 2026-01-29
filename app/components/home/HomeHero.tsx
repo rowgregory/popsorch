@@ -40,7 +40,7 @@ const HomeHero = ({ pageData, ref, galleryImages }) => {
       transition={{ duration: 0.35, ease: 'easeIn' }}
       className="relative w-full min-h-screen h-dvh mt-[-100px]"
     >
-      <div className="absolute inset-0 z-40 bg-black/40 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
+      <div className="absolute inset-0 z-40 bg-black/20 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
         <div className="w-full max-w-sm sm:max-w-2xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl mx-auto text-center">
           {(() => {
             const heading = hero?.heading || ''

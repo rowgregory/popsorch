@@ -20,7 +20,7 @@ import AccessibilityButton from './components/buttons/AccessibilityButton'
 import AdminLaunchButton from './components/buttons/AdminLaunchButton'
 import { IWrapper } from './types/common.types'
 
-const PageWrapper: FC<IWrapper> = ({ children, user, textBlocks, headerButton }) => {
+const PageWrapper: FC<IWrapper> = ({ children, user, textBlocks, headerButton, concerts }) => {
   const dispatch = useAppDispatch()
   const pathname = usePathname()
 
@@ -44,7 +44,7 @@ const PageWrapper: FC<IWrapper> = ({ children, user, textBlocks, headerButton })
       dispatch(hydrateUserState(user))
       dispatch(setAuthState(user?.isAuthenticated))
     }
-  }, [user, dispatch, textBlocks, headerButton])
+  }, [user, dispatch, textBlocks, headerButton, concerts])
 
   return (
     <div className="main-content">
@@ -55,7 +55,7 @@ const PageWrapper: FC<IWrapper> = ({ children, user, textBlocks, headerButton })
       <Toast />
 
       {/* Page Layout */}
-      {showHeader && <Header />}
+      {showHeader && <Header concerts={concerts} />}
       {children}
       {showFooter && <Footer />}
 

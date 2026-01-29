@@ -1,13 +1,6 @@
 import { useState } from 'react'
 import useCustomPathname from '@/app/hooks/useCustomPathname'
-import {
-  RootState,
-  useAppDispatch,
-  useAppSelector,
-  useConcertSelector,
-  useHeaderButtonSelector,
-  useUserSelector
-} from '@/app/redux/store'
+import { RootState, useAppDispatch, useAppSelector, useHeaderButtonSelector, useUserSelector } from '@/app/redux/store'
 import { getNavigationLinks } from '@/app/utils/navigation.utils'
 import { useHeaderAtTop } from '@/app/hooks/useHeaderAtTop'
 import { HeaderNavLink } from './HeaderNavLink'
@@ -17,14 +10,13 @@ import CustomHeaderButton from '../CustomHeaderButton'
 import { motion } from 'framer-motion'
 import { Menu } from 'lucide-react'
 
-const HeaderLower = () => {
+const HeaderLower = ({ concerts }) => {
   const path = useCustomPathname()
   const dispatch = useAppDispatch()
-  const { concerts } = useConcertSelector()
   const { isFeatureToggleCardLive, isFeatureToggleCardVisible } = useAppSelector((state: RootState) => state.app)
   const { user } = useUserSelector()
   const { headerButton } = useHeaderButtonSelector()
-  const thereAreConcerts = concerts?.length >= 1
+  const thereAreConcerts = concerts?.concerts?.length > 0
   const navLinks = getNavigationLinks(
     path,
     thereAreConcerts,

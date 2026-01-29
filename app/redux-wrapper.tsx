@@ -7,11 +7,11 @@ import { persistor, store } from './redux/store'
 import { PersistGate } from 'redux-persist/integration/react'
 import { IWrapper } from './types/common.types'
 
-const ReduxWrapper: FC<IWrapper> = ({ children, user, textBlocks, headerButton }) => {
+const ReduxWrapper: FC<IWrapper> = ({ children, user, textBlocks, headerButton, concerts }) => {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <PageWrapper user={user} textBlocks={textBlocks} headerButton={headerButton}>
+        <PageWrapper user={user} textBlocks={textBlocks} headerButton={headerButton} concerts={concerts}>
           {children}
         </PageWrapper>
       </PersistGate>

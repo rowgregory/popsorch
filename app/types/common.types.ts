@@ -27,6 +27,7 @@ export interface IWrapper {
   user: any
   textBlocks: any
   headerButton: any
+  concerts: any
 }
 
 export interface PageField {
