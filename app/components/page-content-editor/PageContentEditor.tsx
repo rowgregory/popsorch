@@ -32,7 +32,7 @@ export function Field({ field, onChange }: { field: PageField | any; onChange: (
               />
               {isEditing && (
                 <button
-                  onClick={() => onChange(field.value.filter((_, idx) => idx !== i))}
+                  onClick={() => onChange(field?.value?.filter((_, idx) => idx !== i))}
                   className="px-3 bg-red-600 hover:bg-red-700 text-white rounded-lg"
                 >
                   <X className="w-4 h-4" />
@@ -124,8 +124,8 @@ export function PageContentEditor({
           {sections.map((section) => (
             <Section key={section} title={section}>
               {content
-                .filter((f) => f.section === section)
-                .map((field) => (
+                ?.filter((f) => f.section === section)
+                ?.map((field) => (
                   <Field key={field.id} field={field} onChange={(v) => updateField(field.id, v)} />
                 ))}
             </Section>
