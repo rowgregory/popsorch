@@ -10,8 +10,6 @@ const ConcertsBlock = ({ pageData, concerts }) => {
     return null // or return a fallback UI
   }
 
-  const displayedConcerts = concerts?.slice(0, 3) || []
-
   const concertData = pageData?.filter((page) => page?.id?.includes('concerts'))
 
   const concert = concertData.reduce((acc, field) => {
@@ -38,7 +36,7 @@ const ConcertsBlock = ({ pageData, concerts }) => {
         {/* Concerts Grid */}
         <div className="max-w-[520px] 760:max-w-screen-576 990:max-w-[800px] 1200:max-w-screen-1160 1590:max-w-screen-1400 relative w-full mb-10 h-full">
           <div className="flex flex-col gap-y-8 transition-transform duration-300 ease-in-out">
-            {displayedConcerts.map((concert: IConcert, index: number) => (
+            {concerts?.map((concert: IConcert, index: number) => (
               <HomeConcertCard key={concert.id} concert={concert} index={index} />
             ))}
           </div>

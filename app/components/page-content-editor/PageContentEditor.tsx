@@ -109,9 +109,6 @@ export function PageContentEditor({
 }) {
   const [content, setContent] = useState(fields)
   const [isPreviewVisible, setIsPreviewVisible] = useState(true)
-  console.log('🔍 Fields received:', fields)
-  console.log('🔍 Is array?', Array.isArray(fields))
-  console.log('🔍 Type:', typeof fields)
 
   if (!fields || !Array.isArray(fields)) {
     return (
