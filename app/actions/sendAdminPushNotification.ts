@@ -4,15 +4,17 @@ import { createLog } from '../utils/logHelper'
 
 export async function sendAdminPushNotification(title: string, message: string) {
   try {
-    const response = await fetch('/api/push-notification/send-push-notification', {
+    // Get the base URL - works both in server and client
+    const baseUrl =
+      process.env.NEXT_PUBLIC_BASE_URL ||
+      (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000')
+
+    const response = await fetch(`${baseUrl}/api/push-notification/send-push-notification`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        title,
-        message
-      })
+      body: JSON.stringify({ message, title })
     })
 
     if (!response.ok) {

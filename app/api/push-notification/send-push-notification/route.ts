@@ -52,8 +52,8 @@ export async function POST(req: NextRequest) {
           JSON.stringify({
             title: title || 'Notification',
             body: message,
-            icon: '/icon-192x192.png', // Optional: add your app icon
-            badge: '/badge-72x72.png', // Optional: add badge icon
+            icon: '/images/icon-192x192.png', // Optional: add your app icon
+            badge: '/images/badge-72x72.png', // Optional: add badge icon
             data: {
               url: '/admin/camp-applications', // Optional: URL to open when clicked
               timestamp: Date.now()

@@ -2,11 +2,11 @@ self.addEventListener('push', (event) => {
   let data = {
     title: 'New Camp Form',
     body: 'You have a new notification!',
-    icon: '/images/icon.png',
-    badge: '/images/badge.png',
+    icon: '/images/icon-192x192.png',
+    badge: '/images/badge-72x72.png',
     // vibrate: [100, 50, 100],
     data: {
-      url: 'https://popsorch.vercel.app' // URL that will be used on click
+      url: 'https://www.thepopsorchestra.org/' // URL that will be used on click
     },
     requireInteraction: true,
     tag: `msg-${Date.now()}`, // forces stacking
