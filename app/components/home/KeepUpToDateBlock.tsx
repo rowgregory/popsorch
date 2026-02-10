@@ -7,8 +7,9 @@ import { sendGAEvent } from '@next/third-parties/google'
 
 const KeepUpToDateBlock = ({ pageData }) => {
   if (!pageData || !Array.isArray(pageData)) {
-    return null // or return a fallback UI
+    return null
   }
+
   const contactData = pageData?.filter((page) => page?.id?.includes('contact'))
 
   const contactsData = contactData.reduce((acc, field) => {
@@ -18,113 +19,77 @@ const KeepUpToDateBlock = ({ pageData }) => {
   }, {})
 
   return (
-    <div className="relative bg-gradient-to-b from-black via-neutral-950 to-black overflow-hidden">
-      {/* Decorative Elements */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-blaze/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-sunburst/10 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/2" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl translate-y-1/2 translate-x-1/2" />
+    <section className="px-4 990:px-12 xl:px-4 py-20 990:py-32 bg-linear-to-b from-black to-neutral-800">
+      <div className="max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 1590:max-w-screen-1400 w-full mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="bg-duskgray p-8 430:p-14 text-center"
+        >
+          {/* Icon */}
+          <div className="w-14 h-14 bg-blaze flex items-center justify-center mx-auto mb-6">
+            <Mail className="w-7 h-7 text-white" />
+          </div>
 
-      {/* Content */}
-      <div className="relative z-10 px-4 lg:px-12 xl:px-4 py-20 lg:py-32">
-        <div className="max-w-5xl mx-auto">
-          {/* Main Card */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="relative bg-gradient-to-br from-neutral-900 to-black border border-neutral-800 rounded-3xl p-8 md:p-12 lg:p-16 shadow-2xl overflow-hidden"
+          {/* Heading */}
+          <h2 className="font-changa text-4xl sm:text-5xl 990:text-6xl text-white mb-4 leading-tight">
+            {contactsData?.heading}
+          </h2>
+          <div className="w-12 h-0.5 bg-blaze mx-auto mb-6" />
+
+          {/* Subheading */}
+          <p className="font-lato text-slatemist text-lg leading-relaxed mb-10 max-w-2xl mx-auto">
+            {contactsData?.subheading}
+          </p>
+
+          {/* CTA Button */}
+          <Link
+            href={contactsData?.buttonHref || '#'}
+            onClick={() => {
+              sendGAEvent('event', 'sign_up_intent', {
+                cta_text: 'Sign Me Up',
+                cta_type: 'primary_button',
+                button_location: 'home_keep_up_to_date',
+                source_page: window.location.pathname,
+                destination: '/connect-with-us',
+                user_scroll_depth: Math.round(
+                  (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100
+                ),
+                time_on_page: Math.round((Date.now() - performance.timeOrigin) / 1000),
+                referrer: document.referrer || 'direct',
+                viewport_width: window.innerWidth,
+                viewport_height: window.innerHeight,
+                device_type: window.innerWidth < 768 ? 'mobile' : window.innerWidth < 1024 ? 'tablet' : 'desktop',
+                timestamp: new Date().toISOString()
+              })
+            }}
+            className="inline-flex items-center justify-center gap-3 bg-blaze hover:bg-blazehover text-white px-10 py-4 font-changa uppercase tracking-widest text-sm transition-colors duration-300"
           >
-            {/* Background Pattern */}
-            <div className="absolute inset-0 opacity-5">
-              <div
-                className="absolute inset-0"
-                style={{
-                  backgroundImage: `radial-gradient(circle, #f97316 1px, transparent 1px)`,
-                  backgroundSize: '30px 30px'
-                }}
-              />
+            <UserPlus className="w-5 h-5" />
+            <span>{contactsData?.buttonText}</span>
+            <ArrowRight className="w-5 h-5" />
+          </Link>
+
+          {/* Trust Badges */}
+          <div className="flex flex-wrap items-center justify-center gap-4 mt-10">
+            <div className="flex items-center gap-2 bg-charcoalgray px-4 py-2">
+              <Bell className="w-4 h-4 text-sunburst shrink-0" />
+              <span className="font-lato text-sm text-slatemist">{contactsData?.trustBadges[0]}</span>
             </div>
-
-            {/* Glow Effects */}
-            <div className="absolute top-0 left-0 w-64 h-64 bg-blaze/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
-            <div className="absolute bottom-0 right-0 w-64 h-64 bg-sunburst/20 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
-
-            {/* Content */}
-            <div className="relative z-10 text-center">
-              {/* Icon */}
-              <div className="w-20 h-20 bg-gradient-to-br from-blaze to-sunburst rounded-full flex items-center justify-center mx-auto mb-6 shadow-2xl">
-                <Mail className="w-10 h-10 text-white" />
-              </div>
-
-              <div className="flex items-center justify-center w-full">
-                <h2 className="text-center text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-4 max-w-4xl leading-tight">
-                  {contactsData?.heading}
-                </h2>
-              </div>
-
-              <p className="text-neutral-300 text-lg leading-relaxed mt-6 mb-10 max-w-2xl mx-auto">
-                {contactsData?.subheading}
-              </p>
-
-              {/* CTA Button */}
-              <Link
-                href={contactsData?.buttonHref || '#'}
-                onClick={() => {
-                  sendGAEvent('event', 'sign_up_intent', {
-                    cta_text: 'Sign Me Up',
-                    cta_type: 'primary_button',
-                    cta_style: 'gradient_animated',
-                    button_location: 'home_keep_up_to_date',
-                    source_page: window.location.pathname,
-                    destination: '/connect-with-us',
-                    user_scroll_depth: Math.round(
-                      (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100
-                    ),
-                    time_on_page: Math.round((Date.now() - performance.timeOrigin) / 1000),
-                    referrer: document.referrer || 'direct',
-                    viewport_width: window.innerWidth,
-                    viewport_height: window.innerHeight,
-                    device_type: window.innerWidth < 768 ? 'mobile' : window.innerWidth < 1024 ? 'tablet' : 'desktop',
-                    timestamp: new Date().toISOString()
-                  })
-                }}
-                className="group relative inline-flex items-center justify-center gap-3 bg-gradient-to-r from-blaze to-sunburst hover:from-sunburst hover:to-blaze text-white px-12 py-5 rounded-xl font-bold text-base uppercase tracking-widest shadow-2xl hover:shadow-blaze/50 transition-all duration-300 hover:scale-105 overflow-hidden"
-              >
-                {/* Shimmer Effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 group-hover:translate-x-full transition-transform duration-1000" />
-
-                <UserPlus className="w-6 h-6 group-hover:scale-110 transition-transform relative z-10" />
-                <span className="relative z-10">{contactsData?.buttonText}</span>
-                <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform relative z-10" />
-
-                {/* Glow Effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-blaze/50 to-sunburst/50 blur-xl opacity-0 group-hover:opacity-100 transition-opacity -z-10" />
-              </Link>
-
-              {/* Feature Pills */}
-              <div className="flex flex-wrap items-center justify-center gap-4 mt-10">
-                <div className="flex items-center gap-2 px-4 py-2 bg-neutral-800/50 backdrop-blur-sm border border-neutral-700/50 rounded-full">
-                  <Bell className="w-4 h-4 text-blaze" />
-                  <span className="text-sm text-neutral-300">{contactsData?.trustBadges[0]}</span>
-                </div>
-                <div className="flex items-center gap-2 px-4 py-2 bg-neutral-800/50 backdrop-blur-sm border border-neutral-700/50 rounded-full">
-                  <Sparkles className="w-4 h-4 text-sunburst" />
-                  <span className="text-sm text-neutral-300">{contactsData?.trustBadges[1]}</span>
-                </div>
-                <div className="flex items-center gap-2 px-4 py-2 bg-neutral-800/50 backdrop-blur-sm border border-neutral-700/50 rounded-full">
-                  <Star className="w-4 h-4 text-orange-400" />
-                  <span className="text-sm text-neutral-300">{contactsData?.trustBadges[2]}</span>
-                </div>
-              </div>
+            <div className="flex items-center gap-2 bg-charcoalgray px-4 py-2">
+              <Sparkles className="w-4 h-4 text-blaze shrink-0" />
+              <span className="font-lato text-sm text-slatemist">{contactsData?.trustBadges[1]}</span>
             </div>
-
-            {/* Bottom Accent */}
-            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blaze to-transparent" />
-          </motion.div>
-        </div>
+            <div className="flex items-center gap-2 bg-charcoalgray px-4 py-2">
+              <Star className="w-4 h-4 text-sunburst shrink-0" />
+              <span className="font-lato text-sm text-slatemist">{contactsData?.trustBadges[2]}</span>
+            </div>
+          </div>
+        </motion.div>
       </div>
-    </div>
+    </section>
   )
 }
 

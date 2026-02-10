@@ -32,7 +32,6 @@ export interface DashboardStatePayload {
   ga4: boolean
   pageSelectorModal: boolean
   selectedCauldronFolder: string
-  theCauldronDrawer: boolean
 }
 
 const initialDashboardState: DashboardStatePayload = {
@@ -65,8 +64,7 @@ const initialDashboardState: DashboardStatePayload = {
   iceQueen: false,
   ga4: false,
   pageSelectorModal: false,
-  selectedCauldronFolder: cauldronFolders[0].value,
-  theCauldronDrawer: false
+  selectedCauldronFolder: cauldronFolders[0].value
 }
 
 export const dashboardSlice = createSlice({
@@ -131,12 +129,6 @@ export const dashboardSlice = createSlice({
     },
     clearSelectedCauldronFolder: (state) => {
       state.selectedCauldronFolder = ''
-    },
-    setOpenTheCauldronDrawer: (state) => {
-      state.theCauldronDrawer = true
-    },
-    setCloseTheCauldonDrawer: (state) => {
-      state.theCauldronDrawer = false
     }
   }
 })
@@ -160,7 +152,5 @@ export const {
   setClosePageSelectorModal,
   setOpenPageSelectorModal,
   setSelectedCauldronFolder,
-  clearSelectedCauldronFolder,
-  setCloseTheCauldonDrawer,
-  setOpenTheCauldronDrawer
+  clearSelectedCauldronFolder
 } = dashboardSlice.actions

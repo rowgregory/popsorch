@@ -142,7 +142,7 @@ const Footer = () => {
               })
             }}
             target="_blank"
-            className="text-white text-sm font-bold font-raleway duration-300 hover:text-lime-400"
+            className="sqysh-gradient text-white text-sm font-bold font-raleway duration-300 hover:text-lime-400"
           >
             Sqysh
           </Link>

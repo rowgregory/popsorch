@@ -1,4 +1,29 @@
 import { motion } from 'framer-motion'
+import Picture from '../common/Picture'
+
+// Updated SponsorCard component with dynamic sizing
+const SponsorCard = ({ sponsor, size }) => {
+  const content = (
+    <motion.div
+      whileHover={{ scale: 1.05 }}
+      transition={{ duration: 0.2 }}
+      className={`${size} relative bg-white rounded-lg p-4 flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow`}
+    >
+      <Picture priority={true} src={sponsor.filePath} alt={sponsor.name} className="w-full h-full object-contain" />
+    </motion.div>
+  )
+
+  // If sponsor has external link, wrap in anchor tag
+  if (sponsor.externalLink) {
+    return (
+      <a href={sponsor.externalLink} target="_blank" rel="noopener noreferrer" className="block">
+        {content}
+      </a>
+    )
+  }
+
+  return content
+}
 
 const SponsorsBlock = ({ pageData, sponsors }) => {
   if (!pageData || !Array.isArray(pageData)) {
@@ -56,7 +81,7 @@ const SponsorsBlock = ({ pageData, sponsors }) => {
   }, {})
 
   return (
-    <section className="py-40">
+    <section className="py-40 bg-black">
       <div className="max-w-6xl mx-auto px-6">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} className="text-center mb-12">
           <h2 className="text-3xl font-bold text-white mb-3">{sponsorsData?.heading}</h2>
@@ -67,10 +92,6 @@ const SponsorsBlock = ({ pageData, sponsors }) => {
           {orderedLevels.map((level, index) => {
             const levelSponsors = groupedSponsors[level]
             const sizeClass = getSizeClass(index, orderedLevels.length)
-
-            // Get representative amount for display (highest in the group)
-            const maxAmount = Math.max(...levelSponsors.map((s) => parseAmount(s.amount)))
-            const displayAmount = maxAmount > 0 ? `$${maxAmount.toLocaleString()}` : null
 
             return (
               <motion.div
@@ -96,30 +117,6 @@ const SponsorsBlock = ({ pageData, sponsors }) => {
       </div>
     </section>
   )
-}
-
-// Updated SponsorCard component with dynamic sizing
-const SponsorCard = ({ sponsor, size }) => {
-  const content = (
-    <motion.div
-      whileHover={{ scale: 1.05 }}
-      transition={{ duration: 0.2 }}
-      className={`${size} relative bg-white dark:bg-neutral-800 rounded-lg p-4 flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow`}
-    >
-      <img src={sponsor.filePath} alt={sponsor.name} className="w-full h-full object-contain" />
-    </motion.div>
-  )
-
-  // If sponsor has external link, wrap in anchor tag
-  if (sponsor.externalLink) {
-    return (
-      <a href={sponsor.externalLink} target="_blank" rel="noopener noreferrer" className="block">
-        {content}
-      </a>
-    )
-  }
-
-  return content
 }
 
 export default SponsorsBlock

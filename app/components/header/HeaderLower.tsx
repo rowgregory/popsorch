@@ -33,13 +33,13 @@ const HeaderLower = ({ concerts }) => {
       ref={headerRef}
       className={`${
         !isHome && 'bg-headerbg bg-cover bg-no-repeat bg-center'
-      } transition-all w-full px-4 pt-2 430:px-7 1280:px-14 flex items-center justify-between relative z-50 h-[100px]`}
+      } transition-all w-full px-4 pt-2 430:px-7 1280:px-14 flex items-center justify-between relative z-50 h-25`}
     >
       <Link
         href="/"
         className={`${
           isHome ? 'bg-golden50Logo' : 'bg-white50Logo'
-        } bg-no-repeat bg-contain bg-center w-24 1200:w-40 h-[80px]`}
+        } bg-no-repeat bg-contain bg-center w-24 1200:w-40 h-20`}
       />
 
       <motion.div

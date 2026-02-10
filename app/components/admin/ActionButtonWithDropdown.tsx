@@ -1,6 +1,6 @@
 import { ChangeEvent, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Plus, ChevronDown, Music, Gift, TheaterIcon, User, Tent, GalleryHorizontal, Wand } from 'lucide-react'
+import { Plus, ChevronDown, Music, Gift, TheaterIcon, User, Tent, GalleryHorizontal, Ticket } from 'lucide-react'
 import { useAppDispatch, useCampSelector, useUserSelector } from '@/app/redux/store'
 import { setOpenConcertDrawer } from '@/app/redux/features/concertSlice'
 import { setOpenSponsorDrawer } from '@/app/redux/features/sponsorSlice'
@@ -57,9 +57,9 @@ const actionItems = () => [
     isUpload: true
   },
   {
-    action: 'cast-spell',
-    label: 'Cast Spell',
-    icon: Wand,
+    action: 'create-ticket',
+    label: 'Create ticket',
+    icon: Ticket,
     linkKey: '/admin/apothecary/codex',
     isAthothecary: true
   }
@@ -124,7 +124,7 @@ const ActionButtonWithDropdown = () => {
         whileHover={{ backgroundColor: 'rgba(59, 130, 246, 0.9)' }}
         whileTap={{ opacity: 0.9 }}
         onClick={() => setIsActionsOpen(!isActionsOpen)}
-        className="px-3.5 bg-gradient-to-r from-sky-500 to-indigo-600 text-white rounded-lg hover:from-sky-500/90 hover:to-indigo-600/90 transition-all flex items-center space-x-2 font-medium shadow-lg text-sm h-[28px]"
+        className="px-3.5 bg-linear-to-r cursor-pointer from-blaze to-sunburst text-white rounded-lg hover:from-blaze/90 hover:to-sunburst/90 transition-all flex items-center space-x-2 font-medium shadow-lg text-sm h-7"
       >
         <Plus className="w-4 h-4" />
         <span>Actions</span>
@@ -146,12 +146,12 @@ const ActionButtonWithDropdown = () => {
                     <button
                       disabled={loading}
                       onClick={() => inputRef.current && inputRef?.current.click()}
-                      className="w-full px-4 py-3 text-left text-gray-200 hover:text-white transition-all flex items-center space-x-3 hover:bg-sky-500/10"
+                      className="w-full px-4 py-3 text-left text-gray-200 hover:text-white transition-all flex items-center space-x-3 hover:bg-blaze/10"
                     >
                       {loading ? (
-                        <div className="w-4 h-4 rounded-full border-2 border-sky-500 border-t-0 animate-spin" />
+                        <div className="w-4 h-4 rounded-full border-2 border-blaze border-t-0 animate-spin" />
                       ) : (
-                        <item.icon className="w-4 h-4 text-sky-500" />
+                        <item.icon className="w-4 h-4 text-blaze" />
                       )}
                       <span className="font-medium text-sm whitespace-nowrap">{item.label}</span>
                     </button>
@@ -181,9 +181,9 @@ const ActionButtonWithDropdown = () => {
                       dispatch(setOpenConductorModal())
                       play()
                     }}
-                    className="w-full px-4 py-3 text-left text-gray-200 hover:text-white transition-all flex items-center space-x-3 hover:bg-indigo-500/10"
+                    className="w-full px-4 py-3 text-left text-gray-200 hover:text-white transition-all flex items-center space-x-3 hover:bg-sunburst/10"
                   >
-                    <item.icon className="w-4 h-4 text-indigo-500" />
+                    <item.icon className="w-4 h-4 text-sunburst" />
                     <span className="font-medium text-sm whitespace-nowrap">{item.label}</span>
                   </Link>
                 ) : (
@@ -193,9 +193,9 @@ const ActionButtonWithDropdown = () => {
                       setIsActionsOpen(false)
                       handleActionClick(item)
                     }}
-                    className="w-full px-4 py-3 text-left text-gray-200 hover:text-white transition-all flex items-center space-x-3 hover:bg-sky-500/10"
+                    className="w-full px-4 py-3 text-left text-gray-200 hover:text-white transition-all flex items-center space-x-3 hover:bg-blaze/10"
                   >
-                    <item.icon className="w-4 h-4 text-sky-500" />
+                    <item.icon className="w-4 h-4 text-blaze" />
                     <span className="font-medium text-sm whitespace-nowrap">{item.label}</span>
                   </motion.button>
                 )

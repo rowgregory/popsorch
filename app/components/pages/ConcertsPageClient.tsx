@@ -39,7 +39,7 @@ const ConcertsPageClient = ({ concerts }) => {
     <>
       <Breadcrumb breadcrumb="Concerts" />
       <section className="relative px-4 md:px-8 lg:px-12 xl:px-4 min-h-screen">
-        <div className="mx-auto w-full max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl">
+        <div className="mx-auto w-full max-w-screen-sm md:max-w-3xl lg:max-w-5xl xl:max-w-7xl 2xl:max-w-screen-2xl">
           <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 xl:gap-12 py-20 md:py-32">
             {/* Main Content Area */}
             <motion.div

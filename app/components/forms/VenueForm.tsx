@@ -16,7 +16,7 @@ const VenueForm: FC<IForm> = ({ inputs, errors, handleSubmit, handleInput, loadi
       return URL.createObjectURL(inputs.file)
     }
     return inputs?.imageUrl
-  }, [inputs?.file, inputs?.imageUrl])
+  }, [inputs])
 
   const handleFileChange = (e: any) => {
     const selectedFile = e.target.files[0]

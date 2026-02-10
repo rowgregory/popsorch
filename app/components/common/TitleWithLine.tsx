@@ -10,7 +10,7 @@ interface TitleWithLinkProps {
 const TitleWithLine: FC<TitleWithLinkProps> = ({ title, type, textBlockKey }) => {
   return (
     <div className="relative h-fit w-fit px-5">
-      <span className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-50 h-[1.5px] bg-blaze/70 w-full"></span>
+      <span className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 h-[1.5px] bg-blaze/70 w-full"></span>
       <EditableTextArea
         tag="h1"
         initialValue={title}

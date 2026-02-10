@@ -215,7 +215,7 @@ export const appSlice = createSlice({
       state.isFeatureToggleCardLive = payload.isFeatureToggleCardLive
       state.isFeatureToggleCardVisible = payload.isFeatureToggleCardVisible
     },
-    setOpeneHeaderButtonStudio: (state) => {
+    setOpenHeaderButtonStudio: (state) => {
       state.toggleHeaderButtonStudio = true
     },
     setCloseHeaderButtonStudio: (state) => {
@@ -256,6 +256,6 @@ export const {
   increaseUsersCount,
   decreaseUsersCount,
   hydrateAppState,
-  setOpeneHeaderButtonStudio,
+  setOpenHeaderButtonStudio,
   setCloseHeaderButtonStudio
 } = appSlice.actions

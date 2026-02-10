@@ -3,7 +3,7 @@
 import { FC, ReactNode, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useAppDispatch, useDashboardSelector, useUserSelector } from '@/app/redux/store'
-import AdminSidebar from '@/app/admin/AdminSidebar'
+import AdminSidebar from '@/app/admin/sidebar'
 import ConcertDrawer from '@/app/components/drawers/ConcertDrawer'
 import CampApplicationViewDrawer from '@/app/components/drawers/CampApplicationViewDrawer'
 import SponsorDrawer from '@/app/components/drawers/SponsorDrawer'
@@ -12,18 +12,16 @@ import VenueDrawer from '@/app/components/drawers/VenueDrawer'
 import ConductorModal from '@/app/components/modals/ConductorModal'
 import { setCloseAdminSidebar, setToggleAdminSidebar } from '@/app/redux/features/dashboardSlice'
 import { setUser } from '@/app/redux/features/userSlice'
-import { GA4GuideDrawer } from '@/app/components/drawers/GA4Drawer'
 import { Menu } from 'lucide-react'
-import MobileMenuButton from '../components/header/MobileMenuButton'
-import ActionButtonWithDropdown from '../components/admin/ActionButtonWithDropdown'
-import LogoutButton from '../components/header/LogoutButton'
-import getCurrentPageId from '../lib/utils/getCurrentPageId'
-import useCustomPathname from '../hooks/useCustomPathname'
+import MobileMenuButton from '../header/MobileMenuButton'
+import ActionButtonWithDropdown from '../admin/ActionButtonWithDropdown'
+import LogoutButton from '../header/LogoutButton'
+import getCurrentPageId from '../../lib/utils/getCurrentPageId'
+import useCustomPathname from '../../hooks/useCustomPathname'
 import { adminNavigationLinkData } from '@/public/data/navigation-link.data'
-import PageSelectorModal from '../components/modals/PageSelectorModal'
-import TheCauldronDrawer from '../components/drawers/TheCauldronDrawer'
-import { IUser } from '../types/entities/user'
-import HeaderButtonStudioDrawer from '../components/drawers/HeaderButtonStudioDrawer'
+import PageSelectorModal from '../modals/PageSelectorModal'
+import { IUser } from '../../types/entities/user'
+import HeaderButtonStudioDrawer from '../drawers/HeaderButtonStudioDrawer'
 
 interface IAdminClientLayout {
   children: ReactNode
@@ -54,9 +52,7 @@ const AdminClientLayout: FC<IAdminClientLayout> = ({ children, data, buttons }) 
       <VenueDrawer />
       <ConductorModal />
       <HeaderButtonStudioDrawer data={buttons} />
-      <GA4GuideDrawer />
       <PageSelectorModal />
-      <TheCauldronDrawer />
 
       {/* Desktop Fixed Header */}
       <header className="hidden lg:block fixed top-0 left-64 right-0 bg-neutral-950 border-b border-neutral-800 py-4 px-6 z-30">
@@ -97,7 +93,7 @@ const AdminClientLayout: FC<IAdminClientLayout> = ({ children, data, buttons }) 
         </motion.div>
 
         {/* Main Content */}
-        <main className="flex-1 overflow-y-auto flex flex-col lg:ml-64 lg:mt-[60px]">
+        <main className="flex-1 overflow-y-auto flex flex-col lg:ml-64 lg:mt-15">
           {/* Mobile Header */}
           <div className="lg:hidden flex items-center justify-between bg-neutral-900 border-b border-neutral-800 px-4 py-4">
             <motion.button

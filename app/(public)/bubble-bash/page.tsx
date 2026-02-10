@@ -25,14 +25,15 @@ const tickets = [
     price: '$1,050',
     gradient: 'from-[#da0032] to-[#ff9000]',
     accent: 'shadow-[0_0_25px_#da0032aa]',
-    halfTableNote: '(1/2 table also available)',
+    halfTableNote: '',
     perks: [
       'VIP admission for 8 guests',
       'Valet parking',
       'Front stage round table seating',
       'Bottle of champagne for the table',
       'Raffle entries for each guest (necklace + dinner experience)'
-    ]
+    ],
+    isSoldOut: true
   },
   {
     tier: 'Gold',
@@ -313,7 +314,7 @@ const BubbleBash = () => {
               className="mb-8"
             >
               <div
-                className="w-32 h-[2px] mx-auto mb-4"
+                className="w-32 h-0.5 mx-auto mb-4"
                 style={{
                   background: 'linear-gradient(to right, transparent, #d4af37, transparent)',
                   boxShadow: '0 0 10px rgba(212, 175, 55, 0.5)'
@@ -378,7 +379,7 @@ const BubbleBash = () => {
 
             {/* Decorative divider */}
             <div
-              className="w-32 h-[2px] mx-auto mb-8"
+              className="w-32 h-0.5 mx-auto mb-8"
               style={{
                 background: 'linear-gradient(to right, transparent, #d4af37, transparent)',
                 boxShadow: '0 0 10px rgba(212, 175, 55, 0.5)'
@@ -441,7 +442,7 @@ const BubbleBash = () => {
                 <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
               </svg>
               <div
-                className="w-32 h-[2px] mx-auto mt-4"
+                className="w-32 h-0.5 mx-auto mt-4"
                 style={{
                   background: 'linear-gradient(to right, transparent, #d4af37, transparent)',
                   boxShadow: '0 0 10px rgba(212, 175, 55, 0.5)'
@@ -516,22 +517,44 @@ const BubbleBash = () => {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.15 }}
-                whileHover={{ y: -8 }}
+                whileHover={{ y: ticket.isSoldOut ? 0 : -8 }}
                 className="relative group"
               >
                 {/* Golden glow effect on hover */}
-                <div
-                  className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-40 blur-2xl transition-opacity duration-500"
-                  style={{
-                    background: 'radial-gradient(circle, rgba(212, 175, 55, 0.8), transparent)'
-                  }}
-                ></div>
+                {!ticket.isSoldOut && (
+                  <div
+                    className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-40 blur-2xl transition-opacity duration-500"
+                    style={{
+                      background: 'radial-gradient(circle, rgba(212, 175, 55, 0.8), transparent)'
+                    }}
+                  ></div>
+                )}
 
                 {/* Card with glass morphism */}
-                <div className="relative rounded-3xl overflow-hidden shadow-2xl h-full flex flex-col backdrop-blur-xl border border-white/20 group-hover:border-[#d4af37]/40 transition-all duration-300">
+                <div
+                  className={`relative rounded-3xl overflow-hidden shadow-2xl h-full flex flex-col backdrop-blur-xl border transition-all duration-300 ${
+                    ticket.isSoldOut
+                      ? 'border-white/10 opacity-60 grayscale'
+                      : 'border-white/20 group-hover:border-[#d4af37]/40'
+                  }`}
+                >
+                  {/* Sold Out Overlay */}
+                  {ticket.isSoldOut && (
+                    <div className="absolute inset-0 z-20 flex items-center justify-center">
+                      <div
+                        className="rotate-[-25deg] px-6 py-2 border-4 border-white/30 rounded-lg"
+                        style={{ background: 'rgba(0,0,0,0.5)' }}
+                      >
+                        <span className="text-2xl font-extrabold tracking-widest text-white/80 uppercase">
+                          Sold Out
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
                   {/* Frosted glass background */}
                   <div
-                    className="absolute inset-0 bg-gradient-to-br from-white/10 via-white/5 to-transparent"
+                    className="absolute inset-0 bg-linear-to-br from-white/10 via-white/5 to-transparent"
                     style={{
                       backdropFilter: 'blur(20px) saturate(180%)',
                       WebkitBackdropFilter: 'blur(20px) saturate(180%)'
@@ -539,35 +562,34 @@ const BubbleBash = () => {
                   ></div>
 
                   {/* Top light reflection */}
-                  <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent"></div>
+                  <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-white/60 to-transparent"></div>
 
                   {/* Golden accent bar with glass effect */}
                   <div
                     className="relative h-1.5 z-10"
                     style={{
-                      background:
-                        'linear-gradient(to right, rgba(212, 175, 55, 0.6), rgba(244, 208, 63, 0.8), rgba(212, 175, 55, 0.6))',
-                      boxShadow: '0 2px 15px rgba(212, 175, 55, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3)'
+                      background: ticket.isSoldOut
+                        ? 'linear-gradient(to right, rgba(120,120,120,0.4), rgba(160,160,160,0.6), rgba(120,120,120,0.4))'
+                        : 'linear-gradient(to right, rgba(212, 175, 55, 0.6), rgba(244, 208, 63, 0.8), rgba(212, 175, 55, 0.6))',
+                      boxShadow: ticket.isSoldOut
+                        ? 'none'
+                        : '0 2px 15px rgba(212, 175, 55, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3)'
                     }}
                   ></div>
 
-                  <div className="relative p-8 flex flex-col flex-grow z-10">
+                  <div className="relative p-8 flex flex-col grow z-10">
                     {/* Header */}
                     <div className="mb-8">
                       <h3
                         className="text-2xl font-bold mb-2 tracking-tight text-white/95"
-                        style={{
-                          textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)'
-                        }}
+                        style={{ textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)' }}
                       >
                         {ticket.tier}
                       </h3>
                       {ticket.halfTableNote && (
                         <p
                           className="text-sm text-white/70 italic mb-3"
-                          style={{
-                            textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)'
-                          }}
+                          style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}
                         >
                           {ticket.halfTableNote}
                         </p>
@@ -576,11 +598,13 @@ const BubbleBash = () => {
                         <span
                           className="text-5xl font-extrabold"
                           style={{
-                            background: 'linear-gradient(135deg, #d4af37, #f4d03f, #d4af37)',
+                            background: ticket.isSoldOut
+                              ? 'linear-gradient(135deg, #888, #aaa, #888)'
+                              : 'linear-gradient(135deg, #d4af37, #f4d03f, #d4af37)',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
                             backgroundClip: 'text',
-                            filter: 'drop-shadow(0 2px 8px rgba(212, 175, 55, 0.4))'
+                            filter: ticket.isSoldOut ? 'none' : 'drop-shadow(0 2px 8px rgba(212, 175, 55, 0.4))'
                           }}
                         >
                           {ticket.price}
@@ -589,15 +613,15 @@ const BubbleBash = () => {
                     </div>
 
                     {/* Perks */}
-                    <ul className="space-y-4 mb-8 flex-grow">
+                    <ul className="space-y-4 mb-8 grow">
                       {ticket.perks.map((perk, idx) => (
                         <li key={idx} className="flex items-start gap-3">
                           <svg
-                            className="w-5 h-5 flex-shrink-0 mt-0.5"
-                            fill="#d4af37"
+                            className="w-5 h-5 shrink-0 mt-0.5"
+                            fill={ticket.isSoldOut ? '#666' : '#d4af37'}
                             viewBox="0 0 20 20"
                             style={{
-                              filter: 'drop-shadow(0 0 6px rgba(212, 175, 55, 0.5))'
+                              filter: ticket.isSoldOut ? 'none' : 'drop-shadow(0 0 6px rgba(212, 175, 55, 0.5))'
                             }}
                           >
                             <path
@@ -608,9 +632,7 @@ const BubbleBash = () => {
                           </svg>
                           <span
                             className="text-sm leading-relaxed text-white/85"
-                            style={{
-                              textShadow: '0 1px 2px rgba(0, 0, 0, 0.2)'
-                            }}
+                            style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.2)' }}
                           >
                             {perk}
                           </span>
@@ -618,62 +640,73 @@ const BubbleBash = () => {
                       ))}
                     </ul>
 
-                    {/* CTA Button with glass effect */}
-
-                    <a
-                      href="https://ci.ovationtix.com/35505/production/1252045?performanceId=11696147"
-                      onClick={() => {
-                        sendGAEvent('event', 'select_ticket_tier', {
-                          tier_name: ticket.tier,
-                          tier_price: ticket.price,
-                          perks_count: ticket.perks.length,
-                          perks_list: ticket.perks,
-                          has_half_table_option: Boolean(ticket.halfTableNote),
-                          gradient_style: ticket.gradient,
-                          accent_style: ticket.accent,
-                          source_page: 'golden_bubbles_bash_page',
-                          ticket_url: 'https://ci.ovationtix.com/35505/production/1252045?performanceId=11696147',
-                          user_scroll_depth: Math.round(
-                            (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100
-                          ),
-                          time_on_page: Math.round((Date.now() - performance.timeOrigin) / 1000),
-                          viewport_width: window.innerWidth,
-                          viewport_height: window.innerHeight,
-                          device_type:
-                            window.innerWidth < 768 ? 'mobile' : window.innerWidth < 1024 ? 'tablet' : 'desktop',
-                          timestamp: new Date().toISOString()
-                        })
-                      }}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="relative w-full px-4 py-4 rounded-2xl text-center font-bold text-white overflow-hidden group/btn backdrop-blur-sm"
-                    >
-                      {/* Glass button background */}
+                    {/* CTA Button */}
+                    {ticket.isSoldOut ? (
                       <div
-                        className="absolute inset-0 transition-all duration-300 group-hover/btn:scale-[1.02]"
+                        className="relative w-full px-4 py-4 rounded-2xl text-center font-bold overflow-hidden cursor-not-allowed"
                         style={{
-                          background:
-                            'linear-gradient(135deg, rgba(212, 175, 55, 0.9), rgba(244, 208, 63, 0.95), rgba(201, 169, 97, 0.9))',
-                          boxShadow:
-                            '0 4px 20px rgba(212, 175, 55, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.2)'
-                        }}
-                      ></div>
-
-                      {/* Light shimmer effect */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000"></div>
-
-                      {/* Top highlight */}
-                      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/50 to-transparent"></div>
-
-                      <span
-                        className="relative font-semibold tracking-wide text-gray-900"
-                        style={{
-                          textShadow: '0 1px 3px rgba(0, 0, 0, 0.4)'
+                          background: 'rgba(255,255,255,0.05)',
+                          border: '1px solid rgba(255,255,255,0.1)'
                         }}
                       >
-                        Select {ticket.tier}
-                      </span>
-                    </a>
+                        <span className="relative font-semibold tracking-widest text-white/30 uppercase text-sm">
+                          Sold Out
+                        </span>
+                      </div>
+                    ) : (
+                      <a
+                        href="https://ci.ovationtix.com/35505/production/1252045?performanceId=11696147"
+                        onClick={() => {
+                          sendGAEvent('event', 'select_ticket_tier', {
+                            tier_name: ticket.tier,
+                            tier_price: ticket.price,
+                            perks_count: ticket.perks.length,
+                            perks_list: ticket.perks,
+                            has_half_table_option: Boolean(ticket.halfTableNote),
+                            gradient_style: ticket.gradient,
+                            accent_style: ticket.accent,
+                            source_page: 'golden_bubbles_bash_page',
+                            ticket_url: 'https://ci.ovationtix.com/35505/production/1252045?performanceId=11696147',
+                            user_scroll_depth: Math.round(
+                              (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100
+                            ),
+                            time_on_page: Math.round((Date.now() - performance.timeOrigin) / 1000),
+                            viewport_width: window.innerWidth,
+                            viewport_height: window.innerHeight,
+                            device_type:
+                              window.innerWidth < 768 ? 'mobile' : window.innerWidth < 1024 ? 'tablet' : 'desktop',
+                            timestamp: new Date().toISOString()
+                          })
+                        }}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="relative w-full px-4 py-4 rounded-2xl text-center font-bold text-white overflow-hidden group/btn backdrop-blur-sm"
+                      >
+                        {/* Glass button background */}
+                        <div
+                          className="absolute inset-0 transition-all duration-300 group-hover/btn:scale-[1.02]"
+                          style={{
+                            background:
+                              'linear-gradient(135deg, rgba(212, 175, 55, 0.9), rgba(244, 208, 63, 0.95), rgba(201, 169, 97, 0.9))',
+                            boxShadow:
+                              '0 4px 20px rgba(212, 175, 55, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.2)'
+                          }}
+                        ></div>
+
+                        {/* Light shimmer effect */}
+                        <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/25 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000"></div>
+
+                        {/* Top highlight */}
+                        <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-white/50 to-transparent"></div>
+
+                        <span
+                          className="relative font-semibold tracking-wide text-gray-900"
+                          style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.4)' }}
+                        >
+                          Select {ticket.tier}
+                        </span>
+                      </a>
+                    )}
                   </div>
                 </div>
               </motion.div>
@@ -682,7 +715,7 @@ const BubbleBash = () => {
         </motion.div>
 
         {/* FOOTER */}
-        <footer className="mt-20 text-center text-gray-500 text-sm border-t border-[#1a1a1a] pt-6">
+        <footer className="mt-20 text-center text-gray-500 text-sm border-t border-inkblack pt-6">
           © {new Date().getFullYear()} The Pops Orchestra of Bradenton and Sarasota. All rights reserved.
         </footer>
       </div>

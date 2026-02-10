@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Check, ChevronDown, ChevronRight, Edit2, Eye, EyeOff, Save, X } from 'lucide-react'
+import { Check, ChevronDown, ChevronRight, Edit2, Eye, EyeOff, X } from 'lucide-react'
 import { PageField } from '@/app/types/common.types'
 import { RightPanel } from './RightPanel'
 
@@ -32,7 +32,7 @@ export function Field({ field, onChange }: { field: PageField | any; onChange: (
               />
               {isEditing && (
                 <button
-                  onClick={() => onChange(field?.value?.filter((_, idx) => idx !== i))}
+                  onClick={() => onChange(field?.value?.filter((_, idx: number) => idx !== i))}
                   className="px-3 bg-red-600 hover:bg-red-700 text-white rounded-lg"
                 >
                   <X className="w-4 h-4" />

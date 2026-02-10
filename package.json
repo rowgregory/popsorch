@@ -1,14 +1,13 @@
 {
   "name": "popsorch",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "npm run generate && next build",
     "start": "next start",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "generate": "prisma generate",
-    "postbuild": "next-sitemap --config next-sitemap.config.cjs"
+    "lint": "eslint",
+    "generate": "prisma generate"
   },
   "dependencies": {
     "@next/third-parties": "^16.0.7",
@@ -21,8 +20,7 @@
     "jose": "^5.9.6",
     "lucide-react": "^0.515.0",
     "motion": "^12.4.3",
-    "next": "^16.0.10",
-    "next-sitemap": "^4.2.3",
+    "next": "16.1.6",
     "ol": "^10.2.1",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
@@ -35,18 +33,16 @@
     "web-push": "^3.6.7"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/redux-persist": "^4.0.0",
     "@types/web-push": "^3.6.4",
-    "autoprefixer": "^10.4.22",
     "eslint": "^9",
-    "eslint-config-next": "^15.1.3",
-    "postcss": "^8.5.6",
+    "eslint-config-next": "16.1.4",
     "prisma": "^5.22.0",
-    "tailwindcss": "^3.4.19",
+    "tailwindcss": "^4",
     "typescript": "^5"
   }
 }

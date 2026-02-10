@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { useAccessibilitySelector, useAppDispatch } from '@/app/redux/store'
+import { store, useAccessibilitySelector } from '@/app/redux/store'
 import useCustomPathname from '@/app/hooks/useCustomPathname'
 import { backdropVariants, drawerVariants } from '@/app/lib/constants/motion'
 import { ALargeSmall, BetweenVerticalStart, Contrast, Link, RefreshCcw, X } from 'lucide-react'
@@ -28,51 +28,38 @@ const StepIndicator: React.FC<StepIndicatorProps> = ({ currentStep }) => {
 }
 
 const AccessibilityDrawer = () => {
-  const dispatch = useAppDispatch()
   const path = useCustomPathname()
   const { accessibility } = useAccessibilitySelector()
-  const [highContrast, setHighContrast] = useState(false)
-  const [highlightLinks, setHighlightLinks] = useState(false)
-  const [stepIndex, setStepIndex] = useState(0)
-  const [textSpacing, setTextSpacing] = useState(false)
-  const [dyslexiaFriendly, setDyslexiaFriendly] = useState(false)
-  const [lineHeight, setLineHeight] = useState(false)
+  const [highContrast, setHighContrast] = useState(() =>
+    typeof window !== 'undefined' ? localStorage.getItem('highContrast') === 'true' : false
+  )
+  const [highlightLinks, setHighlightLinks] = useState(() =>
+    typeof window !== 'undefined' ? localStorage.getItem('highlightLinks') === 'true' : false
+  )
+  const [stepIndex, setStepIndex] = useState(() =>
+    typeof window !== 'undefined' ? parseInt(localStorage.getItem('stepIndex') || '0') : 0
+  )
+  const [textSpacing, setTextSpacing] = useState(() =>
+    typeof window !== 'undefined' ? localStorage.getItem('textSpacing') === 'true' : false
+  )
+  const [dyslexiaFriendly, setDyslexiaFriendly] = useState(() =>
+    typeof window !== 'undefined' ? localStorage.getItem('dyslexiaFriendly') === 'true' : false
+  )
+  const [lineHeight, setLineHeight] = useState(() =>
+    typeof window !== 'undefined' ? localStorage.getItem('lineHeight') === 'true' : false
+  )
 
   // Use a ref to store the original font sizes of the elements
   const originalFontSizesRef = useRef<Map<HTMLElement, string>>(new Map())
 
-  // Load from localStorage on mount and initialize both local state AND Redux
+  const isMounted = useRef(false)
+
   useEffect(() => {
-    const savedHighContrast = localStorage.getItem('highContrast') === 'true'
-    const savedHighlightLinks = localStorage.getItem('highlightLinks') === 'true'
-    const savedStepIndex = parseInt(localStorage.getItem('stepIndex') || '0')
-    const savedTextSpacing = localStorage.getItem('textSpacing') === 'true' // Fix: was 'stepIndex'
-    const savedDyslexiaFriendly = localStorage.getItem('dyslexiaFriendly') === 'true'
-    const savedLineHeight = localStorage.getItem('lineHeight') === 'true'
+    if (!isMounted.current) {
+      isMounted.current = true
+      return
+    }
 
-    // Set local state
-    setHighContrast(savedHighContrast)
-    setHighlightLinks(savedHighlightLinks)
-    setStepIndex(savedStepIndex)
-    setTextSpacing(savedTextSpacing)
-    setDyslexiaFriendly(savedDyslexiaFriendly)
-    setLineHeight(savedLineHeight)
-
-    // Set Redux state
-    dispatch(
-      setAccessibilitySettings({
-        highContrast: savedHighContrast,
-        highlightLinks: savedHighlightLinks,
-        stepIndex: savedStepIndex,
-        textSpacing: savedTextSpacing,
-        dyslexiaFriendly: savedDyslexiaFriendly,
-        lineHeight: savedLineHeight
-      })
-    )
-  }, [dispatch]) // Only run on mount
-
-  // Sync changes to both localStorage AND Redux when local state changes
-  useEffect(() => {
     localStorage.setItem('highContrast', String(highContrast))
     localStorage.setItem('highlightLinks', String(highlightLinks))
     localStorage.setItem('stepIndex', String(stepIndex))
@@ -80,7 +67,7 @@ const AccessibilityDrawer = () => {
     localStorage.setItem('dyslexiaFriendly', String(dyslexiaFriendly))
     localStorage.setItem('lineHeight', String(lineHeight))
 
-    dispatch(
+    store.dispatch(
       setAccessibilitySettings({
         highContrast,
         highlightLinks,
@@ -90,7 +77,44 @@ const AccessibilityDrawer = () => {
         lineHeight
       })
     )
-  }, [dispatch, dyslexiaFriendly, highContrast, highlightLinks, lineHeight, stepIndex, textSpacing])
+  }, [highContrast, highlightLinks, stepIndex, textSpacing, dyslexiaFriendly, lineHeight])
+
+  useEffect(() => {
+    // Apply DOM changes on mount
+    document.documentElement.setAttribute('data-high-contrast', String(highContrast))
+    document.documentElement.classList.toggle('dyslexia-friendly', dyslexiaFriendly)
+
+    if (highlightLinks) {
+      document.querySelectorAll('a').forEach((link) => {
+        link.style.color = '#ff0'
+        link.style.textDecoration = 'underline'
+        link.style.textDecorationThickness = '2px'
+      })
+    }
+
+    if (textSpacing) {
+      document.querySelectorAll('h1, h2, h3, h4, h5, h6, a, p, label, li, span').forEach((el: any) => {
+        el.style.letterSpacing = '0.1em'
+      })
+    }
+
+    if (lineHeight) {
+      document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, li, span').forEach((el: any) => {
+        el.style.lineHeight = '1.8'
+      })
+    }
+
+    store.dispatch(
+      setAccessibilitySettings({
+        highContrast,
+        highlightLinks,
+        stepIndex,
+        textSpacing,
+        dyslexiaFriendly,
+        lineHeight
+      })
+    )
+  }, [dyslexiaFriendly, highContrast, highlightLinks, lineHeight, stepIndex, textSpacing])
 
   useEffect(() => {
     // Function to handle font size scaling
@@ -141,22 +165,20 @@ const AccessibilityDrawer = () => {
   }
 
   useEffect(() => {
-    if (highContrast) {
-      document.body.classList.add('high-contrast')
-    } else {
-      document.body.classList.remove('high-contrast')
-    }
+    document.documentElement.setAttribute('data-high-contrast', String(highContrast))
   }, [highContrast, path])
 
   useEffect(() => {
     const links = document.querySelectorAll('a')
     links.forEach((link) => {
       if (highlightLinks) {
-        link.style.backgroundColor = 'yellow'
-        link.style.color = 'black'
+        link.style.color = '#ff0'
+        link.style.textDecoration = 'underline'
+        link.style.textDecorationThickness = '2px'
       } else {
-        link.style.backgroundColor = ''
         link.style.color = ''
+        link.style.textDecoration = ''
+        link.style.textDecorationThickness = ''
       }
     })
   }, [highlightLinks, path])
@@ -205,10 +227,11 @@ const AccessibilityDrawer = () => {
     setDyslexiaFriendly(false)
     setLineHeight(false)
 
-    // Also optionally clear body classes if you use them
-    document.body.classList.remove('high-contrast', 'line-height-expanded', 'dyslexia-friendly')
+    // DOM cleanup
+    document.documentElement.setAttribute('data-high-contrast', 'false')
+    document.documentElement.classList.remove('dyslexia-friendly')
 
-    // If you're also applying inline styles manually (like fontFamily, lineHeight), you could clear them too
+    // Reset inline styles
     const textElements = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, li, span, div, a, label')
     textElements.forEach((element: any) => {
       element.style.fontFamily = ''
@@ -216,14 +239,17 @@ const AccessibilityDrawer = () => {
       element.style.backgroundColor = ''
       element.style.color = ''
       element.style.letterSpacing = ''
+      element.style.textDecoration = ''
+      element.style.textDecorationThickness = ''
     })
 
-    localStorage.setItem('highContrast', String(false))
-    localStorage.setItem('highlightLinks', String(false))
-    localStorage.setItem('stepIndex', String(0))
-    localStorage.setItem('textSpacing', String(false))
-    localStorage.setItem('dyslexiaFriendly', String(false))
-    localStorage.setItem('lineHeight', String(false))
+    // Clear localStorage
+    localStorage.setItem('highContrast', 'false')
+    localStorage.setItem('highlightLinks', 'false')
+    localStorage.setItem('stepIndex', '0')
+    localStorage.setItem('textSpacing', 'false')
+    localStorage.setItem('dyslexiaFriendly', 'false')
+    localStorage.setItem('lineHeight', 'false')
   }
 
   return (
@@ -232,7 +258,7 @@ const AccessibilityDrawer = () => {
         <>
           <motion.div
             variants={backdropVariants}
-            onClick={() => dispatch(setToggleAccessibilityDrawer(accessibility))}
+            onClick={() => store.dispatch(setToggleAccessibilityDrawer(accessibility))}
             initial="initial"
             animate="animate"
             exit="exit"
@@ -249,12 +275,12 @@ const AccessibilityDrawer = () => {
               duration: 0.3,
               ease: 'easeInOut'
             }}
-            className="h-dvh w-full xl:w-1/2 fixed top-0 right-0 z-[100] bg-neutral-950 shadow-[-10px_0_30px_-5px_rgba(0,0,0,0.2)] flex flex-col overflow-hidden"
+            className="h-dvh w-full xl:w-1/2 fixed top-0 right-0 z-100 bg-neutral-950 shadow-[-10px_0_30px_-5px_rgba(0,0,0,0.2)] flex flex-col overflow-hidden"
           >
             <div className="flex-1 overflow-y-auto p-6 relative">
               <X
                 className="text-white w-5 h-5 absolute top-2 right-2 z-50"
-                onClick={() => dispatch(setToggleAccessibilityDrawer(true))}
+                onClick={() => store.dispatch(setToggleAccessibilityDrawer(true))}
               />
               <div className="max-w-4xl mx-auto">
                 <div className="text-center mb-8">
@@ -266,7 +292,7 @@ const AccessibilityDrawer = () => {
                   {/* Text Size */}
                   <div
                     onClick={cycleTextSize}
-                    className="group relative bg-gradient-to-br from-neutral-800 to-neutral-900 p-6 rounded-xl border border-neutral-700/50 hover:border-neutral-600/50 cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-black/20 hover:-translate-y-1"
+                    className="group relative bg-linear-to-br from-neutral-800 to-neutral-900 p-6 rounded-xl border border-neutral-700/50 hover:border-neutral-600/50 cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-black/20 hover:-translate-y-1"
                   >
                     <div className="flex flex-col items-center space-y-4">
                       <div className="flex items-center justify-center w-16 h-16 bg-neutral-700/50 rounded-full group-hover:bg-neutral-600/50 transition-colors">
@@ -287,7 +313,7 @@ const AccessibilityDrawer = () => {
                   {/* High Contrast */}
                   <div
                     onClick={() => setHighContrast(!highContrast)}
-                    className="group relative bg-gradient-to-br from-neutral-800 to-neutral-900 p-6 rounded-xl border border-neutral-700/50 hover:border-neutral-600/50 cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-black/20 hover:-translate-y-1"
+                    className="group relative bg-linear-to-br from-neutral-800 to-neutral-900 p-6 rounded-xl border border-neutral-700/50 hover:border-neutral-600/50 cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-black/20 hover:-translate-y-1"
                   >
                     <div className="flex flex-col items-center space-y-4">
                       <div className="flex items-center justify-center w-16 h-16 bg-neutral-700/50 rounded-full group-hover:bg-neutral-600/50 transition-colors">
@@ -309,7 +335,7 @@ const AccessibilityDrawer = () => {
                   {/* Highlight Links */}
                   <div
                     onClick={() => setHighlightLinks(!highlightLinks)}
-                    className="group relative bg-gradient-to-br from-neutral-800 to-neutral-900 p-6 rounded-xl border border-neutral-700/50 hover:border-neutral-600/50 cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-black/20 hover:-translate-y-1"
+                    className="group relative bg-linear-to-br from-neutral-800 to-neutral-900 p-6 rounded-xl border border-neutral-700/50 hover:border-neutral-600/50 cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-black/20 hover:-translate-y-1"
                   >
                     <div className="flex flex-col items-center space-y-4">
                       <div className="flex items-center justify-center w-16 h-16 bg-neutral-700/50 rounded-full group-hover:bg-neutral-600/50 transition-colors">
@@ -331,7 +357,7 @@ const AccessibilityDrawer = () => {
                   {/* Text Spacing */}
                   <div
                     onClick={() => setTextSpacing(!textSpacing)}
-                    className="group relative bg-gradient-to-br from-neutral-800 to-neutral-900 p-6 rounded-xl border border-neutral-700/50 hover:border-neutral-600/50 cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-black/20 hover:-translate-y-1"
+                    className="group relative bg-linear-to-br from-neutral-800 to-neutral-900 p-6 rounded-xl border border-neutral-700/50 hover:border-neutral-600/50 cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-black/20 hover:-translate-y-1"
                   >
                     <div className="flex flex-col items-center space-y-4">
                       <div className="flex items-center justify-center w-16 h-16 bg-neutral-700/50 rounded-full group-hover:bg-neutral-600/50 transition-colors">
@@ -353,7 +379,7 @@ const AccessibilityDrawer = () => {
                   {/* Dyslexia-Friendly */}
                   <div
                     onClick={() => setDyslexiaFriendly(!dyslexiaFriendly)}
-                    className="group relative bg-gradient-to-br from-neutral-800 to-neutral-900 p-6 rounded-xl border border-neutral-700/50 hover:border-neutral-600/50 cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-black/20 hover:-translate-y-1"
+                    className="group relative bg-linear-to-br from-neutral-800 to-neutral-900 p-6 rounded-xl border border-neutral-700/50 hover:border-neutral-600/50 cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-black/20 hover:-translate-y-1"
                   >
                     <div className="flex flex-col items-center space-y-4">
                       <div className="flex items-center justify-center w-16 h-16 bg-neutral-700/50 rounded-full group-hover:bg-neutral-600/50 transition-colors">
@@ -375,7 +401,7 @@ const AccessibilityDrawer = () => {
                   {/* Line Height */}
                   <div
                     onClick={() => setLineHeight(!lineHeight)}
-                    className="group relative bg-gradient-to-br from-neutral-800 to-neutral-900 p-6 rounded-xl border border-neutral-700/50 hover:border-neutral-600/50 cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-black/20 hover:-translate-y-1"
+                    className="group relative bg-linear-to-br from-neutral-800 to-neutral-900 p-6 rounded-xl border border-neutral-700/50 hover:border-neutral-600/50 cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-black/20 hover:-translate-y-1"
                   >
                     <div className="flex flex-col items-center space-y-4">
                       <div className="flex items-center justify-center w-16 h-16 bg-neutral-700/50 rounded-full group-hover:bg-neutral-600/50 transition-colors">
@@ -399,7 +425,7 @@ const AccessibilityDrawer = () => {
                 <div className="flex justify-center">
                   <button
                     onClick={() => reset()}
-                    className="group flex items-center gap-3 bg-gradient-to-r from-blaze to-blazehover hover:from-blazehover hover:to-blaze px-8 py-4 rounded-xl font-changa uppercase text-sm font-bold tracking-wider text-white transition-all duration-300 hover:shadow-xl hover:shadow-blaze/25 hover:-translate-y-0.5"
+                    className="group flex items-center gap-3 bg-linear-to-r from-blaze to-blazehover hover:from-blazehover hover:to-blaze px-8 py-4 rounded-xl font-changa uppercase text-sm font-bold tracking-wider text-white transition-all duration-300 hover:shadow-xl hover:shadow-blaze/25 hover:-translate-y-0.5"
                   >
                     <RefreshCcw className="w-5 h-5 group-hover:rotate-180 transition-transform duration-500" />
                     Reset All Settings

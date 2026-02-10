@@ -25,8 +25,8 @@ const NewsletterForm: FC<{ handleSubmit: any; isLoading: boolean }> = ({ handleS
   }
 
   return (
-    <form onSubmit={handleSubmit} className="w-full px-4 pt-28 py-40">
-      <div className="max-w-[516px] 760:max-w-[900px] w-full mx-auto">
+    <form onSubmit={handleSubmit} className="w-full px-4 990:px-12 xl:px-4">
+      <div className="max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 1590:max-w-screen-1400 w-full mx-auto pt-32 pb-44">
         {success ? (
           <div className="flex flex-col justify-center items-center gap-y-10">
             <h1 className="text-center font-changa text-2xl font-medium">
@@ -47,8 +47,8 @@ const NewsletterForm: FC<{ handleSubmit: any; isLoading: boolean }> = ({ handleS
               type="NEWSLETTER_FORM_PAGE"
               textBlockKey="newsletterFormPageTitle"
             />
-            <div className="flex flex-col gap-y-7 mt-14 max-w-screen-md mx-auto w-full relative">
-              <h1 className="text-2xl font-changa mt-5 -mb-3">User Details</h1>
+            <div className="flex flex-col gap-y-7 mt-14 max-w-3xl mx-auto w-full relative">
+              <h1 className="font-changa text-2xl mt-5 -mb-3">User Details</h1>
               <div className="flex flex-col md:flex-row gap-y-7 md:gap-7">
                 <CampInput
                   name="firstName"
@@ -80,7 +80,7 @@ const NewsletterForm: FC<{ handleSubmit: any; isLoading: boolean }> = ({ handleS
                   placeholder="Phone number"
                 />
               </div>
-              <h1 className="text-2xl font-changa mt-5 -mb-3">Address</h1>
+              <h1 className="font-changa text-2xl mt-5 -mb-3">Address</h1>
               <div className="flex flex-col md:flex-row gap-y-7 md:gap-7">
                 <CampInput
                   name="addr1"
@@ -110,7 +110,7 @@ const NewsletterForm: FC<{ handleSubmit: any; isLoading: boolean }> = ({ handleS
                 />
               </div>
               <div className="flex flex-col gap-y-4">
-                <h1 className="text-2xl font-changa mt-5 mb-3">I&apos;m interested in:</h1>
+                <h1 className="font-changa text-2xl mt-5 mb-3">I&apos;m interested in:</h1>
                 <div className="flex items-center gap-x-3">
                   <Switch
                     enabled={newsletterForm?.inputs?.isOption1 || false}
@@ -118,7 +118,7 @@ const NewsletterForm: FC<{ handleSubmit: any; isLoading: boolean }> = ({ handleS
                     name="isOption1"
                     color="blaze"
                   />
-                  <div className="font-semibold text-sm">Season Tickets</div>
+                  <div className="font-lato font-semibold text-sm text-white">Season Tickets</div>
                 </div>
                 <div className="flex items-center gap-x-3">
                   <Switch
@@ -127,7 +127,7 @@ const NewsletterForm: FC<{ handleSubmit: any; isLoading: boolean }> = ({ handleS
                     name="isOption2"
                     color="blaze"
                   />
-                  <div className="font-semibold text-sm">Special Events</div>
+                  <div className="font-lato font-semibold text-sm text-white">Special Events</div>
                 </div>
                 <div className="flex items-center gap-x-3">
                   <Switch
@@ -136,7 +136,7 @@ const NewsletterForm: FC<{ handleSubmit: any; isLoading: boolean }> = ({ handleS
                     name="isOption3"
                     color="blaze"
                   />
-                  <div className="font-semibold text-sm">Youth Education</div>
+                  <div className="font-lato font-semibold text-sm text-white">Youth Education</div>
                 </div>
                 <div className="flex items-center gap-x-3">
                   <Switch
@@ -145,18 +145,18 @@ const NewsletterForm: FC<{ handleSubmit: any; isLoading: boolean }> = ({ handleS
                     name="isOption4"
                     color="blaze"
                   />
-                  <div className="font-semibold text-sm">Other</div>
+                  <div className="font-lato font-semibold text-sm text-white">Other</div>
                 </div>
                 <button
                   type="button"
                   onClick={() => selectAllSwitches()}
-                  className="text-left text-sm text-sunburst font-semibold"
+                  className="text-left text-sm text-sunburst font-semibold font-lato hover:text-sunbursthover transition-colors"
                 >
                   {newsletterForm.inputs.isSelectAll ? 'Deselect' : 'Select'} All
                 </button>
               </div>
               <div className="flex flex-col gap-y-4 mt-3">
-                <h1 className="text-2xl font-changa mt-5">New Patron</h1>
+                <h1 className="font-changa text-2xl mt-5">New Patron</h1>
                 <div className="flex items-center gap-x-3">
                   <Switch
                     enabled={newsletterForm?.inputs?.isNewPatron || false}
@@ -164,11 +164,11 @@ const NewsletterForm: FC<{ handleSubmit: any; isLoading: boolean }> = ({ handleS
                     name="isNewPatron"
                     color="blaze"
                   />
-                  <div className="font-semibold text-sm">Are You A New Patron of The Pops?</div>
+                  <div className="font-lato font-semibold text-sm text-white">Are You A New Patron of The Pops?</div>
                 </div>
               </div>
               <div className="flex flex-col gap-y-4 relative">
-                <h1 className="text-2xl font-changa mt-5">Privacy</h1>
+                <h1 className="font-changa text-2xl mt-5">Privacy</h1>
                 <div className="flex items-center gap-x-3">
                   <Switch
                     enabled={newsletterForm?.inputs?.agreedToPrivacyStatement || false}
@@ -176,18 +176,18 @@ const NewsletterForm: FC<{ handleSubmit: any; isLoading: boolean }> = ({ handleS
                     name="agreedToPrivacyStatement"
                     color="blaze"
                   />
-                  <div className="font-semibold text-sm">
+                  <div className="font-lato font-semibold text-sm text-white">
                     I agree with the storage and handling of my data by this website.
                   </div>
                   {newsletterForm?.errors?.agreedToPrivacyStatement && (
-                    <div className="text-blaze font-changa absolute left-[102px] 760:left-[107px] -bottom-5 760:-bottom-2 text-13 mt-1">
+                    <div className="text-blaze font-changa absolute left-25.5 760:left-26.75 -bottom-5 760:-bottom-2 text-13 mt-1">
                       {newsletterForm?.errors?.agreedToPrivacyStatement}
                     </div>
                   )}
                 </div>
               </div>
               {(error || newsletterForm?.errors) && (
-                <div className="text-blaze font-changa absolute left-1/2 -translate-x-1/2 576:-translate-x-0 576:left-0 -bottom-7 text-13 mt-1">
+                <div className="text-blaze font-changa absolute left-1/2 -translate-x-1/2 576:translate-x-0 576:left-0 -bottom-7 text-13 mt-1">
                   {error || 'Please correct all errors.'}
                 </div>
               )}

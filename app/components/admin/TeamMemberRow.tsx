@@ -74,7 +74,7 @@ const TeamMemberRow: FC<{ teamMember: TeamMemberProps }> = ({ teamMember }) => {
                 className="w-12 h-12 rounded-full object-cover ring-2 ring-purple-500/20 group-hover:ring-purple-500/40 transition-all duration-300"
               />
             ) : (
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white font-semibold text-lg ring-2 ring-purple-500/20 group-hover:ring-purple-500/40 transition-all duration-300">
+              <div className="w-12 h-12 rounded-full bg-linear-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white font-semibold text-lg ring-2 ring-purple-500/20 group-hover:ring-purple-500/40 transition-all duration-300">
                 {teamMember?.firstName?.charAt(0)}
                 {teamMember?.lastName?.charAt(0)}
               </div>

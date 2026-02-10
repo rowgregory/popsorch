@@ -1,7 +1,7 @@
 import { getHeaderButtons } from '../actions/getHeaderButtons'
 import { getUser } from '../actions/getUser'
 import { getUserId } from '../actions/getUserById'
-import AdminClientLayout from './AdminLayoutClient'
+import AdminClientLayout from '../components/pages/AdminLayoutClient'
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const userId = await getUserId()

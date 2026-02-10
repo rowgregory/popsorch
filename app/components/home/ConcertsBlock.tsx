@@ -34,8 +34,8 @@ const ConcertsBlock = ({ pageData, concerts }) => {
         </h2>
 
         {/* Concerts Grid */}
-        <div className="max-w-[520px] 760:max-w-screen-576 990:max-w-[800px] 1200:max-w-screen-1160 1590:max-w-screen-1400 relative w-full mb-10 h-full">
-          <div className="flex flex-col gap-y-8 transition-transform duration-300 ease-in-out">
+        <div className="max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 1590:max-w-screen-1400 relative w-full mb-10">
+          <div className="grid grid-cols-1 1200:grid-cols-2 gap-4">
             {concerts?.map((concert: IConcert, index: number) => (
               <HomeConcertCard key={concert.id} concert={concert} index={index} />
             ))}
@@ -46,7 +46,7 @@ const ConcertsBlock = ({ pageData, concerts }) => {
         <motion.div whileHover={{ x: 4 }} whileTap={{ scale: 0.98 }}>
           <Link
             href={concert?.btnHref || '/concerts'}
-            className="mt-8 px-8 py-3 bg-blaze text-white font-semibold rounded-lg hover:bg-blaze/90 transition-all duration-300 inline-flex items-center gap-2"
+            className="mt-8 px-8 py-3 bg-blaze hover:bg-blazehover text-white font-changa uppercase tracking-wider text-sm transition-colors duration-300 inline-flex items-center gap-2"
           >
             <span>{concert?.btnText}</span>
             <ChevronRight className="w-4 h-4" />

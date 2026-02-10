@@ -1,10 +1,6 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import {
-  setCloseAdminSidebar,
-  setOpenConductorModal,
-  setOpenTheCauldronDrawer
-} from '@/app/redux/features/dashboardSlice'
+import { setCloseAdminSidebar, setOpenConductorModal } from '@/app/redux/features/dashboardSlice'
 import { useAppDispatch, useUserSelector } from '@/app/redux/store'
 import { X } from 'lucide-react'
 import { adminNavigationLinkData } from '@/public/data/navigation-link.data'
@@ -28,7 +24,7 @@ const AdminSidebar = () => {
       <div className="border-b border-neutral-800">
         <div className="flex items-center justify-between py-4 px-6">
           <Link href="/" className="text-lg font-bold text-neutral-100">
-            The Alchemy Lab
+            The Pops Orchestra
           </Link>
           {onClose && (
             <motion.button
@@ -51,24 +47,19 @@ const AdminSidebar = () => {
               {group.items.map((item) => {
                 const IconComponent = item.icon
                 const isActive = item.path && pathname === item.path
-                const isNew = item.path === '/admin/the-cauldron' || item.path === '/admin/questions'
+                const isNew = item.path === '/admin/questions'
 
                 return (
                   <Link
                     key={item.path}
                     href={item.path === '/admin/the-cauldron' ? '/admin/the-cauldron?page=home' : item.path || ''}
                     onClick={() => {
-                      if (item.path === '/admin/the-cauldron') {
-                        dispatch(setOpenTheCauldronDrawer())
-                      }
-                      if (item.path === '/admin/apothecary/codex') {
-                        handleApothecaryClick()
-                      }
+                      if (item.path === '/admin/apothecary/codex') handleApothecaryClick()
                       onClose()
                     }}
                     className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all ${
                       isActive
-                        ? 'bg-gradient-to-r from-sky-600 to-indigo-600 text-white'
+                        ? 'bg-linear-to-r from-blaze to-sunburst text-white'
                         : 'text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200'
                     }`}
                   >
@@ -79,7 +70,7 @@ const AdminSidebar = () => {
                         <motion.div
                           animate={{ scale: [1, 1.2, 1] }}
                           transition={{ duration: 2, repeat: Infinity }}
-                          className="w-2 h-2 rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 shadow-lg shadow-purple-500/50"
+                          className="w-2 h-2 rounded-full bg-linear-to-r from-blaze to-sunburst shadow-lg shadow-blaze/50"
                         />
                       )}
                     </div>

@@ -10,11 +10,11 @@ import {
   Users,
   Newspaper,
   User,
-  Wand,
   Database,
   FileQuestionIcon,
   GitBranch,
-  FlaskRound
+  FlaskRound,
+  Ticket
 } from 'lucide-react'
 
 export const adminNavigationLinkData = (path: string, role: string) => {
@@ -123,7 +123,7 @@ export const adminNavigationLinkData = (path: string, role: string) => {
 
   const ticketingGroup = [
     {
-      icon: Wand,
+      icon: Ticket,
       label: 'Apothecary',
       path: '/admin/apothecary/codex',
       active: isStringInPath(path, 'apothecary'),
@@ -137,12 +137,12 @@ export const adminNavigationLinkData = (path: string, role: string) => {
       items: dashboardGroup
     },
     {
-      title: 'Content',
-      items: contentGroup
-    },
-    {
       title: 'Business',
       items: businessGroup
+    },
+    {
+      title: 'Content',
+      items: contentGroup
     },
     {
       title: 'Communication',

@@ -8,7 +8,7 @@ interface ValidationErrors {
   registerCode: string
 }
 
-const validateRegisterForm = (inputs: ValidationErrors, setErrors: any, dispatch: any) => {
+const validateRegisterForm = (inputs: ValidationErrors, setErrors: any) => {
   const newErrors: any = {}
 
   if (!inputs?.firstName?.trim()) {

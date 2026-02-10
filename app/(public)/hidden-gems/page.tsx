@@ -17,7 +17,7 @@ const organizations = [
       'Their annual Jazz Festival in March 2025 will feature Terell Stafford as Music Director, Emmett Cohen Trio with Georgia Heers, Tony Monaco & Eric Alexander, Marcus Miller and much more.',
     festivalLink: 'https://www.sarasotajazzfestival.com/',
     highlights: ['75+ Annual Events', 'Sarasota Jazz Festival', 'March 17-22, 2025'],
-    photo: 'https://choralartistssarasota.org/wp-content/uploads/2024/11/Jazz-Club-Logo-with-musicians.jpg',
+    photo: '/images/jcS.webp',
     contact: {
       address: '330 S. Pineapple Ave, Suite 111, Sarasota, FL 34236',
       phone: '941.260.9951',

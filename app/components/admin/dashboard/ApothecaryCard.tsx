@@ -1,72 +1,68 @@
-import { Crown, Sparkles, TrendingUp, Zap } from 'lucide-react'
-
-import CastSpellButton from './CastSpellButton'
-import ConductorWithEffect from './ConductorWithEffect'
+import { ArrowRight, Crown, Lock, TrendingUp, Zap } from 'lucide-react'
+import Link from 'next/link'
+import { motion } from 'framer-motion'
 
 const ApothecaryCard = () => {
   return (
-    <div className="relative bg-gradient-to-br from-neutral-900 to-black rounded-xl border border-neutral-800 shadow-xl overflow-visible hover:border-neutral-700/70 transition-all duration-300">
-      {/* Conductor Image - Centered at Top, Popping Out */}
-      <ConductorWithEffect />
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.3 }}
+      className="bg-neutral-900 border border-neutral-800 rounded-xl p-6 flex flex-col justify-between"
+    >
+      <div>
+        {/* Header */}
+        <div className="mb-6">
+          <div className="flex items-center justify-between mb-1">
+            <div className="flex items-center gap-3">
+              <h3 className="text-lg font-semibold text-white">The Apothecary</h3>
+            </div>
+            <span className="flex items-center gap-1 px-2 py-1 bg-violet-500/10 border border-violet-500/20 rounded-full text-xs font-medium text-violet-400">
+              <Lock className="w-3 h-3" />
+              Locked
+            </span>
+          </div>
+          <p className="text-sm text-neutral-400">Custom ticketing platform — available upon request</p>
+        </div>
 
-      {/* Content Container */}
-      <div className="relative pt-60">
-        {/* Content */}
-        <div className="relative p-4 z-10">
-          {/* Badge */}
-          <div className="flex items-center justify-center gap-2 mb-3">
-            <div className="px-2 py-1 bg-gradient-to-r from-indigo-600 to-violet-600 rounded-full flex items-center gap-1">
-              <Sparkles className="w-3 h-3 text-white" />
-              <span className="text-[9px] text-white font-bold uppercase tracking-widest">Premium</span>
+        {/* Features */}
+        <div className="space-y-3 mb-6">
+          <div className="flex items-start gap-3 px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg">
+            <TrendingUp className="w-4 h-4 text-neutral-300 shrink-0 mt-0.5" />
+            <div className="min-w-0">
+              <p className="text-sm font-medium text-neutral-200">Zero Fees</p>
+              <p className="text-xs text-neutral-500">Keep 100% of your ticket revenue</p>
             </div>
           </div>
 
-          {/* Title */}
-          <h3 className="text-xl font-bold bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent mb-1 leading-tight text-center">
-            THE APOTHECARY
-          </h3>
-          <p className="text-[10px] text-neutral-400 uppercase tracking-wider mb-4 text-center">
-            Custom Ticketing Platform
-          </p>
-
-          {/* Features */}
-          <div className="space-y-2 mb-4">
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 bg-emerald-500/20 rounded-md flex items-center justify-center flex-shrink-0 border border-emerald-500/30">
-                <TrendingUp className="w-3 h-3 text-emerald-400" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-[11px] font-semibold text-white">Zero Fees</p>
-                <p className="text-[9px] text-neutral-500">100% revenue</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 bg-purple-500/20 rounded-md flex items-center justify-center flex-shrink-0 border border-purple-500/30">
-                <Zap className="w-3 h-3 text-purple-400" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-[11px] font-semibold text-white">Your Brand</p>
-                <p className="text-[9px] text-neutral-500">Custom design</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 bg-blue-500/20 rounded-md flex items-center justify-center flex-shrink-0 border border-blue-500/30">
-                <Crown className="w-3 h-3 text-blue-400" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-[11px] font-semibold text-white">Full Control</p>
-                <p className="text-[9px] text-neutral-500">Your data</p>
-              </div>
+          <div className="flex items-start gap-3 px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg">
+            <Zap className="w-4 h-4 text-neutral-300 shrink-0 mt-0.5" />
+            <div className="min-w-0">
+              <p className="text-sm font-medium text-neutral-200">Your Brand</p>
+              <p className="text-xs text-neutral-500">Fully custom design matching your identity</p>
             </div>
           </div>
 
-          {/* CTA */}
-          <CastSpellButton />
+          <div className="flex items-start gap-3 px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg">
+            <Crown className="w-4 h-4 text-neutral-300 shrink-0 mt-0.5" />
+            <div className="min-w-0">
+              <p className="text-sm font-medium text-neutral-200">Full Control</p>
+              <p className="text-xs text-neutral-500">Your data, your platform</p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+      {/* Buttons */}
+      <div className="flex flex-col gap-2">
+        <Link
+          href="/admin/apothecary/codex"
+          className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 hover:border-neutral-600 text-white font-semibold rounded-lg transition-all group text-sm"
+        >
+          Preview Demo
+          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+        </Link>
+      </div>
+    </motion.div>
   )
 }
 

@@ -17,7 +17,7 @@ const TeamMemberForm: FC<IForm> = ({ inputs, errors, handleInput, close, handleS
       return URL.createObjectURL(inputs.file)
     }
     return inputs?.imageUrl
-  }, [inputs?.file, inputs?.imageUrl])
+  }, [inputs])
 
   useEffect(() => {
     return () => {

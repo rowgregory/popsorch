@@ -7,7 +7,7 @@ import ContactUsBlock from '../home/ContactUsBlock'
 import SponsorsBlock from '../home/SponsorsBlock'
 import KeepUpToDateBlock from '../home/KeepUpToDateBlock'
 
-const HomePage = ({ pageData, concerts, galleryImages, sponsors }) => {
+const HomeClient = ({ pageData, concerts, galleryImages, sponsors }) => {
   const scrollRef = useRef<HTMLDivElement>(null)
 
   return (
@@ -23,4 +23,4 @@ const HomePage = ({ pageData, concerts, galleryImages, sponsors }) => {
   )
 }
 
-export default HomePage
+export default HomeClient

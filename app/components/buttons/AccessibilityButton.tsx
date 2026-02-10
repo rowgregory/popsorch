@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback } from 'react'
 import { setToggleAccessibilityDrawer } from '@/app/redux/features/accessibilitySlice'
 import { useAccessibilitySelector, useAppDispatch } from '@/app/redux/store'
 import { Accessibility, CheckCircle } from 'lucide-react'
@@ -7,20 +7,15 @@ const AccessibilityButton = () => {
   const dispatch = useAppDispatch()
   const { accessibility, highContrast, highlightLinks, stepIndex, textSpacing, dyslexiaFriendly, lineHeight } =
     useAccessibilitySelector()
-  const [showCheckmark, setShowCheckmark] = useState(false)
 
-  // Show checkmark if any accessibility features are enabled
-  useEffect(() => {
-    const hasFeature = highContrast || highlightLinks || stepIndex > 0 || textSpacing || dyslexiaFriendly || lineHeight
-    setShowCheckmark(hasFeature)
-  }, [highContrast, highlightLinks, stepIndex, textSpacing, dyslexiaFriendly, lineHeight])
+  const showCheckmark = highContrast || highlightLinks || stepIndex > 0 || textSpacing || dyslexiaFriendly || lineHeight
 
   const handleAccessibilityToggle = useCallback(() => {
     dispatch(setToggleAccessibilityDrawer(accessibility))
   }, [dispatch, accessibility])
 
   return (
-    <div className="fixed bottom-5 left-5 z-[130]">
+    <div className="fixed bottom-5 left-5 z-130">
       <button
         onClick={handleAccessibilityToggle}
         className="relative p-2 bg-indigo-600 text-white rounded-full w-12 h-12 hover:bg-indigo-700 hover:scale-110 transition-all shadow-lg"

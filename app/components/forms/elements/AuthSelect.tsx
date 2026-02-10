@@ -1,4 +1,3 @@
-import { LucideIcon } from 'lucide-react'
 import { ChangeEventHandler, FC } from 'react'
 
 interface AuthSelectProps {

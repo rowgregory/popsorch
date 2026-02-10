@@ -15,7 +15,7 @@ export const pageApi = api.injectEndpoints({
         try {
           const { data } = await queryFulfilled
           dispatch(
-            pageApi.util.updateQueryData('getPage', arg.slug, (draft) => {
+            pageApi.util.updateQueryData('getPage', arg.slug, () => {
               return data
             })
           )

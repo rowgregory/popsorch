@@ -24,7 +24,7 @@ const Register = () => {
   const handleRegister = async (e: FormEvent) => {
     e.preventDefault()
 
-    if (!validateRegisterForm(registerForm.inputs, setErrors, dispatch)) return
+    if (!validateRegisterForm(registerForm.inputs, setErrors)) return
 
     try {
       const payload = await register({

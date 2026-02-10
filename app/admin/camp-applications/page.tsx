@@ -18,7 +18,6 @@ const CampApplications = ({ data }) => {
   const [expandedYears, setExpandedYears] = useState(new Set())
 
   const campApplications = data?.campApplications
-  const totalCampApplications = data?.count
   const noCampApplications = data?.noCampApplications
 
   // Handle individual checkbox selection
@@ -176,8 +175,8 @@ const CampApplications = ({ data }) => {
                             isAllYearSelected
                               ? 'bg-blue-600 border-blue-600'
                               : isIndeterminate
-                              ? 'bg-blue-100 border-blue-400'
-                              : 'border-neutral-600 hover:border-blue-400'
+                                ? 'bg-blue-100 border-blue-400'
+                                : 'border-neutral-600 hover:border-blue-400'
                           }`}
                         >
                           {isAllYearSelected && (
@@ -206,7 +205,7 @@ const CampApplications = ({ data }) => {
                           transition={{ duration: 0.3 }}
                         >
                           <div className="overflow-x-auto">
-                            <table className="w-full min-w-[640px]">
+                            <table className="w-full min-w-160">
                               <thead className="bg-neutral-950">
                                 <tr>
                                   <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-neutral-400 uppercase tracking-wider">
@@ -274,7 +273,7 @@ const CampApplications = ({ data }) => {
                                       </p>
                                     </td>
                                     <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
-                                      <p className="text-xs sm:text-sm font-medium text-white truncate max-w-[200px]">
+                                      <p className="text-xs sm:text-sm font-medium text-white truncate max-w-50">
                                         {application.student.studentEmailAddress}
                                       </p>
                                     </td>

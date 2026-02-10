@@ -17,6 +17,103 @@ interface ChangelogEntry {
 
 const changelogData: ChangelogEntry[] = [
   {
+    version: '3.0.4',
+    date: '2026-02-10',
+    changes: [
+      {
+        type: 'improvement',
+        title: 'Migrated to Tailwind v4',
+        description:
+          'Moved all theme configuration into globals.css using the new @theme syntax, removed legacy @tailwind directives and cleaned up redundant media queries.',
+        impact: 'high'
+      },
+      {
+        type: 'improvement',
+        title: 'Autofill Input Override',
+        description:
+          'Added webkit autofill background and text color overrides to prevent browser autofill from rendering with incorrect light mode styles.',
+        impact: 'medium'
+      },
+      {
+        type: 'improvement',
+        title: 'Accessibility Settings Persistence Fix',
+        description:
+          'Fixed accessibility drawer settings not persisting on page reload. Migrated state initialization to localStorage-seeded useState and applied DOM changes directly on mount.',
+        impact: 'high'
+      },
+      {
+        type: 'refactor',
+        title: 'High Contrast Mode Refactor',
+        description:
+          'Replaced body.high-contrast class-based approach with data-high-contrast attribute on documentElement for more reliable and semantic DOM targeting.',
+        impact: 'medium'
+      },
+      {
+        type: 'ui',
+        title: 'Ticket Card Sold Out State',
+        description:
+          'Added sold out support to ticket tier cards on the Golden Bubbles Bash page. Sold out cards render with grayscale, reduced opacity, a rotated stamp overlay, greyed accent bar and a disabled CTA button.',
+        impact: 'medium'
+      },
+      {
+        type: 'ui',
+        title: '404 Page Dark Mode Update',
+        description:
+          'Removed all light mode and dark: variant classes from the 404 page, updated to use dark-only neutrals and existing brand color tokens.',
+        impact: 'low'
+      },
+      {
+        type: 'refactor',
+        title: 'globals.css Reorganization',
+        description:
+          'Restructured globals.css into clearly defined sections: imports, theme inline, root variables, theme tokens, font face, keyframes, base styles, autofill, accessibility, and component overrides.',
+        impact: 'low'
+      },
+      {
+        type: 'improvement',
+        title: 'Upgraded to Next.js v16.1.6',
+        description:
+          'Updated Next.js to v16.1.6 to take advantage of the latest performance improvements, bug fixes and framework features.',
+        impact: 'high'
+      },
+      {
+        type: 'feature',
+        title: 'Added sitemap.ts',
+        description:
+          'Implemented a dynamic sitemap.ts to improve search engine discoverability and ensure all public routes are properly indexed.',
+        impact: 'medium'
+      },
+      {
+        type: 'bugfix',
+        title: 'Jazz Club of Sarasota Broken Image',
+        description:
+          'Replaced broken external image link for Jazz Club of Sarasota with a local generic fallback photo after the original source was no longer available.',
+        impact: 'low'
+      },
+      {
+        type: 'ui',
+        title: 'Admin Dashboard Card Layout Redesign',
+        description:
+          'Fully redesigned the admin dashboard with a new card-based layout. All feature cards rebuilt with consistent structure, dark-only styling, and brand-accurate accent colors including Google Analytics, Meta Pixel, Stripe, The Apothecary and Header Button Studio.',
+        impact: 'high'
+      },
+      {
+        type: 'ui',
+        title: 'Questions Layout Card Redesign',
+        description:
+          'Replaced the expandable accordion layout on the questions page with a responsive card grid. All submission data is now visible at once across a 3-column layout with status badges, toggle and delete actions in the card footer.',
+        impact: 'medium'
+      },
+      {
+        type: 'ui',
+        title: 'Nav Links and Menu Action Button Theme Update',
+        description:
+          'Updated admin navigation link colors and menu action button to use The Pops brand color tokens, replacing generic neutral styles with theme-consistent blaze and sunburst accents.',
+        impact: 'low'
+      }
+    ]
+  },
+  {
     version: '3.0.3',
     date: '2026-01-23',
     changes: [

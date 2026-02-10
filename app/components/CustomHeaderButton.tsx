@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown } from 'lucide-react'
 import { useRouter } from 'next/navigation'
@@ -119,6 +119,7 @@ const CustomHeaderButton: React.FC<CustomHeaderButtonProps> = ({
       button_font_color: fontColor,
       page_url: window.location.href,
       user_scroll_depth: Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100),
+      // eslint-disable-next-line react-hooks/purity
       time_on_page: Math.round((Date.now() - performance.timeOrigin) / 1000),
       viewport_width: window.innerWidth,
       viewport_height: window.innerHeight,
@@ -165,18 +166,19 @@ const CustomHeaderButton: React.FC<CustomHeaderButtonProps> = ({
     }
   }
 
-  // Handle dropdown item click
-  const handleDropdownItemClick = (item: DropdownItem) => {
-    if (item.linkType === 'external') {
-      window.open(item.link, '_blank', 'noopener,noreferrer')
-    } else if (item.linkType === 'phone') {
-      window.location.href = `tel:${item.link}`
-    } else {
-      // For internal links, you might want to use your router
-      push(item.link)
-    }
-    setIsDropdownOpen(false)
-  }
+  const handleDropdownItemClick = useCallback(
+    (item: DropdownItem) => {
+      if (item.linkType === 'external') {
+        window.open(item.link, '_blank', 'noopener,noreferrer')
+      } else if (item.linkType === 'phone') {
+        window.location.href = `tel:${item.link}`
+      } else {
+        push(item.link)
+      }
+      setIsDropdownOpen(false)
+    },
+    [push]
+  )
 
   return (
     <>
@@ -214,7 +216,7 @@ const CustomHeaderButton: React.FC<CustomHeaderButtonProps> = ({
         >
           {/* Animated background overlay */}
           <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-white/10 via-white/20 to-white/10 opacity-0"
+            className="absolute inset-0 bg-linear-to-r from-white/10 via-white/20 to-white/10 opacity-0"
             animate={{
               x: ['-100%', '100%'],
               opacity: [0, 1, 0]
@@ -264,7 +266,7 @@ const CustomHeaderButton: React.FC<CustomHeaderButtonProps> = ({
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.95 }}
               transition={{ duration: 0.2, ease: 'easeOut' }}
-              className="absolute top-full right-0 mt-2 min-w-60 bg-[#1a1a1a] backdrop-blur-lg rounded-lg shadow-xl z-50 overflow-hidden"
+              className="absolute top-full right-0 mt-2 min-w-60 bg-inkblack backdrop-blur-lg rounded-lg shadow-xl z-50 overflow-hidden"
             >
               {dropdownItems.map((item, index) => (
                 <motion.button

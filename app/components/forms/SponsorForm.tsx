@@ -26,7 +26,7 @@ const SponsorForm = ({ inputs, errors, handleInput, close, handleSubmit, loading
       return URL.createObjectURL(inputs.file)
     }
     return inputs?.filePath
-  }, [inputs?.file, inputs?.filePath])
+  }, [inputs])
 
   // Handle file upload
   const handleFileChange = (e: any) => {
@@ -203,7 +203,7 @@ const SponsorForm = ({ inputs, errors, handleInput, close, handleSubmit, loading
                   className="w-full px-4 py-3 bg-neutral-800 border border-neutral-600 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                   placeholder="https://sponsor-website.com"
                 />
-                <p className="mt-2 text-xs text-neutral-400">Optional: Link to sponsor's website</p>
+                <p className="mt-2 text-xs text-neutral-400">Optional: Link to sponsor&apos;s website</p>
                 {errors?.externalLink && <p className="mt-2 text-sm text-red-400">{errors.externalLink}</p>}
               </div>
             </div>

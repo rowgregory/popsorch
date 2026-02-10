@@ -22,7 +22,7 @@ export const getConcertById = unstable_cache(
         ...concert,
         eventDetails
       }
-    } catch (error) {
+    } catch {
       return null
     }
   },

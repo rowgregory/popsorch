@@ -48,7 +48,7 @@ const Login = () => {
       await toggleNotifications(payload.id)
 
       push('/admin/dashboard')
-    } catch (error) {
+    } catch {
       dispatch(
         showToast({
           message: 'Invalid email or password',
@@ -76,7 +76,7 @@ const Login = () => {
             className="mb-12"
           >
             <Link href="/" className="flex items-center justify-center mb-4">
-              <div className="bg-golden50Logo bg-no-repeat bg-contain bg-center w-40 h-[80px]" />
+              <div className="bg-golden50Logo bg-no-repeat bg-contain bg-center w-40 h-20" />
             </Link>
           </motion.div>
 
@@ -89,7 +89,7 @@ const Login = () => {
               className="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-xl backdrop-blur-sm"
             >
               <div className="flex items-start space-x-3">
-                <ShieldX className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+                <ShieldX className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
                 <div>
                   <h3 className="text-red-400 font-semibold text-sm mb-1">Authentication failed</h3>
                   <p className="text-red-300 text-sm leading-relaxed">{getErrorMessage(error)}</p>
@@ -183,7 +183,7 @@ const Login = () => {
                 disabled={isLoading || !inputs?.email || !inputs?.password}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full px-6 py-3 bg-gradient-to-r from-blaze to-blaze hover:from-blaze/90 hover:to-blaze/90 disabled:from-neutral-700 disabled:to-neutral-600 text-white rounded-lg transition-all flex items-center justify-center space-x-2 font-semibold shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-6 py-3 bg-linear-to-r from-blaze to-blaze hover:from-blaze/90 hover:to-blaze/90 disabled:from-neutral-700 disabled:to-neutral-600 text-white rounded-lg transition-all flex items-center justify-center space-x-2 font-semibold shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isLoading ? (
                   <>
@@ -216,7 +216,7 @@ const Login = () => {
         className="hidden lg:flex w-1/2 relative overflow-hidden items-center justify-center p-12"
       >
         {/* Gradient Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blaze/20 via-neutral-950 to-neutral-950" />
+        <div className="absolute inset-0 bg-linear-to-br from-blaze/20 via-neutral-950 to-neutral-950" />
         <div className="absolute top-0 right-0 w-96 h-96 bg-blaze/10 rounded-full blur-3xl" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
 
@@ -236,7 +236,7 @@ const Login = () => {
           {/* Features */}
           <div className="space-y-6">
             <div className="flex items-center space-x-4 text-left">
-              <div className="w-12 h-12 bg-blaze/20 rounded-lg flex items-center justify-center flex-shrink-0">
+              <div className="w-12 h-12 bg-blaze/20 rounded-lg flex items-center justify-center shrink-0">
                 <span className="text-blaze font-bold">✓</span>
               </div>
               <div>
@@ -246,7 +246,7 @@ const Login = () => {
             </div>
 
             <div className="flex items-center space-x-4 text-left">
-              <div className="w-12 h-12 bg-blaze/20 rounded-lg flex items-center justify-center flex-shrink-0">
+              <div className="w-12 h-12 bg-blaze/20 rounded-lg flex items-center justify-center shrink-0">
                 <span className="text-blaze font-bold">✓</span>
               </div>
               <div>
@@ -256,7 +256,7 @@ const Login = () => {
             </div>
 
             <div className="flex items-center space-x-4 text-left">
-              <div className="w-12 h-12 bg-blaze/20 rounded-lg flex items-center justify-center flex-shrink-0">
+              <div className="w-12 h-12 bg-blaze/20 rounded-lg flex items-center justify-center shrink-0">
                 <span className="text-blaze font-bold">✓</span>
               </div>
               <div>
