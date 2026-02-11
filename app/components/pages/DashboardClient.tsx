@@ -1,7 +1,6 @@
 'use client'
 
 import ApothecaryCard from '@/app/components/admin/dashboard/ApothecaryCard'
-import HeaderButtonStudioCard from '@/app/components/admin/dashboard/HeaderButtonStudioCard'
 import FBPixelComingSoon from '@/app/components/admin/dashboard/FBPixelComingSoon'
 import GoogleAnalyticsCard from '@/app/components/admin/dashboard/GoogleAnalyticsCard'
 import { motion } from 'framer-motion'
@@ -19,7 +18,6 @@ const DashboardClient = ({ googleAnalyticsCredentials }) => {
           className="grid grid-cols-1 760:grid-cols-2 1400:grid-cols-3 2300:grid-cols-4 2800:grid-cols-5 gap-6 mb-6"
         >
           <GoogleAnalyticsCard credentials={googleAnalyticsCredentials} />
-          <HeaderButtonStudioCard />
           <FBPixelComingSoon />
           <ApothecaryCard />
           <StripeCard />

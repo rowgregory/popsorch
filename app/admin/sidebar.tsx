@@ -44,25 +44,14 @@ const AdminSidebar = () => {
           <div key={group.title}>
             <h3 className="text-xs font-semibold text-neutral-500 uppercase mb-3 px-3">{group.title}</h3>
             <div className="space-y-1">
-              {group.items.map((item) => {
+              {group.items.map((item, i: number) => {
                 const IconComponent = item.icon
                 const isActive = item.path && pathname === item.path
                 const isNew = item.path === '/admin/questions'
+                const isDrawer = item.isDrawer
 
-                return (
-                  <Link
-                    key={item.path}
-                    href={item.path === '/admin/the-cauldron' ? '/admin/the-cauldron?page=home' : item.path || ''}
-                    onClick={() => {
-                      if (item.path === '/admin/apothecary/codex') handleApothecaryClick()
-                      onClose()
-                    }}
-                    className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all ${
-                      isActive
-                        ? 'bg-linear-to-r from-blaze to-sunburst text-white'
-                        : 'text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200'
-                    }`}
-                  >
+                const content = (
+                  <>
                     <IconComponent className="w-4 h-4" />
                     <div className="flex items-center gap-2">
                       {item.label}
@@ -74,6 +63,41 @@ const AdminSidebar = () => {
                         />
                       )}
                     </div>
+                  </>
+                )
+
+                const sharedClassName = `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all w-full cursor-pointer ${
+                  isActive
+                    ? 'bg-linear-to-r from-blaze to-sunburst text-white'
+                    : 'text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200'
+                }`
+
+                if (isDrawer) {
+                  return (
+                    <button
+                      key={i}
+                      onClick={() => {
+                        item.onDrawerOpen?.()
+                        onClose()
+                      }}
+                      className={sharedClassName}
+                    >
+                      {content}
+                    </button>
+                  )
+                }
+
+                return (
+                  <Link
+                    key={i}
+                    href={item.path === '/admin/the-cauldron' ? '/admin/the-cauldron?page=home' : item.path || ''}
+                    onClick={() => {
+                      if (item.path === '/admin/apothecary/codex') handleApothecaryClick()
+                      onClose()
+                    }}
+                    className={sharedClassName}
+                  >
+                    {content}
                   </Link>
                 )
               })}

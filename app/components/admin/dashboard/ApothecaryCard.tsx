@@ -56,7 +56,7 @@ const ApothecaryCard = () => {
       <div className="flex flex-col gap-2">
         <Link
           href="/admin/apothecary/codex"
-          className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 hover:border-neutral-600 text-white font-semibold rounded-lg transition-all group text-sm"
+          className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 hover:border-neutral-600 text-white font-semibold rounded-lg transition-all group"
         >
           Preview Demo
           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Calendar, Sparkles, Lock, Sliders } from 'lucide-react'
+import { Calendar, Sparkles, Lock } from 'lucide-react'
 
 const FBPixelComingSoon = () => {
   return (
@@ -52,7 +52,6 @@ const FBPixelComingSoon = () => {
         disabled
         className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 hover:border-neutral-600 text-neutral-500 font-semibold rounded-lg transition-all group"
       >
-        <Sliders className="w-4 h-4" />
         Coming Soon
       </button>
     </motion.div>

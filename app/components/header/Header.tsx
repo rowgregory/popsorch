@@ -1,14 +1,21 @@
-import HeaderLower from './HeaderLower'
-import { useAuthSelector } from '@/app/redux/store'
 import Link from 'next/link'
+import HeaderLower from './HeaderLower'
 
 const Header = ({ concerts }) => {
-  const { isAuthenticated } = useAuthSelector()
-
   return (
     <>
-      {isAuthenticated && <Link href="/admin/dashboard" className="fixed top-0 right-0 w-10 h-10 z-150" />}
-      {!isAuthenticated && <Link href="/auth/login" className="fixed top-0 right-0 w-10 h-10 z-150" />}
+      <div className="bg-neutral-900 border-b border-neutral-800 430:px-7 1280:px-14">
+        <div className="mx-auto">
+          <div className="flex justify-end items-center h-10">
+            <Link
+              href="/auth/login"
+              className="text-xs text-neutral-400 hover:text-neutral-200 transition-colors duration-300"
+            >
+              Launch App
+            </Link>
+          </div>
+        </div>
+      </div>
       <HeaderLower concerts={concerts} />
     </>
   )

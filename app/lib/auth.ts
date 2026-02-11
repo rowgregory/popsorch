@@ -1,0 +1,85 @@
+import prisma from '@/prisma/client'
+import NextAuth from 'next-auth'
+import { PrismaAdapter } from '@auth/prisma-adapter'
+import { createLog } from '../utils/logHelper'
+import googleProvider from './providers/googleProvider'
+import { handleGoogleCallback } from './callbacks/handleGoogleCallback'
+
+export const { handlers, auth, signIn, signOut } = NextAuth({
+  debug: false,
+  session: {
+    strategy: 'jwt',
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+    updateAge: 24 * 60 * 60 // 24 hours
+  },
+  adapter: PrismaAdapter(prisma),
+  pages: {
+    signIn: '/auth/login',
+    error: '/auth/error'
+  },
+
+  providers: [googleProvider],
+
+  callbacks: {
+    async signIn({ user, account, profile }) {
+      try {
+        switch (account?.provider) {
+          // case 'email':
+          //   return await handleEmailCallback(user)
+
+          case 'google':
+            return await handleGoogleCallback(user, account, profile)
+
+          default:
+            return true
+        }
+      } catch (error) {
+        console.error(`❌ Sign-in error for ${account?.provider}:`, error)
+        return false
+      }
+    },
+
+    async jwt({ token, user }) {
+      if (user) {
+        try {
+          const dbUser = await prisma.user.findUnique({
+            where: { email: user.email! },
+            select: {
+              id: true,
+              role: true,
+              firstName: true,
+              lastName: true
+            }
+          })
+
+          if (dbUser) {
+            token.userId = dbUser.id
+            token.role = dbUser.role
+            if (dbUser.firstName && dbUser.lastName) {
+              token.name = `${dbUser.firstName} ${dbUser.lastName}`.trim()
+            }
+          }
+        } catch (error) {
+          await createLog('error', 'JWT callback error', {
+            error: error instanceof Error ? error.message : 'Unknown error',
+            email: user.email
+          })
+        }
+      }
+      return token
+    },
+
+    async session({ session, token }) {
+      if (token.userId && typeof token.userId === 'string') {
+        session.user.id = token.userId
+        session.user.role = token.role as string
+      } else {
+        await createLog('error', 'Session callback error - missing userId', {
+          email: session.user.email
+        })
+      }
+
+      return session
+    }
+  }
+})

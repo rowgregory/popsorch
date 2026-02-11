@@ -18,7 +18,7 @@ export async function PUT(req: Request) {
 
     await prisma.user.update({
       where: { id },
-      data: { isAdmin: true, role: 'admin' }
+      data: { role: 'ADMIN' }
     })
 
     await createLog('info', 'User role updated', {

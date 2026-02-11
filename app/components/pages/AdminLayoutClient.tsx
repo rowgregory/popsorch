@@ -20,12 +20,11 @@ import getCurrentPageId from '../../lib/utils/getCurrentPageId'
 import useCustomPathname from '../../hooks/useCustomPathname'
 import { adminNavigationLinkData } from '@/public/data/navigation-link.data'
 import PageSelectorModal from '../modals/PageSelectorModal'
-import { IUser } from '../../types/entities/user'
 import HeaderButtonStudioDrawer from '../drawers/HeaderButtonStudioDrawer'
 
 interface IAdminClientLayout {
   children: ReactNode
-  data: IUser
+  data: any
   buttons: any
 }
 

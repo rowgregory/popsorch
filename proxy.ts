@@ -1,49 +1,79 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { authMiddleware } from './app/middleware/authMiddleware'
+import { NextResponse } from 'next/server'
+import { auth } from './app/lib/auth'
 
-export async function proxy(req: NextRequest) {
-  // Extract tokens from cookies
-  const authToken = req.cookies.get('authToken')
+// const URL_REDIRECTS: Record<string, string> = {
+//   '': ''
+// }
 
-  // If an admin is logged in, proceed with authentication
-  if (authToken) {
-    const authResponse = await authMiddleware(req, authToken)
-    if (authResponse) return authResponse
-    return NextResponse.next()
+export async function proxy(request: { nextUrl: { pathname: string }; url: string | URL | undefined }) {
+  const { pathname } = request.nextUrl
+  const session = await auth()
+
+  // Handle URL redirects first (before any other logic)
+  // if (URL_REDIRECTS[pathname]) {
+  //   return NextResponse.redirect(
+  //     new URL(URL_REDIRECTS[pathname], request.url),
+  //     { status: 301 }
+  //   )
+  // }
+
+  // If authenticated and on login page, redirect to appropriate dashboard
+  if (pathname === '/auth/login' && session?.user) {
+    const { role } = session.user
+
+    if (role === 'ADMIN' || role === 'SUPERUSER') {
+      return NextResponse.redirect(new URL('/admin/dashboard', request.url))
+    }
+
+    // SUPPORTER role
+    return NextResponse.redirect(new URL('/supporter/overview', request.url))
   }
 
-  // If trying to access admin routes without authentication, redirect to login
-  if (req.nextUrl.pathname.startsWith('/admin')) {
-    return NextResponse.redirect(new URL('/auth/login', req.url))
+  // Protected routes - require authentication
+  const protectedRoutes = ['/supporter/', '/admin/']
+  const isProtectedRoute = protectedRoutes.some((route) => pathname.startsWith(route))
+
+  if (isProtectedRoute) {
+    // Redirect unauthenticated users to login
+    if (!session?.user) {
+      return NextResponse.redirect(new URL('/auth/login', request.url))
+    }
+
+    const { role } = session.user
+
+    // Helper function to redirect to correct dashboard
+    const redirectToDashboard = (userRole: string) => {
+      if (userRole === 'ADMIN' || userRole === 'SUPERUSER') {
+        return NextResponse.redirect(new URL('/admin/dashboard', request.url))
+      }
+      return NextResponse.redirect(new URL('/supporter/overview', request.url))
+    }
+
+    // ADMIN/SUPERUSER access control
+    if (pathname.startsWith('/admin/')) {
+      if (role !== 'ADMIN' && role !== 'SUPERUSER') {
+        return redirectToDashboard(role)
+      }
+      // Admin/Superuser can access admin routes - allow
+      return NextResponse.next()
+    }
+
+    // SUPPORTER access control - everyone can access /supporter/overview
+    if (pathname.startsWith('/supporter/')) {
+      // Allow all authenticated roles to access supporter routes
+      return NextResponse.next()
+    }
   }
 
-  // Allow access to public routes like /auth/login
   return NextResponse.next()
 }
 
 export const config = {
   matcher: [
-    '/auth/login',
+    '/supporter/:path*',
     '/admin/:path*',
-    '/api/app/fetch-dashboard-data',
-    '/api/concert/create-concert',
-    '/api/concert/delete-concert',
-    '/api/concert/update-concert',
-    '/api/mailchimp/fetch-subscribers',
-    '/api/photo-gallery-image/create-photo-gallery-image',
-    '/api/photo-gallery-image/delete-photo-gallery-image',
-    '/api/question/create-question',
-    '/api/question/delete-question',
-    '/api/question/update-question',
-    '/api/team-member/create-team-member',
-    '/api/team-member/delete-team-member',
-    '/api/team-member/update-team-member',
-    '/api/text-block/update-text-block',
-    '/api/user/delete-user',
-    '/api/user/update-user-profile',
-    '/api/user/update-user-role',
-    '/api/venue/create-venue',
-    '/api/venue/delete-venue',
-    '/api/venue/update-venue'
+    '/auth/login'
+
+    // Add old URL paths to the matcher so middleware checks them
   ]
 }

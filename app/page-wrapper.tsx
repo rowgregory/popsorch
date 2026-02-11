@@ -3,8 +3,6 @@
 import { FC, useEffect, useMemo } from 'react'
 import { usePathname } from 'next/navigation'
 import { useAppDispatch } from './redux/store'
-import { hydrateUserState } from './redux/features/userSlice'
-import { setAuthState } from './redux/features/authSlice'
 import useNetworkStatus from './hooks/useNetworkStatus'
 import useScrollToTop from './hooks/useScrollToTop'
 import NavigationDrawer from './components/NavigationDrawer'
@@ -17,10 +15,9 @@ import { setTextBlocks } from './redux/features/textBlockSlice'
 import { hydrateHeaderButton } from './redux/features/headerButtonSlice'
 import { toggleHeaderFooter } from './utils/string.functions'
 import AccessibilityButton from './components/buttons/AccessibilityButton'
-import AdminLaunchButton from './components/buttons/AdminLaunchButton'
 import { IWrapper } from './types/common.types'
 
-const PageWrapper: FC<IWrapper> = ({ children, user, textBlocks, headerButton, concerts }) => {
+const PageWrapper: FC<IWrapper> = ({ children, textBlocks, headerButton, concerts }) => {
   const dispatch = useAppDispatch()
   const pathname = usePathname()
 
@@ -39,12 +36,7 @@ const PageWrapper: FC<IWrapper> = ({ children, user, textBlocks, headerButton, c
     if (textBlocks) {
       dispatch(setTextBlocks(textBlocks))
     }
-
-    if (user) {
-      dispatch(hydrateUserState(user))
-      dispatch(setAuthState(user?.isAuthenticated))
-    }
-  }, [user, dispatch, textBlocks, headerButton, concerts])
+  }, [dispatch, textBlocks, headerButton, concerts])
 
   return (
     <div className="main-content">
@@ -61,9 +53,6 @@ const PageWrapper: FC<IWrapper> = ({ children, user, textBlocks, headerButton, c
 
       {/* Accessibility Button */}
       {!isAdminPath && <AccessibilityButton />}
-
-      {/* Admin Launch Button */}
-      {user?.isAuthenticated && !isAdminPath && <AdminLaunchButton />}
     </div>
   )
 }

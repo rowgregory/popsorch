@@ -2,10 +2,10 @@
 
 import { ChangeEvent, useState } from 'react'
 import { motion } from 'framer-motion'
-import { MessageSquare, Mail, Calendar, CheckCircle, XCircle, Trash2, Loader2 } from 'lucide-react'
+import { MessageSquare, Mail, Calendar, CheckCircle, XCircle } from 'lucide-react'
 import { IQuestion } from '@/app/types/entities/question'
 import { updateQuestion } from '@/app/actions/updateQuestion'
-import { deleteQuestion } from '@/app/actions/deleteQuestion'
+// import { deleteQuestion } from '@/app/actions/deleteQuestion'
 import { formatDate } from '@/app/utils/date.functions'
 import { useAppDispatch } from '@/app/redux/store'
 import { showToast } from '@/app/redux/features/toastSlice'
@@ -16,7 +16,7 @@ export default function AdminQuestions({ data }) {
   const { noQuestions, questions } = data
   const dispatch = useAppDispatch()
   const [loadingId, setLoadingId] = useState<string | null>(null)
-  const [deletingId, setDeletingId] = useState<string | null>(null)
+  // const [deletingId, setDeletingId] = useState<string | null>(null)
   const router = useRouter()
 
   const handleToggleResolved = async (e: React.ChangeEvent<HTMLInputElement>, questionId: string) => {
@@ -44,28 +44,28 @@ export default function AdminQuestions({ data }) {
     }
   }
 
-  const handleDelete = async (questionId: string) => {
-    setDeletingId(questionId)
-    try {
-      await deleteQuestion(questionId)
-      dispatch(
-        showToast({
-          type: 'success',
-          message: `Question deleted successfully!`
-        })
-      )
-      router.refresh()
-    } catch {
-      dispatch(
-        showToast({
-          type: 'error',
-          message: `Failed to delete question`
-        })
-      )
-    } finally {
-      setDeletingId(null)
-    }
-  }
+  // const handleDelete = async (questionId: string) => {
+  //   setDeletingId(questionId)
+  //   try {
+  //     await deleteQuestion(questionId)
+  //     dispatch(
+  //       showToast({
+  //         type: 'success',
+  //         message: `Question deleted successfully!`
+  //       })
+  //     )
+  //     router.refresh()
+  //   } catch {
+  //     dispatch(
+  //       showToast({
+  //         type: 'error',
+  //         message: `Failed to delete question`
+  //       })
+  //     )
+  //   } finally {
+  //     setDeletingId(null)
+  //   }
+  // }
 
   return (
     <div className="p-6 space-y-6">
@@ -134,7 +134,7 @@ export default function AdminQuestions({ data }) {
                   />
 
                   {/* Delete Button */}
-                  <button
+                  {/* <button
                     onClick={() => handleDelete(question.id)}
                     disabled={deletingId === question.id}
                     className="flex items-center gap-2 px-3 py-1.5 bg-red-500/10 text-red-400 hover:bg-red-500/20 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-xs font-medium"
@@ -150,7 +150,7 @@ export default function AdminQuestions({ data }) {
                         Delete
                       </>
                     )}
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </motion.div>

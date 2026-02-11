@@ -2,8 +2,8 @@
 
 import prisma from '@/prisma/client'
 import { revalidateTag } from 'next/cache'
-import { getUserId } from './getUserById'
 import { createLog } from '../utils/logHelper'
+import { auth } from '../lib/auth'
 
 interface CreatePageInput {
   slug: string
@@ -20,9 +20,9 @@ export async function createPage(data: CreatePageInput) {
       throw new Error('Page content is required')
     }
 
-    const userId = await getUserId()
+    const session = await auth()
 
-    if (!userId) {
+    if (!session.user.id) {
       throw new Error('You must be authenticated to create a page')
     }
 
@@ -41,7 +41,7 @@ export async function createPage(data: CreatePageInput) {
       data: {
         slug: data.slug,
         content: data.content,
-        createdBy: userId
+        createdBy: session.user.id
       }
     })
 

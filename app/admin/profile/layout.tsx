@@ -1,9 +1,9 @@
 import { getUser } from '@/app/actions/getUser'
-import { getUserId } from '@/app/actions/getUserById'
 import AdminProfile from './page'
+import { auth } from '@/app/lib/auth'
 
 export default async function ProfileLayout() {
-  const userId = await getUserId()
-  const data = await getUser(userId)
+  const session = await auth()
+  const data = await getUser(session.user.id)
   return <AdminProfile data={data} />
 }

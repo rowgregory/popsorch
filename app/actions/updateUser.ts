@@ -28,12 +28,9 @@ export async function updateUser(userId: string, data: UpdateUserInput) {
         email: true,
         firstName: true,
         lastName: true,
-        isAdmin: true,
-        isSuperUser: true,
         role: true,
         createdAt: true,
         isSoundEffectsOn: true,
-        isSupporter: true,
         updatedAt: true
       }
     })

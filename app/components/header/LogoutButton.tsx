@@ -1,27 +1,23 @@
 import { motion } from 'framer-motion'
-import { useRouter } from 'next/navigation'
 import { LogOut } from 'lucide-react'
 import { resetAuth } from '@/app/redux/features/authSlice'
-import { RootState, useAppDispatch, useAppSelector } from '@/app/redux/store'
-import { useLogoutMutation } from '@/app/redux/services/authApi'
 import { useSendPushNotificationMutation } from '@/app/redux/services/pushNotificationApi'
 import { resetUser } from '@/app/redux/features/userSlice'
 import { showToast } from '@/app/redux/features/toastSlice'
+import { signOut } from 'next-auth/react'
+import { store } from '@/app/redux/store'
+import { useState } from 'react'
 
 const LogoutButton = () => {
-  const { push } = useRouter()
-  const dispatch = useAppDispatch()
-  const { user } = useAppSelector((state: RootState) => state.user)
-
-  const [logout, { isLoading }] = useLogoutMutation() as any
+  const [isLoading, setIsLoading] = useState(false)
   const [sendPushNotification] = useSendPushNotificationMutation()
 
   const handleLogout = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
 
     try {
-      await logout({ id: user.id }).unwrap()
-      push('/auth/login')
+      setIsLoading(true)
+      await signOut({ callbackUrl: '/auth/login' })
       const storedSubscription = localStorage.getItem('pushSubscription')
       const subscription = storedSubscription ? JSON.parse(storedSubscription) : null
 
@@ -34,12 +30,12 @@ const LogoutButton = () => {
           }).unwrap()
         }
       } catch (error: any) {
-        dispatch(showToast({ type: 'error', description: 'Push Notification Failed', message: error }))
+        store.dispatch(showToast({ type: 'error', description: 'Push Notification Failed', message: error }))
       }
-      dispatch(resetAuth())
-      dispatch(resetUser())
+      store.dispatch(resetAuth())
+      store.dispatch(resetUser())
     } catch (error: any) {
-      dispatch(showToast({ type: 'error', description: 'Logout Failed', message: error }))
+      store.dispatch(showToast({ type: 'error', description: 'Logout Failed', message: error }))
     }
   }
 
@@ -49,7 +45,7 @@ const LogoutButton = () => {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={handleLogout}
-        className="relative px-3.5 bg-neutral-800 border border-neutral-700 rounded-lg hover:bg-neutral-700 transition-all h-[28px]"
+        className="relative px-3.5 bg-neutral-800 border border-neutral-700 rounded-lg hover:bg-neutral-700 transition-all h-7"
       >
         {isLoading ? (
           <div className="w-4 h-4 border-2 border-t-0 border-blaze-400 animate-spin rounded-full" />

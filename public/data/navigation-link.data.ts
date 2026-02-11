@@ -1,3 +1,5 @@
+import { setOpenHeaderButtonStudio } from '@/app/redux/features/appSlice'
+import { store } from '@/app/redux/store'
 import { isStringInPath } from '@/app/utils/string.functions'
 import {
   BriefcaseBusiness,
@@ -14,7 +16,8 @@ import {
   FileQuestionIcon,
   GitBranch,
   FlaskRound,
-  Ticket
+  Ticket,
+  Sliders
 } from 'lucide-react'
 
 export const adminNavigationLinkData = (path: string, role: string) => {
@@ -33,6 +36,12 @@ export const adminNavigationLinkData = (path: string, role: string) => {
       label: 'The Cauldron',
       path: '/admin/the-cauldron',
       active: isStringInPath(path, 'the-cauldron')
+    },
+    {
+      icon: Sliders,
+      label: 'Header Button Studio',
+      isDrawer: true,
+      onDrawerOpen: () => store.dispatch(setOpenHeaderButtonStudio())
     },
     {
       icon: PhotoImage,

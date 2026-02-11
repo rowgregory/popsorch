@@ -8,14 +8,11 @@ const fetchUserData = async (userId: string | null) => {
     select: {
       id: true,
       email: true,
-      isAdmin: true,
-      isSuperUser: true,
       role: true,
       createdAt: true,
       firstName: true,
       isBackgroundMusicOn: true,
       isSoundEffectsOn: true,
-      isSupporter: true,
       lastName: true,
       updatedAt: true
     }

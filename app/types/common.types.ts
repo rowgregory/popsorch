@@ -24,7 +24,6 @@ export interface DrawerProps {
 
 export interface IWrapper {
   children: ReactNode
-  user: any
   textBlocks: any
   headerButton: any
   concerts: any
