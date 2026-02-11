@@ -17,6 +17,7 @@ import {
   Music
 } from 'lucide-react'
 import Picture from '../common/Picture'
+import Link from 'next/link'
 
 const SupporterOverviewClient = ({ data, user }) => {
   const { questions, newsletter, campApplication } = data
@@ -43,7 +44,7 @@ const SupporterOverviewClient = ({ data, user }) => {
       <div className="bg-duskgray border-b border-neutral-800">
         <div className="px-4 990:px-12 xl:px-4">
           <div className="max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 1590:max-w-screen-1400 w-full mx-auto py-5 flex items-center justify-between">
-            <div className="bg-golden50Logo bg-no-repeat bg-contain bg-center w-28 h-12" />
+            <Link href="/" className="bg-golden50Logo bg-no-repeat bg-contain bg-center w-28 h-12" />
             <button
               onClick={() => signOut({ callbackUrl: '/auth/login' })}
               className="flex items-center gap-2 font-lato text-sm text-slatemist hover:text-white transition-colors"
