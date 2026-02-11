@@ -131,9 +131,9 @@ const Login = () => {
                 <Heart className="w-5 h-5 text-blaze" />
               </div>
               <div>
-                <h3 className="text-white font-semibold mb-1">Liked Concerts</h3>
+                <h3 className="text-white font-semibold mb-1">Camp Applications</h3>
                 <p className="text-sm text-neutral-400 leading-relaxed">
-                  See the performances you&apos;ve saved and never miss a show you love.
+                  View your youth camp application history and status updates.
                 </p>
               </div>
             </div>

@@ -14,13 +14,14 @@ import {
   LogOut,
   Clock,
   ChevronRight,
-  Music
+  Ticket,
+  ExternalLink
 } from 'lucide-react'
 import Picture from '../common/Picture'
 import Link from 'next/link'
 
 const SupporterOverviewClient = ({ data, user }) => {
-  const { questions, newsletter, campApplication } = data
+  const { questions, newsletter } = data
 
   const formatDate = (date: string | Date) =>
     new Date(date).toLocaleDateString('en-US', {
@@ -44,7 +45,9 @@ const SupporterOverviewClient = ({ data, user }) => {
       <div className="bg-duskgray border-b border-neutral-800">
         <div className="px-4 990:px-12 xl:px-4">
           <div className="max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 1590:max-w-screen-1400 w-full mx-auto py-5 flex items-center justify-between">
-            <Link href="/" className="bg-golden50Logo bg-no-repeat bg-contain bg-center w-28 h-12" />
+            <Link href="/" className="">
+              The Pops of Bradenton & Sarasota
+            </Link>
             <button
               onClick={() => signOut({ callbackUrl: '/auth/login' })}
               className="flex items-center gap-2 font-lato text-sm text-slatemist hover:text-white transition-colors"
@@ -166,63 +169,68 @@ const SupporterOverviewClient = ({ data, user }) => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.2 }}
-                className="bg-duskgray p-7"
+                className="bg-duskgray p-7 opacity-60"
               >
                 <div className="flex items-center gap-2 mb-5">
-                  <GraduationCap className="w-4 h-4 text-blaze" />
-                  <h2 className="font-changa text-xs text-blaze uppercase tracking-wider">Camp Application</h2>
+                  <GraduationCap className="w-4 h-4 text-slatemist" />
+                  <h2 className="font-changa text-xs text-slatemist uppercase tracking-wider">Camp Applications</h2>
                 </div>
 
-                {campApplication ? (
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-3">
-                      <CheckCircle className="w-5 h-5 text-green-500 shrink-0" />
-                      <span className="font-changa text-white text-lg">Application Submitted</span>
-                    </div>
-                    {campApplication.student && (
-                      <div className="space-y-2 pt-2">
-                        <div className="flex items-center gap-3">
-                          <User className="w-4 h-4 text-sunburst shrink-0" />
-                          <span className="font-lato text-sm text-slatemist">
-                            {campApplication.student.firstName} {campApplication.student.lastName}
-                          </span>
-                        </div>
-                        {campApplication.instrument && (
-                          <div className="flex items-center gap-3">
-                            <Music className="w-4 h-4 text-sunburst shrink-0" />
-                            <span className="font-lato text-sm text-slatemist">{campApplication.instrument}</span>
-                          </div>
-                        )}
-                        <div className="flex items-center gap-3">
-                          <Clock className="w-4 h-4 text-sunburst shrink-0" />
-                          <span className="font-lato text-sm text-slatemist">
-                            Submitted {formatDate(campApplication.createdAt)}
-                          </span>
-                        </div>
-                      </div>
-                    )}
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <Clock className="w-5 h-5 text-slatemist shrink-0" />
+                    <span className="font-changa text-white text-lg">Applications Open in July</span>
                   </div>
-                ) : (
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-3">
-                      <XCircle className="w-5 h-5 text-neutral-600 shrink-0" />
-                      <span className="font-changa text-white text-lg">No Application</span>
-                    </div>
 
-                    <a
-                      href="/youth-camp"
-                      className="inline-flex items-center gap-2 font-lato text-sm text-blaze hover:text-blazehover transition-colors"
-                    >
-                      Apply for youth camp
-                      <ChevronRight className="w-4 h-4" />
-                    </a>
-                  </div>
-                )}
+                  <p className="font-lato text-sm text-slatemist leading-relaxed">
+                    Our youth camp runs for one week in mid-July with daily rehearsals and performances. Applications
+                    will open in early summer.
+                  </p>
+                </div>
               </motion.div>
             </div>
 
             {/* Right Column - Contact Submissions */}
-            <div className="1200:col-span-2">
+            <div className="1200:col-span-2 flex flex-col gap-6">
+              {/* Audience View Ticketing */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.05 }}
+                className="bg-duskgray p-7"
+              >
+                <div className="flex items-center gap-2 mb-5">
+                  <Ticket className="w-4 h-4 text-blaze" />
+                  <h2 className="font-changa text-xs text-blaze uppercase tracking-wider">Tickets</h2>
+                </div>
+
+                <h3 className="font-changa text-white text-lg mb-3">Looking for Tickets?</h3>
+
+                <p className="font-lato text-sm text-slatemist mb-4 leading-relaxed">
+                  All ticket purchases and reservations are handled through our official ticketing partner, Audience
+                  View. Browse available concerts, select your seats, and complete your purchase securely.
+                </p>
+
+                <div className="flex flex-col gap-2">
+                  <Link
+                    href="/concerts"
+                    className="inline-flex items-center gap-2 font-lato text-sm text-blaze hover:text-blazehover transition-colors"
+                  >
+                    View Concerts
+                    <ChevronRight className="w-4 h-4" />
+                  </Link>
+
+                  <a
+                    href="https://ci.ovationtix.com/35505"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 font-lato text-sm text-blaze hover:text-blazehover transition-colors"
+                  >
+                    Visit Audience View
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                </div>
+              </motion.div>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
