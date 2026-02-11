@@ -53,7 +53,7 @@ const Login = () => {
             {/* Google Sign In Button */}
             <motion.button
               onClick={handleGoogleSignIn}
-              disabled={true}
+              disabled={isLoading}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               className="w-full flex items-center justify-center gap-4 px-6 py-4 bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 hover:border-neutral-600 text-white rounded-lg transition-all font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
