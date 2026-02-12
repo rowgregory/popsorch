@@ -4,14 +4,14 @@ import { setCloseAdminSidebar, setOpenConductorModal } from '@/app/redux/feature
 import { useAppDispatch, useUserSelector } from '@/app/redux/store'
 import { X } from 'lucide-react'
 import { adminNavigationLinkData } from '@/public/data/navigation-link.data'
-import useCustomPathname from '../hooks/useCustomPathname'
 import useSoundEffect from '../hooks/useSoundEffect'
+import { usePathname } from 'next/navigation'
 
 const AdminSidebar = () => {
   const dispatch = useAppDispatch()
   const { user } = useUserSelector()
   const { play } = useSoundEffect('/mp3/magical-reveal.mp3', user?.isSoundEffectsOn)
-  const pathname = useCustomPathname()
+  const pathname = usePathname()
   const onClose = () => dispatch(setCloseAdminSidebar())
 
   const handleApothecaryClick = () => {

@@ -44,28 +44,26 @@ export const usePushNotifications = () => {
   const dispatch = useAppDispatch()
   const { isNotificationPermissionGranted } = usePushNotificationSelector()
 
-  // Initialize on mount
   useEffect(() => {
     if (!isPushNotificationSupported()) return
 
-    // Register service worker
     navigator.serviceWorker.register('/push-notifications-sw.js', {
       scope: '/',
       updateViaCache: 'none'
     })
 
-    // Restore from localStorage
-    const stored = localStorage.getItem('notificationsEnabled')
-    if (stored) {
-      dispatch(setPermissionGranted(JSON.parse(stored)))
-    }
-
-    // Check existing subscription
+    // Check ACTUAL subscription first, don't trust localStorage alone
     ;(async () => {
       const subData = await getSubscriptionData()
       if (subData) {
         dispatch(setSubscription(subData))
+        dispatch(setPermissionGranted(true))
         localStorage.setItem('notificationsEnabled', 'true')
+      } else {
+        // No real subscription exists, reset everything
+        dispatch(setPermissionGranted(false))
+        dispatch(setSubscription(null))
+        localStorage.setItem('notificationsEnabled', 'false')
       }
     })()
   }, [dispatch])

@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import useCustomPathname from '@/app/hooks/useCustomPathname'
 import { RootState, useAppDispatch, useAppSelector } from '@/app/redux/store'
 import useScrollFromTop from '@/app/hooks/useScrollFromTop'
 import { getNavigationLinks } from '@/app/utils/navigation.utils'
@@ -8,11 +7,12 @@ import { openNavigationDrawer } from '@/app/redux/features/appSlice'
 import Link from 'next/link'
 import CustomHeaderButton from '../CustomHeaderButton'
 import { Menu } from 'lucide-react'
+import { usePathname } from 'next/navigation'
 
 const HeaderFixed = () => {
   const dispatch = useAppDispatch()
   const hasScrolled = useScrollFromTop(160)
-  const path = useCustomPathname()
+  const path = usePathname()
   const { concerts } = useAppSelector((state: RootState) => state.concert)
   const { headerButton } = useAppSelector((state: RootState) => state.headerButton)
   const { isFeatureToggleCardLive, isFeatureToggleCardVisible } = useAppSelector((state: RootState) => state.app)
@@ -32,8 +32,8 @@ const HeaderFixed = () => {
     <div
       className={`${
         path.includes('/admin') ? 'hidden' : 'block'
-      } fixed flex items-center z-[70] top-0 left-0 w-full h-[70px] bg-duskgray transition-transform duration-500 px-4 ${
-        hasScrolled ? 'translate-y-0' : '-translate-y-[70px]'
+      } fixed flex items-center z-70 top-0 left-0 w-full h-17.5 bg-duskgray transition-transform duration-500 px-4 ${
+        hasScrolled ? 'translate-y-0' : '-translate-y-17.5'
       }`}
     >
       <div className="max-w-1200 w-full gap-x-4 mx-auto flex items-center justify-between">

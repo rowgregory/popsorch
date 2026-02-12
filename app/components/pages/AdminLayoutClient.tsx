@@ -17,10 +17,10 @@ import MobileMenuButton from '../header/MobileMenuButton'
 import ActionButtonWithDropdown from '../admin/ActionButtonWithDropdown'
 import LogoutButton from '../header/LogoutButton'
 import getCurrentPageId from '../../lib/utils/getCurrentPageId'
-import useCustomPathname from '../../hooks/useCustomPathname'
 import { adminNavigationLinkData } from '@/public/data/navigation-link.data'
 import PageSelectorModal from '../modals/PageSelectorModal'
 import HeaderButtonStudioDrawer from '../drawers/HeaderButtonStudioDrawer'
+import { usePathname } from 'next/navigation'
 
 interface IAdminClientLayout {
   children: ReactNode
@@ -29,7 +29,7 @@ interface IAdminClientLayout {
 }
 
 const AdminClientLayout: FC<IAdminClientLayout> = ({ children, data, buttons }) => {
-  const pathname = useCustomPathname()
+  const pathname = usePathname()
   const { user } = useUserSelector()
   const navigationGroups = adminNavigationLinkData(pathname, user?.role)
   const selectedPage = getCurrentPageId(pathname, navigationGroups)

@@ -23,7 +23,7 @@ function SettingsCard({ icon: Icon, iconColor, title, subtitle, delay, children 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay }}
-      className="bg-gradient-to-br from-neutral-900/50 to-neutral-950 border border-neutral-700/50 rounded-xl p-6 hover:border-indigo-600/50 transition-all"
+      className="bg-linear-to-br from-neutral-900/50 to-neutral-950 border border-neutral-700/50 rounded-xl p-6 hover:border-indigo-600/50 transition-all"
     >
       <div className="flex items-center gap-4 mb-6">
         <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${colorMap[iconColor]}`}>
@@ -89,7 +89,7 @@ const AdminProfile = ({ data }) => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="bg-gradient-to-br from-neutral-900/50 to-neutral-950 border border-neutral-700/50 rounded-xl p-6 hover:border-indigo-600/50 transition-all"
+        className="bg-linear-to-br from-neutral-900/50 to-neutral-950 border border-neutral-700/50 rounded-xl p-6 hover:border-indigo-600/50 transition-all"
       >
         <div className="mb-6">
           <h2 className="text-2xl font-bold text-white mb-1">

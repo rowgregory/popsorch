@@ -1,14 +1,14 @@
 import { useRef } from 'react'
 import Link from 'next/link'
-import useCustomPathname from '../hooks/useCustomPathname'
 import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
 import { closeNavigationDrawer } from '../redux/features/appSlice'
 import { getNavigationLinks } from '../utils/navigation.utils'
 import CloseBtnSVG from './svg/CloseBtnSVG'
 import CustomHeaderButton from './CustomHeaderButton'
+import { usePathname } from 'next/navigation'
 
 const NavigationDrawer = () => {
-  const path = useCustomPathname()
+  const path = usePathname()
   const { navigationDrawer, isFeatureToggleCardLive, isFeatureToggleCardVisible } = useAppSelector(
     (state: RootState) => state.app
   )
@@ -33,13 +33,13 @@ const NavigationDrawer = () => {
         onClick={closeDrawer}
         className={`${
           navigationDrawer ? 'block' : 'hidden'
-        } text-white w-5 h-5 hover:text-blaze duration-300 fixed top-5 right-5 z-[101]`}
+        } text-white w-5 h-5 hover:text-blaze duration-300 fixed top-5 right-5 z-101`}
       />
       <div
         ref={overlayRef}
         className={`${
           navigationDrawer ? 'translate-y-0 ' : '-translate-x-full'
-        } duration-700 no-scrollbar w-full h-full fixed bottom-0 left-0 z-[100] transition-all pb-20 bg-inkblack overflow-y-auto flex flex-col items-center`}
+        } duration-700 no-scrollbar w-full h-full fixed bottom-0 left-0 z-100 transition-all pb-20 bg-inkblack overflow-y-auto flex flex-col items-center`}
       >
         <div className="mb-10 px-8 py-16 flex flex-col gap-y-5">
           <CustomHeaderButton {...headerButton} />

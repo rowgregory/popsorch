@@ -3,10 +3,10 @@
 import { useState, useEffect, useRef } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { store, useAccessibilitySelector } from '@/app/redux/store'
-import useCustomPathname from '@/app/hooks/useCustomPathname'
 import { backdropVariants, drawerVariants } from '@/app/lib/constants/motion'
 import { ALargeSmall, BetweenVerticalStart, Contrast, Link, RefreshCcw, X } from 'lucide-react'
 import { setAccessibilitySettings, setToggleAccessibilityDrawer } from '@/app/redux/features/accessibilitySlice'
+import { usePathname } from 'next/navigation'
 
 const textSteps = [1, 1.1, 1.2, 1.3, 1.4, 1.5] // 6 levels: normal + 5 size increases
 
@@ -28,7 +28,7 @@ const StepIndicator: React.FC<StepIndicatorProps> = ({ currentStep }) => {
 }
 
 const AccessibilityDrawer = () => {
-  const path = useCustomPathname()
+  const path = usePathname()
   const { accessibility } = useAccessibilitySelector()
   const [highContrast, setHighContrast] = useState(() =>
     typeof window !== 'undefined' ? localStorage.getItem('highContrast') === 'true' : false
