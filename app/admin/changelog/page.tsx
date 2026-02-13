@@ -17,6 +17,33 @@ interface ChangelogEntry {
 
 const changelogData: ChangelogEntry[] = [
   {
+    version: '3.0.5',
+    date: '2026-02-13',
+    changes: [
+      {
+        type: 'improvement',
+        title: 'Questions Table View',
+        description:
+          'Converted the questions card grid layout to a responsive table for better readability and scalability as submissions grow.',
+        impact: 'medium'
+      },
+      {
+        type: 'feature',
+        title: 'Full Message Modal',
+        description:
+          'Added a click-to-expand modal on the message column so admins can read the full submission without leaving the page.',
+        impact: 'medium'
+      },
+      {
+        type: 'feature',
+        title: 'Delete Question',
+        description:
+          'Added a delete button to each row in the questions table with a loading state to prevent duplicate actions.',
+        impact: 'low'
+      }
+    ]
+  },
+  {
     version: '3.0.4',
     date: '2026-02-10',
     changes: [
