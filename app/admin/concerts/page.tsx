@@ -149,7 +149,7 @@ const AdminConcerts = ({ data }) => {
                       onChange={() => handleToggleOnSale(concert)}
                       isLoading={isPending}
                       name="isOnSale"
-                      color="bg-sunburst"
+                      color="sunburst"
                     />
                   </td>
 
