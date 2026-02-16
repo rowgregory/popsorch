@@ -8,6 +8,8 @@ import subscribeUser from '@/app/utils/mailchimp.subscribeUser'
 
 export async function POST(req: NextRequest) {
   try {
+    const body = await req.json()
+
     const {
       email,
       firstName,
@@ -23,7 +25,7 @@ export async function POST(req: NextRequest) {
       isOption4,
       isNewPatron,
       agreedToPrivacyStatement
-    } = await req.json()
+    } = body
 
     if (!email) {
       return NextResponse.json({ error: 'Email is required' }, { status: 400 })
@@ -31,6 +33,11 @@ export async function POST(req: NextRequest) {
 
     const API_KEY = process.env.MAILCHIMP_API_KEY!
     const LIST_ID = process.env.MAILCHIMP_LIST_ID!
+
+    if (!API_KEY || !LIST_ID) {
+      return NextResponse.json({ error: 'Mailchimp environment variables are not configured' }, { status: 500 })
+    }
+
     const DATACENTER = API_KEY.split('-')[1]
 
     const BASE_URL = `https://${DATACENTER}.api.mailchimp.com/3.0/lists/${LIST_ID}`

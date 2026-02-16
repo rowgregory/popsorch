@@ -63,7 +63,9 @@ export function truncateString(str: string, slice: number) {
   return str
 }
 
-export const formatPhoneNumberForMailchimp = (phone: string) => {
+export const formatPhoneNumberForMailchimp = (phone?: string | null) => {
+  if (!phone) return ''
+
   const digitsOnly = phone.replace(/\D/g, '')
 
   // If it starts with 1 and is 11 digits, strip the 1

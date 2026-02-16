@@ -9,25 +9,36 @@ const subscribeUser = async (
   API_KEY: string,
   DATACENTER: string,
   LIST_ID: string,
-  address: { addr1: string; city: string; state: string; zip: string },
-  user: { firstName: string; lastName: string; email: string; phoneNumber: string },
+  address: { addr1?: string; city?: string; state?: string; zip?: string },
+  user: { firstName?: string; lastName?: string; email: string; phoneNumber?: string },
   req: NextRequest
 ) => {
+  const mergeFields: any = {
+    FNAME: user?.firstName || '',
+    LNAME: user?.lastName || '',
+    EMAIL: user?.email
+  }
+
+  // Only add phone if it exists
+  if (user?.phoneNumber) {
+    mergeFields.MMERGE3 = formatPhoneNumberForMailchimp(user.phoneNumber)
+  }
+
+  // Only add address if at least addr1 exists
+  if (address?.addr1) {
+    mergeFields.MMERGE4 = {
+      addr1: address?.addr1 || '',
+      city: address?.city || '',
+      state: address?.state || '',
+      zip: address?.zip || '',
+      country: 'US'
+    }
+  }
+
   const data: any = {
     email_address: user?.email,
     status: 'subscribed',
-    merge_fields: {
-      FNAME: user?.firstName,
-      LNAME: user?.lastName,
-      EMAIL: user?.email,
-      MMERGE4: {
-        addr1: address?.addr1,
-        city: address?.city,
-        state: address?.state,
-        zip: address?.zip
-      },
-      MMERGE3: formatPhoneNumberForMailchimp(user.phoneNumber)
-    },
+    merge_fields: mergeFields,
     interests: interestMapping
   }
 
@@ -53,7 +64,12 @@ const subscribeUser = async (
     })
 
     return NextResponse.json(
-      { error: subscribeResult.title, detail: subscribeResult.detail, sliceName: sliceMailchimp },
+      {
+        error: subscribeResult.title,
+        detail: subscribeResult.detail,
+        errors: subscribeResult.errors,
+        sliceName: sliceMailchimp
+      },
       { status: subscribeResponse.status }
     )
   }

@@ -1,27 +1,64 @@
-import { FC } from 'react'
-import { RootState, useAppDispatch, useAppSelector } from '@/app/redux/store'
-import { createFormActions } from '@/app/redux/features/formSlice'
-import Spinner from '@/app/components/common/Spinner'
+import { store, useFormSelector, useMailchimpSelector } from '@/app/redux/store'
+import { createFormActions, resetForm, setInputs } from '@/app/redux/features/formSlice'
 import Switch from './elements/Switch'
 import CampInput from './elements/CampInput'
-import TitleWithLine from '@/app/components/common/TitleWithLine'
 import Link from 'next/link'
+import { useSubscribeMutation } from '@/app/redux/services/mailchimpApi'
+import validateNewsletterForm from '@/app/lib/validations/validateNewsletterForm'
+import { showToast } from '@/app/redux/features/toastSlice'
 
-const NewsletterForm: FC<{ handleSubmit: any; isLoading: boolean }> = ({ handleSubmit, isLoading }) => {
-  const dispatch = useAppDispatch()
-  const { textBlockMap } = useAppSelector((state: RootState) => state.textBlock)
-  const { newsletterForm } = useAppSelector((state: RootState) => state.form)
-  const { success, error } = useAppSelector((state: RootState) => state.mailchimp)
-  const { setInputs, handleInput, handleToggle } = createFormActions('newsletterForm', dispatch)
+const NewsletterForm = () => {
+  const { success } = useMailchimpSelector()
+  const { newsletterForm } = useFormSelector()
+  const { setErrors, handleInput, handleToggle } = createFormActions('newsletterForm', store.dispatch)
+  const inputs = newsletterForm?.inputs
+  const errors = newsletterForm?.errors
+  const [subscribe, { isLoading }] = useSubscribeMutation()
 
   const selectAllSwitches = () => {
-    setInputs({
-      isSelectAll: !newsletterForm.inputs.isSelectAll,
-      isOption1: newsletterForm.inputs.isSelectAll ? false : true,
-      isOption2: newsletterForm.inputs.isSelectAll ? false : true,
-      isOption3: newsletterForm.inputs.isSelectAll ? false : true,
-      isOption4: newsletterForm.inputs.isSelectAll ? false : true
-    })
+    store.dispatch(
+      setInputs({
+        formName: 'newsletterForm',
+        data: {
+          isSelectAll: !inputs?.isSelectAll,
+          isOption1: inputs?.isSelectAll ? false : true,
+          isOption2: inputs?.isSelectAll ? false : true,
+          isOption3: inputs?.isSelectAll ? false : true,
+          isOption4: inputs?.isSelectAll ? false : true
+        }
+      })
+    )
+  }
+
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
+    e.preventDefault()
+
+    const isValid = validateNewsletterForm(newsletterForm?.inputs, setErrors)
+    if (!isValid) return
+
+    try {
+      await subscribe({
+        firstName: inputs.firstName,
+        lastName: inputs.lastName,
+        email: inputs.email,
+        phoneNumber: inputs.phoneNumber,
+        addr1: inputs.addr1,
+        city: inputs.city,
+        state: inputs.state,
+        zip: inputs.zip,
+        isOption1: inputs.isOption1,
+        isOption2: inputs.isOption2,
+        isOption3: inputs.isOption3,
+        isOption4: inputs.isOption4,
+        isNewPatron: inputs.isNewPatron,
+        agreedToPrivacyStatement: inputs.agreedToPrivacyStatement
+      }).unwrap()
+
+      store.dispatch(showToast({ message: 'Successfully subscribed!', type: 'success' }))
+      store.dispatch(resetForm('newsletterForm'))
+    } catch {
+      store.dispatch(showToast({ message: 'Failed to subscribe. Please try again later.', type: 'error' }))
+    }
   }
 
   return (
@@ -42,109 +79,70 @@ const NewsletterForm: FC<{ handleSubmit: any; isLoading: boolean }> = ({ handleS
           </div>
         ) : (
           <>
-            <TitleWithLine
-              title={textBlockMap?.NEWSLETTER_FORM_PAGE?.newsletterFormPageTitle}
-              type="NEWSLETTER_FORM_PAGE"
-              textBlockKey="newsletterFormPageTitle"
-            />
+            <div className="relative h-fit w-fit px-5 max-w-3xl mx-auto">
+              <span className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 h-[1.5px] bg-blaze/70 w-full"></span>
+              <h1 className="text-white font-changa text-center text-[48px] relative z-10">
+                Use the form below to sign up for The Pops Orchestra&apos;s weekly newsletters
+              </h1>
+            </div>
             <div className="flex flex-col gap-y-7 mt-14 max-w-3xl mx-auto w-full relative">
               <h1 className="font-changa text-2xl mt-5 -mb-3">User Details</h1>
               <div className="flex flex-col md:flex-row gap-y-7 md:gap-7">
                 <CampInput
                   name="firstName"
-                  value={newsletterForm?.inputs?.firstName}
+                  value={inputs?.firstName}
                   handleInput={handleInput}
-                  placeholder="Firstname*"
-                  error={newsletterForm?.errors?.firstName}
+                  placeholder="First Name*"
+                  error={errors?.firstName}
                 />
                 <CampInput
                   name="lastName"
-                  value={newsletterForm?.inputs?.lastName}
+                  value={inputs?.lastName}
                   handleInput={handleInput}
-                  placeholder="Lastname*"
-                  error={newsletterForm?.errors?.lastName}
+                  placeholder="Last Name*"
+                  error={errors?.lastName}
                 />
               </div>
               <div className="flex flex-col md:flex-row gap-y-7 md:gap-7">
                 <CampInput
                   name="email"
-                  value={newsletterForm?.inputs?.email}
+                  value={inputs?.email}
                   handleInput={handleInput}
                   placeholder="Email*"
-                  error={newsletterForm?.errors?.email}
+                  error={errors?.email}
                 />
                 <CampInput
                   name="phoneNumber"
-                  value={newsletterForm?.inputs?.phoneNumber}
+                  value={inputs?.phoneNumber}
                   handleInput={handleInput}
                   placeholder="Phone number"
                 />
               </div>
               <h1 className="font-changa text-2xl mt-5 -mb-3">Address</h1>
               <div className="flex flex-col md:flex-row gap-y-7 md:gap-7">
-                <CampInput
-                  name="addr1"
-                  value={newsletterForm?.inputs?.addr1}
-                  handleInput={handleInput}
-                  placeholder="Address line 1"
-                />
-                <CampInput
-                  name="city"
-                  value={newsletterForm?.inputs?.city}
-                  handleInput={handleInput}
-                  placeholder="City"
-                />
+                <CampInput name="addr1" value={inputs?.addr1} handleInput={handleInput} placeholder="Address line 1" />
+                <CampInput name="city" value={inputs?.city} handleInput={handleInput} placeholder="City" />
               </div>
               <div className="flex flex-col md:flex-row gap-y-7 md:gap-7">
-                <CampInput
-                  name="state"
-                  value={newsletterForm?.inputs?.state}
-                  handleInput={handleInput}
-                  placeholder="State"
-                />
-                <CampInput
-                  name="zip"
-                  value={newsletterForm?.inputs?.zip}
-                  handleInput={handleInput}
-                  placeholder="Zip code"
-                />
+                <CampInput name="state" value={inputs?.state} handleInput={handleInput} placeholder="State" />
+                <CampInput name="zip" value={inputs?.zip} handleInput={handleInput} placeholder="Zip code" />
               </div>
               <div className="flex flex-col gap-y-4">
                 <h1 className="font-changa text-2xl mt-5 mb-3">I&apos;m interested in:</h1>
                 <div className="flex items-center gap-x-3">
-                  <Switch
-                    enabled={newsletterForm?.inputs?.isOption1 || false}
-                    onChange={handleToggle}
-                    name="isOption1"
-                    color="blaze"
-                  />
+                  <Switch enabled={inputs?.isOption1 || false} onChange={handleToggle} name="isOption1" color="blaze" />
                   <div className="font-lato font-semibold text-sm text-white">Season Tickets</div>
                 </div>
                 <div className="flex items-center gap-x-3">
-                  <Switch
-                    enabled={newsletterForm?.inputs?.isOption2 || false}
-                    onChange={handleToggle}
-                    name="isOption2"
-                    color="blaze"
-                  />
+                  <Switch enabled={inputs?.isOption2 || false} onChange={handleToggle} name="isOption2" color="blaze" />
                   <div className="font-lato font-semibold text-sm text-white">Special Events</div>
                 </div>
                 <div className="flex items-center gap-x-3">
-                  <Switch
-                    enabled={newsletterForm?.inputs?.isOption3 || false}
-                    onChange={handleToggle}
-                    name="isOption3"
-                    color="blaze"
-                  />
+                  <Switch enabled={inputs?.isOption3 || false} onChange={handleToggle} name="isOption3" color="blaze" />
                   <div className="font-lato font-semibold text-sm text-white">Youth Education</div>
                 </div>
                 <div className="flex items-center gap-x-3">
-                  <Switch
-                    enabled={newsletterForm?.inputs?.isOption4 || false}
-                    onChange={handleToggle}
-                    name="isOption4"
-                    color="blaze"
-                  />
+                  <Switch enabled={inputs?.isOption4 || false} onChange={handleToggle} name="isOption4" color="blaze" />
                   <div className="font-lato font-semibold text-sm text-white">Other</div>
                 </div>
                 <button
@@ -152,14 +150,14 @@ const NewsletterForm: FC<{ handleSubmit: any; isLoading: boolean }> = ({ handleS
                   onClick={() => selectAllSwitches()}
                   className="text-left text-sm text-sunburst font-semibold font-lato hover:text-sunbursthover transition-colors"
                 >
-                  {newsletterForm.inputs.isSelectAll ? 'Deselect' : 'Select'} All
+                  {inputs?.isSelectAll ? 'Deselect' : 'Select'} All
                 </button>
               </div>
               <div className="flex flex-col gap-y-4 mt-3">
                 <h1 className="font-changa text-2xl mt-5">New Patron</h1>
                 <div className="flex items-center gap-x-3">
                   <Switch
-                    enabled={newsletterForm?.inputs?.isNewPatron || false}
+                    enabled={inputs?.isNewPatron || false}
                     onChange={handleToggle}
                     name="isNewPatron"
                     color="blaze"
@@ -171,7 +169,7 @@ const NewsletterForm: FC<{ handleSubmit: any; isLoading: boolean }> = ({ handleS
                 <h1 className="font-changa text-2xl mt-5">Privacy</h1>
                 <div className="flex items-center gap-x-3">
                   <Switch
-                    enabled={newsletterForm?.inputs?.agreedToPrivacyStatement || false}
+                    enabled={inputs?.agreedToPrivacyStatement || false}
                     onChange={handleToggle}
                     name="agreedToPrivacyStatement"
                     color="blaze"
@@ -179,23 +177,22 @@ const NewsletterForm: FC<{ handleSubmit: any; isLoading: boolean }> = ({ handleS
                   <div className="font-lato font-semibold text-sm text-white">
                     I agree with the storage and handling of my data by this website.
                   </div>
-                  {newsletterForm?.errors?.agreedToPrivacyStatement && (
-                    <div className="text-blaze font-changa absolute left-25.5 760:left-26.75 -bottom-5 760:-bottom-2 text-13 mt-1">
-                      {newsletterForm?.errors?.agreedToPrivacyStatement}
+                  {errors?.agreedToPrivacyStatement && (
+                    <div className="text-blaze font-changa absolute left-22 760:-bottom-2 text-13">
+                      {errors?.agreedToPrivacyStatement}
                     </div>
                   )}
                 </div>
               </div>
-              {(error || newsletterForm?.errors) && (
-                <div className="text-blaze font-changa absolute left-1/2 -translate-x-1/2 576:translate-x-0 576:left-0 -bottom-7 text-13 mt-1">
-                  {error || 'Please correct all errors.'}
-                </div>
-              )}
               <button
                 type="submit"
-                className="bg-blaze hover:bg-blazehover duration-300 w-full 576:w-40 px-8 py-3 font-changa uppercase tracking-wider rounded-sm font-medium text-13 mt-20"
+                className="bg-blaze hover:bg-blaze/80 duration-300 w-full sm:w-40 px-8 py-3 font-changa uppercase tracking-wider rounded-sm font-medium text-xs mt-20 flex items-center justify-center"
               >
-                {isLoading ? <Spinner fill="fill-white" track="fill-blaze" /> : 'Submit'}
+                {isLoading ? (
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                ) : (
+                  'Submit'
+                )}
               </button>
             </div>
           </>

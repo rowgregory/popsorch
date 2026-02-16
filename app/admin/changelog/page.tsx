@@ -17,6 +17,33 @@ interface ChangelogEntry {
 
 const changelogData: ChangelogEntry[] = [
   {
+    version: '3.0.6',
+    date: '2026-02-16',
+    changes: [
+      {
+        type: 'improvement',
+        title: 'Mailchimp Environment Variable Guard',
+        description:
+          'Added an explicit check for MAILCHIMP_API_KEY and MAILCHIMP_LIST_ID environment variables at the start of the subscribe route, returning a clear 500 error if either is missing rather than crashing silently.',
+        impact: 'medium'
+      },
+      {
+        type: 'refactor',
+        title: 'Consolidated Newsletter Form Logic',
+        description:
+          'Moved all newsletter form logic directly into the NewsletterForm child component, simplifying the overall form architecture.',
+        impact: 'medium'
+      },
+      {
+        type: 'bugfix',
+        title: 'Conditional Phone Number in Mailchimp Payload',
+        description:
+          'Updated the subscribeUser function to only include the phone number merge field in the Mailchimp payload when a phone number is provided, preventing validation errors for optional fields.',
+        impact: 'medium'
+      }
+    ]
+  },
+  {
     version: '3.0.5',
     date: '2026-02-13',
     changes: [

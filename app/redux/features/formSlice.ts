@@ -63,6 +63,16 @@ const formInitialState = {
       isOption3: false,
       isOption4: false,
       isSelectAll: false
+    },
+    errors: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      isOption1: false,
+      isOption2: false,
+      isOption3: false,
+      isOption4: false,
+      isSelectAll: false
     }
   },
   contactForm: { inputs: { name: '', email: '', message: '' }, errors: {} },
