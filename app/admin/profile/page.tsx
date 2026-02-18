@@ -23,7 +23,7 @@ function SettingsCard({ icon: Icon, iconColor, title, subtitle, delay, children 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay }}
-      className="bg-linear-to-br from-neutral-900/50 to-neutral-950 border border-neutral-700/50 rounded-xl p-6 hover:border-indigo-600/50 transition-all"
+      className="bg-linear-to-br from-neutral-900/50 to-neutral-950 border border-neutral-700/50 rounded-xl p-6 transition-all w-full"
     >
       <div className="flex items-center gap-4 mb-6">
         <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${colorMap[iconColor]}`}>
@@ -89,7 +89,7 @@ const AdminProfile = ({ data }) => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="bg-linear-to-br from-neutral-900/50 to-neutral-950 border border-neutral-700/50 rounded-xl p-6 hover:border-indigo-600/50 transition-all"
+        className="bg-linear-to-br from-neutral-900/50 to-neutral-950 border border-neutral-700/50 rounded-xl p-6 transition-all"
       >
         <div className="mb-6">
           <h2 className="text-2xl font-bold text-white mb-1">
@@ -125,55 +125,57 @@ const AdminProfile = ({ data }) => {
         </div>
       </motion.div>
 
-      {/* Audio Preferences */}
-      <SettingsCard
-        icon={Volume2}
-        iconColor="cyan"
-        title="Audio Preferences"
-        subtitle="Customize your sound experience"
-        delay={0.2}
-      >
-        <div className="flex items-center justify-between p-4 bg-neutral-800/40 rounded-lg">
-          <div>
-            <div className="text-neutral-200 font-medium">Sound Effects</div>
-            <div className="text-neutral-400 text-sm">{data?.isSoundEffectsOn ? 'Enabled' : 'Disabled'}</div>
-          </div>
-          <Switch
-            enabled={data?.isSoundEffectsOn}
-            onChange={handleSoundEffectsToggle}
-            isLoading={isPending}
-            name="sound-effects"
-            color="bg-cyan-500"
-          />
-        </div>
-      </SettingsCard>
-
-      {/* Notifications */}
-      {isSupported && (
+      <div className="flex items-center flex-col md:flex-row gap-y-4 md:gap-x-4">
+        {/* Audio Preferences */}
         <SettingsCard
-          icon={Bell}
-          iconColor="indigo"
-          title="Notifications"
-          subtitle="Stay updated with important alerts"
-          delay={0.3}
+          icon={Volume2}
+          iconColor="cyan"
+          title="Audio Preferences"
+          subtitle="Customize your sound experience"
+          delay={0.2}
         >
           <div className="flex items-center justify-between p-4 bg-neutral-800/40 rounded-lg">
             <div>
-              <div className="text-neutral-200 font-medium">Push Notifications</div>
-              <div className="text-neutral-400 text-sm">
-                {isEnabled ? "You'll receive real-time updates" : 'Turn on to stay informed'}
-              </div>
+              <div className="text-neutral-200 font-medium">Sound Effects</div>
+              <div className="text-neutral-400 text-sm">{data?.isSoundEffectsOn ? 'Enabled' : 'Disabled'}</div>
             </div>
             <Switch
-              enabled={isEnabled}
-              onChange={handleNotificationToggle}
-              isLoading={isLoading}
-              name="push-notifications"
-              color="bg-indigo-500"
+              enabled={data?.isSoundEffectsOn}
+              onChange={handleSoundEffectsToggle}
+              isLoading={isPending}
+              name="sound-effects"
+              color="blaze"
             />
           </div>
         </SettingsCard>
-      )}
+
+        {/* Notifications */}
+        {isSupported && (
+          <SettingsCard
+            icon={Bell}
+            iconColor="indigo"
+            title="Notifications"
+            subtitle="Stay updated with important alerts"
+            delay={0.3}
+          >
+            <div className="flex items-center justify-between p-4 bg-neutral-800/40 rounded-lg">
+              <div>
+                <div className="text-neutral-200 font-medium">Push Notifications</div>
+                <div className="text-neutral-400 text-sm">
+                  {isEnabled ? "You'll receive real-time updates" : 'Turn on to stay informed'}
+                </div>
+              </div>
+              <Switch
+                enabled={isEnabled}
+                onChange={handleNotificationToggle}
+                isLoading={isLoading}
+                name="push-notifications"
+                color="blaze"
+              />
+            </div>
+          </SettingsCard>
+        )}
+      </div>
     </div>
   )
 }
