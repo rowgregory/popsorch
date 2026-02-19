@@ -17,6 +17,40 @@ interface ChangelogEntry {
 
 const changelogData: ChangelogEntry[] = [
   {
+    version: '3.0.7',
+    date: '2026-02-19',
+    changes: [
+      {
+        type: 'ui',
+        title: 'Sold Out verbiage update',
+        description:
+          'Updated ticket availability label to "Sold Out" for clearer, more standard language across concert listings.',
+        impact: 'low'
+      },
+      {
+        type: 'feature',
+        title: 'HostGator Credentials Card',
+        description:
+          'Added a HostGator card to the admin credentials dashboard for quick access to web hosting and domain management.',
+        impact: 'low'
+      },
+      {
+        type: 'feature',
+        title: 'Mailchimp Credentials Card',
+        description:
+          'Added a Mailchimp card to the admin credentials dashboard for quick access to email marketing and campaign management.',
+        impact: 'low'
+      },
+      {
+        type: 'feature',
+        title: 'Resend Credentials Card',
+        description:
+          'Added a Resend card to the admin credentials dashboard showing connection status for the transactional email service.',
+        impact: 'low'
+      }
+    ]
+  },
+  {
     version: '3.0.6',
     date: '2026-02-16',
     changes: [

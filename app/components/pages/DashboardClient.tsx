@@ -6,8 +6,11 @@ import GoogleAnalyticsCard from '@/app/components/admin/dashboard/GoogleAnalytic
 import { motion } from 'framer-motion'
 import { containerVariants } from '@/app/lib/constants/advertise-with-us'
 import StripeCard from '../admin/dashboard/StripeCard'
+import HostGatorCard from '../admin/dashboard/HostGatorCard'
+import MailChimpCard from '../admin/dashboard/MailChimpCard'
+import ResendCard from '../admin/dashboard/ResendCard'
 
-const DashboardClient = ({ googleAnalyticsCredentials }) => {
+const DashboardClient = ({ googleAnalyticsCredentials, hostGatorCredentials, mailChimpCredentials }) => {
   return (
     <div className="h-full p-6">
       <div className="mx-auto">
@@ -21,6 +24,9 @@ const DashboardClient = ({ googleAnalyticsCredentials }) => {
           <FBPixelComingSoon />
           <ApothecaryCard />
           <StripeCard />
+          <HostGatorCard credentials={hostGatorCredentials} />
+          <MailChimpCard credentials={mailChimpCredentials} />
+          <ResendCard />
         </motion.div>
       </div>
     </div>
