@@ -59,7 +59,7 @@ const PublicConcertDetailsEventLocator: FC<IConcertDetailsEventLocator> = ({
       <div className="mt-4">
         {!eventDetail.isOnSale ? (
           <div className="inline-flex items-center gap-2 px-6 py-3 bg-neutral-700/50 text-neutral-400 font-bold text-sm uppercase tracking-wider rounded-lg cursor-not-allowed opacity-50">
-            <span>Show Completed</span>
+            <span>Sold Out</span>
           </div>
         ) : eventDetail.isOnSale ? (
           <a
