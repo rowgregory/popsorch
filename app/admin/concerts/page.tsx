@@ -77,134 +77,154 @@ const AdminConcerts = ({ data }) => {
   }
 
   return (
-    <div className="h-[calc(100vh-66px)] p-6">
-      {/* Stats Cards - Mobile */}
-      <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
-        {getConcertStatusOptions(concerts).map((concert) => (
-          <motion.div
-            key={concert.value}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-neutral-900/50 p-4 rounded-xl shadow-sm border border-neutral-800"
-          >
-            <div className="flex flex-col items-center">
-              <p className="text-xs text-neutral-400 mb-1">{concert.label}</p>
-              <p className="text-xl font-bold text-white">{concert.count}</p>
+    <div className="h-[calc(100vh-66px)]">
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="bg-linear-to-br from-neutral-900 to-neutral-950 border-b border-neutral-800"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="min-w-0">
+              <h1 className="text-2xl sm:text-3xl font-bold text-white">Concerts</h1>
+              <p className="text-neutral-400 text-sm sm:text-base mt-1">
+                Manage and organize all concerts for the season
+              </p>
             </div>
-          </motion.div>
-        ))}
-      </div>
+          </div>
+        </div>
+      </motion.div>
 
-      {/* Concerts Table */}
-      <div className="bg-neutral-900/50 rounded-xl shadow-sm border border-neutral-800 overflow-hidden">
-        <div className="p-6 border-b border-neutral-800">
-          <h2 className="text-xl font-semibold text-white">All Concerts</h2>
+      <div className="max-w-7xl mx-auto px-6 py-8">
+        {/* Stats Cards - Mobile */}
+        <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+          {getConcertStatusOptions(concerts).map((concert) => (
+            <motion.div
+              key={concert.value}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-neutral-900/50 p-4 rounded-xl shadow-sm border border-neutral-800"
+            >
+              <div className="flex flex-col items-center">
+                <p className="text-xs text-neutral-400 mb-1">{concert.label}</p>
+                <p className="text-xl font-bold text-white">{concert.count}</p>
+              </div>
+            </motion.div>
+          ))}
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-neutral-950">
-              <tr>
-                <th className="px-6 py-4 text-left text-xs font-medium text-neutral-400 uppercase tracking-wider">
-                  Concert
-                </th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-neutral-400 uppercase tracking-wider">
-                  Type
-                </th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-neutral-400 uppercase tracking-wider">
-                  Is On Sale
-                </th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-neutral-400 uppercase tracking-wider">
-                  Created
-                </th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-neutral-400 uppercase tracking-wider">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-neutral-900/50 divide-y divide-neutral-800">
-              {concerts?.map((concert: IConcert, index: number) => (
-                <motion.tr
-                  key={concert.id}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="hover:bg-neutral-700/50 transition-colors"
-                >
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <p className="text-sm font-medium text-white">{concert.name}</p>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span
-                      className={`px-3 py-1 text-xs font-medium rounded-full ${
-                        getConcertStatusColor[concert.type] || 'bg-neutral-700 text-neutral-300'
-                      }`}
-                    >
-                      {concert.type}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <Switch
-                      enabled={concert.isOnSale}
-                      onChange={() => handleToggleOnSale(concert)}
-                      isLoading={isPending}
-                      name="isOnSale"
-                      color="sunburst"
-                    />
-                  </td>
+        {/* Concerts Table */}
+        <div className="bg-neutral-900/50 rounded-xl shadow-sm border border-neutral-800 overflow-hidden">
+          <div className="p-6 border-b border-neutral-800">
+            <h2 className="text-xl font-semibold text-white">All Concerts</h2>
+          </div>
 
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="text-sm text-neutral-400">{formatDateShort(concert.createdAt)}</span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center gap-2">
-                      <a
-                        href={concert.allSeriesExternalLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-2 text-neutral-400 hover:text-green-400 hover:bg-green-900/30 rounded-lg transition-colors"
-                        title="Visit Website"
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-neutral-950">
+                <tr>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-neutral-400 uppercase tracking-wider">
+                    Concert
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-neutral-400 uppercase tracking-wider">
+                    Type
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-neutral-400 uppercase tracking-wider">
+                    Is On Sale
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-neutral-400 uppercase tracking-wider">
+                    Created
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-neutral-400 uppercase tracking-wider">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-neutral-900/50 divide-y divide-neutral-800">
+                {concerts?.map((concert: IConcert, index: number) => (
+                  <motion.tr
+                    key={concert.id}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    className="hover:bg-neutral-700/50 transition-colors"
+                  >
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <p className="text-sm font-medium text-white">{concert.name}</p>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span
+                        className={`px-3 py-1 text-xs font-medium rounded-full ${
+                          getConcertStatusColor[concert.type] || 'bg-neutral-700 text-neutral-300'
+                        }`}
                       >
-                        <ExternalLink size={16} />
-                      </a>
-                      <button
-                        onClick={() => handleEditConcert(concert)}
-                        className="p-2 text-neutral-400 hover:text-yellow-400 hover:bg-yellow-900/30 rounded-lg transition-colors"
-                        title="Edit"
-                      >
-                        <Edit2 size={16} />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(concert.id)}
-                        disabled={deletingId === concert.id}
-                        className="disabled:opacity-50 disabled:cursor-not-allowed p-2 text-neutral-400 hover:text-red-400 hover:bg-red-900/30 rounded-lg transition-colors"
-                      >
-                        {deletingId === concert.id ? (
-                          <Loader2 className="w-4 h-4 animate-spin" />
-                        ) : (
-                          <Trash2 className="w-4 h-4" />
-                        )}
-                      </button>
-                    </div>
-                  </td>
-                </motion.tr>
-              ))}
-            </tbody>
-          </table>
+                        {concert.type}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <Switch
+                        enabled={concert.isOnSale}
+                        onChange={() => handleToggleOnSale(concert)}
+                        isLoading={isPending}
+                        name="isOnSale"
+                        color="sunburst"
+                      />
+                    </td>
+
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className="text-sm text-neutral-400">{formatDateShort(concert.createdAt)}</span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center gap-2">
+                        <a
+                          href={concert.allSeriesExternalLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-2 text-neutral-400 hover:text-green-400 hover:bg-green-900/30 rounded-lg transition-colors"
+                          title="Visit Website"
+                        >
+                          <ExternalLink size={16} />
+                        </a>
+                        <button
+                          onClick={() => handleEditConcert(concert)}
+                          className="p-2 text-neutral-400 hover:text-yellow-400 hover:bg-yellow-900/30 rounded-lg transition-colors"
+                          title="Edit"
+                        >
+                          <Edit2 size={16} />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(concert.id)}
+                          disabled={deletingId === concert.id}
+                          className="disabled:opacity-50 disabled:cursor-not-allowed p-2 text-neutral-400 hover:text-red-400 hover:bg-red-900/30 rounded-lg transition-colors"
+                        >
+                          {deletingId === concert.id ? (
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                          ) : (
+                            <Trash2 className="w-4 h-4" />
+                          )}
+                        </button>
+                      </div>
+                    </td>
+                  </motion.tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
 
-      {/* Empty State (if no concerts) */}
-      {data?.noConcerts && (
-        <EmptyState
-          searchQuery=""
-          typeFilter=""
-          title="Concert"
-          advice="Add your first concert to get started"
-          func={setOpenConcertDrawer}
-          action="Add Concert"
-        />
-      )}
+        {/* Empty State (if no concerts) */}
+        {data?.noConcerts && (
+          <EmptyState
+            searchQuery=""
+            typeFilter=""
+            title="Concert"
+            advice="Add your first concert to get started"
+            func={setOpenConcertDrawer}
+            action="Add Concert"
+          />
+        )}
+      </div>
     </div>
   )
 }

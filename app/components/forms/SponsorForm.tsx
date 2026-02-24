@@ -17,8 +17,7 @@ const SponsorForm = ({ inputs, errors, handleInput, close, handleSubmit, loading
     'Guest Artist Sponsor',
     'Principal Sponsor',
     'Media Sponsor',
-    'Partner',
-    inputs?.level
+    'Partner'
   ])
 
   const imagePreviewUrl = useMemo(() => {

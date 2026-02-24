@@ -1,7 +1,8 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { Trash2 } from 'lucide-react'
 import { FC } from 'react'
-import { useDeleteCampApplicationMutation } from '@/app/redux/services/campApi'
+import { deleteCampApplication } from '@/app/actions/deleteCampApplication'
+import { useRouter } from 'next/navigation'
 
 interface IAdminDeleteCampApplicationsModal {
   showDeleteConfirm: boolean
@@ -20,19 +21,16 @@ const AdminDeleteCampApplicationsModal: FC<IAdminDeleteCampApplicationsModal> = 
   setIsDeleting,
   setSelectedApplications
 }) => {
-  const [deleteCampApplications] = useDeleteCampApplicationMutation()
-  // Handle bulk delete
-  const handleBulkDelete = async () => {
-    setIsDeleting(true)
-    try {
-      await deleteCampApplications({ campApplicationIds: Array.from(selectedApplications) })
+  const router = useRouter()
 
-      // Clear selection after successful delete
-      setSelectedApplications(new Set())
-      setShowDeleteConfirm(false)
-    } finally {
-      setIsDeleting(false)
-    }
+  const handleDelete = async () => {
+    if (selectedApplications.size === 0) return
+    setIsDeleting(true)
+    await Promise.allSettled(Array.from(selectedApplications).map((id: string) => deleteCampApplication(id)))
+    router.refresh()
+    setSelectedApplications(new Set())
+    setShowDeleteConfirm(false)
+    setIsDeleting(false)
   }
 
   return (
@@ -42,62 +40,64 @@ const AdminDeleteCampApplicationsModal: FC<IAdminDeleteCampApplicationsModal> = 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          className="fixed inset-0 backdrop-blur-md bg-black/80 flex items-center justify-center z-50 p-6"
           onClick={() => !isDeleting && setShowDeleteConfirm(false)}
         >
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="bg-white rounded-xl p-6 max-w-md mx-4 shadow-xl"
+            transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+            className="w-full max-w-md bg-neutral-900 border border-neutral-800 rounded-2xl overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
-                <Trash2 className="text-red-600" size={20} />
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900">Delete Applications</h3>
-                <p className="text-sm text-gray-500">This action cannot be undone</p>
-              </div>
-            </div>
+            <div className="h-1 w-full" style={{ background: 'linear-gradient(90deg, #da0032, #ff9000)' }} />
 
-            <p className="text-gray-700 mb-6">
-              Are you sure you want to delete {selectedApplications.size} camp application
-              {selectedApplications.size !== 1 ? 's' : ''}?
-            </p>
+            <div className="p-6">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-blaze/10 border border-blaze/20 rounded-full flex items-center justify-center">
+                  <Trash2 className="text-blaze w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-white">Delete Applications</h3>
+                  <p className="text-xs text-neutral-500">This action cannot be undone</p>
+                </div>
+              </div>
 
-            <div className="flex gap-3 justify-end">
-              <button
-                onClick={() => setShowDeleteConfirm(false)}
-                disabled={isDeleting}
-                className="px-4 py-2 text-gray-600 hover:text-gray-800 disabled:text-gray-400 font-medium transition-colors"
-              >
-                Cancel
-              </button>
-              <motion.button
-                onClick={handleBulkDelete}
-                disabled={isDeleting}
-                className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white font-medium rounded-md transition-colors"
-                whileHover={!isDeleting ? { scale: 1.02 } : {}}
-                whileTap={!isDeleting ? { scale: 0.98 } : {}}
-              >
-                {isDeleting ? (
-                  <>
-                    <motion.div
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                      className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
-                    />
-                    Deleting...
-                  </>
-                ) : (
-                  <>
-                    <Trash2 size={16} />
-                    Delete
-                  </>
-                )}
-              </motion.button>
+              <p className="text-sm text-neutral-400 mb-6">
+                Are you sure you want to delete <strong className="text-white">{selectedApplications.size}</strong> camp
+                application
+                {selectedApplications.size !== 1 ? 's' : ''}?
+              </p>
+
+              <div className="flex gap-3 justify-end">
+                <button
+                  onClick={() => setShowDeleteConfirm(false)}
+                  disabled={isDeleting}
+                  className="px-4 py-2 text-sm font-semibold text-neutral-400 hover:text-white disabled:opacity-40 transition-colors"
+                >
+                  Cancel
+                </button>
+                <motion.button
+                  onClick={handleDelete}
+                  disabled={isDeleting}
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-bold text-white rounded-lg bg-blaze hover:bg-[#c0002b] disabled:opacity-50 transition-colors"
+                  whileHover={!isDeleting ? { scale: 1.02 } : {}}
+                  whileTap={!isDeleting ? { scale: 0.98 } : {}}
+                >
+                  {isDeleting ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      Deleting...
+                    </>
+                  ) : (
+                    <>
+                      <Trash2 className="w-4 h-4" />
+                      Delete
+                    </>
+                  )}
+                </motion.button>
+              </div>
             </div>
           </motion.div>
         </motion.div>

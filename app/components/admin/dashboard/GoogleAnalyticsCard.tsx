@@ -129,7 +129,7 @@ export default function GoogleAnalyticsCard({ credentials }: { credentials: Anal
         rel="noopener noreferrer"
         className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-linear-to-r from-[#E37400] to-[#F9AB00] hover:from-[#F08000] hover:to-[#FBBC04] text-white font-semibold rounded-lg transition-all shadow-lg shadow-[#E37400]/20"
       >
-        Open Google Analytics Platform
+        Open Google Analytics
         <ExternalLink className="w-4 h-4" />
       </a>
     </motion.div>

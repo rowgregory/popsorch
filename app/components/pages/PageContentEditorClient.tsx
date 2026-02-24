@@ -4,20 +4,16 @@ import { createPage } from '@/app/actions/createPage'
 import { updatePage } from '@/app/actions/updatePage'
 import { showToast } from '@/app/redux/features/toastSlice'
 import { useAppDispatch, useDashboardSelector } from '@/app/redux/store'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { setOpenPageSelectorModal } from '@/app/redux/features/dashboardSlice'
 import { ChevronDown } from 'lucide-react'
-import { cauldronFolders } from '@/app/lib/constants/admin'
 import { PageContentEditor } from '../page-content-editor/PageContentEditor'
 
-export default function TheCauldronClient({ data }) {
+export default function PageContentEditorClient({ data }) {
   const dispatch = useAppDispatch()
   const { pageSelectorModal } = useDashboardSelector()
-  const params = useSearchParams()
-  const selectedFolder = params.get('page')
-  const selectedFolderObj = cauldronFolders.find((folder) => folder.value === selectedFolder)
   const router = useRouter()
   const [isSaving, setIsSaving] = useState(false)
 
@@ -27,11 +23,11 @@ export default function TheCauldronClient({ data }) {
     try {
       if (data?.id) {
         // Update existing page
-        await updatePage(selectedFolder, { content })
+        await updatePage(data?.slug, { content })
       } else {
         // Create new page
         await createPage({
-          slug: selectedFolder,
+          slug: data?.slug,
           content
         })
       }
@@ -39,7 +35,7 @@ export default function TheCauldronClient({ data }) {
       router.refresh()
       dispatch(
         showToast({
-          message: `${selectedFolder} page ${data?.id ? 'updated' : 'created'} successfully!`,
+          message: `${data?.slug} page ${data?.id ? 'updated' : 'created'} successfully!`,
           type: 'success'
         })
       )
@@ -57,7 +53,7 @@ export default function TheCauldronClient({ data }) {
 
   return (
     <>
-      <div className="fixed top-[60px] w-full z-10 bg-neutral-900/50 backdrop-blur-sm border-b border-neutral-700/30">
+      <div className="fixed top-15 w-full z-10 bg-neutral-900/50 backdrop-blur-sm border-b border-neutral-700/30">
         <div className="px-2 xs:px-3 sm:px-6">
           <nav className="flex items-center py-2 xs:py-3 sm:py-4 overflow-x-auto scrollbar-none">
             <motion.button
@@ -66,7 +62,7 @@ export default function TheCauldronClient({ data }) {
               onClick={() => dispatch(setOpenPageSelectorModal())}
               className="flex items-center gap-2 px-3 h-full text-white font-medium text-sm rounded-lg hover:bg-neutral-950 transition-colors"
             >
-              <span className="capitalize">{selectedFolderObj?.textKey || ''}</span>
+              <span className="capitalize">{data?.slug || ''}</span>
               <ChevronDown className={`w-4 h-4 transition-transform ${pageSelectorModal ? 'rotate-180' : ''}`} />
             </motion.button>
           </nav>

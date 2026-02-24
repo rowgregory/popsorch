@@ -1,21 +1,19 @@
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
-import ReduxWrapper from './redux-wrapper'
 import Script from 'next/script'
 import { GoogleAnalytics } from '@next/third-parties/google'
 import { Changa, Inter, Lato, Oswald, Raleway } from 'next/font/google'
 import './globals.css'
 import 'ol/ol.css'
-import 'swiper/css'
-import 'swiper/css/effect-fade'
-import 'swiper/css/pagination'
 import { siteMetadata } from './metadata'
 import { getTextBlocks } from './actions/getTextBlocks'
 import { getActiveHeaderButton } from './actions/getActiveHeaderButton'
 import { getConcerts } from './actions/getConcerts'
 import { SessionProvider } from 'next-auth/react'
 import { auth } from './lib/auth'
+import { RootLayoutWrapper } from './root-layout'
+import { getCampApplicationsSetting } from './actions/getCampApplicationsSetting'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -62,6 +60,7 @@ export default async function RootLayout({
   const textBlocks = await getTextBlocks()
   const headerButton = await getActiveHeaderButton()
   const concerts = await getConcerts()
+  const campApplicationsSetting = await getCampApplicationsSetting()
 
   return (
     <html lang="en">
@@ -72,9 +71,14 @@ export default async function RootLayout({
         className={`${inter.variable} ${oswald.variable} ${raleway.variable} ${changa.variable} ${lato.variable} antialiased`}
       >
         <SessionProvider session={session}>
-          <ReduxWrapper textBlocks={textBlocks} headerButton={headerButton} concerts={concerts}>
+          <RootLayoutWrapper
+            textBlocks={textBlocks}
+            headerButton={headerButton}
+            concerts={concerts}
+            campApplicationsSetting={campApplicationsSetting.value}
+          >
             {children}
-          </ReduxWrapper>
+          </RootLayoutWrapper>
         </SessionProvider>
         <Script
           src="https://public.tockify.com/browser/embed.js"

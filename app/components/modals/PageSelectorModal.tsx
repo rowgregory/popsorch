@@ -1,6 +1,6 @@
 'use client'
 
-import { cauldronFolders } from '@/app/lib/constants/admin'
+import { pageContentEditorFolders } from '@/app/lib/constants/admin'
 import { setClosePageSelectorModal, setSelectedCauldronFolder } from '@/app/redux/features/dashboardSlice'
 import { useAppDispatch, useDashboardSelector } from '@/app/redux/store'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -19,7 +19,7 @@ const PageSelectorModal = () => {
     dispatch(setClosePageSelectorModal())
 
     // Update URL with page param
-    router.push(`/admin/the-cauldron?page=${pageSlug}`)
+    router.push(`/admin/page-content-editor?page=${pageSlug}`)
   }
 
   return (
@@ -42,11 +42,10 @@ const PageSelectorModal = () => {
             onClick={(e) => e.stopPropagation()}
           >
             <h2 className="text-xl font-bold text-neutral-100 mb-6">Select a Page</h2>
-
             <div className="grid grid-cols-3 gap-4">
-              {cauldronFolders.map((folder, index) => (
+              {pageContentEditorFolders.map((folder, index) => (
                 <motion.button
-                  disabled={folder.value !== 'home'}
+                  disabled={folder.value !== 'home' && folder.value !== 'camp-application'}
                   key={folder.value}
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}

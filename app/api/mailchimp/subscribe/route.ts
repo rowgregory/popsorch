@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createLog } from '@/app/utils/logHelper'
 import { parseStack } from 'error-stack-parser-es/lite'
 import crypto from 'crypto'
-import { sliceMailchimp } from '@/public/data/api.data'
 import getInterestsMapping from '@/app/utils/mailchimp.getInterestsMapping'
 import subscribeUser from '@/app/utils/mailchimp.subscribeUser'
 
@@ -59,10 +58,7 @@ export async function POST(req: NextRequest) {
     const { status, data: result } = await getSubscriber(email)
 
     if (status !== 404 && !(status === 400 && result?.detail?.includes('permanently deleted'))) {
-      return NextResponse.json(
-        { message: 'Email already subscribed', status, sliceName: sliceMailchimp },
-        { status: 404 }
-      )
+      return NextResponse.json({ message: 'Email already subscribed', status }, { status: 404 })
     }
 
     const user = {
@@ -106,6 +102,6 @@ export async function POST(req: NextRequest) {
       method: req.method
     })
 
-    return NextResponse.json({ error: 'Subscription failed', sliceName: sliceMailchimp }, { status: 500 })
+    return NextResponse.json({ error: 'Subscription failed' }, { status: 500 })
   }
 }

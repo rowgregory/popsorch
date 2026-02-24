@@ -832,7 +832,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-neutral-900 z-50 flex"
+          className="fixed inset-0 bg-neutral-950 z-50 flex"
         >
           {/* Left Navigation Panel */}
           <div className="w-80 border-r border-neutral-700 flex flex-col">
@@ -1173,7 +1173,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
           )}
 
           {/* Main Canvas Area */}
-          <div className="flex-1 bg-neutral-900 flex flex-col">
+          <div className="flex-1 bg-neutral-950 flex flex-col">
             {/* Canvas Header */}
             <div className="px-6 py-4.5 border-b border-neutral-700">
               <h3 className="text-lg font-semibold text-white">Live Preview</h3>
@@ -1184,7 +1184,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
             <div className="flex-1 flex items-center justify-center p-8">
               <div className="max-w-2xl w-full">
                 {/* Preview Area */}
-                <div className="bg-neutral-800/50 rounded-2xl border border-neutral-700 p-12 flex flex-col items-center justify-center min-h-96 relative">
+                <div className="bg-neutral-800/30 rounded-2xl border border-neutral-700 p-12 flex flex-col items-center justify-center min-h-96 relative">
                   <AnimatePresence mode="wait">
                     {buttonConfig.buttonType === 'dropdown' ? (
                       <div className="relative inline-block">

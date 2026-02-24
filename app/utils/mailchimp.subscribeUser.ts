@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { formatPhoneNumberForMailchimp } from './string.functions'
 import { createLog } from './logHelper'
-import { sliceMailchimp } from '@/public/data/api.data'
 import { parseStack } from 'error-stack-parser-es/lite'
 
 const subscribeUser = async (
@@ -67,8 +66,7 @@ const subscribeUser = async (
       {
         error: subscribeResult.title,
         detail: subscribeResult.detail,
-        errors: subscribeResult.errors,
-        sliceName: sliceMailchimp
+        errors: subscribeResult.errors
       },
       { status: subscribeResponse.status }
     )
@@ -83,7 +81,7 @@ const subscribeUser = async (
     method: req.method
   })
 
-  return NextResponse.json({ message: 'Subscribed successfully', sliceName: sliceMailchimp }, { status: 201 })
+  return NextResponse.json({ message: 'Subscribed successfully' }, { status: 201 })
 }
 
 export default subscribeUser

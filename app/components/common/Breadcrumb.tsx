@@ -10,7 +10,7 @@ interface BreadcrumbProps {
 const Breadcrumb: FC<BreadcrumbProps> = ({ breadcrumb, classname, secondCrumb }) => {
   return (
     <div className="px-4 990:px-12 xl:px-4 py-1 1200:py-6 bg-white">
-      <div className="max-w-[520px] 760:max-w-screen-576 990:max-w-[800px] 1200:max-w-screen-1160 1590:max-w-screen-1400 mx-auto">
+      <div className="max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 1590:max-w-screen-1400 mx-auto">
         <div
           className={` mx-auto w-full flex flex-col 1200:flex-row items-center justify-between ${
             classname ?? '1200:max-w-screen-1400'

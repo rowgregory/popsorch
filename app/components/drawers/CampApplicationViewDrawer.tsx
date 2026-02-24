@@ -1,155 +1,129 @@
-import { useAppDispatch, useCampSelector, useFormSelector } from '@/app/redux/store'
+import { store, useCampSelector, useFormSelector } from '@/app/redux/store'
 import BottomDrawer from '@/app/components/common/BottomDrawer'
-import { clearInputs } from '@/app/redux/features/formSlice'
-import { resetCampApplication, setCloseCampApplicationDrawer } from '@/app/redux/features/campSlice'
+import { resetForm } from '@/app/redux/features/formSlice'
+import { setCloseCampApplicationDrawer } from '@/app/redux/features/campSlice'
 import { formatDate } from '@/app/utils/date.functions'
+import { CheckCircle, MapPin, Music, User, Users, X } from 'lucide-react'
+
+const Section = ({ title, icon: Icon, children }: { title: string; icon: any; children: React.ReactNode }) => (
+  <div>
+    <div className="flex items-center gap-2 mb-4">
+      <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 bg-neutral-800 border border-neutral-700">
+        <Icon className="w-3.5 h-3.5 text-sunburst" />
+      </div>
+      <h5 className="text-sm font-bold text-white uppercase tracking-wider">{title}</h5>
+    </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">{children}</div>
+  </div>
+)
+
+const Field = ({ label, value }: { label: string; value?: string }) => (
+  <div className="px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg">
+    <p className="text-[10px] font-semibold text-neutral-500 uppercase tracking-widest mb-1">{label}</p>
+    <p className="text-sm text-white font-medium">{value || '—'}</p>
+  </div>
+)
+
+const Divider = () => <div className="h-px w-full bg-neutral-800" />
 
 const CampApplicationViewDrawer = () => {
-  const dispatch = useAppDispatch()
   const { campForm } = useFormSelector()
   const { campApplicationDrawer } = useCampSelector()
 
   const reset = () => {
-    dispatch(resetCampApplication())
-    dispatch(clearInputs({ formName: 'campForm' }))
-    dispatch(setCloseCampApplicationDrawer())
+    store.dispatch(resetForm('campForm'))
+    store.dispatch(setCloseCampApplicationDrawer())
   }
+
+  const app = campForm?.inputs
 
   return (
     <BottomDrawer isOpen={campApplicationDrawer}>
-      <div className="w-full mx-auto h-full flex items-center flex-col max-h-1000:justify-start justify-center max-h-1000:my-20 overflow-y-auto">
-        <div className="space-y-7 max-w-screen-md w-full">
-          <div className="flex flex-col items-start justify-start w-fit">
-            <h1 className="font-changa text-3xl font-semibold">Camp Application</h1>
-            <h2 className="font-changa text-13 font-semibold text-blue-400">{campForm?.inputs?.id}</h2>
-          </div>
-          <div className="flex 760:items-center flex-col 760:flex-row gap-y-10 760:gap-x-10">
+      <div className="w-full mx-auto h-full flex flex-col overflow-y-auto">
+        <div className="max-w-3xl w-full mx-auto py-10 px-4 space-y-8">
+          {/* Header */}
+          <div className="flex items-start justify-between">
             <div>
-              <h5 className="text-2xl font-changa font-semibold mb-3">Student Details</h5>
-              <ul className="list-disc list-inside ml-4 space-y-1 font-lato text-15 text-white">
-                <li>
-                  Student Name:
-                  <span className="text-white ml-2">
-                    {campForm?.inputs?.student?.firstName} {campForm?.inputs?.student?.lastName}
-                  </span>
-                </li>
-                <li>
-                  Student Email:
-                  <span className="text-white ml-2">{campForm?.inputs?.student?.studentEmailAddress}</span>
-                </li>
-                <li>
-                  Student Phone Number:
-                  <span className="text-white ml-2">{campForm?.inputs?.student?.studentPhoneNumber}</span>
-                </li>
-                <li>
-                  Grade: <span className="text-white ml-2">{campForm?.inputs?.student?.grade}</span>
-                </li>
-                <li>
-                  School: <span className="text-white ml-2">{campForm?.inputs?.student?.school}</span>
-                </li>
-              </ul>
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-sunburst mb-1">Youth Music Camp</p>
+              <h1 className="text-2xl font-black text-white">Camp Application</h1>
+              <p className="text-xs text-neutral-500 font-mono mt-1">{app?.id}</p>
             </div>
-            <div>
-              <h5 className="text-2xl font-changa font-semibold mb-3">Parent / Guardian Details</h5>
-              <ul className="list-disc list-inside ml-4 space-y-1 font-lato text-15 text-white">
-                <li>
-                  Parent / Guardian Name:
-                  <span className="text-white ml-2">
-                    {campForm?.inputs?.parent?.firstName} {campForm?.inputs?.parent?.lastName}
-                  </span>
-                </li>
-                <li>
-                  Relationship to Student:
-                  <span className="text-white ml-2">{campForm?.inputs?.parent?.relationshipToStudent}</span>
-                </li>
-                <li>
-                  Parent / Guardian Email:
-                  <span className="text-white ml-2">{campForm?.inputs?.parent?.parentEmailAddress}</span>
-                </li>
-                <li>
-                  Parent / Guardian Phone Number:
-                  <span className="text-white ml-2">{campForm?.inputs?.parent?.parentPhoneNumber}</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="w-full h-[1px] my-8 bg-zinc-700/70" />
-          <div>
-            <h5 className="text-2xl font-changa font-semibold mb-3">Address</h5>
-            <ul className="list-disc list-inside ml-4 space-y-1 font-lato text-15 text-white">
-              <li>
-                Address Line 1:
-                <span className="text-white ml-2">{campForm?.inputs?.address?.addressLine1}</span>
-              </li>
-              <li>
-                Address Line 2:
-                <span className="text-white ml-2">{campForm?.inputs?.address?.addressLine2}</span>
-              </li>
-              <li>
-                City:
-                <span className="text-white ml-2">{campForm?.inputs?.address?.city}</span>
-              </li>
-              <li>
-                State:
-                <span className="text-white ml-2">{campForm?.inputs?.address?.state}</span>
-              </li>
-              <li>
-                Zip Code:
-                <span className="text-white ml-2">{campForm?.inputs?.address?.zipPostalCode}</span>
-              </li>
-            </ul>
-          </div>
-          <div className="w-full h-[1px] my-8 bg-zinc-700/70" />
-
-          <div>
-            <h5 className="text-2xl font-changa font-semibold mb-3">Instrument & Training</h5>
-            <ul className="list-disc list-inside ml-4 space-y-1 font-lato text-15 text-white">
-              <li>
-                Instrument
-                <span className="text-white ml-2">{campForm?.inputs?.instrument}</span>
-              </li>
-              <li>
-                Music Teacher
-                <span className="text-white ml-2">{campForm?.inputs?.musicTeacher}</span>
-              </li>
-              <li>
-                Brass & Percussion:
-                <span className="text-white ml-2">{campForm?.inputs?.brassAndPercussion}</span>
-              </li>
-              <li>
-                Strings:
-                <span className="text-white ml-2">{campForm?.inputs?.strings}</span>
-              </li>
-              <li>
-                Woodwinds:
-                <span className="text-white ml-2">{campForm?.inputs?.woodwinds}</span>
-              </li>
-              <li>
-                Referral Source:
-                <span className="text-white ml-2">{campForm?.inputs?.referralSource}</span>
-              </li>
-            </ul>
-          </div>
-          <div className="w-full h-[1px] my-8 bg-zinc-700/70" />
-          <div>
-            <h5 className="text-2xl font-changa font-semibold mb-3">
-              Agreed to consent on{' '}
-              {formatDate(campForm?.inputs?.createdAt, {
-                minute: 'numeric',
-                second: 'numeric',
-                hour: 'numeric'
-              })}
-            </h5>
-          </div>
-          <div className="w-full flex items-start mt-10">
             <button
-              type="button"
               onClick={reset}
-              className="w-36 py-3.5 text-12 font-changa font-medium rounded-sm bg-gray-300 text-duskgray uppercase hover:text-blue-400 duration-300"
+              className="w-9 h-9 flex items-center justify-center bg-neutral-800 border border-neutral-700 rounded-lg hover:bg-neutral-700 transition-colors"
             >
-              Close
+              <X className="w-4 h-4 text-neutral-400" />
             </button>
           </div>
+
+          {/* Gradient bar */}
+          <div className="h-px w-full" style={{ background: 'linear-gradient(90deg, #da0032, #ff9000)' }} />
+
+          {/* Student */}
+          <Section title="Student Details" icon={User}>
+            <Field label="First Name" value={app?.student?.firstName} />
+            <Field label="Last Name" value={app?.student?.lastName} />
+            <Field label="Email" value={app?.student?.studentEmailAddress} />
+            <Field label="Phone" value={app?.student?.studentPhoneNumber} />
+            <Field label="Grade" value={app?.student?.grade} />
+            <Field label="School" value={app?.student?.school} />
+          </Section>
+
+          <Divider />
+
+          {/* Parent */}
+          <Section title="Parent / Guardian" icon={Users}>
+            <Field label="First Name" value={app?.parent?.firstName} />
+            <Field label="Last Name" value={app?.parent?.lastName} />
+            <Field label="Relationship" value={app?.parent?.relationshipToStudent} />
+            <Field label="Email" value={app?.parent?.parentEmailAddress} />
+            <Field label="Phone" value={app?.parent?.parentPhoneNumber} />
+          </Section>
+
+          <Divider />
+
+          {/* Address */}
+          <Section title="Address" icon={MapPin}>
+            <Field label="Address Line 1" value={app?.address?.addressLine1} />
+            <Field label="Address Line 2" value={app?.address?.addressLine2} />
+            <Field label="City" value={app?.address?.city} />
+            <Field label="State" value={app?.address?.state} />
+            <Field label="ZIP Code" value={app?.address?.zipPostalCode} />
+          </Section>
+
+          <Divider />
+
+          {/* Music */}
+          <Section title="Instrument & Training" icon={Music}>
+            <Field label="Instrument" value={app?.instrument} />
+            <Field label="Music Teacher" value={app?.musicTeacher} />
+            <Field label="Strings" value={app?.strings} />
+            <Field label="Brass & Percussion" value={app?.brassAndPercussion} />
+            <Field label="Woodwinds" value={app?.woodwinds} />
+            <Field label="Referral Source" value={app?.referralSource} />
+          </Section>
+
+          <Divider />
+
+          {/* Consent */}
+          <div className="flex items-start gap-3 px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg">
+            <CheckCircle className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
+            <div>
+              <p className="text-xs font-semibold text-white">Consent Agreed</p>
+              <p className="text-xs text-neutral-400 mt-0.5">
+                {formatDate(app?.createdAt, { minute: 'numeric', second: 'numeric', hour: 'numeric' })}
+              </p>
+            </div>
+          </div>
+
+          {/* Close */}
+          <button
+            onClick={reset}
+            className="w-full py-3 text-sm font-bold text-white rounded-lg transition-all hover:opacity-90"
+            style={{ background: 'linear-gradient(90deg, #da0032, #ff9000)' }}
+          >
+            Close
+          </button>
         </div>
       </div>
     </BottomDrawer>

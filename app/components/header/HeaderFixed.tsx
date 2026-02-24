@@ -9,22 +9,13 @@ import CustomHeaderButton from '../CustomHeaderButton'
 import { Menu } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 
-const HeaderFixed = () => {
+const HeaderFixed = ({ concerts, campApplicationsSetting }) => {
   const dispatch = useAppDispatch()
   const hasScrolled = useScrollFromTop(160)
   const path = usePathname()
-  const { concerts } = useAppSelector((state: RootState) => state.concert)
   const { headerButton } = useAppSelector((state: RootState) => state.headerButton)
-  const { isFeatureToggleCardLive, isFeatureToggleCardVisible } = useAppSelector((state: RootState) => state.app)
-  const { user } = useAppSelector((state: RootState) => state.user)
-  const thereAreConcerts = concerts?.length >= 1
-  const navLinks = getNavigationLinks(
-    path,
-    thereAreConcerts,
-    isFeatureToggleCardLive,
-    isFeatureToggleCardVisible,
-    user.isAdmin
-  )
+  const thereAreConcerts = concerts?.concerts?.length > 0
+  const navLinks = getNavigationLinks(path, thereAreConcerts, campApplicationsSetting)
   const [openDropdown, setOpenDropdown] = useState({ open: false, textKey: '' })
   const isHome = path === '/'
 

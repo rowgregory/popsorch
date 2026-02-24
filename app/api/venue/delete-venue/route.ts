@@ -1,7 +1,6 @@
 import deleteFileFromFirebase from '@/app/utils/firebase.delete'
 import { createLog } from '@/app/utils/logHelper'
 import prisma from '@/prisma/client'
-import { sliceVenue } from '@/public/data/api.data'
 import { parseStack } from 'error-stack-parser-es/lite'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -31,10 +30,7 @@ export async function DELETE(req: NextRequest) {
         })
 
         // Return an early response if Firebase deletion fails
-        return NextResponse.json(
-          { message: 'Firebase deletion failed', error: firebaseError, sliceName: sliceVenue },
-          { status: 500 }
-        )
+        return NextResponse.json({ message: 'Firebase deletion failed', error: firebaseError }, { status: 500 })
       }
     }
 
@@ -53,7 +49,7 @@ export async function DELETE(req: NextRequest) {
       user: parsedUser
     })
 
-    return NextResponse.json({ id, sliceName: sliceVenue }, { status: 200 })
+    return NextResponse.json({ id }, { status: 200 })
   } catch (error: any) {
     await createLog('error', `Deleting venue failed: ${error.message}`, {
       errorLocation: parseStack(JSON.stringify(error)),
@@ -65,6 +61,6 @@ export async function DELETE(req: NextRequest) {
       user: parsedUser
     })
 
-    return NextResponse.json({ message: 'Error deleting venue', error, sliceName: sliceVenue }, { status: 500 })
+    return NextResponse.json({ message: 'Error deleting venue', error }, { status: 500 })
   }
 }

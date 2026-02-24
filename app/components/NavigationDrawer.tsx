@@ -1,31 +1,20 @@
 import { useRef } from 'react'
 import Link from 'next/link'
-import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
+import { RootState, store, useAppSelector } from '../redux/store'
 import { closeNavigationDrawer } from '../redux/features/appSlice'
 import { getNavigationLinks } from '../utils/navigation.utils'
 import CloseBtnSVG from './svg/CloseBtnSVG'
 import CustomHeaderButton from './CustomHeaderButton'
 import { usePathname } from 'next/navigation'
 
-const NavigationDrawer = () => {
+const NavigationDrawer = ({ concerts, campApplicationsSetting }) => {
   const path = usePathname()
-  const { navigationDrawer, isFeatureToggleCardLive, isFeatureToggleCardVisible } = useAppSelector(
-    (state: RootState) => state.app
-  )
+  const { navigationDrawer } = useAppSelector((state: RootState) => state.app)
   const { headerButton } = useAppSelector((state: RootState) => state.headerButton)
-  const { concerts } = useAppSelector((state: RootState) => state.concert)
-  const { user } = useAppSelector((state: RootState) => state.user)
-  const dispatch = useAppDispatch()
   const overlayRef = useRef(null)
   const thereAreConcerts = concerts?.length > 0
-  const navLinks = getNavigationLinks(
-    path,
-    thereAreConcerts,
-    isFeatureToggleCardLive,
-    isFeatureToggleCardVisible,
-    user.isAdmin
-  )
-  const closeDrawer = () => dispatch(closeNavigationDrawer())
+  const navLinks = getNavigationLinks(path, thereAreConcerts, campApplicationsSetting)
+  const closeDrawer = () => store.dispatch(closeNavigationDrawer())
 
   return (
     <>

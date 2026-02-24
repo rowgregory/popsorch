@@ -16,11 +16,10 @@ import {
   FileQuestionIcon,
   GitBranch,
   FlaskRound,
-  Ticket,
   Sliders
 } from 'lucide-react'
 
-export const adminNavigationLinkData = (path: string, role: string) => {
+export const adminNavLinks = (path: string, role: string) => {
   const dashboardGroup = [
     {
       icon: LayoutDashboardIcon,
@@ -33,9 +32,9 @@ export const adminNavigationLinkData = (path: string, role: string) => {
   const contentGroup = [
     {
       icon: FlaskRound,
-      label: 'The Cauldron',
-      path: '/admin/the-cauldron',
-      active: isStringInPath(path, 'the-cauldron')
+      label: 'Page Content Editor',
+      path: '/admin/page-content-editor?page=home',
+      active: isStringInPath(path, 'page-content-editor')
     },
     {
       icon: Sliders,
@@ -86,6 +85,12 @@ export const adminNavigationLinkData = (path: string, role: string) => {
 
   const communicationGroup = [
     {
+      icon: FileQuestionIcon,
+      label: 'Questions',
+      path: '/admin/questions',
+      active: isStringInPath(path, 'questions')
+    },
+    {
       icon: Users,
       label: 'Users',
       path: '/admin/users',
@@ -96,12 +101,6 @@ export const adminNavigationLinkData = (path: string, role: string) => {
       label: 'Mailchimp Members',
       path: '/admin/mailchimp-members',
       active: isStringInPath(path, 'mailchimp-members')
-    },
-    {
-      icon: FileQuestionIcon,
-      label: 'Questions',
-      path: '/admin/questions',
-      active: isStringInPath(path, 'questions')
     }
   ]
 
@@ -130,16 +129,6 @@ export const adminNavigationLinkData = (path: string, role: string) => {
       : [])
   ]
 
-  const ticketingGroup = [
-    {
-      icon: Ticket,
-      label: 'Apothecary',
-      path: '/admin/apothecary/codex',
-      active: isStringInPath(path, 'apothecary'),
-      isApothecary: true
-    }
-  ]
-
   return [
     {
       title: 'Dashboard',
@@ -156,10 +145,6 @@ export const adminNavigationLinkData = (path: string, role: string) => {
     {
       title: 'Communication',
       items: communicationGroup
-    },
-    {
-      title: 'Ticketing',
-      items: ticketingGroup
     },
     {
       title: 'Tools',

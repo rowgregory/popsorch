@@ -1,14 +1,13 @@
 import prisma from '@/prisma/client'
 import { createLog } from '@/app/utils/logHelper'
 import { parseStack } from 'error-stack-parser-es/lite'
-import { sliceSponsor } from '@/public/data/api.data'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(req: NextRequest) {
   try {
     const sponsors = await prisma.sponsor.findMany({ orderBy: { createdAt: 'desc' } })
 
-    return NextResponse.json({ sponsors, sliceName: sliceSponsor }, { status: 200 })
+    return NextResponse.json({ sponsors }, { status: 200 })
   } catch (error: any) {
     await createLog('error', `Fetching sponsors failed: ${error.message}`, {
       errorLocation: parseStack(JSON.stringify(error)),
@@ -18,9 +17,6 @@ export async function GET(req: NextRequest) {
       url: req.url,
       method: req.method
     })
-    return NextResponse.json(
-      { message: 'Oops! Something went wrong loading sponsors.', error, sliceName: sliceSponsor },
-      { status: 500 }
-    )
+    return NextResponse.json({ message: 'Oops! Something went wrong loading sponsors.', error }, { status: 500 })
   }
 }

@@ -247,22 +247,3 @@ input:-webkit-autofill:active {
   color: #0ff !important;
   text-decoration: underline !important;
 }
-
-/* ─── Swiper ─────────────────────────────────────────────────────────── */
-.media-swiper .swiper-pagination-bullet {
-  background-color: theme("colors.blaze");
-  opacity: 0.4;
-}
-
-.media-swiper .swiper-pagination-bullet-active {
-  background-color: theme("colors.blaze");
-  opacity: 1;
-}
-
-.dark .media-swiper .swiper-pagination-bullet {
-  background-color: theme("colors.sunburst");
-}
-
-.dark .media-swiper .swiper-pagination-bullet-active {
-  background-color: theme("colors.sunburst");
-}

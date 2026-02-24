@@ -1,4 +1,4 @@
-import { cauldronFolders } from '@/app/lib/constants/admin'
+import { pageContentEditorFolders } from '@/app/lib/constants/admin'
 import { Reducer, createSlice } from '@reduxjs/toolkit'
 
 export interface DashboardStatePayload {
@@ -64,7 +64,7 @@ const initialDashboardState: DashboardStatePayload = {
   iceQueen: false,
   ga4: false,
   pageSelectorModal: false,
-  selectedCauldronFolder: cauldronFolders[0].value
+  selectedCauldronFolder: pageContentEditorFolders[0].value
 }
 
 export const dashboardSlice = createSlice({

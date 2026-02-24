@@ -9,9 +9,7 @@ export interface NavigationLinksProps {
 export const getNavigationLinks = (
   path: string,
   thereAreConcerts: boolean,
-  isFeatureToggleCardLive: boolean,
-  isFeatureToggleCardToggledVisible: boolean,
-  isAdmin: boolean
+  campApplicationsSetting: boolean
 ): NavigationLinksProps[] => [
   { linkKey: '/', textKey: 'Home', active: path === '/' },
   ...(thereAreConcerts
@@ -50,7 +48,7 @@ export const getNavigationLinks = (
         active: path === '/student-scholarships'
       },
       // Show camping application if admin and feature toggle is visible, OR if feature toggle is live
-      ...((isAdmin && isFeatureToggleCardToggledVisible) || isFeatureToggleCardLive
+      ...(campApplicationsSetting
         ? [
             {
               textKey: 'Camping With The Pops',

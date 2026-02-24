@@ -1,4 +1,4 @@
-export const cauldronFolders = [
+export const pageContentEditorFolders = [
   { textKey: 'home', value: 'home' },
   { textKey: 'about', value: 'about' },
   { textKey: 'accessibility', value: 'accessibility' },

@@ -27,6 +27,7 @@ export interface IWrapper {
   textBlocks: any
   headerButton: any
   concerts: any
+  campApplicationsSetting: any
 }
 
 export interface PageField {

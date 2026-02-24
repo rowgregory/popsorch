@@ -34,7 +34,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             return true
         }
       } catch (error) {
-        console.error(`❌ Sign-in error for ${account?.provider}:`, error)
         return false
       }
     },

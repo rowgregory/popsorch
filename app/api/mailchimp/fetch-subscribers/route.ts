@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createLog } from '@/app/utils/logHelper'
 import { parseStack } from 'error-stack-parser-es/lite'
-import { sliceMailchimp } from '@/public/data/api.data'
 
 export async function GET(req: NextRequest) {
   const API_KEY = process.env.MAILCHIMP_API_KEY!
@@ -30,10 +29,7 @@ export async function GET(req: NextRequest) {
         method: req.method
       })
 
-      return NextResponse.json(
-        { message: `Mailchimp API Error: ${response.statusText}`, sliceName: sliceMailchimp },
-        { status: response.status }
-      )
+      return NextResponse.json({ message: `Mailchimp API Error: ${response.statusText}` }, { status: response.status })
     }
 
     const data = await response.json()
@@ -61,7 +57,7 @@ export async function GET(req: NextRequest) {
       ipOpt: member.ip_opt
     }))
 
-    return NextResponse.json({ members, sliceName: sliceMailchimp, totalItems: data.total_items }, { status: 200 })
+    return NextResponse.json({ members, totalItems: data.total_items }, { status: 200 })
   } catch (error: any) {
     await createLog('error', `Failed to fetch Mailchimp subscribers: ${error.message}`, {
       errorLocation: parseStack(JSON.stringify(error)),
@@ -72,6 +68,6 @@ export async function GET(req: NextRequest) {
       method: req.method
     })
 
-    return NextResponse.json({ error: 'Failed to fetch subscribers', sliceName: sliceMailchimp }, { status: 500 })
+    return NextResponse.json({ error: 'Failed to fetch subscribers' }, { status: 500 })
   }
 }

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { RootState, useAppDispatch, useAppSelector, useHeaderButtonSelector, useUserSelector } from '@/app/redux/store'
+import { useAppDispatch, useHeaderButtonSelector } from '@/app/redux/store'
 import { getNavigationLinks } from '@/app/utils/navigation.utils'
 import { useHeaderAtTop } from '@/app/hooks/useHeaderAtTop'
 import { HeaderNavLink } from './HeaderNavLink'
@@ -10,20 +10,12 @@ import { motion } from 'framer-motion'
 import { Menu } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 
-const HeaderLower = ({ concerts }) => {
+const HeaderLower = ({ concerts, campApplicationsSetting }) => {
   const path = usePathname()
   const dispatch = useAppDispatch()
-  const { isFeatureToggleCardLive, isFeatureToggleCardVisible } = useAppSelector((state: RootState) => state.app)
-  const { user } = useUserSelector()
   const { headerButton } = useHeaderButtonSelector()
   const thereAreConcerts = concerts?.concerts?.length > 0
-  const navLinks = getNavigationLinks(
-    path,
-    thereAreConcerts,
-    isFeatureToggleCardLive,
-    isFeatureToggleCardVisible,
-    user.isAdmin
-  )
+  const navLinks = getNavigationLinks(path, thereAreConcerts, campApplicationsSetting)
   const [openDropdown, setOpenDropdown] = useState({ open: false, textKey: '' })
   const isHome = path === '/'
   const { headerRef } = useHeaderAtTop()

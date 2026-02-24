@@ -1,6 +1,5 @@
 import { createLog } from '@/app/utils/logHelper'
 import prisma from '@/prisma/client'
-import { sliceUser } from '@/public/data/api.data'
 import { parseStack } from 'error-stack-parser-es/lite'
 import { NextResponse } from 'next/server'
 
@@ -22,7 +21,7 @@ export async function GET(req: Request) {
       }
     })
 
-    return NextResponse.json({ users, sliceName: sliceUser }, { status: 200 })
+    return NextResponse.json({ users }, { status: 200 })
   } catch (error: any) {
     await createLog('error', `Fetching users failed: ${error.message}`, {
       errorLocation: parseStack(JSON.stringify(error)),
@@ -33,6 +32,6 @@ export async function GET(req: Request) {
       method: req.method,
       user: parsedUser
     })
-    return NextResponse.json({ message: 'Error fetching users', error, sliceName: sliceUser }, { status: 500 })
+    return NextResponse.json({ message: 'Error fetching users', error }, { status: 500 })
   }
 }

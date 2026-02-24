@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import HeaderLower from './HeaderLower'
 
-const Header = ({ concerts }) => {
+const Header = ({ concerts, campApplicationsSetting }) => {
   return (
     <>
       <div className="bg-neutral-900 border-b border-neutral-800 430:px-7 1280:px-14">
@@ -16,7 +16,7 @@ const Header = ({ concerts }) => {
           </div>
         </div>
       </div>
-      <HeaderLower concerts={concerts} />
+      <HeaderLower concerts={concerts} campApplicationsSetting={campApplicationsSetting} />
     </>
   )
 }

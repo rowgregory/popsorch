@@ -3,7 +3,8 @@
 import prisma from '@/prisma/client'
 import { revalidateTag } from 'next/cache'
 import { createLog } from '../utils/logHelper'
-import { sendAdminPushNotification } from './sendAdminPushNotification'
+import { contactSubmissionTemplate } from '../lib/email-templates/contact-submission'
+import { resend } from '../lib/resend'
 
 interface CreateQuestionInput {
   name: string
@@ -30,10 +31,13 @@ export async function createQuestion(data: CreateQuestionInput) {
 
     revalidateTag('Question', 'default')
 
-    await sendAdminPushNotification(
-      `New message from ${data.name}: ${data.message.substring(0, 50)}${data.message.length > 50 ? '...' : ''}`,
-      'New Contact Form Submission'
-    )
+    await resend.emails.send({
+      from: 'New Submission! <noreply@thepopsorchestra.org>',
+      to: ['info@thepopsorchestra.org', 'robyn@thepopsorchestra.org'],
+      subject: 'New contact form submission',
+      html: contactSubmissionTemplate(data.name)
+    })
+
     return { success: true }
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Failed to create question'

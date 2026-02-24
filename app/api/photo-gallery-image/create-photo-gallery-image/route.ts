@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/prisma/client'
 import { createLog } from '@/app/utils/logHelper'
 import { parseStack } from 'error-stack-parser-es/lite'
-import { slicePhotoGallery } from '@/public/data/api.data'
 
 export async function POST(req: NextRequest) {
   let parsedUser
@@ -24,10 +23,7 @@ export async function POST(req: NextRequest) {
       user: parsedUser
     })
 
-    return NextResponse.json(
-      { photoGalleryImage: createdPhotoGalleryImage, sliceName: slicePhotoGallery },
-      { status: 201 }
-    )
+    return NextResponse.json({ photoGalleryImage: createdPhotoGalleryImage }, { status: 201 })
   } catch (error: any) {
     await createLog('error', `Creating photo gallery image failed: ${error.message}`, {
       errorLocation: parseStack(JSON.stringify(error)),
@@ -38,6 +34,6 @@ export async function POST(req: NextRequest) {
       method: req.method,
       user: parsedUser
     })
-    return NextResponse.json({ message: 'Error uploading photo', error, sliceName: slicePhotoGallery }, { status: 500 })
+    return NextResponse.json({ message: 'Error uploading photo', error }, { status: 500 })
   }
 }

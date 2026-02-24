@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/prisma/client'
 import { createLog } from '@/app/utils/logHelper'
 import { parseStack } from 'error-stack-parser-es/lite'
-import { sliceSponsor } from '@/public/data/api.data'
 
 export async function DELETE(req: NextRequest) {
   let parsedUser
@@ -27,7 +26,7 @@ export async function DELETE(req: NextRequest) {
       user: parsedUser
     })
 
-    return NextResponse.json({ id: deletedSponsor.id, sliceName: sliceSponsor }, { status: 200 })
+    return NextResponse.json({ id: deletedSponsor.id }, { status: 200 })
   } catch (error: any) {
     await createLog('error', `Deleting sponsor failed: ${error.message}`, {
       errorLocation: parseStack(JSON.stringify(error)),
@@ -38,6 +37,6 @@ export async function DELETE(req: NextRequest) {
       method: req.method,
       user: parsedUser
     })
-    return NextResponse.json({ message: 'Error deleting sponsor', error, sliceName: sliceSponsor }, { status: 500 })
+    return NextResponse.json({ message: 'Error deleting sponsor', error }, { status: 500 })
   }
 }

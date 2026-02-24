@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Check, ChevronDown, ChevronRight, Edit2, Eye, EyeOff, X } from 'lucide-react'
 import { PageField } from '@/app/types/common.types'
 import { RightPanel } from './RightPanel'
@@ -109,6 +109,10 @@ export function PageContentEditor({
 }) {
   const [content, setContent] = useState(fields)
   const [isPreviewVisible, setIsPreviewVisible] = useState(true)
+
+  useEffect(() => {
+    setContent(fields)
+  }, [fields])
 
   if (!fields || !Array.isArray(fields)) {
     return (

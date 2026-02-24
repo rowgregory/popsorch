@@ -17,10 +17,10 @@ const AdminMailChimpSubscriberRow: FC<MemberProps> = ({
 
   const mappedEnabledOptions = (interests: any) => {
     return [
-      interests.isOption1 && { type: 'Season Tickets', icon: '🎫' },
-      interests.isOption2 && { type: 'Special Events', icon: '🎉' },
-      interests.isOption3 && { type: 'Youth Education', icon: '🎓' },
-      interests.isOption4 && { type: 'Other', icon: '📌' }
+      interests.isOption1 && { type: 'Season Tickets' },
+      interests.isOption2 && { type: 'Special Events' },
+      interests.isOption3 && { type: 'Youth Education' },
+      interests.isOption4 && { type: 'Other' }
     ].filter(Boolean)
   }
 
@@ -46,14 +46,14 @@ const AdminMailChimpSubscriberRow: FC<MemberProps> = ({
         <div className="flex items-center justify-between gap-4">
           {/* User Info */}
           <div className="flex items-center gap-4 flex-1 min-w-0">
-            <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0 shadow-lg">
+            <div className="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center text-white font-bold text-lg shrink-0 shadow-lg">
               {name?.charAt(0)?.toUpperCase() || email?.charAt(0)?.toUpperCase() || 'U'}
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-3 mb-1">
                 <h4 className="text-white font-semibold truncate">{name || 'No name'}</h4>
                 <span
-                  className={`px-2 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border ${getStatusStyle(
+                  className={`px-2 py-1 rounded-full text-[8px] font-semibold uppercase tracking-wider border ${getStatusStyle(
                     status
                   )}`}
                 >
@@ -85,7 +85,7 @@ const AdminMailChimpSubscriberRow: FC<MemberProps> = ({
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-2 flex-shrink-0">
+          <div className="flex items-center gap-2 shrink-0">
             <Link
               target="_blank"
               href={`https://us2.admin.mailchimp.com/audience/contact-profile?contact_id=${contactId}`}

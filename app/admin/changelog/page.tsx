@@ -17,6 +17,107 @@ interface ChangelogEntry {
 
 const changelogData: ChangelogEntry[] = [
   {
+    version: '3.1.0',
+    date: '2026-02-24',
+    changes: [
+      {
+        type: 'feature',
+        title: 'Resend Integration',
+        description:
+          'Replaced web-push notifications with Resend for transactional emails. Includes contact form notifications and camp application notifications.',
+        impact: 'high'
+      },
+      {
+        type: 'ui',
+        title: 'Camp Application Form Redesign',
+        description: 'Redesigned the camp application.',
+        impact: 'medium'
+      },
+      {
+        type: 'feature',
+        title: 'Camp Application Page in Content Editor',
+        description: 'Unlocked the camp application page within the page content editor.',
+        impact: 'medium'
+      },
+      {
+        type: 'ui',
+        title: 'Resend Card',
+        description:
+          'Updated the Resend dashboard card to display login credentials with show/hide password and copy buttons.',
+        impact: 'low'
+      },
+      {
+        type: 'refactor',
+        title: 'Removed Swiper Dependency',
+        description: 'Removed Swiper and replaced it with a custom carousel on the home hero.',
+        impact: 'medium'
+      },
+      {
+        type: 'security',
+        title: 'Dependency Audit',
+        description:
+          'Added npm overrides for minimatch and bn.js to resolve 11 audit vulnerabilities across ESLint and web-push transitive dependencies.',
+        impact: 'medium'
+      },
+      {
+        type: 'improvement',
+        title: 'Node.js Upgrade',
+        description:
+          'Upgraded from Node 23 to Node 22 LTS via Homebrew to resolve engine compatibility warnings across dev tooling.',
+        impact: 'low'
+      },
+      {
+        type: 'feature',
+        title: 'Camp Application Submission',
+        description:
+          'Wired up the createCampApplication server action to the multi-step form. Includes a success modal on completion and a loading state on the submit button.',
+        impact: 'high'
+      },
+      {
+        type: 'feature',
+        title: 'Admin Camp Applications Page',
+        description:
+          'Built the admin camp applications page with applications grouped and sorted by year (newest first), bulk selection, and delete confirmation modal.',
+        impact: 'high'
+      },
+      {
+        type: 'ui',
+        title: 'Camp Application View Drawer Redesign',
+        description:
+          'Redesigned the camp application view drawer to match the Pops theme with section icons, field cards, and a gradient close button.',
+        impact: 'medium'
+      },
+      {
+        type: 'ui',
+        title: 'Delete Confirmation Modal Redesign',
+        description:
+          'Redesigned the delete confirmation modal to match the Pops theme with a dark card, gradient bar, and blaze red delete button.',
+        impact: 'low'
+      },
+      {
+        type: 'feature',
+        title: 'Camp Application Email Notification',
+        description:
+          'Added automated admin email notification via Resend when a new camp application is submitted, sent to info@ and robyn@thepopsorchestra.org.',
+        impact: 'medium'
+      },
+      {
+        type: 'improvement',
+        title: 'Admin Header Tooltips',
+        description:
+          'Added tooltip-on-hover to all admin action buttons and the logout button, showing labels below on hover.',
+        impact: 'low'
+      },
+      {
+        type: 'feature',
+        title: 'Camp Applications Publish Toggle',
+        description:
+          'Added a publish/unpublish button to the admin camp applications header to show or hide the camp application form on the public site, powered by the SiteSetting model.',
+        impact: 'medium'
+      }
+    ]
+  },
+  {
     version: '3.0.7',
     date: '2026-02-19',
     changes: [
@@ -441,25 +542,61 @@ const changelogData: ChangelogEntry[] = [
   }
 ]
 
+const getTypeIcon = (type: string) => {
+  switch (type) {
+    case 'feature':
+      return <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+    case 'improvement':
+      return <GitBranch className="w-4 h-4 text-cyan-400" />
+    case 'bugfix':
+      return <AlertCircle className="w-4 h-4 text-orange-400" />
+    case 'security':
+      return <Shield className="w-4 h-4 text-red-400" />
+    case 'ui':
+      return <Palette className="w-4 h-4 text-purple-400" />
+    default:
+      return <Info className="w-4 h-4 text-neutral-400" />
+  }
+}
+
+const getTypeColor = (type: string) => {
+  switch (type) {
+    case 'feature':
+      return 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400'
+    case 'improvement':
+      return 'bg-cyan-500/20 border-cyan-500/50 text-cyan-400'
+    case 'bugfix':
+      return 'bg-orange-500/20 border-orange-500/50 text-orange-400'
+    case 'security':
+      return 'bg-red-500/20 border-red-500/50 text-red-400'
+    case 'ui':
+      return 'bg-purple-500/20 border-purple-500/50 text-purple-400'
+    default:
+      return 'bg-neutral-700/50 border-neutral-600 text-neutral-300'
+  }
+}
+
+const getImpactBadge = (impact: string) => {
+  const impactColors = {
+    critical: 'bg-red-500/20 text-red-300 border-red-500/30',
+    high: 'bg-orange-500/20 text-orange-300 border-orange-500/30',
+    medium: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30',
+    low: 'bg-neutral-700/50 text-neutral-300 border-neutral-600'
+  }
+
+  return (
+    <span
+      className={`px-2 py-0.5 rounded text-xs font-medium border capitalize ${
+        impactColors[impact] || impactColors.low
+      }`}
+    >
+      {impact}
+    </span>
+  )
+}
+
 const Changelog = () => {
   const [selectedType, setSelectedType] = useState<string>('all')
-
-  const getTypeIcon = (type: string) => {
-    switch (type) {
-      case 'feature':
-        return <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-      case 'improvement':
-        return <GitBranch className="w-4 h-4 text-cyan-400" />
-      case 'bugfix':
-        return <AlertCircle className="w-4 h-4 text-orange-400" />
-      case 'security':
-        return <Shield className="w-4 h-4 text-red-400" />
-      case 'ui':
-        return <Palette className="w-4 h-4 text-purple-400" />
-      default:
-        return <Info className="w-4 h-4 text-neutral-400" />
-    }
-  }
 
   const filteredChangelog = changelogData
     .map((entry) => ({
@@ -468,49 +605,13 @@ const Changelog = () => {
     }))
     .filter((entry) => entry.changes.length > 0)
 
-  const getTypeColor = (type: string) => {
-    switch (type) {
-      case 'feature':
-        return 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400'
-      case 'improvement':
-        return 'bg-cyan-500/20 border-cyan-500/50 text-cyan-400'
-      case 'bugfix':
-        return 'bg-orange-500/20 border-orange-500/50 text-orange-400'
-      case 'security':
-        return 'bg-red-500/20 border-red-500/50 text-red-400'
-      case 'ui':
-        return 'bg-purple-500/20 border-purple-500/50 text-purple-400'
-      default:
-        return 'bg-neutral-700/50 border-neutral-600 text-neutral-300'
-    }
-  }
-
-  const getImpactBadge = (impact: string) => {
-    const impactColors = {
-      critical: 'bg-red-500/20 text-red-300 border-red-500/30',
-      high: 'bg-orange-500/20 text-orange-300 border-orange-500/30',
-      medium: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30',
-      low: 'bg-neutral-700/50 text-neutral-300 border-neutral-600'
-    }
-
-    return (
-      <span
-        className={`px-2 py-0.5 rounded text-xs font-medium border capitalize ${
-          impactColors[impact] || impactColors.low
-        }`}
-      >
-        {impact}
-      </span>
-    )
-  }
-
   return (
-    <div className="min-h-screen bg-neutral-950">
+    <div className="h-[calc(100vh-66px)]">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-gradient-to-br from-neutral-900 to-neutral-950 border-b border-neutral-800"
+        className="bg-linear-to-br from-neutral-900 to-neutral-950 border-b border-neutral-800"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -594,7 +695,7 @@ const Changelog = () => {
               className="bg-neutral-900/50 rounded-2xl shadow-sm border border-neutral-800 overflow-hidden hover:border-neutral-700 transition-colors"
             >
               {/* Version Header */}
-              <div className="bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border-b border-neutral-800 px-6 py-4">
+              <div className="bg-linear-to-r from-indigo-500/10 to-purple-500/10 border-b border-neutral-800 px-6 py-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
                     <Tag className="w-6 h-6 text-indigo-400" />

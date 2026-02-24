@@ -14,6 +14,7 @@ import { showToast } from '@/app/redux/features/toastSlice'
 import EmptyState from '@/app/components/common/EmptyState'
 import { useRouter } from 'next/navigation'
 import { updateTeamMembersOrder } from '@/app/actions/updateTeamMemberOrder'
+import { motion } from 'framer-motion'
 
 const Team = ({ data }) => {
   const { staff, boardMembers, musicians, noTeamMembers } = data
@@ -215,26 +216,44 @@ const Team = ({ data }) => {
   }
 
   return (
-    <>
-      <div className="relative p-6">
-        <div>
-          {renderTeamMembersList(boardMembers, 'Board-Member', 'Board Members')}
-          {renderTeamMembersList(staff, 'Staff', 'Staff Members')}
-          {renderTeamMembersList(musicians, 'Musician', 'Musicians')}
+    <div className="h-[calc(100vh-66px)]">
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="bg-linear-to-br from-neutral-900 to-neutral-950 border-b border-neutral-800"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="min-w-0">
+              <h1 className="text-2xl sm:text-3xl font-bold text-white">Team Members</h1>
+              <p className="text-neutral-400 text-sm sm:text-base mt-1">
+                Manage staff, musicians, and organizational team members
+              </p>
+            </div>
+          </div>
         </div>
+      </motion.div>
+      <div className="max-w-7xl mx-auto px-6 py-8">
+        <div className="relative">
+          <div>
+            {renderTeamMembersList(boardMembers, 'Board-Member', 'Board Members')}
+            {renderTeamMembersList(staff, 'Staff', 'Staff Members')}
+            {renderTeamMembersList(musicians, 'Musician', 'Musicians')}
+          </div>
+        </div>
+        {/* Empty State (if no team members) */}
+        {noTeamMembers && (
+          <EmptyState
+            searchQuery=""
+            typeFilter="all"
+            title="Team Member"
+            advice="Add your first team member to get started"
+            func={setOpenTeamMemberDrawer}
+            action="Add Team Member"
+          />
+        )}
       </div>
-      {/* Empty State (if no team members) */}
-      {noTeamMembers && (
-        <EmptyState
-          searchQuery=""
-          typeFilter="all"
-          title="Team Member"
-          advice="Add your first team member to get started"
-          func={setOpenTeamMemberDrawer}
-          action="Add Team Member"
-        />
-      )}
-    </>
+    </div>
   )
 }
 

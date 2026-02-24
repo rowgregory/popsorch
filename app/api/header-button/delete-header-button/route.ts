@@ -1,6 +1,5 @@
 import { createLog } from '@/app/utils/logHelper'
 import prisma from '@/prisma/client'
-import { sliceHeaderButton } from '@/public/data/api.data'
 import { parseStack } from 'error-stack-parser-es/lite'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -26,7 +25,7 @@ export async function DELETE(req: NextRequest) {
       user: parsedUser
     })
 
-    return NextResponse.json({ id: body.buttonId, sliceName: sliceHeaderButton }, { status: 200 })
+    return NextResponse.json({ id: body.buttonId }, { status: 200 })
   } catch (error: any) {
     await createLog('error', `Deleting header button failed: ${error.message}`, {
       errorLocation: parseStack(JSON.stringify(error)),
@@ -37,9 +36,6 @@ export async function DELETE(req: NextRequest) {
       method: req.method,
       user: parsedUser
     })
-    return NextResponse.json(
-      { message: 'Error deleting header button', error, sliceName: sliceHeaderButton },
-      { status: 500 }
-    )
+    return NextResponse.json({ message: 'Error deleting header button', error }, { status: 500 })
   }
 }

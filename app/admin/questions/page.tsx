@@ -69,7 +69,24 @@ export default function AdminQuestions({ data }) {
   }
 
   return (
-    <>
+    <div className="min-h-screen bg-neutral-950">
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="bg-linear-to-br from-neutral-900 to-neutral-950 border-b border-neutral-800"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="min-w-0">
+              <h1 className="text-2xl sm:text-3xl font-bold text-white">Contact Form Submissions</h1>
+              <p className="text-neutral-400 text-sm sm:text-base mt-1">
+                Use the toggle on each card to track which inquiries you&apos;ve responded to.
+              </p>
+            </div>
+          </div>
+        </div>
+      </motion.div>
       {/* Message Modal */}
       {selectedQuestion && (
         <motion.div
@@ -125,15 +142,7 @@ export default function AdminQuestions({ data }) {
           </motion.div>
         </motion.div>
       )}
-      <div className="p-6 space-y-6">
-        {/* Header */}
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-          <h1 className="text-4xl font-bold text-white mb-2">Contact Form Submissions</h1>
-          <p className="text-neutral-400">
-            Use the toggle on each card to track which inquiries you&apos;ve responded to.
-          </p>
-        </motion.div>
-
+      <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Questions Table */}
         {!noQuestions && questions?.length > 0 ? (
           <div className="bg-neutral-900/50 border border-neutral-800 rounded-xl overflow-hidden">
@@ -266,6 +275,6 @@ export default function AdminQuestions({ data }) {
           </motion.div>
         )}
       </div>
-    </>
+    </div>
   )
 }

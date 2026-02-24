@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/prisma/client'
 import { createLog } from '@/app/utils/logHelper'
 import { parseStack } from 'error-stack-parser-es/lite'
-import { sliceQuestion } from '@/public/data/api.data'
 
 export async function POST(req: NextRequest) {
   let parsedUser
@@ -24,7 +23,7 @@ export async function POST(req: NextRequest) {
       user: parsedUser
     })
 
-    return NextResponse.json({ question: createdQuestion, sliceName: sliceQuestion }, { status: 201 })
+    return NextResponse.json({ question: createdQuestion }, { status: 201 })
   } catch (error: any) {
     await createLog('error', `Creating question failed: ${error.message}`, {
       errorLocation: parseStack(JSON.stringify(error)),
@@ -35,6 +34,6 @@ export async function POST(req: NextRequest) {
       method: req.method,
       user: parsedUser
     })
-    return NextResponse.json({ message: 'Error creating question', error, sliceName: sliceQuestion }, { status: 500 })
+    return NextResponse.json({ message: 'Error creating question', error }, { status: 500 })
   }
 }

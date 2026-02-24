@@ -1,7 +1,6 @@
 import prisma from '@/prisma/client'
 import { createLog } from '@/app/utils/logHelper'
 import { parseStack } from 'error-stack-parser-es/lite'
-import { sliceApp } from '@/public/data/api.data'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(req: NextRequest) {
@@ -13,7 +12,7 @@ export async function GET(req: NextRequest) {
       ]
     })
 
-    return NextResponse.json({ photoGalleryImages, sliceName: sliceApp }, { status: 200 })
+    return NextResponse.json({ photoGalleryImages }, { status: 200 })
   } catch (error: any) {
     await createLog('error', `Fetching photo gallery images failed: ${error.message}`, {
       errorLocation: parseStack(JSON.stringify(error)),
@@ -23,9 +22,6 @@ export async function GET(req: NextRequest) {
       url: req.url,
       method: req.method
     })
-    return NextResponse.json(
-      { message: 'Oops! Something went wrong loading gallery images.', error, sliceName: sliceApp },
-      { status: 500 }
-    )
+    return NextResponse.json({ message: 'Oops! Something went wrong loading gallery images.', error }, { status: 500 })
   }
 }

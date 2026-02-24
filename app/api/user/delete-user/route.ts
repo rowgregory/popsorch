@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/prisma/client'
 import { createLog } from '@/app/utils/logHelper'
-import { sliceAuth } from '@/public/data/api.data'
 import { parseStack } from 'error-stack-parser-es/lite'
 
 export async function DELETE(req: NextRequest) {
@@ -33,7 +32,7 @@ export async function DELETE(req: NextRequest) {
       }
     })
 
-    return NextResponse.json({ id, sliceName: sliceAuth }, { status: 200 })
+    return NextResponse.json({ id }, { status: 200 })
   } catch (error: any) {
     await createLog('error', `Deleting user failed: ${error.message}`, {
       errorLocation: parseStack(JSON.stringify(error)),
@@ -45,6 +44,6 @@ export async function DELETE(req: NextRequest) {
       user: parsedUser
     })
 
-    return NextResponse.json({ message: 'Error deleting user', error, sliceName: sliceAuth }, { status: 500 })
+    return NextResponse.json({ message: 'Error deleting user', error }, { status: 500 })
   }
 }

@@ -1,6 +1,5 @@
 import { createLog } from '@/app/utils/logHelper'
 import prisma from '@/prisma/client'
-import { sliceVenue } from '@/public/data/api.data'
 import { parseStack } from 'error-stack-parser-es/lite'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -36,7 +35,7 @@ export async function POST(req: NextRequest) {
       user: parsedUser
     })
 
-    return NextResponse.json({ venue: newVenue, sliceName: sliceVenue }, { status: 201 })
+    return NextResponse.json({ venue: newVenue }, { status: 201 })
   } catch (error: any) {
     await createLog('error', `Creating venue failed: ${error.message}`, {
       errorLocation: parseStack(JSON.stringify(error)),
@@ -48,6 +47,6 @@ export async function POST(req: NextRequest) {
       user: parsedUser
     })
 
-    return NextResponse.json({ message: 'Error creating venue', error, sliceName: sliceVenue }, { status: 500 })
+    return NextResponse.json({ message: 'Error creating venue', error }, { status: 500 })
   }
 }

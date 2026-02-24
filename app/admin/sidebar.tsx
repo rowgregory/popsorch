@@ -1,23 +1,16 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { setCloseAdminSidebar, setOpenConductorModal } from '@/app/redux/features/dashboardSlice'
+import { setCloseAdminSidebar } from '@/app/redux/features/dashboardSlice'
 import { useAppDispatch, useUserSelector } from '@/app/redux/store'
 import { X } from 'lucide-react'
-import { adminNavigationLinkData } from '@/public/data/navigation-link.data'
-import useSoundEffect from '../hooks/useSoundEffect'
+import { adminNavLinks } from '@/public/data/adminNavLinks'
 import { usePathname } from 'next/navigation'
 
 const AdminSidebar = () => {
   const dispatch = useAppDispatch()
   const { user } = useUserSelector()
-  const { play } = useSoundEffect('/mp3/magical-reveal.mp3', user?.isSoundEffectsOn)
   const pathname = usePathname()
   const onClose = () => dispatch(setCloseAdminSidebar())
-
-  const handleApothecaryClick = () => {
-    dispatch(setOpenConductorModal())
-    play()
-  }
 
   return (
     <aside className="w-64 bg-neutral-950 border-r border-neutral-800 h-screen overflow-y-auto flex flex-col">
@@ -40,29 +33,19 @@ const AdminSidebar = () => {
       </div>
 
       <nav className="space-y-6 px-6 py-6 flex-1">
-        {adminNavigationLinkData(pathname, user?.role).map((group) => (
+        {adminNavLinks(pathname, user?.role).map((group) => (
           <div key={group.title}>
             <h3 className="text-xs font-semibold text-neutral-500 uppercase mb-3 px-3">{group.title}</h3>
             <div className="space-y-1">
               {group.items.map((item, i: number) => {
                 const IconComponent = item.icon
-                const isActive = item.path && pathname === item.path
-                const isNew = item.path === '/admin/questions'
+                const isActive = item.path && pathname.includes(item.path.split('?')[0])
                 const isDrawer = item.isDrawer
 
                 const content = (
                   <>
                     <IconComponent className="w-4 h-4" />
-                    <div className="flex items-center gap-2">
-                      {item.label}
-                      {isNew && (
-                        <motion.div
-                          animate={{ scale: [1, 1.2, 1] }}
-                          transition={{ duration: 2, repeat: Infinity }}
-                          className="w-2 h-2 rounded-full bg-linear-to-r from-blaze to-sunburst shadow-lg shadow-blaze/50"
-                        />
-                      )}
-                    </div>
+                    <div className="flex items-center gap-2">{item.label}</div>
                   </>
                 )
 
@@ -88,15 +71,7 @@ const AdminSidebar = () => {
                 }
 
                 return (
-                  <Link
-                    key={i}
-                    href={item.path === '/admin/the-cauldron' ? '/admin/the-cauldron?page=home' : item.path || ''}
-                    onClick={() => {
-                      if (item.path === '/admin/apothecary/codex') handleApothecaryClick()
-                      onClose()
-                    }}
-                    className={sharedClassName}
-                  >
+                  <Link key={i} href={item.path} onClick={onClose} className={sharedClassName}>
                     {content}
                   </Link>
                 )

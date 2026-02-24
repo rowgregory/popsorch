@@ -3,7 +3,6 @@ import prisma from '@/prisma/client'
 import deleteFileFromFirebase from '@/app/utils/firebase.delete'
 import { createLog } from '@/app/utils/logHelper'
 import { parseStack } from 'error-stack-parser-es/lite'
-import { sliceTeamMember } from '@/public/data/api.data'
 
 export async function DELETE(req: NextRequest) {
   let parsedUser
@@ -28,10 +27,7 @@ export async function DELETE(req: NextRequest) {
           method: req.method,
           user: parsedUser
         })
-        return NextResponse.json(
-          { message: 'Firebase deletion failed', error: firebaseError, sliceName: sliceTeamMember },
-          { status: 500 }
-        )
+        return NextResponse.json({ message: 'Firebase deletion failed', error: firebaseError }, { status: 500 })
       }
     }
 
@@ -49,7 +45,7 @@ export async function DELETE(req: NextRequest) {
       user: parsedUser
     })
 
-    return NextResponse.json({ id, sliceName: sliceTeamMember }, { status: 200 })
+    return NextResponse.json({ id }, { status: 200 })
   } catch (error: any) {
     await createLog('error', `Error deleting team member: ${error.message}`, {
       errorLocation: parseStack(JSON.stringify(error)),
@@ -60,9 +56,6 @@ export async function DELETE(req: NextRequest) {
       method: req.method,
       user: parsedUser
     })
-    return NextResponse.json(
-      { message: 'Error deleting team member', error, sliceName: sliceTeamMember },
-      { status: 500 }
-    )
+    return NextResponse.json({ message: 'Error deleting team member', error }, { status: 500 })
   }
 }

@@ -1,6 +1,5 @@
 import { createLog } from '@/app/utils/logHelper'
 import prisma from '@/prisma/client'
-import { sliceQuestion } from '@/public/data/api.data'
 import { parseStack } from 'error-stack-parser-es/lite'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -29,7 +28,7 @@ export async function PUT(req: NextRequest) {
       user: parsedUser
     })
 
-    return NextResponse.json({ question: updatedQuestion, sliceName: sliceQuestion }, { status: 200 })
+    return NextResponse.json({ question: updatedQuestion }, { status: 200 })
   } catch (error: any) {
     await createLog('error', `Updating question failed: ${error.message}`, {
       errorLocation: parseStack(JSON.stringify(error)),
@@ -40,6 +39,6 @@ export async function PUT(req: NextRequest) {
       method: req.method,
       user: parsedUser
     })
-    return NextResponse.json({ message: 'Error updating question', error, sliceName: sliceQuestion }, { status: 500 })
+    return NextResponse.json({ message: 'Error updating question', error }, { status: 500 })
   }
 }

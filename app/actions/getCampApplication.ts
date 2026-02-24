@@ -9,7 +9,8 @@ export const getCampApplications = unstable_cache(
           address: true,
           student: true,
           parent: true
-        }
+        },
+        orderBy: { createdAt: 'desc' }
       })
 
       return {
@@ -27,6 +28,6 @@ export const getCampApplications = unstable_cache(
   },
   ['getCampApplications'],
   {
-    tags: ['Camp']
+    tags: ['CampApplication']
   }
 )
