@@ -8,7 +8,6 @@
     "start": "next start",
     "lint": "eslint",
     "generate": "prisma generate",
-    "send-welcome": "node --env-file=.env.local scripts/send-welcome.js",
     "seed-site-setting": "node scripts/seed-site-setting.js"
   },
   "dependencies": {

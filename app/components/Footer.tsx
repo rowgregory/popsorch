@@ -7,7 +7,6 @@ import { FacebookIcon, InstagramIcon, YouTubeIcon } from '@/public/data/home.dat
 import { sendGAEvent } from '@next/third-parties/google'
 
 const Footer = ({ data }: { data: any[] }) => {
-  console.log('data: ', data)
   const d = (id: string) => data?.find((item) => item.id === id)?.value ?? ''
 
   const socialLinks = [
