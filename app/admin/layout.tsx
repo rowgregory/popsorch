@@ -1,4 +1,4 @@
-import { getCampApplications } from '../actions/getCampApplication'
+import { getCampApplications } from '../actions/getCampApplications'
 import { getHeaderButtons } from '../actions/getHeaderButtons'
 import { getUser } from '../actions/getUser'
 import AdminClientLayout from '../components/pages/AdminLayoutClient'

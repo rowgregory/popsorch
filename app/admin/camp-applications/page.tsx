@@ -1,4 +1,4 @@
-import { getCampApplications } from '@/app/actions/getCampApplication'
+import { getCampApplications } from '@/app/actions/getCampApplications'
 import CampApplicationsClient from '../../components/pages/CampApplicationsClient'
 import { getCampApplicationsSetting } from '@/app/actions/getCampApplicationsSetting'
 
