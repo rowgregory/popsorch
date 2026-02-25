@@ -14,6 +14,7 @@ import { SessionProvider } from 'next-auth/react'
 import { auth } from './lib/auth'
 import { RootLayoutWrapper } from './root-layout'
 import { getCampApplicationsSetting } from './actions/getCampApplicationsSetting'
+import { getPage } from './actions/getPage'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -61,6 +62,7 @@ export default async function RootLayout({
   const headerButton = await getActiveHeaderButton()
   const concerts = await getConcerts()
   const campApplicationsSetting = await getCampApplicationsSetting()
+  const footer = await getPage('footer')
 
   return (
     <html lang="en">
@@ -76,6 +78,7 @@ export default async function RootLayout({
             headerButton={headerButton}
             concerts={concerts}
             campApplicationsSetting={campApplicationsSetting.value}
+            footer={footer.content}
           >
             {children}
           </RootLayoutWrapper>

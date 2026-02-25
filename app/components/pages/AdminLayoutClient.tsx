@@ -20,6 +20,7 @@ import exportCampApplications from '@/app/lib/utils/admin/exportCampApplications
 import { handleUploadPhotoGalleryImage } from '@/app/utils/handleUploadPhotoGalleryImage'
 import { createFormActions } from '@/app/redux/features/formSlice'
 import { useCreatePhotoGalleryImageMutation } from '@/app/redux/services/photoGalleryImageApi'
+import { useRouter } from 'next/navigation'
 
 interface IAdminClientLayout {
   children: ReactNode
@@ -37,6 +38,7 @@ const AdminClientLayout: FC<IAdminClientLayout> = ({ children, data, buttons, ca
   const inputRef = useRef<HTMLInputElement>(null)
   const { handleUploadProgress } = createFormActions('photoGallery', dispatch)
   const [createPhotoGalleryImage] = useCreatePhotoGalleryImageMutation()
+  const router = useRouter()
 
   useEffect(() => {
     dispatch(setUser(data))
@@ -88,7 +90,8 @@ const AdminClientLayout: FC<IAdminClientLayout> = ({ children, data, buttons, ca
                         setLoading,
                         handleUploadProgress,
                         createPhotoGalleryImage,
-                        dispatch
+                        dispatch,
+                        router
                       )
                     }
                   />

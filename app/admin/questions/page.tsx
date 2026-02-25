@@ -79,7 +79,7 @@ export default function AdminQuestions({ data }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="min-w-0">
-              <h1 className="text-2xl sm:text-3xl font-bold text-white">Contact Form Submissions</h1>
+              <h1 className="text-2xl sm:text-3xl font-bold text-white">Contact Submissions</h1>
               <p className="text-neutral-400 text-sm sm:text-base mt-1">
                 Use the toggle on each card to track which inquiries you&apos;ve responded to.
               </p>
@@ -234,7 +234,6 @@ export default function AdminQuestions({ data }) {
                         onChange={(e: ChangeEvent<HTMLInputElement>) => handleToggleResolved(e, question.id)}
                         isLoading={loadingId === question.id}
                         name="hasResponded"
-                        color="bg-sunburst"
                       />
                     </td>
 

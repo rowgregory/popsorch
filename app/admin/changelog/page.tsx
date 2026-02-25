@@ -17,6 +17,67 @@ interface ChangelogEntry {
 
 const changelogData: ChangelogEntry[] = [
   {
+    version: '3.1.1',
+    date: '2026-02-25',
+    changes: [
+      {
+        type: 'feature',
+        title: 'Saturday Added to Camp Schedule',
+        description:
+          'Added Saturday as an editable day to the camp application sidebar schedule, allowing admins to update it via the page content editor.',
+        impact: 'medium'
+      },
+      {
+        type: 'feature',
+        title: 'Footer CMS Integration',
+        description:
+          'Replaced all hardcoded footer content with data from the page content editor. Social links, quick links, contact info, and tagline are now fully editable from the admin dashboard.',
+        impact: 'low'
+      },
+      {
+        type: 'feature',
+        title: 'Footer Unlocked in Content Editor',
+        description: 'Unlocked the footer section in the page content editor.',
+        impact: 'low'
+      },
+      {
+        type: 'ui',
+        title: 'Footer Redesign',
+        description:
+          'Redesigned the footer with a centered logo, social icons, three-column grid, and a slim bottom bar with copyright and Sqysh credit.',
+        impact: 'low'
+      },
+      {
+        type: 'ui',
+        title: 'Hero Section Responsive Updates',
+        description:
+          'Updated the home hero to cap at 1000px height, be responsive down to 320px, and adjusted heading sizing to match a large name/subtitle layout.',
+        impact: 'low'
+      },
+      {
+        type: 'improvement',
+        title: 'Page Selector Modal Mobile Responsiveness',
+        description:
+          'Updated the page selector modal to slide up from the bottom on mobile with a max height and scroll, and display as a centered modal on desktop.',
+        impact: 'low'
+      },
+      {
+        type: 'ui',
+        title: 'Toast Redesign',
+        description:
+          'Redesigned the toast notification to match the Pops theme with a dark card, colored left border accent per type, and a compact close button.',
+        impact: 'low'
+      },
+      {
+        type: 'improvement',
+        title: 'Breadcrumb Mobile Responsiveness',
+        description:
+          'Updated the breadcrumb component to be compact and responsive down to 320px with flex-wrap and truncation.',
+        impact: 'low'
+      }
+    ]
+  },
+  {
     version: '3.1.0',
     date: '2026-02-24',
     changes: [

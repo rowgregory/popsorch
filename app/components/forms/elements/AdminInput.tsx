@@ -33,7 +33,7 @@ const AdminInput: FC<AdminInputProps> = ({
         name={name}
         value={value || ''}
         onChange={onChange}
-        className={`w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg focus:ring-2 focus:ring-neutral-500 focus:border-neutral-500 transition-colors focus:outline-none text-neutral-200 placeholder-neutral-500 ${
+        className={`w-full px-4 py-3 bg-neutral-800 border border-neutral-600 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-blaze focus:border-transparent ${
           error ? 'border-red-500' : 'border-neutral-600'
         }`}
         placeholder={placeholder ?? 'Sqysh'}

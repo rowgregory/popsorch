@@ -5,7 +5,7 @@ import AdminTextarea from './elements/AdminTextarea'
 import { IForm } from '@/app/types/form.types'
 import { useAppDispatch } from '@/app/redux/store'
 import { motion } from 'framer-motion'
-import { AlertCircle, FileText, Save, Theater, Upload, X } from 'lucide-react'
+import { AlertCircle, FileText, Upload, X } from 'lucide-react'
 import Picture from '@/app/components/common/Picture'
 
 const VenueForm: FC<IForm> = ({ inputs, errors, handleSubmit, handleInput, loading, isUpdating, close }) => {
@@ -48,19 +48,56 @@ const VenueForm: FC<IForm> = ({ inputs, errors, handleSubmit, handleInput, loadi
       >
         {/* Header */}
         <div className="px-8 py-6 text-white border-b border-neutral-600">
-          <div className="flex items-center space-x-3">
-            <Theater className="w-8 h-8 text-neutral-300" />
-            <div>
-              <h1 className="text-3xl font-bold text-white">{isUpdating ? 'Update' : 'Create'} Venue</h1>
-              <p className="text-neutral-300">
-                {isUpdating ? 'Update an existing venue on the platform' : 'Add a new venue to the platform'}
-              </p>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div>
+                <h1 className="text-3xl font-bold text-white">{isUpdating ? 'Update' : 'Create'} Venue</h1>
+                <p className="text-neutral-300">
+                  {isUpdating ? 'Update an existing venue on the platform' : 'Add a new venue to the platform'}
+                </p>
+              </div>
             </div>
+            <button type="button" onClick={close} className="p-2 hover:bg-neutral-700 rounded-lg transition-colors">
+              <X className="w-6 h-6 text-neutral-400" />
+            </button>
           </div>
         </div>
 
         <div className="p-8">
           <div className="grid lg:grid-cols-2 gap-8">
+            <motion.div className="flex flex-col mt-8 lg:mt-0 w-full">
+              <AdminInput
+                name="capacity"
+                value={inputs?.capacity}
+                onChange={handleInput}
+                label="Capacity"
+                error={errors?.capacity}
+              />
+              <AdminTextarea
+                name="accessibility"
+                value={inputs?.accessibility}
+                onChange={handleInput}
+                label="Accessibility"
+                rows={4}
+                error={errors?.accessibility}
+              />
+              <AdminTextarea
+                name="parking"
+                value={inputs?.parking}
+                onChange={handleInput}
+                label="Parking"
+                rows={4}
+                error={errors?.parking}
+              />
+              <AdminTextarea
+                name="immersiveEnvironment"
+                value={inputs?.immersiveEnvironment}
+                onChange={handleInput}
+                label="Immersive Experience"
+                rows={4}
+                error={errors?.immersiveEnvironment}
+              />
+            </motion.div>
             <motion.div className="space-y-6">
               {/* File Upload */}
               <div>
@@ -150,73 +187,32 @@ const VenueForm: FC<IForm> = ({ inputs, errors, handleSubmit, handleInput, loadi
                 error={errors?.address}
               />
             </motion.div>
-            <motion.div className="flex flex-col mt-8 lg:mt-0 w-full">
-              <AdminInput
-                name="capacity"
-                value={inputs?.capacity}
-                onChange={handleInput}
-                label="Capacity"
-                error={errors?.capacity}
-              />
-              <AdminTextarea
-                name="accessibility"
-                value={inputs?.accessibility}
-                onChange={handleInput}
-                label="Accessibility"
-                rows={4}
-                error={errors?.accessibility}
-              />
-              <AdminTextarea
-                name="parking"
-                value={inputs?.parking}
-                onChange={handleInput}
-                label="Parking"
-                rows={4}
-                error={errors?.parking}
-              />
-              <AdminTextarea
-                name="immersiveEnvironment"
-                value={inputs?.immersiveEnvironment}
-                onChange={handleInput}
-                label="Immersive Experience"
-                rows={4}
-                error={errors?.immersiveEnvironment}
-              />
-            </motion.div>
           </div>
-          <motion.button
-            type="submit"
-            disabled={loading}
-            whileHover={{ scale: loading ? 1 : 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className={` mt-8 w-full py-4 px-6 rounded-xl font-semibold flex items-center justify-center space-x-2 transition-all ${
-              loading ? 'bg-neutral-600 cursor-not-allowed' : 'bg-neutral-700 hover:bg-neutral-600'
-            } text-white`}
-          >
-            {loading ? (
-              <>
-                <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
-                <span>{isUpdating ? 'Updating' : 'Creating'} Venue...</span>
-              </>
-            ) : (
-              <>
-                <Save className="w-5 h-5" />
-                <span>{isUpdating ? 'Update' : 'Create'} Venue</span>
-              </>
-            )}
-          </motion.button>
 
-          <motion.button
-            onClick={close}
-            type="button"
-            whileHover={{ scale: loading ? 1 : 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className={`mt-4 w-full py-4 px-6 rounded-xl font-semibold flex items-center justify-center space-x-2 transition-all ${
-              loading ? 'bg-neutral-600 cursor-not-allowed' : 'bg-neutral-600 hover:bg-neutral-500'
-            } text-white`}
-          >
-            <span>Close</span>
-          </motion.button>
+          {/* Form Actions */}
+          <div className="flex gap-4 mt-8 pt-6 border-t border-neutral-700">
+            <button
+              type="button"
+              onClick={close}
+              className="px-6 py-3 bg-neutral-700 hover:bg-neutral-600 text-white rounded-lg font-semibold transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={loading}
+              className="flex-1 px-6 py-3 bg-linear-to-r from-blaze/90 to-sunburst/90 hover:from-blaze hover:to-sunburst disabled:bg-neutral-600 disabled:cursor-not-allowed text-white rounded-lg font-semibold transition-colors flex items-center justify-center gap-2"
+            >
+              {loading ? (
+                <>
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  {isUpdating ? 'Updating...' : 'Creating...'}
+                </>
+              ) : (
+                <>{isUpdating ? 'Update Venue' : 'Create Venue'}</>
+              )}
+            </button>
+          </div>
         </div>
       </motion.div>
     </form>

@@ -22,14 +22,6 @@ export interface DrawerProps {
   bgColor?: string
 }
 
-export interface IWrapper {
-  children: ReactNode
-  textBlocks: any
-  headerButton: any
-  concerts: any
-  campApplicationsSetting: any
-}
-
 export interface PageField {
   id: string // Unique identifier
   section: string // Which section it belongs to (for grouping)

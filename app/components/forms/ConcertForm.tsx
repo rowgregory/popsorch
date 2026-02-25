@@ -527,7 +527,7 @@ const ConcertForm: FC<ConcertFormProps> = ({ inputs, errors, formActions, onSubm
                     <button
                       type="button"
                       onClick={eventDetailsId ? handleUpdateDetail : handleAddNewDetail}
-                      className="px-4 py-2 bg-pink-500 hover:bg-pink-600 text-white rounded-lg transition-colors"
+                      className="px-4 py-2  bg-linear-to-r from-blaze to-sunburst text-white rounded-lg transition-colors"
                     >
                       {eventDetailsId ? 'Update Detail' : 'Add Detail'}
                     </button>
@@ -659,7 +659,7 @@ const ConcertForm: FC<ConcertFormProps> = ({ inputs, errors, formActions, onSubm
                   type="button"
                   onClick={onSubmit}
                   disabled={isLoading}
-                  className="px-6 py-2 text-sm font-medium text-white bg-pink-500 hover:bg-pink-600 disabled:bg-pink-400 disabled:cursor-not-allowed rounded-lg transition-colors"
+                  className="px-6 py-2 text-sm font-medium text-white bg-linear-to-r from-blaze to-sunburst disabled:bg-blaze/10 disabled:cursor-not-allowed rounded-lg transition-colors"
                 >
                   {isLoading ? 'Saving...' : isUpdating ? 'Update Concert' : 'Create Concert'}
                 </button>

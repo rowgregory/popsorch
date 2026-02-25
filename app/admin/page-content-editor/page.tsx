@@ -8,9 +8,7 @@ interface PageContentEditorProps {
 }
 
 export default async function PageContentEditorPage({ searchParams }: PageContentEditorProps) {
-  const params = await searchParams
-  const slug = params.page
-  const data = await getPage(slug)
-
+  const { page } = await searchParams
+  const data = await getPage(page)
   return <PageContentEditorClient data={data} />
 }

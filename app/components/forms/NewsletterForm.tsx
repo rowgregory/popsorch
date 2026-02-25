@@ -130,19 +130,19 @@ const NewsletterForm = () => {
               <div className="flex flex-col gap-y-4">
                 <h1 className="font-changa text-2xl mt-5 mb-3">I&apos;m interested in:</h1>
                 <div className="flex items-center gap-x-3">
-                  <Switch enabled={inputs?.isOption1 || false} onChange={handleToggle} name="isOption1" color="blaze" />
+                  <Switch enabled={inputs?.isOption1 || false} onChange={handleToggle} name="isOption1" />
                   <div className="font-lato font-semibold text-sm text-white">Season Tickets</div>
                 </div>
                 <div className="flex items-center gap-x-3">
-                  <Switch enabled={inputs?.isOption2 || false} onChange={handleToggle} name="isOption2" color="blaze" />
+                  <Switch enabled={inputs?.isOption2 || false} onChange={handleToggle} name="isOption2" />
                   <div className="font-lato font-semibold text-sm text-white">Special Events</div>
                 </div>
                 <div className="flex items-center gap-x-3">
-                  <Switch enabled={inputs?.isOption3 || false} onChange={handleToggle} name="isOption3" color="blaze" />
+                  <Switch enabled={inputs?.isOption3 || false} onChange={handleToggle} name="isOption3" />
                   <div className="font-lato font-semibold text-sm text-white">Youth Education</div>
                 </div>
                 <div className="flex items-center gap-x-3">
-                  <Switch enabled={inputs?.isOption4 || false} onChange={handleToggle} name="isOption4" color="blaze" />
+                  <Switch enabled={inputs?.isOption4 || false} onChange={handleToggle} name="isOption4" />
                   <div className="font-lato font-semibold text-sm text-white">Other</div>
                 </div>
                 <button
@@ -156,12 +156,7 @@ const NewsletterForm = () => {
               <div className="flex flex-col gap-y-4 mt-3">
                 <h1 className="font-changa text-2xl mt-5">New Patron</h1>
                 <div className="flex items-center gap-x-3">
-                  <Switch
-                    enabled={inputs?.isNewPatron || false}
-                    onChange={handleToggle}
-                    name="isNewPatron"
-                    color="blaze"
-                  />
+                  <Switch enabled={inputs?.isNewPatron || false} onChange={handleToggle} name="isNewPatron" />
                   <div className="font-lato font-semibold text-sm text-white">Are You A New Patron of The Pops?</div>
                 </div>
               </div>
@@ -172,7 +167,6 @@ const NewsletterForm = () => {
                     enabled={inputs?.agreedToPrivacyStatement || false}
                     onChange={handleToggle}
                     name="agreedToPrivacyStatement"
-                    color="blaze"
                   />
                   <div className="font-lato font-semibold text-sm text-white">
                     I agree with the storage and handling of my data by this website.

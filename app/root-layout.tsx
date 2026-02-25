@@ -1,10 +1,9 @@
 'use client'
 
-import { FC, useEffect, useMemo } from 'react'
+import { FC, ReactNode, useEffect, useMemo } from 'react'
 import { Provider } from 'react-redux'
 import { persistor, store } from './redux/store'
 import { PersistGate } from 'redux-persist/integration/react'
-import { IWrapper } from './types/common.types'
 import { usePathname } from 'next/navigation'
 import { toggleHeaderFooter } from './utils/string.functions'
 import useNetworkStatus from './hooks/useNetworkStatus'
@@ -20,12 +19,22 @@ import Footer from './components/Footer'
 import AccessibilityButton from './components/buttons/AccessibilityButton'
 import CampApplicationSuccessModal from './components/modals/CampApplicationSuccessModal'
 
+export interface IWrapper {
+  children: ReactNode
+  textBlocks: any
+  headerButton: any
+  concerts: any
+  campApplicationsSetting: any
+  footer: any
+}
+
 export const RootLayoutWrapper: FC<IWrapper> = ({
   children,
   textBlocks,
   headerButton,
   concerts,
-  campApplicationsSetting
+  campApplicationsSetting,
+  footer
 }) => {
   const pathname = usePathname()
 
@@ -60,7 +69,7 @@ export const RootLayoutWrapper: FC<IWrapper> = ({
           {/* Page Layout */}
           {showHeader && <Header concerts={concerts} campApplicationsSetting={campApplicationsSetting} />}
           {children}
-          {showFooter && <Footer />}
+          {showFooter && <Footer data={footer} />}
 
           {/* Accessibility Button */}
           {!isAdminPath && <AccessibilityButton />}

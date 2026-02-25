@@ -22,7 +22,8 @@ export const pageContentEditorFolders = [
   { textKey: 'studentPerformers', value: 'student-performers' },
   { textKey: 'studentScholarships', value: 'student-scholarships' },
   { textKey: 'sundaysAtNeel', value: 'sundays-at-neel' },
-  { textKey: 'venues', value: 'venues' }
+  { textKey: 'venues', value: 'venues' },
+  { textKey: 'footer', value: 'footer' }
 ]
 
 export const levelColors: Record<string, string> = {

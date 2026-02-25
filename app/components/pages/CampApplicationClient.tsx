@@ -153,6 +153,11 @@ export default function CampApplicationClient({ data }) {
       date: data?.content?.find?.((d) => d.id === 'camp_schedule_friday_date')?.value,
       time: data?.content?.find?.((d) => d.id === 'camp_schedule_friday_time')?.value,
       items: data?.content?.find?.((d) => d.id === 'camp_schedule_friday_items')?.value.split('\n') ?? []
+    },
+    {
+      date: data?.content?.find?.((d) => d.id === 'camp_schedule_saturday_date')?.value,
+      time: data?.content?.find?.((d) => d.id === 'camp_schedule_saturday_time')?.value,
+      items: data?.content?.find?.((d) => d.id === 'camp_schedule_saturday_items')?.value.split('\n') ?? []
     }
   ]
 
@@ -246,7 +251,7 @@ export default function CampApplicationClient({ data }) {
           </div>
 
           {/* Form area */}
-          <div className="flex-1 min-w-0">
+          <div className="flex-1 min-w-0 w-full">
             {/* Wordmark */}
             <div className="text-center mb-10">
               <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-sunburst mb-1">
@@ -315,7 +320,7 @@ export default function CampApplicationClient({ data }) {
 
             {/* Card */}
             <div className="bg-neutral-900 border border-neutral-800 rounded-2xl overflow-hidden">
-              <div className="h-1 w-full" style={{ background: 'linear-gradient(90deg, #da0032, #ff9000)' }} />
+              <div className="h-1 w-full bg-linear-to-r from-blaze to-sunburst" />
 
               <div className="p-8" style={{ minHeight: 360 }}>
                 <AnimatePresence mode="wait" custom={direction}>

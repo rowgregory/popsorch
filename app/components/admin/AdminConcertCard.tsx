@@ -145,7 +145,6 @@ const AdminConcertCard: FC<{ concert: IConcert }> = ({ concert }) => {
               onChange={(e: any) => handleToggleConcertIsOnSale(e, concert?.id)}
               isLoading={updating[concert.id]}
               name="isOnSale"
-              color="blaze"
             />
           </div>
           <span className={`text-[10px] font-medium ${concert.isOnSale ? 'text-white' : 'text-neutral-500'}`}>

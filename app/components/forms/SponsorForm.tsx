@@ -66,7 +66,6 @@ const SponsorForm = ({ inputs, errors, handleInput, close, handleSubmit, loading
         <div className="px-8 py-6 text-white border-b border-neutral-600">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <Gift className="w-8 h-8 text-neutral-300" />
               <div>
                 <h1 className="text-3xl font-bold text-white">{isUpdating ? 'Update' : 'Create'} Sponsor</h1>
                 <p className="text-neutral-300">
@@ -95,7 +94,7 @@ const SponsorForm = ({ inputs, errors, handleInput, close, handleSubmit, loading
                   name="name"
                   value={inputs?.name || ''}
                   onChange={handleInput}
-                  className="w-full px-4 py-3 bg-neutral-800 border border-neutral-600 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                  className="w-full px-4 py-3 bg-neutral-800 border border-neutral-600 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-blaze focus:border-transparent"
                   placeholder="Enter sponsor name"
                 />
                 {errors?.name && <p className="mt-2 text-sm text-red-400">{errors.name}</p>}
@@ -114,7 +113,7 @@ const SponsorForm = ({ inputs, errors, handleInput, close, handleSubmit, loading
                       name="level"
                       value={inputs?.level || ''}
                       onChange={handleInput}
-                      className="w-full px-4 py-3 bg-neutral-800 border border-neutral-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                      className="w-full px-4 py-3 bg-neutral-800 border border-neutral-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blaze focus:border-transparent"
                     >
                       <option value="">Select sponsor level</option>
                       {sponsorLevels.map((level) => (
@@ -127,7 +126,7 @@ const SponsorForm = ({ inputs, errors, handleInput, close, handleSubmit, loading
                     <button
                       type="button"
                       onClick={() => setShowNewLevelInput(true)}
-                      className="flex items-center gap-2 text-sky-400 hover:text-sky-300 text-sm font-medium transition-colors"
+                      className="flex items-center gap-2 text-blaze/90 hover:text-blaze text-sm font-medium transition-colors cursor-pointer"
                     >
                       <Plus className="w-4 h-4" />
                       Add New Level
@@ -139,15 +138,15 @@ const SponsorForm = ({ inputs, errors, handleInput, close, handleSubmit, loading
                       type="text"
                       value={newLevel}
                       onChange={(e) => setNewLevel(e.target.value)}
-                      onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addNewLevel())}
-                      className="flex-1 px-4 py-3 bg-neutral-800 border border-neutral-600 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                      onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addNewLevel())}
+                      className="flex-1 px-4 py-3 bg-neutral-800 border border-neutral-600 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-blaze focus:border-transparent"
                       placeholder="Enter new level name"
                       autoFocus
                     />
                     <button
                       type="button"
                       onClick={addNewLevel}
-                      className="px-4 py-3 bg-sky-600 hover:bg-sky-700 text-white rounded-lg font-medium transition-colors"
+                      className="px-4 py-3 bg-linear-to-r from-blaze/90 to-sunburst hover:from-blaze hover:to-sunburst text-white rounded-lg font-medium transition-colors"
                     >
                       Add
                     </button>
@@ -180,7 +179,7 @@ const SponsorForm = ({ inputs, errors, handleInput, close, handleSubmit, loading
                     name="amount"
                     value={inputs?.amount || ''}
                     onChange={handleInput}
-                    className="w-full pl-8 pr-4 py-3 bg-neutral-800 border border-neutral-600 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                    className="w-full pl-8 pr-4 py-3 bg-neutral-800 border border-neutral-600 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-blaze focus:border-transparent"
                     placeholder="0.00"
                   />
                 </div>
@@ -199,7 +198,7 @@ const SponsorForm = ({ inputs, errors, handleInput, close, handleSubmit, loading
                   name="externalLink"
                   value={inputs?.externalLink || ''}
                   onChange={handleInput}
-                  className="w-full px-4 py-3 bg-neutral-800 border border-neutral-600 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                  className="w-full px-4 py-3 bg-neutral-800 border border-neutral-600 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-blaze focus:border-transparent"
                   placeholder="https://sponsor-website.com"
                 />
                 <p className="mt-2 text-xs text-neutral-400">Optional: Link to sponsor&apos;s website</p>
@@ -256,7 +255,7 @@ const SponsorForm = ({ inputs, errors, handleInput, close, handleSubmit, loading
                   name="filename"
                   value={inputs?.filename || ''}
                   onChange={handleInput}
-                  className="w-full px-4 py-3 bg-neutral-800 border border-neutral-600 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                  className="w-full px-4 py-3 bg-neutral-800 border border-neutral-600 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-blaze focus:border-transparent"
                   placeholder="Auto-filled from upload"
                   readOnly={!inputs?.file && !inputs?.filePath}
                 />
@@ -277,7 +276,7 @@ const SponsorForm = ({ inputs, errors, handleInput, close, handleSubmit, loading
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 px-6 py-3 bg-sky-600 hover:bg-sky-700 disabled:bg-neutral-600 disabled:cursor-not-allowed text-white rounded-lg font-semibold transition-colors flex items-center justify-center gap-2"
+              className="flex-1 px-6 py-3 bg-linear-to-r from-blaze/90 to-sunburst/90 hover:from-blaze hover:to-sunburst disabled:bg-neutral-600 disabled:cursor-not-allowed text-white rounded-lg font-semibold transition-colors flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>

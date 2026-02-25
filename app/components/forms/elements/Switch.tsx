@@ -6,10 +6,9 @@ interface SwitchProps {
   onChange: any
   isLoading?: boolean
   name: string
-  color?: string
 }
 
-const Switch: FC<SwitchProps> = ({ enabled, onChange, isLoading, name, color }) => {
+const Switch: FC<SwitchProps> = ({ enabled, onChange, isLoading, name }) => {
   const inputRef = useRef(null) as any
 
   return (
@@ -23,7 +22,7 @@ const Switch: FC<SwitchProps> = ({ enabled, onChange, isLoading, name, color }) 
     >
       <span
         className={`absolute left-2 w-7 h-7 rounded-full shadow-md transition-all duration-300 flex items-center justify-center ${
-          enabled ? `translate-x-9 ${color ? `bg-${color}` : 'bg-neutral-800'}` : 'translate-x-0 bg-zinc-900'
+          enabled ? `translate-x-9 bg-linear-to-r from-blaze to-sunburst` : 'translate-x-0 bg-zinc-900'
         }`}
       >
         {isLoading && (

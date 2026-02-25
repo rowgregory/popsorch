@@ -19,8 +19,8 @@ const ConcertsBlock = ({ pageData, concerts }) => {
   }, {})
 
   return (
-    <section className="px-4 pt-12 pb-40">
-      <div className="mx-auto w-full flex flex-col items-center">
+    <section className="px-4 pt-32.5 pb-40">
+      <div className="mx-auto max-w-300 w-full flex flex-col items-center">
         {/* New Badge Design */}
         <motion.div variants={fadeInUp} className="mb-12 w-full flex justify-center">
           <div className="flex items-center gap-3 px-6 py-3 bg-black/40 border border-white/10 rounded-xl backdrop-blur-sm">
@@ -29,7 +29,7 @@ const ConcertsBlock = ({ pageData, concerts }) => {
         </motion.div>
 
         {/* New Title Design */}
-        <h2 className="text-center text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-20 max-w-4xl leading-tight">
+        <h2 className="text-center text-5xl sm:text-6xl font-changa text-white mb-20 max-w-3xl leading-tight">
           {concert?.subheading}
         </h2>
 
@@ -46,7 +46,7 @@ const ConcertsBlock = ({ pageData, concerts }) => {
         <motion.div whileHover={{ x: 4 }} whileTap={{ scale: 0.98 }}>
           <Link
             href={concert?.btnHref || '/concerts'}
-            className="rounded-md mt-8 px-8 py-3 bg-blaze hover:bg-blazehover text-white font-changa uppercase tracking-wider text-sm transition-colors duration-300 inline-flex items-center gap-2"
+            className="rounded-md mt-8 px-8 py-4 bg-blaze hover:bg-blazehover text-white font-changa uppercase tracking-wider text-sm transition-colors duration-300 inline-flex items-center gap-2"
           >
             <span>{concert?.btnText}</span>
             <ChevronRight className="w-4 h-4" />

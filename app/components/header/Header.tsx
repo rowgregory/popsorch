@@ -9,7 +9,7 @@ const Header = ({ concerts, campApplicationsSetting }) => {
           <div className="flex justify-end items-center h-10">
             <Link
               href="/auth/login"
-              className="text-xs text-neutral-400 hover:text-neutral-200 transition-colors duration-300"
+              className="text-xs text-neutral-400 hover:text-neutral-200 transition-colors duration-300 uppercase font-changa font-medium tracking-wide"
             >
               Launch App
             </Link>

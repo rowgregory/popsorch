@@ -2,7 +2,7 @@
 
 import Picture from '../common/Picture'
 import Link from 'next/link'
-import { ArrowRight, Mail, MapPin, Phone } from 'lucide-react'
+import { ChevronRight, Mail, MapPin, Phone } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { sendGAEvent } from '@next/third-parties/google'
 
@@ -30,7 +30,7 @@ const ContactUsBlock = ({ pageData }) => {
 
       {/* Content */}
       <section className="relative z-10 px-4 990:px-12 xl:px-4 py-24 990:py-32">
-        <div className="max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 1590:max-w-screen-1400 w-full mx-auto grid grid-cols-1 990:grid-cols-2 gap-12 items-center">
+        <div className="max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 1590:max-w-300 w-full mx-auto grid grid-cols-1 990:grid-cols-2 gap-12 items-center">
           {/* Left Side - Contact Info */}
           <div className="flex flex-col gap-4">
             {[
@@ -62,7 +62,7 @@ const ContactUsBlock = ({ pageData }) => {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-duskgray/80 border-l-2 border-sunburst p-6 flex items-start gap-4"
+                className="bg-duskgray/80 border-l-2 border-sunburst p-6 flex items-start gap-4 rounded-md"
               >
                 <div className="w-10 h-10 bg-sunburst flex items-center justify-center shrink-0">{method.icon}</div>
                 <div>
@@ -100,11 +100,10 @@ const ContactUsBlock = ({ pageData }) => {
                   source_page: 'homepage'
                 })
               }}
-              className="inline-flex items-center gap-3 bg-blaze hover:bg-blazehover text-white px-8 py-4 font-changa uppercase tracking-wider text-sm transition-colors duration-300"
+              className="rounded-md inline-flex items-center gap-3 bg-blaze hover:bg-blazehover text-white px-8 py-4 font-changa uppercase tracking-wider text-sm transition-colors duration-300"
             >
-              <Mail className="w-5 h-5" />
               <span>{question.buttonText}</span>
-              <ArrowRight className="w-5 h-5" />
+              <ChevronRight className="w-5 h-5" />
             </Link>
           </motion.div>
         </div>

@@ -160,7 +160,7 @@ export function PageContentEditor({
             <button
               onClick={() => onSave(content)}
               disabled={isLoading}
-              className="px-6 py-2 text-sm font-medium bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-600/50 disabled:cursor-not-allowed text-white rounded-lg transition-colors w-full md:w-fit"
+              className="px-6 py-2 text-sm font-medium  bg-linear-to-r from-blaze to-sunburst disabled:from-blaze/50 disabled:to-sunburst/50 disabled:cursor-not-allowed text-white rounded-lg transition-colors w-full md:w-fit"
             >
               {isLoading ? 'Saving...' : 'Save Changes'}
             </button>

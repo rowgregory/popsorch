@@ -1,41 +1,30 @@
 import { FC, useState } from 'react'
 import Picture from '../common/Picture'
 import Spinner from '../common/Spinner'
-import {
-  PhotoGalleryImageProps,
-  removePhotoGalleryImageFromState,
-  resetPhotoGalleryImage,
-  updatePhotoGalleryImageInState
-} from '@/app/redux/features/photoGalleryImageSlice'
-import {
-  useDeletePhotoGalleryImageMutation,
-  useUpdatePhotoGalleryImageMutation
-} from '@/app/redux/services/photoGalleryImageApi'
-import { useAppDispatch } from '@/app/redux/store'
-import { decreasePhotoGalleryImageCount } from '@/app/redux/features/appSlice'
+import { PhotoGalleryImageProps } from '@/app/redux/features/photoGalleryImageSlice'
+import { store } from '@/app/redux/store'
 import { Star, Trash } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { useRouter } from 'next/navigation'
+import { deletePhotoGalleryImage } from '@/app/actions/deletePhotoGalleryImage'
+import { showToast } from '@/app/redux/features/toastSlice'
+import { updatePhotoGalleryImage } from '@/app/actions/updatePhotoGalleryImage'
 
 const AdminPhotoGalleryImage: FC<{ photoGalleryImage: PhotoGalleryImageProps }> = ({ photoGalleryImage }) => {
-  const dispatch = useAppDispatch()
-  const [deletePhotoGalleryImage] = useDeletePhotoGalleryImageMutation()
-  const [updatePhotoGalleryImage] = useUpdatePhotoGalleryImageMutation()
   const [loadingDelete, setLoadingDelete] = useState<Record<string, boolean>>({})
   const [loadingUpdate, setLoadingUpdate] = useState<Record<string, boolean>>({})
+  const router = useRouter()
 
   const handleDeletePhotoGalleryImage = async (photoGalleryImage: PhotoGalleryImageProps) => {
     setLoadingDelete((prev: any) => ({ ...prev, [photoGalleryImage.id]: true }))
 
     try {
-      const response = await deletePhotoGalleryImage({
-        id: photoGalleryImage.id,
-        imageFilename: photoGalleryImage.imageFilename
-      }).unwrap()
-
-      dispatch(removePhotoGalleryImageFromState(response.id))
-      dispatch(resetPhotoGalleryImage())
-      dispatch(decreasePhotoGalleryImageCount())
-    } catch {}
+      await deletePhotoGalleryImage(photoGalleryImage.id, photoGalleryImage.imageFilename)
+      router.refresh()
+      store.dispatch(showToast({ type: 'success', message: 'Successfully delete photo gallery image!' }))
+    } catch {
+      store.dispatch(showToast({ type: 'error', message: 'Failed to delete photo gallery image' }))
+    }
 
     setLoadingDelete((prev: any) => ({ ...prev, [photoGalleryImage.id]: false }))
   }
@@ -45,9 +34,12 @@ const AdminPhotoGalleryImage: FC<{ photoGalleryImage: PhotoGalleryImageProps }> 
     setLoadingUpdate((prev: any) => ({ ...prev, [photoGalleryImageId]: true }))
 
     try {
-      const response = await updatePhotoGalleryImage({ id: photoGalleryImageId, isHomeHero: e.target.checked }).unwrap()
-      dispatch(updatePhotoGalleryImageInState(response.photoGalleryImage))
-    } catch {}
+      await updatePhotoGalleryImage(photoGalleryImageId, e.target.checked)
+      router.refresh()
+      store.dispatch(showToast({ type: 'success', message: 'Successfully updated photo gallery image!' }))
+    } catch {
+      store.dispatch(showToast({ type: 'error', message: 'Failed to update photo gallery image' }))
+    }
 
     setLoadingUpdate((prev: any) => ({ ...prev, [photoGalleryImageId]: false }))
   }
@@ -57,7 +49,7 @@ const AdminPhotoGalleryImage: FC<{ photoGalleryImage: PhotoGalleryImageProps }> 
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.2 }}
-      className="group relative bg-gradient-to-br from-neutral-900 to-black border border-neutral-800 rounded-xl overflow-hidden hover:border-neutral-700/70 transition-all duration-300 shadow-xl"
+      className="group relative bg-linear-to-br from-neutral-900 to-black border border-neutral-800 rounded-xl overflow-hidden hover:border-neutral-700/70 transition-all duration-300 shadow-xl"
     >
       {/* Image Container */}
       <div className="aspect-square relative overflow-hidden bg-neutral-950">
@@ -67,9 +59,7 @@ const AdminPhotoGalleryImage: FC<{ photoGalleryImage: PhotoGalleryImageProps }> 
           priority
           alt="Gallery image"
         />
-
-        {/* Gradient Overlay on Hover */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
 
       {/* Controls Overlay */}
@@ -78,7 +68,7 @@ const AdminPhotoGalleryImage: FC<{ photoGalleryImage: PhotoGalleryImageProps }> 
         <div className="absolute top-3 right-3 pointer-events-auto">
           {loadingDelete[photoGalleryImage.id] ? (
             <div className="w-9 h-9 bg-neutral-900/90 backdrop-blur-sm rounded-lg flex items-center justify-center border border-neutral-700">
-              <Spinner fill="fill-red-500" track="text-neutral-700" />
+              <Spinner fill="fill-blaze" track="text-neutral-700" />
             </div>
           ) : (
             <button
@@ -97,9 +87,7 @@ const AdminPhotoGalleryImage: FC<{ photoGalleryImage: PhotoGalleryImageProps }> 
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div
-                  className={`w-2 h-2 rounded-full ${
-                    photoGalleryImage.isHomeHero ? 'bg-amber-500 animate-pulse' : 'bg-neutral-600'
-                  }`}
+                  className={`w-2 h-2 rounded-full ${photoGalleryImage.isHomeHero ? 'bg-blaze animate-pulse' : 'bg-neutral-600'}`}
                 />
                 <span className="text-xs font-medium text-neutral-300">
                   {photoGalleryImage.isHomeHero ? 'Featured on Home' : 'Add to Home Hero'}
@@ -108,7 +96,7 @@ const AdminPhotoGalleryImage: FC<{ photoGalleryImage: PhotoGalleryImageProps }> 
 
               <motion.label
                 className={`relative w-11 h-6 rounded-full transition-all cursor-pointer ${
-                  photoGalleryImage.isHomeHero ? 'bg-amber-500' : 'bg-neutral-600'
+                  photoGalleryImage.isHomeHero ? 'bg-linear-to-r from-blaze to-sunburst' : 'bg-neutral-600'
                 } ${loadingUpdate[photoGalleryImage.id] ? 'opacity-70 cursor-not-allowed' : ''}`}
                 whileTap={{ scale: loadingUpdate[photoGalleryImage.id] ? 1 : 0.95 }}
               >
@@ -136,7 +124,7 @@ const AdminPhotoGalleryImage: FC<{ photoGalleryImage: PhotoGalleryImageProps }> 
 
       {/* Hero Badge - Top Left */}
       {photoGalleryImage.isHomeHero && (
-        <div className="absolute top-3 left-3 px-2.5 py-1 bg-amber-500/90 backdrop-blur-sm rounded-md flex items-center gap-1.5 border border-amber-400/50">
+        <div className="absolute top-3 left-3 px-2.5 py-1 bg-linear-to-r from-blaze to-sunburst backdrop-blur-sm rounded-md flex items-center gap-1.5">
           <Star className="w-3.5 h-3.5 text-white fill-white" />
           <span className="text-xs font-bold text-white uppercase tracking-wider">Hero</span>
         </div>

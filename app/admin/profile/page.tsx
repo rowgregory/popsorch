@@ -140,7 +140,6 @@ const AdminProfile = ({ data }) => {
                 onChange={handleSoundEffectsToggle}
                 isLoading={isPending}
                 name="sound-effects"
-                color="blaze"
               />
             </div>
           </SettingsCard>

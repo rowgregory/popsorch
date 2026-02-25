@@ -100,7 +100,6 @@ const HomeConcertCard: FC<IConcertCard> = ({ concert, index }) => {
                 e.stopPropagation()
               }}
             >
-              <Ticket className="w-4 h-4" />
               Buy Tickets
             </Link>
           ) : (

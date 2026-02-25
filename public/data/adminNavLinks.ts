@@ -15,8 +15,8 @@ import {
   Database,
   FileQuestionIcon,
   GitBranch,
-  FlaskRound,
-  Sliders
+  Sliders,
+  PanelLeft
 } from 'lucide-react'
 
 export const adminNavLinks = (path: string, role: string) => {
@@ -31,7 +31,7 @@ export const adminNavLinks = (path: string, role: string) => {
 
   const contentGroup = [
     {
-      icon: FlaskRound,
+      icon: PanelLeft,
       label: 'Page Content Editor',
       path: '/admin/page-content-editor?page=home',
       active: isStringInPath(path, 'page-content-editor')
@@ -86,7 +86,7 @@ export const adminNavLinks = (path: string, role: string) => {
   const communicationGroup = [
     {
       icon: FileQuestionIcon,
-      label: 'Questions',
+      label: 'Contact Submissions',
       path: '/admin/questions',
       active: isStringInPath(path, 'questions')
     },
