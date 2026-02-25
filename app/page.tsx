@@ -1,12 +1,12 @@
 import { getConcerts } from './actions/getConcerts'
-import { getPageContent } from './actions/getPageContent'
+import { getPage } from './actions/getPage'
 import { getPhotoGalleryImages } from './actions/getPhotoGalleryImages'
 import { getSponsors } from './actions/getSponsors'
 import HomeClient from './components/pages/HomeClient'
 
 export default async function HomePage() {
   const [pageData, concertsData, galleryData, sponsorsData] = await Promise.all([
-    getPageContent('home'),
+    getPage('home'),
     getConcerts(),
     getPhotoGalleryImages(),
     getSponsors()
