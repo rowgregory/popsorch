@@ -595,14 +595,18 @@ export default function CampApplicationClient({ data }) {
 
               {/* Navigation */}
               <div className="px-8 pb-8 flex items-center justify-between">
-                <button
-                  onClick={() => go(step - 1)}
-                  disabled={step === 0}
-                  className="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-neutral-400 hover:text-white disabled:opacity-0 disabled:pointer-events-none transition-colors"
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                  Back
-                </button>
+                {step !== 1 ? (
+                  <button
+                    onClick={() => go(step - 1)}
+                    disabled={step === 0}
+                    className="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-neutral-400 hover:text-white disabled:opacity-0 disabled:pointer-events-none transition-colors"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                    Back
+                  </button>
+                ) : (
+                  <div />
+                )}
 
                 {step < 4 ? (
                   <button
