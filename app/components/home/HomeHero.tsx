@@ -38,7 +38,7 @@ const HomeHero = ({ pageData, ref, galleryImages }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.35, ease: 'easeIn' }}
-      className="relative w-full min-h-125 h-dvh max-h-1000 -mt-25"
+      className="relative w-full min-h-125 h-dvh max-h-1000 -mt-20"
     >
       <div className="absolute inset-0 z-40 bg-black/20 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
         <div className="w-full max-w-[320px] xs:max-w-sm sm:max-w-2xl lg:max-w-5xl xl:max-w-6xl mx-auto text-center">

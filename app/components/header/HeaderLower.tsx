@@ -25,17 +25,19 @@ const HeaderLower = ({ concerts, campApplicationsSetting }) => {
       ref={headerRef}
       className={`${
         !isHome && 'bg-headerbg bg-cover bg-no-repeat bg-center'
-      } transition-all w-full px-4 pt-2 430:px-7 1280:px-14 flex items-center justify-between relative z-50 h-25`}
+      } transition-all w-full px-4 sm:px-7 1280:px-14 flex items-center justify-between relative z-50 h-16 sm:h-20`}
     >
+      {/* Logo */}
       <Link
         href="/"
         className={`${
           isHome ? 'bg-golden50Logo' : 'bg-white50Logo'
-        } bg-no-repeat bg-contain bg-center w-24 1200:w-40 h-20`}
+        } bg-no-repeat bg-contain bg-center w-16 sm:w-24 1200:w-36 h-12 sm:h-16 shrink-0`}
       />
 
+      {/* Desktop Nav */}
       <motion.div
-        className="hidden 1360:flex items-center px-5 gap-x-5 h-full"
+        className="hidden 1160:flex items-center px-4 gap-x-4 h-full"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
@@ -45,12 +47,7 @@ const HeaderLower = ({ concerts, campApplicationsSetting }) => {
             key={i}
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{
-              delay: i * 0.1,
-              duration: 0.6,
-              type: 'spring',
-              stiffness: 100
-            }}
+            transition={{ delay: i * 0.1, duration: 0.6, type: 'spring', stiffness: 100 }}
             whileTap={{ scale: 0.95 }}
           >
             {link.isButton ? (
@@ -58,22 +55,26 @@ const HeaderLower = ({ concerts, campApplicationsSetting }) => {
                 link={link}
                 openDropdown={openDropdown}
                 setOpenDropdown={setOpenDropdown}
-                linkClassname="text-white"
+                linkClassname="text-white text-sm"
               />
             ) : (
-              <HeaderNavLink link={link} setOpenDropdown={setOpenDropdown} linkClassname="text-white" />
+              <HeaderNavLink link={link} setOpenDropdown={setOpenDropdown} linkClassname="text-white text-sm" />
             )}
           </motion.div>
         ))}
       </motion.div>
-      <div className="flex items-center gap-x-4">
+
+      {/* Right Side */}
+      <div className="flex items-center gap-x-3 shrink-0">
+        {/* Mobile menu icon */}
         <Menu
           onClick={() => dispatch(openNavigationDrawer())}
-          className="w-6 h-6 text-white 1360:hidden block duration-300 hover:text-blaze cursor-pointer"
+          className="w-5 h-5 sm:w-6 sm:h-6 text-white 1160:hidden block duration-300 hover:text-blaze cursor-pointer"
         />
-        <div className="hidden 1360:flex space-x-4">
+
+        {/* Desktop buttons */}
+        <div className="hidden 1160:flex gap-x-3">
           {headerButton?.type === 'double' && headerButton.secondaryButton ? (
-            // Double Button
             <>
               <CustomHeaderButton
                 {...headerButton}
@@ -95,7 +96,6 @@ const HeaderLower = ({ concerts, campApplicationsSetting }) => {
               />
             </>
           ) : (
-            // Single Button
             <CustomHeaderButton {...headerButton} />
           )}
         </div>

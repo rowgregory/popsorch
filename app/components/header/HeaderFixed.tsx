@@ -23,18 +23,21 @@ const HeaderFixed = ({ concerts, campApplicationsSetting }) => {
     <div
       className={`${
         path.includes('/admin') ? 'hidden' : 'block'
-      } fixed flex items-center z-70 top-0 left-0 w-full h-17.5 bg-duskgray transition-transform duration-500 px-4 ${
-        hasScrolled ? 'translate-y-0' : '-translate-y-17.5'
+      } fixed flex items-center z-70 top-0 left-0 w-full h-14 sm:h-16 bg-duskgray transition-transform duration-500 px-4 sm:px-7 ${
+        hasScrolled ? 'translate-y-0' : '-translate-y-full'
       }`}
     >
-      <div className="max-w-1200 w-full gap-x-4 mx-auto flex items-center justify-between">
+      <div className="w-full gap-x-3 mx-auto flex items-center justify-between">
+        {/* Logo */}
         <Link
           href="/"
           className={`${
             isHome ? 'bg-golden50Logo' : 'bg-white50Logo'
-          } bg-no-repeat bg-contain bg-center w-24 1200:w-40 h-14`}
+          } bg-no-repeat bg-contain bg-center w-16 sm:w-24 1200:w-36 h-10 sm:h-12 shrink-0`}
         />
-        <div className="hidden absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 1200:flex items-center gap-x-10 h-full">
+
+        {/* Centered Nav */}
+        <div className="hidden absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 1200:flex items-center gap-x-6 h-full">
           {hasScrolled &&
             navLinks.map((link, i) =>
               link.isButton ? (
@@ -43,18 +46,25 @@ const HeaderFixed = ({ concerts, campApplicationsSetting }) => {
                   link={link}
                   openDropdown={openDropdown}
                   setOpenDropdown={setOpenDropdown}
-                  linkClassname="text-white"
+                  linkClassname="text-white text-sm"
                   isFixed
                 />
               ) : (
-                <HeaderNavLink key={i} link={link} setOpenDropdown={setOpenDropdown} linkClassname="text-white" />
+                <HeaderNavLink
+                  key={i}
+                  link={link}
+                  setOpenDropdown={setOpenDropdown}
+                  linkClassname="text-white text-sm"
+                />
               )
             )}
         </div>
-        <div className="flex items-center gap-x-4">
+
+        {/* Right Side */}
+        <div className="flex items-center gap-x-3 shrink-0">
           <Menu
             onClick={() => dispatch(openNavigationDrawer())}
-            className="w-6 h-6 text-white 1200:hidden block duration-300 hover:text-blaze cursor-pointer"
+            className="w-5 h-5 sm:w-6 sm:h-6 text-white 1200:hidden block duration-300 hover:text-blaze cursor-pointer"
           />
           <CustomHeaderButton {...headerButton} />
         </div>
