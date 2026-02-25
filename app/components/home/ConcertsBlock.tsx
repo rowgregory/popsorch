@@ -46,7 +46,7 @@ const ConcertsBlock = ({ pageData, concerts }) => {
         <motion.div whileHover={{ x: 4 }} whileTap={{ scale: 0.98 }}>
           <Link
             href={concert?.btnHref || '/concerts'}
-            className="mt-8 px-8 py-3 bg-blaze hover:bg-blazehover text-white font-changa uppercase tracking-wider text-sm transition-colors duration-300 inline-flex items-center gap-2"
+            className="rounded-md mt-8 px-8 py-3 bg-blaze hover:bg-blazehover text-white font-changa uppercase tracking-wider text-sm transition-colors duration-300 inline-flex items-center gap-2"
           >
             <span>{concert?.btnText}</span>
             <ChevronRight className="w-4 h-4" />

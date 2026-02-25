@@ -512,28 +512,46 @@ export default function CampApplicationClient({ data }) {
                         </Field>
                         <div className="grid grid-cols-3 gap-4">
                           <Field label="Strings">
-                            <input
+                            <select
                               className={inputClass()}
-                              placeholder="Level"
                               value={form.strings}
                               onChange={(e) => set('strings', e.target.value)}
-                            />
+                            >
+                              <option value="" disabled className="text-neutral-500">
+                                Select level
+                              </option>
+                              <option value="Beginner">Beginner</option>
+                              <option value="Intermediate">Intermediate</option>
+                              <option value="Advanced">Advanced</option>
+                            </select>
                           </Field>
                           <Field label="Brass & Perc.">
-                            <input
+                            <select
                               className={inputClass()}
-                              placeholder="Level"
                               value={form.brassAndPercussion}
                               onChange={(e) => set('brassAndPercussion', e.target.value)}
-                            />
+                            >
+                              <option value="" disabled className="text-neutral-500">
+                                Select level
+                              </option>
+                              <option value="Beginner">Beginner</option>
+                              <option value="Intermediate">Intermediate</option>
+                              <option value="Advanced">Advanced</option>
+                            </select>
                           </Field>
                           <Field label="Woodwinds">
-                            <input
+                            <select
                               className={inputClass()}
-                              placeholder="Level"
                               value={form.woodwinds}
                               onChange={(e) => set('woodwinds', e.target.value)}
-                            />
+                            >
+                              <option value="" disabled className="text-neutral-500">
+                                Select level
+                              </option>
+                              <option value="Beginner">Beginner</option>
+                              <option value="Intermediate">Intermediate</option>
+                              <option value="Advanced">Advanced</option>
+                            </select>
                           </Field>
                         </div>
                         <Field label="How did you hear about us?">
@@ -545,10 +563,10 @@ export default function CampApplicationClient({ data }) {
                           />
                         </Field>
                         <Field label="" error={e('consent')}>
-                          <label className="flex items-start gap-3 cursor-pointer group mt-2">
+                          <label className="flex items-start gap-3 group mt-2">
                             <div
                               onClick={() => set('consent', !form.consent)}
-                              className={`mt-0.5 w-5 h-5 rounded shrink-0 border-2 flex items-center justify-center transition-all ${
+                              className={`mt-0.5 w-5 h-5 rounded shrink-0 border-2 flex items-center justify-center transition-all cursor-pointer ${
                                 form.consent
                                   ? 'bg-blaze border-blaze'
                                   : e('consent')

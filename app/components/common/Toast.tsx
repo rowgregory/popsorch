@@ -11,21 +11,9 @@ const Toast: React.FC = () => {
 
   useEffect(() => {
     if (isVisible) {
-      // Play sound based on toast type
-      switch (type) {
-        case 'success':
-          // successSound.play()
-          break
-        case 'error':
-          // errorSound.play()
-          break
-      }
-
-      // Auto-hide toast
       const timer = setTimeout(() => {
         dispatch(hideToast())
       }, duration)
-
       return () => clearTimeout(timer)
     }
   }, [isVisible, type, dispatch, duration])
@@ -33,26 +21,26 @@ const Toast: React.FC = () => {
   const getIcon = () => {
     switch (type) {
       case 'success':
-        return <CheckCircle className="w-6 h-6 text-green-400" />
+        return <CheckCircle className="w-5 h-5 text-emerald-400" />
       case 'error':
-        return <AlertCircle className="w-6 h-6 text-red-400" />
+        return <AlertCircle className="w-5 h-5 text-blaze" />
       case 'warning':
-        return <AlertTriangle className="w-6 h-6 text-yellow-400" />
+        return <AlertTriangle className="w-5 h-5 text-sunburst" />
       case 'info':
-        return <Info className="w-6 h-6 text-blue-400" />
+        return <Info className="w-5 h-5 text-neutral-400" />
     }
   }
 
-  const getBackgroundColor = () => {
+  const getAccent = () => {
     switch (type) {
       case 'success':
-        return 'bg-green-950/80'
+        return 'border-l-emerald-500'
       case 'error':
-        return 'bg-red-950/80'
+        return 'border-l-[#da0032]'
       case 'warning':
-        return 'bg-yellow-950/80'
+        return 'border-l-[#ff9000]'
       case 'info':
-        return 'bg-blue-950/80'
+        return 'border-l-neutral-500'
     }
   }
 
@@ -65,31 +53,21 @@ const Toast: React.FC = () => {
           key="toast"
           initial={{ opacity: 0, x: '100%' }}
           animate={{ opacity: 1, x: 0 }}
-          exit={{
-            opacity: 0,
-            x: '100%',
-            transition: {
-              duration: 0.3,
-              ease: 'easeInOut'
-            }
-          }}
-          transition={{
-            type: 'tween',
-            duration: 0.3,
-            ease: 'easeInOut'
-          }}
-          className={`
-          fixed top-4 right-4 left-4 lg:left-auto z-[100] ${getBackgroundColor()} backdrop-blur-md rounded-xl border border-white/10 shadow-2xl p-4 lg:max-w-sm
-        `}
+          exit={{ opacity: 0, x: '100%', transition: { duration: 0.3, ease: 'easeInOut' } }}
+          transition={{ type: 'tween', duration: 0.3, ease: 'easeInOut' }}
+          className={`fixed top-4 right-4 left-4 lg:left-auto z-100 lg:max-w-sm bg-neutral-900 border border-neutral-800 border-l-4 ${getAccent()} rounded-xl shadow-2xl p-4`}
         >
-          <div className="flex items-center space-x-3">
-            {getIcon()}
-            <div className="flex-1">
-              <h3 className="text-white font-semibold">{message}</h3>
-              {description && <p className="text-gray-400 text-sm mt-1">{description}</p>}
+          <div className="flex items-center gap-3">
+            <div className="shrink-0">{getIcon()}</div>
+            <div className="flex-1 min-w-0">
+              <h3 className="text-white text-sm font-bold">{message}</h3>
+              {description && <p className="text-neutral-400 text-xs mt-0.5 leading-relaxed">{description}</p>}
             </div>
-            <button onClick={() => dispatch(hideToast())} className="text-gray-400 hover:text-white transition-colors">
-              <X className="w-5 h-5" />
+            <button
+              onClick={() => dispatch(hideToast())}
+              className="shrink-0 w-7 h-7 flex items-center justify-center rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-400 hover:text-white transition-colors"
+            >
+              <X className="w-3.5 h-3.5" />
             </button>
           </div>
         </motion.div>

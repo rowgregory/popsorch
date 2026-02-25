@@ -25,24 +25,24 @@ const HomeConcertCard: FC<IConcertCard> = ({ concert, index }) => {
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.15 }}
-      className="group relative cursor-pointer bg-duskgray flex flex-col"
+      className="group relative cursor-pointer bg-duskgray flex flex-col rounded-lg"
       onClick={handleOpenConcert}
     >
       {/* Image - Full Width Top */}
       <div className="relative w-full aspect-video overflow-hidden">
         <Picture
           src={concert.imageUrl ?? '/images'}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out rounded-tl-lg rounded-tr-lg"
           priority={false}
         />
 
         {/* Badges */}
         <div className="absolute top-4 left-4 flex items-center gap-2 z-10">
-          <div className="bg-blaze text-white px-3 py-1 font-changa text-xs uppercase tracking-wider">
+          <div className="bg-blaze text-white px-3 py-1 font-changa text-xs uppercase tracking-wider rounded-sm">
             {concert?.type}
           </div>
           {concert.isOnSale && (
-            <div className="bg-green-600 text-white px-3 py-1 font-changa text-xs uppercase tracking-wider flex items-center gap-1.5">
+            <div className="bg-green-600 text-white px-3 py-1 font-changa text-xs uppercase tracking-wider flex items-center gap-1.5 rounded-sm">
               <Ticket className="w-3.5 h-3.5" />
               Live
             </div>
@@ -87,7 +87,7 @@ const HomeConcertCard: FC<IConcertCard> = ({ concert, index }) => {
           {concert.isOnSale ? (
             <Link
               href={`/concerts/${concert.id}`}
-              className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-blaze hover:bg-blazehover text-white font-changa uppercase tracking-wider text-sm transition-colors duration-300"
+              className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-blaze hover:bg-blazehover text-white font-changa uppercase tracking-wider text-sm transition-colors duration-300 rounded-md"
               onClick={(e) => {
                 sendGAEvent('event', 'buy_tickets_click', {
                   concert_id: concert.id,
@@ -109,7 +109,7 @@ const HomeConcertCard: FC<IConcertCard> = ({ concert, index }) => {
                 <CallBoxOfficeBtn />
               </div>
               <button
-                className="px-6 py-3.5 bg-charcoalgray hover:bg-charcoalgray/70 text-white font-changa uppercase tracking-wider text-sm border-l-2 border-blaze flex items-center justify-center gap-2 transition-colors duration-300"
+                className="px-6 py-3.5 bg-charcoalgray hover:bg-charcoalgray/70 text-white font-changa uppercase tracking-wider text-sm border-l-2 border-blaze flex items-center justify-center gap-2 transition-colors duration-300 rounded-md"
                 onClick={(e) => {
                   e.stopPropagation()
                   push(`/concerts/${concert.id}`)
