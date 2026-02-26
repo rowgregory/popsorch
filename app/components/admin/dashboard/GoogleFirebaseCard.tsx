@@ -1,8 +1,10 @@
+'use client'
+
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Check, Copy, ExternalLink, Eye, EyeOff, Key, User } from 'lucide-react'
+import { ExternalLink, User, Key, Eye, EyeOff, Copy, Check } from 'lucide-react'
 
-export default function HostGatorCard({ credentials }: { credentials: any }) {
+export default function GoogleFirebaseCard({ credentials }: { credentials: any }) {
   const [showPassword, setShowPassword] = useState(false)
   const [copiedEmail, setCopiedEmail] = useState(false)
   const [copiedPassword, setCopiedPassword] = useState(false)
@@ -28,8 +30,8 @@ export default function HostGatorCard({ credentials }: { credentials: any }) {
         <div className="flex items-start justify-between mb-6">
           <div className="flex items-center gap-3">
             <div>
-              <h3 className="text-lg font-semibold text-white">HostGator</h3>
-              <p className="text-sm text-neutral-400">Web Hosting & Domain Management</p>
+              <h3 className="text-lg font-semibold text-white">Google Firebase</h3>
+              <p className="text-sm text-neutral-400">Image & Video Storage</p>
             </div>
           </div>
         </div>
@@ -42,16 +44,16 @@ export default function HostGatorCard({ credentials }: { credentials: any }) {
             </label>
             <div className="flex items-center gap-2">
               <div className="flex-1 px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg">
-                <code className="text-sm text-neutral-200 font-mono">{credentials.email}</code>
+                <code className="text-sm text-neutral-200 font-mono">{credentials?.email}</code>
               </div>
               <button
-                onClick={() => handleCopy(credentials.email, 'email')}
-                className="flex-1 sm:flex-none px-3 py-2 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 rounded-lg transition-colors"
+                onClick={() => handleCopy(credentials?.email, 'email')}
+                className="flex-none px-3 py-2 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 rounded-lg transition-colors"
               >
                 {copiedEmail ? (
-                  <Check className="w-4 h-4 text-emerald-400 mx-auto" />
+                  <Check className="w-4 h-4 text-emerald-400" />
                 ) : (
-                  <Copy className="w-4 h-4 text-neutral-400 mx-auto" />
+                  <Copy className="w-4 h-4 text-neutral-400" />
                 )}
               </button>
             </div>
@@ -65,7 +67,7 @@ export default function HostGatorCard({ credentials }: { credentials: any }) {
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
               <div className="flex-1 px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg">
                 <code className="block text-neutral-200 font-mono text-xs sm:text-sm break-all">
-                  {showPassword ? credentials.password : '••••••••••••••••••'}
+                  {showPassword ? credentials?.password : '••••••••••••••••••'}
                 </code>
               </div>
               <div className="flex gap-2">
@@ -80,7 +82,7 @@ export default function HostGatorCard({ credentials }: { credentials: any }) {
                   )}
                 </button>
                 <button
-                  onClick={() => handleCopy(credentials.password, 'password')}
+                  onClick={() => handleCopy(credentials?.password, 'password')}
                   className="flex-1 sm:flex-none px-3 py-2 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 rounded-lg transition-colors"
                 >
                   {copiedPassword ? (
@@ -96,12 +98,12 @@ export default function HostGatorCard({ credentials }: { credentials: any }) {
       </div>
 
       <a
-        href={credentials.url}
+        href="https://console.firebase.google.com"
         target="_blank"
         rel="noopener noreferrer"
-        className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#0e1340] hover:bg-[#161b5c] text-white font-semibold rounded-lg transition-all border border-[#1e2560] shadow-lg shadow-[#0e1340]/40"
+        className="mt-6 w-full flex items-center justify-center gap-2 px-4 py-3 bg-linear-to-r from-yellow-400 via-orange-500 to-red-500 hover:from-yellow-500 hover:via-orange-600 hover:to-red-600 text-white font-semibold rounded-lg transition-all"
       >
-        Open HostGator
+        Open Firebase Console
         <ExternalLink className="w-4 h-4" />
       </a>
     </motion.div>

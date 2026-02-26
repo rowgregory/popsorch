@@ -17,6 +17,19 @@ interface ChangelogEntry {
 
 const changelogData: ChangelogEntry[] = [
   {
+    version: '3.1.2',
+    date: '2026-02-26',
+    changes: [
+      {
+        type: 'feature',
+        title: 'Google Firebase Dashboard Card',
+        description:
+          'Added a Firebase credentials card to the admin dashboard displaying the account email and masked password with show/hide toggle, copy-to-clipboard for both fields, and a direct link to the Firebase Console.',
+        impact: 'medium'
+      }
+    ]
+  },
+  {
     version: '3.1.1',
     date: '2026-02-25',
     changes: [

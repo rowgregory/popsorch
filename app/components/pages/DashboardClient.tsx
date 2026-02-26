@@ -6,12 +6,14 @@ import { containerVariants } from '@/app/lib/constants/advertise-with-us'
 import HostGatorCard from '../admin/dashboard/HostGatorCard'
 import MailChimpCard from '../admin/dashboard/MailChimpCard'
 import ResendCard from '../admin/dashboard/ResendCard'
+import GoogleFirebaseCard from '../admin/dashboard/GoogleFirebaseCard'
 
 const DashboardClient = ({
   googleAnalyticsCredentials,
   hostGatorCredentials,
   mailChimpCredentials,
-  resendCredentials
+  resendCredentials,
+  googleFirebaseCredentials
 }) => {
   return (
     <div className="h-full p-6">
@@ -26,6 +28,7 @@ const DashboardClient = ({
           <HostGatorCard credentials={hostGatorCredentials} />
           <MailChimpCard credentials={mailChimpCredentials} />
           <ResendCard credentials={resendCredentials} />
+          <GoogleFirebaseCard credentials={googleFirebaseCredentials} />
         </motion.div>
       </div>
     </div>
