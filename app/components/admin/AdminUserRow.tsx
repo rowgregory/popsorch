@@ -1,31 +1,31 @@
 import { FC, useState } from 'react'
 import { motion } from 'framer-motion'
-import { removeUserFromState, resetUser, UserProps } from '@/app/redux/features/userSlice'
-import { useDeleteUserMutation } from '@/app/redux/services/userApi'
-import { useAppDispatch } from '@/app/redux/store'
+import { UserProps } from '@/app/redux/features/userSlice'
 import { formatDate } from '@/app/utils/date.functions'
-import { decreaseUsersCount } from '@/app/redux/features/appSlice'
 import { Calendar, Shield, Trash } from 'lucide-react'
 import { useSession } from 'next-auth/react'
+import { deleteUser } from '@/app/actions/deleteUser'
+import { useRouter } from 'next/navigation'
+import { store } from '@/app/redux/store'
+import { showToast } from '@/app/redux/features/toastSlice'
 
 const AdminUserRow: FC<{ user: UserProps }> = ({ user }) => {
-  const dispatch = useAppDispatch()
-  const [loading, setLoading] = useState<Record<string, boolean>>({})
-  const [deleteUser] = useDeleteUserMutation()
+  const router = useRouter()
   const session = useSession()
   const id = session.data?.user?.id
+  const [loading, setLoading] = useState<Record<string, boolean>>({})
 
   const handleUserDelete = async (e: any, userId: string) => {
     e.stopPropagation()
 
     try {
       setLoading((prev) => ({ ...prev, [userId]: true }))
-      const response = await deleteUser({ id: userId }).unwrap()
-      dispatch(removeUserFromState(response.id))
-      dispatch(resetUser())
-      dispatch(decreaseUsersCount())
+      await deleteUser(userId)
+      router.refresh()
+      store.dispatch(showToast({ type: 'success', message: 'Successfully deleted user!' }))
     } finally {
       setLoading((prev) => ({ ...prev, [userId]: false }))
+      store.dispatch(showToast({ type: 'error', message: 'Failed to delete user' }))
     }
   }
 

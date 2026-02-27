@@ -1,5 +1,4 @@
 import { PayloadAction, Reducer, createSlice } from '@reduxjs/toolkit'
-import { pushNotificationApi } from '../services/pushNotificationApi'
 
 export interface PushNotificationStatePayload {
   isNotificationPermissionGranted: boolean
@@ -44,11 +43,6 @@ export const pushNotificationSlice = createSlice({
       state.subscription = null
       state.success = false
     }
-  },
-  extraReducers: (builder) => {
-    builder.addMatcher(pushNotificationApi.endpoints.sendPushNotification.matchFulfilled, (state) => {
-      state.success = true
-    })
   }
 })
 

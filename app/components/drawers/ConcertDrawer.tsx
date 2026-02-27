@@ -13,7 +13,7 @@ import { createConcert } from '@/app/actions/createConcert'
 import { useRouter } from 'next/navigation'
 import { updateConcert } from '@/app/actions/updateConcert'
 
-const ConcertDrawer = () => {
+const ConcertDrawer = ({ venues }) => {
   const dispatch = useAppDispatch()
   const { concertDrawer } = useConcertSelector()
   const { concertForm } = useFormSelector()
@@ -127,6 +127,7 @@ const ConcertDrawer = () => {
                 isUpdating={isUpdateMode}
                 close={reset}
                 isLoading={loading}
+                venues={venues}
               />
             </div>
           </motion.div>

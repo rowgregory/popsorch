@@ -19,17 +19,18 @@ import { actionItems } from '@/app/lib/constants/action-dropdown-items'
 import exportCampApplications from '@/app/lib/utils/admin/exportCampApplications'
 import { handleUploadPhotoGalleryImage } from '@/app/utils/handleUploadPhotoGalleryImage'
 import { createFormActions } from '@/app/redux/features/formSlice'
-import { useCreatePhotoGalleryImageMutation } from '@/app/redux/services/photoGalleryImageApi'
 import { useRouter } from 'next/navigation'
+import { createPhotoGalleryImage } from '@/app/actions/createPhotoGalleryImage'
 
 interface IAdminClientLayout {
   children: ReactNode
   data: any
   buttons: any
   campApplications: any
+  venues: any
 }
 
-const AdminClientLayout: FC<IAdminClientLayout> = ({ children, data, buttons, campApplications }) => {
+const AdminLayoutClient: FC<IAdminClientLayout> = ({ children, data, buttons, campApplications, venues }) => {
   const dispatch = useAppDispatch()
   const { adminSidebar } = useDashboardSelector()
   const onClose = () => dispatch(setCloseAdminSidebar())
@@ -37,7 +38,6 @@ const AdminClientLayout: FC<IAdminClientLayout> = ({ children, data, buttons, ca
   const [loading, setLoading] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const { handleUploadProgress } = createFormActions('photoGallery', dispatch)
-  const [createPhotoGalleryImage] = useCreatePhotoGalleryImageMutation()
   const router = useRouter()
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const AdminClientLayout: FC<IAdminClientLayout> = ({ children, data, buttons, ca
   return (
     <>
       {/* Drawers & Modals */}
-      <ConcertDrawer />
+      <ConcertDrawer venues={venues} />
       <CampApplicationViewDrawer />
       <SponsorDrawer />
       <TeamMemberDrawer />
@@ -166,4 +166,4 @@ const AdminClientLayout: FC<IAdminClientLayout> = ({ children, data, buttons, ca
   )
 }
 
-export default AdminClientLayout
+export default AdminLayoutClient

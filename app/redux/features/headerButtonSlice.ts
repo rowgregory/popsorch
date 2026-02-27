@@ -1,5 +1,4 @@
 import { Reducer, createSlice } from '@reduxjs/toolkit'
-import { headerButtonApi } from '../services/headerButtonApi'
 
 export interface HeaderButtonProps {
   secondaryButton: any
@@ -92,36 +91,6 @@ export const headerButtonSlice = createSlice({
     resetSuccessUpdate: (state) => {
       state.successUpdate = false
     }
-  },
-  extraReducers: (builder) => {
-    builder
-      .addMatcher(headerButtonApi.endpoints.fetchHeaderButtons.matchFulfilled, (state, { payload }: any) => {
-        state.headerButtons = payload.headerButtons
-        state.loading = false
-      })
-      .addMatcher(headerButtonApi.endpoints.createHeaderButton.matchFulfilled, (state) => {
-        state.success = true
-        state.loading = false
-      })
-      .addMatcher(headerButtonApi.endpoints.deleteHeaderButton.matchFulfilled, (state) => {
-        state.success = true
-        state.loading = false
-      })
-      .addMatcher(headerButtonApi.endpoints.assignHeaderButton.matchFulfilled, (state) => {
-        state.success = true
-        state.loading = false
-      })
-      .addMatcher(headerButtonApi.endpoints.updateHeaderButton.matchFulfilled, (state) => {
-        state.successUpdate = true
-      })
-      .addMatcher(
-        (action) => action.type.endsWith('rejected') && action.payload?.data?.sliceName === 'headerButtonApi',
-        (state, { payload }: any) => {
-          state.loading = false
-          state.success = false
-          state.error = payload?.data?.message
-        }
-      )
   }
 })
 

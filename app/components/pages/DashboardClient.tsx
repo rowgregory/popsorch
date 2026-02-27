@@ -2,11 +2,11 @@
 
 import GoogleAnalyticsCard from '@/app/components/admin/dashboard/GoogleAnalyticsCard'
 import { motion } from 'framer-motion'
-import { containerVariants } from '@/app/lib/constants/advertise-with-us'
 import HostGatorCard from '../admin/dashboard/HostGatorCard'
 import MailChimpCard from '../admin/dashboard/MailChimpCard'
 import ResendCard from '../admin/dashboard/ResendCard'
 import GoogleFirebaseCard from '../admin/dashboard/GoogleFirebaseCard'
+import { containerVariants } from '@/app/lib/constants/motion'
 
 const DashboardClient = ({
   googleAnalyticsCredentials,

@@ -1,7 +1,8 @@
 import { getCampApplications } from '../actions/getCampApplications'
 import { getHeaderButtons } from '../actions/getHeaderButtons'
 import { getUser } from '../actions/getUser'
-import AdminClientLayout from '../components/pages/AdminLayoutClient'
+import { getVenues } from '../actions/getVenues'
+import AdminLayoutClient from '../components/pages/AdminLayoutClient'
 import { auth } from '../lib/auth'
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -9,9 +10,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const data = await getUser(session.user.id)
   const buttons = await getHeaderButtons()
   const campApplications = await getCampApplications()
+  const venues = await getVenues()
   return (
-    <AdminClientLayout data={data} buttons={buttons} campApplications={campApplications}>
+    <AdminLayoutClient data={data} buttons={buttons} campApplications={campApplications} venues={venues}>
       {children}
-    </AdminClientLayout>
+    </AdminLayoutClient>
   )
 }

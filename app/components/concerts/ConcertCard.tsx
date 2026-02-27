@@ -17,9 +17,9 @@ import {
   TicketIcon
 } from 'lucide-react'
 import { IConcert } from '@/app/types/entities/concert'
-import { itemVariants } from '@/app/lib/constants/advertise-with-us'
 import isNewConcert from '@/app/lib/utils/concerts/isNewConcert'
 import { sendGAEvent } from '@next/third-parties/google'
+import { itemVariants } from '@/app/lib/constants/motion'
 
 const ConcertCard: FC<{ concert: IConcert; index: number }> = ({ concert, index }) => {
   const { push } = useRouter()
@@ -69,10 +69,10 @@ const ConcertCard: FC<{ concert: IConcert; index: number }> = ({ concert, index 
       }}
       className="group relative cursor-pointer"
     >
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-zinc-900 to-zinc-800 border border-zinc-800 hover:border-zinc-700 transition-all duration-300">
+      <div className="relative overflow-hidden rounded-2xl bg-linear-to-br from-zinc-900 to-zinc-800 border border-zinc-800 hover:border-zinc-700 transition-all duration-300">
         {/* Glow effect on hover */}
         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-          <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 via-amber-500/10 to-orange-500/10 blur-xl" />
+          <div className="absolute inset-0 bg-linear-to-r from-orange-500/10 via-amber-500/10 to-orange-500/10 blur-xl" />
         </div>
 
         <div className="relative grid grid-cols-1 lg:grid-cols-12 overflow-hidden">
@@ -95,7 +95,7 @@ const ConcertCard: FC<{ concert: IConcert; index: number }> = ({ concert, index 
             </motion.div>
 
             {/* Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-900/40 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-transparent lg:to-zinc-900/50" />
+            <div className="absolute inset-0 bg-linear-to-t from-zinc-900 via-zinc-900/40 to-transparent lg:bg-linear-to-r lg:from-transparent lg:via-transparent lg:to-zinc-900/50" />
 
             {/* Badge and Price */}
             <div className="absolute inset-0 p-4 sm:p-6 flex justify-between items-start">
@@ -103,7 +103,7 @@ const ConcertCard: FC<{ concert: IConcert; index: number }> = ({ concert, index 
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 + 0.2 }}
-                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 shadow-lg shadow-orange-500/25"
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-linear-to-r from-orange-500 to-amber-500 shadow-lg shadow-orange-500/25"
               >
                 <TicketIcon className="w-3.5 h-3.5 text-white" />
                 <span className="text-xs font-bold text-white uppercase tracking-wider">
@@ -142,14 +142,14 @@ const ConcertCard: FC<{ concert: IConcert; index: number }> = ({ concert, index 
             <div>
               {/* Title and Date */}
               <div className="mb-6">
-                <motion.h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3 line-clamp-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-orange-400 group-hover:to-amber-400 transition-all duration-300">
+                <motion.h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3 line-clamp-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-linear-to-r group-hover:from-orange-400 group-hover:to-amber-400 transition-all duration-300">
                   {concert.name}
                 </motion.h2>
 
                 <div className="flex flex-wrap items-center gap-4 text-sm">
                   {/* Primary date display */}
                   <div className="flex items-center gap-2 text-amber-500">
-                    <CalendarIcon className="w-4 h-4 flex-shrink-0" />
+                    <CalendarIcon className="w-4 h-4 shrink-0" />
                     <time className="font-medium uppercase tracking-wide">{concert.cardDate}</time>
                   </div>
 
@@ -157,13 +157,13 @@ const ConcertCard: FC<{ concert: IConcert; index: number }> = ({ concert, index 
                   {nextEvent && (
                     <>
                       <div className="flex items-center gap-2 text-zinc-400">
-                        <ClockIcon className="w-4 h-4 flex-shrink-0" />
+                        <ClockIcon className="w-4 h-4 shrink-0" />
                         <span className="font-medium">{nextEvent.time}</span>
                       </div>
 
                       <div className="flex items-center gap-2 text-zinc-400">
-                        <MapPinIcon className="w-4 h-4 flex-shrink-0" />
-                        <span className="font-medium truncate max-w-[200px]">{nextEvent.city}</span>
+                        <MapPinIcon className="w-4 h-4 shrink-0" />
+                        <span className="font-medium truncate max-w-50">{nextEvent.city}</span>
                       </div>
                     </>
                   )}
@@ -171,7 +171,7 @@ const ConcertCard: FC<{ concert: IConcert; index: number }> = ({ concert, index 
               </div>
 
               {/* Divider */}
-              <div className="relative h-px bg-gradient-to-r from-transparent via-zinc-700 to-transparent mb-6" />
+              <div className="relative h-px bg-linear-to-r from-transparent via-zinc-700 to-transparent mb-6" />
 
               {/* Description */}
               <p className="text-zinc-300 leading-relaxed line-clamp-3 sm:line-clamp-4 mb-6 text-sm sm:text-base">
@@ -183,7 +183,7 @@ const ConcertCard: FC<{ concert: IConcert; index: number }> = ({ concert, index 
               {/* Venue information */}
               {nextEvent?.location && (
                 <div className="flex items-start gap-3 p-4 rounded-xl bg-zinc-800/50 border border-zinc-700/50 mb-6">
-                  <Building className="w-5 h-5 text-zinc-400 flex-shrink-0 mt-0.5" />
+                  <Building className="w-5 h-5 text-zinc-400 shrink-0 mt-0.5" />
                   <div className="flex-1 min-w-0">
                     <h4 className="text-sm font-semibold text-white mb-1">{nextEvent.location.name}</h4>
                     <p className="text-xs text-zinc-400 truncate">{nextEvent.location.address}</p>
@@ -208,7 +208,7 @@ const ConcertCard: FC<{ concert: IConcert; index: number }> = ({ concert, index 
               >
                 <Link
                   href={`/concerts/${concert.id}`}
-                  className="relative z-10 flex items-center justify-center gap-2 w-full px-6 py-3 rounded-xl bg-gradient-to-r from-blaze to-sunburst hover:from-sunburst hover:to-blaze text-white font-bold text-sm uppercase tracking-wider transition-all duration-300 hover:shadow-lg hover:shadow-blaze/30"
+                  className="relative z-10 flex items-center justify-center gap-2 w-full px-6 py-3 rounded-xl bg-linear-to-r from-blaze to-sunburst hover:from-sunburst hover:to-blaze text-white font-bold text-sm uppercase tracking-wider transition-all duration-300 hover:shadow-lg hover:shadow-blaze/30"
                 >
                   {concert.isOnSale ? (
                     <>

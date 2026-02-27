@@ -3,9 +3,51 @@
 import Breadcrumb from '@/app/components/common/Breadcrumb'
 import EditableTextArea from '@/app/components/common/EditableTextArea'
 import Picture from '@/app/components/common/Picture'
-import { containerVariants, fadeInVariants, itemVariants, scaleVariants } from '@/app/lib/constants/advertise-with-us'
 import { useTextBlockSelector } from '@/app/redux/store'
 import { motion } from 'framer-motion'
+
+const containerVariants: any = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 0.6,
+      staggerChildren: 0.1
+    }
+  }
+}
+
+const itemVariants: any = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: 'easeOut'
+    }
+  }
+}
+
+const fadeInVariants: any = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { duration: 0.8 }
+  }
+}
+
+const scaleVariants: any = {
+  hidden: { opacity: 0, scale: 0.95 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.6,
+      ease: 'easeOut'
+    }
+  }
+}
 
 const AdvertiseWithUs = () => {
   const { textBlockMap } = useTextBlockSelector()
@@ -19,7 +61,7 @@ const AdvertiseWithUs = () => {
         initial="hidden"
         animate="visible"
       >
-        <div className="max-w-[520px] 760:max-w-screen-576 990:max-w-[800px] 1200:max-w-screen-1160 1590:max-w-screen-1400 w-full mx-auto grid grid-cols-12 990:gap-x-12 pt-32 pb-44">
+        <div className="max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 1590:max-w-screen-1400 w-full mx-auto grid grid-cols-12 990:gap-x-12 pt-32 pb-44">
           {/* Main Content */}
           <motion.div
             className="order-2 1200:order-1 col-span-12 1200:col-span-8 mb-4 1200:mb-0 flex flex-col gap-y-4 w-full"

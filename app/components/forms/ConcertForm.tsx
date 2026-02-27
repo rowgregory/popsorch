@@ -4,13 +4,13 @@ import { FC, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Calendar, Trash2, Check, Upload, AlertCircle, FileText, X } from 'lucide-react'
 import Picture from '@/app/components/common/Picture'
-import { useFetchVenuesQuery } from '@/app/redux/services/venueApi'
 import { setInputs } from '@/app/redux/features/formSlice'
 import { useAppDispatch } from '@/app/redux/store'
 import { concertTypeOptions } from '@/app/lib/constants/admin'
 import { cities, daysOfWeek, showTimes } from '@/public/data/auth.data'
 import { FormActions } from '@/app/types/form.types'
 import { IVenue } from '@/app/types/entities/venue'
+import { Venue } from '@prisma/client'
 
 interface ConcertFormProps {
   inputs: any
@@ -20,13 +20,21 @@ interface ConcertFormProps {
   isUpdating?: boolean
   close: any
   isLoading: boolean
+  venues: Venue[]
 }
 
-const ConcertForm: FC<ConcertFormProps> = ({ inputs, errors, formActions, onSubmit, isUpdating, close, isLoading }) => {
+const ConcertForm: FC<ConcertFormProps> = ({
+  inputs,
+  errors,
+  formActions,
+  onSubmit,
+  isUpdating,
+  close,
+  isLoading,
+  venues
+}) => {
   const [activeTab, setActiveTab] = useState<'basic' | 'details'>('basic')
   const [eventDetailsId, setEventDetailsId] = useState<string | null>(null)
-  const { data } = useFetchVenuesQuery(undefined) as any
-  const venues = data?.venues
   const dispatch = useAppDispatch()
 
   const {
