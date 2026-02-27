@@ -17,7 +17,34 @@ interface ChangelogEntry {
 
 const changelogData: ChangelogEntry[] = [
   {
-    version: '3.3.0',
+    version: '3.3.1',
+    date: '2026-02-27',
+    changes: [
+      {
+        type: 'feature',
+        title: 'About Page Unlocked in Page Content Editor',
+        description:
+          'The About page is now fully editable via the admin page content editor. All text content is driven by a flat data array keyed by id, replacing the previous hardcoded pageContent object.',
+        impact: 'high'
+      },
+      {
+        type: 'refactor',
+        title: 'About Page Content Model — Flat Array Structure',
+        description:
+          'Replaced nested pageContent.body object with a flat aboutPageContent array. Each field is identified by a unique id, typed as text, and grouped by section (aside, body, additional_details). AboutClient resolves values via a field(id) helper instead of direct property access.',
+        impact: 'medium'
+      },
+      {
+        type: 'ui',
+        title: 'About Page Content Fields',
+        description:
+          'Added 9 editable fields: about_aside_heading, about_aside_subheading, about_aside_paragraph, about_paragraph_1 through about_paragraph_4, about_detail_1, and about_detail_2. All fields are now surfaced in the page content editor under the About section.',
+        impact: 'medium'
+      }
+    ]
+  },
+  {
+    version: '3.2.0',
     date: '2026-02-27',
     changes: [
       {

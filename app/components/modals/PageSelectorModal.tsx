@@ -45,7 +45,12 @@ const PageSelectorModal = () => {
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {pageContentEditorFolders.map((folder, index) => (
                 <motion.button
-                  disabled={folder.value !== 'home' && folder.value !== 'camp-application' && folder.value !== 'footer'}
+                  disabled={
+                    folder.value !== 'home' &&
+                    folder.value !== 'camp-application' &&
+                    folder.value !== 'footer' &&
+                    folder.value !== 'about'
+                  }
                   key={folder.value}
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}

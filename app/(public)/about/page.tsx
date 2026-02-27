@@ -1,7 +1,7 @@
 import { getPage } from '@/app/actions/getPage'
-import AboutClient from '@/app/components/pages/AboutClient'
+import { AboutClient } from '@/app/components/pages/AboutClient'
 
 export default async function AboutPage() {
-  const page = await getPage('about')
-  return <AboutClient page={page} />
+  const data = await getPage('about')
+  return <AboutClient data={data?.content} />
 }
