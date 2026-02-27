@@ -1,6 +1,5 @@
 'use client'
 
-import { useSearchTracking } from '@/app/hooks/useSeachTracking'
 import { IConcert } from '@/app/types/entities/concert'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Breadcrumb from '../common/Breadcrumb'
@@ -19,8 +18,6 @@ const ConcertsPageClient = ({ concerts }) => {
     const lowerText = filterText.toLowerCase()
     return concerts?.filter((concert: IConcert) => concert.name.toLowerCase().includes(lowerText))
   }, [filterText, concerts])
-
-  useSearchTracking(filterText, filteredConcerts?.length || 0)
 
   useEffect(() => {
     // Track when search is cleared

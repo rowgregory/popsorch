@@ -2,18 +2,18 @@ import { FC, useState } from 'react'
 import { motion } from 'framer-motion'
 import { removeUserFromState, resetUser, UserProps } from '@/app/redux/features/userSlice'
 import { useDeleteUserMutation } from '@/app/redux/services/userApi'
-import { useAppDispatch, useUserSelector } from '@/app/redux/store'
+import { useAppDispatch } from '@/app/redux/store'
 import { formatDate } from '@/app/utils/date.functions'
 import { decreaseUsersCount } from '@/app/redux/features/appSlice'
 import { Calendar, Shield, Trash } from 'lucide-react'
+import { useSession } from 'next-auth/react'
 
 const AdminUserRow: FC<{ user: UserProps }> = ({ user }) => {
   const dispatch = useAppDispatch()
   const [loading, setLoading] = useState<Record<string, boolean>>({})
   const [deleteUser] = useDeleteUserMutation()
-  const {
-    user: { id }
-  } = useUserSelector()
+  const session = useSession()
+  const id = session.data?.user?.id
 
   const handleUserDelete = async (e: any, userId: string) => {
     e.stopPropagation()
@@ -53,11 +53,11 @@ const AdminUserRow: FC<{ user: UserProps }> = ({ user }) => {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.2 }}
-      className="group bg-gradient-to-br from-neutral-900 to-black border border-neutral-800 rounded-xl p-4 hover:border-neutral-700/70 transition-all duration-300 shadow-lg hover:shadow-xl"
+      className="group bg-linear-to-br from-neutral-900 to-black border border-neutral-800 rounded-xl p-4 hover:border-neutral-700/70 transition-all duration-300 shadow-lg hover:shadow-xl"
     >
       <div className="flex items-center gap-4">
         {/* Avatar */}
-        <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-neutral-700 to-neutral-600 flex items-center justify-center text-white font-bold text-sm shadow-lg">
+        <div className="shrink-0 w-12 h-12 rounded-full bg-linear-to-br from-neutral-700 to-neutral-600 flex items-center justify-center text-white font-bold text-sm shadow-lg">
           {getInitials(user?.firstName, user?.lastName)}
         </div>
 

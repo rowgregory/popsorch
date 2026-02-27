@@ -1,6 +1,14 @@
-import { HeaderNavLinkProps } from '@/app/types/header.types'
+import { NavigationLinksProps } from '@/app/utils/navigation.utils'
 import Link from 'next/link'
 import { FC } from 'react'
+
+export interface HeaderNavLinkProps {
+  link: NavigationLinksProps
+  openDropdown?: { open: boolean; textKey: string }
+  setOpenDropdown: (args: { open: boolean; textKey: string }) => void
+  linkClassname?: string
+  isFixed?: boolean
+}
 
 const AnimatedNavLink: FC<{ link: any; linkClassname?: string }> = ({ link, linkClassname }) => {
   return (
@@ -12,13 +20,13 @@ const AnimatedNavLink: FC<{ link: any; linkClassname?: string }> = ({ link, link
     >
       <span
         className={`${
-          link.active ? 'scale-x-[60%]' : ''
-        } absolute top-1/2 -mt-[13px] left-0 right-0 h-[1px] bg-white scale-x-0 origin-left  transition-transform duration-300 ease-in-out group-hover:scale-x-[60%]`}
+          link.active ? 'scale-x-60' : ''
+        } absolute top-1/2 -mt-3.25 left-0 right-0 h-px bg-white scale-x-0 origin-left  transition-transform duration-300 ease-in-out group-hover:scale-x-60`}
       ></span>
       <span
         className={`${
-          link.active ? 'scale-x-[60%]' : ''
-        } absolute top-1/2 mt-[13px] left-0 right-0 h-[1px] bg-white scale-x-0 origin-right transition-transform duration-300 ease-in-out group-hover:scale-x-[60%]`}
+          link.active ? 'scale-x-60' : ''
+        } absolute top-1/2 mt-3.25 left-0 right-0 h-px bg-white scale-x-0 origin-right transition-transform duration-300 ease-in-out group-hover:scale-x-60`}
       ></span>
       {link.textKey}
     </Link>
@@ -44,7 +52,7 @@ export const HeaderNavLink: FC<HeaderNavLinkProps> = ({
       {link?.links && textKeyMatches && (
         <div
           className={`${
-            isFixed ? 'top-[70px]' : 'top-[120px]'
+            isFixed ? 'top-17.5' : 'top-30'
           } absolute bg-duskgray left-1/2 -translate-x-1/2 flex flex-col items-center gap-y-6 px-10 py-12 w-fit rounded-lg shadow-adminbtn`}
         >
           {link?.links.map((sublink, j, arr) => (
