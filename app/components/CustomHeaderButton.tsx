@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { sendGAEvent } from '@next/third-parties/google'
+import { sendEnrichedGAEvent } from '../utils/sendEnrichedGAEvent'
 
 interface DropdownItem {
   id: string
@@ -107,25 +107,12 @@ const CustomHeaderButton: React.FC<CustomHeaderButtonProps> = ({
   const handleGAEvent = (item?: DropdownItem) => {
     const isDropdownItem = !!item
 
-    sendGAEvent('event', isDropdownItem ? 'click_dropdown_item' : 'click_header_button', {
-      button_id: isDropdownItem ? item.id : '',
-      button_text: isDropdownItem ? item.text : text,
-      link_type: isDropdownItem ? item.linkType : linkType,
-      link_url: isDropdownItem ? item.link : link,
-      has_dropdown: type === 'dropdown',
-      dropdown_length: dropdownItems.length,
-      button_animation: animation,
-      button_background: backgroundColor,
-      button_font_color: fontColor,
-      page_url: window.location.href,
-      user_scroll_depth: Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100),
-      // eslint-disable-next-line react-hooks/purity
-      time_on_page: Math.round((Date.now() - performance.timeOrigin) / 1000),
-      viewport_width: window.innerWidth,
-      viewport_height: window.innerHeight,
-      device_type: window.innerWidth < 768 ? 'mobile' : window.innerWidth < 1024 ? 'tablet' : 'desktop',
-      timestamp: new Date().toISOString()
-    })
+    sendEnrichedGAEvent(
+      isDropdownItem ? 'click_dropdown_item' : 'click_header_button',
+      isDropdownItem ? item.link : link,
+      isDropdownItem ? item.text : text,
+      'header'
+    )
   }
 
   // Animation variants based on animation type
@@ -191,12 +178,14 @@ const CustomHeaderButton: React.FC<CustomHeaderButtonProps> = ({
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40"
             onClick={() => setIsDropdownOpen(false)}
+            aria-hidden="true"
           />
         )}
       </AnimatePresence>
 
       <div className="relative" ref={dropdownRef}>
         <motion.button
+          type="button"
           variants={variants}
           initial="initial"
           whileHover="hover"
@@ -213,6 +202,9 @@ const CustomHeaderButton: React.FC<CustomHeaderButtonProps> = ({
               backdropFilter: 'blur(10px)'
             } as React.CSSProperties
           }
+          aria-haspopup="menu"
+          aria-expanded={isDropdownOpen}
+          aria-label={text}
         >
           {/* Animated background overlay */}
           <motion.div
@@ -243,7 +235,6 @@ const CustomHeaderButton: React.FC<CustomHeaderButtonProps> = ({
             }}
           />
 
-          {/* Button text with exciting styling */}
           <span className="relative z-10 drop-shadow-lg">{text}</span>
 
           {/* Dropdown chevron */}
@@ -253,7 +244,7 @@ const CustomHeaderButton: React.FC<CustomHeaderButtonProps> = ({
               animate={{ rotate: isDropdownOpen ? 180 : 0 }}
               transition={{ duration: 0.2 }}
             >
-              <ChevronDown className="w-4 h-4" />
+              <ChevronDown className="w-4 h-4" aria-hidden="true" />
             </motion.div>
           )}
         </motion.button>
@@ -262,6 +253,8 @@ const CustomHeaderButton: React.FC<CustomHeaderButtonProps> = ({
         <AnimatePresence>
           {isDropdownOpen && type === 'dropdown' && dropdownItems.length > 0 && (
             <motion.div
+              role="menu"
+              aria-label={`${text} dropdown menu`}
               initial={{ opacity: 0, y: -10, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.95 }}
@@ -271,11 +264,12 @@ const CustomHeaderButton: React.FC<CustomHeaderButtonProps> = ({
               {dropdownItems.map((item, index) => (
                 <motion.button
                   key={item.id}
+                  role="menuitem"
                   onClick={() => {
                     handleGAEvent(item)
                     handleDropdownItemClick(item)
                   }}
-                  className="w-full px-4 py-3 text-left text-white hover:text-blaze transition-colors duration-200 first:rounded-t-lg last:rounded-b-lg"
+                  className="w-full px-4 py-3 text-left text-white hover:text-blaze transition-colors duration-200 first:rounded-t-lg last:rounded-b-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
                   whileHover={{ x: 4 }}
                   whileTap={{ scale: 0.98 }}
                   initial={{ opacity: 0, x: -20 }}

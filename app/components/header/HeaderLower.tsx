@@ -10,7 +10,7 @@ import { motion } from 'framer-motion'
 import { Menu } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 
-const HeaderLower = ({ concerts, campApplicationsSetting }) => {
+export const HeaderLower = ({ concerts, campApplicationsSetting }) => {
   const path = usePathname()
   const dispatch = useAppDispatch()
   const { headerButton } = useHeaderButtonSelector()
@@ -26,6 +26,8 @@ const HeaderLower = ({ concerts, campApplicationsSetting }) => {
       className={`${
         !isHome && 'bg-headerbg bg-cover bg-no-repeat bg-center'
       } transition-all w-full px-4 sm:px-7 1280:px-14 flex items-center justify-between relative z-50 h-16 sm:h-20`}
+      role="navigation"
+      aria-label="Main site navigation"
     >
       {/* Logo */}
       <Link
@@ -33,6 +35,7 @@ const HeaderLower = ({ concerts, campApplicationsSetting }) => {
         className={`${
           isHome ? 'bg-golden50Logo' : 'bg-white50Logo'
         } bg-no-repeat bg-contain bg-center w-16 sm:w-24 1200:w-36 h-12 sm:h-16 shrink-0`}
+        aria-label="Boys & Girls Club homepage"
       />
 
       {/* Desktop Nav */}
@@ -67,10 +70,13 @@ const HeaderLower = ({ concerts, campApplicationsSetting }) => {
       {/* Right Side */}
       <div className="flex items-center gap-x-3 shrink-0">
         {/* Mobile menu icon */}
-        <Menu
+        <button
           onClick={() => dispatch(openNavigationDrawer())}
-          className="w-5 h-5 sm:w-6 sm:h-6 text-white 1160:hidden block duration-300 hover:text-blaze cursor-pointer"
-        />
+          className="w-5 h-5 sm:w-6 sm:h-6 text-white 1160:hidden block duration-300 hover:text-blaze"
+          aria-label="Open mobile navigation menu"
+        >
+          <Menu />
+        </button>
 
         {/* Desktop buttons */}
         <div className="hidden 1160:flex gap-x-3">
@@ -84,6 +90,7 @@ const HeaderLower = ({ concerts, campApplicationsSetting }) => {
                 backgroundColor={headerButton.backgroundColor}
                 fontColor={headerButton.fontColor}
                 animation={headerButton.animation}
+                aria-label={headerButton.text}
               />
               <CustomHeaderButton
                 {...headerButton}
@@ -93,15 +100,14 @@ const HeaderLower = ({ concerts, campApplicationsSetting }) => {
                 backgroundColor={headerButton.backgroundColor}
                 fontColor={headerButton.fontColor}
                 animation={headerButton.animation}
+                aria-label={headerButton.secondaryButton.text}
               />
             </>
           ) : (
-            <CustomHeaderButton {...headerButton} />
+            <CustomHeaderButton {...headerButton} aria-label={headerButton.text} />
           )}
         </div>
       </div>
     </nav>
   )
 }
-
-export default HeaderLower

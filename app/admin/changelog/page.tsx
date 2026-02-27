@@ -17,6 +17,96 @@ interface ChangelogEntry {
 
 const changelogData: ChangelogEntry[] = [
   {
+    version: '3.3.0',
+    date: '2026-02-27',
+    changes: [
+      {
+        type: 'feature',
+        title: 'Full ADA / WCAG 2.1 AA Compliance — Homepage',
+        description:
+          'Audited and updated all homepage components to meet ADA and WCAG 2.1 AA standards. Changes span semantic HTML, ARIA landmarks, keyboard navigation, focus management, screen reader support, and motion accessibility.',
+        impact: 'high'
+      },
+      {
+        type: 'improvement',
+        title: 'Semantic Landmark Regions',
+        description:
+          'Replaced non-semantic divs with proper HTML5 landmarks: <section>, <article>, <nav>, <footer>, and <ul>/<li> throughout HomeHero, HomeConcerts, HomeContact, HomeSponsors, HomeNewsletter, and Footer. Every section is now associated with its heading via aria-labelledby.',
+        impact: 'high'
+      },
+      {
+        type: 'improvement',
+        title: 'Heading Hierarchy & Screen Reader Fixes',
+        description:
+          'Fixed HomeHero heading split across two divs — now a single <h1> with sr-only full text and aria-hidden visual spans, ensuring screen readers announce one coherent heading. All section headings use id/aria-labelledby pairing.',
+        impact: 'high'
+      },
+      {
+        type: 'improvement',
+        title: 'Decorative Content Hidden from Assistive Technology',
+        description:
+          'All decorative elements — background images, carousel, icon wrappers, animated shimmer/pulse effects, dividers, and chevron icons — now carry aria-hidden="true" and/or role="presentation" to prevent noise in the accessibility tree.',
+        impact: 'medium'
+      },
+      {
+        type: 'improvement',
+        title: 'Keyboard Navigation & Focus Rings',
+        description:
+          'Replaced focus:ring with focus-visible:ring across all interactive elements (buttons, links, social icons, scroll-to-top). Removes visible ring on mouse click while preserving full keyboard navigation indicators. All rings meet 3:1 contrast ratio.',
+        impact: 'high'
+      },
+      {
+        type: 'improvement',
+        title: 'Descriptive ARIA Labels on Interactive Elements',
+        description:
+          'Added aria-label to all ambiguous links and buttons including the hero CTA, concert card actions, contact methods, social media links (with platform name and "opens in new tab"), footer links, logo link, and scroll-to-top button.',
+        impact: 'high'
+      },
+      {
+        type: 'improvement',
+        title: 'Scroll-to-Top Accessibility Fix',
+        description:
+          'Replaced non-interactive ChevronUp icon with a proper <button type="button" aria-label="Scroll back to top"> element, making it keyboard focusable and screen reader announced.',
+        impact: 'medium'
+      },
+      {
+        type: 'improvement',
+        title: 'Concert Cards Semantic List & Article Structure',
+        description:
+          'Concert grid converted from div-based layout to <ul role="list"> with <li> wrappers. Each card wrapped in <article> with aria-label. Event detail rows converted to <ul>/<li>. Dates wrapped in <time dateTime> elements.',
+        impact: 'medium'
+      },
+      {
+        type: 'improvement',
+        title: 'External Link Safety & Disclosure',
+        description:
+          'All external links now include rel="noopener noreferrer" and aria-label disclosing "(opens in new tab)" for screen reader users. Applied across footer social links, quick links, and developer credit.',
+        impact: 'medium'
+      },
+      {
+        type: 'improvement',
+        title: 'Prefers-Reduced-Motion Support',
+        description:
+          'Integrated Framer Motion useReducedMotion() hook into HomeHero. Entrance animations, hover/tap effects, shimmer sweep, and pulse dot are disabled or set to duration: 0 when the OS-level reduced motion preference is active. Carousel auto-advance paused for reduced-motion users.',
+        impact: 'high'
+      },
+      {
+        type: 'refactor',
+        title: 'GA Event Helper — sendEnrichedGAEvent',
+        description:
+          'Extracted repeated Google Analytics payload construction into a reusable sendEnrichedGAEvent(eventName, value, label, section, extras?) utility. Automatically appends scroll depth, time on page, referrer, viewport dimensions, device type, and timestamp to every event. Accepts an optional extras object for event-specific fields.',
+        impact: 'medium'
+      },
+      {
+        type: 'improvement',
+        title: 'Sponsor Section Landmark Structure',
+        description:
+          'Each sponsor tier converted from motion.div to motion.section with aria-labelledby tied to a slugified id on the tier <h3>. Sponsor grids converted to <ul role="list">/<li> for proper list semantics.',
+        impact: 'low'
+      }
+    ]
+  },
+  {
     version: '3.1.2',
     date: '2026-02-26',
     changes: [

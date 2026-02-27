@@ -1,10 +1,10 @@
-import useSingleImageCarousel from '@/app/hooks/useSingleImageCarousel'
 import { FC } from 'react'
+import useSingleImageCarousel from '@/app/hooks/useSingleImageCarousel'
 
-const HomeHeroCarousel: FC<{ images: any; interval: number }> = ({ images, interval = 3000 }) => {
+export const HomeHeroCarousel: FC<{ images: any; interval: number }> = ({ images, interval = 3000 }) => {
   const currentImage = useSingleImageCarousel(images, interval)
   return (
-    <div className="relative w-full h-full overflow-hidden">
+    <div className="relative w-full h-full overflow-hidden" role="presentation" aria-hidden="true">
       {currentImage === undefined ? (
         <div
           style={{ backgroundImage: `url('/images/banner-1.jpg')` }}
@@ -19,7 +19,6 @@ const HomeHeroCarousel: FC<{ images: any; interval: number }> = ({ images, inter
               image?.imageUrl === currentImage ? 'opacity-100' : 'opacity-0'
             }`}
           >
-            {/* Overlay for better text readability */}
             <div className="absolute inset-0 bg-black/20" />
           </div>
         ))
@@ -27,5 +26,3 @@ const HomeHeroCarousel: FC<{ images: any; interval: number }> = ({ images, inter
     </div>
   )
 }
-
-export default HomeHeroCarousel

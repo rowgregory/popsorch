@@ -1,27 +1,18 @@
-import HomeHeroCarousel from './HomeHeroCarousel'
-import { motion } from 'framer-motion'
-import { sendGAEvent } from '@next/third-parties/google'
+import { motion, useReducedMotion } from 'framer-motion'
+import { HomeHeroCarousel } from './HomeHeroCarousel'
+import { sendEnrichedGAEvent } from '@/app/utils/sendEnrichedGAEvent'
 
 const HomeHero = ({ pageData, ref, galleryImages }) => {
+  const shouldReduceMotion = useReducedMotion()
+
   if (!pageData || !Array.isArray(pageData)) {
-    return null // or return a fallback UI
+    return null
   }
 
   const filteredImages = galleryImages?.filter((item: { isHomeHero: boolean }) => item.isHomeHero)
 
   const handleScroll = () => {
-    sendGAEvent('event', 'view_concerts', {
-      value: 'see_concerts',
-      button_text: 'See Concerts',
-      section: 'home_hero',
-      user_scroll_depth: Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100),
-      time_on_page: Math.round((Date.now() - performance.timeOrigin) / 1000),
-      referrer: document.referrer || 'direct',
-      viewport_width: window.innerWidth,
-      viewport_height: window.innerHeight,
-      device_type: window.innerWidth < 768 ? 'mobile' : window.innerWidth < 1024 ? 'tablet' : 'desktop',
-      timestamp: new Date().toISOString()
-    })
+    sendEnrichedGAEvent('view_concerts', 'see_concerts', 'See Concerts', 'home_hero')
     ref.current?.scrollIntoView({ behavior: 'smooth' })
   }
 
@@ -33,57 +24,86 @@ const HomeHero = ({ pageData, ref, galleryImages }) => {
     return acc
   }, {})
 
+  const heading = hero?.heading || ''
+  const parts = heading.split(' of ')
+  const headingPrefix = parts[0] ? `${parts[0]} of` : ''
+  const headingMain = parts[1] || ''
+
+  // Respect prefers-reduced-motion for entrance animation
+  const sectionVariants = {
+    initial: { opacity: shouldReduceMotion ? 1 : 0 },
+    animate: { opacity: 1 }
+  }
+
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.35, ease: 'easeIn' }}
+    <motion.section
+      role="banner"
+      aria-label="Hero: The Pops Orchestra of Sarasota and Brandenton"
+      initial={sectionVariants.initial}
+      animate={sectionVariants.animate}
+      transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.35, ease: 'easeIn' }}
       className="relative w-full min-h-125 h-dvh max-h-1000 -mt-20"
     >
       <div className="absolute inset-0 z-40 bg-black/20 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
         <div className="w-full max-w-[320px] xs:max-w-sm sm:max-w-2xl lg:max-w-5xl xl:max-w-6xl mx-auto text-center">
-          {(() => {
-            const heading = hero?.heading || ''
-            const parts = heading.split(' of ')
-
-            return (
-              <div className="mb-4 sm:mb-6 lg:mb-8 uppercase">
-                <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light tracking-widest text-white/90 -mb-2 font-changa">
-                  {parts[0]} of
-                </div>
-                <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-none text-white font-changa">
-                  {parts[1]}
-                </h1>
-              </div>
-            )
-          })()}
+          <div className="mb-4 sm:mb-6 lg:mb-8">
+            <h1 className="uppercase font-changa text-white leading-none">
+              <span
+                className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light tracking-widest text-white/90 -mb-2"
+                aria-hidden="true"
+              >
+                {headingPrefix}
+              </span>
+              <span className="sr-only">{heading}</span>
+              <span className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl" aria-hidden="true">
+                {headingMain}
+              </span>
+            </h1>
+          </div>
 
           <p className="text-xs sm:text-sm md:text-base lg:text-lg font-medium font-lato leading-relaxed text-white mb-6 sm:mb-8 lg:mb-12 opacity-90 max-w-xs sm:max-w-xl mx-auto">
             {hero?.subheading}
           </p>
 
           <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            type="button"
+            aria-label={hero?.btnText ? `${hero.btnText} — scroll to content` : 'Scroll to content'}
+            whileHover={shouldReduceMotion ? undefined : { scale: 1.05 }}
+            whileTap={shouldReduceMotion ? undefined : { scale: 0.95 }}
             onClick={handleScroll}
-            className="relative inline-flex items-center gap-2 bg-blaze hover:bg-blaze/90 text-white font-changa uppercase whitespace-nowrap rounded-lg text-xs sm:text-sm md:text-base font-bold tracking-widest px-5 py-2.5 sm:px-8 sm:py-4 lg:px-10 lg:py-5 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border-2 border-transparent hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-blaze focus:ring-offset-2 focus:ring-offset-black"
+            className={[
+              'relative inline-flex items-center gap-2',
+              'bg-blaze hover:bg-blaze/90 text-white',
+              'font-changa uppercase whitespace-nowrap rounded-lg',
+              'text-xs sm:text-sm md:text-base font-bold tracking-widest',
+              'px-5 py-2.5 sm:px-8 sm:py-4 lg:px-10 lg:py-5',
+              'shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden',
+              'border-2 border-transparent hover:border-white/20',
+              // focus-visible ensures ring only appears for keyboard navigation, not mouse clicks
+              'focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black'
+            ].join(' ')}
           >
             <motion.div
+              aria-hidden="true"
               className="absolute inset-0 bg-linear-to-r from-white/10 via-white/20 to-white/10 opacity-0"
-              animate={{ x: ['-100%', '100%'], opacity: [0, 1, 0] }}
-              transition={{ duration: 2, ease: 'linear', repeat: Infinity, repeatDelay: 3 }}
+              animate={shouldReduceMotion ? {} : { x: ['-100%', '100%'], opacity: [0, 1, 0] }}
+              transition={shouldReduceMotion ? {} : { duration: 2, ease: 'linear', repeat: Infinity, repeatDelay: 3 }}
             />
+
             <motion.div
+              aria-hidden="true"
               className="absolute top-1 right-1 w-2 h-2 bg-white/60 rounded-full"
-              animate={{ scale: [1, 1.5, 1], opacity: [0.6, 1, 0.6] }}
-              transition={{ duration: 2, ease: 'easeInOut', repeat: Infinity }}
+              animate={shouldReduceMotion ? {} : { scale: [1, 1.5, 1], opacity: [0.6, 1, 0.6] }}
+              transition={shouldReduceMotion ? {} : { duration: 2, ease: 'easeInOut', repeat: Infinity }}
             />
+
             <span className="relative z-10">{hero?.btnText}</span>
           </motion.button>
         </div>
       </div>
-      <HomeHeroCarousel images={filteredImages} interval={5000} />
-    </motion.div>
+
+      <HomeHeroCarousel images={filteredImages} interval={shouldReduceMotion ? 0 : 5000} />
+    </motion.section>
   )
 }
 
