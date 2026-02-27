@@ -59,8 +59,7 @@ export default function CampApplicationSuccessModal() {
                 <div>
                   <p className="text-sm font-semibold text-white mb-0.5">What happens next?</p>
                   <p className="text-xs text-neutral-400 leading-relaxed">
-                    Our team will review your application and reach out to the email address provided. Camp runs July
-                    14–18.
+                    Our team will review your application and reach out to the email address provided.
                   </p>
                 </div>
               </div>
