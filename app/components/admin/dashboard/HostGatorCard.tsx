@@ -22,6 +22,7 @@ export default function HostGatorCard({ credentials }: { credentials: any }) {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.1 }}
       className="bg-neutral-900 border border-neutral-800 rounded-xl p-6 flex flex-col justify-between"
     >
       <div>
