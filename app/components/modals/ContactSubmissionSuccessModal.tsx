@@ -1,18 +1,18 @@
 'use client'
 
-import { setCloseCampApplicationSuccessModal } from '@/app/redux/features/campSlice'
-import { store, useCampSelector } from '@/app/redux/store'
+import { setCloseContactSubmissionSuccessModal } from '@/app/redux/features/uiSlice'
+import { store, useUiSelector } from '@/app/redux/store'
 import { motion, AnimatePresence } from 'framer-motion'
-import { CheckCircle, Music } from 'lucide-react'
+import { CheckCircle } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect } from 'react'
 
-export default function CampApplicationSuccessModal() {
-  const { campApplicationSuccessModal } = useCampSelector()
-  const onClose = () => store.dispatch(setCloseCampApplicationSuccessModal())
+export default function ContactSubmissionSuccessModal() {
+  const { contactSubmissionModal } = useUiSelector()
+  const onClose = () => store.dispatch(setCloseContactSubmissionSuccessModal())
 
   useEffect(() => {
-    if (!campApplicationSuccessModal) return
+    if (!contactSubmissionModal) return
 
     const previouslyFocused = document.activeElement as HTMLElement
 
@@ -28,16 +28,16 @@ export default function CampApplicationSuccessModal() {
       document.body.style.overflow = ''
       previouslyFocused?.focus()
     }
-  }, [campApplicationSuccessModal])
+  }, [contactSubmissionModal])
 
   return (
     <AnimatePresence>
-      {campApplicationSuccessModal && (
+      {contactSubmissionModal && (
         <motion.div
           role="dialog"
           aria-modal="true"
-          aria-labelledby="camp-success-heading"
-          aria-describedby="camp-success-description"
+          aria-labelledby="success-modal-heading"
+          aria-describedby="success-modal-description"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -72,38 +72,20 @@ export default function CampApplicationSuccessModal() {
               </motion.div>
 
               <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-sunburst mb-1" aria-hidden="true">
-                Youth Music Camp
+                The Pops Orchestra
               </p>
-              <h2 id="camp-success-heading" className="text-2xl font-black text-white mb-2">
-                Application Submitted!
+              <h2 id="success-modal-heading" className="text-2xl font-black text-white mb-2">
+                Question Submitted!
               </h2>
-              <p id="camp-success-description" className="text-neutral-400 text-sm leading-relaxed mb-8">
-                Thank you for applying to the Pops Orchestra Youth Music Camp. We&apos;ve received your application and
-                will be in touch soon.
+              <p id="success-modal-description" className="text-neutral-400 text-sm leading-relaxed mb-8">
+                Thank you for reaching out! We&apos;ve received your message and will get back to you shortly.
               </p>
-
-              <div className="border-t border-neutral-800 mb-6" aria-hidden="true" />
-
-              <div className="flex items-start gap-3 text-left mb-8">
-                <div
-                  className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 bg-neutral-800 border border-neutral-700"
-                  aria-hidden="true"
-                >
-                  <Music className="w-4 h-4 text-sunburst" />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-white mb-0.5">What happens next?</p>
-                  <p className="text-xs text-neutral-400 leading-relaxed">
-                    Our team will review your application and reach out to the email address provided.
-                  </p>
-                </div>
-              </div>
 
               <Link
                 href="/"
                 onClick={onClose}
                 autoFocus
-                aria-label="Application submitted successfully — return to home page"
+                aria-label="Question submitted successfully — return to home page"
                 className="block w-full py-3 text-sm font-bold text-white rounded-lg text-center transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900"
                 style={{ background: 'linear-gradient(90deg, #da0032, #ff9000)' }}
               >

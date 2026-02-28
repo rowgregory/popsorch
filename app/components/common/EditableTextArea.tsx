@@ -14,22 +14,19 @@ type EditableTextAreaProps = {
 
 const EditableTextArea: FC<EditableTextAreaProps> = ({ tag: Tag, initialValue, type, textBlockKey, className }) => {
   const dispatch = useDispatch()
-  const { isAuthenticated } = useAppSelector((state: RootState) => state.auth)
   const { openModal } = useAppSelector((state: RootState) => state.app)
 
   const handleClick = (e: any) => {
-    if (isAuthenticated) {
-      e.stopPropagation()
-      e.preventDefault()
-      dispatch(
-        setOpenModal({
-          show: openModal,
-          initialValue,
-          type,
-          textBlockKey
-        })
-      )
-    }
+    e.stopPropagation()
+    e.preventDefault()
+    dispatch(
+      setOpenModal({
+        show: openModal,
+        initialValue,
+        type,
+        textBlockKey
+      })
+    )
   }
 
   if (!initialValue) return

@@ -14,15 +14,8 @@ export const mailchimpApi = api.injectEndpoints({
         method: 'POST',
         body
       })
-    }),
-    unsubscribe: build.mutation({
-      query: (body: any) => ({
-        url: `${BASE_URL}/unsubscribe`,
-        method: 'PATCH',
-        body
-      })
     })
   })
 })
 
-export const { useFetchSubscribersQuery, useSubscribeMutation, useUnsubscribeMutation } = mailchimpApi
+export const { useFetchSubscribersQuery, useSubscribeMutation } = mailchimpApi

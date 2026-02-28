@@ -11,6 +11,10 @@ import { setOpenPageSelectorModal } from '@/app/redux/features/dashboardSlice'
 import { ChevronDown } from 'lucide-react'
 import { PageContentEditor } from '../page-content-editor/PageContentEditor'
 
+const splitByHyphen = (text: string): string => {
+  return text.replace(/-/g, ' ').trim()
+}
+
 export default function PageContentEditorClient({ data }) {
   const dispatch = useAppDispatch()
   const { pageSelectorModal } = useDashboardSelector()
@@ -60,9 +64,9 @@ export default function PageContentEditorClient({ data }) {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => dispatch(setOpenPageSelectorModal())}
-              className="flex items-center gap-2 px-3 h-full text-white font-medium text-sm rounded-lg hover:bg-neutral-950 transition-colors"
+              className="flex items-center gap-2 px-3 h-full text-white font-medium text-sm rounded-lg hover:bg-neutral-950 transition-colors cursor-pointer"
             >
-              <span className="capitalize">{data?.slug || ''}</span>
+              <span className="capitalize">{splitByHyphen(data?.slug) || ''}</span>
               <ChevronDown className={`w-4 h-4 transition-transform ${pageSelectorModal ? 'rotate-180' : ''}`} />
             </motion.button>
           </nav>

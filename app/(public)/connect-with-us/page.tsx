@@ -1,15 +1,7 @@
-'use client'
+import { getPage } from '@/app/actions/getPage'
+import { ConnectWithUsClient } from '@/app/components/pages/ConnectWithUsClient'
 
-import NewsletterForm from '@/app/components/forms/NewsletterForm'
-import Breadcrumb from '@/app/components/common/Breadcrumb'
-
-const Newsletter = () => {
-  return (
-    <>
-      <Breadcrumb breadcrumb="Newsletter" />
-      <NewsletterForm />
-    </>
-  )
+export default async function ConnectWithUsPage() {
+  const data = await getPage('connect-with-us')
+  return <ConnectWithUsClient data={data} />
 }
-
-export default Newsletter

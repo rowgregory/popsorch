@@ -5,7 +5,6 @@ import { configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { api } from './services/api'
 import { appReducer } from './features/appSlice'
-import { authReducer } from './features/authSlice'
 import { dashboardReducer } from './features/dashboardSlice'
 import { textBlockReducer } from './features/textBlockSlice'
 import { concertReducer } from './features/concertSlice'
@@ -27,10 +26,10 @@ import { persistStore, persistReducer } from 'redux-persist'
 import createWebStorage from 'redux-persist/es/storage/createWebStorage'
 import type { PersistPartial } from 'redux-persist/es/persistReducer'
 import { accessibilityReducer } from './features/accessibilitySlice'
+import { uiReducer } from './features/uiSlice'
 
 const rootReducer = combineReducers({
   app: appReducer,
-  auth: authReducer,
   dashboard: dashboardReducer,
   textBlock: textBlockReducer,
   concert: concertReducer,
@@ -49,6 +48,7 @@ const rootReducer = combineReducers({
   toast: toastReducer,
   quote: quoteReducer,
   accessibility: accessibilityReducer,
+  ui: uiReducer,
   [api.reducerPath]: api.reducer
 })
 
@@ -114,7 +114,7 @@ export const useDashboardSelector = () => useAppSelector((state) => state.dashbo
 export const useTextBlockSelector = () => useAppSelector((state) => state.textBlock)
 export const useQuestionSelector = () => useAppSelector((state) => state.question)
 export const useLogSelector = () => useAppSelector((state) => state.log)
-export const useAuthSelector = () => useAppSelector((state) => state.auth)
 export const useAccessibilitySelector = () => useAppSelector((state) => state.accessibility)
 export const useHeaderButtonSelector = () => useAppSelector((state) => state.headerButton)
 export const usePushNotificationSelector = () => useAppSelector((state) => state.pushNotification)
+export const useUiSelector = () => useAppSelector((state) => state.ui)

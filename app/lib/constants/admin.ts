@@ -1,27 +1,19 @@
 export const pageContentEditorFolders = [
   { textKey: 'home', value: 'home' },
   { textKey: 'about', value: 'about' },
-  // { textKey: 'accessibility', value: 'accessibility' },
   { textKey: 'advertiseWithUs', value: 'advertise-with-us' },
-  { textKey: 'boardMembers', value: 'board-members' },
-  { textKey: 'bubbleBash', value: 'bubble-bash' },
   { textKey: 'campApplication', value: 'camp-application' },
   { textKey: 'chairSponsorships', value: 'chair-sponsorships' },
-  { textKey: 'concerts', value: 'concerts' },
   { textKey: 'connectWithUs', value: 'connect-with-us' },
   { textKey: 'contact', value: 'contact' },
   { textKey: 'footer', value: 'footer' },
   { textKey: 'hiddenGems', value: 'hidden-gems' },
   { textKey: 'media', value: 'media' },
-  { textKey: 'musicians', value: 'musicians' },
-  { textKey: 'photoGallery', value: 'photo-gallery' },
   { textKey: 'robynBell', value: 'robyn-bell' },
   { textKey: 'sponsors', value: 'sponsors' },
   { textKey: 'sponsorshipOpportunities', value: 'sponsorship-opportunities' },
-  { textKey: 'staff', value: 'staff' },
   { textKey: 'studentPerformers', value: 'student-performers' },
   { textKey: 'studentScholarships', value: 'student-scholarships' },
-  { textKey: 'sundaysAtNeel', value: 'sundays-at-neel' },
   { textKey: 'venues', value: 'venues' }
 ]
 

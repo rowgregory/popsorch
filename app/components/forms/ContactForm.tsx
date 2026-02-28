@@ -1,18 +1,16 @@
 import { FC, useState } from 'react'
-import { useAppDispatch, useFormSelector } from '@/app/redux/store'
+import { store, useFormSelector } from '@/app/redux/store'
 import { createFormActions, resetForm } from '@/app/redux/features/formSlice'
 import ContactFormTextarea from './elements/ContactFormTextarea'
 import CampInput from './elements/CampInput'
 import validateContactForm from '@/app/lib/validations/validateContactForm'
 import { showToast } from '@/app/redux/features/toastSlice'
 import { createQuestion } from '@/app/actions/createQuestion'
-import { useRouter } from 'next/navigation'
+import { setOpenContactSubmissionSuccessModal } from '@/app/redux/features/uiSlice'
 
 const ContactForm: FC<{ btnClassname?: string }> = ({ btnClassname }) => {
-  const dispatch = useAppDispatch()
   const { questionForm } = useFormSelector()
-  const router = useRouter()
-  const { handleInput, setErrors } = createFormActions('questionForm', dispatch)
+  const { handleInput, setErrors } = createFormActions('questionForm', store.dispatch)
   const [loading, setLoading] = useState(false)
   const inputs = questionForm?.inputs
   const errors = questionForm?.errors
@@ -31,17 +29,10 @@ const ContactForm: FC<{ btnClassname?: string }> = ({ btnClassname }) => {
         message: inputs.message
       })
 
-      dispatch(
-        showToast({
-          type: 'success',
-          message: 'Question successfully transmitted.'
-        })
-      )
-
-      router.refresh()
-      dispatch(resetForm('questionForm'))
+      store.dispatch(setOpenContactSubmissionSuccessModal())
+      store.dispatch(resetForm('questionForm'))
     } catch {
-      dispatch(
+      store.dispatch(
         showToast({
           type: 'error',
           message: 'Failed to transmit question'
@@ -53,22 +44,30 @@ const ContactForm: FC<{ btnClassname?: string }> = ({ btnClassname }) => {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="grid grid-cols-12 gap-y-8 990:gap-8 w-full max-w-screen-md">
+    <form
+      onSubmit={handleSubmit}
+      className="grid grid-cols-12 gap-y-8 990:gap-8 w-full max-w-3xl"
+      noValidate
+      aria-label="Contact question form"
+    >
       <div className="col-span-12 990:col-span-6">
         <CampInput
           name="name"
           value={inputs?.name}
           handleInput={handleInput}
           placeholder="Your Name"
+          required
           error={errors?.name}
         />
       </div>
       <div className="col-span-12 990:col-span-6">
         <CampInput
           name="email"
+          type="email"
           value={inputs?.email}
           handleInput={handleInput}
           placeholder="Your Email"
+          required
           error={errors?.email}
         />
       </div>
@@ -78,15 +77,26 @@ const ContactForm: FC<{ btnClassname?: string }> = ({ btnClassname }) => {
           value={inputs?.message}
           onChange={handleInput}
           placeholder="Ask your question here..."
+          required
           error={errors?.message}
         />
       </div>
-      <div className={`col-span-12 flex items-center ${btnClassname ?? 'justify-center'}  mt-3`}>
+      <div className={`col-span-12 flex items-center ${btnClassname ?? 'justify-center'} mt-3`}>
         <button
           type="submit"
-          className="bg-blaze font-changa text-12 text-white px-8 py-4 uppercase font-semibold tracking-widest rounded-sm hover:bg-blazehover duration-300 min-w-36"
+          disabled={loading}
+          aria-disabled={loading}
+          aria-label={loading ? 'Submitting your question, please wait' : 'Submit your question'}
+          className="bg-blaze font-changa text-12 text-white px-8 py-4 uppercase font-semibold tracking-widest rounded-sm hover:bg-blazehover duration-300 min-w-36 disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black cursor-pointer"
         >
-          {loading ? 'Submitting...' : 'Submit Now'}
+          {loading ? (
+            <>
+              <span aria-hidden="true">Submitting...</span>
+              <span className="sr-only">Submitting your question, please wait</span>
+            </>
+          ) : (
+            'Submit Now'
+          )}
         </button>
       </div>
     </form>

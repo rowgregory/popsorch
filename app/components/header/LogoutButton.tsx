@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion'
 import { LogOut } from 'lucide-react'
-import { resetAuth } from '@/app/redux/features/authSlice'
 import { resetUser } from '@/app/redux/features/userSlice'
 import { showToast } from '@/app/redux/features/toastSlice'
 import { signOut } from 'next-auth/react'
@@ -16,7 +15,6 @@ const LogoutButton = () => {
     try {
       setIsLoading(true)
       await signOut({ callbackUrl: '/auth/login' })
-      store.dispatch(resetAuth())
       store.dispatch(resetUser())
     } catch (error: any) {
       store.dispatch(showToast({ type: 'error', description: 'Logout Failed', message: error }))

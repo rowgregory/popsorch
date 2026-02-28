@@ -18,6 +18,7 @@ import { Header } from './components/header/Header'
 import Footer from './components/Footer'
 import AccessibilityButton from './components/buttons/AccessibilityButton'
 import CampApplicationSuccessModal from './components/modals/CampApplicationSuccessModal'
+import ContactSubmissionSuccessModal from './components/modals/ContactSubmissionSuccessModal'
 
 export interface IWrapper {
   children: ReactNode
@@ -65,6 +66,7 @@ export const RootLayoutWrapper: FC<IWrapper> = ({
           <AccessibilityDrawer />
           <Toast />
           <CampApplicationSuccessModal />
+          <ContactSubmissionSuccessModal />
 
           {/* Page Layout */}
           {showHeader && <Header concerts={concerts} campApplicationsSetting={campApplicationsSetting} />}

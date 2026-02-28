@@ -6,6 +6,17 @@ import { useAppDispatch, useDashboardSelector } from '@/app/redux/store'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter, useSearchParams } from 'next/navigation'
 
+// The regex /([A-Z])/g matches every uppercase letter in the string
+// The g flag means it finds all of them, not just the first.
+// The parentheses around [A-Z] create a capture group,
+// which lets you reference the matched letter as $1 in the replacement string.
+// So for every uppercase letter it finds,
+// it replaces it with a space followed by that same letter — ' $1'.
+// This effectively inserts a space before every capital.
+const splitByCapsToSpaces = (text: string): string => {
+  return text.replace(/([A-Z])/g, ' $1').trim()
+}
+
 const PageSelectorModal = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
@@ -50,7 +61,10 @@ const PageSelectorModal = () => {
                     folder.value !== 'camp-application' &&
                     folder.value !== 'footer' &&
                     folder.value !== 'about' &&
-                    folder.value !== 'advertise-with-us'
+                    folder.value !== 'advertise-with-us' &&
+                    folder.value !== 'chair-sponsorships' &&
+                    folder.value !== 'connect-with-us' &&
+                    folder.value !== 'contact'
                   }
                   key={folder.value}
                   initial={{ opacity: 0, scale: 0.8 }}
@@ -59,11 +73,20 @@ const PageSelectorModal = () => {
                   onClick={() => handlePageSelect(folder.value)}
                   className={`p-3 sm:p-4 rounded-lg font-medium text-sm transition-all capitalize ${
                     selectedFolder === folder.value
-                      ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/50'
-                      : 'bg-neutral-800 text-neutral-300 hover:bg-neutral-700 hover:text-white disabled:cursor-not-allowed'
+                      ? 'bg-linear-to-r from-blaze to-sunburst text-white shadow-lg shadow-blaze/50 cursor-pointer'
+                      : folder.value !== 'home' &&
+                          folder.value !== 'camp-application' &&
+                          folder.value !== 'footer' &&
+                          folder.value !== 'about' &&
+                          folder.value !== 'advertise-with-us' &&
+                          folder.value !== 'chair-sponsorships' &&
+                          folder.value !== 'connect-with-us' &&
+                          folder.value !== 'contact'
+                        ? 'bg-neutral-800 text-neutral-300 hover:bg-neutral-700 hover:text-white disabled:cursor-not-allowed'
+                        : 'bg-neutral-700 text-neutral-400 hover:bg-neutral-600 hover:text-white cursor-pointer'
                   }`}
                 >
-                  {folder.textKey}
+                  {splitByCapsToSpaces(folder.textKey)}
                 </motion.button>
               ))}
             </div>
