@@ -13,7 +13,7 @@ const PopsLoader = ({ size = 'md', className = '' }) => {
         <div className="absolute inset-0 border-4 border-amber-200 rounded-full animate-spin border-t-amber-500"></div>
 
         {/* Inner pulsing circle */}
-        <div className="absolute inset-2 bg-gradient-to-br from-yellow-400 to-amber-600 rounded-full animate-pulse flex items-center justify-center">
+        <div className="absolute inset-2 bg-linear-to-br from-yellow-400 to-amber-600 rounded-full animate-pulse flex items-center justify-center">
           {/* Center dot */}
           <div className="w-3 h-3 bg-amber-900 rounded-full animate-bounce"></div>
         </div>
@@ -26,7 +26,7 @@ const PopsLoader = ({ size = 'md', className = '' }) => {
 
       {/* Brand Text */}
       <div className="text-center">
-        <h3 className="text-xl font-bold bg-gradient-to-r from-amber-600 to-yellow-500 bg-clip-text text-transparent mb-1">
+        <h3 className="text-xl font-bold bg-linear-to-r from-amber-600 to-yellow-500 bg-clip-text text-transparent mb-1">
           The Pops
         </h3>
         <p className="text-amber-700 text-sm font-medium">Loading...</p>

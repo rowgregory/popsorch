@@ -1,5 +1,4 @@
 import prisma from '@/prisma/client'
-import { unstable_cache } from 'next/cache'
 
 const fetchUserData = async (userId: string | null) => {
   if (!userId) return null
@@ -19,18 +18,12 @@ const fetchUserData = async (userId: string | null) => {
   })
 }
 
-export const getUser = unstable_cache(
-  async (id: string) => {
-    try {
-      const user = await fetchUserData(id)
+export const getUser = async (id: string) => {
+  try {
+    const user = await fetchUserData(id)
 
-      return { ...user, isAuthenticated: user.id ? true : false }
-    } catch {
-      return null
-    }
-  },
-  ['getUser'],
-  {
-    tags: ['User']
+    return { ...user, isAuthenticated: user.id ? true : false }
+  } catch {
+    return null
   }
-)
+}

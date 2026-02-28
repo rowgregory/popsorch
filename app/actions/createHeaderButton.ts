@@ -2,7 +2,6 @@
 
 import prisma from '@/prisma/client'
 import { createLog } from '../utils/logHelper'
-import { revalidateTag } from 'next/cache'
 
 interface SecondaryButton {
   text: string
@@ -76,7 +75,6 @@ export async function createHeaderButton(data: CreateHeaderButtonInput) {
       type: button.type
     })
 
-    revalidateTag('Header-Button', 'default')
     return { success: true, button }
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Failed to create header button'

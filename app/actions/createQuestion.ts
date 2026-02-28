@@ -1,7 +1,6 @@
 'use server'
 
 import prisma from '@/prisma/client'
-import { revalidateTag } from 'next/cache'
 import { createLog } from '../utils/logHelper'
 import { contactSubmissionTemplate } from '../lib/email-templates/contact-submission'
 import { resend } from '../lib/resend'
@@ -28,8 +27,6 @@ export async function createQuestion(data: CreateQuestionInput) {
       name: question.name,
       email: question.email
     })
-
-    revalidateTag('Question', 'default')
 
     await resend.emails.send({
       from: 'New Submission! <noreply@thepopsorchestra.org>',

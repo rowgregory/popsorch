@@ -60,7 +60,7 @@ const VenueDrawer = () => {
         try {
           uploadedImageURL = await uploadFileToFirebase(inputs.file, handleUploadProgress, 'image')
         } catch (error) {
-          throw new Error(error?.data?.message || 'Failed to upload image')
+          throw new Error(error instanceof Error ? error.message : 'Failed to upload image')
         }
       }
 
@@ -85,7 +85,7 @@ const VenueDrawer = () => {
     } catch (error) {
       // Delete uploaded image on failure
       if (uploadedImageURL) {
-        await deleteFileFromFirebase(inputs.file.name, 'image')
+        await deleteFileFromFirebase(inputs?.file?.name, 'image')
       }
 
       dispatch(

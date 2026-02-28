@@ -1,7 +1,6 @@
 'use server'
 
 import prisma from '@/prisma/client'
-import { revalidateTag } from 'next/cache'
 import { createLog } from '../utils/logHelper'
 
 export async function toggleConcertOnSale(concertId: string, isOnSale: boolean) {
@@ -20,8 +19,6 @@ export async function toggleConcertOnSale(concertId: string, isOnSale: boolean) 
       isOnSale: concert.isOnSale,
       name: concert.name
     })
-
-    revalidateTag('Concert', 'default')
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Failed to toggle concert'
 

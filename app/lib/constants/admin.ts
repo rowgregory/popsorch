@@ -1,7 +1,7 @@
 export const pageContentEditorFolders = [
   { textKey: 'home', value: 'home' },
   { textKey: 'about', value: 'about' },
-  { textKey: 'accessibility', value: 'accessibility' },
+  // { textKey: 'accessibility', value: 'accessibility' },
   { textKey: 'advertiseWithUs', value: 'advertise-with-us' },
   { textKey: 'boardMembers', value: 'board-members' },
   { textKey: 'bubbleBash', value: 'bubble-bash' },
@@ -10,11 +10,11 @@ export const pageContentEditorFolders = [
   { textKey: 'concerts', value: 'concerts' },
   { textKey: 'connectWithUs', value: 'connect-with-us' },
   { textKey: 'contact', value: 'contact' },
+  { textKey: 'footer', value: 'footer' },
   { textKey: 'hiddenGems', value: 'hidden-gems' },
   { textKey: 'media', value: 'media' },
   { textKey: 'musicians', value: 'musicians' },
   { textKey: 'photoGallery', value: 'photo-gallery' },
-  { textKey: 'privacyPolicy', value: 'privacy-policy' },
   { textKey: 'robynBell', value: 'robyn-bell' },
   { textKey: 'sponsors', value: 'sponsors' },
   { textKey: 'sponsorshipOpportunities', value: 'sponsorship-opportunities' },
@@ -22,8 +22,7 @@ export const pageContentEditorFolders = [
   { textKey: 'studentPerformers', value: 'student-performers' },
   { textKey: 'studentScholarships', value: 'student-scholarships' },
   { textKey: 'sundaysAtNeel', value: 'sundays-at-neel' },
-  { textKey: 'venues', value: 'venues' },
-  { textKey: 'footer', value: 'footer' }
+  { textKey: 'venues', value: 'venues' }
 ]
 
 export const levelColors: Record<string, string> = {

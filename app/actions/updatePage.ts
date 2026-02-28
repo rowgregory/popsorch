@@ -2,7 +2,6 @@
 
 import prisma from '@/prisma/client'
 import { createLog } from '../utils/logHelper'
-import { revalidateTag } from 'next/cache'
 
 interface UpdatePageInput {
   content?: Record<string, any>
@@ -42,7 +41,6 @@ export async function updatePage(pageSlug: string, data: UpdatePageInput) {
       updatedFields: Object.keys(updateData)
     })
 
-    revalidateTag('Page', 'default')
     return { success: true, page }
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Failed to update page'

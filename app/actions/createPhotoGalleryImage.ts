@@ -1,6 +1,6 @@
 'use server'
+
 import prisma from '@/prisma/client'
-import { revalidatePath } from 'next/cache'
 
 interface CreatePhotoGalleryImageInput {
   imageUrl: string
@@ -10,7 +10,7 @@ interface CreatePhotoGalleryImageInput {
 
 export async function createPhotoGalleryImage(data: CreatePhotoGalleryImageInput) {
   try {
-    const image = await prisma.photoGalleryImage.create({
+    await prisma.photoGalleryImage.create({
       data: {
         imageUrl: data.imageUrl,
         imageFilename: data.imageFilename,
@@ -18,12 +18,8 @@ export async function createPhotoGalleryImage(data: CreatePhotoGalleryImageInput
       }
     })
 
-    revalidatePath('/')
-    revalidatePath('/admin/photo-gallery')
-
-    return { success: true, data: image }
+    return { success: true }
   } catch (error) {
-    console.error('[createPhotoGalleryImage]', error)
     return { success: false, error: 'Failed to create photo gallery image.' }
   }
 }

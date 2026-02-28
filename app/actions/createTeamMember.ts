@@ -1,7 +1,6 @@
 'use server'
 
 import prisma from '@/prisma/client'
-import { revalidateTag } from 'next/cache'
 import { createLog } from '../utils/logHelper'
 
 interface CreateTeamMemberInput {
@@ -61,7 +60,6 @@ export async function createTeamMember(data: CreateTeamMemberInput) {
       role: teamMember.role
     })
 
-    revalidateTag('Team-Member', 'default')
     return { success: true, teamMember }
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Failed to create team member'

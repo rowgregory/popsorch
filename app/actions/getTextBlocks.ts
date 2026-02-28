@@ -1,5 +1,4 @@
 import prisma from '@/prisma/client'
-import { unstable_cache } from 'next/cache'
 
 const transformTextBlocks = (textBlocks: any[]) => {
   return textBlocks.reduce((acc: any, item: any) => {
@@ -21,17 +20,11 @@ const transformTextBlocks = (textBlocks: any[]) => {
   }, {})
 }
 
-export const getTextBlocks = unstable_cache(
-  async () => {
-    try {
-      const [textBlocks] = await Promise.all([prisma.textBlock.findMany()])
-      return transformTextBlocks(textBlocks)
-    } catch (error) {
-      throw error
-    }
-  },
-  ['getTextBlocks'],
-  {
-    tags: ['Text-Block']
+export const getTextBlocks = async () => {
+  try {
+    const [textBlocks] = await Promise.all([prisma.textBlock.findMany()])
+    return transformTextBlocks(textBlocks)
+  } catch (error) {
+    throw error
   }
-)
+}

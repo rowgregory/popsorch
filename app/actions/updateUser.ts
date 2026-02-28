@@ -1,7 +1,6 @@
 'use server'
 
 import prisma from '@/prisma/client'
-import { revalidateTag } from 'next/cache'
 import { createLog } from '../utils/logHelper'
 
 interface UpdateUserInput {
@@ -42,7 +41,6 @@ export async function updateUser(userId: string, data: UpdateUserInput) {
       email: user.email
     })
 
-    revalidateTag('User', 'max')
     return { user }
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Failed to update user'

@@ -1,7 +1,6 @@
 'use server'
 
 import prisma from '@/prisma/client'
-import { revalidateTag } from 'next/cache'
 import { createLog } from '../utils/logHelper'
 
 interface TeamMember {
@@ -64,8 +63,6 @@ export async function updateTeamMembersOrder(teamMembers: TeamMember[]) {
       savedBoardMembersCount: savedBoardMembers.length,
       savedMusiciansCount: savedMusicians.length
     })
-
-    revalidateTag('Team-Member', 'default')
 
     return {
       success: true,

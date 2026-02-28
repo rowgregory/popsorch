@@ -74,7 +74,7 @@ const SponsorDrawer = () => {
     } catch (error: any) {
       // Delete uploaded image on failure
       if (uploadedImageURL) {
-        await deleteFileFromFirebase(inputs.file.name, 'image')
+        await deleteFileFromFirebase(inputs?.file?.name, 'image')
       }
 
       dispatch(

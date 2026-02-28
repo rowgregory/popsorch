@@ -1,49 +1,42 @@
 import prisma from '@/prisma/client'
-import { unstable_cache } from 'next/cache'
 
-export const getConcertsByType = unstable_cache(
-  async (type: string) => {
-    try {
-      const concerts = await prisma.concert.findMany({
-        where: { type },
-        orderBy: [{ createdAt: 'desc' }]
-      })
+export const getConcertsByType = async (type: string) => {
+  try {
+    const concerts = await prisma.concert.findMany({
+      where: { type },
+      orderBy: [{ createdAt: 'desc' }]
+    })
 
-      const sortedConcerts = concerts.sort((a: any, b: any) => {
-        const aDate = new Date(a.eventDetails[0]?.date || a.cardDate)
-        const bDate = new Date(b.eventDetails[0]?.date || b.cardDate)
-        return aDate.getTime() - bDate.getTime()
-      })
+    const sortedConcerts = concerts.sort((a: any, b: any) => {
+      const aDate = new Date(a.eventDetails[0]?.date || a.cardDate)
+      const bDate = new Date(b.eventDetails[0]?.date || b.cardDate)
+      return aDate.getTime() - bDate.getTime()
+    })
 
-      // Parse eventDetails for each concert
-      const parsedConcerts = sortedConcerts.map((concert) => {
-        let eventDetails: any[] = []
+    // Parse eventDetails for each concert
+    const parsedConcerts = sortedConcerts.map((concert) => {
+      let eventDetails: any[] = []
 
-        if (Array.isArray(concert.eventDetails)) {
-          eventDetails = concert.eventDetails
-        }
-
-        return {
-          ...concert,
-          eventDetails
-        }
-      })
+      if (Array.isArray(concert.eventDetails)) {
+        eventDetails = concert.eventDetails
+      }
 
       return {
-        concerts: parsedConcerts,
-        count: parsedConcerts.length,
-        type
+        ...concert,
+        eventDetails
       }
-    } catch (error) {
-      return {
-        concerts: [],
-        count: 0,
-        type
-      }
+    })
+
+    return {
+      concerts: parsedConcerts,
+      count: parsedConcerts.length,
+      type
     }
-  },
-  ['getConcertByType'],
-  {
-    tags: ['Concert']
+  } catch (error) {
+    return {
+      concerts: [],
+      count: 0,
+      type
+    }
   }
-)
+}

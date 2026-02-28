@@ -1,7 +1,6 @@
 'use server'
 
 import prisma from '@/prisma/client'
-import { revalidateTag } from 'next/cache'
 import { createLog } from '../utils/logHelper'
 
 export async function deleteTeamMember(teamMemberId: string) {
@@ -19,8 +18,6 @@ export async function deleteTeamMember(teamMemberId: string) {
       firstName: teamMember.firstName,
       lastName: teamMember.lastName
     })
-
-    revalidateTag('Team-Member', 'default')
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Failed to delete team member'
 

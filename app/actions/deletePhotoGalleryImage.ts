@@ -1,6 +1,5 @@
 'use server'
 
-import { revalidateTag } from 'next/cache'
 import deleteFileFromFirebase from '../utils/firebase.delete'
 import { createLog } from '../utils/logHelper'
 import prisma from '@/prisma/client'
@@ -27,8 +26,6 @@ export async function deletePhotoGalleryImage(id: string, imageFilename: string)
       imageFilename,
       timestamp: new Date().toISOString()
     })
-
-    revalidateTag('PhotoGalleryImage', 'default')
 
     return { success: true, id }
   } catch (error: any) {

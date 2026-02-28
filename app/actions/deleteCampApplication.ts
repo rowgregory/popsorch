@@ -1,6 +1,5 @@
 'use server'
 
-import { revalidateTag } from 'next/cache'
 import { createLog } from '../utils/logHelper'
 import prisma from '@/prisma/client'
 
@@ -13,8 +12,6 @@ export async function deleteCampApplication(id: string) {
     await createLog('info', 'Camp application deleted successfully', {
       applicationId: id
     })
-
-    revalidateTag('CampApplication', 'default')
 
     return { success: true }
   } catch (error) {

@@ -1,7 +1,6 @@
 'use server'
 
 import prisma from '@/prisma/client'
-import { revalidateTag } from 'next/cache'
 import { createLog } from '../utils/logHelper'
 
 interface CreateSponsorInput {
@@ -41,7 +40,6 @@ export async function createSponsor(data: CreateSponsorInput) {
       amount: sponsor.amount
     })
 
-    revalidateTag('Sponsor', 'default')
     return { success: true }
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Failed to create sponsor'

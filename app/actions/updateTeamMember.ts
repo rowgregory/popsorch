@@ -1,7 +1,6 @@
 'use server'
 
 import prisma from '@/prisma/client'
-import { revalidateTag } from 'next/cache'
 import { createLog } from '../utils/logHelper'
 
 interface UpdateTeamMemberInput {
@@ -43,7 +42,6 @@ export async function updateTeamMember(teamMemberId: string, data: UpdateTeamMem
       lastName: teamMember.lastName
     })
 
-    revalidateTag('Team-Member', 'default')
     return { success: true, teamMember }
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Failed to update team member'

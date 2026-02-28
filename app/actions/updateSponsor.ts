@@ -1,7 +1,6 @@
 'use server'
 
 import prisma from '@/prisma/client'
-import { revalidateTag } from 'next/cache'
 import { createLog } from '../utils/logHelper'
 
 interface UpdateSponsorInput {
@@ -39,7 +38,6 @@ export async function updateSponsor(sponsorId: string, data: UpdateSponsorInput)
       amount: sponsor.amount
     })
 
-    revalidateTag('Sponsor', 'default')
     return { success: true, sponsor }
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Failed to update sponsor'

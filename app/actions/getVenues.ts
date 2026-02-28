@@ -2,7 +2,7 @@ import prisma from '@/prisma/client'
 
 export const getVenues = async () => {
   try {
-    const venues = await prisma.venue.findMany()
+    const venues = await prisma.venue.findMany({ orderBy: { createdAt: 'desc' } })
 
     return venues
   } catch {

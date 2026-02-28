@@ -1,7 +1,6 @@
 'use server'
 
 import prisma from '@/prisma/client'
-import { revalidateTag } from 'next/cache'
 import { createLog } from '../utils/logHelper'
 
 export async function deleteVenue(venueId: string) {
@@ -20,8 +19,6 @@ export async function deleteVenue(venueId: string) {
       name: venue.name,
       address: venue.address
     })
-
-    revalidateTag('Venue', 'default')
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Failed to delete venue'
 

@@ -49,7 +49,8 @@ const PageSelectorModal = () => {
                     folder.value !== 'home' &&
                     folder.value !== 'camp-application' &&
                     folder.value !== 'footer' &&
-                    folder.value !== 'about'
+                    folder.value !== 'about' &&
+                    folder.value !== 'advertise-with-us'
                   }
                   key={folder.value}
                   initial={{ opacity: 0, scale: 0.8 }}

@@ -1,7 +1,6 @@
 'use server'
 
 import prisma from '@/prisma/client'
-import { revalidateTag } from 'next/cache'
 import { createLog } from '../utils/logHelper'
 
 export async function deleteQuestion(questionId: string) {
@@ -19,8 +18,6 @@ export async function deleteQuestion(questionId: string) {
       name: question.name,
       email: question.email
     })
-
-    revalidateTag('Question', 'default')
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Failed to delete question'
 

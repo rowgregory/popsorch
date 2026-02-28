@@ -1,7 +1,6 @@
 'use server'
 
 import prisma from '@/prisma/client'
-import { revalidateTag } from 'next/cache'
 import { createLog } from '../utils/logHelper'
 
 export async function deleteSponsor(sponsorId: string) {
@@ -18,8 +17,6 @@ export async function deleteSponsor(sponsorId: string) {
       sponsorId: sponsor.id,
       name: sponsor.name
     })
-
-    revalidateTag('Sponsor', 'default')
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Failed to delete sponsor'
 

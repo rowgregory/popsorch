@@ -1,7 +1,6 @@
 'use server'
 
 import prisma from '@/prisma/client'
-import { revalidateTag } from 'next/cache'
 import { createLog } from '../utils/logHelper'
 
 interface UpdateVenueInput {
@@ -46,7 +45,6 @@ export async function updateVenue(venueId: string, data: UpdateVenueInput) {
       name: venue.name
     })
 
-    revalidateTag('Venue', 'default')
     return { success: true, venue }
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Failed to update venue'

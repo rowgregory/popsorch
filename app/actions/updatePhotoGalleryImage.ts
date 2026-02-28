@@ -1,6 +1,5 @@
 'use server'
 
-import { revalidateTag } from 'next/cache'
 import { createLog } from '../utils/logHelper'
 import prisma from '@/prisma/client'
 
@@ -10,8 +9,6 @@ export async function updatePhotoGalleryImage(id: string, isHomeHero: boolean) {
       where: { id },
       data: { isHomeHero }
     })
-
-    revalidateTag('PhotoGalleryImage', 'default')
 
     return { success: true, photoGalleryImage: updatedPhotoGalleryImage }
   } catch (error: any) {

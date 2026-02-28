@@ -2,7 +2,6 @@
 
 import prisma from '@/prisma/client'
 import { InputJsonValue } from '@prisma/client/runtime/library'
-import { revalidateTag } from 'next/cache'
 import { createLog } from '../utils/logHelper'
 
 interface EventDetail {
@@ -72,7 +71,6 @@ export async function createConcert(data: CreateConcertInput) {
       concertName: concert.name
     })
 
-    revalidateTag('Concert', 'default')
     return { success: true, concert }
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Failed to create concert'

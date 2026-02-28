@@ -2,7 +2,6 @@
 
 import prisma from '@/prisma/client'
 import { createLog } from '../utils/logHelper'
-import { revalidateTag } from 'next/cache'
 
 export async function assignHeaderButton(buttonId: string) {
   try {
@@ -39,7 +38,6 @@ export async function assignHeaderButton(buttonId: string) {
       buttonName: updatedButton.text
     })
 
-    revalidateTag('Header-Button', 'default')
     return { success: true, headerButton: updatedButton }
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Failed to assign header button'

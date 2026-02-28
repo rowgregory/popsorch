@@ -1,7 +1,6 @@
 'use server'
 
 import prisma from '@/prisma/client'
-import { revalidateTag } from 'next/cache'
 import { createLog } from '../utils/logHelper'
 
 export async function deleteHeaderButton(headerButtonId: string) {
@@ -17,8 +16,6 @@ export async function deleteHeaderButton(headerButtonId: string) {
     await createLog('info', 'HeaderButton deleted successfully', {
       headerButtonId: headerButton.id
     })
-
-    revalidateTag('Header-Button', 'default')
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Failed to delete header button'
 

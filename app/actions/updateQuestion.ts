@@ -1,7 +1,6 @@
 'use server'
 
 import prisma from '@/prisma/client'
-import { revalidateTag } from 'next/cache'
 import { createLog } from '../utils/logHelper'
 
 export async function updateQuestion(questionId: string) {
@@ -33,7 +32,6 @@ export async function updateQuestion(questionId: string) {
       email: updatedQuestion.email
     })
 
-    revalidateTag('Question', 'default')
     return { success: true }
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Failed to update question'

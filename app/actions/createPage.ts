@@ -1,7 +1,6 @@
 'use server'
 
 import prisma from '@/prisma/client'
-import { revalidateTag } from 'next/cache'
 import { createLog } from '../utils/logHelper'
 import { auth } from '../lib/auth'
 
@@ -50,7 +49,6 @@ export async function createPage(data: CreatePageInput) {
       slug: page.slug
     })
 
-    revalidateTag('Page', 'default')
     return { success: true, page }
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Failed to create page'
