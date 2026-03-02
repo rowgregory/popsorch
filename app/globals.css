@@ -108,6 +108,9 @@
   --font-family-lato: var(--font-lato);
 }
 
+@custom-variant short (@media (max-height: 700px));
+@custom-variant tall (@media (min-height: 900px));
+
 /* ─── Keyframes ──────────────────────────────────────────────────────── */
 @keyframes grain {
   0%,

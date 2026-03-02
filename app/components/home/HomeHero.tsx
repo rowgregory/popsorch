@@ -60,7 +60,7 @@ const HomeHero = ({ pageData, ref, galleryImages }) => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.1 }}
-            className="mb-8 430:mb-10"
+            className="mb-2"
           >
             <Link
               href="/"
@@ -73,7 +73,7 @@ const HomeHero = ({ pageData, ref, galleryImages }) => {
                 width={160}
                 height={160}
                 priority={true}
-                className="w-24 430:w-60 h-auto object-contain"
+                className="w-40 430:w-50 h-auto object-contain"
               />
             </Link>
           </motion.div>
@@ -83,7 +83,7 @@ const HomeHero = ({ pageData, ref, galleryImages }) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.2 }}
-            className="flex items-center gap-3 mb-4 430:mb-5"
+            className="flex items-center gap-3"
           >
             <div className="w-6 h-px bg-blaze" aria-hidden="true" />
             <span className="font-changa text-xs uppercase tracking-[0.3em] text-blaze">{headingPrefix}</span>
@@ -94,7 +94,7 @@ const HomeHero = ({ pageData, ref, galleryImages }) => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.7, delay: 0.35 }}
-            className="font-changa text-white leading-none mb-4 430:mb-6"
+            className="font-changa text-white leading-none mb-4"
             style={{ fontSize: 'clamp(2.25rem, 8vw, 6rem)' }}
           >
             <span className="sr-only">{heading}</span>
