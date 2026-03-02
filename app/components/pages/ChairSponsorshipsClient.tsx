@@ -3,6 +3,7 @@
 import Breadcrumb from '@/app/components/common/Breadcrumb'
 import Picture from '@/app/components/common/Picture'
 import { useRotatingImageText } from '@/app/hooks/useRotatingImageText'
+import { ArrowRightIcon } from 'lucide-react'
 
 const chairSponsorshipData = [
   {
@@ -63,122 +64,198 @@ export const ChairSponsorshipsClient = ({ data }) => {
   ]
 
   return (
-    <>
+    <main id="main-content">
       <Breadcrumb breadcrumb="Chair Sponsorships" />
-      <main id="main-content" className="px-4 py-40 relative">
-        <div className="max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 1590:max-w-7xl mx-auto w-full items-center relative z-10">
-          <section
-            aria-labelledby="chair-hero-heading"
-            className="grid grid-cols-12 bg-duskgray rounded-md w-full mb-24 items-center"
-          >
-            <div className="col-span-12 1200:col-span-6 relative">
-              <Picture
-                src="/images/mcs.png"
-                alt="Musician Chair Sponsorships collage"
-                priority={true}
-                className="aspect-video 1200:aspect-square relative z-0 object-cover rounded-tl-md rounded-bl-md h-full w-full bg-black"
-              />
-            </div>
-            <div className="col-span-12 1200:col-span-6 p-7 430:p-14">
-              <h1 id="chair-hero-heading" className="font-changa text-2xl text-white mb-4 text-center">
-                {field('chair_hero_heading')}
-              </h1>
-              <div className="w-12 h-0.5 bg-blaze mx-auto mb-8" aria-hidden="true" />
-              <p className="font-lato text-[#cacaca] mb-5 text-center">{field('chair_hero_paragraph_1')}</p>
-              <p className="font-lato text-[#cacaca] mb-12 text-center">{field('chair_hero_paragraph_2')}</p>
-              <div className="w-full flex justify-center items-center">
-                <a
-                  href="https://ci.ovationtix.com/35505/store/donations/46287"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`${field('chair_hero_cta_button_text')} — opens in new tab`}
-                  className="bg-blaze text-white hover:text-duskgray px-9 duration-300 rounded-sm py-4.75 font-changa text-12 uppercase w-fit flex items-center justify-center font-bold text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-duskgray"
-                >
-                  {field('chair_hero_cta_button_text')}
-                </a>
+
+      <div className="relative bg-black">
+        <div
+          className="absolute inset-0 w-full h-full bg-no-repeat bg-center bg-cover opacity-10"
+          style={{ backgroundImage: `url('/images/bio-bg.png')`, backgroundAttachment: 'fixed' }}
+          aria-hidden="true"
+        />
+
+        <div className="relative z-10 px-4 990:px-12 xl:px-4">
+          <div className="max-w-[320px] 430:max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 1590:max-w-7xl mx-auto">
+            {/* Page Header */}
+            <header className="w-full text-center flex flex-col items-center pt-32 pb-20 border-b border-white/10">
+              <p className="font-changa text-xs uppercase tracking-[0.3em] text-blaze mb-4">The Pops Orchestra</p>
+              <div className="flex items-center gap-3 430:gap-4 justify-center mb-4">
+                <div className="w-8 430:w-16 h-px bg-blaze shrink-0" aria-hidden="true" />
+                <h1 className="text-4xl 430:text-5xl sm:text-6xl font-changa text-white leading-none">
+                  Chair Sponsorships
+                </h1>
+                <div className="w-8 430:w-16 h-px bg-blaze shrink-0" aria-hidden="true" />
               </div>
-            </div>
-          </section>
+              <div className="w-16 h-px bg-blaze mx-auto mt-2 mb-6" aria-hidden="true" />
+              <p className="font-lato text-white/50 text-sm 430:text-base max-w-xl leading-relaxed">
+                {field('chair_hero_paragraph_1')}
+              </p>
+            </header>
 
-          <section
-            aria-labelledby="chair-levels-heading"
-            className="grid grid-cols-12 bg-duskgray rounded-md w-full mb-24 items-center overflow-hidden"
-          >
-            <div className="col-span-12 1200:col-span-6 flex items-center flex-col p-7 430:p-14">
-              <h2 id="chair-levels-heading" className="font-changa text-2xl text-white mb-4 text-center">
-                {field('chair_levels_heading')}
-              </h2>
-              <div className="w-12 h-0.5 bg-blaze mx-auto mb-8" aria-hidden="true" />
-              <p className="text-[#cacaca] font-lato text-center">{field('chair_levels_description')}</p>
-            </div>
+            {/* Hero section */}
+            <section aria-labelledby="chair-hero-heading" className="py-20 990:py-32">
+              <div className="grid grid-cols-1 1200:grid-cols-2 gap-px bg-white/10">
+                {/* Image */}
+                <div className="bg-black overflow-hidden">
+                  <Picture
+                    src="/images/mcs.png"
+                    alt="Musician Chair Sponsorships collage"
+                    priority={true}
+                    className="w-full h-full object-cover aspect-video 1200:aspect-square"
+                  />
+                </div>
 
-            <div className="col-span-12 1200:col-span-6 overflow-x-auto">
-              <table className="w-full border-collapse text-white font-lato border-[#1C1C1C] min-w-100">
-                <caption className="sr-only">Chair sponsorship levels and pricing by role</caption>
-                <thead>
-                  <tr className="bg-gold-gradient text-black">
-                    <th scope="col" className="py-6 px-5 border border-zinc-700/50"></th>
-                    <th scope="col" className="py-6 px-5 border border-zinc-700/50 text-white">
-                      {field('chair_table_col_bronze')}
-                    </th>
-                    <th scope="col" className="py-6 px-5 border border-zinc-700/50 text-white">
-                      {field('chair_table_col_silver')}
-                    </th>
-                    <th scope="col" className="py-6 px-5 border border-zinc-700/50 text-white">
-                      {field('chair_table_col_gold')}
-                    </th>
-                    <th scope="col" className="py-6 px-5 border border-zinc-700/50 text-white">
-                      {field('chair_table_col_platinum')}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {tableRows.map((row, index) => (
-                    <tr key={index} className={index % 2 === 0 ? 'bg-[#2B2B2B]' : 'bg-[#181818]'}>
-                      <th scope="row" className="py-6 px-5 border border-zinc-700/50 text-left font-normal">
-                        {row.label}
-                      </th>
-                      <td className="py-6 px-5 border border-zinc-700/50 text-center">{row.bronze}</td>
-                      <td className="py-6 px-5 border border-zinc-700/50 text-center">{row.silver}</td>
-                      <td className="py-6 px-5 border border-zinc-700/50 text-center">{row.gold}</td>
-                      <td className="py-6 px-5 border border-zinc-700/50 text-center">{row.platinum}</td>
+                {/* Content */}
+                <div className="bg-black p-7 430:p-10 990:p-14 flex flex-col justify-center">
+                  <div className="flex items-center gap-3 mb-5">
+                    <div className="w-6 h-px bg-blaze" aria-hidden="true" />
+                    <span className="font-changa text-xs uppercase tracking-[0.25em] text-blaze">About</span>
+                  </div>
+                  <h2
+                    id="chair-hero-heading"
+                    className="font-changa text-3xl 430:text-4xl text-white leading-tight mb-4"
+                  >
+                    {field('chair_hero_heading')}
+                  </h2>
+                  <div className="w-8 h-px bg-blaze mb-6" aria-hidden="true" />
+                  <p className="font-lato text-white/60 text-sm 430:text-base leading-relaxed mb-4 border-l-2 border-blaze pl-5">
+                    {field('chair_hero_paragraph_1')}
+                  </p>
+                  <p className="font-lato text-white/60 text-sm 430:text-base leading-relaxed mb-10">
+                    {field('chair_hero_paragraph_2')}
+                  </p>
+
+                  <a
+                    href="https://ci.ovationtix.com/35505/store/donations/46287"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${field('chair_hero_cta_button_text')} — opens in new tab`}
+                    className="group inline-flex items-center gap-3 bg-blaze/90 hover:bg-blaze text-white px-8 py-4 font-changa text-sm uppercase tracking-widest transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black = w-full 430:w-fit justify-center 430:justify-start"
+                  >
+                    <span>{field('chair_hero_cta_button_text')}</span>
+                    <ArrowRightIcon
+                      className="w-4 h-4 shrink-0 group-hover:translate-x-1 transition-transform"
+                      aria-hidden="true"
+                    />
+                  </a>
+                </div>
+              </div>
+            </section>
+
+            {/* Levels + table */}
+            <section aria-labelledby="chair-levels-heading" className="pb-20 990:pb-32">
+              <div className="flex flex-col items-center text-center mb-12 430:mb-16">
+                <p className="font-changa text-xs uppercase tracking-[0.3em] text-blaze mb-4">Giving Levels</p>
+                <div className="flex items-center gap-3 430:gap-4 justify-center mb-4">
+                  <div className="w-8 430:w-16 h-px bg-blaze shrink-0" aria-hidden="true" />
+                  <h2 id="chair-levels-heading" className="font-changa text-3xl 430:text-4xl text-white leading-none">
+                    {field('chair_levels_heading')}
+                  </h2>
+                  <div className="w-8 430:w-16 h-px bg-blaze shrink-0" aria-hidden="true" />
+                </div>
+                <div className="w-16 h-px bg-blaze mx-auto mt-2 mb-6" aria-hidden="true" />
+                <p className="font-lato text-white/50 text-sm 430:text-base max-w-xl leading-relaxed">
+                  {field('chair_levels_description')}
+                </p>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse font-lato min-w-125">
+                  <caption className="sr-only">Chair sponsorship levels and pricing by role</caption>
+                  <thead>
+                    <tr className="border-b-2 border-blaze">
+                      <th
+                        scope="col"
+                        className="py-4 px-4 430:px-5 text-left font-changa text-xs uppercase tracking-[0.25em] text-white/40"
+                      />
+                      {[
+                        field('chair_table_col_bronze'),
+                        field('chair_table_col_silver'),
+                        field('chair_table_col_gold'),
+                        field('chair_table_col_platinum')
+                      ].map((col, i) => (
+                        <th
+                          key={i}
+                          scope="col"
+                          className="py-4 px-4 430:px-5 font-changa text-xs uppercase tracking-[0.25em] text-blaze text-center"
+                        >
+                          {col}
+                        </th>
+                      ))}
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          <section
-            aria-labelledby="chair-community-heading"
-            className="bg-duskgray rounded-md w-full p-7 430:p-14 flex flex-col items-center justify-center"
-          >
-            <h2 id="chair-community-heading" className="font-changa text-2xl text-white mb-4 text-center">
-              {field('chair_community_heading')}
-            </h2>
-            <div className="w-12 h-0.5 bg-blaze mx-auto mb-8" aria-hidden="true" />
-
-            <div className="flex items-center justify-center mt-10 mx-auto">
-              <div
-                className={`transition-opacity duration-1000 ease-in-out w-full h-full flex items-center justify-center flex-col max-w-2xl ${
-                  fade ? 'opacity-100' : 'opacity-0'
-                }`}
-                aria-live="polite"
-                aria-atomic="true"
-              >
-                <Picture
-                  src={currentItem.image}
-                  alt={currentItem.title}
-                  priority={false}
-                  className="w-80 h-auto aspect-square object-cover"
-                />
-                <p className="text-3xl font-changa mt-4 mb-2">{currentItem.title}</p>
-                <p className="text-center text-white">{currentItem.text}</p>
+                  </thead>
+                  <tbody className="divide-y divide-white/10">
+                    {tableRows.map((row, index) => (
+                      <tr key={index} className="hover:bg-white/5 transition-colors duration-200">
+                        <th
+                          scope="row"
+                          className="py-4 px-4 430:px-5 text-left font-lato text-xs 430:text-sm text-white/70 font-normal"
+                        >
+                          {row.label}
+                        </th>
+                        <td className="py-4 px-4 430:px-5 text-center font-lato text-xs 430:text-sm text-white/60">
+                          {row.bronze}
+                        </td>
+                        <td className="py-4 px-4 430:px-5 text-center font-lato text-xs 430:text-sm text-white/60">
+                          {row.silver}
+                        </td>
+                        <td className="py-4 px-4 430:px-5 text-center font-lato text-xs 430:text-sm text-white/60">
+                          {row.gold}
+                        </td>
+                        <td className="py-4 px-4 430:px-5 text-center font-lato text-xs 430:text-sm text-white/60">
+                          {row.platinum}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
-            </div>
-          </section>
+            </section>
+
+            {/* Community carousel */}
+            <section aria-labelledby="chair-community-heading" className="pb-28 990:pb-40">
+              <div className="flex flex-col items-center text-center mb-12 430:mb-16">
+                <p className="font-changa text-xs uppercase tracking-[0.3em] text-blaze mb-4">Community</p>
+                <div className="flex items-center gap-3 430:gap-4 justify-center mb-4">
+                  <div className="w-8 430:w-16 h-px bg-blaze shrink-0" aria-hidden="true" />
+                  <h2
+                    id="chair-community-heading"
+                    className="font-changa text-3xl 430:text-4xl text-white leading-none"
+                  >
+                    {field('chair_community_heading')}
+                  </h2>
+                  <div className="w-8 430:w-16 h-px bg-blaze shrink-0" aria-hidden="true" />
+                </div>
+                <div className="w-16 h-px bg-blaze mx-auto mt-2" aria-hidden="true" />
+              </div>
+
+              <div className="flex items-center justify-center">
+                <div
+                  className={`transition-opacity duration-1000 ease-in-out flex flex-col items-center max-w-xl ${
+                    fade ? 'opacity-100' : 'opacity-0'
+                  }`}
+                  aria-live="polite"
+                  aria-atomic="true"
+                >
+                  <div className="border border-white/10 border-t-2 border-t-blaze overflow-hidden mb-6">
+                    <Picture
+                      src={currentItem.image}
+                      alt={currentItem.title}
+                      priority={false}
+                      className="w-72 430:w-80 h-auto aspect-square object-cover"
+                    />
+                  </div>
+                  <p className="font-changa text-2xl 430:text-3xl text-white mb-3">{currentItem.title}</p>
+                  <div className="w-8 h-px bg-blaze mb-4" aria-hidden="true" />
+                  <p className="font-lato text-white/60 text-sm 430:text-base text-center leading-relaxed">
+                    {currentItem.text}
+                  </p>
+                </div>
+              </div>
+            </section>
+          </div>
         </div>
-      </main>
-    </>
+      </div>
+    </main>
   )
 }

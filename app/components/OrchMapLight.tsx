@@ -51,18 +51,19 @@ const OrchMapLight = ({ latitude, longitude, address }: { latitude: number; long
       new Style({
         text: new Text({
           text: address,
-          font: '16px lato', // Font style
-          offsetX: 123, // Position text to the right of the marker
-          offsetY: 40, // Adjust vertical position
-          rotation: 0, // Set rotation (optional)
-          rotateWithView: false, // Optional property to control rotation behavior
-          keepUpright: false, // Optional to keep text upright
-          backgroundFill: new Fill({ color: 'rgba(255, 255, 255, 0.7)' }), // Background color
+          font: '12px changa',
+          offsetX: 123,
+          offsetY: 40,
+          rotation: 0,
+          rotateWithView: false,
+          keepUpright: false,
+          fill: new Fill({ color: '#ffffff' }),
+          backgroundFill: new Fill({ color: 'rgba(0, 0, 0, 0.85)' }),
           backgroundStroke: new Stroke({
-            color: '#da0032', // Border color with opacity
-            width: 2 // Border width
+            color: '#da0032',
+            width: 2
           }),
-          padding: [20, 20, 20, 20] // Padding around the text,
+          padding: [8, 12, 8, 12]
         })
       })
     )
@@ -84,7 +85,20 @@ const OrchMapLight = ({ latitude, longitude, address }: { latitude: number; long
     return () => map.setTarget(undefined)
   }, [address, latitude, longitude])
 
-  return <div ref={mapRef} className="absolute top-0 left-0 w-full h-full overflow-hidden" />
+  return (
+    <div
+      ref={mapRef}
+      className="absolute top-0 left-0 w-full h-full overflow-hidden"
+      role="application"
+      aria-label={`Interactive map showing location of ${address}`}
+      tabIndex={0}
+      aria-describedby="map-instructions"
+    >
+      <p id="map-instructions" className="sr-only">
+        Interactive map. Use arrow keys to pan, plus and minus to zoom. Location: {address}
+      </p>
+    </div>
+  )
 }
 
 export default OrchMapLight

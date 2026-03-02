@@ -1,108 +1,119 @@
 'use client'
 
-import { AnimationGeneratorType, motion } from 'framer-motion'
-import { Home, ArrowLeft, Music } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { Home, ArrowLeft, Music, ArrowRightIcon } from 'lucide-react'
 import Link from 'next/link'
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 0.8,
+      staggerChildren: 0.15
+    }
+  }
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, easeing: 'easeOut' }
+  }
+}
+
 const Pops404 = () => {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        duration: 0.8,
-        staggerChildren: 0.15
-      }
-    }
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, easeing: 'easeOut' }
-    }
-  }
-
-  const buttonHover = {
-    scale: 1.02,
-    transition: { type: 'spring' as AnimationGeneratorType, stiffness: 400, damping: 10 }
-  }
-
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <motion.div
-        className="text-center max-w-2xl mx-auto"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        {/* Musical Icon */}
-        <motion.div className="mb-6 flex justify-center" variants={itemVariants}>
-          <div className="w-20 h-20 bg-linear-to-br from-blaze to-sunburst rounded-full flex items-center justify-center shadow-lg shadow-blaze/20">
-            <Music className="w-10 h-10 text-white" />
-          </div>
-        </motion.div>
-
-        {/* 404 Number */}
-        <motion.div className="mb-8" variants={itemVariants}>
-          <h1 className="text-8xl md:text-9xl font-light text-white tracking-tight">404</h1>
-        </motion.div>
-
-        {/* Main heading */}
-        <motion.div className="mb-6" variants={itemVariants}>
-          <h2 className="text-3xl md:text-4xl font-semibold text-white mb-4">This Page Has Left the Stage</h2>
-          <p className="text-lg text-neutral-400 leading-relaxed max-w-lg mx-auto">
-            The page you&apos;re looking for doesn&apos;t exist or has been moved. Let&apos;s get you back to the
-            performance.
-          </p>
-        </motion.div>
-
-        {/* Primary actions */}
+    <main id="main-content" className="min-h-screen flex items-center justify-center px-4 py-20">
+      <div className="relative">
         <motion.div
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12"
-          variants={itemVariants}
+          className="relative z-10 text-center max-w-[320px] 430:max-w-lg mx-auto"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
         >
-          <motion.div whileHover={buttonHover} whileTap={{ scale: 0.98 }}>
+          {/* Icon */}
+          <motion.div className="mb-8 flex justify-center" variants={itemVariants} aria-hidden="true">
+            <div className="w-16 h-16 border border-blaze/30 bg-blaze/10 flex items-center justify-center">
+              <Music className="w-7 h-7 text-blaze" />
+            </div>
+          </motion.div>
+
+          {/* 404 */}
+          <motion.div className="mb-4" variants={itemVariants}>
+            <span
+              className="font-changa text-[6rem] 430:text-[8rem] leading-none text-white/10 block"
+              aria-hidden="true"
+            >
+              404
+            </span>
+          </motion.div>
+
+          {/* Heading */}
+          <motion.div className="mb-8" variants={itemVariants}>
+            <div className="flex items-center gap-3 430:gap-4 justify-center mb-4">
+              <div className="w-8 430:w-12 h-px bg-blaze shrink-0" aria-hidden="true" />
+              <h1 className="font-changa text-2xl 430:text-3xl text-white leading-tight">
+                This Page Has Left the Stage
+              </h1>
+              <div className="w-8 430:w-12 h-px bg-blaze shrink-0" aria-hidden="true" />
+            </div>
+            <div className="w-12 h-px bg-blaze mx-auto mb-6" aria-hidden="true" />
+            <p className="font-lato text-sm 430:text-base text-white/50 leading-relaxed max-w-sm mx-auto border-l-2 border-blaze pl-5 text-left">
+              The page you&apos;re looking for doesn&apos;t exist or has been moved. Let&apos;s get you back to the
+              performance.
+            </p>
+          </motion.div>
+
+          {/* CTAs */}
+          <motion.div
+            className="flex flex-col 430:flex-row gap-3 justify-center items-center mb-10"
+            variants={itemVariants}
+          >
             <Link
               href="/"
-              className="flex items-center gap-3 bg-linear-to-r from-blaze to-sunburst hover:from-sunburst hover:to-blaze text-white px-8 py-3 rounded-lg font-medium transition-all min-w-45 justify-center shadow-lg shadow-blaze/20"
+              className="group inline-flex items-center justify-center gap-2 bg-blaze hover:bg-blazehover text-white px-8 py-4 font-changa text-xs uppercase tracking-widest transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black w-full 430:w-auto"
             >
-              <Home size={18} />
-              Return to Home
+              <Home className="w-4 h-4 shrink-0" aria-hidden="true" />
+              <span>Return Home</span>
+              <ArrowRightIcon
+                className="w-4 h-4 shrink-0 group-hover:translate-x-1 transition-transform"
+                aria-hidden="true"
+              />
             </Link>
-          </motion.div>
 
-          <motion.div whileHover={buttonHover} whileTap={{ scale: 0.98 }}>
             <Link
               href="/concerts"
-              className="flex items-center gap-3 bg-neutral-900 text-neutral-200 border border-neutral-700 hover:bg-neutral-800 hover:border-neutral-600 px-8 py-3 rounded-lg font-medium transition-all min-w-45 justify-center"
+              className="inline-flex items-center justify-center gap-2 bg-transparent border border-white/20 hover:border-blaze/50 hover:bg-blaze/5 text-white/70 hover:text-white px-8 py-4 font-changa text-xs uppercase tracking-widest transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black w-full 430:w-auto"
             >
-              <Music size={18} />
-              View Concerts
+              <Music className="w-4 h-4 shrink-0" aria-hidden="true" />
+              <span>View Concerts</span>
             </Link>
           </motion.div>
-        </motion.div>
 
-        {/* Back navigation */}
-        <motion.div variants={itemVariants}>
-          <motion.button
-            className="inline-flex items-center gap-2 text-neutral-500 hover:text-neutral-200 transition-colors font-medium"
-            whileHover={{ x: -3 }}
-            onClick={() => window.history.back()}
-          >
-            <ArrowLeft size={16} />
-            Go Back
-          </motion.button>
-        </motion.div>
+          {/* Back */}
+          <motion.div variants={itemVariants}>
+            <button
+              type="button"
+              onClick={() => window.history.back()}
+              className="inline-flex items-center gap-2 font-changa text-xs uppercase tracking-[0.25em] text-white/30 hover:text-blaze transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze"
+            >
+              <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden="true" />
+              <span>Go Back</span>
+            </button>
+          </motion.div>
 
-        {/* Branding */}
-        <motion.div className="mt-12 pt-6 border-t border-neutral-800" variants={itemVariants}>
-          <p className="text-sm text-neutral-600">© 2025 The Pops Orchestra of Sarasota and Bradenton</p>
+          {/* Credits */}
+          <motion.div className="mt-12 pt-6 border-t border-white/10" variants={itemVariants}>
+            <p className="font-lato text-[10px] uppercase tracking-widest text-white/20">
+              © {new Date().getFullYear()} The Pops Orchestra of Sarasota and Bradenton
+            </p>
+          </motion.div>
         </motion.div>
-      </motion.div>
-    </div>
+      </div>
+    </main>
   )
 }
 

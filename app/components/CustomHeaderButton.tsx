@@ -169,7 +169,6 @@ const CustomHeaderButton: React.FC<CustomHeaderButtonProps> = ({
 
   return (
     <>
-      {/* Background blur overlay when dropdown is open */}
       <AnimatePresence>
         {isDropdownOpen && type === 'dropdown' && (
           <motion.div
@@ -191,7 +190,10 @@ const CustomHeaderButton: React.FC<CustomHeaderButtonProps> = ({
           whileHover="hover"
           whileTap="tap"
           onClick={handleClick}
-          className="font-changa font-bold px-5 py-2 sm:px-6 sm:py-3 rounded-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-opacity-60 uppercase tracking-wider relative overflow-hidden cursor-pointer border-2 border-transparent hover:border-white/20 flex items-center gap-2 flex-1"
+          aria-haspopup={type === 'dropdown' ? 'menu' : undefined}
+          aria-expanded={type === 'dropdown' ? isDropdownOpen : undefined}
+          aria-label={type === 'dropdown' ? `${text} — open menu` : text}
+          className="font-changa font-bold px-5 py-2 sm:px-6 sm:py-3 transition-all duration-300 ease-in-out focus:outline-none focus-visible:ring-4 focus-visible:ring-opacity-60 uppercase tracking-wider relative overflow-hidden cursor-pointer border-2 border-transparent hover:border-white/20 flex items-center gap-2 flex-1"
           style={
             {
               backgroundColor,
@@ -202,59 +204,39 @@ const CustomHeaderButton: React.FC<CustomHeaderButtonProps> = ({
               backdropFilter: 'blur(10px)'
             } as React.CSSProperties
           }
-          aria-haspopup="menu"
-          aria-expanded={isDropdownOpen}
-          aria-label={text}
         >
-          {/* Animated background overlay */}
           <motion.div
+            aria-hidden="true"
             className="absolute inset-0 bg-linear-to-r from-white/10 via-white/20 to-white/10 opacity-0"
-            animate={{
-              x: ['-100%', '100%'],
-              opacity: [0, 1, 0]
-            }}
-            transition={{
-              duration: 2,
-              ease: 'linear',
-              repeat: Infinity,
-              repeatDelay: 3
-            }}
+            animate={{ x: ['-100%', '100%'], opacity: [0, 1, 0] }}
+            transition={{ duration: 2, ease: 'linear', repeat: Infinity, repeatDelay: 3 }}
           />
-
-          {/* Pulsing dot effect */}
           <motion.div
+            aria-hidden="true"
             className="absolute top-1 right-1 w-2 h-2 bg-white/60 rounded-full"
-            animate={{
-              scale: [1, 1.5, 1],
-              opacity: [0.6, 1, 0.6]
-            }}
-            transition={{
-              duration: 2,
-              ease: 'easeInOut',
-              repeat: Infinity
-            }}
+            animate={{ scale: [1, 1.5, 1], opacity: [0.6, 1, 0.6] }}
+            transition={{ duration: 2, ease: 'easeInOut', repeat: Infinity }}
           />
 
           <span className="relative z-10 drop-shadow-lg">{text}</span>
 
-          {/* Dropdown chevron */}
           {type === 'dropdown' && (
             <motion.div
+              aria-hidden="true"
               className="relative z-10"
               animate={{ rotate: isDropdownOpen ? 180 : 0 }}
               transition={{ duration: 0.2 }}
             >
-              <ChevronDown className="w-4 h-4" aria-hidden="true" />
+              <ChevronDown className="w-4 h-4" />
             </motion.div>
           )}
         </motion.button>
 
-        {/* Dropdown Menu */}
         <AnimatePresence>
           {isDropdownOpen && type === 'dropdown' && dropdownItems.length > 0 && (
-            <motion.div
+            <motion.ul
               role="menu"
-              aria-label={`${text} dropdown menu`}
+              aria-label={`${text} menu`}
               initial={{ opacity: 0, y: -10, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.95 }}
@@ -262,42 +244,50 @@ const CustomHeaderButton: React.FC<CustomHeaderButtonProps> = ({
               className="absolute top-full right-0 mt-2 min-w-60 bg-inkblack backdrop-blur-lg rounded-lg shadow-xl z-50 overflow-hidden"
             >
               {dropdownItems.map((item, index) => (
-                <motion.button
-                  key={item.id}
-                  role="menuitem"
-                  onClick={() => {
-                    handleGAEvent(item)
-                    handleDropdownItemClick(item)
-                  }}
-                  className="w-full px-4 py-3 text-left text-white hover:text-blaze transition-colors duration-200 first:rounded-t-lg last:rounded-b-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
-                  whileHover={{ x: 4 }}
-                  whileTap={{ scale: 0.98 }}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                >
-                  <div className="flex items-center gap-2">
-                    {item.icon && <span className="text-sm">{item.icon}</span>}
-                    <span className="font-medium whitespace-nowrap">{item.text}</span>
-                    {item.linkType === 'external' && (
-                      <svg
-                        className="w-3 h-3 text-gray-400 ml-auto"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                        />
-                      </svg>
-                    )}
-                  </div>
-                </motion.button>
+                <li key={item.id} role="none">
+                  <motion.button
+                    type="button"
+                    role="menuitem"
+                    aria-label={item.linkType === 'external' ? `${item.text} — opens in new tab` : item.text}
+                    onClick={() => {
+                      handleGAEvent(item)
+                      handleDropdownItemClick(item)
+                    }}
+                    className="w-full px-4 py-3 text-left text-white hover:text-blaze transition-colors duration-200 first:rounded-t-lg last:rounded-b-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-inkblack"
+                    whileHover={{ x: 4 }}
+                    whileTap={{ scale: 0.98 }}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.05 }}
+                  >
+                    <div className="flex items-center gap-2">
+                      {item.icon && (
+                        <span className="text-sm" aria-hidden="true">
+                          {item.icon}
+                        </span>
+                      )}
+                      <span className="font-medium whitespace-nowrap">{item.text}</span>
+                      {item.linkType === 'external' && (
+                        <svg
+                          className="w-3 h-3 text-gray-400 ml-auto"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          aria-hidden="true"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                          />
+                        </svg>
+                      )}
+                    </div>
+                  </motion.button>
+                </li>
               ))}
-            </motion.div>
+            </motion.ul>
           )}
         </AnimatePresence>
       </div>

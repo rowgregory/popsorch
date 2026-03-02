@@ -9,9 +9,9 @@ interface BreadcrumbProps {
 
 const Breadcrumb: FC<BreadcrumbProps> = ({ breadcrumb, classname, secondCrumb }) => {
   return (
-    <div className="px-4 sm:px-6 py-3 bg-white">
+    <div className="px-4 990:px-8 1200:px-12 py-3 bg-white">
       <div
-        className={`max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-y-1 gap-x-4 min-w-0 ${classname ?? ''}`}
+        className={`w-full mx-auto max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 1590:max-w-7xl flex flex-wrap items-center justify-between gap-y-1 gap-x-4 min-w-0 ${classname ?? ''}`}
       >
         <h1 className="text-blaze font-changa text-xl sm:text-2xl truncate">{breadcrumb}</h1>
 

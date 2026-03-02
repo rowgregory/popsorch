@@ -11,7 +11,8 @@
 
 /* ─── Root Variables ─────────────────────────────────────────────────── */
 :root {
-  --background: #0a1120;
+  --background: #000;
+  /* --background: #0a1120; */
   --foreground: #ededed;
   color-scheme: dark;
   --color-gradient: var(--color-primary-dark);
@@ -36,12 +37,10 @@
   --max-width-1320: 1320px;
 
   /* Background Images */
-  --background-image-banner: url("/images/m-6.jpg");
   --background-image-headerbg: url("/images/header-bg.png");
   --background-image-golden50Logo: url("/images/golden-logo.png");
   --background-image-white50Logo: url("/images/white-logo.png");
   --background-image-grain: url("/images/grain.png");
-  --background-image-gold-gradient: linear-gradient(to right, #db9e45, #f5b424);
 
   /* Animations */
   --animate-grain: grain 8s steps(10) infinite;
@@ -107,15 +106,6 @@
   --font-family-raleway: var(--font-raleway);
   --font-family-changa: var(--font-changa);
   --font-family-lato: var(--font-lato);
-}
-
-/* ─── Font Face ──────────────────────────────────────────────────────── */
-@font-face {
-  font-family: "OpenDyslexic";
-  src: url("/fonts/open-dyslexic/OpenDyslexic-Regular.otf") format("opentype");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
 }
 
 /* ─── Keyframes ──────────────────────────────────────────────────────── */
@@ -188,6 +178,8 @@ body {
     system-ui,
     -apple-system,
     sans-serif;
+
+  background-color: black;
 }
 
 /* ─── Autofill Override ──────────────────────────────────────────────── */
@@ -198,52 +190,4 @@ input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 1000px #111111 inset !important;
   -webkit-text-fill-color: #ededed !important;
   caret-color: #ededed;
-}
-
-/* ─── Accessibility ──────────────────────────────────────────────────── */
-.dyslexia-friendly h1,
-.dyslexia-friendly h2,
-.dyslexia-friendly h3,
-.dyslexia-friendly h4,
-.dyslexia-friendly h5,
-.dyslexia-friendly h6,
-.dyslexia-friendly a,
-.dyslexia-friendly p,
-.dyslexia-friendly label,
-.dyslexia-friendly li,
-.dyslexia-friendly span,
-.dyslexia-friendly button,
-.dyslexia-friendly input,
-.dyslexia-friendly textarea {
-  font-family: "OpenDyslexic", sans-serif !important;
-}
-
-/* High Contrast */
-[data-high-contrast="true"] {
-  background-color: #000 !important;
-  color: #fff !important;
-}
-
-[data-high-contrast="true"] button,
-[data-high-contrast="true"] input,
-[data-high-contrast="true"] select,
-[data-high-contrast="true"] select,
-[data-high-contrast="true"] textarea {
-  background-color: #fff !important;
-  color: #000 !important;
-  border: 2px solid #fff !important;
-}
-
-[data-high-contrast="true"] h1,
-[data-high-contrast="true"] h2,
-[data-high-contrast="true"] h3,
-[data-high-contrast="true"] h4,
-[data-high-contrast="true"] h5,
-[data-high-contrast="true"] h6 {
-  color: #ff00ff !important;
-}
-
-[data-high-contrast="true"] a {
-  color: #0ff !important;
-  text-decoration: underline !important;
 }

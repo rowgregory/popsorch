@@ -1,4 +1,4 @@
-import { Reducer, createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, Reducer, createSlice } from '@reduxjs/toolkit'
 
 export interface FetchDashboardDataQueryTypes {
   error: { data: { message: string } }
@@ -38,7 +38,7 @@ export interface AppStatePayload {
   } | null
   mediaData: ModalUploaderPayload
   openModalImageUploaderPublic: boolean
-  drawerList: []
+  drawerList: any
   selectedIndex: any
   isOnline: boolean
   toggleHeaderButtonStudio: boolean
@@ -142,6 +142,9 @@ export const appSlice = createSlice({
     },
     setCloseHeaderButtonStudio: (state) => {
       state.toggleHeaderButtonStudio = false
+    },
+    goToSpecificDrawerItem: (state, action: PayloadAction<number>) => {
+      state.selectedIndex = action.payload
     }
   }
 })
@@ -164,5 +167,6 @@ export const {
   goToNextDrawerItem,
   goToPrevDrawerItem,
   setOpenHeaderButtonStudio,
-  setCloseHeaderButtonStudio
+  setCloseHeaderButtonStudio,
+  goToSpecificDrawerItem
 } = appSlice.actions

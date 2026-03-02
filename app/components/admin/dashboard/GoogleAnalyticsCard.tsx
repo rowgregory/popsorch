@@ -31,7 +31,7 @@ export default function GoogleAnalyticsCard({ credentials }: { credentials: Anal
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-neutral-900 border border-neutral-800 rounded-xl p-6 flex flex-col justify-between"
+      className="bg-neutral-900 border border-neutral-800 p-6 flex flex-col justify-between"
     >
       <div>
         {/* Header */}
@@ -52,7 +52,7 @@ export default function GoogleAnalyticsCard({ credentials }: { credentials: Anal
               Analytics ID
             </label>
             <div className="flex items-center gap-2">
-              <div className="flex-1 px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg">
+              <div className="flex-1 px-3 py-2 bg-neutral-800 border border-neutral-700">
                 <code className="text-sm text-neutral-200 font-mono">{credentials.analyticsId}</code>
               </div>
             </div>
@@ -65,12 +65,12 @@ export default function GoogleAnalyticsCard({ credentials }: { credentials: Anal
               Email
             </label>
             <div className="flex items-center gap-2">
-              <div className="flex-1 px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg">
+              <div className="flex-1 px-3 py-2 bg-neutral-800 border border-neutral-700">
                 <code className="text-sm text-neutral-200 font-mono">{credentials.email}</code>
               </div>
               <button
                 onClick={() => handleCopy(credentials.email, 'email')}
-                className="flex-1 sm:flex-none px-3 py-2 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 rounded-lg transition-colors"
+                className="flex-1 sm:flex-none px-3 py-2 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 transition-colors"
                 title="Copy email"
               >
                 {copiedEmail ? (
@@ -89,7 +89,7 @@ export default function GoogleAnalyticsCard({ credentials }: { credentials: Anal
               Password
             </label>
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-              <div className="flex-1 px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg">
+              <div className="flex-1 px-3 py-2 bg-neutral-800 border border-neutral-700">
                 <code className="block text-neutral-200 font-mono text-xs sm:text-sm break-all">
                   {showPassword ? credentials.password : '••••••••••••••••••'}
                 </code>
@@ -97,7 +97,7 @@ export default function GoogleAnalyticsCard({ credentials }: { credentials: Anal
               <div className="flex gap-2">
                 <button
                   onClick={() => setShowPassword(!showPassword)}
-                  className="flex-1 sm:flex-none px-3 py-2 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 rounded-lg transition-colors"
+                  className="flex-1 sm:flex-none px-3 py-2 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 transition-colors"
                   title={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? (
@@ -108,7 +108,7 @@ export default function GoogleAnalyticsCard({ credentials }: { credentials: Anal
                 </button>
                 <button
                   onClick={() => handleCopy(credentials.password, 'password')}
-                  className="flex-1 sm:flex-none px-3 py-2 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 rounded-lg transition-colors"
+                  className="flex-1 sm:flex-none px-3 py-2 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 transition-colors"
                   title="Copy password"
                 >
                   {copiedPassword ? (
@@ -127,7 +127,7 @@ export default function GoogleAnalyticsCard({ credentials }: { credentials: Anal
         href={credentials.gcpUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-linear-to-r from-[#E37400] to-[#F9AB00] hover:from-[#F08000] hover:to-[#FBBC04] text-white font-semibold rounded-lg transition-all shadow-lg shadow-[#E37400]/20"
+        className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-linear-to-r from-[#E37400] to-[#F9AB00] hover:from-[#F08000] hover:to-[#FBBC04] text-white font-semibold transition-all shadow-lg shadow-[#E37400]/20"
       >
         Open Google Analytics
         <ExternalLink className="w-4 h-4" />

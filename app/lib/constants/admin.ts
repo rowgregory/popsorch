@@ -8,13 +8,11 @@ export const pageContentEditorFolders = [
   { textKey: 'contact', value: 'contact' },
   { textKey: 'footer', value: 'footer' },
   { textKey: 'hiddenGems', value: 'hidden-gems' },
-  { textKey: 'media', value: 'media' },
   { textKey: 'robynBell', value: 'robyn-bell' },
-  { textKey: 'sponsors', value: 'sponsors' },
   { textKey: 'sponsorshipOpportunities', value: 'sponsorship-opportunities' },
   { textKey: 'studentPerformers', value: 'student-performers' },
   { textKey: 'studentScholarships', value: 'student-scholarships' },
-  { textKey: 'venues', value: 'venues' }
+  { textKey: 'sundaysAtNeel', value: 'sundays-at-neel' }
 ]
 
 export const levelColors: Record<string, string> = {

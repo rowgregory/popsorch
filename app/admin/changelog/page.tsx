@@ -17,6 +17,33 @@ interface ChangelogEntry {
 
 const changelogData: ChangelogEntry[] = [
   {
+    version: '3.4.0',
+    date: '2026-03-01',
+    changes: [
+      {
+        type: 'improvement',
+        title: 'ADA/WCAG 2.1 AA Compliance — Components',
+        description:
+          'Audited and updated all frontend components. Changes include role="status" aria-live="polite" on dynamic content, role="switch" aria-pressed on toggles, role="dialog" aria-modal on drawers, aria-hidden on decorative elements, aria-label on all interactive elements, focus-visible:ring-2 ring-blaze on all focusable elements, and semantic HTML replacements.',
+        impact: 'high'
+      },
+      {
+        type: 'ui',
+        title: 'Page Redesigns — Design System Alignment',
+        description:
+          'Rebuilt Student Scholarships, Contact, Chair Sponsorships, Robyn Bell, Supporter Dashboard, 404, and Venues pages to match site design system. All pages now use gap-px bg-white/10 grid, parallax bio-bg.png background, flanking blaze line headers, divide-y divide-white/10 lists, and border-l-2 border-blaze first paragraph treatment. Removed all duskgray cards, rounded-md, and bg-neutral-* colors.',
+        impact: 'high'
+      },
+      {
+        type: 'breaking',
+        title: 'Accessibility Drawer Removed',
+        description:
+          'Removed the accessibility overlay drawer entirely. All public-facing pages already meet WCAG 2.1 AA through proper semantic HTML, ARIA attributes, focus management, and color contrast — making the overlay redundant. Overlay tools are also known to interfere with native assistive technologies like screen readers, and the features they provide (text size, contrast, font) are better handled by OS and browser-level tools. The engineering investment has been redirected to ensuring underlying component compliance.',
+        impact: 'medium'
+      }
+    ]
+  },
+  {
     version: '3.3.1',
     date: '2026-02-27',
     changes: [

@@ -199,7 +199,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                 type="text"
                 value={buttonConfig.text}
                 onChange={(e) => setButtonConfig((prev: any) => ({ ...prev, text: e.target.value }))}
-                className="w-full px-4 py-3 bg-neutral-700 border border-neutral-600 rounded-lg text-white placeholder-neutral-400 focus:border-blue-500 focus:outline-none text-lg"
+                className="w-full px-4 py-3 bg-neutral-700 border border-neutral-600  text-white placeholder-neutral-400 focus:border-sky-500 focus:outline-none text-lg"
                 placeholder="Enter button text"
               />
             </div>
@@ -220,7 +220,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                       }
                     }))
                   }
-                  className="w-full px-4 py-3 bg-neutral-700 border border-neutral-600 rounded-lg text-white placeholder-neutral-400 focus:border-blue-500 focus:outline-none text-lg"
+                  className="w-full px-4 py-3 bg-neutral-700 border border-neutral-600  text-white placeholder-neutral-400 focus:border-sky-500 focus:outline-none text-lg"
                   placeholder="Enter secondary button text"
                 />
               </div>
@@ -243,13 +243,13 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                     type="color"
                     value={buttonConfig.fontColor}
                     onChange={(e) => setButtonConfig((prev: any) => ({ ...prev, fontColor: e.target.value }))}
-                    className="w-12 h-12 rounded-lg border border-neutral-600 bg-neutral-800 cursor-pointer"
+                    className="w-12 h-12  border border-neutral-600 bg-neutral-800 cursor-pointer"
                   />
                   <input
                     type="text"
                     value={buttonConfig.fontColor}
                     onChange={(e) => setButtonConfig((prev: any) => ({ ...prev, fontColor: e.target.value }))}
-                    className="flex-1 px-3 py-2 bg-neutral-700 border border-neutral-600 rounded-lg text-white text-sm"
+                    className="flex-1 px-3 py-2 bg-neutral-700 border border-neutral-600  text-white text-sm"
                   />
                 </div>
               </div>
@@ -260,13 +260,13 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                     type="color"
                     value={buttonConfig.backgroundColor}
                     onChange={(e) => setButtonConfig((prev: any) => ({ ...prev, backgroundColor: e.target.value }))}
-                    className="w-12 h-12 rounded-lg border border-neutral-600 bg-neutral-800 cursor-pointer"
+                    className="w-12 h-12  border border-neutral-600 bg-neutral-800 cursor-pointer"
                   />
                   <input
                     type="text"
                     value={buttonConfig.backgroundColor}
                     onChange={(e) => setButtonConfig((prev: any) => ({ ...prev, backgroundColor: e.target.value }))}
-                    className="flex-1 px-3 py-2 bg-neutral-700 border border-neutral-600 rounded-lg text-white text-sm"
+                    className="flex-1 px-3 py-2 bg-neutral-700 border border-neutral-600  text-white text-sm"
                   />
                 </div>
               </div>
@@ -303,9 +303,9 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                         whileHover={{ scale: 1.01 }}
                         whileTap={{ scale: 0.99 }}
                         onClick={() => setButtonConfig((prev: any) => ({ ...prev, linkType: type.value, link: '' }))}
-                        className={`p-4 rounded-lg border-2 transition-all text-left ${
+                        className={`p-4  border-2 transition-all text-left ${
                           buttonConfig.linkType === type.value
-                            ? 'border-blue-500 bg-blue-500/10 text-blue-400'
+                            ? 'border-sky-500 bg-sky-500/10 text-sky-400'
                             : 'border-neutral-600 bg-neutral-700 text-neutral-300 hover:border-neutral-500'
                         }`}
                       >
@@ -337,7 +337,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                     type="text"
                     value={buttonConfig.link}
                     onChange={(e) => setButtonConfig((prev: any) => ({ ...prev, link: e.target.value }))}
-                    className="w-full px-4 py-3 bg-neutral-700 border border-neutral-600 rounded-lg text-white placeholder-neutral-400 focus:border-blue-500 focus:outline-none"
+                    className="w-full px-4 py-3 bg-neutral-700 border border-neutral-600  text-white placeholder-neutral-400 focus:border-sky-500 focus:outline-none"
                     placeholder={getLinkPlaceholder()}
                   />
                   <div className="text-xs text-neutral-400">
@@ -371,9 +371,9 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                               }
                             }))
                           }
-                          className={`p-4 rounded-lg border-2 transition-all text-left ${
+                          className={`p-4  border-2 transition-all text-left ${
                             buttonConfig.secondaryButton?.linkType === type.value
-                              ? 'border-blue-500 bg-blue-500/10 text-blue-400'
+                              ? 'border-sky-500 bg-sky-500/10 text-sky-400'
                               : 'border-neutral-600 bg-neutral-700 text-neutral-300 hover:border-neutral-500'
                           }`}
                         >
@@ -417,7 +417,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                             }
                           }))
                         }
-                        className="w-full px-4 py-3 bg-neutral-700 border border-neutral-600 rounded-lg text-white placeholder-neutral-400 focus:border-blue-500 focus:outline-none"
+                        className="w-full px-4 py-3 bg-neutral-700 border border-neutral-600  text-white placeholder-neutral-400 focus:border-sky-500 focus:outline-none"
                         placeholder={
                           buttonConfig.secondaryButton?.linkType === 'phone'
                             ? '+1-555-123-4567'
@@ -453,7 +453,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
               {animations.map((animation) => (
                 <motion.div
                   key={animation.id}
-                  className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-300 ${
+                  className={`p-4  border-2 cursor-pointer transition-all duration-300 ${
                     selectedAnimation === animation.id
                       ? 'border-purple-500 bg-purple-500/10'
                       : 'border-neutral-600 bg-neutral-700 hover:border-neutral-500'
@@ -476,7 +476,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                           e.stopPropagation()
                           playPreview(animation.id)
                         }}
-                        className="px-3 py-1 text-xs bg-purple-500 text-white rounded-full hover:bg-purple-600 transition-colors flex items-center gap-1"
+                        className="px-3 py-1 text-xs bg-purple-500 text-white -full hover:bg-purple-600 transition-colors flex items-center gap-1"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                       >
@@ -485,7 +485,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                       </motion.button>
                       {selectedAnimation === animation.id && (
                         <motion.div
-                          className="w-2 h-2 bg-purple-500 rounded-full"
+                          className="w-2 h-2 bg-purple-500 -full"
                           initial={{ scale: 0 }}
                           animate={{ scale: 1 }}
                           transition={{ type: 'spring', stiffness: 500 }}
@@ -510,7 +510,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
         <label className="block text-sm font-medium text-neutral-300 mb-4">Choose Button Type</label>
         <div className="space-y-3">
           <motion.label
-            className="flex items-center p-4 border border-neutral-600 rounded-lg cursor-pointer hover:border-blue-500 transition-colors"
+            className="flex items-center p-4 border border-neutral-600  cursor-pointer hover:border-sky-500 transition-colors"
             whileHover={{ scale: 1.02 }}
           >
             <input
@@ -525,10 +525,10 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                   dropdownItems: []
                 })
               }
-              className="mr-3 text-blue-600"
+              className="mr-3 text-sky-600"
             />
             <div className="flex items-center">
-              <ExternalLink className="w-5 h-5 mr-3 text-blue-400" />
+              <ExternalLink className="w-5 h-5 mr-3 text-sky-400" />
               <div>
                 <span className="text-white font-medium">Regular Button</span>
                 <p className="text-sm text-neutral-400">Simple button that links to a page</p>
@@ -537,7 +537,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
           </motion.label>
 
           <motion.label
-            className="flex items-center p-4 border border-neutral-600 rounded-lg cursor-pointer hover:border-blue-500 transition-colors"
+            className="flex items-center p-4 border border-neutral-600  cursor-pointer hover:border-sky-500 transition-colors"
             whileHover={{ scale: 1.02 }}
           >
             <input
@@ -558,7 +558,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                   }
                 })
               }
-              className="mr-3 text-blue-600"
+              className="mr-3 text-sky-600"
             />
             <div className="flex items-center">
               <div className="w-5 h-5 mr-3 text-green-400 flex items-center gap-1">
@@ -573,7 +573,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
           </motion.label>
 
           <motion.label
-            className="flex items-center p-4 border border-neutral-600 rounded-lg cursor-pointer hover:border-blue-500 transition-colors"
+            className="flex items-center p-4 border border-neutral-600  cursor-pointer hover:border-sky-500 transition-colors"
             whileHover={{ scale: 1.02 }}
           >
             <input
@@ -588,7 +588,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                   link: ''
                 })
               }
-              className="mr-3 text-blue-600"
+              className="mr-3 text-sky-600"
             />
             <div className="flex items-center">
               <ChevronDown className="w-5 h-5 mr-3 text-purple-400" />
@@ -612,7 +612,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
             <h3 className="text-lg font-medium text-white">Dropdown Items</h3>
             <motion.button
               onClick={addDropdownItem}
-              className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2 text-sm"
+              className="px-3 py-2 bg-sky-600 text-white  hover:bg-sky-700 transition-colors flex items-center gap-2 text-sm"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -622,7 +622,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
           </div>
 
           {buttonConfig.dropdownItems.length === 0 ? (
-            <div className="text-center py-6 border border-neutral-600 border-dashed rounded-lg">
+            <div className="text-center py-6 border border-neutral-600 border-dashed ">
               <ChevronDown className="w-8 h-8 text-neutral-600 mx-auto mb-2" />
               <p className="text-neutral-400 text-sm">No dropdown items yet</p>
             </div>
@@ -633,7 +633,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                   key={item.id}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="bg-neutral-800 border border-neutral-700 rounded-lg p-3"
+                  className="bg-neutral-800 border border-neutral-700  p-3"
                 >
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
@@ -642,7 +642,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                     </div>
                     <button
                       onClick={() => removeDropdownItem(index)}
-                      className="p-1 hover:bg-neutral-700 rounded text-red-400 hover:text-red-300 transition-colors"
+                      className="p-1 hover:bg-neutral-700  text-red-400 hover:text-red-300 transition-colors"
                     >
                       <Trash2 className="w-3 h-3" />
                     </button>
@@ -653,16 +653,16 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                       type="text"
                       value={item.text}
                       onChange={(e) => updateDropdownItem(index, 'text', e.target.value)}
-                      className="w-full px-2 py-1 bg-neutral-900 border border-neutral-600 rounded text-white placeholder-neutral-500 text-sm"
+                      className="w-full px-2 py-1 bg-neutral-900 border border-neutral-600  text-white placeholder-neutral-500 text-sm"
                       placeholder="Menu item text"
                     />
 
                     <div className="flex gap-2">
                       <button
                         onClick={() => updateDropdownItem(index, 'linkType', 'internal')}
-                        className={`flex-1 px-2 py-1 rounded text-xs font-medium transition-colors ${
+                        className={`flex-1 px-2 py-1  text-xs font-medium transition-colors ${
                           item.linkType === 'internal'
-                            ? 'bg-blue-600 text-white'
+                            ? 'bg-sky-600 text-white'
                             : 'bg-neutral-700 text-neutral-300 hover:bg-neutral-600'
                         }`}
                       >
@@ -670,9 +670,9 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                       </button>
                       <button
                         onClick={() => updateDropdownItem(index, 'linkType', 'external')}
-                        className={`flex-1 px-2 py-1 rounded text-xs font-medium transition-colors ${
+                        className={`flex-1 px-2 py-1  text-xs font-medium transition-colors ${
                           item.linkType === 'external'
-                            ? 'bg-blue-600 text-white'
+                            ? 'bg-sky-600 text-white'
                             : 'bg-neutral-700 text-neutral-300 hover:bg-neutral-600'
                         }`}
                       >
@@ -684,7 +684,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                       type="text"
                       value={item.link}
                       onChange={(e) => updateDropdownItem(index, 'link', e.target.value)}
-                      className="w-full px-2 py-1 bg-neutral-900 border border-neutral-600 rounded text-white placeholder-neutral-500 text-sm"
+                      className="w-full px-2 py-1 bg-neutral-900 border border-neutral-600  text-white placeholder-neutral-500 text-sm"
                       placeholder={item.linkType === 'external' ? 'https://example.com' : '/link-url'}
                     />
                   </div>
@@ -720,12 +720,10 @@ const HeaderButtonStudioDrawer = ({ data }) => {
 
     try {
       await createHeaderButton(buttonData)
-
+      router.refresh()
       setButtonConfig(initialButtonState)
       setSelectedAnimation('scale')
       setActiveTab('text')
-
-      router.refresh()
       dispatch(
         showToast({
           message: 'Header button created successfully!',
@@ -744,11 +742,10 @@ const HeaderButtonStudioDrawer = ({ data }) => {
 
   const handleAssignHeaderButton = async (e: any, buttonId: string) => {
     e.stopPropagation()
-    setAssigningId(buttonId)
 
     try {
+      setAssigningId(buttonId)
       await assignHeaderButton(buttonId)
-      // Refresh data
       router.refresh()
       dispatch(
         showToast({
@@ -802,11 +799,10 @@ const HeaderButtonStudioDrawer = ({ data }) => {
     try {
       await updateHeaderButton(buttonId, buttonData)
 
-      setLoadingUpdate({ [buttonId]: false })
+      router.refresh()
       setActiveTab('text')
       setButtonConfig(initialButtonState)
 
-      router.refresh()
       dispatch(
         showToast({
           message: 'Header button updated successfully!',
@@ -814,14 +810,14 @@ const HeaderButtonStudioDrawer = ({ data }) => {
         })
       )
     } catch (error) {
-      setLoadingUpdate({ [buttonId]: false })
-
       dispatch(
         showToast({
           message: error instanceof Error ? error.message : 'Failed to update header button',
           type: 'error'
         })
       )
+    } finally {
+      setLoadingUpdate({ [buttonId]: false })
     }
   }
 
@@ -832,14 +828,14 @@ const HeaderButtonStudioDrawer = ({ data }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-neutral-950 z-50 flex"
+          className="fixed inset-0 bg-black z-50 flex"
         >
           {/* Left Navigation Panel */}
           <div className="w-80 border-r border-neutral-700 flex flex-col">
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-neutral-700">
               <h2 className="text-xl font-semibold text-white">Header Button Studio</h2>
-              <button onClick={onClose} className="p-2 hover:bg-neutral-700 rounded-lg transition-colors">
+              <button onClick={onClose} className="p-2 hover:bg-neutral-700  transition-colors">
                 <X className="w-5 h-5 text-neutral-400" />
               </button>
             </div>
@@ -851,10 +847,10 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                   <motion.button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`p-3 rounded-lg transition-all flex flex-col items-center gap-1 ${
+                    className={`p-3  transition-all flex flex-col items-center gap-1 ${
                       activeTab === tab.id
-                        ? 'bg-blue-500 text-white'
-                        : 'bg-neutral-700 text-neutral-300 hover:bg-neutral-600'
+                        ? 'bg-sky-500 text-white'
+                        : 'bg-neutral-800 text-neutral-300 hover:bg-neutral-900'
                     }`}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
@@ -874,7 +870,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
               <div className="flex gap-3">
                 <button
                   onClick={onClose}
-                  className="flex-1 px-4 py-3 bg-neutral-700 text-neutral-300 rounded-lg hover:bg-neutral-600 transition-colors"
+                  className="flex-1 px-4 py-3 bg-neutral-700 text-neutral-300  hover:bg-neutral-600 transition-colors"
                 >
                   Cancel
                 </button>
@@ -889,7 +885,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                   onClick={(e) =>
                     buttonConfig.id !== '' ? handleUpdateHeaderButton(e, buttonConfig.id) : handleCreateHeaderButton()
                   }
-                  className={`flex-1 px-4 py-3 rounded-lg transition-colors font-medium disabled:cursor-not-allowed bg-blue-600 hover:bg-blue-700 text-white disabled:bg-neutral-500'
+                  className={`flex-1 px-4 py-3  transition-colors font-medium disabled:cursor-not-allowed bg-sky-600 hover:bg-sky-700 text-white disabled:bg-neutral-500'
                   }`}
                 >
                   {loadingUpdate[buttonConfig.id] ? 'Saving' : 'Save Button'}
@@ -902,30 +898,29 @@ const HeaderButtonStudioDrawer = ({ data }) => {
           {headerButtons?.length > 0 && (
             <motion.div
               initial={{ width: 0, opacity: 0 }}
-              animate={{ width: 320, opacity: 1 }}
+              animate={{ width: 256, opacity: 1 }}
               exit={{ width: 0, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="w-80 border-r border-neutral-700 flex flex-col"
+              className="w-64 border-r border-neutral-700 flex flex-col"
             >
-              {/* Saved Buttons Header */}
+              {/* Header */}
+
               <div className="px-6 py-4.5 border-b border-neutral-700">
                 <h3 className="text-lg font-semibold text-white">Saved Buttons</h3>
-                <p className="text-sm text-neutral-400">
-                  {headerButtons.length} button{headerButtons?.length !== 1 ? 's' : ''} created
-                </p>
+                <p className="text-sm text-neutral-400">{headerButtons.length}</p>
               </div>
 
-              {/* Saved Buttons List */}
-              <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              {/* List */}
+              <div className="overflow-y-auto p-2 flex flex-col gap-1.5">
                 {headerButtons?.map((button: any) => (
                   <motion.div
                     key={button.id}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className={`p-4 rounded-lg border-2 transition-all cursor-pointer ${
+                    className={`p-3 border transition-all cursor-pointer rounded-sm ${
                       buttonConfig.id === button.id
-                        ? 'border-blue-500 bg-blue-500/10'
-                        : 'border-neutral-600 bg-neutral-700/50 hover:border-neutral-500'
+                        ? 'border-sky-500 bg-sky-500/10'
+                        : 'border-neutral-700 bg-neutral-800/50 hover:border-neutral-500 hover:bg-neutral-700/50'
                     }`}
                     onClick={() => {
                       if (buttonConfig.id !== '') {
@@ -946,7 +941,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                         // Dropdown Preview
                         <div className="relative inline-block">
                           <motion.button
-                            className="flex items-center gap-2 px-6 py-3 rounded-lg font-medium"
+                            className="flex items-center gap-2 px-6 py-3  font-medium"
                             variants={animations.find((a) => a.id === button.animation)?.variants}
                             initial="initial"
                             whileHover="hover"
@@ -959,7 +954,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                             <ChevronDown className="w-4 h-4" />
                           </motion.button>
                           {/* {button.dropdownItems?.length > 0 && (
-                            <div className="absolute top-full left-0 mt-2 bg-[#1a1a1a] border border-zinc-900 rounded-lg shadow-lg min-w-48 z-10">
+                            <div className="absolute top-full left-0 mt-2 bg-[#1a1a1a] border border-zinc-900  shadow-lg min-w-48 z-10">
                               {button.dropdownItems.slice(0, 2).map((item: any, idx: number) => (
                                 <div
                                   key={idx}
@@ -980,7 +975,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                         // Double Button Preview
                         <>
                           <motion.button
-                            className="px-6 py-3 rounded-lg font-medium relative overflow-hidden shadow-md"
+                            className="px-6 py-3  font-medium relative overflow-hidden shadow-md"
                             variants={animations.find((a) => a.id === button.animation)?.variants}
                             initial="initial"
                             whileHover="hover"
@@ -992,14 +987,14 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                             <span className="relative z-10">{button.text}</span>
                             {button.animation === 'glow' && (
                               <motion.div
-                                className="absolute inset-0 bg-linear-to-r from-purple-400/20 to-pink-400/20 rounded-lg"
+                                className="absolute inset-0 bg-linear-to-r from-purple-400/20 to-pink-400/20 "
                                 whileHover={{ opacity: [0.5, 0.8, 0.5], scale: [1, 1.05, 1] }}
                                 transition={{ duration: 1.5, repeat: Infinity }}
                               />
                             )}
                           </motion.button>
                           <motion.button
-                            className="px-6 py-3 rounded-lg font-medium relative overflow-hidden shadow-md"
+                            className="px-6 py-3  font-medium relative overflow-hidden shadow-md"
                             variants={animations.find((a) => a.id === button.animation)?.variants}
                             initial="initial"
                             whileHover="hover"
@@ -1011,7 +1006,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                             <span className="relative z-10">{button.secondaryButton?.text}</span>
                             {button.animation === 'glow' && (
                               <motion.div
-                                className="absolute inset-0 bg-linear-to-r from-purple-400/20 to-pink-400/20 rounded-lg"
+                                className="absolute inset-0 bg-linear-to-r from-purple-400/20 to-pink-400/20 "
                                 whileHover={{ opacity: [0.5, 0.8, 0.5], scale: [1, 1.05, 1] }}
                                 transition={{ duration: 1.5, repeat: Infinity }}
                               />
@@ -1021,7 +1016,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                       ) : (
                         // Single Button Preview
                         <motion.button
-                          className="px-6 py-3 rounded-lg font-medium relative overflow-hidden shadow-md"
+                          className="px-6 py-3  font-medium relative overflow-hidden shadow-md"
                           variants={animations.find((a) => a.id === button.animation)?.variants}
                           initial="initial"
                           whileHover="hover"
@@ -1033,7 +1028,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                           <span className="relative z-10">{button.text}</span>
                           {button.animation === 'glow' && (
                             <motion.div
-                              className="absolute inset-0 bg-linear-to-r from-purple-400/20 to-pink-400/20 rounded-lg"
+                              className="absolute inset-0 bg-linear-to-r from-purple-400/20 to-pink-400/20 "
                               whileHover={{ opacity: [0.5, 0.8, 0.5], scale: [1, 1.05, 1] }}
                               transition={{ duration: 1.5, repeat: Infinity }}
                             />
@@ -1047,7 +1042,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                       <div className="flex items-center justify-between">
                         <span className="text-white font-medium text-sm truncate">{button.text}</span>
                         {buttonConfig.id === button.id && (
-                          <span className="text-xs bg-blue-500 text-white px-2 py-1 rounded-full">Editing</span>
+                          <span className="text-xs bg-sky-500 text-white px-2 py-1 -full">Editing</span>
                         )}
                       </div>
 
@@ -1055,7 +1050,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                         {/* Button Type */}
                         <div className="flex items-center gap-2">
                           <span>Type:</span>
-                          <span className="text-blue-300 capitalize">
+                          <span className="text-sky-300 capitalize">
                             {button.type === 'double'
                               ? 'Two Buttons'
                               : button.type === 'dropdown'
@@ -1068,14 +1063,14 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                         {button.type === 'dropdown' && (
                           <div className="flex items-center gap-2">
                             <span>Items:</span>
-                            <span className="text-blue-300">{button.dropdownItems?.length || 0}</span>
+                            <span className="text-sky-300">{button.dropdownItems?.length || 0}</span>
                           </div>
                         )}
 
                         {/* Animation */}
                         <div className="flex items-center gap-2">
                           <span>Animation:</span>
-                          <span className="text-blue-300">
+                          <span className="text-sky-300">
                             {animations.find((a) => a.id === button.animation)?.name}
                           </span>
                           <span className="text-lg">{animations.find((a) => a.id === button.animation)?.icon}</span>
@@ -1086,7 +1081,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                           <>
                             <div className="flex items-center gap-2">
                               <span>Primary:</span>
-                              <span className="text-blue-300 capitalize">{button.linkType}</span>
+                              <span className="text-sky-300 capitalize">{button.linkType}</span>
                               {button.link && (
                                 <span className="text-neutral-500 truncate max-w-24" title={button.link}>
                                   {button.linkType === 'phone' ? `tel:${button.link}` : button.link}
@@ -1096,7 +1091,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                             {button.type === 'double' && button.secondaryButton?.link && (
                               <div className="flex items-center gap-2">
                                 <span>Secondary:</span>
-                                <span className="text-blue-300 capitalize">{button.secondaryButton?.linkType}</span>
+                                <span className="text-sky-300 capitalize">{button.secondaryButton?.linkType}</span>
                                 <span
                                   className="text-neutral-500 truncate max-w-24"
                                   title={button.secondaryButton?.link}
@@ -1115,24 +1110,24 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                           <span>Colors:</span>
                           <div className="flex gap-1">
                             <div
-                              className="w-3 h-3 rounded border border-neutral-500"
+                              className="w-3 h-3  border border-neutral-500"
                               style={{ backgroundColor: button.backgroundColor }}
                               title={`BG: ${button.backgroundColor}`}
                             />
                             <div
-                              className="w-3 h-3 rounded border border-neutral-500"
+                              className="w-3 h-3  border border-neutral-500"
                               style={{ backgroundColor: button.fontColor }}
                               title={`Text: ${button.fontColor}`}
                             />
                             {button.type === 'double' && (
                               <>
                                 <div
-                                  className="w-3 h-3 rounded border border-neutral-500"
+                                  className="w-3 h-3  border border-neutral-500"
                                   style={{ backgroundColor: button?.backgroundColor }}
                                   title={`Secondary BG: ${button?.backgroundColor}`}
                                 />
                                 <div
-                                  className="w-3 h-3 rounded border border-neutral-500"
+                                  className="w-3 h-3  border border-neutral-500"
                                   style={{ backgroundColor: button?.fontColor }}
                                   title={`Secondary Text: ${button?.fontColor}`}
                                 />
@@ -1147,12 +1142,12 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                         <button
                           disabled={assigningId === button.id}
                           onClick={(e) => handleAssignHeaderButton(e, button.id)}
-                          className={`flex-1 px-3 py-2 text-xs rounded font-medium transition-colors ${
+                          className={`flex-1 px-3 py-2 text-xs  font-medium transition-colors ${
                             button.isActive
                               ? 'bg-green-600 text-white cursor-default'
                               : assigningId === button.id
                                 ? 'bg-neutral-600 text-neutral-400 cursor-not-allowed'
-                                : 'bg-blue-600 text-white hover:bg-blue-700'
+                                : 'bg-sky-600 text-white hover:bg-sky-700'
                           }`}
                         >
                           {button.isActive ? 'Active' : assigningId === button.id ? 'Assigning...' : 'Assign'}
@@ -1160,7 +1155,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                         <button
                           disabled={loading[button.id]}
                           onClick={(e) => handleDeleteHeaderButton(e, button.id)}
-                          className="flex-1 px-3 py-2 text-xs bg-red-600/20 text-red-400 rounded hover:bg-red-600/30 transition-colors font-medium disabled:opacity-50"
+                          className="flex-1 px-3 py-2 text-xs bg-red-600/20 text-red-400  hover:bg-red-600/30 transition-colors font-medium disabled:opacity-50"
                         >
                           {loading[button.id] ? 'Deleting...' : 'Delete'}
                         </button>
@@ -1173,7 +1168,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
           )}
 
           {/* Main Canvas Area */}
-          <div className="flex-1 bg-neutral-950 flex flex-col">
+          <div className="flex-1 bg-black flex flex-col">
             {/* Canvas Header */}
             <div className="px-6 py-4.5 border-b border-neutral-700">
               <h3 className="text-lg font-semibold text-white">Live Preview</h3>
@@ -1184,7 +1179,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
             <div className="flex-1 flex items-center justify-center p-8">
               <div className="max-w-2xl w-full">
                 {/* Preview Area */}
-                <div className="bg-neutral-800/30 rounded-2xl border border-neutral-700 p-12 flex flex-col items-center justify-center min-h-96 relative">
+                <div className="bg-neutral-800/30 -2xl border border-neutral-700 p-12 flex flex-col items-center justify-center min-h-96 relative">
                   <AnimatePresence mode="wait">
                     {buttonConfig.buttonType === 'dropdown' ? (
                       <div className="relative inline-block">
@@ -1193,7 +1188,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                             backgroundColor: buttonConfig.backgroundColor,
                             color: buttonConfig.fontColor
                           }}
-                          className="flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-colors"
+                          className="flex items-center gap-2 px-6 py-3  font-medium transition-colors"
                           variants={animations.find((a) => a.id === selectedAnimation)?.variants}
                           initial="initial"
                           whileHover="hover"
@@ -1204,11 +1199,11 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                         </motion.button>
 
                         {buttonConfig.dropdownItems.length > 0 && (
-                          <div className="absolute top-full right-0 mt-2 bg-inkblack group border border-zinc-900 rounded-lg shadow-lg min-w-48 z-10">
+                          <div className="absolute top-full right-0 mt-2 bg-inkblack group border border-zinc-900  shadow-lg min-w-48 z-10">
                             {buttonConfig.dropdownItems.map((item: any, index: number) => (
                               <div
                                 key={index}
-                                className="px-4 py-2 text-white first:rounded-t-lg last:rounded-b-lg transition-colors hover:text-blaze cursor-pointer"
+                                className="px-4 py-2 text-white first:-t-lg last:-b-lg transition-colors hover:text-blaze cursor-pointer"
                               >
                                 {item.text || `Item ${index + 1}`}
                               </div>
@@ -1217,11 +1212,11 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                         )}
                       </div>
                     ) : buttonConfig.buttonType === 'double' ? (
-                      <div className="flex gap-4 items-center justify-center">
+                      <div className="flex gap-2 items-center justify-center">
                         {/* Primary Button */}
                         <motion.button
                           key={`primary-${selectedAnimation}`}
-                          className="px-6 py-3 rounded-xl font-semibold text-lg relative overflow-hidden shadow-lg"
+                          className="font-changa font-bold px-5 py-2 sm:px-6 sm:py-3 uppercase relative overflow-hidden shadow-lg"
                           variants={animations.find((a) => a.id === selectedAnimation)?.variants}
                           initial="initial"
                           animate={isPlaying ? 'hover' : 'initial'}
@@ -1236,7 +1231,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                           {/* Glow effect background for glow animation */}
                           {selectedAnimation === 'glow' && (
                             <motion.div
-                              className="absolute inset-0 bg-linear-to-r from-purple-400/20 to-pink-400/20 rounded-xl"
+                              className="absolute inset-0 bg-linear-to-r from-purple-400/20 to-pink-400/20 -xl"
                               animate={
                                 isPlaying
                                   ? {
@@ -1253,7 +1248,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                         {/* Secondary Button */}
                         <motion.button
                           key={`secondary-${selectedAnimation}`}
-                          className="px-6 py-3 rounded-xl font-semibold text-lg relative overflow-hidden shadow-lg"
+                          className="font-changa font-bold px-5 py-2 sm:px-6 sm:py-3 uppercase relative overflow-hidden shadow-lg"
                           variants={animations.find((a) => a.id === selectedAnimation)?.variants}
                           initial="initial"
                           animate={isPlaying ? 'hover' : 'initial'}
@@ -1268,7 +1263,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                           {/* Glow effect background for glow animation */}
                           {selectedAnimation === 'glow' && (
                             <motion.div
-                              className="absolute inset-0 bg-linear-to-r from-purple-400/20 to-pink-400/20 rounded-xl"
+                              className="absolute inset-0 bg-linear-to-r from-purple-400/20 to-pink-400/20 -xl"
                               animate={
                                 isPlaying
                                   ? {
@@ -1285,7 +1280,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                     ) : (
                       <motion.button
                         key={selectedAnimation}
-                        className="px-6 py-3 rounded-xl font-semibold text-lg relative overflow-hidden shadow-lg"
+                        className="px-6 py-3 -xl font-semibold text-lg relative overflow-hidden shadow-lg"
                         variants={animations.find((a) => a.id === selectedAnimation)?.variants}
                         initial="initial"
                         animate={isPlaying ? 'hover' : 'initial'}
@@ -1300,7 +1295,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                         {/* Glow effect background for glow animation */}
                         {selectedAnimation === 'glow' && (
                           <motion.div
-                            className="absolute inset-0 bg-linear-to-r from-purple-400/20 to-pink-400/20 rounded-xl"
+                            className="absolute inset-0 bg-linear-to-r from-purple-400/20 to-pink-400/20 -xl"
                             animate={
                               isPlaying
                                 ? {
@@ -1326,13 +1321,13 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                           Primary: {buttonConfig.linkType === 'phone' && 'Will dial: '}
                           {buttonConfig.linkType === 'external' && 'External link: '}
                           {buttonConfig.linkType === 'internal' && 'Internal page: '}
-                          <span className="text-blue-400">{getPreviewHref()}</span>
+                          <span className="text-sky-400">{getPreviewHref()}</span>
                         </p>
                         <p>
                           Secondary: {buttonConfig.secondaryButton?.linkType === 'phone' && 'Will dial: '}
                           {buttonConfig.secondaryButton?.linkType === 'external' && 'External link: '}
                           {buttonConfig.secondaryButton?.linkType === 'internal' && 'Internal page: '}
-                          <span className="text-blue-400">{buttonConfig.secondaryButton?.link}</span>
+                          <span className="text-sky-400">{buttonConfig.secondaryButton?.link}</span>
                         </p>
                       </div>
                     ) : (
@@ -1340,7 +1335,7 @@ const HeaderButtonStudioDrawer = ({ data }) => {
                         {buttonConfig.linkType === 'phone' && 'Will dial: '}
                         {buttonConfig.linkType === 'external' && 'External link: '}
                         {buttonConfig.linkType === 'internal' && 'Internal page: '}
-                        <span className="text-blue-400">{getPreviewHref()}</span>
+                        <span className="text-sky-400">{getPreviewHref()}</span>
                       </p>
                     )}
                   </div>
@@ -1348,14 +1343,14 @@ const HeaderButtonStudioDrawer = ({ data }) => {
 
                 {/* Additional Preview Info */}
                 <div className="mt-6 grid grid-cols-2 gap-4">
-                  <div className="bg-neutral-800/30 rounded-lg p-4 border border-neutral-700">
+                  <div className="bg-neutral-800/30  p-4 border border-neutral-700">
                     <h4 className="text-white font-medium mb-2">Animation</h4>
                     <p className="text-sm text-neutral-400">
                       {animations.find((a) => a.id === selectedAnimation)?.name} -{' '}
                       {animations.find((a) => a.id === selectedAnimation)?.description}
                     </p>
                   </div>
-                  <div className="bg-neutral-800/30 rounded-lg p-4 border border-neutral-700">
+                  <div className="bg-neutral-800/30  p-4 border border-neutral-700">
                     <h4 className="text-white font-medium mb-2">Button Type</h4>
                     <p className="text-sm text-neutral-400 capitalize">
                       {buttonConfig.buttonType === 'double'

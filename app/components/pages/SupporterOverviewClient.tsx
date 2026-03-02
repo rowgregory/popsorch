@@ -1,21 +1,17 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import { signOut } from 'next-auth/react'
 import {
   User,
   Mail,
   Phone,
   MessageSquare,
-  Bell,
-  GraduationCap,
   CheckCircle,
   XCircle,
   LogOut,
   Clock,
-  ChevronRight,
-  Ticket,
-  ExternalLink
+  ExternalLink,
+  ArrowRight
 } from 'lucide-react'
 import Picture from '../common/Picture'
 import Link from 'next/link'
@@ -40,264 +36,283 @@ const SupporterOverviewClient = ({ data, user }) => {
     : []
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-black">
       {/* Header */}
-      <div className="bg-duskgray border-b border-neutral-800">
+      <header className="bg-black border-b border-white/10" role="banner">
         <div className="px-4 990:px-12 xl:px-4">
-          <div className="max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 1590:max-w-screen-1400 w-full mx-auto py-5 flex items-center justify-between">
-            <Link href="/" className="">
-              The Pops of Bradenton & Sarasota
+          <div className="max-w-[320px] 430:max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 w-full mx-auto py-4 flex items-center justify-between">
+            <Link
+              href="/"
+              aria-label="The Pops Orchestra — return to homepage"
+              className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze"
+            >
+              <div
+                className="bg-golden50Logo bg-no-repeat bg-contain bg-center w-16 h-10"
+                role="img"
+                aria-label="The Pops Orchestra logo"
+              />
             </Link>
             <button
+              type="button"
               onClick={() => signOut({ callbackUrl: '/auth/login' })}
-              className="flex items-center gap-2 font-lato text-sm text-slatemist hover:text-white transition-colors"
+              aria-label="Sign out of your account"
+              className="inline-flex items-center gap-2 font-changa text-xs uppercase tracking-[0.2em] text-white/40 hover:text-blaze transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze"
             >
-              <LogOut className="w-4 h-4" />
-              Sign Out
+              <LogOut className="w-3.5 h-3.5" aria-hidden="true" />
+              <span>Sign Out</span>
             </button>
           </div>
         </div>
-      </div>
-
-      <section className="px-4 990:px-12 xl:px-4 py-12">
-        <div className="max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 1590:max-w-screen-1400 w-full mx-auto">
+      </header>
+      <main id="main-content" className="relative z-10 px-4 990:px-12 xl:px-4 py-16 990:py-24">
+        <div className="max-w-[320px] 430:max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 w-full mx-auto">
           {/* Page Title */}
-          <div className="mb-10">
-            <h1 className="font-changa text-4xl text-white mb-1">Supporter Dashboard</h1>
-            <div className="w-10 h-0.5 bg-blaze" />
-          </div>
+          <header className="mb-12 430:mb-16">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-6 h-px bg-blaze" aria-hidden="true" />
+              <span className="font-changa text-xs uppercase tracking-[0.25em] text-blaze">The Pops Orchestra</span>
+            </div>
+            <h1 className="font-changa text-4xl 430:text-5xl text-white leading-none mb-3">Supporter Dashboard</h1>
+            <div className="w-12 h-px bg-blaze" aria-hidden="true" />
+          </header>
 
-          <div className="grid grid-cols-1 1200:grid-cols-3 gap-6">
-            {/* Left Column */}
-            <div className="flex flex-col gap-6">
-              {/* Profile Card */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-                className="bg-duskgray p-7"
-              >
-                <div className="flex items-center gap-2 mb-5">
-                  <User className="w-4 h-4 text-blaze" />
-                  <h2 className="font-changa text-xs text-blaze uppercase tracking-wider">Profile</h2>
+          <div className="grid grid-cols-1 1200:grid-cols-3 gap-px bg-white/10">
+            {/* Left column */}
+            <div className="flex flex-col gap-px bg-white/10">
+              {/* Profile */}
+              <section aria-labelledby="profile-heading" className="bg-black p-6 430:p-8">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-4 h-px bg-blaze" aria-hidden="true" />
+                  <h2 id="profile-heading" className="font-changa text-xs uppercase tracking-[0.25em] text-blaze">
+                    Profile
+                  </h2>
                 </div>
 
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="w-14 h-14 bg-charcoalgray flex items-center justify-center shrink-0">
+                  <div
+                    className="w-12 h-12 bg-white/5 border border-white/10 flex items-center justify-center shrink-0"
+                    aria-hidden={!!user?.image}
+                  >
                     {user?.image ? (
-                      <Picture priority={true} src={user.image} alt="avatar" className="w-14 h-14 object-cover" />
+                      <Picture
+                        priority={true}
+                        src={user.image}
+                        alt={`${user.name} profile photo`}
+                        className="w-12 h-12 object-cover"
+                      />
                     ) : (
-                      <User className="w-7 h-7 text-slatemist" />
+                      <User className="w-5 h-5 text-white/30" aria-hidden="true" />
                     )}
                   </div>
                   <div>
-                    <p className="font-changa text-white text-lg leading-tight">{user?.name}</p>
-                    <p className="font-lato text-xs text-slatemist">{user?.email}</p>
+                    <p className="font-changa text-white text-base leading-tight">{user?.name}</p>
+                    <p className="font-lato text-xs text-white/40">{user?.email}</p>
                   </div>
                 </div>
 
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    <Mail className="w-4 h-4 text-sunburst shrink-0" />
-                    <span className="font-lato text-sm text-slatemist break-all">{user?.email}</span>
-                  </div>
+                <ul role="list" aria-label="Profile details" className="flex flex-col divide-y divide-white/10">
+                  <li className="flex items-center gap-3 py-3">
+                    <Mail className="w-3.5 h-3.5 text-blaze shrink-0" aria-hidden="true" />
+                    <span className="font-lato text-xs text-white/50 break-all">{user?.email}</span>
+                  </li>
                   {data.user?.phone && (
-                    <div className="flex items-center gap-3">
-                      <Phone className="w-4 h-4 text-sunburst shrink-0" />
-                      <span className="font-lato text-sm text-slatemist">{data.user.phone}</span>
-                    </div>
+                    <li className="flex items-center gap-3 py-3">
+                      <Phone className="w-3.5 h-3.5 text-blaze shrink-0" aria-hidden="true" />
+                      <span className="font-lato text-xs text-white/50">{data.user.phone}</span>
+                    </li>
                   )}
-                  <div className="flex items-center gap-3">
-                    <Clock className="w-4 h-4 text-sunburst shrink-0" />
-                    <span className="font-lato text-sm text-slatemist">
+                  <li className="flex items-center gap-3 py-3">
+                    <Clock className="w-3.5 h-3.5 text-blaze shrink-0" aria-hidden="true" />
+                    <span className="font-lato text-xs text-white/50">
                       Member since {formatDate(data.user?.createdAt)}
                     </span>
-                  </div>
-                </div>
-              </motion.div>
+                  </li>
+                </ul>
+              </section>
 
-              {/* Newsletter Status */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.1 }}
-                className="bg-duskgray p-7"
-              >
-                <div className="flex items-center gap-2 mb-5">
-                  <Bell className="w-4 h-4 text-blaze" />
-                  <h2 className="font-changa text-xs text-blaze uppercase tracking-wider">Newsletter</h2>
+              {/* Newsletter */}
+              <section aria-labelledby="newsletter-heading" className="bg-black p-6 430:p-8">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-4 h-px bg-blaze" aria-hidden="true" />
+                  <h2 id="newsletter-heading" className="font-changa text-xs uppercase tracking-[0.25em] text-blaze">
+                    Newsletter
+                  </h2>
                 </div>
 
-                <div className="flex items-center gap-3 mb-4">
+                <div className="flex items-center gap-3 mb-5">
                   {newsletter ? (
-                    <CheckCircle className="w-5 h-5 text-green-500 shrink-0" />
+                    <CheckCircle className="w-4 h-4 text-green-400 shrink-0" aria-hidden="true" />
                   ) : (
-                    <XCircle className="w-5 h-5 text-neutral-600 shrink-0" />
+                    <XCircle className="w-4 h-4 text-white/20 shrink-0" aria-hidden="true" />
                   )}
-                  <span className="font-changa text-white text-lg">{newsletter ? 'Subscribed' : 'Not Subscribed'}</span>
+                  <span className="font-changa text-sm text-white uppercase tracking-wide">
+                    {newsletter ? 'Subscribed' : 'Not Subscribed'}
+                  </span>
+                  <span className="sr-only">Newsletter status: {newsletter ? 'subscribed' : 'not subscribed'}</span>
                 </div>
 
                 {newsletter && newsletterInterests.length > 0 && (
                   <div>
-                    <p className="font-lato text-xs text-slatemist uppercase tracking-wider mb-3">Interests</p>
-                    <div className="flex flex-wrap gap-2">
+                    <p className="font-changa text-[10px] uppercase tracking-[0.25em] text-white/40 mb-3">Interests</p>
+                    <ul role="list" className="flex flex-wrap gap-2">
                       {newsletterInterests.map((interest) => (
-                        <span
+                        <li
                           key={interest as string}
-                          className="bg-charcoalgray border-l-2 border-blaze px-3 py-1 font-lato text-xs text-white"
+                          className="bg-white/5 border-l-2 border-blaze px-3 py-1 font-lato text-xs text-white/70"
                         >
                           {interest}
-                        </span>
+                        </li>
                       ))}
-                    </div>
+                    </ul>
                   </div>
                 )}
 
                 {!newsletter && (
-                  <a
+                  <Link
                     href="/connect-with-us"
-                    className="inline-flex items-center gap-2 mt-2 font-lato text-sm text-blaze hover:text-blazehover transition-colors"
+                    className="group inline-flex items-center gap-2 font-changa text-xs uppercase tracking-[0.2em] text-blaze hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze mt-2"
                   >
-                    Subscribe to our newsletter
-                    <ChevronRight className="w-4 h-4" />
-                  </a>
+                    <span>Subscribe</span>
+                    <ArrowRight
+                      className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"
+                      aria-hidden="true"
+                    />
+                  </Link>
                 )}
-              </motion.div>
+              </section>
 
-              {/* Camp Application */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.2 }}
-                className="bg-duskgray p-7 opacity-60"
+              {/* Camp Applications */}
+              <section
+                aria-labelledby="camp-heading"
+                className="bg-black p-6 430:p-8 opacity-50"
+                aria-describedby="camp-unavailable"
               >
-                <div className="flex items-center gap-2 mb-5">
-                  <GraduationCap className="w-4 h-4 text-slatemist" />
-                  <h2 className="font-changa text-xs text-slatemist uppercase tracking-wider">Camp Applications</h2>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-4 h-px bg-white/20" aria-hidden="true" />
+                  <h2 id="camp-heading" className="font-changa text-xs uppercase tracking-[0.25em] text-white/30">
+                    Camp Applications
+                  </h2>
                 </div>
-
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    <Clock className="w-5 h-5 text-slatemist shrink-0" />
-                    <span className="font-changa text-white text-lg">Applications Open in July</span>
-                  </div>
-
-                  <p className="font-lato text-sm text-slatemist leading-relaxed">
-                    Our youth camp runs for one week in mid-July with daily rehearsals and performances. Applications
-                    will open in early summer.
-                  </p>
+                <div className="flex items-center gap-3 mb-3">
+                  <Clock className="w-4 h-4 text-white/30 shrink-0" aria-hidden="true" />
+                  <span className="font-changa text-sm text-white uppercase tracking-wide">Opens in July</span>
                 </div>
-              </motion.div>
+                <p id="camp-unavailable" className="font-lato text-xs text-white/40 leading-relaxed">
+                  Our youth camp runs for one week in mid-July with daily rehearsals and performances. Applications will
+                  open in early summer.
+                </p>
+              </section>
             </div>
 
-            {/* Right Column - Contact Submissions */}
-            <div className="1200:col-span-2 flex flex-col gap-6">
-              {/* Audience View Ticketing */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.05 }}
-                className="bg-duskgray p-7"
-              >
-                <div className="flex items-center gap-2 mb-5">
-                  <Ticket className="w-4 h-4 text-blaze" />
-                  <h2 className="font-changa text-xs text-blaze uppercase tracking-wider">Tickets</h2>
+            {/* Right column */}
+            <div className="1200:col-span-2 flex flex-col gap-px bg-white/10">
+              {/* Tickets */}
+              <section aria-labelledby="tickets-heading" className="bg-black p-6 430:p-8">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-4 h-px bg-blaze" aria-hidden="true" />
+                  <h2 id="tickets-heading" className="font-changa text-xs uppercase tracking-[0.25em] text-blaze">
+                    Tickets
+                  </h2>
                 </div>
 
-                <h3 className="font-changa text-white text-lg mb-3">Looking for Tickets?</h3>
-
-                <p className="font-lato text-sm text-slatemist mb-4 leading-relaxed">
-                  All ticket purchases and reservations are handled through our official ticketing partner, Audience
-                  View. Browse available concerts, select your seats, and complete your purchase securely.
+                <p className="font-changa text-white text-base mb-2">Looking for Tickets?</p>
+                <p className="font-lato text-xs text-white/50 leading-relaxed mb-5">
+                  All ticket purchases are handled through our official ticketing partner, Audience View. Browse
+                  available concerts, select your seats, and complete your purchase securely.
                 </p>
 
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col 430:flex-row gap-3">
                   <Link
                     href="/concerts"
-                    className="inline-flex items-center gap-2 font-lato text-sm text-blaze hover:text-blazehover transition-colors"
+                    className="group inline-flex items-center gap-2 font-changa text-xs uppercase tracking-[0.2em] text-blaze hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze"
                   >
-                    View Concerts
-                    <ChevronRight className="w-4 h-4" />
+                    <span>View Concerts</span>
+                    <ArrowRight
+                      className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"
+                      aria-hidden="true"
+                    />
                   </Link>
 
                   <a
                     href="https://ci.ovationtix.com/35505"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 font-lato text-sm text-blaze hover:text-blazehover transition-colors"
+                    aria-label="Visit Audience View ticketing platform (opens in new tab)"
+                    className="group inline-flex items-center gap-2 font-changa text-xs uppercase tracking-[0.2em] text-blaze hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze"
                   >
-                    Visit Audience View
-                    <ExternalLink className="w-4 h-4" />
+                    <span>Visit Audience View</span>
+                    <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
                   </a>
                 </div>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.15 }}
-                className="bg-duskgray p-7 h-full"
-              >
-                <div className="flex items-center justify-between mb-5">
-                  <div className="flex items-center gap-2">
-                    <MessageSquare className="w-4 h-4 text-blaze" />
-                    <h2 className="font-changa text-xs text-blaze uppercase tracking-wider">Contact Submissions</h2>
+              </section>
+
+              {/* Contact Submissions */}
+              <section aria-labelledby="submissions-heading" className="bg-black p-6 430:p-8 flex-1">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-4 h-px bg-blaze" aria-hidden="true" />
+                    <h2 id="submissions-heading" className="font-changa text-xs uppercase tracking-[0.25em] text-blaze">
+                      Contact Submissions
+                    </h2>
                   </div>
-                  <span className="font-lato text-xs text-slatemist">
+                  <span className="font-lato text-[10px] text-white/30 bg-white/5 px-2 py-1">
                     {questions.length} {questions.length === 1 ? 'submission' : 'submissions'}
                   </span>
                 </div>
 
                 {questions.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-16 text-center">
-                    <MessageSquare className="w-10 h-10 text-neutral-700 mb-4" />
-                    <p className="font-changa text-white text-lg mb-1">No submissions yet</p>
-                    <p className="font-lato text-sm text-slatemist mb-6">
+                    <MessageSquare className="w-8 h-8 text-white/10 mb-4" aria-hidden="true" />
+                    <p className="font-changa text-sm text-white uppercase tracking-wide mb-1">No submissions yet</p>
+                    <p className="font-lato text-xs text-white/40 mb-8 max-w-xs leading-relaxed">
                       Questions you send to The Pops will appear here.
                     </p>
-
-                    <a
+                    <Link
                       href="/contact"
-                      className="inline-flex items-center gap-2 bg-blaze hover:bg-blazehover text-white font-changa uppercase tracking-wider text-sm px-6 py-3 transition-colors"
+                      className="group inline-flex items-center gap-2 bg-blaze hover:bg-blazehover text-white px-6 py-3 font-changa text-xs uppercase tracking-widest transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
                     >
-                      <Mail className="w-4 h-4" />
-                      Get In Touch
-                    </a>
+                      <Mail className="w-3.5 h-3.5" aria-hidden="true" />
+                      <span>Get In Touch</span>
+                      <ArrowRight
+                        className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"
+                        aria-hidden="true"
+                      />
+                    </Link>
                   </div>
                 ) : (
-                  <div className="flex flex-col gap-4">
-                    {questions.map((question, i) => (
-                      <motion.div
-                        key={question.id}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3, delay: i * 0.05 }}
-                        className="bg-charcoalgray border-l-2 border-blaze p-5"
-                      >
-                        <div className="flex items-start justify-between gap-4 mb-3">
-                          <p className="font-lato text-sm text-white leading-relaxed flex-1">{question.message}</p>
-                          <span
-                            className={`shrink-0 font-lato text-xs px-2 py-1 ${
-                              question.hasResponded
-                                ? 'bg-green-500/10 text-green-400'
-                                : 'bg-neutral-700 text-neutral-400'
-                            }`}
-                          >
-                            {question.hasResponded ? 'Responded' : 'Pending'}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <Clock className="w-3.5 h-3.5 text-neutral-600" />
-                          <span className="font-lato text-xs text-neutral-600">{formatDate(question.createdAt)}</span>
-                        </div>
-                      </motion.div>
+                  <ul role="list" aria-label="Your contact submissions" className="flex flex-col gap-px bg-white/10">
+                    {questions.map((question) => (
+                      <li key={question.id} className="bg-black">
+                        <article className="border-l-2 border-blaze p-5">
+                          <div className="flex items-start justify-between gap-4 mb-3">
+                            <p className="font-lato text-sm text-white/70 leading-relaxed flex-1">{question.message}</p>
+                            <span
+                              className={`shrink-0 font-changa text-[10px] uppercase tracking-widest px-2 py-1 ${
+                                question.hasResponded
+                                  ? 'bg-green-400/10 text-green-400 border border-green-400/20'
+                                  : 'bg-white/5 text-white/30 border border-white/10'
+                              }`}
+                              aria-label={`Status: ${question.hasResponded ? 'Responded' : 'Pending'}`}
+                            >
+                              {question.hasResponded ? 'Responded' : 'Pending'}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Clock className="w-3 h-3 text-white/20" aria-hidden="true" />
+                            <time dateTime={question.createdAt} className="font-lato text-xs text-white/30">
+                              {formatDate(question.createdAt)}
+                            </time>
+                          </div>
+                        </article>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 )}
-              </motion.div>
+              </section>
             </div>
           </div>
         </div>
-      </section>
+      </main>
     </div>
   )
 }

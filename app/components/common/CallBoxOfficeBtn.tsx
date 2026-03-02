@@ -1,15 +1,16 @@
-import Link from 'next/link'
+import { PhoneIcon } from 'lucide-react'
 import { FC } from 'react'
 
-const CallBoxOfficeBtn: FC<{ className?: string }> = () => {
+const CallBoxOfficeBtn: FC<{ className?: string }> = ({ className }) => {
   return (
-    <Link
-      onClick={(e) => e.stopPropagation()}
+    <a
       href="tel:19419267677"
-      className={`relative z-10 px-6 py-3 rounded-xl bg-linear-to-r from-sunburst to-blaze hover:from-sunburst hover:to-blaze text-white font-bold text-sm uppercase tracking-wider transition-all duration-300 hover:shadow-lg hover:shadow-blaze/30 w-full flex-1 text-center`}
+      aria-label="Call the box office at 941-926-7677"
+      className={`group inline-flex items-center justify-center gap-2 border border-white/20 hover:border-blaze/50 bg-transparent hover:bg-blaze/10 text-white/70 hover:text-white px-6 py-4 font-changa text-sm uppercase tracking-widest transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black ${className ?? ''}`}
     >
-      Call Box Office
-    </Link>
+      <PhoneIcon className="w-4 h-4 shrink-0 text-blaze" aria-hidden="true" />
+      <span>Call Box Office</span>
+    </a>
   )
 }
 

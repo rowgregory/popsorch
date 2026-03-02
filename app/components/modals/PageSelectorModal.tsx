@@ -56,16 +56,6 @@ const PageSelectorModal = () => {
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {pageContentEditorFolders.map((folder, index) => (
                 <motion.button
-                  disabled={
-                    folder.value !== 'home' &&
-                    folder.value !== 'camp-application' &&
-                    folder.value !== 'footer' &&
-                    folder.value !== 'about' &&
-                    folder.value !== 'advertise-with-us' &&
-                    folder.value !== 'chair-sponsorships' &&
-                    folder.value !== 'connect-with-us' &&
-                    folder.value !== 'contact'
-                  }
                   key={folder.value}
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -74,16 +64,7 @@ const PageSelectorModal = () => {
                   className={`p-3 sm:p-4 rounded-lg font-medium text-sm transition-all capitalize ${
                     selectedFolder === folder.value
                       ? 'bg-linear-to-r from-blaze to-sunburst text-white shadow-lg shadow-blaze/50 cursor-pointer'
-                      : folder.value !== 'home' &&
-                          folder.value !== 'camp-application' &&
-                          folder.value !== 'footer' &&
-                          folder.value !== 'about' &&
-                          folder.value !== 'advertise-with-us' &&
-                          folder.value !== 'chair-sponsorships' &&
-                          folder.value !== 'connect-with-us' &&
-                          folder.value !== 'contact'
-                        ? 'bg-neutral-800 text-neutral-300 hover:bg-neutral-700 hover:text-white disabled:cursor-not-allowed'
-                        : 'bg-neutral-700 text-neutral-400 hover:bg-neutral-600 hover:text-white cursor-pointer'
+                      : 'bg-neutral-800 text-neutral-300 hover:bg-neutral-700 hover:text-white disabled:cursor-not-allowed'
                   }`}
                 >
                   {splitByCapsToSpaces(folder.textKey)}

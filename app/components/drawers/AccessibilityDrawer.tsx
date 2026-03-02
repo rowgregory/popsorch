@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { store, useAccessibilitySelector } from '@/app/redux/store'
 import { backdropVariants, drawerVariants } from '@/app/lib/constants/motion'
-import { ALargeSmall, BetweenVerticalStart, Contrast, Link, RefreshCcw, X } from 'lucide-react'
+import { ALargeSmall, BetweenVerticalStart, Contrast, LinkIcon, RefreshCcw, X } from 'lucide-react'
 import { setAccessibilitySettings, setToggleAccessibilityDrawer } from '@/app/redux/features/accessibilitySlice'
 import { usePathname } from 'next/navigation'
 
@@ -262,7 +262,8 @@ const AccessibilityDrawer = () => {
             initial="initial"
             animate="animate"
             exit="exit"
-            className="fixed inset-0 bg-black/20 backdrop-blur-sm z-50"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
+            aria-hidden="true"
           />
 
           <motion.div
@@ -270,168 +271,226 @@ const AccessibilityDrawer = () => {
             initial="initial"
             animate="animate"
             exit="exit"
-            transition={{
-              type: 'tween',
-              duration: 0.3,
-              ease: 'easeInOut'
-            }}
-            className="h-dvh w-full xl:w-1/2 fixed top-0 right-0 z-100 bg-neutral-950 shadow-[-10px_0_30px_-5px_rgba(0,0,0,0.2)] flex flex-col overflow-hidden"
+            transition={{ type: 'tween', duration: 0.3, ease: 'easeInOut' }}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="accessibility-drawer-heading"
+            className="h-dvh w-full 760:w-2/3 990:w-1/2 fixed top-0 right-0 z-100 bg-black border-l border-white/10 border-t-2 border-t-blaze flex flex-col overflow-hidden"
           >
-            <div className="flex-1 overflow-y-auto p-6 relative">
-              <X
-                className="text-white w-5 h-5 absolute top-2 right-2 z-50"
-                onClick={() => store.dispatch(setToggleAccessibilityDrawer(true))}
-              />
-              <div className="max-w-4xl mx-auto">
-                <div className="text-center mb-8">
-                  <h2 className="text-2xl font-changa font-bold text-neutral-100 mb-2">Accessibility Options</h2>
-                  <p className="text-neutral-400 text-sm">Customize your viewing experience for better accessibility</p>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                  {/* Text Size */}
-                  <div
-                    onClick={cycleTextSize}
-                    className="group relative bg-linear-to-br from-neutral-800 to-neutral-900 p-6 rounded-xl border border-neutral-700/50 hover:border-neutral-600/50 cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-black/20 hover:-translate-y-1"
-                  >
-                    <div className="flex flex-col items-center space-y-4">
-                      <div className="flex items-center justify-center w-16 h-16 bg-neutral-700/50 rounded-full group-hover:bg-neutral-600/50 transition-colors">
-                        <div className="flex items-center gap-1">
-                          <span className="text-sm font-medium text-neutral-300">T</span>
-                          <span className="text-xl font-medium text-neutral-100">T</span>
-                        </div>
-                      </div>
-
-                      <div className="text-center">
-                        <h3 className="text-neutral-100 font-semibold mb-1">Text Size</h3>
-                        <p className="text-neutral-400 text-xs mb-3">Adjust text size for readability</p>
-                        <StepIndicator currentStep={stepIndex} />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* High Contrast */}
-                  <div
-                    onClick={() => setHighContrast(!highContrast)}
-                    className="group relative bg-linear-to-br from-neutral-800 to-neutral-900 p-6 rounded-xl border border-neutral-700/50 hover:border-neutral-600/50 cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-black/20 hover:-translate-y-1"
-                  >
-                    <div className="flex flex-col items-center space-y-4">
-                      <div className="flex items-center justify-center w-16 h-16 bg-neutral-700/50 rounded-full group-hover:bg-neutral-600/50 transition-colors">
-                        <Contrast className="w-8 h-8 text-neutral-300" />
-                      </div>
-
-                      <div className="text-center">
-                        <h3 className="text-neutral-100 font-semibold mb-1">High Contrast</h3>
-                        <p className="text-neutral-400 text-xs mb-3">Enhanced visual contrast</p>
-                        <div
-                          className={`w-3 h-3 rounded-full transition-all duration-200 ${
-                            highContrast ? 'bg-blaze shadow-lg shadow-blaze/50' : 'bg-neutral-600'
-                          }`}
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Highlight Links */}
-                  <div
-                    onClick={() => setHighlightLinks(!highlightLinks)}
-                    className="group relative bg-linear-to-br from-neutral-800 to-neutral-900 p-6 rounded-xl border border-neutral-700/50 hover:border-neutral-600/50 cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-black/20 hover:-translate-y-1"
-                  >
-                    <div className="flex flex-col items-center space-y-4">
-                      <div className="flex items-center justify-center w-16 h-16 bg-neutral-700/50 rounded-full group-hover:bg-neutral-600/50 transition-colors">
-                        <Link className="w-8 h-8 text-neutral-300" />
-                      </div>
-
-                      <div className="text-center">
-                        <h3 className="text-neutral-100 font-semibold mb-1">Highlight Links</h3>
-                        <p className="text-neutral-400 text-xs mb-3">Make links more visible</p>
-                        <div
-                          className={`w-3 h-3 rounded-full transition-all duration-200 ${
-                            highlightLinks ? 'bg-blaze shadow-lg shadow-blaze/50' : 'bg-neutral-600'
-                          }`}
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Text Spacing */}
-                  <div
-                    onClick={() => setTextSpacing(!textSpacing)}
-                    className="group relative bg-linear-to-br from-neutral-800 to-neutral-900 p-6 rounded-xl border border-neutral-700/50 hover:border-neutral-600/50 cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-black/20 hover:-translate-y-1"
-                  >
-                    <div className="flex flex-col items-center space-y-4">
-                      <div className="flex items-center justify-center w-16 h-16 bg-neutral-700/50 rounded-full group-hover:bg-neutral-600/50 transition-colors">
-                        <BetweenVerticalStart className="w-8 h-8 text-neutral-300" />
-                      </div>
-
-                      <div className="text-center">
-                        <h3 className="text-neutral-100 font-semibold mb-1">Text Spacing</h3>
-                        <p className="text-neutral-400 text-xs mb-3">Increase letter spacing</p>
-                        <div
-                          className={`w-3 h-3 rounded-full transition-all duration-200 ${
-                            textSpacing ? 'bg-blaze shadow-lg shadow-blaze/50' : 'bg-neutral-600'
-                          }`}
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Dyslexia-Friendly */}
-                  <div
-                    onClick={() => setDyslexiaFriendly(!dyslexiaFriendly)}
-                    className="group relative bg-linear-to-br from-neutral-800 to-neutral-900 p-6 rounded-xl border border-neutral-700/50 hover:border-neutral-600/50 cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-black/20 hover:-translate-y-1"
-                  >
-                    <div className="flex flex-col items-center space-y-4">
-                      <div className="flex items-center justify-center w-16 h-16 bg-neutral-700/50 rounded-full group-hover:bg-neutral-600/50 transition-colors">
-                        <span className="text-xl font-bold text-neutral-300">Aa</span>
-                      </div>
-
-                      <div className="text-center">
-                        <h3 className="text-neutral-100 font-semibold mb-1">Dyslexia-Friendly</h3>
-                        <p className="text-neutral-400 text-xs mb-3">Easier-to-read font</p>
-                        <div
-                          className={`w-3 h-3 rounded-full transition-all duration-200 ${
-                            dyslexiaFriendly ? 'bg-blaze shadow-lg shadow-blaze/50' : 'bg-neutral-600'
-                          }`}
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Line Height */}
-                  <div
-                    onClick={() => setLineHeight(!lineHeight)}
-                    className="group relative bg-linear-to-br from-neutral-800 to-neutral-900 p-6 rounded-xl border border-neutral-700/50 hover:border-neutral-600/50 cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-black/20 hover:-translate-y-1"
-                  >
-                    <div className="flex flex-col items-center space-y-4">
-                      <div className="flex items-center justify-center w-16 h-16 bg-neutral-700/50 rounded-full group-hover:bg-neutral-600/50 transition-colors">
-                        <ALargeSmall className="w-8 h-8 text-neutral-300" />
-                      </div>
-
-                      <div className="text-center">
-                        <h3 className="text-neutral-100 font-semibold mb-1">Line Height</h3>
-                        <p className="text-neutral-400 text-xs mb-3">Increase line spacing</p>
-                        <div
-                          className={`w-3 h-3 rounded-full transition-all duration-200 ${
-                            lineHeight ? 'bg-blaze shadow-lg shadow-blaze/50' : 'bg-neutral-600'
-                          }`}
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Reset Button */}
-                <div className="flex justify-center">
-                  <button
-                    onClick={() => reset()}
-                    className="group flex items-center gap-3 bg-linear-to-r from-blaze to-blazehover hover:from-blazehover hover:to-blaze px-8 py-4 rounded-xl font-changa uppercase text-sm font-bold tracking-wider text-white transition-all duration-300 hover:shadow-xl hover:shadow-blaze/25 hover:-translate-y-0.5"
-                  >
-                    <RefreshCcw className="w-5 h-5 group-hover:rotate-180 transition-transform duration-500" />
-                    Reset All Settings
-                  </button>
-                </div>
+            {/* Header */}
+            <div className="flex items-center justify-between px-5 430:px-8 py-5 border-b border-white/10 shrink-0">
+              <div className="flex items-center gap-3">
+                <div className="w-6 h-px bg-blaze" aria-hidden="true" />
+                <h2
+                  id="accessibility-drawer-heading"
+                  className="font-changa text-xs uppercase tracking-[0.25em] text-blaze"
+                >
+                  Accessibility Options
+                </h2>
               </div>
+              <button
+                type="button"
+                onClick={() => store.dispatch(setToggleAccessibilityDrawer(true))}
+                aria-label="Close accessibility options"
+                className="w-8 h-8 flex items-center justify-center text-white/40 hover:text-white border border-white/10 hover:border-white/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm"
+              >
+                <X className="w-4 h-4" aria-hidden="true" />
+              </button>
+            </div>
+
+            <p className="px-5 430:px-8 py-4 font-lato text-xs text-white/40 border-b border-white/10 shrink-0">
+              Customize your viewing experience for better accessibility
+            </p>
+
+            {/* Options */}
+            <div className="flex-1 overflow-y-auto px-5 430:px-8 py-6 430:py-8">
+              <ul
+                role="list"
+                aria-label="Accessibility settings"
+                className="grid grid-cols-1 430:grid-cols-2 gap-px bg-white/10"
+              >
+                {/* Text Size */}
+                <li className="bg-black">
+                  <button
+                    type="button"
+                    onClick={cycleTextSize}
+                    aria-label={`Text size: cycle through options`}
+                    className="group w-full p-5 430:p-6 flex flex-col items-center gap-4 hover:bg-white/5 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-inset"
+                  >
+                    <div
+                      className="w-12 h-12 border border-white/10 group-hover:border-blaze/30 flex items-center justify-center transition-colors"
+                      aria-hidden="true"
+                    >
+                      <div className="flex items-end gap-0.5">
+                        <span className="text-xs text-white/50">T</span>
+                        <span className="text-base text-white">T</span>
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <p className="font-changa text-xs uppercase tracking-[0.2em] text-white mb-1">Text Size</p>
+                      <p className="font-lato text-[10px] text-white/40 mb-3">Adjust for readability</p>
+                      <StepIndicator currentStep={stepIndex} />
+                    </div>
+                  </button>
+                </li>
+
+                {/* High Contrast */}
+                <li className="bg-black">
+                  <button
+                    type="button"
+                    onClick={() => setHighContrast(!highContrast)}
+                    aria-pressed={highContrast}
+                    aria-label={`High contrast: ${highContrast ? 'on' : 'off'}`}
+                    className="group w-full p-5 430:p-6 flex flex-col items-center gap-4 hover:bg-white/5 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-inset"
+                  >
+                    <div
+                      className={`w-12 h-12 border flex items-center justify-center transition-colors ${
+                        highContrast ? 'border-blaze/50 bg-blaze/10' : 'border-white/10 group-hover:border-blaze/30'
+                      }`}
+                      aria-hidden="true"
+                    >
+                      <Contrast className="w-5 h-5 text-white/60" />
+                    </div>
+                    <div className="text-center">
+                      <p className="font-changa text-xs uppercase tracking-[0.2em] text-white mb-1">High Contrast</p>
+                      <p className="font-lato text-[10px] text-white/40 mb-3">Enhanced visual contrast</p>
+                      <div
+                        className={`w-2 h-2 rounded-full mx-auto transition-colors ${highContrast ? 'bg-blaze' : 'bg-white/20'}`}
+                        aria-hidden="true"
+                      />
+                    </div>
+                  </button>
+                </li>
+
+                {/* Highlight Links */}
+                <li className="bg-black">
+                  <button
+                    type="button"
+                    onClick={() => setHighlightLinks(!highlightLinks)}
+                    aria-pressed={highlightLinks}
+                    aria-label={`Highlight links: ${highlightLinks ? 'on' : 'off'}`}
+                    className="group w-full p-5 430:p-6 flex flex-col items-center gap-4 hover:bg-white/5 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-inset"
+                  >
+                    <div
+                      className={`w-12 h-12 border flex items-center justify-center transition-colors ${
+                        highlightLinks ? 'border-blaze/50 bg-blaze/10' : 'border-white/10 group-hover:border-blaze/30'
+                      }`}
+                      aria-hidden="true"
+                    >
+                      <LinkIcon className="w-5 h-5 text-white/60" />
+                    </div>
+                    <div className="text-center">
+                      <p className="font-changa text-xs uppercase tracking-[0.2em] text-white mb-1">Highlight Links</p>
+                      <p className="font-lato text-[10px] text-white/40 mb-3">Make links more visible</p>
+                      <div
+                        className={`w-2 h-2 rounded-full mx-auto transition-colors ${highlightLinks ? 'bg-blaze' : 'bg-white/20'}`}
+                        aria-hidden="true"
+                      />
+                    </div>
+                  </button>
+                </li>
+
+                {/* Text Spacing */}
+                <li className="bg-black">
+                  <button
+                    type="button"
+                    onClick={() => setTextSpacing(!textSpacing)}
+                    aria-pressed={textSpacing}
+                    aria-label={`Text spacing: ${textSpacing ? 'on' : 'off'}`}
+                    className="group w-full p-5 430:p-6 flex flex-col items-center gap-4 hover:bg-white/5 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-inset"
+                  >
+                    <div
+                      className={`w-12 h-12 border flex items-center justify-center transition-colors ${
+                        textSpacing ? 'border-blaze/50 bg-blaze/10' : 'border-white/10 group-hover:border-blaze/30'
+                      }`}
+                      aria-hidden="true"
+                    >
+                      <BetweenVerticalStart className="w-5 h-5 text-white/60" />
+                    </div>
+                    <div className="text-center">
+                      <p className="font-changa text-xs uppercase tracking-[0.2em] text-white mb-1">Text Spacing</p>
+                      <p className="font-lato text-[10px] text-white/40 mb-3">Increase letter spacing</p>
+                      <div
+                        className={`w-2 h-2 rounded-full mx-auto transition-colors ${textSpacing ? 'bg-blaze' : 'bg-white/20'}`}
+                        aria-hidden="true"
+                      />
+                    </div>
+                  </button>
+                </li>
+
+                {/* Dyslexia-Friendly */}
+                <li className="bg-black">
+                  <button
+                    type="button"
+                    onClick={() => setDyslexiaFriendly(!dyslexiaFriendly)}
+                    aria-pressed={dyslexiaFriendly}
+                    aria-label={`Dyslexia-friendly font: ${dyslexiaFriendly ? 'on' : 'off'}`}
+                    className="group w-full p-5 430:p-6 flex flex-col items-center gap-4 hover:bg-white/5 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-inset"
+                  >
+                    <div
+                      className={`w-12 h-12 border flex items-center justify-center transition-colors ${
+                        dyslexiaFriendly ? 'border-blaze/50 bg-blaze/10' : 'border-white/10 group-hover:border-blaze/30'
+                      }`}
+                      aria-hidden="true"
+                    >
+                      <span className="font-bold text-white/60 text-base">Aa</span>
+                    </div>
+                    <div className="text-center">
+                      <p className="font-changa text-xs uppercase tracking-[0.2em] text-white mb-1">
+                        Dyslexia-Friendly
+                      </p>
+                      <p className="font-lato text-[10px] text-white/40 mb-3">Easier-to-read font</p>
+                      <div
+                        className={`w-2 h-2 rounded-full mx-auto transition-colors ${dyslexiaFriendly ? 'bg-blaze' : 'bg-white/20'}`}
+                        aria-hidden="true"
+                      />
+                    </div>
+                  </button>
+                </li>
+
+                {/* Line Height */}
+                <li className="bg-black">
+                  <button
+                    type="button"
+                    onClick={() => setLineHeight(!lineHeight)}
+                    aria-pressed={lineHeight}
+                    aria-label={`Line height: ${lineHeight ? 'on' : 'off'}`}
+                    className="group w-full p-5 430:p-6 flex flex-col items-center gap-4 hover:bg-white/5 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-inset"
+                  >
+                    <div
+                      className={`w-12 h-12 border flex items-center justify-center transition-colors ${
+                        lineHeight ? 'border-blaze/50 bg-blaze/10' : 'border-white/10 group-hover:border-blaze/30'
+                      }`}
+                      aria-hidden="true"
+                    >
+                      <ALargeSmall className="w-5 h-5 text-white/60" />
+                    </div>
+                    <div className="text-center">
+                      <p className="font-changa text-xs uppercase tracking-[0.2em] text-white mb-1">Line Height</p>
+                      <p className="font-lato text-[10px] text-white/40 mb-3">Increase line spacing</p>
+                      <div
+                        className={`w-2 h-2 rounded-full mx-auto transition-colors ${lineHeight ? 'bg-blaze' : 'bg-white/20'}`}
+                        aria-hidden="true"
+                      />
+                    </div>
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            {/* Footer — reset */}
+            <div className="px-5 430:px-8 py-5 border-t border-white/10 shrink-0">
+              <button
+                type="button"
+                onClick={() => reset()}
+                className="group w-full inline-flex items-center justify-center gap-3 bg-blaze hover:bg-blazehover text-white px-8 py-4 font-changa text-xs uppercase tracking-widest transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-sm"
+              >
+                <RefreshCcw
+                  className="w-4 h-4 shrink-0 group-hover:rotate-180 transition-transform duration-500"
+                  aria-hidden="true"
+                />
+                <span>Reset All Settings</span>
+              </button>
             </div>
           </motion.div>
         </>

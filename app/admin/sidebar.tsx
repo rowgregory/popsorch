@@ -24,7 +24,7 @@ const AdminSidebar = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={onClose}
-              className="lg:hidden p-2 hover:bg-neutral-800 rounded-lg"
+              className="lg:hidden p-2 hover:bg-neutral-800"
             >
               <X className="w-5 h-5 text-neutral-100" />
             </motion.button>
@@ -49,7 +49,7 @@ const AdminSidebar = () => {
                   </>
                 )
 
-                const sharedClassName = `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all w-full cursor-pointer ${
+                const sharedClassName = `flex items-center gap-3 px-3 py-2 text-sm transition-all w-full cursor-pointer ${
                   isActive
                     ? 'bg-linear-to-r from-blaze to-sunburst text-white'
                     : 'text-neutral-400 hover:bg-neutral-800 hover:text-neutral-200'

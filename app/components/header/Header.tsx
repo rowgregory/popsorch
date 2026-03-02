@@ -1,16 +1,12 @@
 import Link from 'next/link'
 import { HeaderLower } from './HeaderLower'
 
-export const Header = ({ concerts, campApplicationsSetting }) => {
+export const Header = ({ concerts, campApplicationsSetting, headerButton }) => {
   return (
     <>
       {/* Top header / utility bar */}
-      <header
-        className="bg-neutral-900 border-b border-neutral-800 430:px-7"
-        role="banner"
-        aria-label="Top utility navigation"
-      >
-        <div className="mx-auto">
+      <header className="px-4 990:px-8 1200:px-12" role="banner" aria-label="Top utility navigation">
+        <div className="w-full mx-auto max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 1590:max-w-7xl">
           <div className="flex justify-end items-center h-10">
             <Link
               href="/auth/login"
@@ -28,6 +24,7 @@ export const Header = ({ concerts, campApplicationsSetting }) => {
         concerts={concerts}
         campApplicationsSetting={campApplicationsSetting}
         aria-label="Main site navigation"
+        headerButton={headerButton}
       />
     </>
   )

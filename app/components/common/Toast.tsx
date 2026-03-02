@@ -50,23 +50,30 @@ const Toast: React.FC = () => {
       {isVisible && (
         <motion.div
           key="toast"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
           initial={{ opacity: 0, x: '100%' }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: '100%', transition: { duration: 0.3, ease: 'easeInOut' } }}
           transition={{ type: 'tween', duration: 0.3, ease: 'easeInOut' }}
-          className={`fixed top-4 right-4 left-4 lg:left-auto z-100 lg:max-w-sm bg-neutral-900 border border-neutral-800 border-l-4 ${getAccent()} rounded-xl shadow-2xl p-4`}
+          className={`fixed top-4 right-4 left-4 lg:left-auto z-100 lg:max-w-sm bg-black border border-white/10 border-l-2 ${getAccent()} shadow-2xl p-4`}
         >
           <div className="flex items-center gap-3">
-            <div className="shrink-0">{getIcon()}</div>
+            <div className="shrink-0" aria-hidden="true">
+              {getIcon()}
+            </div>
             <div className="flex-1 min-w-0">
-              <h3 className="text-white text-sm font-bold">{message}</h3>
-              {description && <p className="text-neutral-400 text-xs mt-0.5 leading-relaxed">{description}</p>}
+              <p className="text-white font-changa text-sm uppercase tracking-wide">{message}</p>
+              {description && <p className="text-white/50 font-lato text-xs mt-0.5 leading-relaxed">{description}</p>}
             </div>
             <button
+              type="button"
               onClick={() => dispatch(hideToast())}
-              className="shrink-0 w-7 h-7 flex items-center justify-center rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-400 hover:text-white transition-colors"
+              aria-label="Dismiss notification"
+              className="shrink-0 w-7 h-7 flex items-center justify-center bg-white/5 border border-white/10 hover:border-white/30 hover:bg-white/10 text-white/40 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-sm"
             >
-              <X className="w-3.5 h-3.5" />
+              <X className="w-3.5 h-3.5" aria-hidden="true" />
             </button>
           </div>
         </motion.div>

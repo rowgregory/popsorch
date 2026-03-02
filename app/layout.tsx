@@ -7,7 +7,6 @@ import { Changa, Inter, Lato, Oswald, Raleway } from 'next/font/google'
 import './globals.css'
 import 'ol/ol.css'
 import { siteMetadata } from './metadata'
-import { getTextBlocks } from './actions/getTextBlocks'
 import { getActiveHeaderButton } from './actions/getActiveHeaderButton'
 import { getConcerts } from './actions/getConcerts'
 import { SessionProvider } from 'next-auth/react'
@@ -58,11 +57,10 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
   const session = await auth()
-  const textBlocks = await getTextBlocks()
   const headerButton = await getActiveHeaderButton()
   const concerts = await getConcerts()
   const campApplicationsSetting = await getCampApplicationsSetting()
-  const footer = await getPage('footer')
+  const data = await getPage('footer')
 
   return (
     <html lang="en">
@@ -74,11 +72,10 @@ export default async function RootLayout({
       >
         <SessionProvider session={session}>
           <RootLayoutWrapper
-            textBlocks={textBlocks}
             headerButton={headerButton}
-            concerts={concerts}
+            concerts={concerts?.concerts}
             campApplicationsSetting={campApplicationsSetting.value}
-            footer={footer.content}
+            data={data}
           >
             {children}
           </RootLayoutWrapper>

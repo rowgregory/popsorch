@@ -35,7 +35,6 @@ const Picture: FC<PictureProps> = ({
         className={className}
         priority={priority}
         sizes={sizes}
-        unoptimized
         style={{ objectFit: 'cover' }}
       />
     )
@@ -54,7 +53,6 @@ const Picture: FC<PictureProps> = ({
       loading={priority ? 'eager' : 'lazy'}
       fetchPriority={priority ? 'high' : 'auto'}
       sizes={sizes}
-      unoptimized
       decoding="async"
       style={{ contentVisibility: 'auto' }}
     />

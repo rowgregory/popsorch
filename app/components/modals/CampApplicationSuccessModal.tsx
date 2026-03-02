@@ -51,7 +51,7 @@ export default function CampApplicationSuccessModal() {
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.9, opacity: 0, y: 20 }}
             transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-            className="w-full max-w-md bg-neutral-900 border border-neutral-800 rounded-2xl overflow-hidden"
+            className="w-full max-w-md bg-neutral-900 border border-neutral-800 overflow-hidden"
           >
             <div
               className="h-1.5 w-full"
@@ -64,7 +64,7 @@ export default function CampApplicationSuccessModal() {
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.15, type: 'spring', stiffness: 400, damping: 20 }}
-                className="w-16 h-16 rounded-full mx-auto mb-6 flex items-center justify-center"
+                className="w-16 h-16 mx-auto mb-6 flex items-center justify-center"
                 style={{ background: 'linear-gradient(135deg, #da0032, #ff9000)' }}
                 aria-hidden="true"
               >
@@ -86,7 +86,7 @@ export default function CampApplicationSuccessModal() {
 
               <div className="flex items-start gap-3 text-left mb-8">
                 <div
-                  className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 bg-neutral-800 border border-neutral-700"
+                  className="w-8 h-8 flex items-center justify-center shrink-0 bg-neutral-800 border border-neutral-700"
                   aria-hidden="true"
                 >
                   <Music className="w-4 h-4 text-sunburst" />
@@ -104,7 +104,7 @@ export default function CampApplicationSuccessModal() {
                 onClick={onClose}
                 autoFocus
                 aria-label="Application submitted successfully — return to home page"
-                className="block w-full py-3 text-sm font-bold text-white rounded-lg text-center transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900"
+                className="block w-full py-3 text-sm font-bold text-white text-center transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900"
                 style={{ background: 'linear-gradient(90deg, #da0032, #ff9000)' }}
               >
                 Return to Home

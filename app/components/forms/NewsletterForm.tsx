@@ -1,11 +1,87 @@
 import { store, useFormSelector, useMailchimpSelector } from '@/app/redux/store'
 import { createFormActions, resetForm, setInputs } from '@/app/redux/features/formSlice'
-import Switch from './elements/Switch'
-import CampInput from './elements/CampInput'
 import Link from 'next/link'
 import { useSubscribeMutation } from '@/app/redux/services/mailchimpApi'
 import validateNewsletterForm from '@/app/lib/validations/validateNewsletterForm'
 import { showToast } from '@/app/redux/features/toastSlice'
+import { FC } from 'react'
+
+const Switch = ({ enabled, onChange, name }) => {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={enabled}
+      aria-label={name}
+      onClick={(e) => {
+        e.stopPropagation()
+        onChange?.({ target: { checked: !enabled, name } } as any)
+      }}
+      className={`relative w-16 h-8 flex items-center transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-sm border ${
+        enabled ? 'bg-blaze/10 border-blaze/40' : 'bg-white/5 border-white/10'
+      }`}
+    >
+      <span
+        className={`absolute w-5 h-5 shadow-md transition-all duration-300 flex items-center justify-center ${
+          enabled ? 'translate-x-9 bg-blaze' : 'translate-x-2 bg-white/20'
+        }`}
+        aria-hidden="true"
+      ></span>
+      <span className="sr-only">{enabled ? 'On' : 'Off'}</span>
+    </button>
+  )
+}
+
+interface InputProps {
+  name: string
+  value: string
+  handleInput: (e: React.ChangeEvent<HTMLInputElement>) => void
+  placeholder: string
+  error?: string
+  required?: boolean
+  type?: 'text' | 'email' | 'tel' | 'password' | 'number' | 'url'
+}
+
+const Input: FC<InputProps> = ({ name, value, handleInput, placeholder, error, required, type = 'text' }) => (
+  <div className="flex flex-col w-full">
+    <label htmlFor={name} className="font-changa text-[10px] uppercase tracking-[0.25em] text-white/40 mb-2">
+      {placeholder}
+      {required && (
+        <>
+          <span className="text-blaze ml-1" aria-hidden="true">
+            *
+          </span>
+          <span className="sr-only"> (required)</span>
+        </>
+      )}
+    </label>
+    <input
+      id={name}
+      name={name}
+      type={type}
+      value={value || ''}
+      onChange={handleInput}
+      placeholder={placeholder}
+      required={required}
+      aria-required={required}
+      aria-invalid={!!error}
+      aria-describedby={error ? `${name}-error` : undefined}
+      className={`bg-transparent border-b font-lato text-sm text-white placeholder:text-white/20 py-3 w-full focus:outline-none transition-colors duration-200 ${
+        error ? 'border-blaze placeholder:text-blaze/40' : 'border-white/20 hover:border-white/40 focus:border-blaze'
+      }`}
+    />
+    {error && (
+      <p
+        id={`${name}-error`}
+        role="alert"
+        aria-live="polite"
+        className="font-changa text-[10px] uppercase tracking-widest text-blaze mt-2"
+      >
+        {error}
+      </p>
+    )}
+  </div>
+)
 
 const NewsletterForm = ({ data }) => {
   const field = (id: string) => data?.content?.find((item) => item.id === id)?.value ?? ''
@@ -69,7 +145,7 @@ const NewsletterForm = ({ data }) => {
       noValidate
       aria-label="Connect with us subscription form"
     >
-      <div className="max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 1590:max-w-screen-1400 w-full mx-auto pt-32 pb-44">
+      <div className="max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 1590:max-w-7xl w-full mx-auto pb-44">
         {success ? (
           <section aria-live="polite" aria-atomic="true" className="flex flex-col justify-center items-center gap-y-10">
             <h1 className="text-center font-changa text-2xl font-medium">
@@ -85,21 +161,26 @@ const NewsletterForm = ({ data }) => {
           </section>
         ) : (
           <>
-            <div className="relative h-fit w-fit px-5 max-w-3xl mx-auto">
-              <span
-                className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 h-[1.5px] bg-blaze/70 w-full"
-                aria-hidden="true"
-              />
-              <h1 className="text-white font-changa text-center text-[48px] relative z-10">
-                {field('connect_with_us_heading')}
-              </h1>
-            </div>
+            <header className="w-full text-center flex flex-col items-center pt-32 pb-20 border-b border-white/10">
+              <p className="font-changa text-xs uppercase tracking-[0.3em] text-blaze mb-4">The Pops Orchestra</p>
+              <div className="flex items-center gap-3 430:gap-4 justify-center mb-4">
+                <div className="w-8 430:w-16 h-px bg-blaze shrink-0" aria-hidden="true" />
+                <h1 className="text-4xl 430:text-5xl sm:text-6xl font-changa text-white leading-none">
+                  {field('connect_with_us_heading')}
+                </h1>
+                <div className="w-8 430:w-16 h-px bg-blaze shrink-0" aria-hidden="true" />
+              </div>
+              <div className="w-16 h-px bg-blaze mx-auto mt-2 mb-6" aria-hidden="true" />
+              <p className="font-lato text-white/50 text-sm 430:text-base max-w-xl leading-relaxed">
+                {field('connect_with_us_subheading')}
+              </p>
+            </header>
 
             <div className="flex flex-col gap-y-7 mt-14 max-w-3xl mx-auto w-full relative">
               <fieldset className="flex flex-col gap-y-7 border-0 p-0 m-0">
                 <legend className="font-changa text-2xl mt-5">User Details</legend>
                 <div className="flex flex-col md:flex-row gap-y-7 md:gap-7">
-                  <CampInput
+                  <Input
                     name="firstName"
                     value={inputs?.firstName}
                     handleInput={handleInput}
@@ -109,7 +190,7 @@ const NewsletterForm = ({ data }) => {
                     aria-required="true"
                     aria-describedby={errors?.firstName ? 'firstName-error' : undefined}
                   />
-                  <CampInput
+                  <Input
                     name="lastName"
                     value={inputs?.lastName}
                     handleInput={handleInput}
@@ -121,7 +202,7 @@ const NewsletterForm = ({ data }) => {
                   />
                 </div>
                 <div className="flex flex-col md:flex-row gap-y-7 md:gap-7">
-                  <CampInput
+                  <Input
                     name="email"
                     value={inputs?.email}
                     handleInput={handleInput}
@@ -132,7 +213,7 @@ const NewsletterForm = ({ data }) => {
                     aria-required="true"
                     aria-describedby={errors?.email ? 'email-error' : undefined}
                   />
-                  <CampInput
+                  <Input
                     name="phoneNumber"
                     value={inputs?.phoneNumber}
                     handleInput={handleInput}
@@ -145,17 +226,12 @@ const NewsletterForm = ({ data }) => {
               <fieldset className="flex flex-col gap-y-7 border-0 p-0 m-0">
                 <legend className="font-changa text-2xl mt-5">Address</legend>
                 <div className="flex flex-col md:flex-row gap-y-7 md:gap-7">
-                  <CampInput
-                    name="addr1"
-                    value={inputs?.addr1}
-                    handleInput={handleInput}
-                    placeholder="Address line 1"
-                  />
-                  <CampInput name="city" value={inputs?.city} handleInput={handleInput} placeholder="City" />
+                  <Input name="addr1" value={inputs?.addr1} handleInput={handleInput} placeholder="Address line 1" />
+                  <Input name="city" value={inputs?.city} handleInput={handleInput} placeholder="City" />
                 </div>
                 <div className="flex flex-col md:flex-row gap-y-7 md:gap-7">
-                  <CampInput name="state" value={inputs?.state} handleInput={handleInput} placeholder="State" />
-                  <CampInput name="zip" value={inputs?.zip} handleInput={handleInput} placeholder="Zip code" />
+                  <Input name="state" value={inputs?.state} handleInput={handleInput} placeholder="State" />
+                  <Input name="zip" value={inputs?.zip} handleInput={handleInput} placeholder="Zip code" />
                 </div>
               </fieldset>
 
@@ -260,7 +336,7 @@ const NewsletterForm = ({ data }) => {
                 disabled={isLoading}
                 aria-disabled={isLoading}
                 aria-label={isLoading ? 'Submitting form, please wait' : 'Submit form'}
-                className="bg-blaze hover:bg-blaze/80 disabled:opacity-60 disabled:cursor-not-allowed duration-300 w-full sm:w-40 px-8 py-3 font-changa uppercase tracking-wider rounded-sm font-medium text-xs mt-20 flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                className="bg-blaze/90 hover:bg-blaze disabled:opacity-60 disabled:cursor-not-allowed duration-300 w-full sm:w-40 px-8 py-3 font-changa uppercase tracking-wider font-medium text-xs mt-20 flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black cursor-pointer"
               >
                 {isLoading ? (
                   <>

@@ -15,35 +15,41 @@ interface IEmptyState {
 const EmptyState: FC<IEmptyState> = ({ searchQuery, typeFilter, title, advice, func, action }) => {
   const dispatch = useAppDispatch()
 
+  const Icon =
+    title === 'concerts'
+      ? Music
+      : title === 'venue'
+        ? Theater
+        : title === 'Photo Gallery Image'
+          ? LucideImage
+          : title === 'Question'
+            ? Contact
+            : Users
+
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-12">
-      {title === 'concerts' ? (
-        <Music className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-      ) : title === 'venue' ? (
-        <Theater className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-      ) : title === 'Photo Gallery Image' ? (
-        <LucideImage className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-      ) : title === 'Question' ? (
-        <Contact className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-      ) : (
-        <Users className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-      )}
-      <h3 className="text-xl font-semibold text-gray-400 mb-2">No {title}s found</h3>
-      <p className="text-gray-500 mb-6">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      role="status"
+      aria-live="polite"
+      className="flex flex-col items-center justify-center py-16 px-4 text-center"
+    >
+      <Icon className="w-10 h-10 text-white/20 mb-4" aria-hidden="true" />
+
+      <p className="font-changa text-lg uppercase tracking-widest text-white/40 mb-2">No {title}s found</p>
+      <p className="font-lato text-sm text-white/30 mb-8 max-w-xs leading-relaxed">
         {searchQuery || typeFilter !== 'all' ? 'Try adjusting your search or filters' : advice}
       </p>
+
       {action && (
-        <motion.button
-          onClick={() => {
-            dispatch(func())
-          }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="px-6 py-3 bg-gradient-to-r from-blaze to-sunburst text-white rounded-lg transition-all flex items-center space-x-2 font-semibold mx-auto"
+        <button
+          type="button"
+          onClick={() => dispatch(func())}
+          className="group inline-flex items-center gap-2 bg-blaze hover:bg-blazehover text-white px-6 py-3 font-changa text-xs uppercase tracking-widest transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-sm"
         >
-          <Plus className="w-5 h-5" />
+          <Plus className="w-4 h-4 shrink-0" aria-hidden="true" />
           <span>{action}</span>
-        </motion.button>
+        </button>
       )}
     </motion.div>
   )

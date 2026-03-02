@@ -1,10 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-// import { usePushNotifications } from '@/app/hooks/usePushNotifications'
 import { Bell, Heart, Loader2, Mail } from 'lucide-react'
-import { motion } from 'framer-motion'
-// import { showToast } from '@/app/redux/features/toastSlice'
 import Link from 'next/link'
 import { signIn } from 'next-auth/react'
 
@@ -17,55 +14,63 @@ const Login = () => {
   }
 
   return (
-    <div className="min-h-screen flex overflow-hidden bg-neutral-950">
+    <main id="main-content" className="min-h-screen flex overflow-hidden bg-black">
       {/* Left Side - Login Form */}
-      <motion.div
-        initial={{ opacity: 0, x: -50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.6 }}
-        className="w-full lg:w-1/2 flex flex-col items-center justify-center px-6 py-12"
-      >
-        <div className="w-full max-w-md">
+      <div className="w-full lg:w-1/2 flex flex-col items-center justify-center px-4 430:px-6 py-12 relative">
+        <div
+          className="absolute inset-0 w-full h-full bg-no-repeat bg-center bg-cover opacity-10"
+          style={{ backgroundImage: `url('/images/bio-bg.png')` }}
+          aria-hidden="true"
+        />
+
+        <div className="relative z-10 w-full max-w-[320px] 430:max-w-sm">
           {/* Logo */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mb-12"
-          >
-            <Link href="/" className="flex items-center justify-center mb-4">
-              <div className="bg-golden50Logo bg-no-repeat bg-contain bg-center w-40 h-20" />
+          <div className="mb-10 430:mb-12 flex justify-center">
+            <Link
+              href="/"
+              aria-label="The Pops Orchestra — return to homepage"
+              className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black inline-block"
+            >
+              <div
+                className="bg-golden50Logo bg-no-repeat bg-contain bg-center w-32 430:w-40 h-16 430:h-20"
+                role="img"
+                aria-label="The Pops Orchestra logo"
+              />
             </Link>
-          </motion.div>
+          </div>
 
-          {/* Login Form */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="space-y-8"
-          >
-            <div>
-              <h1 className="text-4xl font-bold text-white mb-2">Sign In</h1>
-              <p className="text-neutral-400">Access your account with Google to continue</p>
+          {/* Form */}
+          <section aria-labelledby="signin-heading">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-6 h-px bg-blaze" aria-hidden="true" />
+              <span className="font-changa text-xs uppercase tracking-[0.25em] text-blaze"> The Pops Orchestra</span>
             </div>
+            <h1 id="signin-heading" className="font-changa text-3xl 430:text-4xl text-white leading-none mb-3">
+              Sign In
+            </h1>
+            <div className="w-8 h-px bg-blaze mb-6" aria-hidden="true" />
+            <p className="font-lato text-white/50 text-sm leading-relaxed mb-10 border-l-2 border-blaze pl-5">
+              Access your account with Google to continue
+            </p>
 
-            {/* Google Sign In Button */}
-            <motion.button
+            {/* Google Sign In */}
+            <button
+              type="button"
               onClick={handleGoogleSignIn}
               disabled={isLoading}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="w-full flex items-center justify-center gap-4 px-6 py-4 bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 hover:border-neutral-600 text-white rounded-lg transition-all font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+              aria-label={isLoading ? 'Signing in, please wait' : 'Sign in with Google'}
+              aria-busy={isLoading}
+              className="w-full inline-flex items-center justify-center gap-3 px-6 py-4 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blaze/40 text-white font-changa text-sm uppercase tracking-widest transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black"
             >
               {isLoading ? (
                 <>
-                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <Loader2 className="w-4 h-4 animate-spin shrink-0" aria-hidden="true" />
                   <span>Signing in...</span>
+                  <span className="sr-only">Please wait</span>
                 </>
               ) : (
                 <>
-                  <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                     <path
                       fill="#4285F4"
                       d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -86,77 +91,79 @@ const Login = () => {
                   <span>Sign in with Google</span>
                 </>
               )}
-            </motion.button>
-          </motion.div>
+            </button>
+
+            <p className="font-lato text-[10px] uppercase tracking-widest text-white/20 text-center mt-6">
+              Your account is tied to your Google email address
+            </p>
+          </section>
         </div>
-      </motion.div>
+      </div>
 
       {/* Right Side */}
-      <motion.div
-        initial={{ opacity: 0, x: 50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-        className="hidden lg:flex w-1/2 relative overflow-hidden items-center justify-center p-12"
+      <aside
+        aria-label="Account features overview"
+        className="hidden lg:flex w-1/2 relative overflow-hidden items-center justify-center p-12 border-l border-white/10"
       >
-        {/* Gradient Background */}
-        <div className="absolute inset-0 bg-linear-to-br from-blaze/20 via-neutral-950 to-neutral-950" />
-        <div className="absolute top-0 right-0 w-96 h-96 bg-blaze/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
+        <div
+          className="absolute inset-0 w-full h-full bg-no-repeat bg-center bg-cover opacity-10"
+          style={{ backgroundImage: `url('/images/bio-bg.png')` }}
+          aria-hidden="true"
+        />
+        <div
+          className="absolute inset-0 bg-linear-to-br from-blaze/10 via-transparent to-transparent"
+          aria-hidden="true"
+        />
 
-        {/* Content */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="relative z-10 max-w-md w-full"
-        >
-          <h2 className="text-4xl font-bold text-white mb-2">Your Pops Account</h2>
-          <p className="text-neutral-400 mb-10">Sign in with Google to access your supporter dashboard.</p>
-
-          <div className="space-y-4">
-            <div className="flex items-start gap-4 p-5 bg-neutral-900/60 border border-neutral-800 rounded-xl">
-              <div className="w-10 h-10 bg-blaze/20 border border-blaze/30 rounded-lg flex items-center justify-center shrink-0">
-                <Mail className="w-5 h-5 text-blaze" />
-              </div>
-              <div>
-                <h3 className="text-white font-semibold mb-1">Contact Submissions</h3>
-                <p className="text-sm text-neutral-400 leading-relaxed">
-                  View all your past enquiries and messages sent to The Pops team.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-4 p-5 bg-neutral-900/60 border border-neutral-800 rounded-xl">
-              <div className="w-10 h-10 bg-blaze/20 border border-blaze/30 rounded-lg flex items-center justify-center shrink-0">
-                <Heart className="w-5 h-5 text-blaze" />
-              </div>
-              <div>
-                <h3 className="text-white font-semibold mb-1">Camp Applications</h3>
-                <p className="text-sm text-neutral-400 leading-relaxed">
-                  View your youth camp application history and status updates.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-4 p-5 bg-neutral-900/60 border border-neutral-800 rounded-xl">
-              <div className="w-10 h-10 bg-blaze/20 border border-blaze/30 rounded-lg flex items-center justify-center shrink-0">
-                <Bell className="w-5 h-5 text-blaze" />
-              </div>
-              <div>
-                <h3 className="text-white font-semibold mb-1">Newsletter Status</h3>
-                <p className="text-sm text-neutral-400 leading-relaxed">
-                  Check your Mailchimp subscription and stay up to date with the latest from The Pops.
-                </p>
-              </div>
-            </div>
+        <div className="relative z-10 max-w-md w-full">
+          <div className="flex items-center gap-3 mb-5">
+            <div className="w-6 h-px bg-blaze" aria-hidden="true" />
+            <span className="font-changa text-xs uppercase tracking-[0.25em] text-blaze">Dashboard</span>
           </div>
-
-          <p className="text-xs text-neutral-600 mt-8 text-center">
-            Your account is tied to your Google email address.
+          <h2 className="font-changa text-3xl 990:text-4xl text-white leading-none mb-4">Your Pops Account</h2>
+          <div className="w-8 h-px bg-blaze mb-6" aria-hidden="true" />
+          <p className="font-lato text-white/50 text-sm leading-relaxed mb-10 border-l-2 border-blaze pl-5">
+            Sign in with Google to access your supporter dashboard.
           </p>
-        </motion.div>
-      </motion.div>
-    </div>
+
+          <ul role="list" aria-label="Account features" className="flex flex-col gap-px bg-white/10">
+            {[
+              {
+                icon: Mail,
+                title: 'Contact Submissions',
+                description: 'View all your past enquiries and messages sent to The Pops team.'
+              },
+              {
+                icon: Heart,
+                title: 'Camp Applications',
+                description: 'View your youth camp application history and status updates.'
+              },
+              {
+                icon: Bell,
+                title: 'Newsletter Status',
+                description: 'Check your subscription and stay up to date with the latest from The Pops.'
+              }
+            ].map((feature) => {
+              const Icon = feature.icon
+              return (
+                <li key={feature.title} className="bg-black flex items-start gap-4 p-5 430:p-6">
+                  <div
+                    className="w-9 h-9 bg-blaze/10 border border-blaze/30 flex items-center justify-center shrink-0"
+                    aria-hidden="true"
+                  >
+                    <Icon className="w-4 h-4 text-blaze" aria-hidden="true" />
+                  </div>
+                  <div>
+                    <h3 className="font-changa text-sm uppercase tracking-wider text-white mb-1">{feature.title}</h3>
+                    <p className="font-lato text-xs text-white/40 leading-relaxed">{feature.description}</p>
+                  </div>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+      </aside>
+    </main>
   )
 }
 export default Login

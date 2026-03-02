@@ -12,7 +12,7 @@ import VenueDrawer from '@/app/components/drawers/VenueDrawer'
 import { setCloseAdminSidebar, setToggleAdminSidebar } from '@/app/redux/features/dashboardSlice'
 import { setUser } from '@/app/redux/features/userSlice'
 import { Menu } from 'lucide-react'
-import LogoutButton from '../header/LogoutButton'
+import LogoutButton from '../buttons/LogoutButton'
 import PageSelectorModal from '../modals/PageSelectorModal'
 import HeaderButtonStudioDrawer from '../drawers/HeaderButtonStudioDrawer'
 import { actionItems } from '@/app/lib/constants/action-dropdown-items'
@@ -65,7 +65,7 @@ const AdminLayoutClient: FC<IAdminClientLayout> = ({ children, data, buttons, ca
                   <button
                     disabled={loading}
                     onClick={() => inputRef.current && inputRef?.current.click()}
-                    className="relative flex items-center justify-center px-3.5 bg-neutral-800 border border-neutral-700 rounded-lg hover:bg-neutral-700 transition-all h-7"
+                    className="relative flex items-center justify-center px-3.5 bg-neutral-800 border border-neutral-700 hover:bg-neutral-700 transition-all h-7"
                   >
                     {loading ? (
                       <div className="w-4 h-4 rounded-full border-2 border-blaze border-t-0 animate-spin" />
@@ -73,7 +73,7 @@ const AdminLayoutClient: FC<IAdminClientLayout> = ({ children, data, buttons, ca
                       <item.icon className="w-4 h-4 text-neutral-400" />
                     )}
                   </button>
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2.5 py-1 bg-neutral-800 border border-neutral-700 rounded-md text-xs text-white whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2.5 py-1 bg-neutral-800 border border-neutral-700 text-xs text-white whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
                     {item.label}
                     <div className="absolute bottom-full left-1/2 -translate-x-1/2 border-4 border-transparent border-b-neutral-700" />
                   </div>
@@ -102,11 +102,11 @@ const AdminLayoutClient: FC<IAdminClientLayout> = ({ children, data, buttons, ca
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => (item.isDrawer ? dispatch(item.open()) : handleExport())}
-                    className="relative flex items-center justify-center px-3.5 bg-neutral-800 border border-neutral-700 rounded-lg hover:bg-neutral-700 transition-all h-7"
+                    className="relative flex items-center justify-center px-3.5 bg-neutral-800 border border-neutral-700 hover:bg-neutral-700 transition-all h-7"
                   >
                     <item.icon className="w-4 h-4 text-neutral-400" />
                   </motion.button>
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2.5 py-1 bg-neutral-800 border border-neutral-700 rounded-md text-xs text-white whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2.5 py-1 bg-neutral-800 border border-neutral-700 text-xs text-white whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
                     {item.label}
                     <div className="absolute bottom-full left-1/2 -translate-x-1/2 border-4 border-transparent border-b-neutral-700" />
                   </div>
@@ -152,7 +152,7 @@ const AdminLayoutClient: FC<IAdminClientLayout> = ({ children, data, buttons, ca
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => dispatch(setToggleAdminSidebar(adminSidebar))}
-              className="p-2 hover:bg-neutral-950 rounded-lg"
+              className="p-2 hover:bg-neutral-950"
             >
               <Menu className="w-6 h-6 text-white" />
             </motion.button>

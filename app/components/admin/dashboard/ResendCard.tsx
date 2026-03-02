@@ -25,7 +25,7 @@ export default function ResendCard({ credentials }: { credentials: any }) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.3 }}
-      className="bg-neutral-900 border border-neutral-800 rounded-xl p-6 flex flex-col justify-between"
+      className="bg-neutral-900 border border-neutral-800 p-6 flex flex-col justify-between"
     >
       <div>
         <div className="flex items-start justify-between mb-6">
@@ -35,8 +35,8 @@ export default function ResendCard({ credentials }: { credentials: any }) {
               <p className="text-sm text-neutral-400">Transactional Email Service</p>
             </div>
           </div>
-          <span className="flex items-center gap-1.5 px-2.5 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-xs font-medium text-emerald-400">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+          <span className="flex items-center gap-1.5 px-2.5 py-1 bg-emerald-500/10 border border-emerald-500/20 text-xs font-medium text-emerald-400">
+            <span className="w-1.5 h-1.5 bg-emerald-400" />
             Connected
           </span>
         </div>
@@ -48,12 +48,12 @@ export default function ResendCard({ credentials }: { credentials: any }) {
               Email
             </label>
             <div className="flex items-center gap-2">
-              <div className="flex-1 px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg">
+              <div className="flex-1 px-3 py-2 bg-neutral-800 border border-neutral-700">
                 <code className="text-sm text-neutral-200 font-mono">{credentials?.email}</code>
               </div>
               <button
                 onClick={() => handleCopy(credentials?.email, 'email')}
-                className="flex-none px-3 py-2 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 rounded-lg transition-colors"
+                className="flex-none px-3 py-2 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 transition-colors"
               >
                 {copiedEmail ? (
                   <Check className="w-4 h-4 text-emerald-400" />
@@ -70,7 +70,7 @@ export default function ResendCard({ credentials }: { credentials: any }) {
               Password
             </label>
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-              <div className="flex-1 px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg">
+              <div className="flex-1 px-3 py-2 bg-neutral-800 border border-neutral-700">
                 <code className="block text-neutral-200 font-mono text-xs sm:text-sm break-all">
                   {showPassword ? credentials?.password : '••••••••••••••••••'}
                 </code>
@@ -78,7 +78,7 @@ export default function ResendCard({ credentials }: { credentials: any }) {
               <div className="flex gap-2">
                 <button
                   onClick={() => setShowPassword(!showPassword)}
-                  className="flex-1 sm:flex-none px-3 py-2 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 rounded-lg transition-colors"
+                  className="flex-1 sm:flex-none px-3 py-2 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 transition-colors"
                 >
                   {showPassword ? (
                     <EyeOff className="w-4 h-4 text-neutral-400 mx-auto" />
@@ -88,7 +88,7 @@ export default function ResendCard({ credentials }: { credentials: any }) {
                 </button>
                 <button
                   onClick={() => handleCopy(credentials?.password, 'password')}
-                  className="flex-1 sm:flex-none px-3 py-2 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 rounded-lg transition-colors"
+                  className="flex-1 sm:flex-none px-3 py-2 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 transition-colors"
                 >
                   {copiedPassword ? (
                     <Check className="w-4 h-4 text-emerald-400 mx-auto" />
@@ -115,7 +115,7 @@ export default function ResendCard({ credentials }: { credentials: any }) {
         href="https://resend.com"
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-6 w-full flex items-center justify-center gap-2 px-4 py-3 bg-neutral-800 hover:bg-neutral-700 text-white font-semibold rounded-lg transition-all border border-neutral-700"
+        className="mt-6 w-full flex items-center justify-center gap-2 px-4 py-3 bg-neutral-800 hover:bg-neutral-700 text-white font-semibold transition-all border border-neutral-700"
       >
         Open Resend
         <ExternalLink className="w-4 h-4" />
