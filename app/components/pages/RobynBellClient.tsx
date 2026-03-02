@@ -2,7 +2,6 @@
 
 import Breadcrumb from '@/app/components/common/Breadcrumb'
 import Picture from '@/app/components/common/Picture'
-import { motion } from 'framer-motion'
 
 export const RobynBellClient = ({ data }) => {
   const field = (id: string) => data?.content?.find((item) => item.id === id)?.value ?? ''
@@ -40,14 +39,9 @@ export const RobynBellClient = ({ data }) => {
         {/* Main Content */}
         <section aria-labelledby="robyn-bell-heading" className="relative z-10 px-4 990:px-12 xl:px-4 py-20 990:py-32">
           <div className="max-w-[320px] 430:max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 mx-auto">
-            <div className="grid grid-cols-1 1200:grid-cols-12 gap-8 990:gap-12 items-start">
-              {/* Main Column */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7 }}
-                className="1200:col-span-8 flex flex-col gap-8"
-              >
+            <div className="grid grid-cols-1 1200:grid-cols-12 gap-px items-start">
+              {/* Main column */}
+              <div className="1200:col-span-8 bg-black flex flex-col">
                 {/* Image */}
                 <div className="relative overflow-hidden">
                   <Picture
@@ -59,29 +53,43 @@ export const RobynBellClient = ({ data }) => {
                   <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent" aria-hidden="true" />
                 </div>
 
-                {/* Body Content */}
-                <div className="bg-duskgray/60 backdrop-blur-sm border-t-2 border-blaze px-6 430:px-10 py-10">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-6 h-px bg-blaze" aria-hidden="true" />
-                    <span className="font-changa text-xs uppercase tracking-[0.25em] text-blaze">Biography</span>
+                {/* Body */}
+                <div className="px-6 430:px-10 py-10 flex flex-col gap-8">
+                  <div>
+                    <div className="flex items-center gap-3 mb-5">
+                      <div className="w-6 h-px bg-blaze" aria-hidden="true" />
+                      <span className="font-changa text-xs uppercase tracking-[0.25em] text-blaze">Biography</span>
+                    </div>
+                    <h2
+                      id="robyn-bell-heading"
+                      className="font-changa text-2xl 430:text-3xl text-white mb-6 leading-tight"
+                    >
+                      {field('robyn_bell_main_title')}
+                    </h2>
+                    <div className="w-8 h-px bg-blaze mb-8" aria-hidden="true" />
                   </div>
 
-                  <h2
-                    id="robyn-bell-heading"
-                    className="font-changa text-2xl 430:text-3xl text-white mb-8 leading-tight"
-                  >
-                    {field('robyn_bell_main_title')}
-                  </h2>
-
-                  <div className="flex flex-col gap-5 font-lato text-white/70 text-sm 430:text-base leading-relaxed">
-                    <p>{field('robyn_bell_p1')}</p>
-                    <p>{field('robyn_bell_p2')}</p>
-                    <p>{field('robyn_bell_p3')}</p>
-                    <p>{field('robyn_bell_p4')}</p>
+                  <div className="flex flex-col gap-5">
+                    {[field('robyn_bell_p1'), field('robyn_bell_p2'), field('robyn_bell_p3'), field('robyn_bell_p4')]
+                      .filter(Boolean)
+                      .map((p, i) => (
+                        <p
+                          key={i}
+                          className={`font-lato text-white text-sm 430:text-base leading-relaxed ${
+                            i === 0 ? 'border-l-2 border-blaze pl-5' : ''
+                          }`}
+                        >
+                          {p}
+                        </p>
+                      ))}
                   </div>
 
-                  {/* Credentials — sunburst uppercase block */}
-                  <div className="mt-10 flex flex-col gap-4 border-t border-white/10 pt-8">
+                  {/* Credentials */}
+                  <div className="flex flex-col gap-3 border-t border-white/10 pt-8">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="w-6 h-px bg-blaze" aria-hidden="true" />
+                      <span className="font-changa text-xs uppercase tracking-[0.25em] text-blaze">Credentials</span>
+                    </div>
                     <p className="font-changa text-xs tracking-wider text-sunburst uppercase leading-relaxed">
                       {field('robyn_bell_credentials')}
                     </p>
@@ -90,29 +98,37 @@ export const RobynBellClient = ({ data }) => {
                     </p>
                   </div>
                 </div>
-              </motion.div>
+              </div>
 
               {/* Sidebar */}
-              <motion.aside
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.2 }}
-                aria-label="About Robyn Bell"
-                className="1200:col-span-4 flex flex-col gap-6"
-              >
-                <div className="bg-duskgray/60 backdrop-blur-sm border-t-2 border-blaze px-6 430:px-8 py-8 sticky top-24">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-6 h-px bg-blaze" aria-hidden="true" />
-                    <span className="font-changa text-xs uppercase tracking-[0.25em] text-blaze">About</span>
+              <aside aria-label="About Robyn Bell" className="1200:col-span-4 bg-black">
+                <div className="px-6 430:px-8 py-8 990:sticky 990:top-24 flex flex-col gap-6">
+                  <div>
+                    <div className="flex items-center gap-3 mb-5">
+                      <div className="w-6 h-px bg-blaze" aria-hidden="true" />
+                      <span className="font-changa text-xs uppercase tracking-[0.25em] text-blaze">About</span>
+                    </div>
+                    <h2 className="font-changa text-xl 430:text-2xl text-white mb-4 leading-tight">
+                      {field('robyn_bell_side_title')}
+                    </h2>
+                    <div className="w-8 h-px bg-blaze mb-5" aria-hidden="true" />
+                    <p className="font-lato text-white text-sm 430:text-base leading-relaxed border-l-2 border-blaze pl-5">
+                      {field('robyn_bell_side_p1')}
+                    </p>
                   </div>
-                  <h2 className="font-changa text-xl 430:text-2xl text-blaze mb-5 leading-tight">
-                    {field('robyn_bell_side_title')}
-                  </h2>
-                  <p className="font-lato text-white/70 text-sm 430:text-base leading-relaxed">
-                    {field('robyn_bell_side_p1')}
-                  </p>
+
+                  {/* Portrait */}
+                  <div className="relative overflow-hidden border border-white/10">
+                    <Picture
+                      src="/images/robyn-2.png"
+                      alt="Portrait of Robyn Bell, Music Director"
+                      className="w-full h-auto object-cover"
+                      priority={false}
+                    />
+                    <div className="h-0.5 bg-blaze" aria-hidden="true" />
+                  </div>
                 </div>
-              </motion.aside>
+              </aside>
             </div>
           </div>
         </section>

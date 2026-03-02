@@ -64,7 +64,7 @@ export const AboutClient = ({ data }) => {
                     {field('about_aside_heading')}
                   </h2>
                   <div className="w-8 h-px bg-blaze mb-6" aria-hidden="true" />
-                  <p className="font-lato text-white/60 text-sm 430:text-base leading-relaxed border-l-2 border-blaze pl-5">
+                  <p className="font-lato text-white text-sm 430:text-base leading-relaxed border-l-2 border-blaze pl-5">
                     {field('about_aside_paragraph')}
                   </p>
                 </div>
@@ -116,7 +116,7 @@ export const AboutClient = ({ data }) => {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
                       transition={{ duration: 0.5, delay: index * 0.1 }}
-                      className={`font-lato text-white/60 text-sm 430:text-base leading-relaxed ${
+                      className={`font-lato text-white text-sm 430:text-base leading-relaxed ${
                         index === 0 ? 'border-l-2 border-blaze pl-5 text-white/80' : ''
                       }`}
                     >

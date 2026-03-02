@@ -44,7 +44,7 @@ interface InputProps {
 
 const Input: FC<InputProps> = ({ name, value, handleInput, placeholder, error, required, type = 'text' }) => (
   <div className="flex flex-col w-full">
-    <label htmlFor={name} className="font-changa text-[10px] uppercase tracking-[0.25em] text-white/40 mb-2">
+    <label htmlFor={name} className="font-changa text-[10px] uppercase tracking-[0.25em] text-white/80 mb-2">
       {placeholder}
       {required && (
         <>
@@ -154,7 +154,7 @@ const NewsletterForm = ({ data }) => {
             </h1>
             <Link
               href="/concerts"
-              className="bg-blaze w-fit px-8 py-3 text-12 uppercase font-changa rounded-sm font-semibold tracking-wider duration-300 hover:bg-blazehover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+              className="bg-blaze w-fit px-8 py-3 text-12 uppercase font-changa font-semibold tracking-wider duration-300 hover:bg-blazehover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
             >
               Check out our concerts
             </Link>
@@ -285,7 +285,7 @@ const NewsletterForm = ({ data }) => {
                   type="button"
                   onClick={() => selectAllSwitches()}
                   aria-pressed={inputs?.isSelectAll || false}
-                  className="text-left text-sm text-sunburst font-semibold font-lato hover:text-sunbursthover transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sunburst rounded-sm"
+                  className="text-left text-sm text-sunburst font-semibold font-lato hover:text-sunbursthover transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sunburst"
                 >
                   {inputs?.isSelectAll ? 'Deselect' : 'Select'} All
                 </button>

@@ -68,7 +68,7 @@ const Footer = ({ data }: { data: FooterData }) => {
                         }
                         className="w-8 h-8 bg-white/5 border border-white/10 hover:border-blaze/50 hover:bg-blaze/5 flex items-center justify-center transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-sm"
                       >
-                        <IconComponent className="w-3.5 h-3.5 text-white/50" aria-hidden="true" />
+                        <IconComponent className="w-3.5 h-3.5 text-white" aria-hidden="true" />
                       </a>
                     </li>
                   )
@@ -87,13 +87,13 @@ const Footer = ({ data }: { data: FooterData }) => {
               <ul className="flex flex-col gap-2" aria-label="Contact information">
                 <li className="flex items-start gap-2">
                   <Pencil className="text-blaze w-3 h-3 shrink-0 mt-0.5" aria-hidden="true" />
-                  <span className="font-lato text-[11px] 430:text-xs text-white/50 leading-relaxed">
+                  <span className="font-lato text-[11px] 430:text-xs text-white leading-relaxed">
                     {d('footer_contact_line1')}
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <MapPin className="text-blaze w-3 h-3 shrink-0 mt-0.5" aria-hidden="true" />
-                  <span className="font-lato text-[11px] 430:text-xs text-white/50 leading-relaxed">
+                  <span className="font-lato text-[11px] 430:text-xs text-white leading-relaxed">
                     {d('footer_contact_line2')}
                   </span>
                 </li>
@@ -103,7 +103,7 @@ const Footer = ({ data }: { data: FooterData }) => {
                   <a
                     href={`tel:${d('footer_contact_line3').replace(/\D/g, '')}`}
                     aria-label={`Call us at ${d('footer_contact_line3')}`}
-                    className="font-lato text-[11px] 430:text-xs text-white/50 hover:text-blaze transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm"
+                    className="font-lato text-[11px] 430:text-xs text-white hover:text-blaze transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm"
                   >
                     {d('footer_contact_line3')}
                   </a>
@@ -130,7 +130,7 @@ const Footer = ({ data }: { data: FooterData }) => {
                       onClick={() =>
                         sendEnrichedGAEvent('footer_link_click', link.linkKey, link.textKey, 'footer_quick_links')
                       }
-                      className="font-lato text-[11px] 430:text-xs text-white/50 hover:text-blaze transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm"
+                      className="font-lato text-[11px] 430:text-xs text-white hover:text-blaze transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm"
                     >
                       {link.textKey}
                     </Link>
@@ -147,7 +147,7 @@ const Footer = ({ data }: { data: FooterData }) => {
                   {d('footer_tagline_label')}
                 </p>
               </div>
-              <p className="font-lato text-[11px] 430:text-xs text-white/50 leading-relaxed">
+              <p className="font-lato text-[11px] 430:text-xs text-white leading-relaxed">
                 {d('footer_tagline_description')}
               </p>
             </div>
@@ -172,7 +172,7 @@ const Footer = ({ data }: { data: FooterData }) => {
               }
               className="flex items-center gap-1 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm"
             >
-              <span className="font-lato text-[10px] text-white/30 group-hover:text-white/50 transition-colors">
+              <span className="font-lato text-[10px] text-white/30 group-hover:text-white transition-colors">
                 Built by
               </span>
               <span className="sqysh-gradient text-[10px] font-bold font-raleway">Sqysh</span>
