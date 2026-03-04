@@ -18,7 +18,7 @@ const ConcertsBlock = ({ pageData, concerts }) => {
 
   return (
     <section aria-labelledby="concerts-heading" className="px-4 pt-32.5 pb-40 bg-black">
-      <div className="mx-auto max-w-300 w-full flex flex-col items-center">
+      <div className="max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 1590:max-w-7xl mx-auto w-full flex flex-col items-center">
         <motion.div variants={fadeInUp} className="mb-6 w-full flex justify-center items-center">
           <div className="flex items-center gap-3 px-6 py-3 bg-black/40 border border-white/10 backdrop-blur-sm">
             <span className="text-white font-bold text-xs uppercase tracking-widest text-center">
@@ -34,7 +34,7 @@ const ConcertsBlock = ({ pageData, concerts }) => {
           {concert?.subheading}
         </h2>
 
-        <div className="w-full max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 1590:max-w-7xl mb-10">
+        <div className="mb-10">
           <ul role="list" className="flex flex-col divide-y divide-white/10">
             {concerts?.map((c: IConcert, index: number) => (
               <motion.li

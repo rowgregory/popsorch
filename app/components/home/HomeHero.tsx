@@ -45,14 +45,19 @@ const HomeHero = ({ pageData, ref, galleryImages }) => {
       initial={sectionVariants.initial}
       animate={sectionVariants.animate}
       transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.35, ease: 'easeIn' }}
-      className="relative w-full min-h-125 h-dvh max-h-1000 -mt-16 sm:-mt-20"
+      className="relative w-full min-h-200 h-dvh max-h-1000 -mt-16 sm:-mt-20"
     >
       <HomeHeroCarousel images={filteredImages} interval={shouldReduceMotion ? 0 : 5000} />
 
       {/* Overlay */}
       <div className="absolute inset-0 z-40 flex flex-col justify-end pb-16 430:pb-20 990:pb-28 px-4 990:px-12 xl:px-4">
         {/* Gradient behind text */}
-        <div className="absolute inset-0 bg-linear-to-t from-black via-black/10 to-transparent" aria-hidden="true" />
+        <div className="absolute inset-0" aria-hidden="true">
+          {/* Main bottom gradient */}
+          <div className="absolute inset-0 bg-linear-to-t from-black via-black/10 to-transparent" />
+          {/* Left side gradient that bends it up */}
+          <div className="absolute inset-0 bg-linear-to-r from-black/80 via-black/20 to-transparent" />
+        </div>
 
         <div className="relative z-10 max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 1590:max-w-7xl mx-auto w-full">
           {/* Logo */}
@@ -83,10 +88,15 @@ const HomeHero = ({ pageData, ref, galleryImages }) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.2 }}
-            className="flex items-center gap-3"
+            className="flex items-center gap-3 mb-1"
           >
-            <div className="w-6 h-px bg-blaze" aria-hidden="true" />
-            <span className="font-changa text-xs uppercase tracking-[0.3em] text-blaze">{headingPrefix}</span>
+            <div className="w-6 h-px bg-blaze hidden sm:block" aria-hidden="true" />
+            <span
+              className="font-changa uppercase tracking-[0.25em] text-blaze"
+              style={{ fontSize: 'clamp(1rem, 3vw, 2rem)' }}
+            >
+              {headingPrefix}
+            </span>
           </motion.div>
 
           {/* Title */}
@@ -95,7 +105,7 @@ const HomeHero = ({ pageData, ref, galleryImages }) => {
             animate={{ opacity: 1, y: 0 }}
             transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.7, delay: 0.35 }}
             className="font-changa text-white leading-none mb-4"
-            style={{ fontSize: 'clamp(2.25rem, 8vw, 6rem)' }}
+            style={{ fontSize: 'clamp(2.75rem, 5.5vw, 4.25rem)' }}
           >
             <span className="sr-only">{heading}</span>
             <span aria-hidden="true">{headingMain}</span>

@@ -25,7 +25,7 @@ export const ContactUsBlock = ({ data }) => {
       <div className="absolute inset-0 bg-linear-to-t from-black via-transparent to-black" aria-hidden="true" />
 
       <section aria-labelledby="contact-heading" className="relative z-10 px-4 990:px-12 xl:px-4 py-28 990:py-40">
-        <div className="max-w-[320px] 430:max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 1590:max-w-300 mx-auto">
+        <div className="max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 1590:max-w-7xl mx-auto w-full">
           {/* Section header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -55,7 +55,7 @@ export const ContactUsBlock = ({ data }) => {
           <ul
             role="list"
             aria-label="Contact methods"
-            className="grid grid-cols-1 760:grid-cols-3 gap-px bg-white/10 mb-16 430:mb-20"
+            className="grid grid-cols-1 990:grid-cols-3 gap-px bg-white/10 mb-16 430:mb-20"
           >
             {[
               {
