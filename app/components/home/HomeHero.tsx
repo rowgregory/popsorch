@@ -29,8 +29,8 @@ const HomeHero = ({ pageData, ref, galleryImages }) => {
 
   const heading = hero?.heading || ''
   const parts = heading.split(' of ')
-  const headingPrefix = parts[0] ? `${parts[0]} of` : ''
-  const headingMain = parts[1] || ''
+  const headingPrefix = parts[0]
+  const headingMain = `of ${parts[1]}` || ''
 
   // Respect prefers-reduced-motion for entrance animation
   const sectionVariants = {
@@ -78,37 +78,38 @@ const HomeHero = ({ pageData, ref, galleryImages }) => {
                 width={160}
                 height={160}
                 priority={true}
-                className="w-40 430:w-50 h-auto object-contain"
+                className="w-40 430:w-60 h-auto object-contain"
               />
             </Link>
           </motion.div>
 
-          {/* Eyebrow */}
+          {/* Eyebrow — big display name */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.2 }}
-            className="flex items-center gap-3 mb-1"
+            className="mb-0"
           >
-            <div className="w-6 h-px bg-blaze hidden sm:block" aria-hidden="true" />
-            <span
-              className="font-changa uppercase tracking-[0.25em] text-blaze"
-              style={{ fontSize: 'clamp(1rem, 3vw, 2rem)' }}
+            <p
+              className="font-changa text-white leading-none drop-shadow-2xl"
+              style={{ fontSize: 'clamp(2.75rem, 6vw, 5.5rem)' }}
             >
               {headingPrefix}
-            </span>
+            </p>
           </motion.div>
 
-          {/* Title */}
+          {/* Title — refined subtitle */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.7, delay: 0.35 }}
-            className="font-changa text-white leading-none mb-4"
-            style={{ fontSize: 'clamp(2.75rem, 5.5vw, 4.25rem)' }}
+            className="font-changa leading-none mb-4"
+            style={{ fontSize: 'clamp(1rem, 2.2vw, 1.75rem)' }}
           >
             <span className="sr-only">{heading}</span>
-            <span aria-hidden="true">{headingMain}</span>
+            <span aria-hidden="true" className="text-blaze uppercase tracking-[0.3em]">
+              {headingMain}
+            </span>
           </motion.h1>
 
           <motion.div
