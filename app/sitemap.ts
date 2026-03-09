@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import prisma from '@/prisma/client'
 import { MetadataRoute } from 'next'
 
