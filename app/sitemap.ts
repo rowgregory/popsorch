@@ -4,10 +4,21 @@ import { MetadataRoute } from 'next'
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://thepopsorchestra.org'
 
-  // Fetch dynamic data from database
-  const concerts = await prisma.concert.findMany({
-    select: { id: true, updatedAt: true }
-  })
+  let concertPages: MetadataRoute.Sitemap = []
+
+  try {
+    const concerts = await prisma.concert.findMany({
+      select: { id: true, updatedAt: true }
+    })
+    concertPages = concerts.map((concert) => ({
+      url: `${baseUrl}/concerts/${concert.id}`,
+      lastModified: concert.updatedAt,
+      changeFrequency: 'weekly' as const,
+      priority: 0.7
+    }))
+  } catch {
+    // DB unreachable at build time — concert pages omitted from sitemap
+  }
 
   // Static pages
   const staticPages = [
@@ -132,14 +143,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9
     }
   ]
-
-  // Dynamic concert pages
-  const concertPages = concerts.map((concert) => ({
-    url: `${baseUrl}/concerts/${concert.id}`,
-    lastModified: concert.updatedAt,
-    changeFrequency: 'weekly' as const,
-    priority: 0.7
-  }))
 
   return [...staticPages, ...concertPages]
 }
