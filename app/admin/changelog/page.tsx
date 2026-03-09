@@ -17,6 +17,40 @@ interface ChangelogEntry {
 
 const changelogData: ChangelogEntry[] = [
   {
+    version: '3.5.0',
+    date: '2026-03-09',
+    changes: [
+      {
+        type: 'bugfix',
+        title: 'Prisma Singleton Fixed for Production',
+        description:
+          "Fixed a critical bug where the Prisma client singleton was only being cached in the development environment due to an incorrect NODE_ENV condition. In production, every serverless function invocation was instantiating a new PrismaClient, each opening its own connection pool to Railway Postgres. With 46 serverless functions on Vercel, this caused connections to accumulate unbounded across concurrent requests until Railway's 100-connection limit was exhausted — causing the entire site to return 500s simultaneously. Fixed by removing the environment condition so the singleton is always cached regardless of environment.",
+        impact: 'high'
+      },
+      {
+        type: 'improvement',
+        title: 'Postgres Connection Limit Throttling',
+        description:
+          "Added connection_limit=5 and pool_timeout=10 to the DATABASE_URL connection string. This caps each serverless function instance to a maximum of 5 concurrent Postgres connections and sets a 10 second timeout before a connection request fails rather than hanging indefinitely. Combined with the singleton fix, this prevents any future connection flood from exhausting Railway's 100-connection limit even under heavy concurrent traffic.",
+        impact: 'high'
+      },
+      {
+        type: 'feature',
+        title: 'User Drawer',
+        description:
+          'Added a slide-in user drawer in the admin Users page. Clicking a the action button opens a drawer displaying their ID, name, and email with an inline role selector to update between Admin and Supporter roles.',
+        impact: 'medium'
+      },
+      {
+        type: 'feature',
+        title: 'updateUserRole Server Action',
+        description:
+          "Added a new server action to update a user's role. Protected accounts (superuser and current session user) are locked from role changes and deletion in the UI.",
+        impact: 'medium'
+      }
+    ]
+  },
+  {
     version: '3.4.0',
     date: '2026-03-01',
     changes: [
