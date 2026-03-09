@@ -1,6 +1,6 @@
 'use client'
 
-import { FC, ReactNode, useEffect, useRef, useState } from 'react'
+import { FC, ReactNode, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useAppDispatch, useDashboardSelector } from '@/app/redux/store'
 import AdminSidebar from '@/app/admin/sidebar'
@@ -10,7 +10,6 @@ import SponsorDrawer from '@/app/components/drawers/SponsorDrawer'
 import TeamMemberDrawer from '@/app/components/drawers/TeamMemberDrawer'
 import VenueDrawer from '@/app/components/drawers/VenueDrawer'
 import { setCloseAdminSidebar, setToggleAdminSidebar } from '@/app/redux/features/dashboardSlice'
-import { setUser } from '@/app/redux/features/userSlice'
 import { Menu } from 'lucide-react'
 import LogoutButton from '../buttons/LogoutButton'
 import PageSelectorModal from '../modals/PageSelectorModal'
@@ -21,6 +20,7 @@ import { handleUploadPhotoGalleryImage } from '@/app/utils/handleUploadPhotoGall
 import { createFormActions } from '@/app/redux/features/formSlice'
 import { useRouter } from 'next/navigation'
 import { createPhotoGalleryImage } from '@/app/actions/createPhotoGalleryImage'
+import UserDrawer from '../drawers/UserDrawer'
 
 interface IAdminClientLayout {
   children: ReactNode
@@ -40,10 +40,6 @@ const AdminLayoutClient: FC<IAdminClientLayout> = ({ children, data, buttons, ca
   const { handleUploadProgress } = createFormActions('photoGallery', dispatch)
   const router = useRouter()
 
-  useEffect(() => {
-    dispatch(setUser(data))
-  }, [data, dispatch])
-
   return (
     <>
       {/* Drawers & Modals */}
@@ -54,6 +50,7 @@ const AdminLayoutClient: FC<IAdminClientLayout> = ({ children, data, buttons, ca
       <VenueDrawer />
       <HeaderButtonStudioDrawer data={buttons} />
       <PageSelectorModal />
+      <UserDrawer />
 
       {/* Desktop Fixed Header */}
       <header className="block lg:fixed top-0 left-64 right-0 bg-neutral-950 border-b border-neutral-800 py-4 px-6 z-30">
@@ -131,7 +128,7 @@ const AdminLayoutClient: FC<IAdminClientLayout> = ({ children, data, buttons, ca
         )}
         {/* Sidebar - Hidden on mobile, visible on desktop */}
         <div className="hidden lg:block fixed left-0 top-0 h-screen w-64 z-20">
-          <AdminSidebar />
+          <AdminSidebar user={data} />
         </div>
 
         {/* Mobile Sidebar */}
@@ -141,7 +138,7 @@ const AdminLayoutClient: FC<IAdminClientLayout> = ({ children, data, buttons, ca
           transition={{ duration: 0.3 }}
           className="fixed lg:hidden inset-y-0 left-0 z-50 w-64"
         >
-          <AdminSidebar />
+          <AdminSidebar user={data} />
         </motion.div>
 
         {/* Main Content */}

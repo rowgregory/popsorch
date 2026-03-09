@@ -1,14 +1,13 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { setCloseAdminSidebar } from '@/app/redux/features/dashboardSlice'
-import { useAppDispatch, useUserSelector } from '@/app/redux/store'
+import { useAppDispatch } from '@/app/redux/store'
 import { X } from 'lucide-react'
 import { adminNavLinks } from '@/public/data/adminNavLinks'
 import { usePathname } from 'next/navigation'
 
-const AdminSidebar = () => {
+const AdminSidebar = ({ user }) => {
   const dispatch = useAppDispatch()
-  const { user } = useUserSelector()
   const pathname = usePathname()
   const onClose = () => dispatch(setCloseAdminSidebar())
 
