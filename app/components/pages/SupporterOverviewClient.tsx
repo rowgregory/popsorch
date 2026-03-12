@@ -274,7 +274,7 @@ const SupporterOverviewClient = ({ isSubscribed, user, isCampActive, campApplica
                     </p>
                     {isCampActive && (
                       <Link
-                        href="/camp/apply"
+                        href="/camp-application"
                         className="group inline-flex items-center gap-2 bg-blaze hover:bg-blazehover text-white px-6 py-3 font-changa text-xs uppercase tracking-widest transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
                       >
                         <Music className="w-3.5 h-3.5" aria-hidden="true" />
