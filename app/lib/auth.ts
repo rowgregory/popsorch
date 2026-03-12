@@ -4,6 +4,8 @@ import { PrismaAdapter } from '@auth/prisma-adapter'
 import { createLog } from '../utils/logHelper'
 import googleProvider from './providers/googleProvider'
 import { handleGoogleCallback } from './callbacks/handleGoogleCallback'
+import { handleEmailCallback } from './callbacks/handleEmailCallback'
+import { magicLinkProvider } from './providers/magicLinkProvider'
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   debug: false,
@@ -18,14 +20,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     error: '/auth/error'
   },
 
-  providers: [googleProvider],
+  providers: [googleProvider, magicLinkProvider],
 
   callbacks: {
     async signIn({ user, account, profile }) {
       try {
         switch (account?.provider) {
-          // case 'email':
-          //   return await handleEmailCallback(user)
+          case 'email':
+            return await handleEmailCallback(user)
 
           case 'google':
             return await handleGoogleCallback(user, account, profile)

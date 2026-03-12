@@ -17,6 +17,54 @@ interface ChangelogEntry {
 
 const changelogData: ChangelogEntry[] = [
   {
+    version: '3.6.0',
+    date: '2026-03-12',
+    changes: [
+      {
+        type: 'feature',
+        title: 'Magic Link Authentication',
+        description:
+          'Added email-based magic link sign-in as a secondary authentication method alongside Google OAuth. Includes custom Resend email template, token validation, and "Use a different email" flow.',
+        impact: 'high'
+      },
+      {
+        type: 'feature',
+        title: 'Camp Application Detail Page',
+        description:
+          'Added /supporter/overview/[campApplicationId] page showing a full read-only view of a submitted camp application including student, address, parent, and music detail sections.',
+        impact: 'high'
+      },
+      {
+        type: 'feature',
+        title: 'Camp Status Section on Account Overview',
+        description:
+          'Added a Camp Status card to the account overview that reflects three states: applications open, already applied this year, and applications closed.',
+        impact: 'medium'
+      },
+      {
+        type: 'improvement',
+        title: 'Camp Applications List Now Clickable',
+        description:
+          'Each camp application row in the account overview is now a link to its full detail page, with hover states and a chevron indicator.',
+        impact: 'medium'
+      },
+      {
+        type: 'improvement',
+        title: 'Newsletter Section Returns Boolean',
+        description:
+          'Refactored getSupporterData into getNewsletterSubscriptionStatus, returning a simple isSubscribed boolean with try/catch error handling.',
+        impact: 'low'
+      },
+      {
+        type: 'ui',
+        title: 'Auth Error Page Redesign',
+        description:
+          'Rebuilt the authentication error page to match the sign-in page aesthetic — pure black background, blaze accents, editorial eyebrow/rule pattern, and consistent button styles.',
+        impact: 'low'
+      }
+    ]
+  },
+  {
     version: '3.5.0',
     date: '2026-03-09',
     changes: [

@@ -2,12 +2,9 @@
 
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
 import { AlertTriangle, Clock, Shield, Mail, Lock, Compass, Rocket } from 'lucide-react'
-import Picture from '@/app/components/common/Picture'
-import MotionLink from '@/app/components/common/MotionLink'
 
-const getAuthErrorMessage = (error: string | null) => {
+export const getAuthErrorMessage = (error: string | null) => {
   switch (error) {
     case 'AccessDenied':
       return {
@@ -69,136 +66,129 @@ export default function AuthError() {
   const Icon = errorInfo.icon
 
   return (
-    <div className="min-h-screen flex bg-duskgray">
-      {/* Left Side - Visual/Branding */}
-      <div className="hidden lg:flex lg:w-1/2 bg-duskgray relative overflow-hidden items-center justify-center p-12">
-        {/* Content */}
-        <div className="relative z-10 text-center flex items-center justify-center flex-col">
-          <MotionLink href="/" className="flex space-x-3 w-44 h-auto mb-8">
-            <Picture
-              src="/images/logo.png"
-              alt="Pops"
-              className="w-full h-full cursor-pointer hover:opacity-80 transition-opacity object-contain"
-              priority
+    <main id="main-content" className="min-h-screen flex overflow-hidden bg-black">
+      {/* Left Side - Branding */}
+      <div className="hidden lg:flex lg:w-1/2 bg-black relative overflow-hidden items-center justify-center p-12">
+        <div
+          className="absolute inset-0 w-full h-full bg-no-repeat bg-center bg-cover opacity-10"
+          style={{ backgroundImage: `url('/images/bio-bg.png')` }}
+          aria-hidden="true"
+        />
+        <div className="relative z-10 flex flex-col items-center text-center">
+          <Link
+            href="/"
+            aria-label="The Pops Orchestra — return to homepage"
+            className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black inline-block mb-12"
+          >
+            <div
+              className="bg-golden50Logo bg-no-repeat bg-contain bg-center w-40 h-20"
+              role="img"
+              aria-label="The Pops Orchestra logo"
             />
-          </MotionLink>
+          </Link>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
-            className="inline-flex items-center justify-center w-20 h-20 bg-blaze/20 mb-6"
-          >
-            <Icon className="w-10 h-10 text-blaze" />
-          </motion.div>
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-6 h-px bg-blaze" aria-hidden="true" />
+            <span className="font-changa text-xs uppercase tracking-[0.25em] text-blaze">The Pops Orchestra</span>
+            <div className="w-6 h-px bg-blaze" aria-hidden="true" />
+          </div>
 
-          <div className="w-12 h-0.5 bg-blaze mb-6" />
+          <div className="w-16 h-16 bg-blaze/10 flex items-center justify-center mb-6" aria-hidden="true">
+            <Icon className="w-8 h-8 text-blaze" />
+          </div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="text-white font-changa text-4xl uppercase tracking-wider mb-8"
-          >
-            Authentication Error
-          </motion.h1>
+          <h2 className="font-changa text-3xl uppercase tracking-wider text-white leading-none">
+            Authentication
+            <br />
+            Error
+          </h2>
+          <div className="w-8 h-px bg-blaze mt-4" aria-hidden="true" />
         </div>
       </div>
 
       {/* Right Side - Error Content */}
-      <div className="w-full lg:w-1/2 bg-duskgray flex items-center justify-center p-8">
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6 }}
-          className="w-full max-w-md"
-        >
-          {/* Mobile header */}
-          <div className="lg:hidden text-center mb-8">
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: 'spring', stiffness: 200 }}
-              className="inline-flex items-center justify-center w-16 h-16 bg-blaze/20 mb-4"
+      <div className="w-full lg:w-1/2 flex flex-col items-center justify-center px-4 430:px-6 py-12 relative">
+        <div
+          className="absolute inset-0 w-full h-full bg-no-repeat bg-center bg-cover opacity-10"
+          style={{ backgroundImage: `url('/images/bio-bg.png')` }}
+          aria-hidden="true"
+        />
+
+        <div className="relative z-10 w-full max-w-[320px] 430:max-w-sm">
+          {/* Mobile logo */}
+          <div className="lg:hidden mb-10 flex justify-center">
+            <Link
+              href="/"
+              aria-label="The Pops Orchestra — return to homepage"
+              className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black inline-block"
             >
-              <Icon className="w-8 h-8 text-blaze" />
-            </motion.div>
-            <div className="w-8 h-0.5 bg-blaze mx-auto mb-4" />
-            <h1 className="text-white font-changa text-2xl uppercase tracking-wider">Authentication Error</h1>
+              <div
+                className="bg-golden50Logo bg-no-repeat bg-contain bg-center w-32 430:w-40 h-16 430:h-20"
+                role="img"
+                aria-label="The Pops Orchestra logo"
+              />
+            </Link>
           </div>
 
-          {/* Error Card */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="bg-duskgray border border-blaze/20 p-6 mb-8"
-          >
-            <div className="flex items-start space-x-4">
-              <div className="shrink-0 hidden lg:block">
-                <div className="w-12 h-12 bg-blaze/20 flex items-center justify-center">
-                  <Icon className="w-6 h-6 text-blaze" />
-                </div>
-              </div>
-              <div>
-                <h2 className="text-sunburst font-changa text-xl uppercase tracking-wider mb-3">{errorInfo.title}</h2>
-                <div className="w-8 h-0.5 bg-blaze mb-4" />
-                <p className="text-white/70 leading-relaxed">{errorInfo.message}</p>
-              </div>
+          <section aria-labelledby="error-heading">
+            {/* Eyebrow */}
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-6 h-px bg-blaze" aria-hidden="true" />
+              <span className="font-changa text-xs uppercase tracking-[0.25em] text-blaze">The Pops Orchestra</span>
             </div>
-          </motion.div>
 
-          {/* Action Buttons */}
-          <div className="space-y-4">
-            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} transition={{ duration: 0.3 }}>
+            <h1 id="error-heading" className="font-changa text-3xl 430:text-4xl text-white leading-none mb-3">
+              Authentication
+              <br />
+              Error
+            </h1>
+            <div className="w-8 h-px bg-blaze mb-6" aria-hidden="true" />
+
+            {/* Error detail */}
+            <div className="border-l-2 border-blaze pl-5 mb-10">
+              <p className="font-changa text-sm uppercase tracking-wide text-white mb-1">{errorInfo.title}</p>
+              <p className="font-lato text-white/50 text-sm leading-relaxed">{errorInfo.message}</p>
+            </div>
+
+            {/* Actions */}
+            <div className="flex flex-col gap-3" role="group" aria-label="Recovery options">
               <Link
                 href="/auth/login"
-                className="w-full bg-blaze hover:bg-blazehover text-white font-changa uppercase tracking-wider text-sm py-3 px-6 flex items-center justify-center gap-2 transition-colors duration-300"
+                className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 bg-blaze hover:bg-blazehover text-white font-changa text-sm uppercase tracking-widest transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black"
               >
-                <Rocket className="w-5 h-5" />
+                <Rocket className="w-4 h-4 shrink-0" aria-hidden="true" />
                 Return to Login
               </Link>
-            </motion.div>
 
-            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} transition={{ duration: 0.3 }}>
               <Link
                 href="/"
-                className="w-full bg-duskgray border border-blaze/20 hover:border-blaze/40 text-white font-changa uppercase tracking-wider text-sm py-3 px-6 flex items-center justify-center gap-2 transition-colors duration-300"
+                className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blaze/40 text-white font-changa text-sm uppercase tracking-widest transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black"
               >
                 Back to Home
               </Link>
-            </motion.div>
-          </div>
+            </div>
 
-          {/* Help Text */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="text-white/40 text-center text-sm mt-8"
-          >
-            Need assistance? Contact{' '}
-            <a
-              href="mailto:support@pops.org"
-              className="text-sunburst hover:text-sunburst/80 transition-colors duration-300"
-            >
-              support
-            </a>
-          </motion.p>
+            {/* Help */}
+            <p className="font-lato text-white/40 text-xs text-center mt-8 leading-relaxed">
+              Need assistance?{' '}
+              <a
+                href="mailto:info@thepopsorchestra.org"
+                className="text-blaze hover:text-white transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm"
+              >
+                Contact support
+              </a>
+            </p>
 
-          {/* Error Code */}
-          {error && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.6 }}
-              className="mt-6 text-center"
-            >
-              <span className="text-white/30 text-xs font-changa uppercase tracking-widest">Error: {error}</span>
-            </motion.div>
-          )}
-        </motion.div>
+            {/* Error code */}
+            {error && (
+              <p className="font-changa text-white/20 text-[10px] uppercase tracking-widest text-center mt-4">
+                <span className="sr-only">Error code: </span>
+                {error}
+              </p>
+            )}
+          </section>
+        </div>
       </div>
-    </div>
+    </main>
   )
 }

@@ -1,17 +1,75 @@
 'use client'
 
-import { useState } from 'react'
-import { Bell, Heart, Loader2, Mail } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { ArrowLeft, ArrowRight, Bell, Heart, Loader2, Mail } from 'lucide-react'
 import Link from 'next/link'
 import { signIn } from 'next-auth/react'
+import { useSearchParams } from 'next/navigation'
+import { getAuthErrorMessage } from '../error/page'
+import { logAuthError } from '@/app/actions/logAuthError'
 
 const Login = () => {
-  const [isLoading, setIsLoading] = useState(false)
+  const [email, setEmail] = useState('')
+  const [sent, setSent] = useState(false)
+  const [loadingGoogle, setLoadingGoogle] = useState(false)
+  const [loadingMagicLink, setLoadingMagicLink] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const searchParams = useSearchParams()
+  const urlError = searchParams.get('error')
+  const errorInfo = urlError ? getAuthErrorMessage(urlError) : null
 
   const handleGoogleSignIn = async () => {
-    setIsLoading(true)
-    await signIn('google', { callbackUrl: '/admin/dashboard' })
+    setLoadingGoogle(true)
+    await signIn('google', { redirectTo: '/auth/login' })
   }
+
+  async function handleMagicLinkSignIn() {
+    if (!email || loadingMagicLink) return
+    setLoadingMagicLink(true)
+    setError(null)
+    try {
+      const res = await signIn('email', { email, redirect: false, redirectTo: '/auth/login' })
+      if (res?.error) throw new Error(res.error)
+      setSent(true)
+    } catch {
+      setError('Something went wrong. Please try again.')
+    } finally {
+      setLoadingMagicLink(false)
+    }
+  }
+
+  useEffect(() => {
+    // Skip false positives
+    if (!urlError || urlError === 'undefined' || urlError === 'null') {
+      return
+    }
+
+    // Only log if we have valid error info AND it's a real error code
+    const knownErrors = [
+      'AccessDenied',
+      'Verification',
+      'EmailSignin',
+      'OAuthSignin',
+      'OAuthCallback',
+      'SessionRequired',
+      'Configuration'
+    ]
+
+    if (errorInfo) {
+      const savedEmail = localStorage.getItem('lastMagicLinkEmail')
+
+      logAuthError({
+        error: urlError,
+        title: errorInfo.title,
+        message: errorInfo.message,
+        timestamp: new Date().toISOString(),
+        userAgent: navigator.userAgent,
+        url: window.location.href,
+        email: savedEmail || undefined,
+        isKnownError: knownErrors.includes(urlError) // Helps you filter in DB
+      })
+    }
+  }, [urlError, errorInfo])
 
   return (
     <main id="main-content" className="min-h-screen flex overflow-hidden bg-black">
@@ -43,26 +101,26 @@ const Login = () => {
           <section aria-labelledby="signin-heading">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-6 h-px bg-blaze" aria-hidden="true" />
-              <span className="font-changa text-xs uppercase tracking-[0.25em] text-blaze"> The Pops Orchestra</span>
+              <span className="font-changa text-xs uppercase tracking-[0.25em] text-blaze">The Pops Orchestra</span>
             </div>
             <h1 id="signin-heading" className="font-changa text-3xl 430:text-4xl text-white leading-none mb-3">
               Sign In
             </h1>
             <div className="w-8 h-px bg-blaze mb-6" aria-hidden="true" />
             <p className="font-lato text-white/50 text-sm leading-relaxed mb-10 border-l-2 border-blaze pl-5">
-              Access your account with Google to continue
+              Access your account to continue
             </p>
 
             {/* Google Sign In */}
             <button
               type="button"
               onClick={handleGoogleSignIn}
-              disabled={isLoading}
-              aria-label={isLoading ? 'Signing in, please wait' : 'Sign in with Google'}
-              aria-busy={isLoading}
+              disabled={loadingGoogle}
+              aria-label={loadingGoogle ? 'Signing in, please wait' : 'Sign in with Google'}
+              aria-busy={loadingGoogle}
               className="w-full inline-flex items-center justify-center gap-3 px-6 py-4 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blaze/40 text-white font-changa text-sm uppercase tracking-widest transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black"
             >
-              {isLoading ? (
+              {loadingGoogle ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin shrink-0" aria-hidden="true" />
                   <span>Signing in...</span>
@@ -93,8 +151,93 @@ const Login = () => {
               )}
             </button>
 
+            {/* Divider */}
+            <div className="flex items-center gap-3 my-6" role="separator" aria-label="or">
+              <div className="flex-1 h-px bg-white/10" aria-hidden="true" />
+              <span className="font-changa text-[10px] uppercase tracking-[0.25em] text-white/20">or</span>
+              <div className="flex-1 h-px bg-white/10" aria-hidden="true" />
+            </div>
+
+            {/* Magic Link */}
+            {sent ? (
+              <div>
+                <div
+                  role="status"
+                  aria-live="polite"
+                  className="flex items-start gap-3 px-5 py-4 bg-white/5 border-l-2 border-blaze mb-3"
+                >
+                  <Mail className="w-4 h-4 text-blaze shrink-0 mt-0.5" aria-hidden="true" />
+                  <div>
+                    <p className="font-changa text-sm text-white uppercase tracking-wide mb-1">Check your inbox</p>
+                    <p className="font-lato text-xs text-white/40 leading-relaxed">
+                      A sign-in link was sent to <span className="text-white/60">{email}</span>
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSent(false)
+                    setEmail('')
+                  }}
+                  className="group inline-flex items-center gap-2 font-changa text-xs uppercase tracking-[0.2em] text-white/30 hover:text-blaze transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze"
+                >
+                  <ArrowLeft
+                    className="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform"
+                    aria-hidden="true"
+                  />
+                  <span>Use a different email</span>
+                </button>
+              </div>
+            ) : (
+              <div>
+                <label
+                  htmlFor="magic-link-email"
+                  className="block font-changa text-[10px] uppercase tracking-[0.25em] text-white/40 mb-2"
+                >
+                  Email address
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    id="magic-link-email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && handleMagicLinkSignIn()}
+                    placeholder="you@example.com"
+                    autoComplete="email"
+                    disabled={loadingMagicLink}
+                    aria-describedby="magic-link-hint"
+                    className="flex-1 min-w-0 px-4 py-3 bg-white/5 border border-white/10 focus:border-blaze/40 text-white font-lato text-sm placeholder:text-white/20 transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black disabled:opacity-50"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleMagicLinkSignIn}
+                    disabled={loadingMagicLink || !email.trim()}
+                    aria-label={loadingMagicLink ? 'Sending link, please wait' : 'Send magic link'}
+                    aria-busy={loadingMagicLink}
+                    className="px-4 py-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blaze/40 text-blaze transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                  >
+                    {loadingMagicLink ? (
+                      <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
+                    ) : (
+                      <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                    )}
+                  </button>
+                </div>
+                {error && (
+                  <p role="alert" className="font-lato text-[10px] text-red-400/80 mt-2 leading-relaxed">
+                    {error}
+                  </p>
+                )}
+                <p id="magic-link-hint" className="font-lato text-[10px] text-white/20 mt-2 leading-relaxed">
+                  We&apos;ll send a one-time sign-in link to your email
+                </p>
+              </div>
+            )}
+
             <p className="font-lato text-[10px] uppercase tracking-widest text-white/20 text-center mt-6">
-              Your account is tied to your Google email address
+              Your account is tied to your email address
             </p>
           </section>
         </div>

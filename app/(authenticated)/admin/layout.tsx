@@ -1,9 +1,9 @@
-import { getCampApplications } from '../actions/getCampApplications'
-import { getHeaderButtons } from '../actions/getHeaderButtons'
-import { getUser } from '../actions/getUser'
-import { getVenues } from '../actions/getVenues'
-import AdminLayoutClient from '../components/pages/AdminLayoutClient'
-import { auth } from '../lib/auth'
+import { getCampApplications } from '@/app/actions/getCampApplications'
+import { getHeaderButtons } from '@/app/actions/getHeaderButtons'
+import { getUser } from '@/app/actions/getUser'
+import { getVenues } from '@/app/actions/getVenues'
+import AdminLayoutClient from '@/app/components/pages/AdminLayoutClient'
+import { auth } from '@/app/lib/auth'
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const session = await auth()

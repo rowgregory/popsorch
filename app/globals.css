@@ -20,6 +20,58 @@
 
 /* ─── Theme ──────────────────────────────────────────────────────────── */
 @theme {
+  /* Primary accent */
+  --color-primary-light: #da0032; /* red */
+  --color-primary-dark: #ff4d6d; /* soft red-pink */
+
+  /* Secondary accent */
+  --color-secondary-light: #a80026; /* deep red */
+  --color-secondary-dark: #ff8fa3; /* light red-pink */
+
+  /* Top utility bar */
+  --color-topbar-light: #1a0a0d; /* near black with red hint */
+  --color-topbar-dark: #0d0608; /* near black with deep red hint */
+
+  /* Main nav bar */
+  --color-navbar-light: #2a1215; /* dark red-charcoal */
+  --color-navbar-dark: #150608; /* very dark red-black */
+
+  /* Page background */
+  --color-bg-light: #ffffff; /* pure white */
+  --color-bg-dark: #0a0507; /* deep red-black */
+
+  /* Card / surface */
+  --color-surface-light: #f4f4f5; /* zinc-100 — light gray */
+  --color-surface-dark: #160a0d; /* dark red surface */
+
+  /* Button */
+  --color-button-light: #2a1215; /* dark red-charcoal */
+  --color-button-alt-light: #1e1214; /* deeper red-charcoal */
+  --color-button-dark: #4e1020; /* deep red-maroon */
+  --color-button-alt-dark: #3f1018; /* deep crimson */
+
+  /* Borders */
+  --color-border-light: #e4e4e7; /* zinc-200 — neutral light gray */
+  --color-border-dark: #3b0a14; /* deep red-950 */
+
+  /* Text */
+  --color-text-light: #09090b; /* zinc-950 — near black */
+  --color-text-dark: #fff0f2; /* soft warm white */
+
+  /* Muted text */
+  --color-muted-light: #71717a; /* zinc-500 — neutral gray */
+  --color-muted-dark: #cd6f7a; /* muted red */
+
+  /* Legacy aliases */
+  --color-accent: #f4f4f5;
+  --color-accent-dark: #160a0d;
+
+  /* Stat labels */
+  --color-stat-label-light: #52525b; /* zinc-600 */
+  --color-stat-label-dark: #ff4d6d; /* soft red-pink */
+
+  --color-on-dark: #a1a1aa; /* zinc-400 — neutral gray for text on dark surfaces */
+
   /* Colors */
   --color-background: var(--background);
   --color-foreground: var(--foreground);

@@ -3,7 +3,6 @@
 import { FC, ReactNode, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useAppDispatch, useDashboardSelector } from '@/app/redux/store'
-import AdminSidebar from '@/app/admin/sidebar'
 import ConcertDrawer from '@/app/components/drawers/ConcertDrawer'
 import CampApplicationViewDrawer from '@/app/components/drawers/CampApplicationViewDrawer'
 import SponsorDrawer from '@/app/components/drawers/SponsorDrawer'
@@ -21,6 +20,7 @@ import { createFormActions } from '@/app/redux/features/formSlice'
 import { useRouter } from 'next/navigation'
 import { createPhotoGalleryImage } from '@/app/actions/createPhotoGalleryImage'
 import UserDrawer from '../drawers/UserDrawer'
+import AdminSidebar from '@/app/(authenticated)/admin/sidebar'
 
 interface IAdminClientLayout {
   children: ReactNode
