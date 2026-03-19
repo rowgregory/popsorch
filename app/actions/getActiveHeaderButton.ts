@@ -6,15 +6,23 @@ export const getActiveHeaderButton = async () => {
     const button = await prisma.headerButton.findFirst({
       where: { isActive: true }
     })
-
     return button
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'Failed to fetch active header button'
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
 
-    await createLog('error', 'Failed to fetch active header button', {
-      error: errorMessage
-    })
+    // Don't log connection errors — these are infrastructure noise not bugs
+    const isConnectionError =
+      errorMessage.includes('Server has closed the connection') ||
+      errorMessage.includes('Connection refused') ||
+      errorMessage.includes("Can't reach database server") ||
+      errorMessage.includes('Connection timed out')
 
-    throw new Error(errorMessage)
+    if (!isConnectionError) {
+      await createLog('error', 'Failed to fetch active header button', {
+        error: errorMessage
+      })
+    }
+
+    return null // never throw — header button is non-critical
   }
 }
