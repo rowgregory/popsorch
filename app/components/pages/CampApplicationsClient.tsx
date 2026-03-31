@@ -94,13 +94,13 @@ const CampApplicationsClient = ({ data, setting }) => {
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-linear-to-br from-neutral-900 to-neutral-950 border-b border-neutral-800"
+        className="bg-navbar-dark border-b border-border-dark"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="min-w-0">
-              <h1 className="text-2xl sm:text-3xl font-bold text-white">Camp Applications</h1>
-              <p className="text-neutral-400 text-sm sm:text-base mt-1">
+              <h1 className="text-2xl sm:text-3xl font-bold text-text-dark">Camp Applications</h1>
+              <p className="text-muted-dark text-sm sm:text-base mt-1">
                 Review and manage youth music camp applications
               </p>
             </div>
@@ -110,18 +110,16 @@ const CampApplicationsClient = ({ data, setting }) => {
                 whileTap={!isToggling ? { scale: 0.98 } : {}}
                 onClick={handleToggleSiteSettings}
                 disabled={isToggling}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold border transition-all disabled:opacity-60 disabled:cursor-not-allowed ${
+                className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold border transition-all disabled:opacity-60 disabled:cursor-not-allowed ${
                   setting?.value
                     ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/20'
-                    : 'bg-neutral-800 border-neutral-700 text-neutral-400 hover:bg-neutral-700'
+                    : 'bg-surface-dark border-border-dark text-muted-dark hover:bg-button-dark'
                 }`}
               >
                 {isToggling ? (
                   <div className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
                 ) : (
-                  <span
-                    className={`w-1.5 h-1.5 rounded-full ${setting?.value ? 'bg-emerald-400' : 'bg-neutral-500'}`}
-                  />
+                  <span className={`w-1.5 h-1.5 rounded-full ${setting?.value ? 'bg-emerald-400' : 'bg-muted-dark'}`} />
                 )}
                 {setting?.value ? 'Published' : 'Unpublished'}
               </motion.button>
@@ -131,7 +129,7 @@ const CampApplicationsClient = ({ data, setting }) => {
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold border bg-neutral-800 border-neutral-700 text-neutral-400 hover:bg-neutral-700 transition-all"
+                className="flex items-center gap-2 px-4 py-2 text-sm font-semibold border bg-surface-dark border-border-dark text-muted-dark hover:bg-button-dark transition-all"
               >
                 <ExternalLink className="w-3.5 h-3.5" />
                 View Page
@@ -140,22 +138,23 @@ const CampApplicationsClient = ({ data, setting }) => {
           </div>
         </div>
       </motion.div>
+
       <div className="max-w-7xl mx-auto px-6 py-8">
-        {/* Header Actions */}
+        {/* Bulk Selection Bar */}
         <AnimatePresence>
           {selectedApplications.size > 0 && (
-            <div className="flex flex-col gap-4 sticky top-0 z-20 bg-neutral-950/80 backdrop-blur-sm py-2 rounded-lg">
+            <div className="flex flex-col gap-4 sticky top-0 z-20 bg-bg-dark/80 backdrop-blur-sm py-2">
               <motion.div
                 initial={{ opacity: 0, scale: 0.9, y: -10 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9, y: -10 }}
-                className="flex items-center justify-between bg-red-900/20 border border-red-500/30 rounded-lg px-4 py-3"
+                className="flex items-center justify-between bg-primary-light/10 border border-primary-light/30 px-4 py-3"
               >
-                <span className="text-sm font-medium text-red-300">{selectedApplications.size} selected</span>
+                <span className="text-sm font-medium text-primary-dark">{selectedApplications.size} selected</span>
                 <motion.button
                   onClick={() => setShowDeleteConfirm(true)}
                   disabled={isDeleting}
-                  className="flex items-center gap-2 px-3 py-2 bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white text-sm font-medium rounded-lg transition-colors"
+                  className="flex items-center gap-2 px-3 py-2 bg-primary-light hover:bg-secondary-light disabled:opacity-50 text-text-dark text-sm font-medium transition-colors"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -179,9 +178,9 @@ const CampApplicationsClient = ({ data, setting }) => {
 
         <>
           {/* Table */}
-          <div className="bg-neutral-900/50 rounded-xl shadow-sm border border-neutral-800 overflow-hidden">
-            <div className="p-4 sm:p-6 border-b border-neutral-800">
-              <h2 className="text-lg sm:text-xl font-semibold text-white">All Applications</h2>
+          <div className="bg-surface-dark border border-border-dark overflow-hidden">
+            <div className="p-4 sm:p-6 border-b border-border-dark">
+              <h2 className="text-lg sm:text-xl font-semibold text-text-dark">All Applications</h2>
             </div>
 
             <div className="overflow-x-auto">
@@ -193,20 +192,20 @@ const CampApplicationsClient = ({ data, setting }) => {
                 const isIndeterminate = selectedInYear > 0 && selectedInYear < yearIds.length
 
                 return (
-                  <div key={year} className="border-b border-neutral-800 last:border-b-0">
+                  <div key={year} className="border-b border-border-dark last:border-b-0">
                     {/* Year Header */}
                     <div
-                      className="bg-neutral-950/50 px-4 sm:px-6 py-3 flex items-center justify-between cursor-pointer hover:bg-neutral-900/50 transition-colors"
+                      className="bg-bg-dark px-4 sm:px-6 py-3 flex items-center justify-between cursor-pointer hover:bg-button-dark transition-colors"
                       onClick={() => toggleYear(year)}
                     >
                       <div className="flex items-center gap-2 sm:gap-3">
                         <motion.div animate={{ rotate: isExpanded ? 90 : 0 }} transition={{ duration: 0.2 }}>
-                          <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-neutral-400" />
+                          <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-muted-dark" />
                         </motion.div>
-                        <h3 className="text-base sm:text-lg font-bold text-white">{year}</h3>
-                        <span className="text-xs sm:text-sm text-neutral-400">({applications.length})</span>
+                        <h3 className="text-base sm:text-lg font-bold text-text-dark">{year}</h3>
+                        <span className="text-xs sm:text-sm text-muted-dark">({applications.length})</span>
                         {selectedInYear > 0 && (
-                          <span className="text-xs text-blue-400 font-medium hidden sm:inline">
+                          <span className="text-xs text-primary-dark font-medium hidden sm:inline">
                             {selectedInYear} selected
                           </span>
                         )}
@@ -228,24 +227,24 @@ const CampApplicationsClient = ({ data, setting }) => {
                           className="sr-only"
                         />
                         <div
-                          className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all duration-200 ${
+                          className={`w-5 h-5 border-2 flex items-center justify-center transition-all duration-200 ${
                             isAllYearSelected
-                              ? 'bg-blue-600 border-blue-600'
+                              ? 'bg-primary-light border-primary-light'
                               : isIndeterminate
-                                ? 'bg-blue-100 border-blue-400'
-                                : 'border-neutral-600 hover:border-blue-400'
+                                ? 'bg-primary-light/20 border-primary-dark'
+                                : 'border-border-dark hover:border-primary-dark'
                           }`}
                         >
                           {isAllYearSelected && (
                             <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
-                              <Check size={12} className="text-white" />
+                              <Check size={12} className="text-text-dark" />
                             </motion.div>
                           )}
                           {isIndeterminate && (
                             <motion.div
                               initial={{ scale: 0 }}
                               animate={{ scale: 1 }}
-                              className="w-2 h-0.5 bg-blue-600 rounded"
+                              className="w-2 h-0.5 bg-primary-dark"
                             />
                           )}
                         </div>
@@ -263,36 +262,36 @@ const CampApplicationsClient = ({ data, setting }) => {
                         >
                           <div className="overflow-x-auto">
                             <table className="w-full min-w-160">
-                              <thead className="bg-neutral-950">
+                              <thead className="bg-bg-dark">
                                 <tr>
-                                  <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-neutral-400 uppercase tracking-wider">
+                                  <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-muted-dark uppercase tracking-wider">
                                     Select
                                   </th>
-                                  <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-neutral-400 uppercase tracking-wider">
+                                  <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-muted-dark uppercase tracking-wider">
                                     First Name
                                   </th>
-                                  <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-neutral-400 uppercase tracking-wider">
+                                  <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-muted-dark uppercase tracking-wider">
                                     Last Name
                                   </th>
-                                  <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-neutral-400 uppercase tracking-wider">
+                                  <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-muted-dark uppercase tracking-wider">
                                     Student Email
                                   </th>
-                                  <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-neutral-400 uppercase tracking-wider">
+                                  <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-muted-dark uppercase tracking-wider">
                                     Date
                                   </th>
-                                  <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-neutral-400 uppercase tracking-wider">
+                                  <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-muted-dark uppercase tracking-wider">
                                     Actions
                                   </th>
                                 </tr>
                               </thead>
-                              <tbody className="bg-neutral-900/50 divide-y divide-neutral-800">
+                              <tbody className="bg-surface-dark divide-y divide-border-dark">
                                 {applications.map((application: any, index: number) => (
                                   <motion.tr
                                     key={application.id}
                                     initial={{ opacity: 0, x: -20 }}
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: index * 0.02 }}
-                                    className="hover:bg-neutral-700/50 transition-colors"
+                                    className="hover:bg-button-dark transition-colors"
                                   >
                                     <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
                                       <motion.label
@@ -307,35 +306,35 @@ const CampApplicationsClient = ({ data, setting }) => {
                                           className="sr-only"
                                         />
                                         <div
-                                          className={`w-4 h-4 rounded border-2 flex items-center justify-center transition-all ${
+                                          className={`w-4 h-4 border-2 flex items-center justify-center transition-all ${
                                             selectedApplications.has(application.id)
-                                              ? 'bg-blue-600 border-blue-600'
-                                              : 'border-neutral-600'
+                                              ? 'bg-primary-light border-primary-light'
+                                              : 'border-border-dark hover:border-primary-dark'
                                           }`}
                                         >
                                           {selectedApplications.has(application.id) && (
-                                            <Check size={10} className="text-white" />
+                                            <Check size={10} className="text-text-dark" />
                                           )}
                                         </div>
                                       </motion.label>
                                     </td>
                                     <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
-                                      <p className="text-xs sm:text-sm font-medium text-white">
+                                      <p className="text-xs sm:text-sm font-medium text-text-dark">
                                         {application.student.firstName}
                                       </p>
                                     </td>
                                     <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
-                                      <p className="text-xs sm:text-sm font-medium text-white">
+                                      <p className="text-xs sm:text-sm font-medium text-text-dark">
                                         {application.student.lastName}
                                       </p>
                                     </td>
                                     <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
-                                      <p className="text-xs sm:text-sm font-medium text-white truncate max-w-50">
+                                      <p className="text-xs sm:text-sm font-medium text-text-dark truncate max-w-50">
                                         {application.student.studentEmailAddress}
                                       </p>
                                     </td>
                                     <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
-                                      <span className="text-xs sm:text-sm text-neutral-400">
+                                      <span className="text-xs sm:text-sm text-muted-dark">
                                         {formatDateShort(application.createdAt)}
                                       </span>
                                     </td>
@@ -345,7 +344,7 @@ const CampApplicationsClient = ({ data, setting }) => {
                                           store.dispatch(setInputs({ formName: 'campForm', data: application }))
                                           store.dispatch(setOpenCampApplicationDrawer())
                                         }}
-                                        className="p-2 text-neutral-400 hover:text-blue-400 hover:bg-blue-900/30 rounded-lg transition-colors"
+                                        className="p-2 text-muted-dark hover:text-primary-dark hover:bg-primary-light/10 transition-colors"
                                         title="View Application"
                                       >
                                         <Eye size={16} />
@@ -366,7 +365,6 @@ const CampApplicationsClient = ({ data, setting }) => {
           </div>
         </>
 
-        {/* Empty State (if no sponsors) */}
         {noCampApplications && (
           <EmptyState searchQuery="" typeFilter="all" title="Camp Application" advice="" func={() => {}} action="" />
         )}
