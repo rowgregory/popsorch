@@ -482,7 +482,7 @@ const BubbleBash = () => {
             >
               <h2
                 id="tickets-heading"
-                className="text-5xl font-bold mb-4 font-changa"
+                className="text-4xl md:text-5xl font-bold mb-6 font-changa"
                 style={{
                   background:
                     'linear-gradient(135deg, #d4af37 0%, #f4d03f 25%, #d4af37 50%, #c9a961 75%, #d4af37 100%)',
@@ -492,207 +492,52 @@ const BubbleBash = () => {
                   filter: 'drop-shadow(0 2px 8px rgba(212, 175, 55, 0.4))'
                 }}
               >
-                Choose Your Experience
+                This Year&apos;s Bubble Bash Is Sold Out!
               </h2>
               <div
                 aria-hidden="true"
-                className="w-24 h-1 mx-auto rounded-full"
+                className="w-24 h-1 mx-auto rounded-full mb-8"
                 style={{
                   background: 'linear-gradient(to right, #d4af37, #f4d03f, #d4af37)',
                   boxShadow: '0 0 10px rgba(212, 175, 55, 0.5)'
                 }}
               />
+              <div className="max-w-2xl mx-auto space-y-4 text-gray-300 leading-relaxed text-base md:text-lg">
+                <p>
+                  Registration is closed. We look forward to seeing our guests at the event on April 11, 2026 at 4:30
+                  p.m.
+                </p>
+                <p>
+                  If you are still interested in purchasing chance drawing tickets for entry to win an exclusive{' '}
+                  <strong className="text-white">&ldquo;Dinner for Six&rdquo;</strong> prepared by Chef/Conductor Robyn
+                  Bell in your home or community, featuring a private performance by the Pops String Quartet, you may do
+                  so here:
+                </p>
+                <p>
+                  <a
+                    href="https://ci.ovationtix.com/35505/store/donations/58324"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Purchase chance drawing tickets — opens in new tab"
+                    className="inline-block mt-2 mb-2 px-8 py-4 rounded-2xl font-semibold tracking-wide text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                    style={{
+                      background:
+                        'linear-gradient(135deg, rgba(212, 175, 55, 0.9), rgba(244, 208, 63, 0.95), rgba(201, 169, 97, 0.9))',
+                      boxShadow:
+                        '0 4px 20px rgba(212, 175, 55, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.2)'
+                    }}
+                  >
+                    Purchase Chance Drawing Tickets
+                  </a>
+                </p>
+                <p className="text-white/70">
+                  Tickets are <strong className="text-white">$25 each</strong> or{' '}
+                  <strong className="text-white">5 for $100</strong>. The chance drawing will take place at the Golden
+                  Bubbles Bash, Saturday, April 11, 2026. You do not have to be present to win.
+                </p>
+              </div>
             </motion.div>
           </div>
-
-          <ul
-            role="list"
-            aria-label="Ticket tiers"
-            className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto relative"
-          >
-            {tickets.map((ticket, i) => (
-              <motion.li
-                key={i}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: i * 0.15 }}
-                whileHover={{ y: ticket.isSoldOut ? 0 : -8 }}
-                className="relative group"
-              >
-                <article
-                  aria-label={`${ticket.tier} ticket${ticket.isSoldOut ? ' — sold out' : ''}`}
-                  className={`relative rounded-3xl overflow-hidden shadow-2xl h-full flex flex-col backdrop-blur-xl border transition-all duration-300 ${
-                    ticket.isSoldOut
-                      ? 'border-white/10 opacity-60 grayscale'
-                      : 'border-white/20 group-hover:border-[#d4af37]/40'
-                  }`}
-                >
-                  {!ticket.isSoldOut && (
-                    <div
-                      aria-hidden="true"
-                      className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-40 blur-2xl transition-opacity duration-500"
-                      style={{ background: 'radial-gradient(circle, rgba(212, 175, 55, 0.8), transparent)' }}
-                    />
-                  )}
-
-                  {ticket.isSoldOut && (
-                    <div className="absolute inset-0 z-20 flex items-center justify-center" aria-hidden="true">
-                      <div
-                        className="rotate-[-25deg] px-6 py-2 border-4 border-white/30 rounded-lg"
-                        style={{ background: 'rgba(0,0,0,0.5)' }}
-                      >
-                        <span className="text-2xl font-extrabold tracking-widest text-white/80 uppercase">
-                          Sold Out
-                        </span>
-                      </div>
-                    </div>
-                  )}
-
-                  <div
-                    aria-hidden="true"
-                    className="absolute inset-0 bg-linear-to-br from-white/10 via-white/5 to-transparent"
-                    style={{
-                      backdropFilter: 'blur(20px) saturate(180%)',
-                      WebkitBackdropFilter: 'blur(20px) saturate(180%)'
-                    }}
-                  />
-                  <div
-                    aria-hidden="true"
-                    className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-white/60 to-transparent"
-                  />
-                  <div
-                    aria-hidden="true"
-                    className="relative h-1.5 z-10"
-                    style={{
-                      background: ticket.isSoldOut
-                        ? 'linear-gradient(to right, rgba(120,120,120,0.4), rgba(160,160,160,0.6), rgba(120,120,120,0.4))'
-                        : 'linear-gradient(to right, rgba(212, 175, 55, 0.6), rgba(244, 208, 63, 0.8), rgba(212, 175, 55, 0.6))',
-                      boxShadow: ticket.isSoldOut
-                        ? 'none'
-                        : '0 2px 15px rgba(212, 175, 55, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3)'
-                    }}
-                  />
-
-                  <div className="relative p-8 flex flex-col grow z-10">
-                    <header className="mb-8">
-                      <h3
-                        className="text-2xl font-bold mb-2 tracking-tight text-white/95"
-                        style={{ textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)' }}
-                      >
-                        {ticket.tier}
-                        {ticket.isSoldOut && <span className="sr-only"> — Sold Out</span>}
-                      </h3>
-                      {ticket.halfTableNote && (
-                        <p
-                          className="text-sm text-white/70 italic mb-3"
-                          style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}
-                        >
-                          {ticket.halfTableNote}
-                        </p>
-                      )}
-                      <p
-                        aria-label={`Price: ${ticket.price}`}
-                        className="text-5xl font-extrabold"
-                        style={{
-                          background: ticket.isSoldOut
-                            ? 'linear-gradient(135deg, #888, #aaa, #888)'
-                            : 'linear-gradient(135deg, #d4af37, #f4d03f, #d4af37)',
-                          WebkitBackgroundClip: 'text',
-                          WebkitTextFillColor: 'transparent',
-                          backgroundClip: 'text',
-                          filter: ticket.isSoldOut ? 'none' : 'drop-shadow(0 2px 8px rgba(212, 175, 55, 0.4))'
-                        }}
-                      >
-                        {ticket.price}
-                      </p>
-                    </header>
-
-                    <ul aria-label={`${ticket.tier} perks`} className="space-y-4 mb-8 grow">
-                      {ticket.perks.map((perk, idx) => (
-                        <li key={idx} className="flex items-start gap-3">
-                          <svg
-                            aria-hidden="true"
-                            className="w-5 h-5 shrink-0 mt-0.5"
-                            fill={ticket.isSoldOut ? '#666' : '#d4af37'}
-                            viewBox="0 0 20 20"
-                            style={{
-                              filter: ticket.isSoldOut ? 'none' : 'drop-shadow(0 0 6px rgba(212, 175, 55, 0.5))'
-                            }}
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                          <span
-                            className="text-sm leading-relaxed text-white/85"
-                            style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.2)' }}
-                          >
-                            {perk}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-
-                    {ticket.isSoldOut ? (
-                      <div
-                        role="status"
-                        aria-label={`${ticket.tier} is sold out`}
-                        className="relative w-full px-4 py-4 rounded-2xl text-center font-bold overflow-hidden cursor-not-allowed"
-                        style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}
-                      >
-                        <span className="relative font-semibold tracking-widest text-white/30 uppercase text-sm">
-                          Sold Out
-                        </span>
-                      </div>
-                    ) : (
-                      <a
-                        href="https://ci.ovationtix.com/35505/production/1252045?performanceId=11696147"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={`Select ${ticket.tier} tickets — ${ticket.price} — opens in new tab`}
-                        onClick={() =>
-                          sendEnrichedGAEvent(
-                            'select_ticket_tier',
-                            ticket.tier,
-                            `Select ${ticket.tier}`,
-                            'golden_bubbles_bash_page'
-                          )
-                        }
-                        className="relative w-full px-4 py-4 rounded-2xl text-center font-bold text-white overflow-hidden group/btn backdrop-blur-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:ring-offset-2 focus-visible:ring-offset-black block"
-                      >
-                        <div
-                          aria-hidden="true"
-                          className="absolute inset-0 transition-all duration-300 group-hover/btn:scale-[1.02]"
-                          style={{
-                            background:
-                              'linear-gradient(135deg, rgba(212, 175, 55, 0.9), rgba(244, 208, 63, 0.95), rgba(201, 169, 97, 0.9))',
-                            boxShadow:
-                              '0 4px 20px rgba(212, 175, 55, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.2)'
-                          }}
-                        />
-                        <div
-                          aria-hidden="true"
-                          className="absolute inset-0 bg-linear-to-r from-transparent via-white/25 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000"
-                        />
-                        <div
-                          aria-hidden="true"
-                          className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-white/50 to-transparent"
-                        />
-                        <span
-                          className="relative font-semibold tracking-wide text-gray-900"
-                          style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.4)' }}
-                        >
-                          Select {ticket.tier}
-                        </span>
-                      </a>
-                    )}
-                  </div>
-                </article>
-              </motion.li>
-            ))}
-          </ul>
         </motion.section>
 
         {/* FOOTER */}
