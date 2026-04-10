@@ -3,64 +3,6 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Picture from '@/app/components/common/Picture'
-import { sendEnrichedGAEvent } from '@/app/utils/sendEnrichedGAEvent'
-
-const tickets = [
-  {
-    tier: 'Ultimate VIP Table for 6',
-    price: '$1,250',
-    gradient: 'from-[#ff9000] to-[#da0032]',
-    accent: 'shadow-[0_0_30px_#ff9000aa]',
-    halfTableNote: '(1/2 table also available)',
-    perks: [
-      'VIP admission for 6 guests',
-      'Valet parking',
-      'On-stage round table seating',
-      'Bottle of champagne for the table',
-      'Raffle entries for each guest (necklace + dinner experience)'
-    ]
-  },
-  {
-    tier: 'Sponsor VIP Table for 8',
-    price: '$1,050',
-    gradient: 'from-[#da0032] to-[#ff9000]',
-    accent: 'shadow-[0_0_25px_#da0032aa]',
-    halfTableNote: '',
-    perks: [
-      'VIP admission for 8 guests',
-      'Valet parking',
-      'Front stage round table seating',
-      'Bottle of champagne for the table',
-      'Raffle entries for each guest (necklace + dinner experience)'
-    ],
-    isSoldOut: true
-  },
-  {
-    tier: 'Gold',
-    price: '$100.50',
-    gradient: 'from-[#da0032] to-[#ff9000]',
-    accent: 'shadow-[0_0_20px_#ff9000aa]',
-    perks: [
-      'General Admission',
-      'Raffle entry for a Mikimoto pearl necklace',
-      "Raffle entry for dinner for six with 'Chef Robyn' and Pops String Quartet"
-    ]
-  },
-  {
-    tier: 'Silver',
-    price: '$75.50',
-    gradient: 'from-gray-400 to-[#ff9000]',
-    accent: 'shadow-[0_0_15px_#ff9000aa]',
-    perks: ['General Admission', 'Raffle entry for a Mikimoto pearl necklace from Armel Jewelers']
-  },
-  {
-    tier: 'Bronze',
-    price: '$50.50',
-    gradient: 'from-[#b87333] to-[#ff9000]',
-    accent: 'shadow-[0_0_10px_#b87333aa]',
-    perks: ['General Admission']
-  }
-]
 
 const PopsLogo = () => (
   <div className="absolute top-4 left-4">

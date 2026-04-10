@@ -1,19 +1,19 @@
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
-
 import Script from 'next/script'
 import { GoogleAnalytics } from '@next/third-parties/google'
 import { Changa, Inter, Lato, Oswald, Raleway } from 'next/font/google'
-import './globals.css'
-import 'ol/ol.css'
+import { auth } from './lib/auth'
 import { siteMetadata } from './metadata'
 import { getActiveHeaderButton } from './actions/getActiveHeaderButton'
 import { getConcerts } from './actions/getConcerts'
-import { SessionProvider } from 'next-auth/react'
-import { auth } from './lib/auth'
-import { RootLayoutWrapper } from './root-layout'
 import { getCampApplicationsSetting } from './actions/getCampApplicationsSetting'
 import { getPage } from './actions/getPage'
+import { SessionProvider } from 'next-auth/react'
+import { RootLayoutWrapper } from './root-layout'
+import './globals.css'
+import 'ol/ol.css'
+
+export const dynamic = 'force-dynamic'
+export const metadata = siteMetadata
 
 const inter = Inter({
   subsets: ['latin'],
@@ -42,6 +42,7 @@ const changa = Changa({
   preload: false,
   variable: '--font-changa'
 })
+
 const lato = Lato({
   subsets: ['latin'],
   weight: ['300', '400', '700'],
@@ -49,18 +50,14 @@ const lato = Lato({
   variable: '--font-lato'
 })
 
-export const metadata = siteMetadata
-
-export default async function RootLayout({
-  children
-}: Readonly<{
-  children: React.ReactNode
-}>) {
-  const session = await auth()
-  const headerButton = await getActiveHeaderButton()
-  const concerts = await getConcerts()
-  const campApplicationsSetting = await getCampApplicationsSetting()
-  const data = await getPage('footer')
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const [session, headerButton, concerts, campApplicationsSetting, footerData] = await Promise.all([
+    auth(),
+    getActiveHeaderButton(),
+    getConcerts(),
+    getCampApplicationsSetting(),
+    getPage('footer')
+  ])
 
   return (
     <html lang="en">
@@ -75,7 +72,7 @@ export default async function RootLayout({
             headerButton={headerButton}
             concerts={concerts?.concerts}
             campApplicationsSetting={campApplicationsSetting.value}
-            data={data}
+            data={footerData}
           >
             {children}
           </RootLayoutWrapper>
@@ -84,7 +81,7 @@ export default async function RootLayout({
           src="https://public.tockify.com/browser/embed.js"
           data-cfasync="false"
           data-tockify-script="embed"
-          strategy="lazyOnload" // or "afterInteractive"
+          strategy="lazyOnload"
         />
       </body>
     </html>

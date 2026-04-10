@@ -17,6 +17,19 @@ interface ChangelogEntry {
 
 const changelogData: ChangelogEntry[] = [
   {
+    version: '3.6.1',
+    date: '2026-04-10',
+    changes: [
+      {
+        type: 'feature',
+        title: 'Giving Challenge Section',
+        description:
+          'New home page section promoting The Giving Challenge (April 15 & 16). Features an asymmetric two-column layout with large editorial heading, a left accent line on the body copy, a single promotional image with corner bracket accents, stat badge overlay, and a responsive bottom stat strip. Includes a thank-you phase that activates after April 16 noon and hides the section automatically after April 30.',
+        impact: 'medium'
+      }
+    ]
+  },
+  {
     version: '3.6.0',
     date: '2026-03-12',
     changes: [

@@ -6,6 +6,7 @@ import ConcertsBlock from '../home/ConcertsBlock'
 import { ContactUsBlock } from '../home/ContactUsBlock'
 import SponsorsBlock from '../home/SponsorsBlock'
 import KeepUpToDateBlock from '../home/KeepUpToDateBlock'
+import { GivingChallenge } from '../home/GivingChallenge'
 
 const HomeClient = ({ pageData, concerts, galleryImages, sponsors }) => {
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -15,6 +16,7 @@ const HomeClient = ({ pageData, concerts, galleryImages, sponsors }) => {
       <div ref={scrollRef}>
         <ConcertsBlock pageData={pageData} concerts={concerts} />
       </div>
+      <GivingChallenge />
       <ContactUsBlock data={pageData} />
       <SponsorsBlock pageData={pageData} sponsors={sponsors} />
       <KeepUpToDateBlock pageData={pageData} />
