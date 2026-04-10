@@ -116,27 +116,16 @@ export const GivingChallenge = () => {
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                   </a>
                 ) : (
-                  <>
-                    <a
-                      href={GIVING_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="Donate via The Giving Challenge — opens in new tab"
-                      className="group inline-flex items-center gap-3 bg-blaze hover:bg-blazehover text-white px-8 py-4 font-changa text-sm uppercase tracking-widest transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
-                    >
-                      Donate Now
-                      <ArrowRight
-                        className="w-4 h-4 group-hover:translate-x-1 transition-transform"
-                        aria-hidden="true"
-                      />
-                    </a>
-                    <a
-                      href="/donate"
-                      className="group inline-flex items-center gap-3 border border-white/20 hover:border-white/50 text-white/60 hover:text-white px-8 py-4 font-changa text-sm uppercase tracking-widest transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
-                    >
-                      Learn More
-                    </a>
-                  </>
+                  <a
+                    href={GIVING_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Donate via The Giving Challenge — opens in new tab"
+                    className="group inline-flex items-center gap-3 bg-blaze hover:bg-blazehover text-white px-8 py-4 font-changa text-sm uppercase tracking-widest transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                  >
+                    Donate Now
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+                  </a>
                 )}
               </motion.div>
             </div>
