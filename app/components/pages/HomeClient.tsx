@@ -13,10 +13,10 @@ const HomeClient = ({ pageData, concerts, galleryImages, sponsors }) => {
   return (
     <>
       <HomeHero pageData={pageData} ref={scrollRef} galleryImages={galleryImages} />
+      <GivingChallenge />
       <div ref={scrollRef}>
         <ConcertsBlock pageData={pageData} concerts={concerts} />
       </div>
-      <GivingChallenge />
       <ContactUsBlock data={pageData} />
       <SponsorsBlock pageData={pageData} sponsors={sponsors} />
       <KeepUpToDateBlock pageData={pageData} />

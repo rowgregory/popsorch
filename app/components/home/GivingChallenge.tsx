@@ -3,6 +3,25 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import { Heart, ArrowRight } from 'lucide-react'
 import Picture from '../common/Picture'
+import { useEffect, useState } from 'react'
+
+export function useHideAtMidnightFriday() {
+  const [visible, setVisible] = useState(true)
+
+  useEffect(() => {
+    const now = new Date()
+    const daysUntilFriday = (5 - now.getDay() + 7) % 7 || 7
+    const fridayMidnight = new Date(now)
+    fridayMidnight.setDate(now.getDate() + daysUntilFriday)
+    fridayMidnight.setHours(24, 0, 0, 0)
+
+    const msUntil = fridayMidnight.getTime() - now.getTime()
+    const timer = setTimeout(() => setVisible(false), msUntil)
+    return () => clearTimeout(timer)
+  }, [])
+
+  return visible
+}
 
 /* ─── Phase ──────────────────────────────────────────────────────────── */
 const getPhase = (): 'promo' | 'thankyou' | 'hidden' => {
@@ -18,8 +37,9 @@ const ease: [number, number, number, number] = [0.22, 1, 0.36, 1]
 export const GivingChallenge = () => {
   const reduced = useReducedMotion()
   const phase = getPhase()
+  const visible = useHideAtMidnightFriday()
 
-  if (phase === 'hidden') return null
+  if (phase === 'hidden' || !visible) return null
 
   const isThankyou = phase === 'thankyou'
   const image =
