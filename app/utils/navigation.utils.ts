@@ -22,16 +22,16 @@ export const getNavigationLinks = (
         }
       ]
     : []),
-  {
-    linkKey: '/sundays-at-neel',
-    textKey: 'Sundays@Neel',
-    active: path === '/sundays-at-neel'
-  },
-  {
-    linkKey: '/bubble-bash',
-    textKey: 'Golden Bubbles Bash',
-    active: path === '/bubble-bash'
-  },
+  // {
+  //   linkKey: '/sundays-at-neel',
+  //   textKey: 'Sundays@Neel',
+  //   active: path === '/sundays-at-neel'
+  // },
+  // {
+  //   linkKey: '/bubble-bash',
+  //   textKey: 'Golden Bubbles Bash',
+  //   active: path === '/bubble-bash'
+  // },
   {
     isButton: true,
     textKey: 'Education',
@@ -101,19 +101,15 @@ export const getNavigationLinks = (
       }
     ]
   },
+  { linkKey: '/chair-sponsorships', textKey: 'Chair Sponsorships', active: path === '/chair-sponsorships' },
+  ,
   {
     isButton: true,
     textKey: 'More',
-    active: [
-      '/chair-sponsorships',
-      '/advertise-with-us',
-      '/sponsorship-opportunities',
-      '/contact',
-      '/connect-with-us',
-      '/media'
-    ].includes(path),
+    active: ['/advertise-with-us', '/sponsorship-opportunities', '/contact', '/connect-with-us', '/media'].includes(
+      path
+    ),
     links: [
-      { linkKey: '/chair-sponsorships', textKey: 'Chair Sponsorships', active: path === '/chair-sponsorships' },
       { linkKey: '/advertise-with-us', textKey: 'Advertise With Us', active: path === '/advertise-with-us' },
       {
         linkKey: '/sponsorship-opportunities',

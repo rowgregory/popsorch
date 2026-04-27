@@ -1,11 +1,24 @@
 export interface ISponsor {
-  id: string // @id @default(cuid())
-  filePath: string // Path to uploaded file
+  id: string
   name: string
-  filename: string // Display name for the sponsor
-  externalLink: string // Sponsor website URL
-  amount: string
-  level: string // Sponsorship tier
-  createdAt: Date // @default(now())
-  updatedAt: Date // @updatedAt
+  filePath: string
+  filename: string
+  externalLink: string
+  level: string
+  amount: number
+  isActive: boolean
+  createdAt: Date
+  updatedAt: Date
 }
+
+export interface CreateSponsorInput {
+  name: string
+  filePath: string
+  filename: string
+  externalLink?: string
+  level?: string
+  amount?: number
+  isActive?: boolean
+}
+
+export type UpdateSponsorInput = Partial<CreateSponsorInput>

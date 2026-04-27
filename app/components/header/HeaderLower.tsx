@@ -1,13 +1,13 @@
 import { FC, useState } from 'react'
-import { useAppDispatch } from '@/app/redux/store'
 import { getNavigationLinks, NavigationLinksProps } from '@/app/utils/navigation.utils'
-import { useHeaderAtTop } from '@/app/hooks/useHeaderAtTop'
 import { openNavigationDrawer } from '@/app/redux/features/appSlice'
 import Link from 'next/link'
-import CustomHeaderButton from '../CustomHeaderButton'
 import { motion } from 'framer-motion'
-import { Menu } from 'lucide-react'
+import { ExternalLink, Heart, Menu, User } from 'lucide-react'
 import { usePathname } from 'next/navigation'
+import { useHeaderAtTop } from '@/app/lib/hooks/useHeaderAtTop'
+import LogoSVG from '../svg/LogoSVG'
+import { store } from '@/app/redux/store'
 
 export interface HeaderNavLinkProps {
   link: NavigationLinksProps
@@ -101,13 +101,11 @@ export const HeaderNavLink: FC<HeaderNavLinkProps> = ({ link, openDropdown, setO
   )
 }
 
-export const HeaderLower = ({ concerts, campApplicationsSetting, headerButton }) => {
+export const HeaderLower = ({ concerts, campApplicationsSetting }) => {
   const path = usePathname()
-  const dispatch = useAppDispatch()
-  const thereAreConcerts = concerts?.concerts?.length > 0
+  const thereAreConcerts = concerts?.length > 0
   const navLinks = getNavigationLinks(path, thereAreConcerts, campApplicationsSetting)
   const [openDropdown, setOpenDropdown] = useState({ open: false, textKey: '' })
-  const isHome = path === '/'
   const { headerRef } = useHeaderAtTop()
 
   return (
@@ -115,20 +113,39 @@ export const HeaderLower = ({ concerts, campApplicationsSetting, headerButton })
       ref={headerRef}
       role="navigation"
       aria-label="Main site navigation"
-      className={`${
-        !isHome ? 'bg-headerbg bg-cover bg-no-repeat bg-center' : 'bg-transparent'
-      } transition-all relative z-50 px-4 990:px-8 1200:px-12`}
+      className="transition-all relative z-50 px-4 990:px-8 1200:px-12"
     >
-      <div className="w-full mx-auto max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 1590:max-w-7xl flex items-center justify-between h-16 sm:h-20 space-x-4">
-        {!isHome && (
+      {/* ── Top row — account ── */}
+      <div className="hidden xl:flex items-center justify-end h-8">
+        <Link
+          href="/auth/login"
+          className="flex items-center gap-1.5 text-white/40 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze text-[10px] font-mono tracking-[0.2em] uppercase"
+          aria-label="Sign in to your account"
+        >
+          <User className="w-3 h-3" aria-hidden="true" />
+          Account
+        </Link>
+      </div>
+
+      {/* ── Bottom row — main nav ── */}
+      <div className="w-full flex items-center justify-between h-16 sm:h-20 space-x-4">
+        {/* Logo */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+        >
           <Link
             href="/"
-            className={`bg-white50Logo bg-no-repeat bg-contain bg-center w-16 h-12 sm:h-16 shrink-0`}
-            aria-label="The Pops Orchestra of Sarasotra and Bradenton logo"
-          />
-        )}
+            aria-label="The Pops Orchestra — home"
+            className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-sm inline-block"
+          >
+            <LogoSVG className="w-20" />
+          </Link>
+        </motion.div>
+
         {/* Desktop Nav */}
-        <div className="hidden 1200:flex items-center gap-x-5 h-full">
+        <div className="hidden xl:flex items-center gap-x-5 h-full">
           {navLinks.map((link, i) => (
             <motion.div
               key={i}
@@ -146,47 +163,53 @@ export const HeaderLower = ({ concerts, campApplicationsSetting, headerButton })
           ))}
         </div>
 
-        {/* Right side */}
-        <div className="flex items-center justify-between w-full gap-x-3">
+        {/* Right — CTA buttons */}
+        <div className="flex items-center gap-x-2">
           {/* Mobile menu */}
           <button
             type="button"
-            onClick={() => dispatch(openNavigationDrawer())}
+            onClick={() => store.dispatch(openNavigationDrawer())}
             aria-label="Open mobile navigation menu"
-            className="w-5 h-5 sm:w-6 sm:h-6 text-white/70 hover:text-blaze 1200:hidden transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm"
+            className="w-5 h-5 sm:w-6 sm:h-6 text-white/70 hover:text-blaze xl:hidden transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm"
           >
             <Menu aria-hidden="true" />
           </button>
 
-          {/* Desktop CTA buttons */}
-          <div className="flex w-full justify-end items-end gap-x-2">
-            {headerButton?.type === 'double' && headerButton.secondaryButton ? (
-              <>
-                <CustomHeaderButton
-                  {...headerButton}
-                  text={headerButton.text}
-                  link={headerButton.link}
-                  linkType={headerButton.linkType}
-                  backgroundColor={headerButton.backgroundColor}
-                  fontColor={headerButton.fontColor}
-                  animation={headerButton.animation}
-                  aria-label={headerButton.text}
-                />
-                <CustomHeaderButton
-                  {...headerButton}
-                  text={headerButton.secondaryButton.text}
-                  link={headerButton.secondaryButton.link}
-                  linkType={headerButton.secondaryButton.linkType}
-                  backgroundColor={headerButton.backgroundColor}
-                  fontColor={headerButton.fontColor}
-                  animation={headerButton.animation}
-                  aria-label={headerButton.secondaryButton.text}
-                />
-              </>
-            ) : (
-              <CustomHeaderButton {...headerButton} aria-label={headerButton?.text} />
-            )}
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.75 }}
+            className="flex items-center gap-3"
+          >
+            <Link
+              href="https://ci.ovationtix.com/35505/production/1232771"
+              target="_blank"
+              className="group inline-flex items-center gap-2 bg-blaze hover:bg-blazehover text-white font-changa uppercase tracking-widest transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black cursor-pointer"
+              style={{
+                fontSize: 'clamp(0.65rem, 1.5vw, 0.875rem)',
+                padding: 'clamp(0.625rem, 1.5vw, 1rem) clamp(1.25rem, 3vw, 2rem)'
+              }}
+            >
+              <span>Tickets</span>
+              <ExternalLink
+                className="w-4 h-4 shrink-0 group-hover:translate-x-1 transition-transform"
+                aria-hidden="true"
+              />
+            </Link>
+
+            <Link
+              href="https://ci.ovationtix.com/35505/store/donations"
+              target="_blank"
+              className="group inline-flex items-center gap-2 border border-white/30 hover:border-white text-white/70 hover:text-white font-changa uppercase tracking-widest transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black cursor-pointer"
+              style={{
+                fontSize: 'clamp(0.65rem, 1.5vw, 0.875rem)',
+                padding: 'clamp(0.625rem, 1.5vw, 1rem) clamp(1.25rem, 3vw, 2rem)'
+              }}
+            >
+              <span>Donate</span>
+              <Heart className="w-4 h-4 shrink-0 group-hover:scale-110 transition-transform" aria-hidden="true" />
+            </Link>
+          </motion.div>
         </div>
       </div>
     </nav>

@@ -9,7 +9,7 @@ import { Edit2, Loader2, Trash2 } from 'lucide-react'
 import { formatDateShort } from '@/app/lib/utils/dateUtils'
 import EmptyState from '@/app/components/common/EmptyState'
 import { useRouter } from 'next/navigation'
-import { deleteVenue } from '@/app/actions/deleteVenue'
+import { deleteVenue } from '@/app/lib/actions/venue/deleteVenue'
 import { showToast } from '@/app/redux/features/toastSlice'
 import { IVenue } from '@/app/types/entities/venue'
 

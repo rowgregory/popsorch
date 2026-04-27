@@ -1,4 +1,4 @@
-import { getPage } from '@/app/actions/getPage'
+import { getPage } from '@/app/lib/actions/page/getPage'
 import { ConnectWithUsClient } from '@/app/components/pages/ConnectWithUsClient'
 
 export default async function ConnectWithUsPage() {

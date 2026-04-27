@@ -7,7 +7,6 @@ import RiverviewPACFirstFloorSVG from '@/app/components/svg/RiverviewPACFirstFlo
 import SCFNeelPACSVG from '@/app/components/svg/SCFNeelPACSVG'
 import SCFNeel2ndHalf from '@/app/components/svg/SCFNeel2ndHalf'
 import RiverviewBalconySVG from '@/app/components/svg/RiverviewBalconySVG'
-import OrchMapLight from '@/app/components/OrchMapLight'
 import ManateeHSSVG from '@/app/components/svg/ManateeHSSVG'
 import { motion, AnimatePresence } from 'framer-motion'
 import { IVenue } from '@/app/types/entities/venue'
@@ -228,7 +227,7 @@ export const VenuesClient = ({ venues }) => {
               {venues.map((venue: IVenue, index: number) => {
                 const getVenueId = (venueName: string): string => {
                   if (venueName === 'Riverview Performing Arts Center') return 'riverview'
-                  if (venueName === 'SCF Neel Performing Arts Center') return 'scf-neel'
+                  if (venueName === 'Neel Performing Arts Center') return 'scf-neel'
                   if (venueName === 'Manatee High School Davis Performing Arts Center') return 'manatee'
                   return ''
                 }
@@ -266,19 +265,6 @@ export const VenuesClient = ({ venues }) => {
 
                         {/* Venue details */}
                         {renderVenueDetails(venue)}
-
-                        {/* Map */}
-                        <div
-                          className="relative h-100 my-10 border border-white/10"
-                          role="region"
-                          aria-label={`Map showing location of ${venue.name}`}
-                        >
-                          <OrchMapLight
-                            latitude={Number(venue.latitude)}
-                            longitude={Number(venue.longitude)}
-                            address={venue.address}
-                          />
-                        </div>
 
                         <div className="w-full h-px bg-white/10 my-8" aria-hidden="true" />
 

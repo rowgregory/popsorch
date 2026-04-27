@@ -9,6 +9,7 @@ export interface CampApplication {
   brassAndPercussion?: string
   woodwinds?: string
   referralSource?: string
+  instrument?: string
   createdAt: Date
   updatedAt: Date
 }
@@ -45,4 +46,10 @@ export interface Parent {
   parentPhoneNumber: string
   campApplication?: CampApplication // Optional, as it might not exist yet
   campApplicationId?: string // Unique ID to link to a CampApplication
+}
+
+export type FullApplication = CampApplication & {
+  Student: Student | null
+  Address: Address | null
+  Parent: Parent | null
 }

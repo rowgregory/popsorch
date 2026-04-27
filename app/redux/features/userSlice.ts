@@ -1,43 +1,28 @@
+import { User } from '@prisma/client'
 import { Reducer, createSlice } from '@reduxjs/toolkit'
-
-export interface UserProps {
-  isSoundEffectsOn: boolean
-  isBackgroundMusicOn: boolean
-  isSupporter: boolean
-  id: string
-  firstName: string
-  lastName: string
-  email: string
-  isAdmin: boolean
-  isSuperUser: boolean
-  role: string
-  createdAt: Date
-  updatedAt: Date
-}
 
 export interface UserStatePayload {
   loading: boolean
   error: any
   success: boolean
-  users: UserProps[]
-  user: UserProps
+  users: User[]
+  user: User
   usersCount: number
   noUsers: boolean
 }
 
-const userState: UserProps = {
+const userState: User = {
   id: '',
   firstName: '',
   lastName: '',
   email: '',
-  isAdmin: false,
-  isSuperUser: false,
-  isSupporter: false,
-  isBackgroundMusicOn: false,
   isSoundEffectsOn: false,
-  role: '',
+  role: 'PATRON',
   createdAt: new Date(),
-  updatedAt: new Date()
+  updatedAt: new Date(),
+  emailVerified: undefined,
+  phone: '',
+  stripeCustomerId: ''
 }
 
 const initialUserState: UserStatePayload = {
@@ -68,16 +53,10 @@ export const userSlice = createSlice({
     },
     resetUserError: (state) => {
       state.error = null
-    },
-    removeUserFromState: (state, action) => {
-      state.users = state.users.filter((user) => user.id !== action.payload)
-    },
-    hydrateUserState: (state, { payload }) => {
-      state.user = { ...state.user, ...payload }
     }
   }
 })
 
 export const userReducer = userSlice.reducer as Reducer<UserStatePayload>
 
-export const { resetUser, setUsers, setUser, resetUserError, removeUserFromState, hydrateUserState } = userSlice.actions
+export const { resetUser, setUsers, setUser, resetUserError } = userSlice.actions

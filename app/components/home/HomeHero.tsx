@@ -3,7 +3,8 @@ import { HomeHeroCarousel } from '../carousels/HomeHeroCarousel'
 import { sendEnrichedGAEvent } from '@/app/utils/sendEnrichedGAEvent'
 import { ArrowRightIcon } from 'lucide-react'
 import Link from 'next/link'
-import Picture from '../common/Picture'
+import LogoSVG from '../svg/LogoSVG'
+import { sectionVariants } from '@/app/lib/constants/motion'
 
 const HomeHero = ({ pageData, ref, galleryImages }) => {
   const shouldReduceMotion = useReducedMotion()
@@ -28,24 +29,15 @@ const HomeHero = ({ pageData, ref, galleryImages }) => {
   }, {})
 
   const heading = hero?.heading || ''
-  const parts = heading.split(' of ')
-  const headingPrefix = parts[0]
-  const headingMain = `of ${parts[1]}` || ''
-
-  // Respect prefers-reduced-motion for entrance animation
-  const sectionVariants = {
-    initial: { opacity: shouldReduceMotion ? 1 : 0 },
-    animate: { opacity: 1 }
-  }
 
   return (
     <motion.section
       role="banner"
       aria-label="Hero: The Pops Orchestra of Sarasota and Bradenton"
-      initial={sectionVariants.initial}
-      animate={sectionVariants.animate}
+      initial={sectionVariants(shouldReduceMotion).initial}
+      animate={sectionVariants(shouldReduceMotion).animate}
       transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.35, ease: 'easeIn' }}
-      className="relative w-full min-h-200 h-dvh max-h-1000 -mt-16 sm:-mt-20"
+      className="relative w-full min-h-200 h-dvh max-h-1000 -mt-16 sm:-mt-28"
     >
       <HomeHeroCarousel images={filteredImages} interval={shouldReduceMotion ? 0 : 5000} />
 
@@ -56,7 +48,7 @@ const HomeHero = ({ pageData, ref, galleryImages }) => {
           {/* Main bottom gradient */}
           <div className="absolute inset-0 bg-linear-to-t from-black via-black/10 to-transparent" />
           {/* Left side gradient that bends it up */}
-          <div className="absolute inset-0 bg-linear-to-r from-black/80 via-black/20 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-r from-black/80 via-black/10 to-transparent" />
         </div>
 
         <div className="relative z-10 max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 1590:max-w-7xl mx-auto w-full">
@@ -72,14 +64,7 @@ const HomeHero = ({ pageData, ref, galleryImages }) => {
               aria-label="The Pops Orchestra — home"
               className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-sm inline-block"
             >
-              <Picture
-                src="/images/golden-logo.png"
-                alt="The Pops Orchestra logo"
-                width={160}
-                height={160}
-                priority={true}
-                className="w-40 430:w-60 h-auto object-contain"
-              />
+              <LogoSVG className="w-54" />
             </Link>
           </motion.div>
 
@@ -94,7 +79,7 @@ const HomeHero = ({ pageData, ref, galleryImages }) => {
               className="font-changa text-white leading-none drop-shadow-2xl"
               style={{ fontSize: 'clamp(2.75rem, 6vw, 5.5rem)' }}
             >
-              {headingPrefix}
+              {heading}
             </p>
           </motion.div>
 
@@ -108,7 +93,7 @@ const HomeHero = ({ pageData, ref, galleryImages }) => {
           >
             <span className="sr-only">{heading}</span>
             <span aria-hidden="true" className="text-blaze uppercase tracking-[0.3em]">
-              {headingMain}
+              {hero.subheading}
             </span>
           </motion.h1>
 
@@ -119,17 +104,6 @@ const HomeHero = ({ pageData, ref, galleryImages }) => {
             className="w-16 h-px bg-blaze mb-4 430:mb-6 origin-left"
             aria-hidden="true"
           />
-
-          {/* Subheading */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.65 }}
-            className="font-lato text-white/70 leading-relaxed mb-8 430:mb-10 border-l-2 border-blaze pl-5 max-w-xl"
-            style={{ fontSize: 'clamp(0.75rem, 1.8vw, 1.125rem)' }}
-          >
-            {hero?.subheading}
-          </motion.p>
 
           {/* CTA */}
           <motion.div

@@ -1,4 +1,4 @@
-import { getPage } from '@/app/actions/getPage'
+import { getPage } from '@/app/lib/actions/page/getPage'
 import { SponsorshipOpportunitiesClient } from '../../components/pages/SponsorshipOpportunitiesClient'
 
 export default async function SponsorshipOpportunitiesPage() {

@@ -1,6 +1,6 @@
 import prisma from '@/prisma/client'
+import { UserRole } from '@prisma/client'
 import type { User } from 'next-auth'
-// import { createStripeCustomer } from '../actions/createStripeCustomer'
 
 export async function handleEmailCallback(user: User) {
   let dbUser = await prisma.user.findUnique({
@@ -16,7 +16,7 @@ export async function handleEmailCallback(user: User) {
         email: user.email!,
         firstName: emailName.charAt(0).toUpperCase() + emailName.slice(1),
         lastName: null,
-        role: 'SUPPORTER'
+        role: 'SUPPORTER' as UserRole
       },
       include: { accounts: true }
     })
@@ -36,11 +36,6 @@ export async function handleEmailCallback(user: User) {
       }
     })
   }
-
-  // Create Stripe customer if new user
-  // if (!dbUser.stripeCustomerId) {
-  //   await createStripeCustomer(dbUser.id, dbUser.email, `${dbUser.firstName || ''} ${dbUser.lastName || ''}`.trim())
-  // }
 
   return true
 }

@@ -3,7 +3,7 @@ import { store, useFormSelector } from '@/app/redux/store'
 import { createFormActions, resetForm } from '@/app/redux/features/formSlice'
 import validateContactForm from '@/app/lib/validations/validateContactForm'
 import { showToast } from '@/app/redux/features/toastSlice'
-import { createQuestion } from '@/app/actions/createQuestion'
+import { createQuestion } from '@/app/lib/actions/question/createQuestion'
 import { setOpenContactSubmissionSuccessModal } from '@/app/redux/features/uiSlice'
 import { ArrowRightIcon, Loader2 } from 'lucide-react'
 

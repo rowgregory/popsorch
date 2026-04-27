@@ -1,4 +1,4 @@
-import { getPage } from '@/app/actions/getPage'
+import { getPage } from '@/app/lib/actions/page/getPage'
 import { HiddenGemsClient } from '../../components/pages/HiddenGemsClient'
 
 export default async function HiddenGemsPage() {

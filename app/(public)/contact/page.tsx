@@ -1,4 +1,4 @@
-import { getPage } from '@/app/actions/getPage'
+import { getPage } from '@/app/lib/actions/page/getPage'
 import { ContactClient } from '@/app/components/pages/ContactClient'
 
 export default async function ContactPage() {

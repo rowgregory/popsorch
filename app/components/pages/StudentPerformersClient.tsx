@@ -75,9 +75,9 @@ export const StudentPerformersClient = ({ data }) => {
                       value: field('student_performers_stat_2_value'),
                       label: field('student_performers_stat_2_label')
                     }
-                  ].map((stat) => (
+                  ].map((stat, s) => (
                     <div
-                      key={stat.label}
+                      key={s}
                       className="flex items-center gap-3 bg-black/70 backdrop-blur-sm px-4 py-3 border-l-2 border-blaze"
                     >
                       <span className="font-changa text-2xl text-blaze leading-none">{stat.value}</span>
@@ -135,8 +135,8 @@ export const StudentPerformersClient = ({ data }) => {
                       label: field('student_performers_meta_4_label'),
                       value: field('student_performers_meta_4_value')
                     }
-                  ].map((row) => (
-                    <li key={row.label} className="flex items-start gap-3 py-3">
+                  ].map((row, r) => (
+                    <li key={r} className="flex items-start gap-3 py-3">
                       <span className="font-changa text-xs uppercase tracking-widest text-blaze w-24 shrink-0 pt-0.5">
                         {row.label}
                       </span>

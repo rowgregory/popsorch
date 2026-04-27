@@ -1,4 +1,4 @@
-import { getPage } from '@/app/actions/getPage'
+import { getPage } from '@/app/lib/actions/page/getPage'
 import CampApplicationClient from '../../components/pages/CampApplicationClient'
 
 export default async function CampApplicationPage() {

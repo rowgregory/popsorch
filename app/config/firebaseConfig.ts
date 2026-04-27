@@ -3,13 +3,13 @@ import { getStorage } from 'firebase/storage'
 import { getToken, onMessage } from 'firebase/messaging'
 
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_ACCESS_ID,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
+  apiKey: 'IzaSyC4v12cOABmO_HRBhhB71n-ki1RRVvy8Tw',
+  authDomain: 'the-pops-orchestra.firebaseapp.com',
+  projectId: 'the-pops-orchestra',
+  storageBucket: 'the-pops-orchestra.firebasestorage.app',
+  messagingSenderId: '63527197965',
+  appId: '1:63527197965:web:c2d6cd92510941d3b1e444',
+  measurementId: 'G-77F04BXCH1'
 }
 
 const app = initializeApp(firebaseConfig)

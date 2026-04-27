@@ -3,11 +3,10 @@ import Link from 'next/link'
 import { RootState, store, useAppSelector } from '../../redux/store'
 import { closeNavigationDrawer } from '../../redux/features/appSlice'
 import { getNavigationLinks } from '../../utils/navigation.utils'
-import CustomHeaderButton from '../CustomHeaderButton'
 import { usePathname } from 'next/navigation'
 import { X } from 'lucide-react'
 
-const NavigationDrawer = ({ concerts, campApplicationsSetting, headerButton }) => {
+const NavigationDrawer = ({ concerts, campApplicationsSetting }) => {
   const path = usePathname()
   const { navigationDrawer } = useAppSelector((state: RootState) => state.app)
   const overlayRef = useRef(null)
@@ -45,36 +44,6 @@ const NavigationDrawer = ({ concerts, campApplicationsSetting, headerButton }) =
 
         {/* Content */}
         <div className="flex-1 px-6 py-8 flex flex-col gap-y-8">
-          {/* Buttons */}
-          <div className="flex flex-col gap-y-3">
-            {headerButton?.type === 'double' && headerButton.secondaryButton ? (
-              <>
-                <CustomHeaderButton
-                  {...headerButton}
-                  text={headerButton.text}
-                  link={headerButton.link}
-                  linkType={headerButton.linkType}
-                  backgroundColor={headerButton.backgroundColor}
-                  fontColor={headerButton.fontColor}
-                  animation={headerButton.animation}
-                  aria-label={headerButton.text}
-                />
-                <CustomHeaderButton
-                  {...headerButton}
-                  text={headerButton.secondaryButton.text}
-                  link={headerButton.secondaryButton.link}
-                  linkType={headerButton.secondaryButton.linkType}
-                  backgroundColor={headerButton.backgroundColor}
-                  fontColor={headerButton.fontColor}
-                  animation={headerButton.animation}
-                  aria-label={headerButton.secondaryButton.text}
-                />
-              </>
-            ) : (
-              <CustomHeaderButton {...headerButton} aria-label={headerButton.text} />
-            )}
-          </div>
-
           {/* Divider */}
           <div className="w-full h-px bg-white/10" />
 

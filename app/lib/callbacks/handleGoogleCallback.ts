@@ -1,8 +1,7 @@
 import prisma from '@/prisma/client'
 import { User as NextAuthUser } from 'next-auth'
-// import { createStripeCustomer } from '../actions/createStripeCustomer'
 import { Account } from 'next-auth'
-import { User, Account as PrismaAccount } from '@prisma/client'
+import { User, Account as PrismaAccount, UserRole } from '@prisma/client'
 import { createLog } from '@/app/utils/logHelper'
 
 // Google OAuth Profile type - match NextAuth's Profile structure
@@ -43,13 +42,11 @@ export async function handleGoogleCallback(
         email: user.email!,
         firstName: profile?.given_name || '',
         lastName: profile?.family_name || '',
-        role: 'SUPPORTER'
+        role: 'PATRON' as UserRole
       }
     })
 
     await linkGoogleAccount(newUser, account)
-
-    // await createStripeCustomer(newUser.id, newUser.email, `${newUser.firstName} ${newUser.lastName}`.trim())
 
     user.id = newUser.id
 

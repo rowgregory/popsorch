@@ -117,7 +117,7 @@ export const adminNavLinks = (path: string, role: string) => {
       path: '/admin/profile',
       active: path === '/admin/profile'
     },
-    ...(role === 'SUPERUSER'
+    ...(role === 'SUPER_USER'
       ? [
           {
             icon: Database,

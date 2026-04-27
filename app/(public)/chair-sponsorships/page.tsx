@@ -1,4 +1,4 @@
-import { getPage } from '@/app/actions/getPage'
+import { getPage } from '@/app/lib/actions/page/getPage'
 import { ChairSponsorshipsClient } from '@/app/components/pages/ChairSponsorshipsClient'
 
 export default async function CampApplicationPage() {

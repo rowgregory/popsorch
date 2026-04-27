@@ -1,23 +1,12 @@
 'use client'
 
 import { signOut } from 'next-auth/react'
-import {
-  User,
-  Mail,
-  CheckCircle,
-  XCircle,
-  LogOut,
-  Clock,
-  ExternalLink,
-  ArrowRight,
-  Music,
-  ChevronRight
-} from 'lucide-react'
+import { User, Mail, CheckCircle, LogOut, Clock, ExternalLink, ArrowRight, Music, ChevronRight } from 'lucide-react'
 import Picture from '../common/Picture'
 import Link from 'next/link'
 import { formatDate } from '@/app/utils/date.functions'
 
-const SupporterOverviewClient = ({ isSubscribed, user, isCampActive, campApplications }) => {
+const SupporterOverviewClient = ({ user, isCampActive, campApplications }) => {
   const hasAppliedThisYear = campApplications.some(
     (app) => new Date(app.createdAt).getFullYear() === new Date().getFullYear()
   )
@@ -118,30 +107,16 @@ const SupporterOverviewClient = ({ isSubscribed, user, isCampActive, campApplica
                   </h2>
                 </div>
 
-                <div className="flex items-center gap-3 mb-5">
-                  {isSubscribed ? (
-                    <CheckCircle className="w-4 h-4 text-green-400 shrink-0" aria-hidden="true" />
-                  ) : (
-                    <XCircle className="w-4 h-4 text-white/20 shrink-0" aria-hidden="true" />
-                  )}
-                  <span className="font-changa text-sm text-white uppercase tracking-wide">
-                    {isSubscribed ? 'Subscribed' : 'Not Subscribed'}
-                  </span>
-                  <span className="sr-only">Newsletter status: {isSubscribed ? 'subscribed' : 'not subscribed'}</span>
-                </div>
-
-                {!isSubscribed && (
-                  <Link
-                    href="/connect-with-us"
-                    className="group inline-flex items-center gap-2 font-changa text-xs uppercase tracking-[0.2em] text-blaze hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze mt-2"
-                  >
-                    <span>Subscribe</span>
-                    <ArrowRight
-                      className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"
-                      aria-hidden="true"
-                    />
-                  </Link>
-                )}
+                <Link
+                  href="/connect-with-us"
+                  className="group inline-flex items-center gap-2 font-changa text-xs uppercase tracking-[0.2em] text-blaze hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze mt-2"
+                >
+                  <span>Subscribe</span>
+                  <ArrowRight
+                    className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"
+                    aria-hidden="true"
+                  />
+                </Link>
               </section>
 
               {/* Camp Applications */}

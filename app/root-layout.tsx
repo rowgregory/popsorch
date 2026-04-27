@@ -6,33 +6,24 @@ import { persistor, store } from './redux/store'
 import { PersistGate } from 'redux-persist/integration/react'
 import { usePathname } from 'next/navigation'
 import { toggleHeaderFooter } from './utils/string.functions'
-import useNetworkStatus from './hooks/useNetworkStatus'
-import useScrollToTop from './hooks/useScrollToTop'
 import NavigationDrawer from './components/drawers/NavigationDrawer'
 import Toast from './components/common/Toast'
 import { Header } from './components/header/Header'
 import Footer from './components/Footer'
 import CampApplicationSuccessModal from './components/modals/CampApplicationSuccessModal'
 import ContactSubmissionSuccessModal from './components/modals/ContactSubmissionSuccessModal'
-import { Concert, HeaderButton } from '@prisma/client'
+import { Concert } from '@prisma/client'
 import { FooterData } from './types/common.types'
+import useScrollToTop from './lib/hooks/useScrollToTop'
 
 export interface IRootLayoutWrapper {
   children: ReactNode
-  headerButton: HeaderButton
   concerts: Concert[]
   campApplicationsSetting: boolean
   data: FooterData
 }
 
-export const RootLayoutWrapper: FC<IRootLayoutWrapper> = ({
-  children,
-  headerButton,
-  concerts,
-  campApplicationsSetting,
-  data
-}) => {
-  useNetworkStatus()
+export const RootLayoutWrapper: FC<IRootLayoutWrapper> = ({ children, concerts, campApplicationsSetting, data }) => {
   useScrollToTop()
   const pathname = usePathname()
 
@@ -44,19 +35,13 @@ export const RootLayoutWrapper: FC<IRootLayoutWrapper> = ({
       <PersistGate loading={null} persistor={persistor}>
         <div className="main-content">
           {/* Global Components */}
-          <NavigationDrawer
-            concerts={concerts}
-            campApplicationsSetting={campApplicationsSetting}
-            headerButton={headerButton}
-          />
+          <NavigationDrawer concerts={concerts} campApplicationsSetting={campApplicationsSetting} />
           <Toast />
           <CampApplicationSuccessModal />
           <ContactSubmissionSuccessModal />
 
           {/* Page Layout */}
-          {showHeader && (
-            <Header concerts={concerts} campApplicationsSetting={campApplicationsSetting} headerButton={headerButton} />
-          )}
+          {showHeader && <Header concerts={concerts} campApplicationsSetting={campApplicationsSetting} />}
           {children}
           {showFooter && <Footer data={data} />}
         </div>

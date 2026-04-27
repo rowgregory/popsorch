@@ -206,3 +206,7 @@ export const getTimeInfo = (date: Date) => ({
 
 // COMMON VARIABLES
 export const now = new Date()
+
+export function toDateInput(date: Date | string) {
+  return new Date(date).toISOString().split('T')[0]
+}

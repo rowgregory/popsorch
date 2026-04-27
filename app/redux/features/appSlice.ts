@@ -9,7 +9,6 @@ interface ModalUploaderPayload {
   show: boolean
   src: any
   type: string
-  textBlockKey: string
   initialValue?: string
 }
 
@@ -26,7 +25,6 @@ export interface AppStatePayload {
     show: boolean
     initialValue: string
     type: string
-    textBlockKey: string
   }
   drawerData: {
     position: string
@@ -48,7 +46,6 @@ const mediaDataInitialState = {
   show: false,
   src: '',
   type: '',
-  textBlockKey: '',
   initialValue: ''
 }
 
@@ -64,8 +61,7 @@ const initialAppState: AppStatePayload = {
   data: {
     show: false,
     initialValue: '',
-    type: '',
-    textBlockKey: ''
+    type: ''
   },
   drawerData: null,
   mediaData: mediaDataInitialState,

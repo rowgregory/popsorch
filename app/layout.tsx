@@ -1,12 +1,11 @@
 import Script from 'next/script'
 import { GoogleAnalytics } from '@next/third-parties/google'
-import { Changa, Inter, Lato, Oswald, Raleway } from 'next/font/google'
+import { Changa, Cormorant_Infant, Heebo, Inter, Lato, Oswald, Raleway } from 'next/font/google'
 import { auth } from './lib/auth'
 import { siteMetadata } from './metadata'
-import { getActiveHeaderButton } from './actions/getActiveHeaderButton'
-import { getConcerts } from './actions/getConcerts'
-import { getCampApplicationsSetting } from './actions/getCampApplicationsSetting'
-import { getPage } from './actions/getPage'
+import { getConcerts } from './lib/actions/concert/getConcerts'
+import { getCampApplicationsSetting } from './lib/actions/camp-applications/getCampApplicationsSetting'
+import { getPage } from './lib/actions/page/getPage'
 import { SessionProvider } from 'next-auth/react'
 import { RootLayoutWrapper } from './root-layout'
 import './globals.css'
@@ -50,10 +49,22 @@ const lato = Lato({
   variable: '--font-lato'
 })
 
+const heebo = Heebo({
+  subsets: ['latin'],
+  weight: ['300', '400', '700'],
+  preload: false,
+  variable: '--font-heebo'
+})
+const c_infant = Cormorant_Infant({
+  subsets: ['latin'],
+  weight: ['300', '400', '700'],
+  preload: false,
+  variable: '--font-c-infant'
+})
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const [session, headerButton, concerts, campApplicationsSetting, footerData] = await Promise.all([
+  const [session, concerts, campApplicationsSetting, footerData] = await Promise.all([
     auth(),
-    getActiveHeaderButton(),
     getConcerts(),
     getCampApplicationsSetting(),
     getPage('footer')
@@ -65,13 +76,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID!} />
       </head>
       <body
-        className={`${inter.variable} ${oswald.variable} ${raleway.variable} ${changa.variable} ${lato.variable} antialiased`}
+        className={`${inter.variable} ${oswald.variable} ${raleway.variable} ${changa.variable} ${lato.variable} ${heebo.variable} ${c_infant.variable} antialiased`}
       >
         <SessionProvider session={session}>
           <RootLayoutWrapper
-            headerButton={headerButton}
             concerts={concerts?.concerts}
-            campApplicationsSetting={campApplicationsSetting.value}
+            campApplicationsSetting={campApplicationsSetting?.value}
             data={footerData}
           >
             {children}

@@ -1,4 +1,4 @@
-import { getPage } from '@/app/actions/getPage'
+import { getPage } from '@/app/lib/actions/page/getPage'
 import { StudentPerformersClient } from '@/app/components/pages/StudentPerformersClient'
 
 export default async function StudentPerformersPage() {

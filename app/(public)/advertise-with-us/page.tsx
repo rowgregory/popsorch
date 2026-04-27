@@ -1,4 +1,4 @@
-import { getPage } from '@/app/actions/getPage'
+import { getPage } from '@/app/lib/actions/page/getPage'
 import { AdvertiseWithUsClient } from '@/app/components/pages/AdvertiseWithUsClient'
 
 export default async function AdvertiseWithUsPage() {

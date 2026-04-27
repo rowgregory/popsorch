@@ -20,13 +20,13 @@ const Toast: React.FC = () => {
   const getIcon = () => {
     switch (type) {
       case 'success':
-        return <CheckCircle className="w-5 h-5 text-emerald-400" />
+        return <CheckCircle className="w-4 h-4 text-emerald-400" />
       case 'error':
-        return <AlertCircle className="w-5 h-5 text-blaze" />
+        return <AlertCircle className="w-4 h-4 text-primary-dark" />
       case 'warning':
-        return <AlertTriangle className="w-5 h-5 text-sunburst" />
+        return <AlertTriangle className="w-4 h-4 text-yellow-400" />
       case 'info':
-        return <Info className="w-5 h-5 text-neutral-400" />
+        return <Info className="w-4 h-4 text-muted-dark" />
     }
   }
 
@@ -35,15 +35,13 @@ const Toast: React.FC = () => {
       case 'success':
         return 'border-l-emerald-500'
       case 'error':
-        return 'border-l-[#da0032]'
+        return 'border-l-primary-dark'
       case 'warning':
-        return 'border-l-[#ff9000]'
+        return 'border-l-yellow-400'
       case 'info':
-        return 'border-l-neutral-500'
+        return 'border-l-muted-dark'
     }
   }
-
-  if (!isVisible) return null
 
   return (
     <AnimatePresence>
@@ -55,25 +53,25 @@ const Toast: React.FC = () => {
           aria-atomic="true"
           initial={{ opacity: 0, x: '100%' }}
           animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: '100%', transition: { duration: 0.3, ease: 'easeInOut' } }}
-          transition={{ type: 'tween', duration: 0.3, ease: 'easeInOut' }}
-          className={`fixed top-4 right-4 left-4 lg:left-auto z-100 lg:max-w-sm bg-black border border-white/10 border-l-2 ${getAccent()} shadow-2xl p-4`}
+          exit={{ opacity: 0, x: '100%', transition: { duration: 0.2, ease: 'easeInOut' } }}
+          transition={{ type: 'tween', duration: 0.2, ease: 'easeInOut' }}
+          className={`fixed bottom-4 right-4 left-4 sm:left-auto z-100 sm:max-w-sm bg-surface-dark border border-border-dark border-l-2 ${getAccent()} shadow-2xl px-4 py-3`}
         >
           <div className="flex items-center gap-3">
             <div className="shrink-0" aria-hidden="true">
               {getIcon()}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-white font-changa text-sm uppercase tracking-wide">{message}</p>
-              {description && <p className="text-white/50 font-lato text-xs mt-0.5 leading-relaxed">{description}</p>}
+              <p className="text-text-dark text-[10px] font-mono tracking-[0.2em] uppercase">{message}</p>
+              {description && <p className="text-muted-dark text-[10px] mt-0.5 leading-relaxed">{description}</p>}
             </div>
             <button
               type="button"
               onClick={() => dispatch(hideToast())}
               aria-label="Dismiss notification"
-              className="shrink-0 w-7 h-7 flex items-center justify-center bg-white/5 border border-white/10 hover:border-white/30 hover:bg-white/10 text-white/40 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-sm"
+              className="shrink-0 w-6 h-6 flex items-center justify-center border border-border-dark hover:border-muted-dark text-muted-dark hover:text-text-dark transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-dark"
             >
-              <X className="w-3.5 h-3.5" aria-hidden="true" />
+              <X className="w-3 h-3" aria-hidden="true" />
             </button>
           </div>
         </motion.div>
@@ -81,5 +79,4 @@ const Toast: React.FC = () => {
     </AnimatePresence>
   )
 }
-
 export default Toast

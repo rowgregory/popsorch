@@ -68,3 +68,8 @@ export const fadeInUp = {
     transition: { duration: 0.6 }
   }
 }
+
+export const sectionVariants = (shouldReduceMotion: boolean) => ({
+  initial: { opacity: shouldReduceMotion ? 1 : 0 },
+  animate: { opacity: 1 }
+})

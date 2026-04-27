@@ -1,4 +1,4 @@
-import { getCampApplicationById } from '@/app/actions/getCampApplicationById'
+import { getCampApplicationById } from '@/app/lib/actions/camp-applications/getCampApplicationById'
 import SupporterOverviewCampApplicationClient from '@/app/components/pages/SupporterOverviewCampApplicationClient'
 
 export default async function SupporterOverviewCampApplicationPage({

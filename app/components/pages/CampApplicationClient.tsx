@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronRight, ChevronLeft, Check, User, MapPin, Users, Music } from 'lucide-react'
 import Breadcrumb from '../common/Breadcrumb'
-import { createCampApplication } from '@/app/actions/createCampApplication'
+import { createCampApplication } from '@/app/lib/actions/camp-applications/createCampApplication'
 import { useRouter } from 'next/navigation'
 import { store } from '@/app/redux/store'
 import { showToast } from '@/app/redux/features/toastSlice'
@@ -225,13 +225,13 @@ export default function CampApplicationClient({ data }) {
                 </p>
                 <h2 className="text-lg font-black text-white mb-5">Camp Schedule</h2>
                 <div className="space-y-5">
-                  {schedule.map((day) => (
-                    <div key={day.date}>
+                  {schedule.map((day, d) => (
+                    <div key={d}>
                       <p className="text-xs font-bold text-white">{day.date}</p>
                       <p className="text-[11px] text-sunburst font-semibold mb-1.5">{day.time}</p>
                       <ul className="space-y-1">
-                        {day.items.map((item) => (
-                          <li key={item} className="flex items-start gap-2">
+                        {day.items.map((item, i) => (
+                          <li key={i} className="flex items-start gap-2">
                             <span className="mt-1.5 w-1 h-1 rounded-full bg-blaze shrink-0" />
                             <span className="text-[11px] text-neutral-400 leading-relaxed">{item}</span>
                           </li>

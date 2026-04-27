@@ -6,48 +6,36 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { api } from './services/api'
 import { appReducer } from './features/appSlice'
 import { dashboardReducer } from './features/dashboardSlice'
-import { textBlockReducer } from './features/textBlockSlice'
-import { concertReducer } from './features/concertSlice'
 import { formReducer } from './features/formSlice'
 import { venueReducer } from './features/venueSlice'
 import { teamMemberReducer } from './features/teamMemberSlice'
 import { photoGalleryImageReducer } from './features/photoGalleryImageSlice'
 import { userReducer } from './features/userSlice'
 import { questionReducer } from './features/questionSlice'
-import { pushNotificationReducer } from './features/pushNotificationSlice'
 import { campReducer } from './features/campSlice'
 import { logReducer } from './features/logSlice'
 import { mailChimpReducer } from './features/mailchimpSlice'
-import { headerButtonReducer } from './features/headerButtonSlice'
 import { sponsorReducer } from './features/sponsorSlice'
 import { toastReducer } from './features/toastSlice'
-import { quoteReducer } from './features/quoteSlice'
 import { persistStore, persistReducer } from 'redux-persist'
 import createWebStorage from 'redux-persist/es/storage/createWebStorage'
 import type { PersistPartial } from 'redux-persist/es/persistReducer'
-import { accessibilityReducer } from './features/accessibilitySlice'
 import { uiReducer } from './features/uiSlice'
 
 const rootReducer = combineReducers({
   app: appReducer,
   dashboard: dashboardReducer,
-  textBlock: textBlockReducer,
-  concert: concertReducer,
   form: formReducer,
   venue: venueReducer,
   teamMember: teamMemberReducer,
   photoGalleryImage: photoGalleryImageReducer,
   user: userReducer,
   question: questionReducer,
-  pushNotification: pushNotificationReducer,
   camp: campReducer,
   log: logReducer,
   mailchimp: mailChimpReducer,
-  headerButton: headerButtonReducer,
   sponsor: sponsorReducer,
   toast: toastReducer,
-  quote: quoteReducer,
-  accessibility: accessibilityReducer,
   ui: uiReducer,
   [api.reducerPath]: api.reducer
 })
@@ -102,7 +90,6 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
 export const useUserSelector = () => useAppSelector((state) => state.user)
 export const useSponsorSelector = () => useAppSelector((state) => state.sponsor)
-export const useConcertSelector = () => useAppSelector((state) => state.concert)
 export const useTeamMemberSelector = () => useAppSelector((state) => state.teamMember)
 export const useFormSelector = () => useAppSelector((state) => state.form)
 export const useToastSelector = () => useAppSelector((state) => state.toast)
@@ -111,10 +98,6 @@ export const useCampSelector = () => useAppSelector((state) => state.camp)
 export const usePhotoSelector = () => useAppSelector((state) => state.photoGalleryImage)
 export const useMailchimpSelector = () => useAppSelector((state) => state.mailchimp)
 export const useDashboardSelector = () => useAppSelector((state) => state.dashboard)
-export const useTextBlockSelector = () => useAppSelector((state) => state.textBlock)
 export const useQuestionSelector = () => useAppSelector((state) => state.question)
 export const useLogSelector = () => useAppSelector((state) => state.log)
-export const useAccessibilitySelector = () => useAppSelector((state) => state.accessibility)
-export const useHeaderButtonSelector = () => useAppSelector((state) => state.headerButton)
-export const usePushNotificationSelector = () => useAppSelector((state) => state.pushNotification)
 export const useUiSelector = () => useAppSelector((state) => state.ui)

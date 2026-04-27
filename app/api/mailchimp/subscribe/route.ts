@@ -3,7 +3,7 @@ import { createLog } from '@/app/utils/logHelper'
 import { parseStack } from 'error-stack-parser-es/lite'
 import crypto from 'crypto'
 import getInterestsMapping from '@/app/utils/mailchimp.getInterestsMapping'
-import subscribeUser from '@/app/utils/mailchimp.subscribeUser'
+import { subscribeUser } from '@/app/utils/mailchimp.subscribeUser'
 
 export async function POST(req: NextRequest) {
   try {
@@ -91,7 +91,7 @@ export async function POST(req: NextRequest) {
       newPatronInterestsId
     )
 
-    return await subscribeUser(interestMapping, API_KEY, DATACENTER, LIST_ID, address, user, req)
+    return await subscribeUser(interestMapping, API_KEY, DATACENTER, LIST_ID, address, user)
   } catch (error: any) {
     await createLog('error', `Subscribing to Mailchimp failed: ${error.message}`, {
       errorLocation: parseStack(JSON.stringify(error)),

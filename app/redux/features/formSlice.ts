@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { ChangeEvent } from 'react'
-import { UserProps } from './userSlice'
 import { sponsorData } from '@/app/lib/initial-state/sponsor'
+import { User } from '@prisma/client'
 
 export type Inputs = {
   [key: string]: string | number | boolean | undefined | unknown
@@ -77,7 +77,7 @@ const formInitialState = {
   },
   contactForm: { inputs: { name: '', email: '', message: '' }, errors: {} },
   progress: 0,
-  home: { inputs: { src: '', mimeType: '', type: '', textBlockKey: '' } },
+  home: { inputs: { src: '', mimeType: '', type: '' } },
   questionForm: { inputs: { name: '', email: '', message: '', hasResponded: false }, errors: {} },
   registerForm: {
     inputs: {
@@ -335,7 +335,7 @@ const formSlice = createSlice({
 })
 
 export const createFormActions = (formName: string, dispatch: any) => ({
-  setInputs: (data: UserProps | any) => dispatch(formSlice.actions.setInputs({ formName, data })),
+  setInputs: (data: User | any) => dispatch(formSlice.actions.setInputs({ formName, data })),
   clearInputs: () => dispatch(formSlice.actions.clearInputs({ formName })),
   setErrors: (errors: Errors) => dispatch(formSlice.actions.setErrors({ formName, errors })),
   setSubmitted: (submitted: boolean) => dispatch(formSlice.actions.setSubmitted({ formName, submitted })),

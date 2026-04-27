@@ -1,7 +1,7 @@
 'use client'
 
-import { createPage } from '@/app/actions/createPage'
-import { updatePage } from '@/app/actions/updatePage'
+import { createPage } from '@/app/lib/actions/page/createPage'
+import { updatePage } from '@/app/actions/deprecated/updatePage'
 import { showToast } from '@/app/redux/features/toastSlice'
 import { useAppDispatch, useDashboardSelector } from '@/app/redux/store'
 import { useRouter } from 'next/navigation'

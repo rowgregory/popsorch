@@ -7,7 +7,7 @@ import Picture from '../common/Picture'
 import { useRouter } from 'next/navigation'
 import { showToast } from '@/app/redux/features/toastSlice'
 import { Loader2, Trash2 } from 'lucide-react'
-import { deleteTeamMember } from '@/app/actions/deleteTeamMember'
+import { deleteTeamMember } from '@/app/lib/actions/team/deleteTeamMember'
 
 const getRoleColor = (role: string) => {
   return role === 'Board-Member'

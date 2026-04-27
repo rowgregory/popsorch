@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { useAppDispatch } from '@/app/redux/store'
-import useScrollFromTop from '@/app/hooks/useScrollFromTop'
 import { getNavigationLinks } from '@/app/utils/navigation.utils'
 import { openNavigationDrawer } from '@/app/redux/features/appSlice'
 import Link from 'next/link'
-import CustomHeaderButton from '../CustomHeaderButton'
+import CustomHeaderButton from '../deprecated/CustomHeaderButton'
 import { Menu } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import { HeaderNavLink } from './HeaderLower'
+import useScrollFromTop from '@/app/lib/hooks/useScrollFromTop'
 
 const HeaderFixed = ({ concerts, campApplicationsSetting, headerButton }) => {
   const dispatch = useAppDispatch()
@@ -18,7 +18,7 @@ const HeaderFixed = ({ concerts, campApplicationsSetting, headerButton }) => {
   const [openDropdown, setOpenDropdown] = useState({ open: false, textKey: '' })
   const isHome = path === '/'
 
-  if (path.includes('/admin')) return null
+  if (path.includes('/v2')) return null
 
   return (
     <header

@@ -3,26 +3,7 @@
 import { motion } from 'framer-motion'
 import { Home, ArrowLeft, Music, ArrowRightIcon } from 'lucide-react'
 import Link from 'next/link'
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      duration: 0.8,
-      staggerChildren: 0.15
-    }
-  }
-}
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, easeing: 'easeOut' }
-  }
-}
+import { containerVariants, itemVariants } from './lib/constants/motion'
 
 const Pops404 = () => {
   return (

@@ -1,5 +1,5 @@
+import useSingleImageCarousel from '@/app/lib/hooks/useSingleImageCarousel'
 import { FC } from 'react'
-import useSingleImageCarousel from '@/app/hooks/useSingleImageCarousel'
 
 export const HomeHeroCarousel: FC<{ images: any; interval: number }> = ({ images, interval = 3000 }) => {
   const currentImage = useSingleImageCarousel(images, interval)

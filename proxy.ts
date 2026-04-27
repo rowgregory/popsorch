@@ -1,67 +1,61 @@
 import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 import { auth } from './app/lib/auth'
 
-// const URL_REDIRECTS: Record<string, string> = {
-//   '': ''
-// }
+// ─── Role config ──────────────────────────────────────────────────────────────
 
-export async function proxy(request: { nextUrl: { pathname: string }; url: string | URL | undefined }) {
+type UserRole = 'PATRON' | 'ADMIN' | 'SUPER_USER'
+
+const DASHBOARDS: Record<UserRole, string> = {
+  PATRON: '/supporter/overview',
+  ADMIN: '/v2/dashboard',
+  SUPER_USER: '/v2/dashboard'
+}
+
+function getDashboard(role: UserRole) {
+  return DASHBOARDS[role] ?? '/auth/login'
+}
+
+// ─── Route config ─────────────────────────────────────────────────────────────
+
+const ROUTE_ACCESS: {
+  prefix: string
+  allowedRoles: UserRole[] | 'all'
+}[] = [
+  { prefix: '/v2/', allowedRoles: ['ADMIN', 'SUPER_USER'] },
+  { prefix: '/supporter/', allowedRoles: 'all' }
+]
+
+// ─── Middleware ───────────────────────────────────────────────────────────────
+
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
   const session = await auth()
+  const user = session?.user
+  const role = user?.role as UserRole | undefined
 
-  // Handle URL redirects first (before any other logic)
-  // if (URL_REDIRECTS[pathname]) {
-  //   return NextResponse.redirect(
-  //     new URL(URL_REDIRECTS[pathname], request.url),
-  //     { status: 301 }
-  //   )
-  // }
-
-  // If authenticated and on login page, redirect to appropriate dashboard
-  if (pathname === '/auth/login' && session?.user) {
-    const { role } = session.user
-
-    if (role === 'ADMIN' || role === 'SUPERUSER') {
-      return NextResponse.redirect(new URL('/admin/dashboard', request.url))
+  // ── Auth page — redirect if already signed in ──
+  if (pathname === '/auth/login') {
+    if (user && role) {
+      return NextResponse.redirect(new URL(getDashboard(role), request.url))
     }
-
-    // SUPPORTER role
-    return NextResponse.redirect(new URL('/supporter/overview', request.url))
+    return NextResponse.next()
   }
 
-  // Protected routes - require authentication
-  const protectedRoutes = ['/supporter/', '/admin/']
-  const isProtectedRoute = protectedRoutes.some((route) => pathname.startsWith(route))
+  // ── Protected routes ──
+  const matchedRoute = ROUTE_ACCESS.find((r) => pathname.startsWith(r.prefix))
 
-  if (isProtectedRoute) {
-    // Redirect unauthenticated users to login
-    if (!session?.user) {
-      return NextResponse.redirect(new URL('/auth/login', request.url))
+  if (matchedRoute) {
+    // Not signed in — send to login
+    if (!user || !role) {
+      const loginUrl = new URL('/auth/login', request.url)
+      loginUrl.searchParams.set('callbackUrl', pathname)
+      return NextResponse.redirect(loginUrl)
     }
 
-    const { role } = session.user
-
-    // Helper function to redirect to correct dashboard
-    const redirectToDashboard = (userRole: string) => {
-      if (userRole === 'ADMIN' || userRole === 'SUPERUSER') {
-        return NextResponse.redirect(new URL('/admin/dashboard', request.url))
-      }
-      return NextResponse.redirect(new URL('/supporter/overview', request.url))
-    }
-
-    // ADMIN/SUPERUSER access control
-    if (pathname.startsWith('/admin/')) {
-      if (role !== 'ADMIN' && role !== 'SUPERUSER') {
-        return redirectToDashboard(role)
-      }
-      // Admin/Superuser can access admin routes - allow
-      return NextResponse.next()
-    }
-
-    // SUPPORTER access control - everyone can access /supporter/overview
-    if (pathname.startsWith('/supporter/')) {
-      // Allow all authenticated roles to access supporter routes
-      return NextResponse.next()
+    // Role not allowed — send to their dashboard
+    if (matchedRoute.allowedRoles !== 'all' && !matchedRoute.allowedRoles.includes(role)) {
+      return NextResponse.redirect(new URL(getDashboard(role), request.url))
     }
   }
 
@@ -69,11 +63,5 @@ export async function proxy(request: { nextUrl: { pathname: string }; url: strin
 }
 
 export const config = {
-  matcher: [
-    '/supporter/:path*',
-    '/admin/:path*',
-    '/auth/login'
-
-    // Add old URL paths to the matcher so middleware checks them
-  ]
+  matcher: ['/v2/:path*', '/supporter/:path*', '/auth/login']
 }

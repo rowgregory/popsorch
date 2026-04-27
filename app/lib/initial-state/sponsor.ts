@@ -1,12 +1,13 @@
-import { ISponsor } from '@/app/types/entities/sponsor'
+import { Sponsor } from '@prisma/client'
 
-export const sponsorData: ISponsor = {
+export const sponsorData: Sponsor = {
   id: '',
   filename: '',
   filePath: '',
   externalLink: '',
-  level: 'Media Sponsor',
-  amount: '250',
+  level: 'MEDIA_SPONSOR',
+  isActive: false,
+  amount: 250,
   name: '',
   createdAt: new Date(),
   updatedAt: new Date()

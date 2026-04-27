@@ -9,14 +9,7 @@ import { setInputs } from '@/app/redux/features/formSlice'
 import { PanelRightOpen } from 'lucide-react'
 import { useState } from 'react'
 
-type RoleFilter = 'ALL' | 'SUPERUSER' | 'ADMIN' | 'SUPPORTER'
-
-// function formatRole(role: string) {
-//   return role
-//     .split('_')
-//     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-//     .join(' ')
-// }
+type RoleFilter = 'ALL' | 'SUPER_USER' | 'ADMIN' | 'SUPPORTER'
 
 export const AdminUsersClient = ({ users }) => {
   const [roleFilter, setRoleFilter] = useState<RoleFilter>('ALL')
@@ -60,7 +53,7 @@ export const AdminUsersClient = ({ users }) => {
                 className="appearance-none pl-3 pr-8 py-2 text-xs font-medium bg-neutral-800 border border-neutral-700 text-neutral-300 hover:border-neutral-600 transition-colors focus:outline-none focus:ring-1 focus:ring-yellow-400/50 rounded-lg"
               >
                 <option value="ALL">All Roles</option>
-                <option value="SUPERUSER">Super User</option>
+                <option value="SUPER_USER">Super User</option>
                 <option value="ADMIN">Admin</option>
                 <option value="SUPPORTER">Supporter</option>
               </select>

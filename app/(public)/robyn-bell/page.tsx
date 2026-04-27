@@ -1,4 +1,4 @@
-import { getPage } from '@/app/actions/getPage'
+import { getPage } from '@/app/lib/actions/page/getPage'
 import { RobynBellClient } from '../../components/pages/RobynBellClient'
 
 export default async function RobynBellPage() {

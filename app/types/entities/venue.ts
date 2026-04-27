@@ -17,27 +17,24 @@ export interface IVenue {
 // For create operations
 export interface CreateVenueInput {
   name: string
+  city: string
   capacity?: string
   accessibility?: string
   immersiveEnvironment?: string
-  parking: string
-  imageUrl?: string
-  imageFilename?: string
+  parking?: string
+  imageUrl: string
+  imageFilename: string
   address?: string
-  latitude?: string
-  longitude?: string
 }
 
-// For update operations
 export interface UpdateVenueInput {
-  name: string
+  name?: string
+  city?: string
   capacity?: string
   accessibility?: string
   immersiveEnvironment?: string
-  parking: string
+  parking?: string
   imageUrl?: string
   imageFilename?: string
   address?: string
-  latitude?: string
-  longitude?: string
 }
