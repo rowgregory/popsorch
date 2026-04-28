@@ -10,12 +10,14 @@
     "lint": "eslint",
     "generate": "prisma generate",
     "seed-site-setting": "node scripts/seed-site-setting.js",
-    "fix-enums": "node scripts/fix-enums.js"
+    "fix-enums": "node scripts/fix-enums.js",
+    "vacuum": "node scripts/vacuum-db.ts"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.2",
     "@next/third-parties": "^16.0.7",
     "@prisma/client": "^6.19.3",
+    "@prisma/extension-accelerate": "^3.0.1",
     "@reduxjs/toolkit": "^2.5.0",
     "error-stack-parser-es": "^1.0.5",
     "firebase": "^11.9.1",

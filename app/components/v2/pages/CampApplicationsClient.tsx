@@ -10,9 +10,9 @@ import { toggleSiteSetting } from '@/app/lib/actions/site-setting/toggleSiteSett
 import { store } from '@/app/redux/store'
 import { showToast } from '@/app/redux/features/toastSlice'
 import { createCampApplicationsSetting } from '@/app/lib/actions/camp-applications/createCampApplicationsSettings'
-import { FullApplication } from '@/app/types/entities/camp-application'
 import { ApplicationModal } from '../modals/ApplicationModal'
 import { LogoutButton } from '../common/LogoutButton'
+import { FullApplication } from '@/app/types/entities/camp-application'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
