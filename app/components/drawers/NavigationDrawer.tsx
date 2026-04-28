@@ -6,11 +6,11 @@ import { getNavigationLinks } from '../../utils/navigation.utils'
 import { usePathname } from 'next/navigation'
 import { ExternalLink, Heart, X } from 'lucide-react'
 
-const NavigationDrawer = ({ concerts, campApplicationsSetting }) => {
+const NavigationDrawer = ({ campApplicationsSetting }) => {
   const path = usePathname()
   const { navigationDrawer } = useAppSelector((state: RootState) => state.app)
   const overlayRef = useRef(null)
-  const thereAreConcerts = concerts?.length > 0
+  const thereAreConcerts = true
   const navLinks = getNavigationLinks(path, thereAreConcerts, campApplicationsSetting)
   const closeDrawer = () => store.dispatch(closeNavigationDrawer())
 

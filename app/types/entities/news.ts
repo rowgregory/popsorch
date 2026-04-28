@@ -7,6 +7,7 @@ export interface NewsInput {
   imageUrl?: string
   imageFilename?: string
   isPublished?: boolean
+  externalLink?: string
 }
 
 export type TNewsEditorPanel = {

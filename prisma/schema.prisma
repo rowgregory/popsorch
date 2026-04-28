@@ -165,6 +165,7 @@ model News {
   body          String   @default("")
   imageUrl      String   @default("")
   imageFilename String   @default("")
+  externalLink  String?  @default("")
   isPublished   Boolean  @default(false)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt

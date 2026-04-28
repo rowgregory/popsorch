@@ -20,7 +20,8 @@ export async function updateNews(id: string, data: NewsInput) {
         body: data.body ?? '',
         imageUrl: data.imageUrl ?? '',
         imageFilename: data.imageFilename ?? '',
-        isPublished: data.isPublished ?? false
+        isPublished: data.isPublished ?? false,
+        externalLink: data.externalLink ?? ''
       }
     })
     .catch(() => null)

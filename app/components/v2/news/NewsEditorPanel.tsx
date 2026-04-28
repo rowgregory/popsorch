@@ -24,7 +24,8 @@ export function NewsEditorPanel({ news, isNew, onSaved, onCancel }: TNewsEditorP
     body: news?.body ?? '',
     imageUrl: news?.imageUrl ?? '',
     imageFilename: news?.imageFilename ?? '',
-    isPublished: news?.isPublished ?? false
+    isPublished: news?.isPublished ?? false,
+    externalLink: news?.externalLink ?? ''
   })
 
   const handleImage = async (file: File) => {
@@ -137,7 +138,7 @@ export function NewsEditorPanel({ news, isNew, onSaved, onCancel }: TNewsEditorP
           <input
             id="title"
             type="text"
-            value={form.title}
+            value={form.title ?? ''}
             onChange={(e) => set('title', e.target.value)}
             placeholder="Pops Announces 51st Season"
             className={inputCls}
@@ -149,7 +150,7 @@ export function NewsEditorPanel({ news, isNew, onSaved, onCancel }: TNewsEditorP
           <FieldLabel htmlFor="excerpt">Excerpt</FieldLabel>
           <textarea
             id="excerpt"
-            value={form.excerpt}
+            value={form.excerpt ?? ''}
             onChange={(e) => set('excerpt', e.target.value)}
             placeholder="A short summary shown on the news listing page..."
             rows={3}
@@ -165,11 +166,25 @@ export function NewsEditorPanel({ news, isNew, onSaved, onCancel }: TNewsEditorP
           <FieldLabel htmlFor="body">Full Article</FieldLabel>
           <textarea
             id="body"
-            value={form.body}
+            value={form.body ?? ''}
             onChange={(e) => set('body', e.target.value)}
             placeholder="The full article content..."
             rows={10}
             className={`${inputCls} resize-none`}
+          />
+        </div>
+
+        <div>
+          <FieldLabel htmlFor="externalLink" required>
+            External Link
+          </FieldLabel>
+          <input
+            id="externalLink"
+            type="text"
+            value={form.externalLink ?? ''}
+            onChange={(e) => set('externalLink', e.target.value)}
+            placeholder="https://www..."
+            className={inputCls}
           />
         </div>
 

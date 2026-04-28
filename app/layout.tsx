@@ -63,12 +63,6 @@ const c_infant = Cormorant_Infant({
   variable: '--font-c-infant'
 })
 
-const getConcertsCached = unstable_cache(
-  async () => getConcerts(),
-  ['layout-concerts'],
-  { revalidate: 60 } // seconds
-)
-
 const getCampApplicationsSettingCached = unstable_cache(
   async () => getCampApplicationsSetting(),
   ['layout-camp-settings'],
@@ -78,9 +72,8 @@ const getCampApplicationsSettingCached = unstable_cache(
 const getFooterCached = unstable_cache(async () => getPage('footer'), ['layout-footer'], { revalidate: 60 })
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const [session, concerts, campApplicationsSetting, footerData] = await Promise.all([
+  const [session, campApplicationsSetting, footerData] = await Promise.all([
     auth(),
-    getConcertsCached(),
     getCampApplicationsSettingCached(),
     getFooterCached()
   ])
@@ -94,11 +87,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         className={`${inter.variable} ${oswald.variable} ${raleway.variable} ${changa.variable} ${lato.variable} ${heebo.variable} ${c_infant.variable} antialiased`}
       >
         <SessionProvider session={session}>
-          <RootLayoutWrapper
-            concerts={concerts?.concerts}
-            campApplicationsSetting={campApplicationsSetting?.value}
-            data={footerData}
-          >
+          <RootLayoutWrapper campApplicationsSetting={campApplicationsSetting?.value} data={footerData}>
             {children}
           </RootLayoutWrapper>
         </SessionProvider>

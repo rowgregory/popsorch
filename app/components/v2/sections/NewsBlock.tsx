@@ -1,4 +1,3 @@
-// NewsBlock
 'use client'
 
 import { motion } from 'framer-motion'
@@ -7,11 +6,7 @@ import { ArrowUpRight } from 'lucide-react'
 import type { News } from '@prisma/client'
 import Picture from '../../common/Picture'
 
-interface NewsBlockProps {
-  news: News[]
-}
-
-export function NewsBlock({ news }: NewsBlockProps) {
+export function NewsBlock({ news }: { news: News[] }) {
   const published = news.filter((n) => n.isPublished).slice(0, 3)
 
   if (!published.length) return null
@@ -19,8 +14,8 @@ export function NewsBlock({ news }: NewsBlockProps) {
   const [featured, ...rest] = published
 
   return (
-    <section className="bg-neutral-950 py-24 sm:py-32 px-6 sm:px-10 lg:px-16" aria-labelledby="news-heading">
-      <div className="max-w-7xl mx-auto">
+    <section className="bg-neutral-950 py-24 sm:py-32 px-4 990:px-12 xl:px-4" aria-labelledby="news-heading">
+      <div className="max-w-[320px] 430:max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 1590:max-w-300 mx-auto">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}

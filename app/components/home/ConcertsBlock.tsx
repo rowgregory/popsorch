@@ -18,6 +18,7 @@ interface ConcertsBlockProps {
 function ConcertRow({ concert, index }: { concert: ConcertWithShows; index: number }) {
   const isLive = concert.status === 'LIVE'
   const sortedShows = [...concert.shows].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+  const ticketHref = sortedShows[0]?.externalLink || concert.cueBoxExternalLink || null
 
   return (
     <motion.li
@@ -26,21 +27,24 @@ function ConcertRow({ concert, index }: { concert: ConcertWithShows; index: numb
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.45, delay: index * 0.08 }}
-      className="group py-10 first:pt-0"
+      className="group py-8 320:py-10 first:pt-0 border-b border-white/5 last:border-0"
     >
-      <article aria-label={`${concert.name} concert`} className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      <article
+        aria-label={`${concert.name} concert`}
+        className="grid grid-cols-1 990:grid-cols-12 gap-4 320:gap-6 items-start"
+      >
         {/* ── Show Dates ── */}
-        <div className="lg:col-span-2 flex flex-col gap-5">
+        <div className="990:col-span-3 flex flex-col gap-3 320:gap-4">
           {sortedShows.length === 0 ? (
             <div className="flex flex-col">
-              <p className="text-white/40 text-sm">{concert.cardDate || 'Dates TBA'}</p>
+              <p className="text-white/40 text-xs 320:text-sm font-lato">{concert.cardDate || 'Dates TBA'}</p>
             </div>
           ) : (
             sortedShows.map((show) => (
-              <div key={show.id} className="flex flex-col gap-0.5">
+              <div key={show.id} className="flex flex-col gap-1">
                 <time
                   dateTime={new Date(show.date).toISOString()}
-                  className="font-changa text-white text-xl leading-tight"
+                  className="font-changa text-white text-base 320:text-lg 430:text-xl leading-tight"
                 >
                   {new Date(show.date).toLocaleDateString('en-US', {
                     weekday: 'short',
@@ -48,92 +52,94 @@ function ConcertRow({ concert, index }: { concert: ConcertWithShows; index: numb
                     day: 'numeric'
                   })}
                 </time>
-                <p className="text-white/50 text-xs flex items-center gap-1 mt-1">
-                  <Clock className="w-3 h-3 shrink-0" aria-hidden="true" />
+                <p className="text-white/50 text-[10px] 320:text-xs flex items-center gap-1 font-lato">
+                  <Clock className="w-3 h-3 shrink-0 text-blaze" aria-hidden="true" />
+                  <span className="sr-only">Time:</span>
                   {new Date(show.date).toLocaleTimeString('en-US', {
                     hour: 'numeric',
                     minute: '2-digit'
                   })}
                 </p>
-                <p className="text-white/50 text-xs flex items-center gap-1">
-                  <MapPin className="w-3 h-3 shrink-0" aria-hidden="true" />
-                  {show.venue?.name ?? '—'}
-                </p>
-                {show.externalLink && isLive && (
-                  <a
-                    href={show.externalLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1 text-xs text-emerald-400 uppercase tracking-widest mt-1 w-fit hover:text-emerald-300 transition-colors focus-visible:outline-none"
-                  >
-                    <Ticket className="w-3 h-3 shrink-0" aria-hidden="true" />
-                    Tickets
-                  </a>
+                {show.venue?.name && (
+                  <p className="text-white/50 text-[10px] 320:text-xs flex items-center gap-1 font-lato">
+                    <MapPin className="w-3 h-3 shrink-0 text-blaze" aria-hidden="true" />
+                    <span className="sr-only">Venue:</span>
+                    {show.venue.name}
+                  </p>
                 )}
               </div>
             ))
           )}
           {sortedShows.length > 1 && (
-            <p className="text-xs text-[#b5924c] uppercase tracking-widest">{sortedShows.length} shows</p>
+            <p className="text-[9px] 320:text-[10px] text-blaze uppercase tracking-[0.2em] font-mono">
+              {sortedShows.length} Shows
+            </p>
           )}
         </div>
 
-        {/* ── Divider ── */}
-        <div className="hidden lg:flex lg:col-span-1 self-stretch items-center justify-center">
-          <div className="w-px h-full bg-white/10 mx-auto" aria-hidden="true" />
-        </div>
-
         {/* ── Image ── */}
-        <div className="lg:col-span-3 overflow-hidden">
+        <div className="990:col-span-4 overflow-hidden">
           <Picture
             src={concert.imageUrl || '/images/banner-1.jpg'}
             alt={`${concert.name} promotional image`}
-            className="w-full aspect-video lg:aspect-square object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+            className="w-full aspect-16/10 object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
             priority={index === 0}
           />
         </div>
 
         {/* ── Info ── */}
-        <div className="lg:col-span-4 flex flex-col justify-center">
+        <div className="990:col-span-3 flex flex-col justify-center">
           {concert.type && (
-            <span
-              className="inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.25em] mb-3"
-              style={{ color: '#da0032' }}
-            >
-              <div className="w-3 h-px bg-[#da0032]" aria-hidden="true" />
+            <span className="inline-flex items-center gap-1.5 text-[9px] 320:text-[10px] uppercase tracking-[0.2em] mb-2 320:mb-3 text-blaze font-mono">
+              <div className="w-3 h-px bg-blaze" aria-hidden="true" />
               {concert.type}
             </span>
           )}
-          <h3 className="font-changa font-bold text-white text-2xl lg:text-3xl leading-tight mb-2 group-hover:text-blaze transition-colors duration-300">
+          <h3 className="font-changa font-bold text-white text-xl 320:text-2xl 760:text-3xl leading-tight mb-2 group-hover:text-blaze transition-colors duration-300">
             {concert.name}
           </h3>
-          {concert.subtitle && <p className="text-white/50 text-sm mb-3">{concert.subtitle}</p>}
-          <div className="w-8 h-0.5 mb-4" aria-hidden="true" />
+          {concert.subtitle && (
+            <p className="text-white/50 text-xs 320:text-sm mb-3 font-lato leading-relaxed">{concert.subtitle}</p>
+          )}
           {isLive && (
-            <span className="flex items-center gap-1.5 text-emerald-400 text-xs uppercase tracking-widest">
-              <Ticket className="w-3.5 h-3.5" aria-hidden="true" />
-              Tickets On Sale
+            <span className="flex items-center gap-1.5 text-emerald-400 text-[9px] 320:text-[10px] uppercase tracking-[0.15em] font-mono mt-2">
+              <Ticket className="w-3 h-3 320:w-3.5 320:h-3.5" aria-hidden="true" />
+              <span className="sr-only">Status:</span>
+              On Sale
             </span>
           )}
         </div>
 
         {/* ── CTA ── */}
-        <div className="lg:col-span-2 flex flex-col gap-3 items-start lg:items-end justify-start pt-1">
-          <Link
-            href={`https://ci.ovationtix.com/35505/production/1232771?performanceId=11608139`}
-            target="_blank"
-            aria-label={`Buy tickets for ${concert.name}`}
-            className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-white uppercase tracking-wider text-sm transition-colors duration-300 w-full lg:w-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black whitespace-nowrap bg-blaze"
-          >
-            Buy Tickets
-          </Link>
+        <div className="990:col-span-2 flex flex-col gap-2 320:gap-3 w-full 990:w-auto 990:min-w-32">
+          {isLive && ticketHref ? (
+            <a
+              href={ticketHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Buy tickets for ${concert.name}`}
+              className="inline-flex items-center justify-center gap-2 px-4 320:px-6 py-2.5 320:py-3 bg-blaze hover:bg-blaze/90 text-white font-changa uppercase tracking-[0.15em] text-[10px] 320:text-xs transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black w-full"
+            >
+              <Ticket className="w-3 h-3 320:w-3.5 320:h-3.5" aria-hidden="true" />
+              Buy Tickets
+            </a>
+          ) : (
+            <Link
+              href={`/concerts/${concert.id}`}
+              aria-label={`Get tickets for ${concert.name}`}
+              className="inline-flex items-center justify-center gap-2 px-4 320:px-6 py-2.5 320:py-3 bg-blaze hover:bg-blaze/90 text-white font-changa uppercase tracking-[0.15em] text-[10px] 320:text-xs transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black w-full"
+            >
+              <Ticket className="w-3 h-3 320:w-3.5 320:h-3.5" aria-hidden="true" />
+              Get Tickets
+            </Link>
+          )}
 
           <Link
             href={`/concerts/${concert.id}`}
             aria-label={`View details for ${concert.name}`}
-            className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-white/10 hover:bg-white/20 border border-white/20 text-white uppercase tracking-wider text-sm transition-colors duration-300 w-full lg:w-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black whitespace-nowrap"
+            className="inline-flex items-center justify-center gap-2 px-4 320:px-6 py-2.5 320:py-3 border border-white/20 hover:border-white/40 text-white font-changa uppercase tracking-[0.15em] text-[10px] 320:text-xs transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black w-full"
           >
-            <Info className="w-4 h-4" aria-hidden="true" />
+            <Info className="w-3 h-3 320:w-3.5 320:h-3.5" aria-hidden="true" />
             Details
           </Link>
         </div>
@@ -141,7 +147,6 @@ function ConcertRow({ concert, index }: { concert: ConcertWithShows; index: numb
     </motion.li>
   )
 }
-
 export function ConcertsBlock({ concerts, pageData }: ConcertsBlockProps) {
   const live = concerts.filter((c) => c.status === 'LIVE')
 
@@ -156,8 +161,8 @@ export function ConcertsBlock({ concerts, pageData }: ConcertsBlockProps) {
   const subheading = concert.subheading
 
   return (
-    <section aria-labelledby="concerts-block-heading" className="px-4 sm:px-10 lg:px-16 pt-24 pb-32 bg-black">
-      <div className="max-w-7xl mx-auto w-full flex flex-col items-center">
+    <section aria-labelledby="concerts-block-heading" className="px-4 990:px-12 xl:px-4 pt-24 pb-32 bg-black">
+      <div className="max-w-[320px] 430:max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 1590:max-w-300 mx-auto w-full flex flex-col items-center">
         {/* ── Header ── */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}

@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowLeft, Calendar } from 'lucide-react'
+import { ArrowLeft, Calendar, ExternalLink } from 'lucide-react'
 import type { News } from '@prisma/client'
 import Picture from '../../common/Picture'
 
@@ -87,6 +87,22 @@ export default function NewsDetailsClient({ article }: Props) {
 
           {/* Divider */}
           <div className="w-12 h-px bg-blaze mb-10" aria-hidden="true" />
+
+          {/* External Link */}
+          {article.externalLink && (
+            <a
+              href={article.externalLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-2 border border-white/20 hover:border-blaze text-white/50 hover:text-blaze font-heebo text-xs uppercase tracking-[0.2em] px-4 py-2.5 transition-colors mb-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze"
+            >
+              <ExternalLink
+                className="w-3.5 h-3.5 shrink-0 group-hover:translate-x-0.5 transition-transform"
+                aria-hidden="true"
+              />
+              Read Original Article
+            </a>
+          )}
 
           {/* Body */}
           {paragraphs.length > 0 ? (

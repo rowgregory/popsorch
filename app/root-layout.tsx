@@ -2,8 +2,7 @@
 
 import { FC, ReactNode, useMemo } from 'react'
 import { Provider } from 'react-redux'
-import { persistor, store } from './redux/store'
-import { PersistGate } from 'redux-persist/integration/react'
+import { store } from './redux/store'
 import { usePathname } from 'next/navigation'
 import { toggleHeaderFooter } from './utils/string.functions'
 import NavigationDrawer from './components/drawers/NavigationDrawer'
@@ -12,18 +11,16 @@ import { Header } from './components/header/Header'
 import Footer from './components/Footer'
 import CampApplicationSuccessModal from './components/modals/CampApplicationSuccessModal'
 import ContactSubmissionSuccessModal from './components/modals/ContactSubmissionSuccessModal'
-import { Concert } from '@prisma/client'
 import useScrollToTop from './lib/hooks/useScrollToTop'
 import { FooterData } from './types/common.types'
 
 export interface IRootLayoutWrapper {
   children: ReactNode
-  concerts: Concert[]
   campApplicationsSetting: boolean
   data: FooterData
 }
 
-export const RootLayoutWrapper: FC<IRootLayoutWrapper> = ({ children, concerts, campApplicationsSetting, data }) => {
+export const RootLayoutWrapper: FC<IRootLayoutWrapper> = ({ children, campApplicationsSetting, data }) => {
   useScrollToTop()
   const pathname = usePathname()
 
@@ -32,20 +29,18 @@ export const RootLayoutWrapper: FC<IRootLayoutWrapper> = ({ children, concerts, 
 
   return (
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <div className="main-content">
-          {/* Global Components */}
-          <NavigationDrawer concerts={concerts} campApplicationsSetting={campApplicationsSetting} />
-          <Toast />
-          <CampApplicationSuccessModal />
-          <ContactSubmissionSuccessModal />
+      <div className="main-content">
+        {/* Global Components */}
+        <NavigationDrawer campApplicationsSetting={campApplicationsSetting} />
+        <Toast />
+        <CampApplicationSuccessModal />
+        <ContactSubmissionSuccessModal />
 
-          {/* Page Layout */}
-          {showHeader && <Header concerts={concerts} campApplicationsSetting={campApplicationsSetting} />}
-          {children}
-          {showFooter && <Footer data={data} />}
-        </div>
-      </PersistGate>
+        {/* Page Layout */}
+        {showHeader && <Header campApplicationsSetting={campApplicationsSetting} />}
+        {children}
+        {showFooter && <Footer data={data} />}
+      </div>
     </Provider>
   )
 }

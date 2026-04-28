@@ -1,6 +1,6 @@
 'use client'
 
-import { combineReducers, Reducer } from 'redux'
+import { combineReducers } from 'redux'
 import { configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { api } from './services/api'
@@ -8,9 +8,6 @@ import { appReducer } from './features/appSlice'
 import { formReducer } from './features/formSlice'
 import { logReducer } from './features/logSlice'
 import { toastReducer } from './features/toastSlice'
-import { persistStore, persistReducer } from 'redux-persist'
-import createWebStorage from 'redux-persist/es/storage/createWebStorage'
-import type { PersistPartial } from 'redux-persist/es/persistReducer'
 import { uiReducer } from './features/uiSlice'
 import { mailChimpReducer } from './features/mailchimpSlice'
 
@@ -24,37 +21,8 @@ const rootReducer = combineReducers({
   [api.reducerPath]: api.reducer
 })
 
-// Create a noop storage for SSR
-const createNoopStorage = () => {
-  return {
-    getItem(_key: string) {
-      return Promise.resolve(null)
-    },
-    setItem(_key: string, value: any) {
-      return Promise.resolve(value)
-    },
-    removeItem(_key: string) {
-      return Promise.resolve()
-    }
-  }
-}
-
-// Use localStorage on client, noop on server
-const storage = typeof window !== 'undefined' ? createWebStorage('local') : createNoopStorage()
-
-const persistConfig = {
-  key: 'root',
-  storage,
-  whitelist: ['teamMember', 'accessibility'] // Only persist teamMembers slice
-}
-
-const persistedReducer = persistReducer(persistConfig, rootReducer)
-
-// Before configureStore, add this:
-type PersistedReducer = Reducer<ReturnType<typeof rootReducer> & PersistPartial>
-
 export const store = configureStore({
-  reducer: persistedReducer as PersistedReducer,
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       immutableCheck: false,
@@ -62,9 +30,7 @@ export const store = configureStore({
     }).concat(api.middleware)
 })
 
-export const persistor = persistStore(store)
-
-export type RootState = ReturnType<typeof rootReducer> & PersistPartial
+export type RootState = ReturnType<typeof rootReducer>
 
 export type AppDispatch = typeof store.dispatch
 export type AppSelector = typeof store.getState
