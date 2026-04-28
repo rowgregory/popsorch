@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Music2, Plus, Upload, ArrowLeft, Loader2 } from 'lucide-react'
+import { Music2, Plus, Upload, ArrowLeft, Loader2, Video } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { store } from '@/app/redux/store'
@@ -13,6 +13,7 @@ import { updateTeamMember } from '@/app/lib/actions/team/updateTeamMember'
 import { createTeamMember } from '@/app/lib/actions/team/createTeamMember'
 import { LogoutButton } from '../common/LogoutButton'
 import Picture from '../../common/Picture'
+import { inputCls } from '@/app/lib/constants/common'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 export interface FormState {
@@ -21,23 +22,24 @@ export interface FormState {
   position: string
   bio: string
   role: TeamMemberRole
+  videoUrl?: string
 }
 
-type TeamormProps = {
+type TeamFormProps = {
   isEditing?: boolean
   team?: TeamMember
 }
 
-const inputCls =
-  'w-full px-3 py-2.5 bg-bg-dark border border-border-dark text-text-dark text-sm placeholder:text-muted-dark/30 focus:outline-none focus:border-primary-dark transition-colors'
-
-export default function TeamForm({ isEditing = false, team }: TeamormProps) {
+export default function TeamForm({ isEditing = false, team }: TeamFormProps) {
   const router = useRouter()
 
   const [loading, setLoading] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(0)
+  const [mediaType, setMediaType] = useState<'image' | 'video'>('image')
   const [imageFile, setImageFile] = useState<File | null>(null)
+  const [videoFile, setVideoFile] = useState<File | null>(null)
   const [imagePreview, setImagePreview] = useState<string | null>(isEditing && team?.imageUrl ? team.imageUrl : null)
+  const [videoPreview, setVideoPreview] = useState<string | null>(isEditing && team?.videoUrl ? team.videoUrl : null)
 
   const [form, setForm] = useState<FormState>({
     firstName: team?.firstName ?? '',
@@ -56,25 +58,43 @@ export default function TeamForm({ isEditing = false, team }: TeamormProps) {
     reader.readAsDataURL(file)
   }
 
+  const handleVideo = (file: File) => {
+    setVideoFile(file)
+    const reader = new FileReader()
+    reader.onload = (e) => setVideoPreview(e.target?.result as string)
+    reader.readAsDataURL(file)
+  }
+
   const handleSubmit = async () => {
     if (!form.firstName.trim()) {
       store.dispatch(showToast({ type: 'error', message: 'Team Member name is required' }))
       return
     }
-    if (!imagePreview && !isEditing) {
+    if (mediaType === 'image' && !imagePreview && !isEditing) {
       store.dispatch(showToast({ type: 'error', message: 'Team Member image is required' }))
+      return
+    }
+    if (mediaType === 'video' && !videoPreview && !isEditing) {
+      store.dispatch(showToast({ type: 'error', message: 'Team Member video is required' }))
       return
     }
 
     setLoading(true)
 
-    // Upload image only if a new file was selected
     let imageUrl = team?.imageUrl ?? ''
     let imageFilename = team?.imageFilename ?? ''
+    let videoUrl = team?.videoUrl ?? ''
+    let videoFilename = team?.videoFilename ?? ''
 
+    // Only upload + overwrite if a new file was actually selected
     if (imageFile) {
       imageUrl = await uploadFileToFirebase(imageFile, setUploadProgress)
       imageFilename = imageFile.name
+    }
+
+    if (videoFile) {
+      videoUrl = await uploadFileToFirebase(videoFile, setUploadProgress)
+      videoFilename = videoFile.name
     }
 
     const payload = {
@@ -84,7 +104,9 @@ export default function TeamForm({ isEditing = false, team }: TeamormProps) {
       bio: form.bio,
       role: form.role,
       imageUrl,
-      imageFilename
+      imageFilename,
+      videoUrl,
+      videoFilename
     }
 
     const res = isEditing && team ? await updateTeamMember(team.id, payload) : await createTeamMember(payload)
@@ -93,17 +115,13 @@ export default function TeamForm({ isEditing = false, team }: TeamormProps) {
 
     if (res.success) {
       store.dispatch(
-        showToast({
-          type: 'success',
-          message: isEditing ? 'Team Member updated!' : 'Team Member created!'
-        })
+        showToast({ type: 'success', message: isEditing ? 'Team Member updated!' : 'Team Member created!' })
       )
       router.push('/v2/dashboard')
     } else {
       store.dispatch(showToast({ type: 'error', message: res.error ?? 'Something went wrong' }))
     }
   }
-
   return (
     <div className="h-screen flex flex-col overflow-hidden bg-bg-dark text-text-dark">
       {/* ── Top Bar ── */}
@@ -161,7 +179,7 @@ export default function TeamForm({ isEditing = false, team }: TeamormProps) {
                   First Name
                 </FieldLabel>
                 <input
-                  id="team-last-name"
+                  id="team-first-name"
                   type="text"
                   value={form.firstName}
                   onChange={(e) => set('firstName', e.target.value)}
@@ -204,7 +222,7 @@ export default function TeamForm({ isEditing = false, team }: TeamormProps) {
                   onChange={(e) => set('role', e.target.value as TeamMemberRole)}
                   className={`${inputCls} appearance-none`}
                 >
-                  <option value="MUSICIAN">Musican</option>
+                  <option value="MUSICIAN">Musician</option>
                   <option value="BOARD_MEMBER">Board Member</option>
                   <option value="STAFF">Staff</option>
                 </select>
@@ -239,57 +257,128 @@ export default function TeamForm({ isEditing = false, team }: TeamormProps) {
           </div>
         </div>
 
-        {/* ── Right — Image + Shows ── */}
+        {/* Right — Media */}
         <div className="w-96 xl:w-105 shrink-0 overflow-y-auto flex flex-col">
-          {/* Image */}
           <div className="border-b border-border-dark">
             <div className="flex items-center gap-2 px-4 py-2.5 border-b border-border-dark/50">
               <div className="w-3 h-px bg-primary-dark" aria-hidden="true" />
-              <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-primary-dark">Image</span>
+              <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-primary-dark">Media</span>
             </div>
-            <div className="p-4">
+
+            {/* Tab Buttons */}
+            <div className="flex border-b border-border-dark/50">
               <button
                 type="button"
-                onClick={() => document.getElementById('image-input')?.click()}
-                className="w-full border border-border-dark hover:border-primary-dark transition-colors relative overflow-hidden group focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-dark"
-                aria-label="Upload team image"
+                onClick={() => setMediaType('image')}
+                className={`flex-1 px-4 py-2 text-[9px] font-mono tracking-[0.15em] uppercase transition-colors border-b-2 ${
+                  mediaType === 'image'
+                    ? 'border-primary-dark text-text-dark'
+                    : 'border-transparent text-muted-dark hover:text-text-dark'
+                }`}
               >
-                {imagePreview ? (
-                  <div className="relative">
-                    <Picture
-                      priority
-                      src={imagePreview}
-                      alt="Team Member preview"
-                      className="w-full h-52 object-cover"
-                    />
-                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-                      <Upload className="w-4 h-4 text-white" aria-hidden="true" />
-                      <span className="text-white text-[10px] font-mono">Change Image</span>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="h-52 flex flex-col items-center justify-center gap-2 bg-surface-dark">
-                    <Upload
-                      className="w-5 h-5 text-muted-dark group-hover:text-primary-dark transition-colors"
-                      aria-hidden="true"
-                    />
-                    <span className="text-[9px] font-mono tracking-[0.15em] uppercase text-muted-dark group-hover:text-text-dark transition-colors">
-                      Upload Image
-                    </span>
-                  </div>
-                )}
+                Image
               </button>
-              <input
-                id="image-input"
-                type="file"
-                accept="image/*"
-                className="sr-only"
-                aria-label="Team Member image file input"
-                onChange={(e) => {
-                  const f = e.target.files?.[0]
-                  if (f) handleImage(f)
-                }}
-              />
+              <button
+                type="button"
+                onClick={() => setMediaType('video')}
+                className={`flex-1 px-4 py-2 text-[9px] font-mono tracking-[0.15em] uppercase transition-colors border-b-2 ${
+                  mediaType === 'video'
+                    ? 'border-primary-dark text-text-dark'
+                    : 'border-transparent text-muted-dark hover:text-text-dark'
+                }`}
+              >
+                Video
+              </button>
+            </div>
+
+            {/* Tab Content */}
+            <div className="p-4">
+              {mediaType === 'image' ? (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => document.getElementById('image-input')?.click()}
+                    className="w-full border border-border-dark hover:border-primary-dark transition-colors relative overflow-hidden group focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-dark"
+                    aria-label="Upload team image"
+                  >
+                    {imagePreview ? (
+                      <div className="relative">
+                        <Picture
+                          priority
+                          src={imagePreview}
+                          alt="Team Member preview"
+                          className="w-full h-52 object-cover"
+                        />
+                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                          <Upload className="w-4 h-4 text-white" aria-hidden="true" />
+                          <span className="text-white text-[10px] font-mono">Change Image</span>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="h-52 flex flex-col items-center justify-center gap-2 bg-surface-dark">
+                        <Upload
+                          className="w-5 h-5 text-muted-dark group-hover:text-primary-dark transition-colors"
+                          aria-hidden="true"
+                        />
+                        <span className="text-[9px] font-mono tracking-[0.15em] uppercase text-muted-dark group-hover:text-text-dark transition-colors">
+                          Upload Image
+                        </span>
+                      </div>
+                    )}
+                  </button>
+                  <input
+                    id="image-input"
+                    type="file"
+                    accept="image/*"
+                    className="sr-only"
+                    onChange={(e) => {
+                      const f = e.target.files?.[0]
+                      if (f) handleImage(f)
+                    }}
+                  />
+                </>
+              ) : (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => document.getElementById('video-input')?.click()}
+                    className="w-full border border-border-dark hover:border-primary-dark transition-colors relative overflow-hidden group focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-dark"
+                    aria-label="Upload team video"
+                  >
+                    {videoPreview ? (
+                      <div className="relative h-52 bg-surface-dark flex items-center justify-center">
+                        <video src={videoPreview} className="w-full h-full object-cover" muted loop autoPlay />
+                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                          <Upload className="w-4 h-4 text-white" aria-hidden="true" />
+                          <span className="text-white text-[10px] font-mono">Change Video</span>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="h-52 flex flex-col items-center justify-center gap-2 bg-surface-dark">
+                        <Video
+                          className="w-5 h-5 text-muted-dark group-hover:text-primary-dark transition-colors"
+                          aria-hidden="true"
+                        />
+                        <span className="text-[9px] font-mono tracking-[0.15em] uppercase text-muted-dark group-hover:text-text-dark transition-colors">
+                          Upload Video
+                        </span>
+                      </div>
+                    )}
+                  </button>
+                  <input
+                    id="video-input"
+                    type="file"
+                    accept="video/*"
+                    className="sr-only"
+                    onChange={(e) => {
+                      const f = e.target.files?.[0]
+                      if (f) handleVideo(f)
+                    }}
+                  />
+                  <p className="text-[9px] font-mono text-muted-dark/50 mt-2">MP4, MOV, or WebM</p>
+                </>
+              )}
+
               {loading && uploadProgress < 100 && (
                 <div className="mt-2">
                   <div className="h-px bg-border-dark w-full">

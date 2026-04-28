@@ -56,8 +56,7 @@ export async function createConcert(data: ICreateConcertInput) {
       },
       include: { shows: { include: { venue: true } } }
     })
-    .catch((err) => {
-      console.error('[createConcert] prisma error:', err)
+    .catch(() => {
       return null
     })
 

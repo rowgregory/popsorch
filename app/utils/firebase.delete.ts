@@ -1,5 +1,5 @@
 import { ref, deleteObject } from 'firebase/storage'
-import { storage } from '../config/firebaseConfig'
+import { storage } from '../lib/firebase'
 
 /**
  * Deletes an image or video from Firebase Storage.

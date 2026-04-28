@@ -1,5 +1,5 @@
 import { getPage } from '@/app/lib/actions/page/getPage'
-import CampApplicationClient from '../../components/pages/CampApplicationClient'
+import CampApplicationClient from './CampApplicationClient'
 
 export default async function CampApplicationPage() {
   const data = await getPage('camp-application')

@@ -47,6 +47,6 @@ export async function createQuestion(data: CreateQuestionInput) {
       }
     })
 
-    throw new Error(errorMessage)
+    return { success: false, error: errorMessage }
   }
 }

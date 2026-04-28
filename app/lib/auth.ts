@@ -6,6 +6,7 @@ import { handleGoogleCallback } from './callbacks/handleGoogleCallback'
 import { handleEmailCallback } from './callbacks/handleEmailCallback'
 import { magicLinkProvider } from './providers/magicLinkProvider'
 import googleProvider from './providers/googleProvider'
+import { buildLogMessage, getRequestContext } from '../utils/parseUserAgent'
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   debug: false,
@@ -42,6 +43,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
     async jwt({ token, user }) {
       if (user) {
+        const context = await getRequestContext()
+
         try {
           const dbUser = await prisma.user.findUnique({
             where: { email: user.email! },
@@ -59,12 +62,20 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             if (dbUser.firstName && dbUser.lastName) {
               token.name = `${dbUser.firstName} ${dbUser.lastName}`.trim()
             }
+
+            await createLog('info', await buildLogMessage('authenticated', user.email ?? 'unknown', context), {
+              userId: dbUser.id,
+              email: user.email,
+              role: dbUser.role,
+              request: context
+            }).catch(() => null)
           }
         } catch (error) {
-          await createLog('error', 'JWT callback error', {
+          await createLog('error', await buildLogMessage('JWT callback error', user.email ?? 'unknown', context), {
             error: error instanceof Error ? error.message : 'Unknown error',
-            email: user.email
-          })
+            email: user.email,
+            request: context
+          }).catch(() => null)
         }
       }
       return token
@@ -75,9 +86,17 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         session.user.id = token.userId
         session.user.role = token.role as string
       } else {
-        await createLog('error', 'Session callback error - missing userId', {
-          email: session.user.email
-        })
+        const context = await getRequestContext()
+
+        await createLog(
+          'error',
+          await buildLogMessage('Session callback error - missing userId', session.user.email ?? 'unknown', context),
+          {
+            email: session.user.email,
+            tokenData: { userId: token.userId, role: token.role },
+            request: context
+          }
+        ).catch(() => null)
       }
 
       return session

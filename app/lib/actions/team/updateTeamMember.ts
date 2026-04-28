@@ -15,6 +15,8 @@ interface UpdateTeamMemberInput {
   imageUrl?: string
   imageFilename?: string
   displayOrder?: number
+  videoUrl?: string
+  videoFilename?: string
 }
 
 export async function updateTeamMember(teamMemberId: string, data: UpdateTeamMemberInput) {
@@ -33,7 +35,9 @@ export async function updateTeamMember(teamMemberId: string, data: UpdateTeamMem
         ...(data.role && { role: data.role as TeamMemberRole }),
         ...(data.imageUrl !== undefined && { imageUrl: data.imageUrl }),
         ...(data.imageFilename !== undefined && { imageFilename: data.imageFilename }),
-        ...(typeof data.displayOrder === 'number' && { displayOrder: data.displayOrder })
+        ...(typeof data.displayOrder === 'number' && { displayOrder: data.displayOrder }),
+        ...(data.videoUrl !== undefined && { videoUrl: data.videoUrl }),
+        ...(data.videoFilename !== undefined && { videoFilename: data.videoFilename })
       }
     })
     .catch(() => null)

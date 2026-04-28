@@ -37,24 +37,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8
     },
     {
-      url: `${baseUrl}/team`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.8
-    },
-    {
-      url: `${baseUrl}/sundays-at-neel`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.9
-    },
-    {
-      url: `${baseUrl}/bubble-bash`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.9
-    },
-    {
       url: `${baseUrl}/student-performers`,
       lastModified: new Date(),
       changeFrequency: 'weekly' as const,

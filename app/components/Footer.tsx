@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { ChevronUp, MapPin, Pencil, Phone } from 'lucide-react'
 import { FacebookIcon, InstagramIcon, YouTubeIcon } from '@/public/data/home.data'
 import { sendEnrichedGAEvent } from '../utils/sendEnrichedGAEvent'
+import LogoSVG from './svg/LogoSVG'
 import { ContentItem, FooterData } from '../types/common.types'
 
 const Footer = ({ data }: { data: FooterData }) => {
@@ -46,11 +47,7 @@ const Footer = ({ data }: { data: FooterData }) => {
                 aria-label="The Pops Orchestra — return to homepage"
                 className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-sm w-fit"
               >
-                <div
-                  className="bg-golden50Logo bg-no-repeat bg-contain bg-center w-24 430:w-28 h-16 430:h-20"
-                  role="img"
-                  aria-label="The Pops Orchestra logo"
-                />
+                <LogoSVG className="w-24 430:w-28 h-16 430:h-20" />
               </Link>
               <ul role="list" aria-label="Social media links" className="flex flex-wrap gap-2">
                 {socialLinks.map((link, i) => {

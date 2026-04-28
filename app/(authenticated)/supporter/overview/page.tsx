@@ -1,6 +1,6 @@
 import { getCampApplicationsById } from '@/app/lib/actions/camp-applications/getCampApplicationsById'
 import { getCampApplicationsSetting } from '@/app/lib/actions/camp-applications/getCampApplicationsSetting'
-import SupporterOverviewClient from '@/app/components/pages/SupporterOverviewClient'
+import SupporterOverviewClient from '@/app/(authenticated)/supporter/overview/SupporterOverviewClient'
 import { auth } from '@/app/lib/auth'
 
 export default async function SupporterOverviewPage() {

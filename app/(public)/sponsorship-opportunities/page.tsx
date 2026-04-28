@@ -1,5 +1,5 @@
 import { getPage } from '@/app/lib/actions/page/getPage'
-import { SponsorshipOpportunitiesClient } from '../../components/pages/SponsorshipOpportunitiesClient'
+import { SponsorshipOpportunitiesClient } from './SponsorshipOpportunitiesClient'
 
 export default async function SponsorshipOpportunitiesPage() {
   const data = await getPage('sponsorship-opportunities')

@@ -13,8 +13,8 @@ import Footer from './components/Footer'
 import CampApplicationSuccessModal from './components/modals/CampApplicationSuccessModal'
 import ContactSubmissionSuccessModal from './components/modals/ContactSubmissionSuccessModal'
 import { Concert } from '@prisma/client'
-import { FooterData } from './types/common.types'
 import useScrollToTop from './lib/hooks/useScrollToTop'
+import { FooterData } from './types/common.types'
 
 export interface IRootLayoutWrapper {
   children: ReactNode

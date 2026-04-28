@@ -113,7 +113,7 @@ export const HeaderLower = ({ concerts, campApplicationsSetting }) => {
       ref={headerRef}
       role="navigation"
       aria-label="Main site navigation"
-      className="transition-all relative z-50 px-4 990:px-8 1200:px-12"
+      className="transition-all relative z-50 px-3 430:px-4 990:px-8 1200:px-12"
     >
       {/* ── Top row — account ── */}
       <div className="hidden xl:flex items-center justify-end h-8">
@@ -128,19 +128,20 @@ export const HeaderLower = ({ concerts, campApplicationsSetting }) => {
       </div>
 
       {/* ── Bottom row — main nav ── */}
-      <div className="w-full flex items-center justify-between h-16 sm:h-20 space-x-4">
+      <div className="w-full flex items-center justify-between h-14 430:h-16 sm:h-20 gap-2">
         {/* Logo */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
+          className="shrink-0"
         >
           <Link
             href="/"
             aria-label="The Pops Orchestra — home"
             className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-sm inline-block"
           >
-            <LogoSVG className="w-20" />
+            <LogoSVG className="w-10 430:w-12 sm:w-16" />
           </Link>
         </motion.div>
 
@@ -163,54 +164,46 @@ export const HeaderLower = ({ concerts, campApplicationsSetting }) => {
           ))}
         </div>
 
-        {/* Right — CTA buttons */}
-        <div className="flex items-center gap-x-2">
-          {/* Mobile menu */}
+        {/* Right — CTA + mobile menu */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.75 }}
+          className="flex items-center gap-1.5 430:gap-2 shrink-0"
+        >
+          <Link
+            href="https://ci.ovationtix.com/35505/production/1232771"
+            target="_blank"
+            className="group inline-flex items-center gap-1.5 bg-blaze hover:bg-blazehover text-white font-changa uppercase tracking-widest transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black cursor-pointer text-[0.6rem] 430:text-[0.65rem] sm:text-sm px-3 430:px-4 sm:px-6 py-2 430:py-2.5 sm:py-3"
+          >
+            <span>Tickets</span>
+            <ExternalLink
+              className="w-3 h-3 sm:w-4 sm:h-4 shrink-0 group-hover:translate-x-1 transition-transform"
+              aria-hidden="true"
+            />
+          </Link>
+
+          <Link
+            href="https://ci.ovationtix.com/35505/store/donations"
+            target="_blank"
+            className="group hidden 430:inline-flex items-center gap-1.5 border border-white/30 hover:border-white text-white/70 hover:text-white font-changa uppercase tracking-widest transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black cursor-pointer text-[0.65rem] sm:text-sm px-4 sm:px-6 py-2.5 sm:py-3"
+          >
+            <span>Donate</span>
+            <Heart
+              className="w-3 h-3 sm:w-4 sm:h-4 shrink-0 group-hover:scale-110 transition-transform"
+              aria-hidden="true"
+            />
+          </Link>
+
           <button
             type="button"
             onClick={() => store.dispatch(openNavigationDrawer())}
             aria-label="Open mobile navigation menu"
-            className="w-5 h-5 sm:w-6 sm:h-6 text-white/70 hover:text-blaze xl:hidden transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm"
+            className="w-8 h-8 430:w-9 430:h-9 flex items-center justify-center text-white/70 hover:text-blaze xl:hidden transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm"
           >
-            <Menu aria-hidden="true" />
+            <Menu className="w-5 h-5" aria-hidden="true" />
           </button>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.75 }}
-            className="flex items-center gap-3"
-          >
-            <Link
-              href="https://ci.ovationtix.com/35505/production/1232771"
-              target="_blank"
-              className="group inline-flex items-center gap-2 bg-blaze hover:bg-blazehover text-white font-changa uppercase tracking-widest transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black cursor-pointer"
-              style={{
-                fontSize: 'clamp(0.65rem, 1.5vw, 0.875rem)',
-                padding: 'clamp(0.625rem, 1.5vw, 1rem) clamp(1.25rem, 3vw, 2rem)'
-              }}
-            >
-              <span>Tickets</span>
-              <ExternalLink
-                className="w-4 h-4 shrink-0 group-hover:translate-x-1 transition-transform"
-                aria-hidden="true"
-              />
-            </Link>
-
-            <Link
-              href="https://ci.ovationtix.com/35505/store/donations"
-              target="_blank"
-              className="group inline-flex items-center gap-2 border border-white/30 hover:border-white text-white/70 hover:text-white font-changa uppercase tracking-widest transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black cursor-pointer"
-              style={{
-                fontSize: 'clamp(0.65rem, 1.5vw, 0.875rem)',
-                padding: 'clamp(0.625rem, 1.5vw, 1rem) clamp(1.25rem, 3vw, 2rem)'
-              }}
-            >
-              <span>Donate</span>
-              <Heart className="w-4 h-4 shrink-0 group-hover:scale-110 transition-transform" aria-hidden="true" />
-            </Link>
-          </motion.div>
-        </div>
+        </motion.div>
       </div>
     </nav>
   )

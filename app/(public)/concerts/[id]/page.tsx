@@ -1,4 +1,4 @@
-import ConcertDetailsClient from '@/app/components/pages/ConcertDetailsClient'
+import ConcertDetailsClient from '@/app/(public)/concerts/[id]/ConcertDetailsClient'
 import prisma from '@/prisma/client'
 import { notFound } from 'next/navigation'
 

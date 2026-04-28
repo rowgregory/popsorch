@@ -1,5 +1,5 @@
 import { getPage } from '@/app/lib/actions/page/getPage'
-import { AdvertiseWithUsClient } from '@/app/components/pages/AdvertiseWithUsClient'
+import { AdvertiseWithUsClient } from '@/app/(public)/advertise-with-us/AdvertiseWithUsClient'
 
 export default async function AdvertiseWithUsPage() {
   const data = await getPage('advertise-with-us')

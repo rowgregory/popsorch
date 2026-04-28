@@ -1,5 +1,5 @@
 import { getTeamMemberByRole } from '@/app/lib/actions/team/getTeamMemberByRole'
-import { MusiciansClient } from '../../components/pages/MusiciansClient'
+import { MusiciansClient } from './MusiciansClient'
 
 export default async function MusiciansPage() {
   const data = await getTeamMemberByRole('MUSICIAN')

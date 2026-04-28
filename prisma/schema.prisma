@@ -204,6 +204,8 @@ model TeamMember {
   role          String
   imageFilename String   @db.VarChar(255)
   imageUrl      String
+  videoFilename String?  @db.VarChar(255)
+  videoUrl      String?
   bio           String
   displayOrder  Int      @default(0)
 }

@@ -1,14 +1,14 @@
 'use client'
 
 import { setCloseCampApplicationSuccessModal } from '@/app/redux/features/campSlice'
-import { store, useCampSelector } from '@/app/redux/store'
+import { store, useUiSelector } from '@/app/redux/store'
 import { motion, AnimatePresence } from 'framer-motion'
 import { CheckCircle, Music } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect } from 'react'
 
 export default function CampApplicationSuccessModal() {
-  const { campApplicationSuccessModal } = useCampSelector()
+  const { campApplicationSuccessModal } = useUiSelector()
   const onClose = () => store.dispatch(setCloseCampApplicationSuccessModal())
 
   useEffect(() => {

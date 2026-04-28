@@ -3,11 +3,13 @@ import { Reducer, createSlice } from '@reduxjs/toolkit'
 export interface UiStatePayload {
   contactSubmissionModal: boolean
   userDrawer: boolean
+  campApplicationSuccessModal: boolean
 }
 
 export const initialUiState: UiStatePayload = {
   contactSubmissionModal: false,
-  userDrawer: false
+  userDrawer: false,
+  campApplicationSuccessModal: false
 }
 
 export const uiSlice = createSlice({
@@ -25,6 +27,12 @@ export const uiSlice = createSlice({
     },
     setCloseUserDrawer: (state) => {
       state.userDrawer = false
+    },
+    setOpenCampApplicationSuccessModal: (state) => {
+      state.campApplicationSuccessModal = true
+    },
+    setCloseCampApplicationSuccessModal: (state) => {
+      state.campApplicationSuccessModal = false
     }
   }
 })
@@ -35,5 +43,7 @@ export const {
   setCloseContactSubmissionSuccessModal,
   setOpenContactSubmissionSuccessModal,
   setCloseUserDrawer,
-  setOpenUserDrawer
+  setOpenUserDrawer,
+  setCloseCampApplicationSuccessModal,
+  setOpenCampApplicationSuccessModal
 } = uiSlice.actions

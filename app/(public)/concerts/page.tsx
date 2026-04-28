@@ -1,4 +1,4 @@
-import ConcertsClient from '@/app/components/pages/ConcertsClient'
+import ConcertsClient from '@/app/(public)/concerts/ConcertsClient'
 import prisma from '@/prisma/client'
 
 export default async function ConcertsPage() {
