@@ -4,6 +4,7 @@ import prisma from '@/prisma/client'
 import { createLog } from '../../../utils/logHelper'
 import { campApplicationTemplate } from '../../email-templates/camp-application'
 import { resend } from '../../resend'
+import { buildLogMessage, getRequestContext } from '@/app/utils/parseUserAgent'
 
 export async function createCampApplication(data: {
   // Student
@@ -80,11 +81,29 @@ export async function createCampApplication(data: {
       }
     })
 
-    await createLog('info', 'Camp application created successfully', {
-      applicationId: application.id,
-      studentName: `${data.firstName} ${data.lastName}`,
-      studentEmail: data.studentEmailAddress
-    })
+    const context = await getRequestContext()
+
+    await createLog(
+      'info',
+      await buildLogMessage('submitted a camp application', `${data.firstName} ${data.lastName}`, context),
+      {
+        applicationId: application.id,
+        student: {
+          name: `${data.firstName} ${data.lastName}`,
+          email: data.studentEmailAddress,
+          grade: data.grade,
+          school: data.school,
+          instrument: data.instrument
+        },
+        parent: {
+          name: `${data.parentFirstName} ${data.parentLastName}`,
+          email: data.parentEmailAddress
+        },
+        consent: data.consent,
+        referralSource: data.referralSource ?? null,
+        request: context
+      }
+    ).catch(() => null)
 
     await resend.emails.send({
       from: 'The Pops Orchestra <noreply@thepopsorchestra.org>',

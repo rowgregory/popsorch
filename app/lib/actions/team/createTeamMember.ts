@@ -4,6 +4,7 @@ import prisma from '@/prisma/client'
 import { createLog } from '../../../utils/logHelper'
 import { getActor } from '../user/getActor'
 import { TeamMemberRole } from '@prisma/client'
+import { buildLogMessage, getRequestContext } from '@/app/utils/parseUserAgent'
 
 interface CreateTeamMemberInput {
   firstName: string
@@ -24,7 +25,7 @@ export async function createTeamMember(data: CreateTeamMemberInput) {
   if (!data.role) return { success: false, error: 'Role is required' }
   if (!data.imageUrl || !data.imageFilename) return { success: false, error: 'Team member image is required' }
 
-  const actor = await getActor()
+  const [actor, context] = await Promise.all([getActor(), getRequestContext()])
 
   const teamMember = await prisma.teamMember
     .create({
@@ -39,19 +40,26 @@ export async function createTeamMember(data: CreateTeamMemberInput) {
         displayOrder: data.displayOrder ?? 0
       }
     })
-    .catch((err) => {
-      console.error('[createTeamMember] prisma error:', err)
-      return null
-    })
+    .catch(() => null)
 
   if (!teamMember) return { success: false, error: 'Failed to create team member — please try again' }
 
-  await createLog('info', `Team member "${teamMember.firstName} ${teamMember.lastName}" created`, {
-    teamMemberId: teamMember.id,
-    name: `${teamMember.firstName} ${teamMember.lastName}`,
-    role: teamMember.role,
-    createdBy: actor
-  }).catch(() => null)
+  await createLog(
+    'info',
+    await buildLogMessage(
+      `created team member "${teamMember.firstName} ${teamMember.lastName}" (${teamMember.role})`,
+      actor,
+      context
+    ),
+    {
+      teamMemberId: teamMember.id,
+      name: `${teamMember.firstName} ${teamMember.lastName}`,
+      position: teamMember.position,
+      role: teamMember.role,
+      createdBy: actor,
+      request: context
+    }
+  ).catch(() => null)
 
   return { success: true, data: teamMember }
 }

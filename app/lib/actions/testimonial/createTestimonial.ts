@@ -4,12 +4,13 @@ import { createLog } from '@/app/utils/logHelper'
 import { getActor } from '../user/getActor'
 import prisma from '@/prisma/client'
 import { TestimonialInput } from '@/app/types/entities/testimonial'
+import { buildLogMessage, getRequestContext } from '@/app/utils/parseUserAgent'
 
 export async function createTestimonial(data: TestimonialInput) {
   if (!data.quote) return { success: false, error: 'Quote is required' }
   if (!data.author) return { success: false, error: 'Author is required' }
 
-  const actor = await getActor()
+  const [actor, context] = await Promise.all([getActor(), getRequestContext()])
 
   const testimonial = await prisma.testimonial
     .create({
@@ -24,9 +25,13 @@ export async function createTestimonial(data: TestimonialInput) {
 
   if (!testimonial) return { success: false, error: 'Failed to create testimonial' }
 
-  await createLog('info', `Testimonial by "${testimonial.author}" created`, {
+  await createLog('info', await buildLogMessage(`created testimonial by "${testimonial.author}"`, actor, context), {
     testimonialId: testimonial.id,
-    createdBy: actor
+    author: testimonial.author,
+    title: testimonial.title,
+    isPublished: testimonial.isPublished,
+    createdBy: actor,
+    request: context
   }).catch(() => null)
 
   return { success: true, data: testimonial }

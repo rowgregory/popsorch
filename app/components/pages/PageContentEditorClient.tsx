@@ -1,7 +1,6 @@
 'use client'
 
 import { createPage } from '@/app/lib/actions/page/createPage'
-import { updatePage } from '@/app/actions/deprecated/updatePage'
 import { showToast } from '@/app/redux/features/toastSlice'
 import { useAppDispatch, useDashboardSelector } from '@/app/redux/store'
 import { useRouter } from 'next/navigation'
@@ -10,6 +9,7 @@ import { motion } from 'framer-motion'
 import { setOpenPageSelectorModal } from '@/app/redux/features/dashboardSlice'
 import { ChevronDown } from 'lucide-react'
 import { PageContentEditor } from '../page-content-editor/PageContentEditor'
+import { updatePageContent } from '@/app/lib/actions/page/updatePageContent'
 
 const splitByHyphen = (text: string): string => {
   return text.replace(/-/g, ' ').trim()
@@ -27,7 +27,7 @@ export default function PageContentEditorClient({ data }) {
     try {
       if (data?.id) {
         // Update existing page
-        await updatePage(data?.slug, { content })
+        await updatePageContent(data?.slug, { content })
       } else {
         // Create new page
         await createPage({

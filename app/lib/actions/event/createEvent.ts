@@ -4,12 +4,13 @@ import { EventInput } from '@/app/types/entities/event'
 import { getActor } from '../user/getActor'
 import prisma from '@/prisma/client'
 import { createLog } from '@/app/utils/logHelper'
+import { buildLogMessage, getRequestContext } from '@/app/utils/parseUserAgent'
 
 export async function createEvent(data: EventInput) {
   if (!data.title) return { success: false, error: 'Title is required' }
   if (!data.date) return { success: false, error: 'Date is required' }
 
-  const actor = await getActor()
+  const [actor, context] = await Promise.all([getActor(), getRequestContext()])
 
   const event = await prisma.event
     .create({
@@ -25,9 +26,14 @@ export async function createEvent(data: EventInput) {
 
   if (!event) return { success: false, error: 'Failed to create event' }
 
-  await createLog('info', `Event "${event.title}" created`, {
+  await createLog('info', await buildLogMessage(`created event "${event.title}"`, actor, context), {
     eventId: event.id,
-    createdBy: actor
+    title: event.title,
+    date: event.date,
+    location: event.location,
+    status: event.status,
+    createdBy: actor,
+    request: context
   }).catch(() => null)
 
   return { success: true, data: event }

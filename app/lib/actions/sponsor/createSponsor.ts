@@ -4,12 +4,13 @@ import prisma from '@/prisma/client'
 import { createLog } from '../../../utils/logHelper'
 import { getActor } from '../user/getActor'
 import { CreateSponsorInput } from '../../../types/entities/sponsor'
+import { buildLogMessage, getRequestContext } from '@/app/utils/parseUserAgent'
 
 export async function createSponsor(data: CreateSponsorInput) {
   if (!data.name) return { success: false, error: 'Sponsor name is required' }
   if (!data.filePath || !data.filename) return { success: false, error: 'Sponsor image is required' }
 
-  const actor = await getActor()
+  const [actor, context] = await Promise.all([getActor(), getRequestContext()])
 
   const sponsor = await prisma.sponsor
     .create({
@@ -23,16 +24,18 @@ export async function createSponsor(data: CreateSponsorInput) {
         isActive: data.isActive ?? true
       }
     })
-    .catch((e) => {
-      console.error('Prisma error:', e)
-      return null
-    })
+    .catch(() => null)
 
   if (!sponsor) return { success: false, error: 'Failed to create sponsor' }
 
-  await createLog('info', `Sponsor "${sponsor.name}" created`, {
+  await createLog('info', await buildLogMessage(`created sponsor "${sponsor.name}"`, actor, context), {
     sponsorId: sponsor.id,
-    createdBy: actor
+    name: sponsor.name,
+    level: sponsor.level,
+    amount: sponsor.amount,
+    isActive: sponsor.isActive,
+    createdBy: actor,
+    request: context
   }).catch(() => null)
 
   return { success: true, data: sponsor }

@@ -4,11 +4,12 @@ import prisma from '@/prisma/client'
 import { createLog } from '../../../utils/logHelper'
 import { UpdateVenueInput } from '../../../types/entities/venue'
 import { getActor } from '../user/getActor'
+import { buildLogMessage, getRequestContext } from '@/app/utils/parseUserAgent'
 
 export async function updateVenue(venueId: string, data: UpdateVenueInput) {
   if (!venueId) return { success: false, error: 'Venue ID is required' }
 
-  const actor = await getActor()
+  const [actor, context] = await Promise.all([getActor(), getRequestContext()])
 
   const venue = await prisma.venue
     .update({
@@ -25,17 +26,18 @@ export async function updateVenue(venueId: string, data: UpdateVenueInput) {
         ...(data.address !== undefined && { address: data.address })
       }
     })
-    .catch((err) => {
-      console.error('[updateVenue] prisma error:', err)
-      return null
-    })
+    .catch(() => null)
 
   if (!venue) return { success: false, error: 'Failed to update venue — please try again' }
 
-  await createLog('info', `Venue "${venue.name}" updated`, {
+  await createLog('info', await buildLogMessage(`updated venue "${venue.name}"`, actor, context), {
     venueId: venue.id,
-    venueName: venue.name,
-    updatedBy: actor
+    name: venue.name,
+    city: venue.city,
+    address: venue.address,
+    capacity: venue.capacity,
+    updatedBy: actor,
+    request: context
   }).catch(() => null)
 
   return { success: true, data: venue }

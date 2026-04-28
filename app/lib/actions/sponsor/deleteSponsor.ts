@@ -2,31 +2,25 @@
 
 import prisma from '@/prisma/client'
 import { createLog } from '../../../utils/logHelper'
+import { getActor } from '../user/getActor'
+import { buildLogMessage, getRequestContext } from '@/app/utils/parseUserAgent'
 
-export async function deleteSponsor(sponsorId: string) {
-  try {
-    if (!sponsorId) {
-      throw new Error('Sponsor ID is required')
-    }
+export async function deleteSponsor(id: string) {
+  if (!id) return { success: false, error: 'Sponsor ID is required' }
 
-    const sponsor = await prisma.sponsor.delete({
-      where: { id: sponsorId }
-    })
+  const [actor, context] = await Promise.all([getActor(), getRequestContext()])
 
-    await createLog('info', 'Sponsor deleted successfully', {
-      sponsorId: sponsor.id,
-      name: sponsor.name
-    })
-  } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'Failed to delete sponsor'
+  const sponsor = await prisma.sponsor.delete({ where: { id } }).catch(() => null)
 
-    await createLog('error', 'Failed to delete sponsor', {
-      error: errorMessage,
-      inputData: {
-        sponsorId
-      }
-    })
+  if (!sponsor) return { success: false, error: 'Failed to delete sponsor' }
 
-    throw new Error(errorMessage)
-  }
+  await createLog('info', await buildLogMessage(`deleted sponsor "${sponsor.name}"`, actor, context), {
+    sponsorId: sponsor.id,
+    name: sponsor.name,
+    level: sponsor.level,
+    deletedBy: actor,
+    request: context
+  }).catch(() => null)
+
+  return { success: true }
 }

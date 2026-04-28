@@ -7,9 +7,9 @@ import { useRouter } from 'next/navigation'
 import type { Question } from '@prisma/client'
 import { store } from '@/app/redux/store'
 import { showToast } from '@/app/redux/features/toastSlice'
-import { updateQuestion } from '@/app/actions/deprecated/updateQuestion'
 import { formatDate } from '@/app/utils/date.functions'
 import { replyToQuestion } from '@/app/lib/actions/question/replyToQuestion'
+import { updateQuestion } from '@/app/lib/actions/question/updateQuestion'
 
 interface Props {
   question: Question | null

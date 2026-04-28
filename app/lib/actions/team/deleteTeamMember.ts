@@ -2,32 +2,34 @@
 
 import prisma from '@/prisma/client'
 import { createLog } from '../../../utils/logHelper'
+import { getActor } from '../user/getActor'
+import { buildLogMessage, getRequestContext } from '@/app/utils/parseUserAgent'
 
-export async function deleteTeamMember(teamMemberId: string) {
-  try {
-    if (!teamMemberId) {
-      throw new Error('Team member ID is required')
-    }
+export async function deleteTeamMember(id: string) {
+  if (!id) return { success: false, error: 'Team member ID is required' }
 
-    const teamMember = await prisma.teamMember.delete({
-      where: { id: teamMemberId }
-    })
+  const [actor, context] = await Promise.all([getActor(), getRequestContext()])
 
-    await createLog('info', 'Team member deleted successfully', {
+  const teamMember = await prisma.teamMember.delete({ where: { id } }).catch(() => null)
+
+  if (!teamMember) return { success: false, error: 'Failed to delete team member' }
+
+  await createLog(
+    'info',
+    await buildLogMessage(
+      `deleted team member "${teamMember.firstName} ${teamMember.lastName}" (${teamMember.role})`,
+      actor,
+      context
+    ),
+    {
       teamMemberId: teamMember.id,
-      firstName: teamMember.firstName,
-      lastName: teamMember.lastName
-    })
-  } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'Failed to delete team member'
+      name: `${teamMember.firstName} ${teamMember.lastName}`,
+      position: teamMember.position,
+      role: teamMember.role,
+      deletedBy: actor,
+      request: context
+    }
+  ).catch(() => null)
 
-    await createLog('error', 'Failed to delete team member', {
-      error: errorMessage,
-      inputData: {
-        teamMemberId
-      }
-    })
-
-    throw new Error(errorMessage)
-  }
+  return { success: true }
 }

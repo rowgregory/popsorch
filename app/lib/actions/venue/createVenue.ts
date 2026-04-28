@@ -4,12 +4,13 @@ import prisma from '@/prisma/client'
 import { createLog } from '../../../utils/logHelper'
 import { getActor } from '../user/getActor'
 import { CreateVenueInput } from '../../../types/entities/venue'
+import { buildLogMessage, getRequestContext } from '@/app/utils/parseUserAgent'
 
 export async function createVenue(data: CreateVenueInput) {
   if (!data.name) return { success: false, error: 'Venue name is required' }
   if (!data.imageUrl || !data.imageFilename) return { success: false, error: 'Venue image is required' }
 
-  const actor = await getActor()
+  const [actor, context] = await Promise.all([getActor(), getRequestContext()])
 
   const venue = await prisma.venue
     .create({
@@ -23,24 +24,22 @@ export async function createVenue(data: CreateVenueInput) {
         imageUrl: data.imageUrl,
         imageFilename: data.imageFilename,
         address: data.address ?? '',
-
-        // Deprecated
         longitude: '',
         latitude: ''
       }
     })
-    .catch((err) => {
-      console.error('[createVenue] prisma error:', err)
-      return null
-    })
+    .catch(() => null)
 
   if (!venue) return { success: false, error: 'Failed to create venue — please try again' }
 
-  await createLog('info', `Venue "${venue.name}" created`, {
+  await createLog('info', await buildLogMessage(`created venue "${venue.name}"`, actor, context), {
     venueId: venue.id,
-    venueName: venue.name,
+    name: venue.name,
     city: venue.city,
-    createdBy: actor
+    address: venue.address,
+    capacity: venue.capacity,
+    createdBy: actor,
+    request: context
   }).catch(() => null)
 
   return { success: true, data: venue }

@@ -3,6 +3,8 @@
 import prisma from '@/prisma/client'
 import { auth } from '../../auth'
 import { resend } from '../../resend'
+import { buildLogMessage, getRequestContext } from '@/app/utils/parseUserAgent'
+import { createLog } from '@/app/utils/logHelper'
 
 interface RequestInput {
   changeType: string
@@ -17,7 +19,8 @@ export async function sendCustomRequest(data: RequestInput) {
   const session = await auth()
   const submittedBy = session?.user?.email ?? 'unknown'
 
-  // Save to DB first
+  const [context] = await Promise.all([getRequestContext()])
+
   const request = await prisma.customRequest
     .create({
       data: {
@@ -33,6 +36,22 @@ export async function sendCustomRequest(data: RequestInput) {
     .catch(() => null)
 
   if (!request) return { success: false, error: 'Failed to save request' }
+
+  await createLog(
+    'info',
+    await buildLogMessage(`submitted a custom request — ${data.changeType} on ${data.page}`, submittedBy, context),
+    {
+      requestId: request.id,
+      changeType: data.changeType,
+      page: data.page,
+      urgency: data.urgency,
+      what: data.what,
+      why: data.why,
+      example: data.example ?? null,
+      submittedBy,
+      request: context
+    }
+  ).catch(() => null)
 
   const { error } = await resend.emails.send({
     from: 'The Pops Admin <noreply@thepopsorchestra.org>',
@@ -68,5 +87,5 @@ export async function sendCustomRequest(data: RequestInput) {
 
   if (error) return { success: false, error: 'Failed to send request' }
 
-  return { success: true }
+  return { success: true, data: request }
 }

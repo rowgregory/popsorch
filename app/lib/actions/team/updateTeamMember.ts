@@ -4,6 +4,7 @@ import prisma from '@/prisma/client'
 import { createLog } from '../../../utils/logHelper'
 import { getActor } from '../user/getActor'
 import { TeamMemberRole } from '@prisma/client'
+import { buildLogMessage, getRequestContext } from '@/app/utils/parseUserAgent'
 
 interface UpdateTeamMemberInput {
   firstName?: string
@@ -19,7 +20,7 @@ interface UpdateTeamMemberInput {
 export async function updateTeamMember(teamMemberId: string, data: UpdateTeamMemberInput) {
   if (!teamMemberId) return { success: false, error: 'Team member ID is required' }
 
-  const actor = await getActor()
+  const [actor, context] = await Promise.all([getActor(), getRequestContext()])
 
   const teamMember = await prisma.teamMember
     .update({
@@ -35,19 +36,26 @@ export async function updateTeamMember(teamMemberId: string, data: UpdateTeamMem
         ...(typeof data.displayOrder === 'number' && { displayOrder: data.displayOrder })
       }
     })
-    .catch((err) => {
-      console.error('[updateTeamMember] prisma error:', err)
-      return null
-    })
+    .catch(() => null)
 
   if (!teamMember) return { success: false, error: 'Failed to update team member — please try again' }
 
-  await createLog('info', `Team member "${teamMember.firstName} ${teamMember.lastName}" updated`, {
-    teamMemberId: teamMember.id,
-    name: `${teamMember.firstName} ${teamMember.lastName}`,
-    role: teamMember.role,
-    updatedBy: actor
-  }).catch(() => null)
+  await createLog(
+    'info',
+    await buildLogMessage(
+      `updated team member "${teamMember.firstName} ${teamMember.lastName}" (${teamMember.role})`,
+      actor,
+      context
+    ),
+    {
+      teamMemberId: teamMember.id,
+      name: `${teamMember.firstName} ${teamMember.lastName}`,
+      position: teamMember.position,
+      role: teamMember.role,
+      updatedBy: actor,
+      request: context
+    }
+  ).catch(() => null)
 
   return { success: true, data: teamMember }
 }

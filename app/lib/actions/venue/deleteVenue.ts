@@ -2,33 +2,26 @@
 
 import prisma from '@/prisma/client'
 import { createLog } from '../../../utils/logHelper'
+import { getActor } from '../user/getActor'
+import { buildLogMessage, getRequestContext } from '@/app/utils/parseUserAgent'
 
-export async function deleteVenue(venueId: string) {
-  try {
-    if (!venueId) {
-      throw new Error('Venue ID is required')
-    }
+export async function deleteVenue(id: string) {
+  if (!id) return { success: false, error: 'Venue ID is required' }
 
-    const venue = await prisma.venue.delete({
-      where: { id: venueId }
-    })
+  const [actor, context] = await Promise.all([getActor(), getRequestContext()])
 
-    await createLog('info', 'Venue deleted successfully', {
-      venueId: venue.id,
+  const venue = await prisma.venue.delete({ where: { id } }).catch(() => null)
 
-      name: venue.name,
-      address: venue.address
-    })
-  } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'Failed to delete venue'
+  if (!venue) return { success: false, error: 'Failed to delete venue' }
 
-    await createLog('error', 'Failed to delete venue', {
-      error: errorMessage,
-      inputData: {
-        venueId
-      }
-    })
+  await createLog('info', await buildLogMessage(`deleted venue "${venue.name}"`, actor, context), {
+    venueId: venue.id,
+    name: venue.name,
+    city: venue.city,
+    address: venue.address,
+    deletedBy: actor,
+    request: context
+  }).catch(() => null)
 
-    throw new Error(errorMessage)
-  }
+  return { success: true }
 }
