@@ -1,22 +1,13 @@
 import { PrismaClient } from '@prisma/client'
-import { withAccelerate } from '@prisma/extension-accelerate'
 
 const globalForPrisma = globalThis as unknown as {
-  prisma: ReturnType<typeof createPrismaClient> | undefined
+  prisma: PrismaClient | undefined
 }
 
 const createPrismaClient = () => {
-  // Use Accelerate URL in production (Vercel), direct in development
-  const datasourceUrl = process.env.ACCELERATE_URL || process.env.DATABASE_URL
-
   return new PrismaClient({
-    log: process.env.NODE_ENV === 'development' ? ['query', 'error'] : ['error'],
-    datasources: {
-      db: {
-        url: datasourceUrl
-      }
-    }
-  }).$extends(withAccelerate())
+    log: process.env.NODE_ENV === 'development' ? ['query', 'error'] : ['error']
+  })
 }
 
 export const prisma = globalForPrisma.prisma ?? createPrismaClient()
