@@ -57,6 +57,7 @@ interface Props {
   sponsors: Sponsor[]
   questions: Question[]
   users: User[]
+  dbHealth: any
 }
 
 export default function SuperClient({
@@ -69,7 +70,8 @@ export default function SuperClient({
   testimonials,
   sponsors,
   questions,
-  users
+  users,
+  dbHealth
 }: Props) {
   const router = useRouter()
   const [loading, setLoading] = useState<string | null>(null)
@@ -286,6 +288,95 @@ export default function SuperClient({
             />
           </div>
         </div>
+      </div>
+
+      <div className="col-span-12 space-y-4">
+        <Section
+          title="Database Health"
+          icon={<AlertCircle className="w-3.5 h-3.5" />}
+          count={dbHealth?.activeConnections || 0}
+        >
+          {dbHealth && (
+            <div className="col-span-12 mb-4">
+              <div className="bg-surface-dark border-2 border-border-dark p-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-dark mb-1">
+                      Database Connections
+                    </p>
+                    <p
+                      className={`text-4xl font-mono ${
+                        dbHealth.activeConnections > 30
+                          ? 'text-red-400'
+                          : dbHealth.activeConnections > 20
+                            ? 'text-yellow-400'
+                            : 'text-emerald-400'
+                      }`}
+                    >
+                      {dbHealth.activeConnections}{' '}
+                      <span className="text-xl text-muted-dark">/ {dbHealth.maxConnections}</span>
+                    </p>
+                  </div>
+
+                  <div className="text-right">
+                    <p
+                      className={`text-sm font-mono ${
+                        dbHealth.activeConnections > 30
+                          ? 'text-red-400'
+                          : dbHealth.activeConnections > 20
+                            ? 'text-yellow-400'
+                            : 'text-emerald-400'
+                      }`}
+                    >
+                      {dbHealth.activeConnections > 30
+                        ? '⚠️ CRITICAL - SITE MAY CRASH'
+                        : dbHealth.activeConnections > 20
+                          ? '⚠️ ELEVATED - MONITOR CLOSELY'
+                          : '✓ HEALTHY'}
+                    </p>
+                    <p className="text-[8px] font-mono text-muted-dark mt-1">
+                      Last checked: {new Date().toLocaleTimeString()}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Visual bar */}
+                <div className="mt-3 h-2 bg-bg-dark rounded-full overflow-hidden">
+                  <div
+                    className={`h-full transition-all duration-500 ${
+                      dbHealth.activeConnections > 30
+                        ? 'bg-red-400'
+                        : dbHealth.activeConnections > 20
+                          ? 'bg-yellow-400'
+                          : 'bg-emerald-400'
+                    }`}
+                    style={{ width: `${(dbHealth.activeConnections / dbHealth.maxConnections) * 100}%` }}
+                  />
+                </div>
+
+                {/* Long Running Queries */}
+                {dbHealth.longQueries.length > 0 && (
+                  <div className="mt-4 pt-4 border-t border-border-dark">
+                    <p className="text-[9px] font-mono tracking-[0.2em] uppercase text-red-400 mb-2">
+                      ⚠️ Long Running Queries ({dbHealth.longQueries.length})
+                    </p>
+                    <div className="space-y-2">
+                      {dbHealth.longQueries.map((q) => (
+                        <div key={q.pid} className="bg-bg-dark p-2 border-l-2 border-red-400">
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="text-[8px] font-mono text-muted-dark">PID: {q.pid}</span>
+                            <span className="text-[8px] font-mono text-red-400">{q.duration}</span>
+                          </div>
+                          <p className="text-[10px] font-mono text-text-dark truncate">{q.query}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </Section>
       </div>
     </div>
   )

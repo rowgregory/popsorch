@@ -1,8 +1,10 @@
 import prisma from '@/prisma/client'
 
 export const getLogs = async () => {
-  return prisma.log.findMany({
-    orderBy: { createdAt: 'desc' },
-    take: 200
-  })
+  return prisma.log
+    .findMany({
+      orderBy: { createdAt: 'desc' },
+      take: 200
+    })
+    .catch(() => [])
 }

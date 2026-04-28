@@ -3,10 +3,12 @@ import { TeamMemberRole } from '@prisma/client'
 
 export const getTeamMemberByRole = async (role: string) => {
   try {
-    const teamMembers = await prisma.teamMember.findMany({
-      where: { role: role as TeamMemberRole },
-      orderBy: [{ displayOrder: 'asc' }]
-    })
+    const teamMembers = await prisma.teamMember
+      .findMany({
+        where: { role: role as TeamMemberRole },
+        orderBy: [{ displayOrder: 'asc' }]
+      })
+      .catch(() => [])
 
     return teamMembers
   } catch (error) {

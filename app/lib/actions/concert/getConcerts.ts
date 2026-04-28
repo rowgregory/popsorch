@@ -1,32 +1,32 @@
 import prisma from '@/prisma/client'
 
 export const getConcerts = async () => {
-  try {
-    const concerts = await prisma.concert.findMany({
-      include: { shows: { include: { venue: true } } },
-      orderBy: [{ createdAt: 'desc' }]
+  const concerts = await prisma.concert
+    .findMany({
+      include: {
+        shows: {
+          include: { venue: true },
+          orderBy: { date: 'asc' } // Sort shows by date
+        }
+      },
+      orderBy: { createdAt: 'desc' }
     })
+    .catch(() => [])
 
-    const sortedConcerts = concerts.sort((a: any, b: any) => {
-      const aDate = new Date(a.eventDetails[0]?.date || a.cardDate)
-      const bDate = new Date(b.eventDetails[0]?.date || b.cardDate)
-      return aDate.getTime() - bDate.getTime()
-    })
+  // Sort by first show date (shows already sorted above)
+  const sortedConcerts = concerts.sort((a, b) => {
+    const aDate = a.shows[0]?.date ? new Date(a.shows[0].date) : new Date(a.cardDate || 0)
+    const bDate = b.shows[0]?.date ? new Date(b.shows[0].date) : new Date(b.cardDate || 0)
+    return aDate.getTime() - bDate.getTime()
+  })
 
-    return {
-      concerts: sortedConcerts,
-      count: sortedConcerts.length,
-      noConcerts: sortedConcerts.length === 0,
-      onSaleConcerts: sortedConcerts.filter((c) => c.isOnSale),
-      onSaleCount: sortedConcerts.filter((c) => c.isOnSale).length
-    }
-  } catch (error) {
-    return {
-      concerts: [],
-      count: 0,
-      noConcerts: 0,
-      onSaleConcerts: [],
-      onSaleCount: 0
-    }
+  const onSaleConcerts = sortedConcerts.filter((c) => c.isOnSale)
+
+  return {
+    concerts: sortedConcerts,
+    count: sortedConcerts.length,
+    noConcerts: sortedConcerts.length === 0,
+    onSaleConcerts,
+    onSaleCount: onSaleConcerts.length
   }
 }

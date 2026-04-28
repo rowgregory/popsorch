@@ -4,7 +4,6 @@ import prisma from '@/prisma/client'
 import { auth } from '../../auth'
 import { IUpdateConcertInput } from '../../../types/entities/concert'
 import { createLog } from '../../../utils/logHelper'
-import { InputJsonValue } from '@prisma/client/runtime/library'
 
 export async function updateConcert(id: string, data: IUpdateConcertInput) {
   if (!id) return { success: false, error: 'Concert ID is required' }
@@ -60,12 +59,7 @@ export async function updateConcert(id: string, data: IUpdateConcertInput) {
         },
         season: data.season,
         status: data.status ?? 'DRAFT',
-        subtitle: data.subtitle ?? '',
-
-        // Deprecated — preserved until legacy concert is migrated
-        isOnSale: false,
-        eventDetails: [] as unknown as InputJsonValue,
-        allSeriesExternalLink: ''
+        subtitle: data.subtitle ?? ''
       },
       include: { shows: true }
     })

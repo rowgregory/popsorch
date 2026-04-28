@@ -8,19 +8,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   let concertPages: MetadataRoute.Sitemap = []
 
-  try {
-    const concerts = await prisma.concert.findMany({
+  const concerts = await prisma.concert
+    .findMany({
       select: { id: true, updatedAt: true }
     })
-    concertPages = concerts.map((concert) => ({
-      url: `${baseUrl}/concerts/${concert.id}`,
-      lastModified: concert.updatedAt,
-      changeFrequency: 'weekly' as const,
-      priority: 0.7
-    }))
-  } catch {
-    // DB unreachable at build time — concert pages omitted from sitemap
-  }
+    .catch(() => [])
+  concertPages = concerts.map((concert) => ({
+    url: `${baseUrl}/concerts/${concert.id}`,
+    lastModified: concert.updatedAt,
+    changeFrequency: 'weekly' as const,
+    priority: 0.7
+  }))
 
   // Static pages
   const staticPages = [

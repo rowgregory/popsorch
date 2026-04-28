@@ -5,7 +5,6 @@ import { auth } from '../../auth'
 import { ICreateConcertInput } from '../../../types/entities/concert'
 import { headers } from 'next/headers'
 import { createLog } from '../../../utils/logHelper'
-import { InputJsonValue } from '@prisma/client/runtime/library'
 
 export async function createConcert(data: ICreateConcertInput) {
   if (!data.name) return { success: false, error: 'Concert name is required' }
@@ -47,12 +46,7 @@ export async function createConcert(data: ICreateConcertInput) {
           }))
         },
         status: data.status ?? 'DRAFT',
-        subtitle: data.subtitle ?? '',
-
-        // Deprecated — required until legacy concert is migrated
-        isOnSale: false,
-        eventDetails: [] as unknown as InputJsonValue,
-        allSeriesExternalLink: ''
+        subtitle: data.subtitle ?? ''
       },
       include: { shows: { include: { venue: true } } }
     })
