@@ -10,6 +10,7 @@ import { SessionProvider } from 'next-auth/react'
 import { RootLayoutWrapper } from './root-layout'
 import './globals.css'
 import 'ol/ol.css'
+import { unstable_cache } from 'next/cache'
 
 export const dynamic = 'force-dynamic'
 export const metadata = siteMetadata
@@ -62,12 +63,26 @@ const c_infant = Cormorant_Infant({
   variable: '--font-c-infant'
 })
 
+const getConcertsCached = unstable_cache(
+  async () => getConcerts(),
+  ['layout-concerts'],
+  { revalidate: 60 } // seconds
+)
+
+const getCampApplicationsSettingCached = unstable_cache(
+  async () => getCampApplicationsSetting(),
+  ['layout-camp-settings'],
+  { revalidate: 60 }
+)
+
+const getFooterCached = unstable_cache(async () => getPage('footer'), ['layout-footer'], { revalidate: 60 })
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const [session, concerts, campApplicationsSetting, footerData] = await Promise.all([
     auth(),
-    getConcerts(),
-    getCampApplicationsSetting(),
-    getPage('footer')
+    getConcertsCached(),
+    getCampApplicationsSettingCached(),
+    getFooterCached()
   ])
 
   return (
