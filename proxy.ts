@@ -7,9 +7,9 @@ import { auth } from './app/lib/auth'
 type UserRole = 'PATRON' | 'ADMIN' | 'SUPER_USER'
 
 const DASHBOARDS: Record<UserRole, string> = {
-  PATRON: '/supporter/overview',
+  PATRON: '/auth/login',
   ADMIN: '/v2/dashboard',
-  SUPER_USER: '/v2/dashboard'
+  SUPER_USER: '/v2/super'
 }
 
 function getDashboard(role: UserRole) {
@@ -20,10 +20,10 @@ function getDashboard(role: UserRole) {
 
 const ROUTE_ACCESS: {
   prefix: string
-  allowedRoles: UserRole[] | 'all'
+  allowedRoles: UserRole[]
 }[] = [
-  { prefix: '/v2/', allowedRoles: ['ADMIN', 'SUPER_USER'] },
-  { prefix: '/supporter/', allowedRoles: 'all' }
+  { prefix: '/v2/super', allowedRoles: ['SUPER_USER'] },
+  { prefix: '/v2/', allowedRoles: ['ADMIN', 'SUPER_USER'] }
 ]
 
 // ─── Middleware ───────────────────────────────────────────────────────────────
@@ -36,7 +36,7 @@ export async function proxy(request: NextRequest) {
 
   // ── Auth page — redirect if already signed in ──
   if (pathname === '/auth/login') {
-    if (user && role) {
+    if (user && role && (role === 'ADMIN' || role === 'SUPER_USER')) {
       return NextResponse.redirect(new URL(getDashboard(role), request.url))
     }
     return NextResponse.next()
@@ -53,9 +53,9 @@ export async function proxy(request: NextRequest) {
       return NextResponse.redirect(loginUrl)
     }
 
-    // Role not allowed — send to their dashboard
-    if (matchedRoute.allowedRoles !== 'all' && !matchedRoute.allowedRoles.includes(role)) {
-      return NextResponse.redirect(new URL(getDashboard(role), request.url))
+    // Role not allowed — send to login (PATRONs can't access anything)
+    if (!matchedRoute.allowedRoles.includes(role)) {
+      return NextResponse.redirect(new URL('/auth/login', request.url))
     }
   }
 
@@ -63,5 +63,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/v2/:path*', '/supporter/:path*', '/auth/login']
+  matcher: ['/v2/:path*', '/auth/login']
 }

@@ -2,24 +2,19 @@ import prisma from '@/prisma/client'
 import { createLog } from '../../../utils/logHelper'
 
 export const getPage = async (slug: string) => {
-  try {
-    if (!slug) {
-      throw new Error('Page slug is required')
-    }
+  if (!slug) return null
 
-    const page = await prisma.page.findUnique({
+  const page = await prisma.page
+    .findUnique({
       where: { slug }
     })
-
-    return page
-  } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'Failed to fetch page'
-
-    await createLog('error', 'Failed to fetch page', {
-      error: errorMessage,
-      slug
+    .catch((error) => {
+      createLog('error', `Failed to fetch page: ${slug}`, {
+        error: error instanceof Error ? error.message : String(error),
+        slug
+      }).catch(() => null)
+      return null
     })
 
-    throw new Error(errorMessage)
-  }
+  return page
 }

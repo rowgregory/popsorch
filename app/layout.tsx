@@ -3,14 +3,13 @@ import { GoogleAnalytics } from '@next/third-parties/google'
 import { Changa, Cormorant_Infant, Heebo, Inter, Lato, Oswald, Raleway } from 'next/font/google'
 import { auth } from './lib/auth'
 import { siteMetadata } from './metadata'
-import { getConcerts } from './lib/actions/concert/getConcerts'
-import { getCampApplicationsSetting } from './lib/actions/camp-applications/getCampApplicationsSetting'
-import { getPage } from './lib/actions/page/getPage'
 import { SessionProvider } from 'next-auth/react'
-import { RootLayoutWrapper } from './root-layout'
 import './globals.css'
 import 'ol/ol.css'
+import RootLayoutClient from './components/v2/layouts/RootLayoutClient'
 import { unstable_cache } from 'next/cache'
+import { getCampApplicationsSetting } from './lib/actions/camp-applications/getCampApplicationsSetting'
+import { getPage } from './lib/actions/page/getPage'
 
 export const dynamic = 'force-dynamic'
 export const metadata = siteMetadata
@@ -74,8 +73,8 @@ const getFooterCached = unstable_cache(async () => getPage('footer'), ['layout-f
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const [session, campApplicationsSetting, footerData] = await Promise.all([
     auth(),
-    getCampApplicationsSettingCached(),
-    getFooterCached()
+    getCampApplicationsSettingCached().catch(() => null),
+    getFooterCached().catch(() => null)
   ])
 
   return (
@@ -87,9 +86,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         className={`${inter.variable} ${oswald.variable} ${raleway.variable} ${changa.variable} ${lato.variable} ${heebo.variable} ${c_infant.variable} antialiased`}
       >
         <SessionProvider session={session}>
-          <RootLayoutWrapper campApplicationsSetting={campApplicationsSetting?.value} data={footerData}>
+          <RootLayoutClient campApplicationsSetting={campApplicationsSetting?.value} footerData={footerData}>
             {children}
-          </RootLayoutWrapper>
+          </RootLayoutClient>
         </SessionProvider>
         <Script
           src="https://public.tockify.com/browser/embed.js"
