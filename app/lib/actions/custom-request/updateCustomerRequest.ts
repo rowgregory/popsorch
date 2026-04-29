@@ -36,7 +36,7 @@ export async function updateCustomRequestStatus(id: string, status: CustomReques
     const { error } = await resend.emails
       .send({
         from: 'The Pops Orchestra <noreply@thepopsorchestra.org>',
-        to: request.submittedBy,
+        to: [request.submittedBy, 'sqysh@sqysh.io'],
         subject: `Custom Request Update — ${status}`,
         html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #111;">
