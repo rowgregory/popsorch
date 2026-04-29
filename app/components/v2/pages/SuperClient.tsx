@@ -90,8 +90,6 @@ export default function SuperClient({
   }
 
   const handleDelete = async (model: string, id: string, deleteAction: (id: string) => Promise<any>) => {
-    if (!confirm(`Delete this ${model}? This cannot be undone.`)) return
-
     setLoading(id)
     const res = await deleteAction(id)
     setLoading(null)
@@ -162,8 +160,36 @@ export default function SuperClient({
                   <div key={req.id} className="p-3 bg-bg-dark border border-border-dark">
                     <div className="flex items-start justify-between gap-2 mb-2">
                       <div className="flex-1 min-w-0">
-                        <p className="text-[10px] text-text-dark font-medium mb-1 line-clamp-1">{req.what}</p>
-                        <p className="text-[8px] text-muted-dark">{req.page}</p>
+                        <p className="text-[10px] text-text-dark font-medium mb-1">{req.what}</p>
+                        <p className="text-[8px] text-muted-dark/60 mb-2 leading-relaxed">{req.why}</p>
+                        {req.example && (
+                          <p className="text-[8px] text-muted-dark/40 italic mb-2 leading-relaxed">
+                            &quot;{req.example}&quot;
+                          </p>
+                        )}
+                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                          <span className="text-[8px] font-mono text-muted-dark/50">
+                            <span className="text-muted-dark/30">page</span> {req.page}
+                          </span>
+                          <span className="text-[8px] font-mono text-muted-dark/50">
+                            <span className="text-muted-dark/30">type</span> {req.changeType}
+                          </span>
+                          <span className="text-[8px] font-mono text-muted-dark/50">
+                            <span className="text-muted-dark/30">urgency</span> {req.urgency}
+                          </span>
+                          {req.submittedBy && (
+                            <span className="text-[8px] font-mono text-muted-dark/50">
+                              <span className="text-muted-dark/30">by</span> {req.submittedBy}
+                            </span>
+                          )}
+                          <span className="text-[8px] font-mono text-muted-dark/30">
+                            {new Date(req.submittedAt).toLocaleDateString('en-US', {
+                              month: 'short',
+                              day: 'numeric',
+                              year: 'numeric'
+                            })}
+                          </span>
+                        </div>
                       </div>
                       <span
                         className={`text-[7px] font-mono tracking-[0.2em] uppercase px-1.5 py-0.5 shrink-0 ${
@@ -180,7 +206,7 @@ export default function SuperClient({
                       </span>
                     </div>
                     <div className="flex gap-1">
-                      {['PENDING', 'IN_PROGRESS', 'COMPLETE', 'DECLINED'].map((status) => (
+                      {(['PENDING', 'IN_PROGRESS', 'COMPLETE', 'DECLINED'] as const).map((status) => (
                         <button
                           key={status}
                           onClick={() => handleStatusChange(req.id, status)}
@@ -223,7 +249,31 @@ export default function SuperClient({
               icon={<Users className="w-3.5 h-3.5" />}
               items={teamMembers}
               onDelete={(id) => handleDelete('Team Member', id, deleteTeamMember)}
-              renderItem={(t) => `${t.firstName} ${t.lastName}`}
+              renderItem={(t) => (
+                <span className="flex items-center gap-2 min-w-0">
+                  <span className="truncate">
+                    {t.firstName} {t.lastName}
+                  </span>
+                  <span
+                    className={`text-[7px] font-mono tracking-[0.15em] uppercase px-1.5 py-0.5 shrink-0 ${
+                      t.role === 'BOARD_MEMBER'
+                        ? 'bg-primary-dark/10 text-primary-dark'
+                        : t.role === 'STAFF'
+                          ? 'bg-yellow-500/10 text-yellow-400'
+                          : 'bg-blue-500/10 text-blue-400'
+                    }`}
+                  >
+                    {t.role.replace('_', ' ')}
+                  </span>
+                  <span className="text-[7px] font-mono text-muted-dark/30 shrink-0 hidden sm:block">
+                    {new Date(t.updatedAt).toLocaleDateString('en-US', {
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric'
+                    })}
+                  </span>
+                </span>
+              )}
               loading={loading}
             />
           </div>
@@ -244,7 +294,18 @@ export default function SuperClient({
               icon={<FileText className="w-3.5 h-3.5" />}
               items={news}
               onDelete={(id) => handleDelete('News', id, deleteNews)}
-              renderItem={(n) => n.title}
+              renderItem={(n) => (
+                <span className="flex items-center gap-2 min-w-0">
+                  <span className="truncate">{n.title}</span>
+                  <span
+                    className={`text-[7px] font-mono tracking-[0.15em] uppercase px-1.5 py-0.5 shrink-0 ${
+                      n.isPublished ? 'bg-emerald-500/10 text-emerald-400' : 'bg-border-dark text-muted-dark/40'
+                    }`}
+                  >
+                    {n.isPublished ? 'Published' : 'Draft'}
+                  </span>
+                </span>
+              )}
               loading={loading}
             />
 
@@ -262,7 +323,18 @@ export default function SuperClient({
               icon={<DollarSign className="w-3.5 h-3.5" />}
               items={sponsors}
               onDelete={(id) => handleDelete('Sponsor', id, deleteSponsor)}
-              renderItem={(s) => s.name}
+              renderItem={(s) => (
+                <span className="flex items-center gap-2 min-w-0">
+                  <span className="truncate">{s.name}</span>
+                  <span className="text-[7px] font-mono text-muted-dark/40 shrink-0">{s.level}</span>
+                  <span className="text-[7px] font-mono text-emerald-400 shrink-0">${s.amount.toLocaleString()}</span>
+                  {!s.isActive && (
+                    <span className="text-[7px] font-mono tracking-[0.15em] uppercase px-1.5 py-0.5 shrink-0 bg-border-dark text-muted-dark/40">
+                      Inactive
+                    </span>
+                  )}
+                </span>
+              )}
               loading={loading}
             />
           </div>
@@ -274,7 +346,19 @@ export default function SuperClient({
               icon={<MessageSquare className="w-3.5 h-3.5" />}
               items={questions}
               onDelete={(id) => handleDelete('Question', id, deleteQuestion)}
-              renderItem={(q) => q.name}
+              renderItem={(q) => (
+                <span className="flex items-center gap-2 min-w-0">
+                  <span className="truncate">{q.name}</span>
+                  <span className="text-[8px] font-mono text-muted-dark/40 truncate hidden sm:block">{q.email}</span>
+                  <span
+                    className={`text-[7px] font-mono tracking-[0.15em] uppercase px-1.5 py-0.5 shrink-0 ${
+                      q.hasResponded ? 'bg-emerald-500/10 text-emerald-400' : 'bg-yellow-500/10 text-yellow-400'
+                    }`}
+                  >
+                    {q.hasResponded ? 'Responded' : 'Pending'}
+                  </span>
+                </span>
+              )}
               loading={loading}
             />
 
@@ -283,7 +367,22 @@ export default function SuperClient({
               icon={<Users className="w-3.5 h-3.5" />}
               items={users}
               onDelete={(id) => handleDelete('User', id, deleteUser)}
-              renderItem={(u) => u.email ?? 'No email'}
+              renderItem={(u) => (
+                <span className="flex items-center gap-2">
+                  <span>{u.email ?? 'No email'}</span>
+                  <span
+                    className={`text-[7px] font-mono tracking-[0.15em] uppercase px-1.5 py-0.5 ${
+                      u.role === 'SUPER_USER'
+                        ? 'bg-primary-dark/10 text-primary-dark'
+                        : u.role === 'ADMIN'
+                          ? 'bg-yellow-500/10 text-yellow-400'
+                          : 'bg-border-dark text-muted-dark'
+                    }`}
+                  >
+                    {u.role}
+                  </span>
+                </span>
+              )}
               loading={loading}
             />
           </div>
@@ -451,7 +550,7 @@ function ModelSection<T extends { id: string }>({
   icon: React.ReactNode
   items: T[]
   onDelete: (id: string) => void
-  renderItem: (item: T) => string
+  renderItem: (item: T) => React.ReactNode
   loading: string | null
 }) {
   return (

@@ -1,25 +1,14 @@
 import prisma from '@/prisma/client'
-import { UserRole } from '@prisma/client'
 import type { User } from 'next-auth'
 
 export async function handleEmailCallback(user: User) {
-  let dbUser = await prisma.user.findUnique({
+  const dbUser = await prisma.user.findUnique({
     where: { email: user.email! },
     include: { accounts: true }
   })
 
-  if (!dbUser) {
-    const emailName = user.email!.split('@')[0]
-
-    dbUser = await prisma.user.create({
-      data: {
-        email: user.email!,
-        firstName: emailName.charAt(0).toUpperCase() + emailName.slice(1),
-        lastName: null,
-        role: 'SUPPORTER' as UserRole
-      },
-      include: { accounts: true }
-    })
+  if (!dbUser || (dbUser.role !== 'ADMIN' && dbUser.role !== 'SUPER_USER')) {
+    return false
   }
 
   const existing = await prisma.account.findFirst({

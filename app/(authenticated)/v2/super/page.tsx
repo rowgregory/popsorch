@@ -36,7 +36,7 @@ async function fetchSuperDashboardData() {
       .catch(() => []),
     prisma.teamMember
       .findMany({
-        orderBy: { displayOrder: 'asc' }
+        orderBy: { updatedAt: 'desc' }
       })
       .catch(() => []),
     prisma.news

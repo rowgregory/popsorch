@@ -1,8 +1,7 @@
 import prisma from '@/prisma/client'
 import { User as NextAuthUser } from 'next-auth'
 import { Account } from 'next-auth'
-import { User, Account as PrismaAccount, UserRole } from '@prisma/client'
-import { createLog } from '@/app/utils/logHelper'
+import { User, Account as PrismaAccount } from '@prisma/client'
 
 // Google OAuth Profile type - match NextAuth's Profile structure
 interface GoogleProfile {
@@ -32,25 +31,15 @@ export async function handleGoogleCallback(
   })
 
   if (existingUser) {
+    if (existingUser.role !== 'ADMIN' && existingUser.role !== 'SUPER_USER') {
+      return false
+    }
     await linkGoogleAccount(existingUser, account)
     await updateUserFromProfile(existingUser, profile)
     user.id = existingUser.id
   } else {
-    // Create new user with SUPPORTER role
-    const newUser = await prisma.user.create({
-      data: {
-        email: user.email!,
-        firstName: profile?.given_name || '',
-        lastName: profile?.family_name || '',
-        role: 'PATRON' as UserRole
-      }
-    })
-
-    await linkGoogleAccount(newUser, account)
-
-    user.id = newUser.id
-
-    await logNewGoogleUser(user, account)
+    // No new users — must be pre-existing ADMIN or SUPER_USER
+    return false
   }
 
   return true
@@ -95,13 +84,4 @@ async function updateUserFromProfile(user: User, profile?: GoogleProfile): Promi
       }
     })
   }
-}
-
-async function logNewGoogleUser(user: NextAuthUser, account: Account): Promise<void> {
-  await createLog('info', 'New Google user - will be handled in JWT callback', {
-    location: ['googleProvider.ts'],
-    provider: 'google',
-    userEmail: user.email,
-    accountId: account.providerAccountId
-  })
 }
