@@ -2,7 +2,11 @@ import prisma from '@/prisma/client'
 
 export const dynamic = 'force-dynamic'
 
-export async function GET() {
+export async function GET(request: Request) {
+  const userAgent = request.headers.get('user-agent') || 'unknown'
+
+  console.log('🤖 Health check - User Agent:', userAgent)
+
   try {
     const start = Date.now()
     await prisma.$queryRaw`SELECT 1`
@@ -10,20 +14,11 @@ export async function GET() {
 
     return Response.json({
       status: 'ok',
-      database: 'connected',
-      responseTime: `${duration}ms`,
-      timestamp: new Date().toISOString()
+      db: 'connected',
+      ping: `${duration}ms`,
+      time: new Date().toISOString()
     })
   } catch (error) {
-    console.error('Health check failed:', error)
-    return Response.json(
-      {
-        status: 'error',
-        database: 'disconnected',
-        error: error instanceof Error ? error.message : String(error),
-        timestamp: new Date().toISOString()
-      },
-      { status: 503 }
-    )
+    return Response.json({ status: 'error', error: String(error) }, { status: 503 })
   }
 }
