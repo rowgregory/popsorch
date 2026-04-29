@@ -7,6 +7,7 @@ export async function getDatabaseHealth() {
     SELECT COUNT(*) as count 
     FROM pg_stat_activity 
     WHERE datname = current_database()
+    AND query NOT LIKE '%pg_stat_activity%'
   `.catch(() => [{ count: BigInt(0) }])
 
   // NEW: See what's holding connections open
