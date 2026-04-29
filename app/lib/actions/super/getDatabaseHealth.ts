@@ -3,15 +3,15 @@
 import prisma from '@/prisma/client'
 
 export async function getDatabaseHealth() {
+  // Get total connection count (including monitoring queries)
   const connections = await prisma.$queryRaw<Array<{ count: bigint }>>`
     SELECT COUNT(*) as count 
     FROM pg_stat_activity 
     WHERE datname = current_database()
-    AND query NOT LIKE '%pg_stat_activity%'
   `.catch(() => [{ count: BigInt(0) }])
 
-  // NEW: See what's holding connections open
-  const activeQueries = await prisma.$queryRaw<
+  // Get connection states breakdown (exclude monitoring queries from display)
+  const activeQueries = (await prisma.$queryRaw<
     Array<{
       state: string
       query: string
@@ -24,11 +24,16 @@ export async function getDatabaseHealth() {
       COUNT(*) as count
     FROM pg_stat_activity
     WHERE datname = current_database()
+      AND query NOT LIKE '%pg_stat_activity%'
     GROUP BY state, LEFT(query, 100)
     ORDER BY count DESC
-  `.catch(() => [])
+  `.catch(() => [])) as Array<{
+    state: string
+    query: string
+    count: bigint
+  }>
 
-  const longQueries = await prisma.$queryRaw<
+  const longQueries = (await prisma.$queryRaw<
     Array<{
       pid: number
       duration: string
@@ -38,12 +43,17 @@ export async function getDatabaseHealth() {
     SELECT 
       pid,
       now() - pg_stat_activity.query_start AS duration,
-      query
+      LEFT(query, 100) as query
     FROM pg_stat_activity
     WHERE state = 'active'
       AND now() - pg_stat_activity.query_start > interval '5 seconds'
+      AND query NOT LIKE '%pg_stat_activity%'
     ORDER BY duration DESC
-  `.catch(() => [])
+  `.catch(() => [])) as Array<{
+    pid: number
+    duration: string
+    query: string
+  }>
 
   return {
     activeConnections: Number(connections[0]?.count || 0),
@@ -53,6 +63,10 @@ export async function getDatabaseHealth() {
       query: q.query,
       count: Number(q.count)
     })),
-    longQueries
+    longQueries: longQueries.map((q) => ({
+      pid: q.pid,
+      duration: q.duration,
+      query: q.query
+    }))
   }
 }
