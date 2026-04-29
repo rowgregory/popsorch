@@ -373,6 +373,36 @@ export default function SuperClient({
                     </div>
                   </div>
                 )}
+
+                {/* Active Queries Breakdown */}
+                {dbHealth.activeQueries && dbHealth.activeQueries.length > 0 && (
+                  <div className="mt-4 pt-4 border-t border-border-dark">
+                    <p className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-dark mb-2">
+                      Connection States
+                    </p>
+                    <div className="space-y-1">
+                      {dbHealth.activeQueries.map((q, i) => (
+                        <div key={i} className="flex items-center justify-between p-2 bg-bg-dark">
+                          <div className="flex-1 min-w-0">
+                            <p className="text-[10px] font-mono text-text-dark truncate mb-1">{q.query}</p>
+                            <p className="text-[8px] font-mono text-muted-dark">{q.state}</p>
+                          </div>
+                          <span
+                            className={`text-xs font-mono px-2 py-1 ml-2 shrink-0 ${
+                              q.state === 'active'
+                                ? 'bg-emerald-500/10 text-emerald-400'
+                                : q.state === 'idle'
+                                  ? 'bg-yellow-500/10 text-yellow-400'
+                                  : 'bg-border-dark text-muted-dark'
+                            }`}
+                          >
+                            {q.count}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}
