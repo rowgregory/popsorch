@@ -1,9 +1,6 @@
-# *
 User-agent: *
 Allow: /
+Crawl-delay: 10
 
-# Host
 Host: https://www.thepopsorchestra.org
-
-# Sitemaps
 Sitemap: https://www.thepopsorchestra.org/sitemap.xml
