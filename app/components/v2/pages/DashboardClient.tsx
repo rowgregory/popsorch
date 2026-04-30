@@ -27,6 +27,8 @@ import { LeftColumn } from '../dashboard/LeftColumn'
 import { CenterColumn } from '../dashboard/CenterColumn'
 import { RightColumn } from '../dashboard/RightColumn'
 import { FooterStrip } from '../dashboard/FooterStrip'
+import { motion } from 'framer-motion'
+import Link from 'next/link'
 
 interface Props {
   concerts: Concert[]
@@ -133,6 +135,40 @@ export default function DashboardClient({
             years&quot; copy to{' '}
             <span className="text-blue-400">&quot;Over 50 years of Community Music Making&quot;</span>
           </p>
+        </div>
+
+        {/* CueBox Test Notice */}
+        <div className="shrink-0 border-b border-emerald-500/20 bg-emerald-500/5 overflow-hidden py-1.5">
+          <motion.div
+            animate={{ x: ['0%', '-50%'] }}
+            transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
+            className="flex whitespace-nowrap"
+          >
+            {[0, 1].map((i) => (
+              <span key={i} className="text-[9px] font-mono text-emerald-400/70 pr-16">
+                <span className="text-emerald-400">NEW —</span> CueBox test concerts page now live at{' '}
+                <Link
+                  href="/concerts-test"
+                  className="text-emerald-400 underline underline-offset-2 hover:text-emerald-300 transition-colors"
+                >
+                  /concerts-test
+                </Link>
+                <span className="text-emerald-500/50 mx-4">·</span>
+                Admin access only
+                <span className="text-emerald-500/50 mx-4">·</span>
+                <span className="text-emerald-400">NEW —</span> CueBox test concerts page now live at{' '}
+                <Link
+                  href="/concerts-test"
+                  className="text-emerald-400 underline underline-offset-2 hover:text-emerald-300 transition-colors"
+                >
+                  /concerts-test
+                </Link>
+                <span className="text-emerald-500/50 mx-4">·</span>
+                Admin access only
+                <span className="text-emerald-500/50 mx-4">·</span>
+              </span>
+            ))}
+          </motion.div>
         </div>
 
         {/* ── Greeting + Stats ── */}

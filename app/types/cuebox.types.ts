@@ -23,6 +23,11 @@ export interface CueBoxEvent {
   publicImageUrl: string
   tags: string[]
   venues: CueBoxVenue[]
+
+  subtitle?: string
+  description?: string
+  type?: 'SEASON' | 'ADD_ON'
+  cardDate?: string
 }
 
 export interface CueBoxEventInstance {

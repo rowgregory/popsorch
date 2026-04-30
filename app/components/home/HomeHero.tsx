@@ -48,7 +48,7 @@ const HomeHero = ({ pageData, ref, galleryImages }) => {
           {/* Main bottom gradient */}
           <div className="absolute inset-0 bg-linear-to-t from-black via-black/10 to-transparent" />
           {/* Left side gradient that bends it up */}
-          <div className="absolute inset-0 bg-linear-to-r from-black/80 via-black/10 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-r from-black/40 via-transparent to-transparent" />
         </div>
 
         <div className="relative z-10 max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 1590:max-w-7xl mx-auto w-full">

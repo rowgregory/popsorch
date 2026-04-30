@@ -1,293 +1,271 @@
 'use client'
 
-import { Fragment, useState } from 'react'
-import Picture from '@/app/components/common/Picture'
-import Breadcrumb from '@/app/components/common/Breadcrumb'
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { MapPin, Car, Zap, Users } from 'lucide-react'
 import RiverviewPACFirstFloorSVG from '@/app/components/svg/RiverviewPACFirstFloorSVG'
+import RiverviewBalconySVG from '@/app/components/svg/RiverviewBalconySVG'
 import SCFNeelPACSVG from '@/app/components/svg/SCFNeelPACSVG'
 import SCFNeel2ndHalf from '@/app/components/svg/SCFNeel2ndHalf'
-import RiverviewBalconySVG from '@/app/components/svg/RiverviewBalconySVG'
-import ManateeHSSVG from '@/app/components/svg/ManateeHSSVG'
-import { motion, AnimatePresence } from 'framer-motion'
+import OperaHouseMezzAndBalc from '@/app/components/svg/OperaHouseMezzAndBalc'
+import OperaHouseMainFloor from '@/app/components/svg/OperaHouseMainFloor'
 import { IVenue } from '@/app/types/entities/venue'
+import Picture from '@/app/components/common/Picture'
+import Breadcrumb from '@/app/components/common/Breadcrumb'
 
-interface SVGProps {
-  visible: boolean
-  seat: string | null
-  price: string | null
-  level: string | null
+// ── Types ─────────────────────────────────────────────────────────────────────
+interface SVGSeatProps {
+  seat?: string
+  level?: string
+  price?: string
 }
 
-const SVG_INITIAL_STATE: SVGProps = {
-  visible: true,
-  seat: '',
-  price: '',
-  level: ''
+const EMPTY_SEAT: SVGSeatProps = {}
+
+const seatInfoVariants = {
+  hidden: { opacity: 0, y: 4 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.2 } }
 }
 
-const seatInfoVariants: any = {
-  hidden: { opacity: 0, x: -20 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.5,
-      ease: 'easeOut'
-    }
+// ── Seat info ─────────────────────────────────────────────────────────────────
+function SeatInfo({ data }: { data: SVGSeatProps }) {
+  const fields = [
+    { label: 'Level', value: data.level },
+    { label: 'Seat', value: data.seat },
+    { label: 'Price', value: data.price }
+  ].filter((f) => f.value)
+
+  if (!fields.length) {
+    return (
+      <p className="text-center text-[9px] font-changa tracking-[0.2em] uppercase text-white/20 py-4">
+        Hover a seat to see details
+      </p>
+    )
   }
-}
 
-export const VenuesClient = ({ venues }) => {
-  const [neel, setNeel] = useState<SVGProps>(SVG_INITIAL_STATE)
-  const [neel2, setNeel2] = useState<SVGProps>(SVG_INITIAL_STATE)
-  const [riverview, setRiverview] = useState<SVGProps>(SVG_INITIAL_STATE)
-  const [riverview2, setRiverview2] = useState<SVGProps>(SVG_INITIAL_STATE)
-  const [manatee, setManatee] = useState<SVGProps>(SVG_INITIAL_STATE)
-
-  const renderVenueDetails = (venue: IVenue) => (
-    <dl className="grid grid-cols-2 gap-y-4 border-y border-white/10 py-6 font-lato text-sm">
-      {[
-        { label: 'Accessibility', value: venue.accessibility },
-        { label: 'Immersive Environment', value: venue.immersiveEnvironment },
-        { label: 'Parking', value: venue.parking },
-        { label: 'Address', value: venue.address }
-      ].map(({ label, value }, i) => (
-        <Fragment key={i}>
-          <dt className="font-changa text-xs uppercase tracking-[0.2em] text-white/40 text-right pr-4 border-r border-white/10 flex items-center justify-end">
-            {label}
-          </dt>
-          <dd className="font-lato text-sm text-white/70 pl-4 flex items-center">{value}</dd>
-        </Fragment>
-      ))}
-    </dl>
-  )
-
-  const renderSeatInfo = (seatData: SVGProps) => (
+  return (
     <AnimatePresence mode="wait">
       <motion.div
-        className="flex items-center justify-center"
+        key={`${data.seat}-${data.level}`}
         variants={seatInfoVariants}
         initial="hidden"
         animate="visible"
         exit="hidden"
-        key={`${seatData.seat}-${seatData.level}`}
         role="status"
         aria-live="polite"
         aria-atomic="true"
-        aria-label={`Selected seat: Level ${seatData.level}, Seat ${seatData.seat}${seatData.price ? `, Price ${seatData.price}` : ''}`}
+        className="flex items-center justify-center gap-6 py-4 border border-white/10 bg-white/5"
       >
-        <dl className="grid grid-cols-2 gap-y-4 py-3 border-y border-white/10 text-sm w-full">
-          {[
-            { label: 'Level', value: seatData.level },
-            { label: 'Seat', value: seatData.seat },
-            { label: 'Price', value: seatData.price }
-          ]
-            .filter((item) => item.value)
-            .map(({ label, value }, i) => (
-              <Fragment key={i}>
-                <dt className="font-changa text-xs uppercase tracking-[0.2em] text-white/40 text-right pr-4 border-r border-white/10 flex items-center justify-end">
-                  {label}
-                </dt>
-                <dd className="font-lato text-sm text-white/70 pl-4 flex items-center">{value}</dd>
-              </Fragment>
-            ))}
-        </dl>
+        {fields.map(({ label, value }, f) => (
+          <div key={f} className="flex flex-col items-center gap-0.5">
+            <span className="font-changa text-[9px] uppercase tracking-[0.25em] text-blaze">{label}</span>
+            <span className="font-lato text-sm text-white">{value}</span>
+          </div>
+        ))}
       </motion.div>
     </AnimatePresence>
   )
+}
 
-  const renderSeatMap = (venueId: string) => {
-    const seatMapContainer = 'overflow-x-auto w-full mb-8'
-    const seatMapInner = 'min-w-[800px] w-full'
+// ── Section heading ───────────────────────────────────────────────────────────
+function SeatSectionHeading({ id, children }: { id: string; children: React.ReactNode }) {
+  return (
+    <div className="flex items-center gap-4 mb-6">
+      <div className="flex-1 h-px bg-white/10" />
+      <h4 id={id} className="font-changa text-[10px] uppercase tracking-[0.3em] text-blaze shrink-0">
+        {children}
+      </h4>
+      <div className="flex-1 h-px bg-white/10" />
+    </div>
+  )
+}
 
-    switch (venueId) {
-      case 'riverview':
-        return (
-          <>
-            <section aria-labelledby="riverview-floor-heading">
-              <h4
-                id="riverview-floor-heading"
-                className="font-changa text-xs uppercase tracking-[0.25em] text-blaze mb-6 text-center"
-              >
-                First Floor
-              </h4>
-              <div className={seatMapContainer}>
-                <div className={seatMapInner}>
-                  <RiverviewPACFirstFloorSVG setRiverview={setRiverview} />
-                </div>
-              </div>
-              {renderSeatInfo(riverview)}
-            </section>
+// ── Venue seat map ────────────────────────────────────────────────────────────
+function VenueSeatMap({ seatMapId, venueId }: { seatMapId: any; venueId: string }) {
+  const [neel, setNeel] = useState<SVGSeatProps>(EMPTY_SEAT)
+  const [neel2, setNeel2] = useState<SVGSeatProps>(EMPTY_SEAT)
+  const [riverview, setRiverview] = useState<SVGSeatProps>(EMPTY_SEAT)
+  const [riverview2, setRiverview2] = useState<SVGSeatProps>(EMPTY_SEAT)
 
-            <section aria-labelledby="riverview-balcony-heading" className="mt-12">
-              <h4
-                id="riverview-balcony-heading"
-                className="font-changa text-xs uppercase tracking-[0.25em] text-blaze mb-6 text-center"
-              >
-                Balcony
-              </h4>
-              <div className={`${seatMapContainer} mt-4`}>
-                <div className={seatMapInner}>
-                  <RiverviewBalconySVG setRiverviewBalcony={setRiverview2} />
-                </div>
-              </div>
-              <div className="mt-7 mb-28">{renderSeatInfo(riverview2)}</div>
-            </section>
-          </>
-        )
+  const wrap = (children: React.ReactNode) => <div className="w-full overflow-x-auto">{children}</div>
 
-      case 'scf-neel':
-        return (
-          <>
-            <section aria-labelledby="neel-first-heading">
-              <h4
-                id="neel-first-heading"
-                className="font-changa text-xs uppercase tracking-[0.25em] text-blaze mb-6 text-center"
-              >
-                First Half
-              </h4>
-              <div className={seatMapContainer}>
-                <div className={seatMapInner}>
-                  <SCFNeelPACSVG setNeel={setNeel} />
-                </div>
-              </div>
-              {renderSeatInfo(neel)}
-            </section>
-
-            <section aria-labelledby="neel-second-heading" className="mt-12">
-              <h4
-                id="neel-second-heading"
-                className="font-changa text-xs uppercase tracking-[0.25em] text-blaze mb-6 text-center"
-              >
-                Second Half
-              </h4>
-              <div className={`${seatMapContainer} mt-6`}>
-                <div className={seatMapInner}>
-                  <SCFNeel2ndHalf setNeel2ndHalf={setNeel2} />
-                </div>
-              </div>
-              <div className="mt-7">{renderSeatInfo(neel2)}</div>
-            </section>
-          </>
-        )
-
-      case 'manatee':
-        return (
-          <section aria-labelledby="manatee-heading">
-            <h4
-              id="manatee-heading"
-              className="font-changa text-xs uppercase tracking-[0.25em] text-blaze mb-6 text-center"
-            >
-              Manatee High School Seat Map
-            </h4>
-            <div className={seatMapContainer}>
-              <div className={seatMapInner}>
-                <ManateeHSSVG setManatee={setManatee} />
-              </div>
+  switch (seatMapId) {
+    case 'riverview':
+      return (
+        <div className="flex flex-col gap-10">
+          <section aria-labelledby={`${venueId}-floor`}>
+            <SeatSectionHeading id={`${venueId}-floor`}>First Floor</SeatSectionHeading>
+            {wrap(<RiverviewPACFirstFloorSVG setRiverview={setRiverview} />)}
+            <div className="mt-3">
+              <SeatInfo data={riverview} />
             </div>
-            {renderSeatInfo(manatee)}
           </section>
-        )
+          <section aria-labelledby={`${venueId}-balcony`}>
+            <SeatSectionHeading id={`${venueId}-balcony`}>Balcony</SeatSectionHeading>
+            {wrap(<RiverviewBalconySVG setRiverviewBalcony={setRiverview2} />)}
+            <div className="mt-3">
+              <SeatInfo data={riverview2} />
+            </div>
+          </section>
+        </div>
+      )
 
-      default:
-        return null
-    }
+    case 'scf-neel':
+      return (
+        <div className="flex flex-col gap-10">
+          <section aria-labelledby={`${venueId}-first`}>
+            <SeatSectionHeading id={`${venueId}-first`}>First Half</SeatSectionHeading>
+            {wrap(<SCFNeelPACSVG setNeel={setNeel} />)}
+            <div className="mt-3">
+              <SeatInfo data={neel} />
+            </div>
+          </section>
+          <section aria-labelledby={`${venueId}-second`}>
+            <SeatSectionHeading id={`${venueId}-second`}>Second Half</SeatSectionHeading>
+            {wrap(<SCFNeel2ndHalf setNeel2ndHalf={setNeel2} />)}
+            <div className="mt-3">
+              <SeatInfo data={neel2} />
+            </div>
+          </section>
+        </div>
+      )
+
+    case 'sarasota-opera-house':
+      return (
+        <div className="flex flex-col gap-10">
+          <section aria-labelledby={`${venueId}-mezz`}>
+            <SeatSectionHeading id={`${venueId}-mezz`}>Mezzanine & Balcony</SeatSectionHeading>
+            {wrap(<OperaHouseMezzAndBalc />)}
+          </section>
+          <section aria-labelledby={`${venueId}-main`}>
+            <SeatSectionHeading id={`${venueId}-main`}>Main Floor</SeatSectionHeading>
+            {wrap(<OperaHouseMainFloor />)}
+          </section>
+        </div>
+      )
   }
+}
 
+// ── Venue details ─────────────────────────────────────────────────────────────
+function VenueDetails({ venue }: { venue: IVenue }) {
+  const fields = [
+    { icon: <Users className="w-3.5 h-3.5" />, label: 'Accessibility', value: venue.accessibility },
+    { icon: <Zap className="w-3.5 h-3.5" />, label: 'Immersive Environment', value: venue.immersiveEnvironment },
+    { icon: <Car className="w-3.5 h-3.5" />, label: 'Parking', value: venue.parking },
+    { icon: <MapPin className="w-3.5 h-3.5" />, label: 'Address', value: venue.address }
+  ].filter((f) => f.value)
+
+  return (
+    <div className="grid grid-cols-1 760:grid-cols-2 gap-px bg-white/10">
+      {fields.map(({ icon, label, value }) => (
+        <div key={label} className="bg-black p-5 flex gap-4">
+          <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-blaze shrink-0 mt-0.5">
+            {icon}
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="font-changa text-[9px] uppercase tracking-[0.25em] text-blaze mb-1">{label}</p>
+            <p className="font-lato text-sm text-white/70 leading-relaxed">{value}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+export type SeatMapId = 'riverview' | 'scf-neel' | 'sarasota-opera-house'
+
+export const VENUE_SEATMAP: Record<string, SeatMapId> = {
+  'Riverview Performing Arts Center': 'riverview',
+  'Neel Performing Arts Center': 'scf-neel',
+  'Sarasota Opera House': 'sarasota-opera-house'
+}
+
+// ── Venue card ────────────────────────────────────────────────────────────────
+function VenueCard({ venue, index }: { venue: any; index: number }) {
+  const seatMapId = VENUE_SEATMAP[venue.name] as SeatMapId | undefined
+
+  return (
+    <li>
+      <motion.article
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-60px' }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        aria-labelledby={`venue-heading-${seatMapId}`}
+        className="border border-white/10"
+      >
+        {/* Image with gradient + name overlay */}
+        <div className="relative overflow-hidden h-64 760:h-96 990:h-125">
+          <Picture
+            src={venue.imageUrl}
+            alt={`${venue.name} performance hall`}
+            fill
+            className="object-cover"
+            priority={index === 0}
+          />
+          <div className="absolute inset-0 bg-linear-to-t from-black via-black/30 to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 p-6 990:p-10">
+            {venue.capacity && (
+              <div className="flex items-center gap-2 mb-3">
+                <div className="w-4 h-px bg-blaze" aria-hidden="true" />
+                <span className="font-changa text-[9px] uppercase tracking-[0.3em] text-blaze">
+                  {venue.capacity} seats
+                </span>
+              </div>
+            )}
+            <h2
+              id={`venue-heading-${seatMapId}`}
+              className="font-changa text-3xl 430:text-4xl 990:text-5xl text-white leading-tight"
+            >
+              {venue.name}
+            </h2>
+          </div>
+        </div>
+
+        {/* Details */}
+        <VenueDetails venue={venue} />
+
+        {/* Seating chart */}
+        <div className="p-6 430:p-8 990:p-12 border-t border-white/10">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-6 h-px bg-blaze" aria-hidden="true" />
+            <h3
+              id={`seatmap-heading-${seatMapId}`}
+              className="font-changa text-[10px] uppercase tracking-[0.3em] text-blaze"
+            >
+              Seating Chart
+            </h3>
+          </div>
+          <VenueSeatMap seatMapId={seatMapId} venueId={venue.id} />
+        </div>
+      </motion.article>
+    </li>
+  )
+}
+
+// ── Page ──────────────────────────────────────────────────────────────────────
+export function VenuesClient({ venues }: { venues: any[] }) {
   return (
     <main id="main-content">
       <Breadcrumb breadcrumb="Venues" />
-
       <div className="relative bg-black">
         <div
-          className="absolute inset-0 w-full h-full bg-no-repeat bg-center bg-cover opacity-10"
+          className="absolute inset-0 w-full h-full bg-no-repeat bg-center bg-cover opacity-5"
           style={{ backgroundImage: `url('/images/bio-bg.png')`, backgroundAttachment: 'fixed' }}
           aria-hidden="true"
         />
 
-        <div className="relative z-10 px-4 990:px-12 xl:px-4">
-          <div className="max-w-[320px] 430:max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 1590:max-w-screen-7xl mx-auto">
-            {/* Page Header */}
-            <header className="w-full text-center flex flex-col items-center pt-32 pb-20 border-b border-white/10">
-              <p className="font-changa text-xs uppercase tracking-[0.3em] text-blaze mb-4">The Pops Orchestra</p>
-              <div className="flex items-center gap-3 430:gap-4 justify-center mb-4">
-                <div className="w-8 430:w-16 h-px bg-blaze shrink-0" aria-hidden="true" />
-                <h1 className="text-4xl 430:text-5xl sm:text-6xl font-changa text-white leading-none">Venues</h1>
-                <div className="w-8 430:w-16 h-px bg-blaze shrink-0" aria-hidden="true" />
-              </div>
-              <div className="w-16 h-px bg-blaze mx-auto mt-2" aria-hidden="true" />
-            </header>
+        <div className="relative z-10">
+          <header className="text-center flex flex-col items-center pt-16 pb-10 px-4 border-b border-white/10">
+            <p className="font-changa text-[9px] uppercase tracking-[0.35em] text-blaze mb-3">The Pops Orchestra</p>
+            <h1 className="text-4xl 430:text-5xl font-changa text-white leading-none">Venues</h1>
+          </header>
 
-            {/* Venue list */}
-            <ul
-              role="list"
-              aria-label="Performance venues"
-              className="flex flex-col gap-px bg-white/10 my-20 990:my-32"
-            >
-              {venues.map((venue: IVenue, index: number) => {
-                const getVenueId = (venueName: string): string => {
-                  if (venueName === 'Riverview Performing Arts Center') return 'riverview'
-                  if (venueName === 'Neel Performing Arts Center') return 'scf-neel'
-                  if (venueName === 'Manatee High School Davis Performing Arts Center') return 'manatee'
-                  return ''
-                }
-                const venueId = getVenueId(venue.name)
-
-                return (
-                  <li key={venue.id} className="bg-black">
-                    <article aria-labelledby={`venue-heading-${venue.id}`}>
-                      {/* Image */}
-                      <div className="overflow-hidden">
-                        <Picture
-                          src={venue.imageUrl}
-                          alt={`${venue.name} performance hall`}
-                          className="w-full h-auto object-cover max-h-157.5"
-                          priority={index === 0}
-                        />
-                      </div>
-
-                      {/* Content */}
-                      <div className="px-6 430:px-8 990:px-14 pt-10 pb-16">
-                        {/* Venue header */}
-                        <div className="flex flex-col items-center text-center mb-8">
-                          <span className="inline-flex items-center gap-1.5 font-changa text-xs uppercase tracking-[0.25em] text-blaze mb-3">
-                            <div className="w-3 h-px bg-blaze" aria-hidden="true" />
-                            {venue.capacity} seats
-                          </span>
-                          <h2
-                            id={`venue-heading-${venue.id}`}
-                            className="font-changa text-2xl 430:text-3xl 990:text-4xl text-white leading-tight mb-4"
-                          >
-                            {venue.name}
-                          </h2>
-                          <div className="w-12 h-px bg-blaze" aria-hidden="true" />
-                        </div>
-
-                        {/* Venue details */}
-                        {renderVenueDetails(venue)}
-
-                        <div className="w-full h-px bg-white/10 my-8" aria-hidden="true" />
-
-                        {/* Seat map */}
-                        {venueId && (
-                          <section aria-labelledby={`seatmap-heading-${venue.id}`}>
-                            <div className="flex items-center gap-3 mb-8">
-                              <div className="w-6 h-px bg-blaze" aria-hidden="true" />
-                              <h3
-                                id={`seatmap-heading-${venue.id}`}
-                                className="font-changa text-xs uppercase tracking-[0.25em] text-blaze"
-                              >
-                                Seating Chart
-                              </h3>
-                            </div>
-                            {renderSeatMap(venueId)}
-                          </section>
-                        )}
-                      </div>
-                    </article>
-                  </li>
-                )
-              })}
+          <div className="max-w-5xl mx-auto px-4 990:px-8 py-20 990:py-32">
+            <ul role="list" aria-label="Performance venues" className="flex flex-col gap-16 990:gap-24">
+              {venues.map((venue, index) => (
+                <VenueCard key={index} venue={venue} index={index} />
+              ))}
             </ul>
           </div>
         </div>

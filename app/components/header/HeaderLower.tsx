@@ -113,7 +113,7 @@ export const HeaderLower = ({ campApplicationsSetting }) => {
       ref={headerRef}
       role="navigation"
       aria-label="Main site navigation"
-      className="transition-all relative z-50 px-3 430:px-4 990:px-8 1200:px-12"
+      className={`${path !== '/' ? 'bg-headerbg' : ''} transition-all relative z-50 px-3 430:px-4 990:px-8 1200:px-12`}
     >
       {/* ── Top row — account ── */}
       <div className="hidden xl:flex items-center justify-end h-8">
