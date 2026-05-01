@@ -5,6 +5,7 @@ import prisma from '@/prisma/client'
 import type { TeamMember, TeamMemberRole } from '@prisma/client'
 import { getActor } from '../user/getActor'
 import { buildLogMessage, getRequestContext } from '@/app/utils/parseUserAgent'
+import { revalidateTag } from 'next/cache'
 
 const VALID_ROLES: TeamMemberRole[] = ['BOARD_MEMBER', 'STAFF', 'MUSICIAN']
 
@@ -44,6 +45,8 @@ export async function updateTeamMembersOrder(teamMembers: TeamMember[]) {
     updatedBy: actor,
     request: context
   }).catch(() => null)
+
+  revalidateTag('dashboard', 'default')
 
   return {
     success: true,

@@ -1,9 +1,14 @@
 'use server'
 
 import prisma from '@/prisma/client'
+import { getActor } from '../user/getActor'
+import { buildLogMessage, getRequestContext } from '@/app/utils/parseUserAgent'
+import { createLog } from '@/app/utils/logHelper'
 
 export async function deleteGalleryPhoto(id: string) {
   if (!id) return { success: false, error: 'Photo ID is required' }
+
+  const [actor, context] = await Promise.all([getActor(), getRequestContext()])
 
   const photo = await prisma.photoGalleryImage
     .delete({
@@ -11,7 +16,22 @@ export async function deleteGalleryPhoto(id: string) {
     })
     .catch(() => null)
 
-  if (!photo) return { success: false, error: 'Failed to delete photo' }
+  if (!photo) {
+    await createLog('error', await buildLogMessage(`failed to delete photo "${id}"`, actor, context), {
+      photoId: id,
+      updatedBy: actor,
+      request: context
+    }).catch(() => null)
+
+    return { success: false, error: 'Failed to delete photo' }
+  }
+
+  await createLog('info', await buildLogMessage(`deleted photo "${id}"`, actor, context), {
+    photoId: id,
+    filename: photo.filename,
+    updatedBy: actor,
+    request: context
+  }).catch(() => null)
 
   return { success: true }
 }

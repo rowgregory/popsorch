@@ -5,6 +5,7 @@ import { createLog } from '../../../utils/logHelper'
 import { getActor } from '../user/getActor'
 import { CreateSponsorInput } from '../../../types/entities/sponsor'
 import { buildLogMessage, getRequestContext } from '@/app/utils/parseUserAgent'
+import { revalidateTag } from 'next/cache'
 
 export async function createSponsor(data: CreateSponsorInput) {
   if (!data.name) return { success: false, error: 'Sponsor name is required' }
@@ -37,6 +38,8 @@ export async function createSponsor(data: CreateSponsorInput) {
     createdBy: actor,
     request: context
   }).catch(() => null)
+
+  revalidateTag('dashboard', 'default')
 
   return { success: true, data: sponsor }
 }

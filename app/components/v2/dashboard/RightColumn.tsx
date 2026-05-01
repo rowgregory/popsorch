@@ -14,7 +14,6 @@ export function RightColumn({
   campApplicationsCount,
   sponsors,
   setSponsorModalOpen,
-  setSelectedUser,
   campApplications,
   setSelectedSponsor
 }) {
@@ -80,8 +79,7 @@ export function RightColumn({
           users.map((u) => (
             <button
               key={u.id}
-              onClick={() => u.email !== 'sqysh@sqysh.io' && u.email !== 'rowgregory@gmail.com' && setSelectedUser(u)}
-              className={`${u.email === 'sqysh@sqysh.io' || u.email === 'rowgregory@gmail.com' ? 'cursor-not-allowed' : 'cursor-pointer'} w-full flex items-center justify-between gap-2 px-3 py-2.5 border-b border-border-dark/30 last:border-0 hover:bg-button-dark transition-colors text-left`}
+              className={`w-full flex items-center justify-between gap-2 px-3 py-2.5 border-b border-border-dark/30 last:border-0 hover:bg-button-dark transition-colors text-left`}
             >
               <div className="min-w-0">
                 <p className="text-text-dark text-[11px] font-medium truncate">{u.firstName}</p>
@@ -100,6 +98,8 @@ export function RightColumn({
         action={handleExport}
         actionLabel="Export"
         actionIcon={<Download className="w-2.5 h-2.5" />}
+        maxHeight="max-h-20"
+        minHeight="min-h-10"
       >
         {campApplicationsCount === 0 ? (
           <Empty label="applications" />

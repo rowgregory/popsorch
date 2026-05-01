@@ -6,6 +6,7 @@ import { replyToQuestionTemplate } from '../../email-templates/reply-to-question
 import { getActor } from '../user/getActor'
 import { buildLogMessage, getRequestContext } from '@/app/utils/parseUserAgent'
 import { createLog } from '@/app/utils/logHelper'
+import { revalidateTag } from 'next/cache'
 
 interface ReplyInput {
   questionId: string
@@ -52,6 +53,8 @@ export async function replyToQuestion(data: ReplyInput) {
       request: context
     }
   ).catch(() => null)
+
+  revalidateTag('dashboard', 'default')
 
   return { success: true }
 }

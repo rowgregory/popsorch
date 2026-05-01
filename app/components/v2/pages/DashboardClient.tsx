@@ -8,7 +8,6 @@ import type {
   Question,
   User as PrismaUser,
   CampApplication,
-  User,
   Page,
   CustomRequest,
   Sponsor,
@@ -17,7 +16,6 @@ import type {
 import { useClock } from '@/app/lib/hooks/useClock'
 import { useState } from 'react'
 import ContactSubmissionModal from '../modals/ContactSubmissionModal'
-import UserRoleModal from '../modals/UserRoleModal'
 import TestimonialModal from '../modals/TestimonialModal'
 import CustomRequestModal from '../modals/CustomRequestModal'
 import CustomRequestDetailModal from '../modals/CustomRequestDetailsModal'
@@ -88,7 +86,6 @@ export default function DashboardClient({
   const onSale = concerts.filter((c) => c.status === 'LIVE')
   const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(null)
 
-  const [selectedUser, setSelectedUser] = useState<User | null>(null)
   const [testimonialModalOpen, setTestimonialModalOpen] = useState(false)
   const [customRequestModalOpen, setCustomRequestModalOpen] = useState(false)
   const [selectedRequest, setSelectedRequest] = useState<CustomRequest | null>(null)
@@ -134,8 +131,6 @@ export default function DashboardClient({
         }}
         aria-hidden="true"
       />
-
-      <UserRoleModal key={selectedUser?.id} onClose={() => setSelectedUser(null)} user={selectedUser} />
 
       <AnimatePresence>
         {testimonialModalOpen && <TestimonialModal onClose={() => setTestimonialModalOpen(false)} testimonial={null} />}
@@ -252,7 +247,6 @@ export default function DashboardClient({
             questions={questions}
             setSelectedQuestion={setSelectedQuestion}
             setSelectedSponsor={setSelectedSponsor}
-            setSelectedUser={setSelectedUser}
             setSponsorModalOpen={setSponsorModalOpen}
             sponsors={sponsors}
             users={users}

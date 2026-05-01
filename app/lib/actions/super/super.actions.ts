@@ -101,25 +101,6 @@ export async function deleteEvent(id: string) {
   return { success: true }
 }
 
-export async function deleteNews(id: string) {
-  await verifySuperUser()
-  if (!id) return { success: false, error: 'News ID is required' }
-
-  const [actor, context] = await Promise.all([getActor(), getRequestContext()])
-
-  const news = await prisma.news.delete({ where: { id } }).catch(() => null)
-  if (!news) return { success: false, error: 'Failed to delete news' }
-
-  await createLog('info', await buildLogMessage(`deleted news article "${news.title}"`, actor, context), {
-    newsId: news.id,
-    title: news.title,
-    deletedBy: actor,
-    request: context
-  }).catch(() => null)
-
-  return { success: true }
-}
-
 export async function deleteTestimonial(id: string) {
   await verifySuperUser()
   if (!id) return { success: false, error: 'Testimonial ID is required' }

@@ -5,6 +5,7 @@ import { createLog } from '../../../utils/logHelper'
 import { getActor } from '../user/getActor'
 import { TeamMemberRole } from '@prisma/client'
 import { buildLogMessage, getRequestContext } from '@/app/utils/parseUserAgent'
+import { revalidateTag } from 'next/cache'
 
 interface CreateTeamMemberInput {
   firstName: string
@@ -65,5 +66,7 @@ export async function createTeamMember(data: CreateTeamMemberInput) {
     }
   ).catch(() => null)
 
-  return { success: true, data: teamMember }
+  revalidateTag('dashboard', 'default')
+
+  return { success: true }
 }

@@ -4,11 +4,13 @@ import prisma from '@/prisma/client'
 import { createLog } from '@/app/utils/logHelper'
 import { getActor } from '../user/getActor'
 import { NewsInput } from '@/app/types/entities/news'
+import { buildLogMessage, getRequestContext } from '@/app/utils/parseUserAgent'
+import { revalidateTag } from 'next/cache'
 
 export async function createNews(data: NewsInput) {
   if (!data.title) return { success: false, error: 'Title is required' }
 
-  const actor = await getActor()
+  const [actor, context] = await Promise.all([getActor(), getRequestContext()])
 
   const article = await prisma.news
     .create({
@@ -24,12 +26,25 @@ export async function createNews(data: NewsInput) {
     })
     .catch(() => null)
 
-  if (!article) return { success: false, error: 'Failed to create article' }
+  if (!article) {
+    await createLog('error', await buildLogMessage(`failed to create news article "${data.title}"`, actor, context), {
+      title: data.title,
+      createdBy: actor,
+      request: context
+    }).catch(() => null)
 
-  await createLog('info', `News article "${article.title}" created`, {
+    return { success: false, error: 'Failed to create article' }
+  }
+
+  await createLog('info', await buildLogMessage(`created news article "${article.title}"`, actor, context), {
     articleId: article.id,
-    createdBy: actor
+    title: article.title,
+    isPublished: article.isPublished,
+    createdBy: actor,
+    request: context
   }).catch(() => null)
+
+  revalidateTag('dashboard', 'default')
 
   return { success: true, data: article }
 }

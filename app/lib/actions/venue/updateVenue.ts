@@ -5,6 +5,7 @@ import { createLog } from '../../../utils/logHelper'
 import { UpdateVenueInput } from '../../../types/entities/venue'
 import { getActor } from '../user/getActor'
 import { buildLogMessage, getRequestContext } from '@/app/utils/parseUserAgent'
+import { revalidateTag } from 'next/cache'
 
 export async function updateVenue(venueId: string, data: UpdateVenueInput) {
   if (!venueId) return { success: false, error: 'Venue ID is required' }
@@ -39,6 +40,8 @@ export async function updateVenue(venueId: string, data: UpdateVenueInput) {
     updatedBy: actor,
     request: context
   }).catch(() => null)
+
+  revalidateTag('dashboard', 'default')
 
   return { success: true, data: venue }
 }

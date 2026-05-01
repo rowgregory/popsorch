@@ -109,8 +109,7 @@ async function fetchDashboardData() {
   }
 }
 
-export const getDashboardData = unstable_cache(
-  fetchDashboardData,
-  ['dashboard-data'],
-  { revalidate: 30 } // Cache for 30 seconds
-)
+export const getDashboardData = unstable_cache(fetchDashboardData, ['dashboard-data'], {
+  revalidate: 30,
+  tags: ['dashboard']
+})

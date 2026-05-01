@@ -5,6 +5,7 @@ import { auth } from '../../auth'
 import { resend } from '../../resend'
 import { buildLogMessage, getRequestContext } from '@/app/utils/parseUserAgent'
 import { createLog } from '@/app/utils/logHelper'
+import { revalidateTag } from 'next/cache'
 
 interface RequestInput {
   changeType: string
@@ -86,6 +87,8 @@ export async function sendCustomRequest(data: RequestInput) {
   })
 
   if (error) return { success: false, error: 'Failed to send request' }
+
+  revalidateTag('dashboard', 'default')
 
   return { success: true, data: request }
 }

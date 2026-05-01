@@ -4,6 +4,7 @@ import { buildLogMessage, getRequestContext } from '@/app/utils/parseUserAgent'
 import { getActor } from '../user/getActor'
 import prisma from '@/prisma/client'
 import { createLog } from '@/app/utils/logHelper'
+import { revalidateTag } from 'next/cache'
 
 export async function updateQuestion(id: string) {
   if (!id) return { success: false, error: 'Question ID is required' }
@@ -30,6 +31,8 @@ export async function updateQuestion(id: string) {
       request: context
     }
   ).catch(() => null)
+
+  revalidateTag('dashboard', 'default')
 
   return { success: true, data: question }
 }

@@ -5,6 +5,7 @@ import { getActor } from '../user/getActor'
 import prisma from '@/prisma/client'
 import { createLog } from '@/app/utils/logHelper'
 import { buildLogMessage, getRequestContext } from '@/app/utils/parseUserAgent'
+import { revalidateTag } from 'next/cache'
 
 export async function createEvent(data: EventInput) {
   if (!data.title) return { success: false, error: 'Title is required' }
@@ -35,6 +36,8 @@ export async function createEvent(data: EventInput) {
     createdBy: actor,
     request: context
   }).catch(() => null)
+
+  revalidateTag('dashboard', 'default')
 
   return { success: true, data: event }
 }

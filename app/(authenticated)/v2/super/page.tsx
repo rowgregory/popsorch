@@ -1,6 +1,5 @@
 import { redirect } from 'next/navigation'
 import prisma from '@/prisma/client'
-import { unstable_cache } from 'next/cache'
 import { auth } from '@/app/lib/auth'
 import SuperClient from '@/app/components/v2/pages/SuperClient'
 import { getDatabaseHealth } from '@/app/lib/actions/super/getDatabaseHealth'

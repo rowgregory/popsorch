@@ -38,7 +38,6 @@ import { LogoutButton } from '../common/LogoutButton'
 import {
   deleteConcert,
   deleteEvent,
-  deleteNews,
   deleteQuestion,
   deleteSponsor,
   deleteTeamMember,
@@ -48,6 +47,7 @@ import {
 } from '@/app/lib/actions/super/super.actions'
 import { formatDate } from '@/app/utils/date.functions'
 import { ROLE_STYLES } from './UsersClient'
+import { deleteNews } from '@/app/lib/actions/super/deleteNews'
 
 interface Props {
   customRequests: CustomRequest[]
