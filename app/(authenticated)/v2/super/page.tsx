@@ -87,12 +87,6 @@ async function fetchSuperDashboardData() {
   }
 }
 
-const getSuperDashboardData = unstable_cache(
-  fetchSuperDashboardData,
-  ['super-dashboard-data'],
-  { revalidate: 30 } // Cache for 30 seconds
-)
-
 export default async function SuperPage() {
   const session = await auth()
 
@@ -107,7 +101,7 @@ export default async function SuperPage() {
 
   if (user?.role !== 'SUPER_USER') redirect('/v2/dashboard')
 
-  const data = await getSuperDashboardData()
+  const data = await fetchSuperDashboardData()
 
   return (
     <SuperClient
