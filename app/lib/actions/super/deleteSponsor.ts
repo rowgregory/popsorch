@@ -5,11 +5,12 @@ import { createLog } from '../../../utils/logHelper'
 import { getActor } from '../user/getActor'
 import { buildLogMessage, getRequestContext } from '@/app/utils/parseUserAgent'
 import { revalidateTag } from 'next/cache'
+import { verifySuperUser } from './verifySuperUser'
 
 export async function deleteSponsor(id: string) {
   if (!id) return { success: false, error: 'Sponsor ID is required' }
 
-  const [actor, context] = await Promise.all([getActor(), getRequestContext()])
+  const [, actor, context] = await Promise.all([verifySuperUser(), getActor(), getRequestContext()])
 
   const sponsor = await prisma.sponsor.delete({ where: { id } }).catch(() => null)
 
@@ -23,6 +24,6 @@ export async function deleteSponsor(id: string) {
     request: context
   }).catch(() => null)
 
-  revalidateTag('super-dashboard', 'default')
+  revalidateTag('super-sponsors', '')
   return { success: true }
 }

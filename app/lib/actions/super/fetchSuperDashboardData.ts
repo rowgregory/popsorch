@@ -1,28 +1,117 @@
 import prisma from '@/prisma/client'
 import { getDatabaseHealth } from './getDatabaseHealth'
-
 import { unstable_cache } from 'next/cache'
 
-export const getSuperDashboardData = unstable_cache(fetchSuperDashboardData, ['super-dashboard'], {
-  revalidate: 60,
-  tags: ['super-dashboard']
-})
+// ── Individual cached queries ─────────────────────────────────────────────────
+export const getSuperCustomRequests = unstable_cache(
+  () => prisma.customRequest.findMany({ orderBy: { submittedAt: 'desc' } }).catch(() => []),
+  ['super-custom-requests'],
+  { revalidate: 60, tags: ['super-custom-requests'] }
+)
 
-async function fetchSuperDashboardData() {
+export const getSuperConcerts = unstable_cache(
+  () =>
+    prisma.concert
+      .findMany({ orderBy: { createdAt: 'desc' }, select: { name: true, id: true, status: true } })
+      .catch(() => []),
+  ['super-concerts'],
+  { revalidate: 60, tags: ['super-concerts'] }
+)
+
+export const getSuperVenues = unstable_cache(
+  () => prisma.venue.findMany({ orderBy: { name: 'asc' }, select: { id: true, name: true } }).catch(() => []),
+  ['super-venues'],
+  { revalidate: 60, tags: ['super-venues'] }
+)
+
+export const getSuperTeamMembers = unstable_cache(
+  () =>
+    prisma.teamMember
+      .findMany({
+        orderBy: { updatedAt: 'desc' },
+        select: { id: true, firstName: true, lastName: true, role: true, updatedAt: true }
+      })
+      .catch(() => []),
+  ['super-team-members'],
+  { revalidate: 60, tags: ['super-team-members'] }
+)
+
+export const getSuperNews = unstable_cache(
+  () =>
+    prisma.news
+      .findMany({ orderBy: { createdAt: 'desc' }, select: { id: true, title: true, isPublished: true } })
+      .catch(() => []),
+  ['super-news'],
+  { revalidate: 60, tags: ['super-news'] }
+)
+
+export const getSuperEvents = unstable_cache(
+  () => prisma.event.findMany({ orderBy: { date: 'desc' }, select: { id: true, title: true } }).catch(() => []),
+  ['super-events'],
+  { revalidate: 60, tags: ['super-events'] }
+)
+
+export const getSuperTestimonials = unstable_cache(
+  () =>
+    prisma.testimonial
+      .findMany({
+        orderBy: { displayOrder: 'asc' },
+        select: { id: true, title: true, isPublished: true, author: true }
+      })
+      .catch(() => []),
+  ['super-testimonials'],
+  { revalidate: 60, tags: ['super-testimonials'] }
+)
+
+export const getSuperSponsors = unstable_cache(
+  () =>
+    prisma.sponsor
+      .findMany({
+        orderBy: { name: 'asc' },
+        select: { id: true, name: true, amount: true, level: true, isActive: true }
+      })
+      .catch(() => []),
+  ['super-sponsors'],
+  { revalidate: 60, tags: ['super-sponsors'] }
+)
+
+export const getSuperQuestions = unstable_cache(
+  () =>
+    prisma.question
+      .findMany({ orderBy: { createdAt: 'desc' }, select: { id: true, name: true, email: true, hasResponded: true } })
+      .catch(() => []),
+  ['super-questions'],
+  { revalidate: 60, tags: ['super-questions'] }
+)
+
+export const getSuperUsers = unstable_cache(
+  () =>
+    prisma.user
+      .findMany({
+        orderBy: { email: 'asc' },
+        select: { id: true, firstName: true, lastName: true, role: true, email: true }
+      })
+      .catch(() => []),
+  ['super-users'],
+  { revalidate: 60, tags: ['super-users'] }
+)
+
+// ── Main fetch — calls individual cached queries ───────────────────────────────
+export async function getSuperDashboardData() {
   const [customRequests, concerts, venues, teamMembers, news, events] = await Promise.all([
-    prisma.customRequest.findMany({ orderBy: { submittedAt: 'desc' } }).catch(() => []),
-    prisma.concert.findMany({ orderBy: { createdAt: 'desc' } }).catch(() => []),
-    prisma.venue.findMany({ orderBy: { name: 'asc' } }).catch(() => []),
-    prisma.teamMember.findMany({ orderBy: { updatedAt: 'desc' } }).catch(() => []),
-    prisma.news.findMany({ orderBy: { createdAt: 'desc' } }).catch(() => []),
-    prisma.event.findMany({ orderBy: { date: 'desc' } }).catch(() => [])
+    getSuperCustomRequests(),
+    getSuperConcerts(),
+    getSuperVenues(),
+    getSuperTeamMembers(),
+    getSuperNews(),
+    getSuperEvents()
   ])
 
   const [testimonials, sponsors, questions, users, dbHealth] = await Promise.all([
-    prisma.testimonial.findMany({ orderBy: { displayOrder: 'asc' } }).catch(() => []),
-    prisma.sponsor.findMany({ orderBy: { name: 'asc' } }).catch(() => []),
-    prisma.question.findMany({ orderBy: { createdAt: 'desc' } }).catch(() => []),
-    prisma.user.findMany({ orderBy: { email: 'asc' } }).catch(() => []),
+    getSuperTestimonials(),
+    getSuperSponsors(),
+    getSuperQuestions(),
+    getSuperUsers(),
     getDatabaseHealth()
   ])
 

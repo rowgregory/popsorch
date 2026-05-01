@@ -3,6 +3,7 @@
 import prisma from '@/prisma/client'
 import { auth } from '../../auth'
 import { createLog } from '@/app/utils/logHelper'
+import { revalidateTag } from 'next/cache'
 
 export async function deleteConcert(concertId: string) {
   if (!concertId) return { success: false, error: 'Concert ID is required' }
@@ -31,5 +32,6 @@ export async function deleteConcert(concertId: string) {
     deletedBy: `${user?.firstName ?? ''} ${user?.lastName ?? ''}`.trim() || user?.email || 'unknown'
   }).catch(() => null)
 
+  revalidateTag('super-concerts', '')
   return { success: true }
 }

@@ -5,11 +5,12 @@ import { getActor } from '../user/getActor'
 import prisma from '@/prisma/client'
 import { createLog } from '@/app/utils/logHelper'
 import { revalidateTag } from 'next/cache'
+import { verifySuperUser } from './verifySuperUser'
 
 export async function deleteNews(id: string) {
   if (!id) return { success: false, error: 'Article ID is required' }
 
-  const [actor, context] = await Promise.all([getActor(), getRequestContext()])
+  const [, actor, context] = await Promise.all([verifySuperUser(), getActor(), getRequestContext()])
 
   const article = await prisma.news
     .delete({
@@ -34,6 +35,6 @@ export async function deleteNews(id: string) {
     request: context
   }).catch(() => null)
 
-  revalidateTag('super-dashboard', 'default')
+  revalidateTag('super-news', '')
   return { success: true }
 }

@@ -13,6 +13,7 @@ import { deleteGalleryPhoto } from '@/app/lib/actions/super/deleteGalleryPhoto'
 import { toggleGalleryPhotoHero } from '@/app/lib/actions/photo-gallery-image/toggleGalleryPhotoHero'
 import Picture from '../../common/Picture'
 import { LogoutButton } from '../common/LogoutButton'
+import { useRouter } from 'next/navigation'
 
 interface Props {
   photos: PhotoGalleryImage[]
@@ -158,6 +159,7 @@ function UploadZone({ onUpload }: { onUpload: (file: File) => Promise<void> }) {
 export default function GalleryClient({ photos: initialPhotos }: Props) {
   const [photos, setPhotos] = useState<PhotoGalleryImage[]>(initialPhotos)
   const [uploading, setUploading] = useState(false)
+  const router = useRouter()
 
   const heroCount = photos.filter((p) => p.isHomeHero).length
 
@@ -194,6 +196,7 @@ export default function GalleryClient({ photos: initialPhotos }: Props) {
   const handleToggleHero = async (id: string, current: boolean) => {
     const res = await toggleGalleryPhotoHero(id, current)
     if (res.success && res.data) {
+      router.refresh()
       setPhotos((prev) => prev.map((p) => (p.id === id ? { ...p, isHomeHero: !current } : p)))
     } else {
       store.dispatch(showToast({ type: 'error', message: res.error ?? 'Failed to update photo' }))

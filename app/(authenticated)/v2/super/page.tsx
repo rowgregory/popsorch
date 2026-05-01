@@ -8,7 +8,6 @@ export default async function SuperPage() {
   if (!session?.user?.id) redirect('/auth/login')
   if (session.user.role !== 'SUPER_USER') redirect('/v2/dashboard')
 
-  // No separate prisma.user.findUnique — use the session role directly
   const data = await getSuperDashboardData()
 
   return (

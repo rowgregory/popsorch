@@ -38,7 +38,7 @@ import { LogoutButton } from '../common/LogoutButton'
 import { formatDate } from '@/app/utils/date.functions'
 import { ROLE_STYLES } from './UsersClient'
 import { deleteNews } from '@/app/lib/actions/super/deleteNews'
-import { deleteConcert } from '@/app/lib/actions/concert/deleteConcert'
+import { deleteConcert } from '@/app/lib/actions/super/deleteConcert'
 import { deleteVenue } from '@/app/lib/actions/super/deleteVenue'
 import { deleteTeamMember } from '@/app/lib/actions/super/deleteTeamMember'
 import { deleteEvent } from '@/app/lib/actions/super/deleteEvent'
@@ -48,16 +48,19 @@ import { deleteQuestion } from '@/app/lib/actions/super/deleteQuestion'
 import { deleteUser } from '@/app/lib/actions/super/deleteUser'
 
 interface Props {
-  customRequests: CustomRequest[]
-  concerts: Concert[]
-  venues: Venue[]
-  teamMembers: TeamMember[]
-  news: News[]
-  events: Event[]
-  testimonials: Testimonial[]
-  sponsors: Sponsor[]
-  questions: Question[]
-  users: User[]
+  customRequests: Pick<
+    CustomRequest,
+    'id' | 'what' | 'why' | 'example' | 'page' | 'changeType' | 'urgency' | 'submittedBy' | 'submittedAt' | 'status'
+  >[]
+  concerts: Pick<Concert, 'id' | 'name' | 'status'>[]
+  venues: Pick<Venue, 'id' | 'name'>[]
+  teamMembers: Pick<TeamMember, 'id' | 'firstName' | 'lastName' | 'role' | 'updatedAt'>[]
+  news: Pick<News, 'id' | 'title' | 'isPublished'>[]
+  events: Pick<Event, 'id' | 'title'>[]
+  testimonials: Pick<Testimonial, 'id' | 'title' | 'isPublished' | 'author'>[]
+  sponsors: Pick<Sponsor, 'id' | 'name' | 'level' | 'amount' | 'isActive'>[]
+  questions: Pick<Question, 'id' | 'name' | 'email' | 'hasResponded'>[]
+  users: Pick<User, 'id' | 'email' | 'firstName' | 'lastName' | 'role'>[]
   dbHealth: any
 }
 
@@ -76,6 +79,15 @@ export default function SuperClient({
 }: Props) {
   const router = useRouter()
   const [loading, setLoading] = useState<string | null>(null)
+  const [localEvents, setLocalEvents] = useState(events)
+  const [localConcerts, setLocalConcerts] = useState(concerts)
+  const [localVenues, setLocalVenues] = useState(venues)
+  const [localTeamMembers, setLocalTeamMembers] = useState(teamMembers)
+  const [localNews, setLocalNews] = useState(news)
+  const [localTestimonials, setLocalTestimonials] = useState(testimonials)
+  const [localSponsors, setLocalSponsors] = useState(sponsors)
+  const [localQuestions, setLocalQuestions] = useState(questions)
+  const [localUsers, setLocalUsers] = useState(users)
 
   const handleStatusChange = async (id: string, status: string) => {
     setLoading(id)
@@ -90,16 +102,24 @@ export default function SuperClient({
     }
   }
 
-  const handleDelete = async (model: string, id: string, deleteAction: (id: string) => Promise<any>) => {
-    setLoading(id)
-    const res = await deleteAction(id)
-    setLoading(null)
+  type DeleteAction = (id: string) => Promise<{ success: boolean; error?: string }>
+  type StateSetter<T> = React.Dispatch<React.SetStateAction<T[]>>
 
-    if (res.success) {
-      store.dispatch(showToast({ type: 'success', message: `${model} deleted` }))
-      router.refresh()
+  const handleDelete = async <T extends { id: string }>(
+    model: string,
+    id: string,
+    action: DeleteAction,
+    setter: StateSetter<T>,
+    current: T[]
+  ) => {
+    setter((prev) => prev.filter((i) => i.id !== id))
+    const res = await action(id)
+    console.log(`delete ${model} result:`, res)
+    if (!res.success) {
+      setter(current)
+      store.dispatch(showToast({ type: 'error', message: res.error ?? `Failed to delete ${model}` }))
     } else {
-      store.dispatch(showToast({ type: 'error', message: res.error ?? 'Failed to delete' }))
+      store.dispatch(showToast({ type: 'success', message: `${model} deleted` }))
     }
   }
 
@@ -225,7 +245,7 @@ export default function SuperClient({
               title="Concerts"
               icon={<Music className="w-3.5 h-3.5" />}
               items={concerts}
-              onDelete={(id) => handleDelete('Concert', id, deleteConcert)}
+              onDelete={(id) => handleDelete('Concert', id, deleteConcert, setLocalConcerts, localConcerts)}
               renderItem={(c) => c.name}
               loading={loading}
             />
@@ -234,7 +254,7 @@ export default function SuperClient({
               title="Venues"
               icon={<MapPin className="w-3.5 h-3.5" />}
               items={venues}
-              onDelete={(id) => handleDelete('Venue', id, deleteVenue)}
+              onDelete={(id) => handleDelete('Venue', id, deleteVenue, setLocalVenues, localVenues)}
               renderItem={(v) => v.name}
               loading={loading}
             />
@@ -243,7 +263,9 @@ export default function SuperClient({
               title="Team Members"
               icon={<Users className="w-3.5 h-3.5" />}
               items={teamMembers}
-              onDelete={(id) => handleDelete('Team Member', id, deleteTeamMember)}
+              onDelete={(id) =>
+                handleDelete('Team Member', id, deleteTeamMember, setLocalTeamMembers, localTeamMembers)
+              }
               renderItem={(t) => (
                 <span className="flex items-center gap-2 min-w-0">
                   <span className="truncate">
@@ -274,8 +296,8 @@ export default function SuperClient({
             <ModelSection
               title="Events"
               icon={<Calendar className="w-3.5 h-3.5" />}
-              items={events}
-              onDelete={(id) => handleDelete('Event', id, deleteEvent)}
+              items={localEvents}
+              onDelete={(id) => handleDelete('Event', id, deleteEvent, setLocalEvents, localEvents)}
               renderItem={(e) => e.title}
               loading={loading}
             />
@@ -284,7 +306,7 @@ export default function SuperClient({
               title="News"
               icon={<FileText className="w-3.5 h-3.5" />}
               items={news}
-              onDelete={(id) => handleDelete('News', id, deleteNews)}
+              onDelete={(id) => handleDelete('News', id, deleteNews, setLocalNews, localNews)}
               renderItem={(n) => (
                 <span className="flex items-center gap-2 min-w-0">
                   <span className="truncate">{n.title}</span>
@@ -304,7 +326,9 @@ export default function SuperClient({
               title="Testimonials"
               icon={<Star className="w-3.5 h-3.5" />}
               items={testimonials}
-              onDelete={(id) => handleDelete('Testimonial', id, deleteTestimonial)}
+              onDelete={(id) =>
+                handleDelete('Testimonial', id, deleteTestimonial, setLocalTestimonials, localTestimonials)
+              }
               renderItem={(t) => t.author}
               loading={loading}
             />
@@ -313,7 +337,7 @@ export default function SuperClient({
               title="Sponsors"
               icon={<DollarSign className="w-3.5 h-3.5" />}
               items={sponsors}
-              onDelete={(id) => handleDelete('Sponsor', id, deleteSponsor)}
+              onDelete={(id) => handleDelete('Sponsor', id, deleteSponsor, setLocalSponsors, localSponsors)}
               renderItem={(s) => (
                 <span className="flex items-center gap-2 min-w-0">
                   <span className="truncate">{s.name}</span>
@@ -336,7 +360,7 @@ export default function SuperClient({
               title="Questions"
               icon={<MessageSquare className="w-3.5 h-3.5" />}
               items={questions}
-              onDelete={(id) => handleDelete('Question', id, deleteQuestion)}
+              onDelete={(id) => handleDelete('Question', id, deleteQuestion, setLocalQuestions, localQuestions)}
               renderItem={(q) => (
                 <span className="flex items-center gap-2 min-w-0">
                   <span className="truncate">{q.name}</span>
@@ -357,7 +381,7 @@ export default function SuperClient({
               title="Users"
               icon={<Users className="w-3.5 h-3.5" />}
               items={users}
-              onDelete={(id) => handleDelete('User', id, deleteUser)}
+              onDelete={(id) => handleDelete('User', id, deleteUser, setLocalUsers, localUsers)}
               renderItem={(u) => (
                 <span className="flex items-center gap-2">
                   <span>{u.email ?? 'No email'}</span>
