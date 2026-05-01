@@ -4,10 +4,11 @@ import { auth } from './app/lib/auth'
 
 // ─── Role config ──────────────────────────────────────────────────────────────
 
-type UserRole = 'ADMIN' | 'SUPER_USER'
+type UserRole = 'ADMIN' | 'CONDUCTOR' | 'SUPER_USER'
 
 const DASHBOARDS: Record<UserRole, string> = {
   ADMIN: '/v2/dashboard',
+  CONDUCTOR: '/v2/dashboard',
   SUPER_USER: '/v2/super'
 }
 
@@ -22,7 +23,7 @@ const ROUTE_ACCESS: {
   allowedRoles: UserRole[]
 }[] = [
   { prefix: '/v2/super', allowedRoles: ['SUPER_USER'] },
-  { prefix: '/v2/', allowedRoles: ['ADMIN', 'SUPER_USER'] }
+  { prefix: '/v2/', allowedRoles: ['ADMIN', 'CONDUCTOR', 'SUPER_USER'] }
 ]
 
 // ─── Middleware ───────────────────────────────────────────────────────────────
@@ -35,7 +36,7 @@ export async function proxy(request: NextRequest) {
 
   // ── Auth page — redirect if already signed in ──
   if (pathname === '/auth/login') {
-    if (user && role && (role === 'ADMIN' || role === 'SUPER_USER')) {
+    if (user && role && (role === 'ADMIN' || role === 'CONDUCTOR' || role === 'SUPER_USER')) {
       return NextResponse.redirect(new URL(getDashboard(role), request.url))
     }
     return NextResponse.next()

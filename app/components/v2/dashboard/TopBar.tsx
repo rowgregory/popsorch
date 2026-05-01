@@ -30,6 +30,19 @@ export function TopBar({ time, date }) {
           <span className="text-[9px] font-mono tracking-[0.15em] uppercase text-muted-dark">
             {session.data.user.email}
           </span>
+          <span
+            className={`text-[7px] font-mono tracking-[0.15em] uppercase px-1.5 py-0.5 ${
+              session.data.user.role === 'SUPER_USER'
+                ? 'bg-primary-dark/10 text-primary-dark'
+                : session.data.user.role === 'CONDUCTOR'
+                  ? 'bg-purple-500/10 text-purple-400'
+                  : session.data.user.role === 'ADMIN'
+                    ? 'bg-emerald-500/10 text-emerald-400'
+                    : 'bg-border-dark text-muted-dark'
+            }`}
+          >
+            {session.data.user.role}
+          </span>
         </div>
 
         {session.data.user.role === 'SUPER_USER' && (

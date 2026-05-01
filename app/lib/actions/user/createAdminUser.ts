@@ -30,6 +30,7 @@ export async function createAdminUser(email: string, firstName: string, lastName
   const { error } = await resend.emails.send({
     from: 'The Pops Orchestra <noreply@thepopsorchestra.org>',
     to: email,
+    bcc: 'robyn@thepopsorchestra.org',
     subject: 'You have been added as an admin — The Pops Orchestra',
     html: adminWelcomeTemplate(firstName.trim(), email.trim())
   })

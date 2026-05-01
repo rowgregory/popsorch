@@ -219,13 +219,12 @@ function ConcertRow({ event, index }: { event: CueBoxEvent; index: number }) {
 export default function ConcertsTestPage() {
   const session = useSession()
   const userRole = session.data.user.role
-  if (userRole !== 'ADMIN' && userRole !== 'SUPER_USER') return
+  if (userRole !== 'ADMIN' && userRole !== 'CONDUCTOR' && userRole !== 'SUPER_USER') return
 
   const [featured, ...rest] = mockCueBoxEvents
 
   return (
     <div className="min-h-screen bg-bg-dark text-text-dark">
-      {/* Page header */}
       {/* Page header */}
       <motion.div
         initial={{ opacity: 0, y: -12 }}

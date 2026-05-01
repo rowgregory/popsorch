@@ -8,9 +8,9 @@ export function CenterColumn({ concerts }) {
   const router = useRouter()
   return (
     <motion.main
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay: 0.12 }}
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.15, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       className="flex-1 flex flex-col overflow-hidden border-r border-border-dark"
     >
       {/* Concerts header — sticky within column */}

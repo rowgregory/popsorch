@@ -20,6 +20,7 @@ export default async function DashboardPage() {
       pages={data.pages}
       newsCount={data.newsCount}
       newsLiveCount={data.newsLiveCount}
+      news={data.news}
       testimonialsCount={data.testimonialsCount}
       testimonialsLiveCount={data.testimonialsLiveCount}
       customRequests={data.customRequests}

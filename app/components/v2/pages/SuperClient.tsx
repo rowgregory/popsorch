@@ -28,7 +28,8 @@ import type {
   Sponsor,
   Question,
   User,
-  CustomRequestStatus
+  CustomRequestStatus,
+  UserRole
 } from '@prisma/client'
 import { updateCustomRequestStatus } from '@/app/lib/actions/custom-request/updateCustomerRequest'
 import { store } from '@/app/redux/store'
@@ -46,6 +47,7 @@ import {
   deleteVenue
 } from '@/app/lib/actions/super/super.actions'
 import { formatDate } from '@/app/utils/date.functions'
+import { ROLE_STYLES } from './UsersClient'
 
 interface Props {
   customRequests: CustomRequest[]
@@ -362,13 +364,7 @@ export default function SuperClient({
                 <span className="flex items-center gap-2">
                   <span>{u.email ?? 'No email'}</span>
                   <span
-                    className={`text-[7px] font-mono tracking-[0.15em] uppercase px-1.5 py-0.5 ${
-                      u.role === 'SUPER_USER'
-                        ? 'bg-primary-dark/10 text-primary-dark'
-                        : u.role === 'ADMIN'
-                          ? 'bg-yellow-500/10 text-yellow-400'
-                          : 'bg-border-dark text-muted-dark'
-                    }`}
+                    className={`text-[7px] font-mono tracking-[0.15em] uppercase px-1.5 py-0.5 ${ROLE_STYLES[u.role as UserRole] ?? 'bg-border-dark text-muted-dark'}`}
                   >
                     {u.role}
                   </span>

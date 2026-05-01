@@ -53,7 +53,8 @@ const Textarea: FC<{
   error?: string
   required?: boolean
   rows?: number
-}> = ({ name, value, onChange, placeholder, error, required, rows = 4 }) => (
+  maxLength?: number
+}> = ({ name, value, onChange, placeholder, error, required, rows = 4, maxLength }) => (
   <div className="flex flex-col w-full">
     <label htmlFor={name} className="font-changa text-[10px] uppercase tracking-[0.25em] text-white/40 mb-2">
       {placeholder}
@@ -77,6 +78,7 @@ const Textarea: FC<{
       aria-invalid={!!error}
       aria-describedby={error ? `${name}-error` : undefined}
       rows={rows}
+      maxLength={maxLength}
       className={`bg-transparent border-b font-lato text-sm text-white placeholder:text-white/20 py-3 w-full focus:outline-none transition-colors duration-200 resize-none ${
         error ? 'border-blaze placeholder:text-blaze/40' : 'border-white/20 hover:border-white/40 focus:border-blaze'
       }`}
@@ -105,6 +107,11 @@ const ContactForm: FC<{ btnClassname?: string }> = ({ btnClassname }) => {
     e.preventDefault()
 
     if (!validateContactForm(inputs, setErrors)) return
+
+    if (inputs.message.length > 500) {
+      setErrors({ message: 'Message must be 500 characters or less' })
+      return
+    }
 
     setLoading(true)
 
@@ -160,7 +167,21 @@ const ContactForm: FC<{ btnClassname?: string }> = ({ btnClassname }) => {
           placeholder="Ask your question here..."
           required
           error={errors?.message}
+          maxLength={500}
         />
+        <div className="flex items-center justify-end mt-1.5">
+          <span
+            className={`font-changa text-[10px] tracking-widest transition-colors ${
+              (inputs?.message?.length ?? 0) >= 500
+                ? 'text-red-400'
+                : (inputs?.message?.length ?? 0) > 450
+                  ? 'text-yellow-400'
+                  : 'text-white/20'
+            }`}
+          >
+            {inputs?.message?.length ?? 0}/500
+          </span>
+        </div>
       </div>
       <div className={`col-span-12 flex items-center ${btnClassname ?? 'justify-center'} mt-6`}>
         <button

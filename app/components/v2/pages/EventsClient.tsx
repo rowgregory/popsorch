@@ -38,6 +38,26 @@ export default function EventsClient({ events: initial }: { events: Event[] }) {
     <div className="h-screen flex flex-col overflow-hidden bg-bg-dark text-text-dark">
       {/* ── Top Bar ── */}
       <EventsTopBar events={events} handleNew={handleNew} />
+      <div className="shrink-0 border-b border-yellow-500/20 bg-yellow-500/5 overflow-hidden py-1.5">
+        <motion.div
+          animate={{ x: ['0%', '-50%'] }}
+          transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+          className="flex whitespace-nowrap"
+        >
+          {[0, 1].map((i) => (
+            <span key={i} className="text-[9px] font-mono text-yellow-400/70 pr-16">
+              <span className="text-yellow-400">IMPORTANT —</span> Do not add concerts to this section. All concerts are
+              handled through CueBox. This page is for Events only — Bubbles Bash, Galas, Luncheons, and other
+              non-concert events.
+              <span className="text-yellow-500/50 mx-4">·</span>
+              <span className="text-yellow-400">IMPORTANT —</span> Do not add concerts to this section. All concerts are
+              handled through CueBox. This page is for Events only — Bubbles Bash, Galas, Luncheons, and other
+              non-concert events.
+              <span className="text-yellow-500/50 mx-4">·</span>
+            </span>
+          ))}
+        </motion.div>
+      </div>
 
       {/* ── Two Column Body ── */}
       <div className="flex-1 flex overflow-hidden">

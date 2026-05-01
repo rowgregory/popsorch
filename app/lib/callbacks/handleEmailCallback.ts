@@ -7,7 +7,7 @@ export async function handleEmailCallback(user: User) {
     include: { accounts: true }
   })
 
-  if (!dbUser || (dbUser.role !== 'ADMIN' && dbUser.role !== 'SUPER_USER')) {
+  if (!dbUser || (dbUser.role !== 'ADMIN' && dbUser.role !== 'CONDUCTOR' && dbUser.role !== 'SUPER_USER')) {
     return false
   }
 

@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowLeft, LogOut, Users, Search, X, ChevronDown, ChevronUp, Plus, Loader2 } from 'lucide-react'
 import Link from 'next/link'
-import { signOut } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import type { User, UserRole } from '@prisma/client'
 import { store } from '@/app/redux/store'
@@ -15,10 +15,11 @@ interface Props {
   users: User[]
 }
 
-const ROLE_ORDER: UserRole[] = ['SUPER_USER', 'ADMIN']
+const ROLE_ORDER: UserRole[] = ['SUPER_USER', 'CONDUCTOR', 'ADMIN']
 
-const ROLE_STYLES: Record<UserRole, string> = {
+export const ROLE_STYLES: Record<UserRole, string> = {
   SUPER_USER: 'text-primary-dark border-primary-dark/30 bg-primary-dark/10',
+  CONDUCTOR: 'text-purple-400 border-purple-400/30 bg-purple-400/10',
   ADMIN: 'text-emerald-400 border-emerald-400/30 bg-emerald-400/10'
 }
 
@@ -27,6 +28,7 @@ type SortDir = 'asc' | 'desc'
 
 export default function UsersClient({ users }: Props) {
   const router = useRouter()
+  const session = useSession()
   const [search, setSearch] = useState('')
   const [roleFilter, setRoleFilter] = useState<UserRole | 'ALL'>('ALL')
   const [sortKey, setSortKey] = useState<SortKey>('createdAt')
@@ -129,15 +131,19 @@ export default function UsersClient({ users }: Props) {
           </div>
 
           <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => setShowAddAdmin(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-primary-dark hover:bg-secondary-light text-white text-[9px] font-mono tracking-[0.15em] uppercase transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-dark"
-            >
-              <Plus className="w-2.5 h-2.5" />
-              Add Admin
-            </button>
-            <div className="w-px h-4 bg-border-dark" aria-hidden="true" />
+            {(session.data.user.email === 'robyn@thepopsorchestra.org' || session.data.user.role === 'SUPER_USER') && (
+              <>
+                <button
+                  type="button"
+                  onClick={() => setShowAddAdmin(true)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 bg-primary-dark hover:bg-secondary-light text-white text-[9px] font-mono tracking-[0.15em] uppercase transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-dark"
+                >
+                  <Plus className="w-2.5 h-2.5" />
+                  Add Admin
+                </button>
+                <div className="w-px h-4 bg-border-dark" aria-hidden="true" />
+              </>
+            )}
             <button
               type="button"
               onClick={() => signOut({ redirectTo: '/auth/login' })}

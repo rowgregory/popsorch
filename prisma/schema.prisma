@@ -42,6 +42,7 @@ enum ConcertType {
 
 enum UserRole {
   ADMIN
+  CONDUCTOR
   SUPER_USER
 }
 

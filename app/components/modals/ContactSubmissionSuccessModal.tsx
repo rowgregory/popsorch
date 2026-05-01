@@ -3,7 +3,6 @@
 import { setCloseContactSubmissionSuccessModal } from '@/app/redux/features/uiSlice'
 import { store, useUiSelector } from '@/app/redux/store'
 import { motion, AnimatePresence } from 'framer-motion'
-import { CheckCircle } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect } from 'react'
 
@@ -60,17 +59,6 @@ export default function ContactSubmissionSuccessModal() {
             />
 
             <div className="p-8 text-center">
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.15, type: 'spring', stiffness: 400, damping: 20 }}
-                className="w-16 h-16 mx-auto mb-6 flex items-center justify-center"
-                style={{ background: 'linear-gradient(135deg, #da0032, #ff9000)' }}
-                aria-hidden="true"
-              >
-                <CheckCircle className="w-8 h-8 text-white" />
-              </motion.div>
-
               <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-sunburst mb-1" aria-hidden="true">
                 The Pops Orchestra
               </p>

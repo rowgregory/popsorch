@@ -16,6 +16,7 @@ async function fetchDashboardData() {
     pages,
     newsCount,
     newsLiveCount,
+    news,
     testimonialsCount,
     testimonialsLiveCount,
     customRequests,
@@ -67,6 +68,7 @@ async function fetchDashboardData() {
       .catch(() => []),
     prisma.news.count().catch(() => 0),
     prisma.news.count({ where: { isPublished: true } }).catch(() => 0),
+    prisma.news.findMany().catch(() => []),
     prisma.testimonial.count().catch(() => 0),
     prisma.testimonial.count({ where: { isPublished: true } }).catch(() => 0),
     prisma.customRequest
@@ -95,6 +97,7 @@ async function fetchDashboardData() {
     pageContentCount: pages.length,
     newsCount,
     newsLiveCount,
+    news,
     testimonialsCount,
     testimonialsLiveCount,
     customRequests,

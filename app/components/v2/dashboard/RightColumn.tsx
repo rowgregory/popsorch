@@ -21,9 +21,9 @@ export function RightColumn({
   const handleExport = exportCampApplications(campApplications)
   return (
     <motion.aside
-      initial={{ opacity: 0, x: 6 }}
+      initial={{ opacity: 0, x: 16 }}
       animate={{ opacity: 1, x: 0 }}
-      transition={{ delay: 0.14 }}
+      transition={{ delay: 0.2, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       className="w-52 xl:w-60 shrink-0 overflow-y-auto hidden md:block"
     >
       <ColSection

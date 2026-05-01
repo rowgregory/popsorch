@@ -31,14 +31,14 @@ export async function handleGoogleCallback(
   })
 
   if (existingUser) {
-    if (existingUser.role !== 'ADMIN' && existingUser.role !== 'SUPER_USER') {
+    if (existingUser.role !== 'ADMIN' && existingUser.role !== 'CONDUCTOR' && existingUser.role !== 'SUPER_USER') {
       return false
     }
     await linkGoogleAccount(existingUser, account)
     await updateUserFromProfile(existingUser, profile)
     user.id = existingUser.id
   } else {
-    // No new users — must be pre-existing ADMIN or SUPER_USER
+    // No new users — must be pre-existing ADMIN, CONDUCTOR or SUPER_USER
     return false
   }
 

@@ -11,7 +11,8 @@ import type {
   User,
   Page,
   CustomRequest,
-  Sponsor
+  Sponsor,
+  News
 } from '@prisma/client'
 import { useClock } from '@/app/lib/hooks/useClock'
 import { useState } from 'react'
@@ -29,6 +30,9 @@ import { RightColumn } from '../dashboard/RightColumn'
 import { FooterStrip } from '../dashboard/FooterStrip'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { useSession } from 'next-auth/react'
+import { useDashboardSearch } from '@/app/lib/hooks/useDashboardSearch'
+import { DashboardSearch } from '../dashboard/DashboardSearch'
 
 interface Props {
   concerts: Concert[]
@@ -45,6 +49,7 @@ interface Props {
   pages: Page[]
   newsCount: number
   newsLiveCount: number
+  news: News[]
   testimonialsCount: number
   testimonialsLiveCount: number
   customRequests: CustomRequest[]
@@ -69,6 +74,7 @@ export default function DashboardClient({
   pages,
   newsCount,
   newsLiveCount,
+  news,
   testimonialsCount,
   testimonialsLiveCount,
   customRequests,
@@ -79,7 +85,7 @@ export default function DashboardClient({
 }: Props) {
   const { time, date } = useClock()
   const pending = questions.filter((q) => !q.hasResponded)
-  const onSale = concerts.filter((c) => c.isOnSale)
+  const onSale = concerts.filter((c) => c.status === 'LIVE')
   const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(null)
 
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
@@ -89,12 +95,44 @@ export default function DashboardClient({
   const [sponsorModalOpen, setSponsorModalOpen] = useState(false)
   const [selectedSponsor, setSelectedSponsor] = useState<Sponsor | null>(null)
 
+  const session = useSession()
+  const firstName = session.data?.user?.name?.split(' ')[0] ?? 'there'
+
+  const { query, results, search, clear } = useDashboardSearch({
+    concerts,
+    venues,
+    teamMembers,
+    questions,
+    users,
+    customRequests,
+    sponsors,
+    news
+  })
+
   return (
     <>
       <ContactSubmissionModal
         key={selectedQuestion?.id}
         question={selectedQuestion}
         onClose={() => setSelectedQuestion(null)}
+      />
+
+      <div
+        className="fixed inset-0 pointer-events-none z-0"
+        style={{
+          backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px)',
+          backgroundSize: '24px 24px'
+        }}
+        aria-hidden="true"
+      />
+
+      <div
+        className="fixed inset-0 pointer-events-none z-50"
+        style={{
+          backgroundImage:
+            'repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.015) 3px, rgba(255,255,255,0.015) 4px)'
+        }}
+        aria-hidden="true"
       />
 
       <UserRoleModal key={selectedUser?.id} onClose={() => setSelectedUser(null)} user={selectedUser} />
@@ -187,6 +225,8 @@ export default function DashboardClient({
           testimonialsCount={testimonialsCount}
           venues={venues}
         />
+
+        <DashboardSearch query={query} results={results} onSearch={search} onClear={clear} firstName={firstName} />
 
         {/* ── Three Column Body (fills remaining height, each col scrolls) ── */}
         <div className="flex-1 flex overflow-hidden">
