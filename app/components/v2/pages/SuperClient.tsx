@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
   ArrowLeft,
-  Trash2,
   RefreshCw,
   AlertCircle,
   Music,
@@ -17,20 +16,7 @@ import {
   Star,
   DollarSign
 } from 'lucide-react'
-import type {
-  CustomRequest,
-  Concert,
-  Venue,
-  TeamMember,
-  News,
-  Event,
-  Testimonial,
-  Sponsor,
-  Question,
-  User,
-  CustomRequestStatus,
-  UserRole
-} from '@prisma/client'
+import type { CustomRequest, CustomRequestStatus, UserRole } from '@prisma/client'
 import { updateCustomRequestStatus } from '@/app/lib/actions/custom-request/updateCustomerRequest'
 import { store } from '@/app/redux/store'
 import { showToast } from '@/app/redux/features/toastSlice'
@@ -46,48 +32,31 @@ import { deleteTestimonial } from '@/app/lib/actions/super/deleteTestimonial'
 import { deleteSponsor } from '@/app/lib/actions/super/deleteSponsor'
 import { deleteQuestion } from '@/app/lib/actions/super/deleteQuestion'
 import { deleteUser } from '@/app/lib/actions/super/deleteUser'
+import { Section } from '../common/Section'
+import { LazySection } from '../common/LazySection'
+import {
+  getSuperConcerts,
+  getSuperEvents,
+  getSuperNews,
+  getSuperQuestions,
+  getSuperSponsors,
+  getSuperTeamMembers,
+  getSuperTestimonials,
+  getSuperUsers,
+  getSuperVenues
+} from '@/app/lib/actions/super/inividualCachedQueries'
 
 interface Props {
   customRequests: Pick<
     CustomRequest,
     'id' | 'what' | 'why' | 'example' | 'page' | 'changeType' | 'urgency' | 'submittedBy' | 'submittedAt' | 'status'
   >[]
-  concerts: Pick<Concert, 'id' | 'name' | 'status'>[]
-  venues: Pick<Venue, 'id' | 'name'>[]
-  teamMembers: Pick<TeamMember, 'id' | 'firstName' | 'lastName' | 'role' | 'updatedAt'>[]
-  news: Pick<News, 'id' | 'title' | 'isPublished'>[]
-  events: Pick<Event, 'id' | 'title'>[]
-  testimonials: Pick<Testimonial, 'id' | 'title' | 'isPublished' | 'author'>[]
-  sponsors: Pick<Sponsor, 'id' | 'name' | 'level' | 'amount' | 'isActive'>[]
-  questions: Pick<Question, 'id' | 'name' | 'email' | 'hasResponded'>[]
-  users: Pick<User, 'id' | 'email' | 'firstName' | 'lastName' | 'role'>[]
   dbHealth: any
 }
 
-export default function SuperClient({
-  customRequests,
-  concerts,
-  venues,
-  teamMembers,
-  news,
-  events,
-  testimonials,
-  sponsors,
-  questions,
-  users,
-  dbHealth
-}: Props) {
+export default function SuperClient({ customRequests, dbHealth }: Props) {
   const router = useRouter()
   const [loading, setLoading] = useState<string | null>(null)
-  const [localEvents, setLocalEvents] = useState(events)
-  const [localConcerts, setLocalConcerts] = useState(concerts)
-  const [localVenues, setLocalVenues] = useState(venues)
-  const [localTeamMembers, setLocalTeamMembers] = useState(teamMembers)
-  const [localNews, setLocalNews] = useState(news)
-  const [localTestimonials, setLocalTestimonials] = useState(testimonials)
-  const [localSponsors, setLocalSponsors] = useState(sponsors)
-  const [localQuestions, setLocalQuestions] = useState(questions)
-  const [localUsers, setLocalUsers] = useState(users)
 
   const handleStatusChange = async (id: string, status: string) => {
     setLoading(id)
@@ -103,18 +72,16 @@ export default function SuperClient({
   }
 
   type DeleteAction = (id: string) => Promise<{ success: boolean; error?: string }>
-  type StateSetter<T> = React.Dispatch<React.SetStateAction<T[]>>
 
   const handleDelete = async <T extends { id: string }>(
     model: string,
     id: string,
     action: DeleteAction,
-    setter: StateSetter<T>,
+    setter: React.Dispatch<React.SetStateAction<T[] | null>>,
     current: T[]
   ) => {
-    setter((prev) => prev.filter((i) => i.id !== id))
+    setter((prev) => (prev ? prev.filter((i) => i.id !== id) : null))
     const res = await action(id)
-    console.log(`delete ${model} result:`, res)
     if (!res.success) {
       setter(current)
       store.dispatch(showToast({ type: 'error', message: res.error ?? `Failed to delete ${model}` }))
@@ -241,31 +208,29 @@ export default function SuperClient({
               </div>
             </Section>
 
-            <ModelSection
-              title="Concerts"
+            <LazySection
+              fetcher={getSuperConcerts}
               icon={<Music className="w-3.5 h-3.5" />}
-              items={concerts}
-              onDelete={(id) => handleDelete('Concert', id, deleteConcert, setLocalConcerts, localConcerts)}
-              renderItem={(c) => c.name}
               loading={loading}
+              onDelete={(id, setter, current) => handleDelete('Concert', id, deleteConcert, setter, current)}
+              renderItem={(c) => c.name}
+              title="Concerts"
             />
 
-            <ModelSection
+            <LazySection
+              fetcher={getSuperVenues}
               title="Venues"
               icon={<MapPin className="w-3.5 h-3.5" />}
-              items={venues}
-              onDelete={(id) => handleDelete('Venue', id, deleteVenue, setLocalVenues, localVenues)}
+              onDelete={(id, setter, current) => handleDelete('Venue', id, deleteVenue, setter, current)}
               renderItem={(v) => v.name}
               loading={loading}
             />
 
-            <ModelSection
+            <LazySection
+              fetcher={getSuperTeamMembers}
               title="Team Members"
               icon={<Users className="w-3.5 h-3.5" />}
-              items={teamMembers}
-              onDelete={(id) =>
-                handleDelete('Team Member', id, deleteTeamMember, setLocalTeamMembers, localTeamMembers)
-              }
+              onDelete={(id, setter, current) => handleDelete('Team Member', id, deleteTeamMember, setter, current)}
               renderItem={(t) => (
                 <span className="flex items-center gap-2 min-w-0">
                   <span className="truncate">
@@ -293,20 +258,20 @@ export default function SuperClient({
 
           {/* Middle Column */}
           <div className="col-span-4 space-y-4">
-            <ModelSection
+            <LazySection
+              fetcher={getSuperEvents}
               title="Events"
               icon={<Calendar className="w-3.5 h-3.5" />}
-              items={localEvents}
-              onDelete={(id) => handleDelete('Event', id, deleteEvent, setLocalEvents, localEvents)}
+              onDelete={(id, setter, current) => handleDelete('Event', id, deleteEvent, setter, current)}
               renderItem={(e) => e.title}
               loading={loading}
             />
 
-            <ModelSection
+            <LazySection
+              fetcher={getSuperNews}
               title="News"
               icon={<FileText className="w-3.5 h-3.5" />}
-              items={news}
-              onDelete={(id) => handleDelete('News', id, deleteNews, setLocalNews, localNews)}
+              onDelete={(id, setter, current) => handleDelete('News', id, deleteNews, setter, current)}
               renderItem={(n) => (
                 <span className="flex items-center gap-2 min-w-0">
                   <span className="truncate">{n.title}</span>
@@ -322,22 +287,20 @@ export default function SuperClient({
               loading={loading}
             />
 
-            <ModelSection
+            <LazySection
+              fetcher={getSuperTestimonials}
               title="Testimonials"
               icon={<Star className="w-3.5 h-3.5" />}
-              items={testimonials}
-              onDelete={(id) =>
-                handleDelete('Testimonial', id, deleteTestimonial, setLocalTestimonials, localTestimonials)
-              }
+              onDelete={(id, setter, current) => handleDelete('Testimonial', id, deleteTestimonial, setter, current)}
               renderItem={(t) => t.author}
               loading={loading}
             />
 
-            <ModelSection
+            <LazySection
+              fetcher={getSuperSponsors}
               title="Sponsors"
               icon={<DollarSign className="w-3.5 h-3.5" />}
-              items={sponsors}
-              onDelete={(id) => handleDelete('Sponsor', id, deleteSponsor, setLocalSponsors, localSponsors)}
+              onDelete={(id, setter, current) => handleDelete('Sponsor', id, deleteSponsor, setter, current)}
               renderItem={(s) => (
                 <span className="flex items-center gap-2 min-w-0">
                   <span className="truncate">{s.name}</span>
@@ -356,11 +319,11 @@ export default function SuperClient({
 
           {/* Right Column */}
           <div className="col-span-4 space-y-4">
-            <ModelSection
+            <LazySection
+              fetcher={getSuperQuestions}
               title="Questions"
               icon={<MessageSquare className="w-3.5 h-3.5" />}
-              items={questions}
-              onDelete={(id) => handleDelete('Question', id, deleteQuestion, setLocalQuestions, localQuestions)}
+              onDelete={(id, setter, current) => handleDelete('Question', id, deleteQuestion, setter, current)}
               renderItem={(q) => (
                 <span className="flex items-center gap-2 min-w-0">
                   <span className="truncate">{q.name}</span>
@@ -377,11 +340,11 @@ export default function SuperClient({
               loading={loading}
             />
 
-            <ModelSection
+            <LazySection
+              fetcher={getSuperUsers}
               title="Users"
               icon={<Users className="w-3.5 h-3.5" />}
-              items={users}
-              onDelete={(id) => handleDelete('User', id, deleteUser, setLocalUsers, localUsers)}
+              onDelete={(id, setter, current) => handleDelete('User', id, deleteUser, setter, current)}
               renderItem={(u) => (
                 <span className="flex items-center gap-2">
                   <span>{u.email ?? 'No email'}</span>
@@ -515,71 +478,5 @@ export default function SuperClient({
         </Section>
       </div>
     </div>
-  )
-}
-
-// Helper Components
-
-function Section({
-  title,
-  icon,
-  count,
-  children
-}: {
-  title: string
-  icon: React.ReactNode
-  count: number
-  children: React.ReactNode
-}) {
-  return (
-    <div className="bg-surface-dark border border-border-dark">
-      <div className="w-full flex items-center justify-between p-3 hover:bg-bg-dark/30 transition-colors">
-        <div className="flex items-center gap-2">
-          <div className="text-primary-dark">{icon}</div>
-          <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-text-dark">{title}</span>
-          <span className="text-[8px] font-mono text-muted-dark">({count})</span>
-        </div>
-      </div>
-      <div className="p-3 pt-0">{children}</div>
-    </div>
-  )
-}
-
-function ModelSection<T extends { id: string }>({
-  title,
-  icon,
-  items,
-  onDelete,
-  renderItem,
-  loading
-}: {
-  title: string
-  icon: React.ReactNode
-  items: T[]
-  onDelete: (id: string) => void
-  renderItem: (item: T) => React.ReactNode
-  loading: string | null
-}) {
-  return (
-    <Section title={title} icon={icon} count={items.length}>
-      <div className="space-y-1 max-h-96 overflow-y-auto">
-        {items.map((item) => (
-          <div
-            key={item.id}
-            className="flex items-center justify-between gap-2 p-2 bg-bg-dark hover:bg-bg-dark/50 transition-colors"
-          >
-            <p className="text-[10px] text-text-dark truncate flex-1">{renderItem(item)}</p>
-            <button
-              onClick={() => onDelete(item.id)}
-              disabled={loading === item.id}
-              className="text-muted-dark hover:text-red-400 transition-colors shrink-0 disabled:opacity-30"
-              aria-label={`Delete ${title.slice(0, -1)}`}
-            >
-              <Trash2 className="w-3 h-3" />
-            </button>
-          </div>
-        ))}
-      </div>
-    </Section>
   )
 }

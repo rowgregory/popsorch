@@ -1,8 +1,8 @@
+'use server'
+
 import prisma from '@/prisma/client'
-import { getDatabaseHealth } from './getDatabaseHealth'
 import { unstable_cache } from 'next/cache'
 
-// ── Individual cached queries ─────────────────────────────────────────────────
 export const getSuperCustomRequests = unstable_cache(
   () => prisma.customRequest.findMany({ orderBy: { submittedAt: 'desc' } }).catch(() => []),
   ['super-custom-requests'],
@@ -95,37 +95,3 @@ export const getSuperUsers = unstable_cache(
   ['super-users'],
   { revalidate: 60, tags: ['super-users'] }
 )
-
-// ── Main fetch — calls individual cached queries ───────────────────────────────
-export async function getSuperDashboardData() {
-  const [customRequests, concerts, venues, teamMembers, news, events] = await Promise.all([
-    getSuperCustomRequests(),
-    getSuperConcerts(),
-    getSuperVenues(),
-    getSuperTeamMembers(),
-    getSuperNews(),
-    getSuperEvents()
-  ])
-
-  const [testimonials, sponsors, questions, users, dbHealth] = await Promise.all([
-    getSuperTestimonials(),
-    getSuperSponsors(),
-    getSuperQuestions(),
-    getSuperUsers(),
-    getDatabaseHealth()
-  ])
-
-  return {
-    customRequests,
-    concerts,
-    venues,
-    teamMembers,
-    news,
-    events,
-    testimonials,
-    sponsors,
-    questions,
-    users,
-    dbHealth
-  }
-}
