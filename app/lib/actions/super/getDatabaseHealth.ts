@@ -1,72 +1,48 @@
 'use server'
 
-import prisma from '@/prisma/client'
+import { prismaD } from '@/prisma/client'
 
 export async function getDatabaseHealth() {
-  // Get total connection count (including monitoring queries)
-  const connections = await prisma.$queryRaw<Array<{ count: bigint }>>`
-    SELECT COUNT(*) as count 
-    FROM pg_stat_activity 
-    WHERE datname = current_database()
-  `.catch(() => [{ count: BigInt(0) }])
+  const [connections, dbSize, cacheHitRate, oldestTransaction] = await Promise.all([
+    prismaD.$queryRaw<Array<{ count: bigint }>>`
+      SELECT COUNT(*) as count
+      FROM pg_stat_activity
+      WHERE datname = current_database()
+    `.catch(() => [{ count: BigInt(0) }]),
 
-  // Get connection states breakdown (exclude monitoring queries from display)
-  const activeQueries = (await prisma.$queryRaw<
-    Array<{
-      state: string
-      query: string
-      count: bigint
-    }>
-  >`
-    SELECT 
-      state,
-      LEFT(query, 100) as query,
-      COUNT(*) as count
-    FROM pg_stat_activity
-    WHERE datname = current_database()
-      AND query NOT LIKE '%pg_stat_activity%'
-    GROUP BY state, LEFT(query, 100)
-    ORDER BY count DESC
-  `.catch(() => [])) as Array<{
-    state: string
-    query: string
-    count: bigint
-  }>
+    prismaD.$queryRaw<Array<{ size: string }>>`
+      SELECT pg_size_pretty(pg_database_size(current_database())) as size
+    `.catch(() => [{ size: 'Unknown' }]),
 
-  const longQueries = (await prisma.$queryRaw<
-    Array<{
-      pid: number
-      duration: string
-      query: string
-    }>
-  >`
-    SELECT 
-      pid,
-      now() - pg_stat_activity.query_start AS duration,
-      LEFT(query, 100) as query
-    FROM pg_stat_activity
-    WHERE state = 'active'
-      AND now() - pg_stat_activity.query_start > interval '5 seconds'
-      AND query NOT LIKE '%pg_stat_activity%'
-    ORDER BY duration DESC
-  `.catch(() => [])) as Array<{
-    pid: number
-    duration: string
-    query: string
-  }>
+    prismaD.$queryRaw<Array<{ ratio: number }>>`
+      SELECT ROUND(
+        sum(heap_blks_hit) / NULLIF(sum(heap_blks_hit) + sum(heap_blks_read), 0) * 100, 2
+      ) as ratio
+      FROM pg_statio_user_tables
+    `.catch(() => [{ ratio: 0 }]),
+
+    prismaD.$queryRaw<Array<{ duration: string | null }>>`
+      SELECT MAX(now() - query_start)::text as duration
+      FROM pg_stat_activity
+      WHERE state = 'active'
+        AND query NOT LIKE '%pg_stat_activity%'
+        AND query_start IS NOT NULL
+    `.catch(() => [{ duration: null }])
+  ])
+
+  const connectionCount = Number(connections[0]?.count || 0)
+  const cacheHit = Number(cacheHitRate[0]?.ratio || 0)
+  const duration = oldestTransaction[0]?.duration ?? null
+  const durationClean = duration === '00:00:00' || duration === '-' ? null : duration
 
   return {
-    activeConnections: Number(connections[0]?.count || 0),
-    maxConnections: 100,
-    activeQueries: activeQueries.map((q) => ({
-      state: q.state,
-      query: q.query,
-      count: Number(q.count)
-    })),
-    longQueries: longQueries.map((q) => ({
-      pid: q.pid,
-      duration: q.duration,
-      query: q.query
-    }))
+    activeConnections: connectionCount,
+    maxConnections: 901,
+    dbSize: dbSize[0]?.size ?? 'Unknown',
+    cacheHitRate: cacheHit,
+    cacheHitHealthy: cacheHit >= 85,
+    healthy: connectionCount < 901 && cacheHit >= 85,
+    oldestTransaction: durationClean,
+    oldestTransactionWarning: durationClean ? durationClean > '00:00:30' : false
   }
 }

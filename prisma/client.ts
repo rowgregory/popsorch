@@ -2,20 +2,26 @@ import { PrismaClient } from '@prisma/client'
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined
+  prismaD: PrismaClient | undefined
 }
 
-const createPrismaClient = () => {
-  return new PrismaClient({
+const createPrismaClient = () =>
+  new PrismaClient({
     log: process.env.NODE_ENV === 'development' ? ['query', 'error'] : ['error']
   })
-}
+
+const createPrismaDirect = () =>
+  new PrismaClient({
+    log: ['error'],
+    datasources: { db: { url: process.env.DIRECT_URL } }
+  })
 
 export const prisma = globalForPrisma.prisma ?? createPrismaClient()
+export const prismaD = globalForPrisma.prismaD ?? createPrismaDirect()
 
-// prisma/client.ts - add after createPrismaClient
 if (process.env.NODE_ENV === 'production') {
   setInterval(async () => {
-    const connections = await prisma.$queryRaw<Array<{ count: bigint }>>`
+    const connections = await prismaD.$queryRaw<Array<{ count: bigint }>>`
       SELECT COUNT(*) as count 
       FROM pg_stat_activity 
       WHERE datname = current_database()
@@ -24,11 +30,14 @@ if (process.env.NODE_ENV === 'production') {
     const count = Number(connections[0]?.count || 0)
 
     if (count > 25) {
-      console.warn(`⚠️ HIGH DB CONNECTIONS: ${count}/100`)
+      console.warn(`⚠️ HIGH DB CONNECTIONS: ${count}/901`)
     }
-  }, 300000) // Check every 5 minutes
+  }, 300000)
 }
 
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
+if (process.env.NODE_ENV !== 'production') {
+  globalForPrisma.prisma = prisma
+  globalForPrisma.prismaD = prismaD
+}
 
 export default prisma

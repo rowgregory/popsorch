@@ -14,7 +14,9 @@ import {
   FileText,
   MessageSquare,
   Star,
-  DollarSign
+  DollarSign,
+  CheckCircle,
+  AlertTriangle
 } from 'lucide-react'
 import type { CustomRequest, CustomRequestStatus, UserRole } from '@prisma/client'
 import { updateCustomRequestStatus } from '@/app/lib/actions/custom-request/updateCustomerRequest'
@@ -369,12 +371,42 @@ export default function SuperClient({ customRequests, dbHealth }: Props) {
         >
           {dbHealth && (
             <div className="col-span-12 mb-4">
-              <div className="bg-surface-dark border-2 border-border-dark p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-dark mb-1">
-                      Database Connections
-                    </p>
+              <div className="bg-surface-dark border-2 border-border-dark p-4 space-y-4">
+                {/* Neon badge */}
+                <div className="flex items-center justify-between mb-4 pb-4 border-b border-border-dark">
+                  <div className="flex items-center gap-2">
+                    <div
+                      className="px-3 py-1.5 flex items-center gap-2"
+                      style={{
+                        background: 'linear-gradient(90deg, #00e59910, #00e59905)',
+                        border: '1px solid #00e59930'
+                      }}
+                    >
+                      <div className="w-1.5 h-1.5 rounded-full animate-pulse bg-[#00e599]" />
+                      <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-[#00e599]">
+                        Neon Postgres
+                      </span>
+                    </div>
+                    <span className="text-[8px] font-mono text-muted-dark/50">
+                      Serverless · Auto-pooled · US East 1
+                    </span>
+                  </div>
+
+                  <a
+                    href="https://console.neon.tech"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[8px] font-mono tracking-[0.15em] uppercase text-muted-dark/30 hover:text-muted-dark transition-colors"
+                  >
+                    Console ↗
+                  </a>
+                </div>
+                {/* Connections */}
+                <div>
+                  <p className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-dark mb-1">
+                    Database Connections
+                  </p>
+                  <div className="flex items-center justify-between">
                     <p
                       className={`text-4xl font-mono ${
                         dbHealth.activeConnections > 30
@@ -387,91 +419,97 @@ export default function SuperClient({ customRequests, dbHealth }: Props) {
                       {dbHealth.activeConnections}{' '}
                       <span className="text-xl text-muted-dark">/ {dbHealth.maxConnections}</span>
                     </p>
+                    <div className="text-right">
+                      <p
+                        className={`text-sm font-mono ${
+                          dbHealth.activeConnections > 30
+                            ? 'text-red-400'
+                            : dbHealth.activeConnections > 20
+                              ? 'text-yellow-400'
+                              : 'text-emerald-400'
+                        }`}
+                      >
+                        {dbHealth.activeConnections > 30
+                          ? '⚠️ CRITICAL - SITE MAY CRASH'
+                          : dbHealth.activeConnections > 20
+                            ? '⚠️ ELEVATED - MONITOR CLOSELY'
+                            : '✓ HEALTHY'}
+                      </p>
+                      <p className="text-[8px] font-mono text-muted-dark mt-1">
+                        Last checked: {formatDate(new Date())}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="mt-3 h-2 bg-bg-dark overflow-hidden">
+                    <div
+                      className={`h-full transition-all duration-500 ${
+                        dbHealth.activeConnections > 30
+                          ? 'bg-red-400'
+                          : dbHealth.activeConnections > 20
+                            ? 'bg-yellow-400'
+                            : 'bg-emerald-400'
+                      }`}
+                      style={{ width: `${(dbHealth.activeConnections / dbHealth.maxConnections) * 100}%` }}
+                    />
+                  </div>
+                  <p className="text-[8px] font-mono text-muted-dark/30 mt-2 leading-relaxed">
+                    Active connections to the database. Green &lt;20, yellow 20–30, red &gt;30. High counts indicate
+                    connection pool exhaustion — site may become unresponsive if limit is reached.
+                  </p>
+                </div>
+
+                {/* Stats row */}
+                <div className="grid grid-cols-3 gap-3 pt-4 border-t border-border-dark">
+                  <div className="bg-bg-dark p-3">
+                    <p className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-dark mb-1">DB Size</p>
+                    <p className="text-lg font-mono text-text-dark">{dbHealth.dbSize}</p>
+                    <p className="text-[8px] font-mono text-muted-dark/30 mt-1 leading-relaxed">
+                      Total size of the database on disk. Neon free tier limit is 0.5 GB.
+                    </p>
                   </div>
 
-                  <div className="text-right">
+                  <div className="bg-bg-dark p-3">
+                    <p className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-dark mb-1">
+                      Cache Hit Rate
+                    </p>
                     <p
-                      className={`text-sm font-mono ${
-                        dbHealth.activeConnections > 30
-                          ? 'text-red-400'
-                          : dbHealth.activeConnections > 20
-                            ? 'text-yellow-400'
-                            : 'text-emerald-400'
+                      className={`text-lg font-mono ${dbHealth.cacheHitHealthy ? 'text-emerald-400' : 'text-red-400'}`}
+                    >
+                      {dbHealth.cacheHitRate}%
+                      <span className="text-[9px] ml-1">
+                        {dbHealth.cacheHitHealthy ? (
+                          <CheckCircle className="w-3 h-3 text-emerald-400 inline ml-1" />
+                        ) : (
+                          <AlertTriangle className="w-3 h-3 text-yellow-400 inline ml-1" />
+                        )}
+                      </span>
+                    </p>
+                    <p className="text-[8px] font-mono text-muted-dark/30 mt-1 leading-relaxed">
+                      % of queries served from memory vs disk. Healthy at 85%+ — low values mean frequent disk reads and
+                      slower queries.
+                    </p>
+                  </div>
+
+                  <div className="bg-bg-dark p-3">
+                    <p className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-dark mb-1">
+                      Oldest Transaction
+                    </p>
+                    <p
+                      className={`text-lg font-mono flex items-center gap-1.5 ${
+                        dbHealth.oldestTransactionWarning ? 'text-yellow-400' : 'text-text-dark'
                       }`}
                     >
-                      {dbHealth.activeConnections > 30
-                        ? '⚠️ CRITICAL - SITE MAY CRASH'
-                        : dbHealth.activeConnections > 20
-                          ? '⚠️ ELEVATED - MONITOR CLOSELY'
-                          : '✓ HEALTHY'}
+                      {dbHealth.oldestTransaction ?? 'None'}
+                      {dbHealth.oldestTransactionWarning && (
+                        <AlertTriangle className="w-3 h-3 text-yellow-400 shrink-0" />
+                      )}
                     </p>
-                    <p className="text-[8px] font-mono text-muted-dark mt-1">Last checked: {formatDate(new Date())}</p>
+                    <p className="text-[8px] font-mono text-muted-dark/30 mt-1 leading-relaxed">
+                      Duration of the longest running active query. Warn if &gt;30s — may indicate a stuck or slow
+                      transaction.
+                    </p>
                   </div>
                 </div>
-
-                {/* Visual bar */}
-                <div className="mt-3 h-2 bg-bg-dark rounded-full overflow-hidden">
-                  <div
-                    className={`h-full transition-all duration-500 ${
-                      dbHealth.activeConnections > 30
-                        ? 'bg-red-400'
-                        : dbHealth.activeConnections > 20
-                          ? 'bg-yellow-400'
-                          : 'bg-emerald-400'
-                    }`}
-                    style={{ width: `${(dbHealth.activeConnections / dbHealth.maxConnections) * 100}%` }}
-                  />
-                </div>
-
-                {/* Long Running Queries */}
-                {dbHealth.longQueries.length > 0 && (
-                  <div className="mt-4 pt-4 border-t border-border-dark">
-                    <p className="text-[9px] font-mono tracking-[0.2em] uppercase text-red-400 mb-2">
-                      ⚠️ Long Running Queries ({dbHealth.longQueries.length})
-                    </p>
-                    <div className="space-y-2">
-                      {dbHealth.longQueries.map((q) => (
-                        <div key={q.pid} className="bg-bg-dark p-2 border-l-2 border-red-400">
-                          <div className="flex items-center justify-between mb-1">
-                            <span className="text-[8px] font-mono text-muted-dark">PID: {q.pid}</span>
-                            <span className="text-[8px] font-mono text-red-400">{q.duration}</span>
-                          </div>
-                          <p className="text-[10px] font-mono text-text-dark truncate">{q.query}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Active Queries Breakdown */}
-                {dbHealth.activeQueries && dbHealth.activeQueries.length > 0 && (
-                  <div className="mt-4 pt-4 border-t border-border-dark">
-                    <p className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-dark mb-2">
-                      Connection States
-                    </p>
-                    <div className="space-y-1">
-                      {dbHealth.activeQueries.map((q, i) => (
-                        <div key={i} className="flex items-center justify-between p-2 bg-bg-dark">
-                          <div className="flex-1 min-w-0">
-                            <p className="text-[10px] font-mono text-text-dark truncate mb-1">{q.query}</p>
-                            <p className="text-[8px] font-mono text-muted-dark">{q.state}</p>
-                          </div>
-                          <span
-                            className={`text-xs font-mono px-2 py-1 ml-2 shrink-0 ${
-                              q.state === 'active'
-                                ? 'bg-emerald-500/10 text-emerald-400'
-                                : q.state === 'idle'
-                                  ? 'bg-yellow-500/10 text-yellow-400'
-                                  : 'bg-border-dark text-muted-dark'
-                            }`}
-                          >
-                            {q.count}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
               </div>
             </div>
           )}
