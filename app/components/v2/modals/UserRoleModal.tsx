@@ -16,11 +16,6 @@ interface Props {
 
 const ROLES: { value: UserRole; label: string; description: string }[] = [
   {
-    value: 'PATRON',
-    label: 'Patron',
-    description: 'Read-only access to patron features'
-  },
-  {
     value: 'ADMIN',
     label: 'Admin',
     description: 'Full access to the admin dashboard'
@@ -29,7 +24,7 @@ const ROLES: { value: UserRole; label: string; description: string }[] = [
 
 export default function UserRoleModal({ user, onClose }: Props) {
   const router = useRouter()
-  const [selected, setSelected] = useState<UserRole>(user?.role ?? 'PATRON')
+  const [selected, setSelected] = useState<UserRole>(user?.role ?? 'ADMIN')
   const [loading, setLoading] = useState(false)
 
   const handleSave = async () => {

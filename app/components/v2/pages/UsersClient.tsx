@@ -1,24 +1,25 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { motion } from 'framer-motion'
-import { ArrowLeft, LogOut, Users, Search, X, ChevronDown, ChevronUp } from 'lucide-react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { ArrowLeft, LogOut, Users, Search, X, ChevronDown, ChevronUp, Plus, Loader2 } from 'lucide-react'
 import Link from 'next/link'
 import { signOut } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import type { User, UserRole } from '@prisma/client'
-import UserRoleModal from '../modals/UserRoleModal'
+import { store } from '@/app/redux/store'
+import { showToast } from '@/app/redux/features/toastSlice'
+import { createAdminUser } from '@/app/lib/actions/user/createAdminUser'
 
 interface Props {
   users: User[]
 }
 
-const ROLE_ORDER: UserRole[] = ['SUPER_USER', 'ADMIN', 'PATRON']
+const ROLE_ORDER: UserRole[] = ['SUPER_USER', 'ADMIN']
 
 const ROLE_STYLES: Record<UserRole, string> = {
   SUPER_USER: 'text-primary-dark border-primary-dark/30 bg-primary-dark/10',
-  ADMIN: 'text-emerald-400 border-emerald-400/30 bg-emerald-400/10',
-  PATRON: 'text-muted-dark border-border-dark bg-surface-dark'
+  ADMIN: 'text-emerald-400 border-emerald-400/30 bg-emerald-400/10'
 }
 
 type SortKey = 'name' | 'role' | 'createdAt' | 'email'
@@ -26,11 +27,39 @@ type SortDir = 'asc' | 'desc'
 
 export default function UsersClient({ users }: Props) {
   const router = useRouter()
-  const [selectedUser, setSelectedUser] = useState<User | null>(null)
   const [search, setSearch] = useState('')
   const [roleFilter, setRoleFilter] = useState<UserRole | 'ALL'>('ALL')
   const [sortKey, setSortKey] = useState<SortKey>('createdAt')
   const [sortDir, setSortDir] = useState<SortDir>('desc')
+  const [adminEmail, setAdminEmail] = useState('')
+  const [adminFirstName, setAdminFirstName] = useState('')
+  const [adminLastName, setAdminLastName] = useState('')
+  const [addingAdmin, setAddingAdmin] = useState(false)
+  const [showAddAdmin, setShowAddAdmin] = useState(false)
+
+  const handleAddAdmin = async () => {
+    if (!adminEmail.trim() || !adminFirstName.trim() || !adminLastName.trim()) return
+    setAddingAdmin(true)
+    const res = await createAdminUser(adminEmail.trim(), adminFirstName.trim(), adminLastName.trim())
+    setAddingAdmin(false)
+    if (res.success) {
+      store.dispatch(
+        showToast({
+          type: 'success',
+          message: res.emailFailed
+            ? 'Admin created but email failed to send'
+            : `Admin created — login email sent to ${adminEmail}`
+        })
+      )
+      setAdminEmail('')
+      setAdminFirstName('')
+      setAdminLastName('')
+      setShowAddAdmin(false)
+      router.refresh()
+    } else {
+      store.dispatch(showToast({ type: 'error', message: res.error ?? 'Something went wrong' }))
+    }
+  }
 
   const handleSort = (key: SortKey) => {
     if (sortKey === key) {
@@ -66,8 +95,7 @@ export default function UsersClient({ users }: Props) {
   const counts = useMemo(
     () => ({
       ALL: users.length,
-      ADMIN: users.filter((u) => u.role === 'ADMIN').length,
-      PATRON: users.filter((u) => u.role === 'PATRON').length
+      ADMIN: users.filter((u) => u.role === 'ADMIN').length
     }),
     [users]
   )
@@ -99,14 +127,26 @@ export default function UsersClient({ users }: Props) {
             <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-dark">Users</span>
             <span className="text-[9px] font-mono text-muted-dark/40">({users.length})</span>
           </div>
-          <button
-            type="button"
-            onClick={() => signOut({ redirectTo: '/auth/login' })}
-            className="text-muted-dark hover:text-red-400 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-dark"
-            aria-label="Sign out"
-          >
-            <LogOut className="w-3.5 h-3.5" />
-          </button>
+
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setShowAddAdmin(true)}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-primary-dark hover:bg-secondary-light text-white text-[9px] font-mono tracking-[0.15em] uppercase transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-dark"
+            >
+              <Plus className="w-2.5 h-2.5" />
+              Add Admin
+            </button>
+            <div className="w-px h-4 bg-border-dark" aria-hidden="true" />
+            <button
+              type="button"
+              onClick={() => signOut({ redirectTo: '/auth/login' })}
+              className="text-muted-dark hover:text-red-400 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-dark"
+              aria-label="Sign out"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
 
         {/* ── Filters ── */}
@@ -140,7 +180,7 @@ export default function UsersClient({ users }: Props) {
 
           {/* Role filter tabs */}
           <div className="flex overflow-x-auto">
-            {(['ALL', 'ADMIN', 'PATRON'] as const).map((role) => (
+            {(['ALL', 'ADMIN'] as const).map((role) => (
               <button
                 key={role}
                 type="button"
@@ -204,8 +244,8 @@ export default function UsersClient({ users }: Props) {
                 initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.02 }}
-                className="grid grid-cols-[1fr_1fr_auto_auto] gap-4 items-center px-4 py-3 border-b border-border-dark/40 last:border-0 hover:bg-surface-dark transition-colors cursor-pointer group"
-                onClick={() => setSelectedUser(user)}
+                className="grid grid-cols-[1fr_1fr_auto_auto] gap-4 items-center px-4 py-3 border-b border-border-dark/40 last:border-0 hover:bg-surface-dark transition-colors group"
+                // onClick={() => setShowAddAdmin(true)}
               >
                 {/* Name */}
                 <div className="min-w-0">
@@ -243,20 +283,11 @@ export default function UsersClient({ users }: Props) {
             Showing {filtered.length} of {users.length} users
           </p>
           <div className="flex items-center gap-3">
-            {(['ADMIN', 'PATRON'] as UserRole[]).map(
+            {(['ADMIN'] as UserRole[]).map(
               (role) =>
                 counts[role] > 0 && (
                   <div key={role} className="flex items-center gap-1.5">
-                    <span
-                      className={`w-1.5 h-1.5 rounded-full ${
-                        role === 'SUPER_USER'
-                          ? 'bg-primary-dark'
-                          : role === 'ADMIN'
-                            ? 'bg-emerald-400'
-                            : 'bg-muted-dark'
-                      }`}
-                      aria-hidden="true"
-                    />
+                    <span className={`w-1.5 h-1.5 rounded-full bg-emerald-400`} aria-hidden="true" />
                     <span className="text-[9px] font-mono text-muted-dark uppercase">
                       {counts[role]} {role.toLowerCase()}
                     </span>
@@ -267,14 +298,152 @@ export default function UsersClient({ users }: Props) {
         </div>
       </div>
 
-      <UserRoleModal
-        key={selectedUser?.id}
-        user={selectedUser}
-        onClose={() => {
-          setSelectedUser(null)
-          router.refresh()
-        }}
-      />
+      {/* ── Add Admin Modal ── */}
+      <AnimatePresence>
+        {showAddAdmin && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => {
+                setShowAddAdmin(false)
+                setAdminEmail('')
+              }}
+              className="fixed inset-0 bg-black/60 z-40"
+              aria-hidden="true"
+            />
+
+            {/* Modal */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: -8 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: -8 }}
+              transition={{ duration: 0.15 }}
+              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-sm bg-bg-dark border border-border-dark shadow-2xl"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="add-admin-heading"
+            >
+              {/* Modal header */}
+              <div className="flex items-center justify-between px-4 py-3 border-b border-border-dark">
+                <div className="flex items-center gap-2">
+                  <Users className="w-3.5 h-3.5 text-primary-dark" aria-hidden="true" />
+                  <h2 id="add-admin-heading" className="text-[9px] font-mono tracking-[0.2em] uppercase text-text-dark">
+                    Add Admin User
+                  </h2>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowAddAdmin(false)
+                    setAdminEmail('')
+                  }}
+                  className="text-muted-dark hover:text-text-dark transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-dark"
+                  aria-label="Close"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
+              {/* Modal body */}
+              <div className="p-4 space-y-3">
+                <p className="text-[10px] font-mono text-muted-dark/60 leading-relaxed">
+                  A new admin account will be created and a login email will be sent to the address below.
+                </p>
+
+                {/* Name row */}
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <label
+                      htmlFor="admin-first-name"
+                      className="block text-[9px] font-mono tracking-[0.15em] uppercase text-muted-dark mb-1.5"
+                    >
+                      First Name
+                    </label>
+                    <input
+                      id="admin-first-name"
+                      type="text"
+                      value={adminFirstName}
+                      onChange={(e) => setAdminFirstName(e.target.value)}
+                      placeholder="Jane"
+                      className="w-full px-3 py-2.5 bg-surface-dark border border-border-dark text-text-dark text-sm placeholder:text-muted-dark/30 focus:outline-none focus:border-primary-dark transition-colors"
+                      autoFocus
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="admin-last-name"
+                      className="block text-[9px] font-mono tracking-[0.15em] uppercase text-muted-dark mb-1.5"
+                    >
+                      Last Name
+                    </label>
+                    <input
+                      id="admin-last-name"
+                      type="text"
+                      value={adminLastName}
+                      onChange={(e) => setAdminLastName(e.target.value)}
+                      placeholder="Smith"
+                      className="w-full px-3 py-2.5 bg-surface-dark border border-border-dark text-text-dark text-sm placeholder:text-muted-dark/30 focus:outline-none focus:border-primary-dark transition-colors"
+                    />
+                  </div>
+                </div>
+
+                {/* Email */}
+                <div>
+                  <label
+                    htmlFor="admin-email"
+                    className="block text-[9px] font-mono tracking-[0.15em] uppercase text-muted-dark mb-1.5"
+                  >
+                    Email Address
+                  </label>
+                  <input
+                    id="admin-email"
+                    type="email"
+                    value={adminEmail}
+                    onChange={(e) => setAdminEmail(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') handleAddAdmin()
+                    }}
+                    placeholder="jane@example.com"
+                    className="w-full px-3 py-2.5 bg-surface-dark border border-border-dark text-text-dark text-sm placeholder:text-muted-dark/30 focus:outline-none focus:border-primary-dark transition-colors"
+                  />
+                </div>
+
+                {/* Actions */}
+                <div className="flex items-center gap-2 pt-1">
+                  <button
+                    type="button"
+                    onClick={handleAddAdmin}
+                    disabled={!adminEmail.trim() || !adminFirstName.trim() || !adminLastName.trim() || addingAdmin}
+                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-primary-dark hover:bg-secondary-light text-white text-[9px] font-mono tracking-[0.15em] uppercase transition-colors disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-dark"
+                  >
+                    {addingAdmin ? (
+                      <Loader2 className="w-3 h-3 animate-spin" aria-hidden="true" />
+                    ) : (
+                      <Plus className="w-3 h-3" aria-hidden="true" />
+                    )}
+                    {addingAdmin ? 'Creating...' : 'Create Admin'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowAddAdmin(false)
+                      setAdminEmail('')
+                      setAdminFirstName('')
+                      setAdminLastName('')
+                    }}
+                    className="px-4 py-2.5 border border-border-dark text-muted-dark hover:text-text-dark text-[9px] font-mono tracking-[0.15em] uppercase transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-dark"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </>
   )
 }

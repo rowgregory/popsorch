@@ -4,10 +4,9 @@ import { auth } from './app/lib/auth'
 
 // ─── Role config ──────────────────────────────────────────────────────────────
 
-type UserRole = 'PATRON' | 'ADMIN' | 'SUPER_USER'
+type UserRole = 'ADMIN' | 'SUPER_USER'
 
 const DASHBOARDS: Record<UserRole, string> = {
-  PATRON: '/auth/login',
   ADMIN: '/v2/dashboard',
   SUPER_USER: '/v2/super'
 }

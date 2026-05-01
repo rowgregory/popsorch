@@ -45,6 +45,7 @@ import {
   deleteUser,
   deleteVenue
 } from '@/app/lib/actions/super/super.actions'
+import { formatDate } from '@/app/utils/date.functions'
 
 interface Props {
   customRequests: CustomRequest[]
@@ -182,13 +183,7 @@ export default function SuperClient({
                               <span className="text-muted-dark/30">by</span> {req.submittedBy}
                             </span>
                           )}
-                          <span className="text-[8px] font-mono text-muted-dark/30">
-                            {new Date(req.submittedAt).toLocaleDateString('en-US', {
-                              month: 'short',
-                              day: 'numeric',
-                              year: 'numeric'
-                            })}
-                          </span>
+                          <span className="text-[8px] font-mono text-muted-dark/30">{formatDate(req.submittedAt)}</span>
                         </div>
                       </div>
                       <span
@@ -266,11 +261,7 @@ export default function SuperClient({
                     {t.role.replace('_', ' ')}
                   </span>
                   <span className="text-[7px] font-mono text-muted-dark/30 shrink-0 hidden sm:block">
-                    {new Date(t.updatedAt).toLocaleDateString('en-US', {
-                      month: 'short',
-                      day: 'numeric',
-                      year: 'numeric'
-                    })}
+                    {formatDate(t.updatedAt)}
                   </span>
                 </span>
               )}
@@ -433,9 +424,7 @@ export default function SuperClient({
                           ? '⚠️ ELEVATED - MONITOR CLOSELY'
                           : '✓ HEALTHY'}
                     </p>
-                    <p className="text-[8px] font-mono text-muted-dark mt-1">
-                      Last checked: {new Date().toLocaleTimeString()}
-                    </p>
+                    <p className="text-[8px] font-mono text-muted-dark mt-1">Last checked: {formatDate(new Date())}</p>
                   </div>
                 </div>
 
