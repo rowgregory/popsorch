@@ -1,106 +1,15 @@
 import { redirect } from 'next/navigation'
-import prisma from '@/prisma/client'
 import { auth } from '@/app/lib/auth'
 import SuperClient from '@/app/components/v2/pages/SuperClient'
-import { getDatabaseHealth } from '@/app/lib/actions/super/getDatabaseHealth'
-
-async function fetchSuperDashboardData() {
-  const [
-    customRequests,
-    concerts,
-    venues,
-    teamMembers,
-    news,
-    events,
-    testimonials,
-    sponsors,
-    questions,
-    users,
-    dbHealth
-  ] = await Promise.all([
-    prisma.customRequest
-      .findMany({
-        orderBy: { submittedAt: 'desc' }
-      })
-      .catch(() => []),
-    prisma.concert
-      .findMany({
-        orderBy: { createdAt: 'desc' }
-      })
-      .catch(() => []),
-    prisma.venue
-      .findMany({
-        orderBy: { name: 'asc' }
-      })
-      .catch(() => []),
-    prisma.teamMember
-      .findMany({
-        orderBy: { updatedAt: 'desc' }
-      })
-      .catch(() => []),
-    prisma.news
-      .findMany({
-        orderBy: { createdAt: 'desc' }
-      })
-      .catch(() => []),
-    prisma.event
-      .findMany({
-        orderBy: { date: 'desc' }
-      })
-      .catch(() => []),
-    prisma.testimonial
-      .findMany({
-        orderBy: { displayOrder: 'asc' }
-      })
-      .catch(() => []),
-    prisma.sponsor
-      .findMany({
-        orderBy: { name: 'asc' }
-      })
-      .catch(() => []),
-    prisma.question
-      .findMany({
-        orderBy: { createdAt: 'desc' }
-      })
-      .catch(() => []),
-    prisma.user
-      .findMany({
-        orderBy: { email: 'asc' }
-      })
-      .catch(() => []),
-    getDatabaseHealth()
-  ])
-
-  return {
-    customRequests,
-    concerts,
-    venues,
-    teamMembers,
-    news,
-    events,
-    testimonials,
-    sponsors,
-    questions,
-    users,
-    dbHealth
-  }
-}
+import { getSuperDashboardData } from '@/app/lib/actions/super/fetchSuperDashboardData'
 
 export default async function SuperPage() {
   const session = await auth()
-
   if (!session?.user?.id) redirect('/auth/login')
+  if (session.user.role !== 'SUPER_USER') redirect('/v2/dashboard')
 
-  const user = await prisma.user
-    .findUnique({
-      where: { id: session.user.id },
-      select: { role: true }
-    })
-    .catch(() => null)
-
-  if (user?.role !== 'SUPER_USER') redirect('/v2/dashboard')
-
-  const data = await fetchSuperDashboardData()
+  // No separate prisma.user.findUnique — use the session role directly
+  const data = await getSuperDashboardData()
 
   return (
     <SuperClient

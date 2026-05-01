@@ -35,19 +35,17 @@ import { updateCustomRequestStatus } from '@/app/lib/actions/custom-request/upda
 import { store } from '@/app/redux/store'
 import { showToast } from '@/app/redux/features/toastSlice'
 import { LogoutButton } from '../common/LogoutButton'
-import {
-  deleteConcert,
-  deleteEvent,
-  deleteQuestion,
-  deleteSponsor,
-  deleteTeamMember,
-  deleteTestimonial,
-  deleteUser,
-  deleteVenue
-} from '@/app/lib/actions/super/super.actions'
 import { formatDate } from '@/app/utils/date.functions'
 import { ROLE_STYLES } from './UsersClient'
 import { deleteNews } from '@/app/lib/actions/super/deleteNews'
+import { deleteConcert } from '@/app/lib/actions/concert/deleteConcert'
+import { deleteVenue } from '@/app/lib/actions/super/deleteVenue'
+import { deleteTeamMember } from '@/app/lib/actions/super/deleteTeamMember'
+import { deleteEvent } from '@/app/lib/actions/super/deleteEvent'
+import { deleteTestimonial } from '@/app/lib/actions/super/deleteTestimonial'
+import { deleteSponsor } from '@/app/lib/actions/super/deleteSponsor'
+import { deleteQuestion } from '@/app/lib/actions/super/deleteQuestion'
+import { deleteUser } from '@/app/lib/actions/super/deleteUser'
 
 interface Props {
   customRequests: CustomRequest[]

@@ -4,6 +4,7 @@ import prisma from '@/prisma/client'
 import { getActor } from '../user/getActor'
 import { buildLogMessage, getRequestContext } from '@/app/utils/parseUserAgent'
 import { createLog } from '@/app/utils/logHelper'
+import { revalidateTag } from 'next/cache'
 
 export async function deleteGalleryPhoto(id: string) {
   if (!id) return { success: false, error: 'Photo ID is required' }
@@ -33,5 +34,6 @@ export async function deleteGalleryPhoto(id: string) {
     request: context
   }).catch(() => null)
 
+  revalidateTag('super-dashboard', 'default')
   return { success: true }
 }

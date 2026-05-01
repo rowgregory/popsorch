@@ -4,6 +4,7 @@ import { buildLogMessage, getRequestContext } from '@/app/utils/parseUserAgent'
 import { getActor } from '../user/getActor'
 import prisma from '@/prisma/client'
 import { createLog } from '@/app/utils/logHelper'
+import { revalidateTag } from 'next/cache'
 
 export async function deleteNews(id: string) {
   if (!id) return { success: false, error: 'Article ID is required' }
@@ -33,5 +34,6 @@ export async function deleteNews(id: string) {
     request: context
   }).catch(() => null)
 
+  revalidateTag('super-dashboard', 'default')
   return { success: true }
 }

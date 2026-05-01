@@ -4,6 +4,7 @@ import prisma from '@/prisma/client'
 import { createLog } from '../../../utils/logHelper'
 import { getActor } from '../user/getActor'
 import { buildLogMessage, getRequestContext } from '@/app/utils/parseUserAgent'
+import { revalidateTag } from 'next/cache'
 
 export async function deleteVenue(id: string) {
   if (!id) return { success: false, error: 'Venue ID is required' }
@@ -23,5 +24,6 @@ export async function deleteVenue(id: string) {
     request: context
   }).catch(() => null)
 
+  revalidateTag('super-dashboard', 'default')
   return { success: true }
 }

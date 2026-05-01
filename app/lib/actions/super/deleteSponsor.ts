@@ -4,6 +4,7 @@ import prisma from '@/prisma/client'
 import { createLog } from '../../../utils/logHelper'
 import { getActor } from '../user/getActor'
 import { buildLogMessage, getRequestContext } from '@/app/utils/parseUserAgent'
+import { revalidateTag } from 'next/cache'
 
 export async function deleteSponsor(id: string) {
   if (!id) return { success: false, error: 'Sponsor ID is required' }
@@ -22,5 +23,6 @@ export async function deleteSponsor(id: string) {
     request: context
   }).catch(() => null)
 
+  revalidateTag('super-dashboard', 'default')
   return { success: true }
 }

@@ -1,9 +1,10 @@
 'use server'
 
 import prisma from '@/prisma/client'
-import { getActor } from './getActor'
+import { getActor } from '../user/getActor'
 import { buildLogMessage, getRequestContext } from '@/app/utils/parseUserAgent'
 import { createLog } from '@/app/utils/logHelper'
+import { revalidateTag } from 'next/cache'
 
 export async function deleteUser(id: string) {
   if (!id) return { success: false, error: 'User ID is required' }
@@ -27,5 +28,6 @@ export async function deleteUser(id: string) {
     }
   ).catch(() => null)
 
+  revalidateTag('super-dashboard', 'default')
   return { success: true }
 }
