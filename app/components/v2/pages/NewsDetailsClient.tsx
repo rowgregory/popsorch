@@ -47,7 +47,7 @@ export default function NewsDetailsClient({ article }: Props) {
         >
           <Link
             href="/"
-            className="inline-flex items-center gap-2 font-heebo text-xs tracking-[0.2em] uppercase text-white/40 hover:text-blaze transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze"
+            className="inline-flex items-center gap-2 font-heebo text-xs tracking-[0.2em] uppercase text-white/60 hover:text-blaze transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze"
           >
             <ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
             Back to News
@@ -64,7 +64,7 @@ export default function NewsDetailsClient({ article }: Props) {
           {/* Meta */}
           <div className="flex items-center gap-3 mb-6">
             <div className="w-6 h-px bg-blaze" aria-hidden="true" />
-            <div className="flex items-center gap-2 text-white/30 font-heebo text-xs">
+            <div className="flex items-center gap-2 text-white/50 font-heebo text-xs">
               <Calendar className="w-3 h-3 text-blaze" aria-hidden="true" />
               <time dateTime={article.createdAt.toISOString()}>{formattedDate}</time>
             </div>
@@ -114,7 +114,7 @@ export default function NewsDetailsClient({ article }: Props) {
               ))}
             </div>
           ) : (
-            <p className="font-heebo text-white/30 text-sm italic">No content available.</p>
+            <p className="font-heebo text-white/50 text-sm italic">No content available.</p>
           )}
         </motion.article>
 
@@ -132,7 +132,7 @@ export default function NewsDetailsClient({ article }: Props) {
             <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" aria-hidden="true" />
             All News
           </Link>
-          <p className="font-heebo text-[10px] uppercase tracking-widest text-white/20">The Pops Orchestra</p>
+          <p className="font-heebo text-[10px] uppercase tracking-widest text-white/40">The Pops Orchestra</p>
         </motion.div>
       </div>
     </div>

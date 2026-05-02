@@ -79,7 +79,7 @@ const Pops404 = () => {
             <button
               type="button"
               onClick={() => window.history.back()}
-              className="inline-flex items-center gap-2 font-changa text-xs uppercase tracking-[0.25em] text-white/30 hover:text-blaze transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze"
+              className="inline-flex items-center gap-2 font-changa text-xs uppercase tracking-[0.25em] text-white/50 hover:text-blaze transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze"
             >
               <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden="true" />
               <span>Go Back</span>
@@ -88,7 +88,7 @@ const Pops404 = () => {
 
           {/* Credits */}
           <motion.div className="mt-12 pt-6 border-t border-white/10" variants={itemVariants}>
-            <p className="font-lato text-[10px] uppercase tracking-widest text-white/20">
+            <p className="font-lato text-[10px] uppercase tracking-widest text-white/40">
               © {new Date().getFullYear()} The Pops Orchestra of Sarasota and Bradenton
             </p>
           </motion.div>

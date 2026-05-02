@@ -15,7 +15,7 @@ export const ContactUsBlock = ({ data }) => {
         className="absolute inset-0 block"
         aria-hidden="true"
         style={{
-          backgroundImage: `url('/images/contact-no-bg-2.png')`,
+          backgroundImage: `url('/images/contact-no-bg-2.webp')`,
           backgroundAttachment: 'fixed',
           backgroundSize: 'cover',
           backgroundPosition: 'center'
@@ -100,7 +100,7 @@ export const ContactUsBlock = ({ data }) => {
                     </div>
                     <div>
                       <h3 className="font-changa text-white text-base 430:text-lg leading-tight">{method.title}</h3>
-                      <p className="font-lato text-white/40 text-xs 430:text-sm mt-0.5">{method.description}</p>
+                      <p className="font-lato text-white/60 text-xs 430:text-sm mt-0.5">{method.description}</p>
                     </div>
                   </div>
 

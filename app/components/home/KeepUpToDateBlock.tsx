@@ -64,7 +64,7 @@ const KeepUpToDateBlock = ({ pageData }) => {
                 aria-hidden="true"
               />
             </Link>
-            <p className="font-lato text-white/20 text-xs uppercase tracking-widest">No spam, ever.</p>
+            <p className="font-lato text-white/40 text-xs uppercase tracking-widest">No spam, ever.</p>
           </div>
         </div>
       </div>

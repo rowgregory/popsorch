@@ -37,7 +37,7 @@ function ConcertRow({ concert, index }: { concert: ConcertWithShows; index: numb
         <div className="990:col-span-3 flex flex-col gap-3 320:gap-4">
           {sortedShows.length === 0 ? (
             <div className="flex flex-col">
-              <p className="text-white/40 text-xs 320:text-sm font-lato">{concert.cardDate || 'Dates TBA'}</p>
+              <p className="text-white/60 text-xs 320:text-sm font-lato">{concert.cardDate || 'Dates TBA'}</p>
             </div>
           ) : (
             sortedShows.map((show) => (

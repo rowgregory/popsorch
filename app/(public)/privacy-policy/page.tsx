@@ -186,7 +186,7 @@ const PrivacyPolicy = () => {
                 </p>
               </section>
 
-              <p className="font-lato text-white/30 text-xs border-t border-white/10 pt-6">
+              <p className="font-lato text-white/50 text-xs border-t border-white/10 pt-6">
                 <time dateTime={new Date().toISOString().split('T')[0]}>
                   Last updated: {new Date().toLocaleDateString()}
                 </time>

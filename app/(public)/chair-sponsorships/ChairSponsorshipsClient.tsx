@@ -166,7 +166,7 @@ export const ChairSponsorshipsClient = ({ data }) => {
                     <tr className="border-b-2 border-blaze">
                       <th
                         scope="col"
-                        className="py-4 px-4 430:px-5 text-left font-changa text-xs uppercase tracking-[0.25em] text-white/40"
+                        className="py-4 px-4 430:px-5 text-left font-changa text-xs uppercase tracking-[0.25em] text-white/60"
                       />
                       {[
                         field('chair_table_col_bronze'),

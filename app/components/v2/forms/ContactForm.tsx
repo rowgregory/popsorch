@@ -9,7 +9,7 @@ import { ArrowRightIcon, Loader2 } from 'lucide-react'
 
 const Input = ({ name, value, handleInput, placeholder, error, required, type = 'text' }) => (
   <div className="flex flex-col w-full">
-    <label htmlFor={name} className="font-changa text-[10px] uppercase tracking-[0.25em] text-white/40 mb-2">
+    <label htmlFor={name} className="font-changa text-[10px] uppercase tracking-[0.25em] text-white/60 mb-2">
       {placeholder}
       {required && (
         <span className="text-blaze ml-1" aria-hidden="true">
@@ -29,7 +29,7 @@ const Input = ({ name, value, handleInput, placeholder, error, required, type = 
       aria-required={required}
       aria-invalid={!!error}
       aria-describedby={error ? `${name}-error` : undefined}
-      className={`bg-transparent border-b font-lato text-sm text-white placeholder:text-white/20 py-3 w-full focus:outline-none focus-visible:outline-none transition-colors duration-200 ${
+      className={`bg-transparent border-b font-lato text-sm text-white placeholder:text-white/40 py-3 w-full focus:outline-none focus-visible:outline-none transition-colors duration-200 ${
         error ? 'border-blaze placeholder:text-blaze/40' : 'border-white/20 hover:border-white/40 focus:border-blaze'
       }`}
     />
@@ -56,7 +56,7 @@ const Textarea: FC<{
   maxLength?: number
 }> = ({ name, value, onChange, placeholder, error, required, rows = 4, maxLength }) => (
   <div className="flex flex-col w-full">
-    <label htmlFor={name} className="font-changa text-[10px] uppercase tracking-[0.25em] text-white/40 mb-2">
+    <label htmlFor={name} className="font-changa text-[10px] uppercase tracking-[0.25em] text-white/60 mb-2">
       {placeholder}
       {required && (
         <>
@@ -79,7 +79,7 @@ const Textarea: FC<{
       aria-describedby={error ? `${name}-error` : undefined}
       rows={rows}
       maxLength={maxLength}
-      className={`bg-transparent border-b font-lato text-sm text-white placeholder:text-white/20 py-3 w-full focus:outline-none transition-colors duration-200 resize-none ${
+      className={`bg-transparent border-b font-lato text-sm text-white placeholder:text-white/40 py-3 w-full focus:outline-none transition-colors duration-200 resize-none ${
         error ? 'border-blaze placeholder:text-blaze/40' : 'border-white/20 hover:border-white/40 focus:border-blaze'
       }`}
     />
@@ -176,7 +176,7 @@ const ContactForm: FC<{ btnClassname?: string }> = ({ btnClassname }) => {
                 ? 'text-red-400'
                 : (inputs?.message?.length ?? 0) > 450
                   ? 'text-yellow-400'
-                  : 'text-white/20'
+                  : 'text-white/40'
             }`}
           >
             {inputs?.message?.length ?? 0}/500

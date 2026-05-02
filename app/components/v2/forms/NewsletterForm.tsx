@@ -66,7 +66,7 @@ const Input: FC<InputProps> = ({ name, value, handleInput, placeholder, error, r
       aria-required={required}
       aria-invalid={!!error}
       aria-describedby={error ? `${name}-error` : undefined}
-      className={`bg-transparent border-b font-lato text-sm text-white placeholder:text-white/20 py-3 w-full focus:outline-none transition-colors duration-200 ${
+      className={`bg-transparent border-b font-lato text-sm text-white placeholder:text-white/40 py-3 w-full focus:outline-none transition-colors duration-200 ${
         error ? 'border-blaze placeholder:text-blaze/40' : 'border-white/20 hover:border-white/40 focus:border-blaze'
       }`}
     />

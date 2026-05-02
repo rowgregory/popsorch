@@ -37,7 +37,7 @@ function SeatInfo({ data }: { data: SVGSeatProps }) {
 
   if (!fields.length) {
     return (
-      <p className="text-center text-[9px] font-changa tracking-[0.2em] uppercase text-white/20 py-4">
+      <p className="text-center text-[9px] font-changa tracking-[0.2em] uppercase text-white/40 py-4">
         Hover a seat to see details
       </p>
     )

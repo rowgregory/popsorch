@@ -41,7 +41,7 @@ export default function TeamMemberCard({ teamMember, index, onClick }: Props) {
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <span className="text-5xl font-changa text-white/20">
+            <span className="text-5xl font-changa text-white/40">
               {teamMember.firstName[0]}
               {teamMember.lastName[0]}
             </span>
@@ -55,7 +55,7 @@ export default function TeamMemberCard({ teamMember, index, onClick }: Props) {
           {teamMember.firstName} {teamMember.lastName}
         </h3>
         {teamMember.position && (
-          <p className="text-[9px] font-mono tracking-[0.2em] uppercase text-white/40">{teamMember.position}</p>
+          <p className="text-[9px] font-mono tracking-[0.2em] uppercase text-white/60">{teamMember.position}</p>
         )}
       </div>
     </motion.article>

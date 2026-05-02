@@ -8,7 +8,13 @@ const SponsorCard = ({ sponsor, size }) => {
       transition={{ duration: 0.3, ease: 'easeOut' }}
       className={`${size} relative bg-white/95 hover:bg-white border border-white/10 hover:border-blaze/30 p-4 430:p-6 flex items-center justify-center transition-colors duration-300 group`}
     >
-      <Picture priority={true} src={sponsor.filePath} alt={sponsor.name} className="w-full h-full object-contain" />
+      <Picture
+        priority={true}
+        src={sponsor.filePath}
+        alt={sponsor.name}
+        className="w-full h-full object-contain"
+        sizes="(max-width: 430px) 150px, (max-width: 990px) 200px, 250px"
+      />
       {/* Blaze accent bottom border on hover */}
       <div
         className="absolute bottom-0 left-0 right-0 h-0.5 bg-blaze scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"

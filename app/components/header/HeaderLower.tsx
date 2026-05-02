@@ -119,7 +119,7 @@ export const HeaderLower = ({ campApplicationsSetting }) => {
       <div className="hidden xl:flex items-center justify-end h-8">
         <Link
           href="/auth/login"
-          className="flex items-center gap-1.5 text-white/40 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze text-[10px] font-mono tracking-[0.2em] uppercase"
+          className="flex items-center gap-1.5 text-white/60 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze text-[10px] font-mono tracking-[0.2em] uppercase"
           aria-label="Sign in to your account"
         >
           <User className="w-3 h-3" aria-hidden="true" />

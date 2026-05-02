@@ -37,7 +37,7 @@ export default function TeamMemberClient({ member, allMembers, currentIndex, rol
     />
   ) : (
     <div className="w-full h-full bg-white/5 flex items-center justify-center">
-      <span className="text-5xl font-changa text-white/20">
+      <span className="text-5xl font-changa text-white/40">
         {member.firstName[0]}
         {member.lastName[0]}
       </span>
@@ -52,20 +52,20 @@ export default function TeamMemberClient({ member, allMembers, currentIndex, rol
           <button
             onClick={goToPrev}
             disabled={!hasPrev}
-            className={`p-1.5 transition-colors ${hasPrev ? 'text-white/40 hover:text-blaze' : 'text-white/10 cursor-not-allowed'}`}
+            className={`p-1.5 transition-colors ${hasPrev ? 'text-white/60 hover:text-blaze' : 'text-white/10 cursor-not-allowed'}`}
             aria-label="Previous member"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
 
-          <div className="text-white/30 text-[10px] font-mono tracking-widest">
+          <div className="text-white/50 text-[10px] font-mono tracking-widest">
             {currentIndex + 1} / {allMembers.length}
           </div>
 
           <button
             onClick={goToNext}
             disabled={!hasNext}
-            className={`p-1.5 transition-colors ${hasNext ? 'text-white/40 hover:text-blaze' : 'text-white/10 cursor-not-allowed'}`}
+            className={`p-1.5 transition-colors ${hasNext ? 'text-white/60 hover:text-blaze' : 'text-white/10 cursor-not-allowed'}`}
             aria-label="Next member"
           >
             <ChevronRight className="w-4 h-4" />
@@ -101,14 +101,14 @@ export default function TeamMemberClient({ member, allMembers, currentIndex, rol
                 ))}
               </ul>
             ) : (
-              <p className="text-white/30 text-xs font-mono">Biography coming soon</p>
+              <p className="text-white/50 text-xs font-mono">Biography coming soon</p>
             )}
 
             {/* Back button */}
             <div className="pt-6 border-t border-white/5 mt-auto">
               <button
                 onClick={() => router.push(`/${role}`)}
-                className="text-[10px] font-mono tracking-[0.2em] uppercase text-white/40 hover:text-white transition-colors"
+                className="text-[10px] font-mono tracking-[0.2em] uppercase text-white/60 hover:text-white transition-colors"
               >
                 ← Back to Team
               </button>

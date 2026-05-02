@@ -76,7 +76,7 @@ const NavigationDrawer = ({ campApplicationsSetting }) => {
                 <div key={i}>
                   <div
                     className={`text-[11px] font-mono tracking-[0.2em] uppercase mb-3 px-3 ${
-                      link.active ? 'text-blaze' : 'text-white/40'
+                      link.active ? 'text-blaze' : 'text-white/60'
                     }`}
                   >
                     {link.textKey}
@@ -124,7 +124,7 @@ const NavigationDrawer = ({ campApplicationsSetting }) => {
             <span>Make a Donation</span>
             <Heart className="w-4 h-4 shrink-0 group-hover:scale-110 transition-transform" aria-hidden="true" />
           </Link>
-          <p className="text-white/30 text-xs font-changa uppercase tracking-widest text-center pt-2">
+          <p className="text-white/50 text-xs font-changa uppercase tracking-widest text-center pt-2">
             The Pops Orchestra of Bradenton & Sarasota
           </p>
         </div>

@@ -26,8 +26,8 @@ export default function ConcertDetailsClient({ concert }: Props) {
   if (concert.shows.length === 0) {
     return (
       <main id="main-content" className="bg-black min-h-screen flex flex-col items-center justify-center gap-4">
-        <Music className="w-10 h-10 text-white/20" aria-hidden="true" />
-        <p className="font-changa text-lg text-white/40">No event dates available at this time.</p>
+        <Music className="w-10 h-10 text-white/40" aria-hidden="true" />
+        <p className="font-changa text-lg text-white/60">No event dates available at this time.</p>
         <Link
           href="/concerts"
           className="inline-flex items-center gap-2 font-changa text-xs uppercase tracking-widest text-blaze hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze"
@@ -107,7 +107,7 @@ export default function ConcertDetailsClient({ concert }: Props) {
           <div className="pt-8 pb-4">
             <Link
               href="/concerts"
-              className="inline-flex items-center gap-2 font-changa text-[10px] uppercase tracking-[0.25em] text-white/30 hover:text-blaze transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze"
+              className="inline-flex items-center gap-2 font-changa text-[10px] uppercase tracking-[0.25em] text-white/50 hover:text-blaze transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze"
             >
               <ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
               All Concerts
@@ -204,7 +204,7 @@ export default function ConcertDetailsClient({ concert }: Props) {
                 </h2>
                 <div className="w-10 sm:w-16 h-px bg-blaze shrink-0" aria-hidden="true" />
               </div>
-              <p className="font-lato text-white/40 text-sm sm:text-base max-w-xl leading-relaxed mt-2">
+              <p className="font-lato text-white/60 text-sm sm:text-base max-w-xl leading-relaxed mt-2">
                 {concert.shows.length === 1
                   ? 'One performance available this season.'
                   : `${concert.shows.length} performances available this season.`}
@@ -264,10 +264,10 @@ export default function ConcertDetailsClient({ concert }: Props) {
                           <dt className="sr-only">Venue</dt>
                           <dd className="font-lato text-sm text-white/80">{show.venue.name}</dd>
                           {show.venue.address && (
-                            <dd className="font-lato text-xs text-white/40 mt-0.5">{show.venue.address}</dd>
+                            <dd className="font-lato text-xs text-white/60 mt-0.5">{show.venue.address}</dd>
                           )}
                           {show.venue.city && (
-                            <dd className="font-lato text-xs text-white/40 mt-0.5">{show.venue.city}</dd>
+                            <dd className="font-lato text-xs text-white/60 mt-0.5">{show.venue.city}</dd>
                           )}
                         </div>
                       </div>
@@ -287,7 +287,7 @@ export default function ConcertDetailsClient({ concert }: Props) {
                     <div className="w-8 h-px bg-blaze mb-4" aria-hidden="true" />
 
                     {show.venue.address && (
-                      <address className="not-italic font-lato text-sm text-white/40 leading-relaxed mb-2">
+                      <address className="not-italic font-lato text-sm text-white/60 leading-relaxed mb-2">
                         {show.venue.address}
                       </address>
                     )}
@@ -298,7 +298,7 @@ export default function ConcertDetailsClient({ concert }: Props) {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={`Get directions to ${show.venue.name} (opens in new tab)`}
-                        className="inline-flex items-center gap-2 font-lato text-xs text-white/30 hover:text-blaze transition-colors mb-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze w-fit"
+                        className="inline-flex items-center gap-2 font-lato text-xs text-white/50 hover:text-blaze transition-colors mb-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze w-fit"
                       >
                         <MapPin className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
                         Get Directions
@@ -309,10 +309,10 @@ export default function ConcertDetailsClient({ concert }: Props) {
                     {(show.venue.capacity || show.venue.accessibility) && (
                       <div className="space-y-2 mb-10">
                         {show.venue.capacity && (
-                          <p className="font-lato text-xs text-white/30">Capacity: {show.venue.capacity}</p>
+                          <p className="font-lato text-xs text-white/50">Capacity: {show.venue.capacity}</p>
                         )}
                         {show.venue.accessibility && (
-                          <p className="font-lato text-xs text-white/30 leading-relaxed line-clamp-2">
+                          <p className="font-lato text-xs text-white/50 leading-relaxed line-clamp-2">
                             {show.venue.accessibility}
                           </p>
                         )}
@@ -324,7 +324,7 @@ export default function ConcertDetailsClient({ concert }: Props) {
                       {!isLive ? (
                         <div
                           role="status"
-                          className="inline-flex items-center px-6 py-4 border border-white/10 font-changa text-sm uppercase tracking-widest text-white/20"
+                          className="inline-flex items-center px-6 py-4 border border-white/10 font-changa text-sm uppercase tracking-widest text-white/40"
                         >
                           Not Yet On Sale
                         </div>
@@ -353,7 +353,7 @@ export default function ConcertDetailsClient({ concert }: Props) {
                       ) : (
                         <div
                           role="status"
-                          className="inline-flex items-center px-6 py-4 border border-white/10 font-changa text-sm uppercase tracking-widest text-white/20"
+                          className="inline-flex items-center px-6 py-4 border border-white/10 font-changa text-sm uppercase tracking-widest text-white/40"
                         >
                           Tickets Coming Soon
                         </div>

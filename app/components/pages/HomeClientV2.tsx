@@ -201,8 +201,8 @@ function Nav() {
 //         transition={{ repeat: Infinity, duration: 2.5, ease: 'easeInOut' }}
 //         aria-hidden="true"
 //       >
-//         <span className="text-[9px] font-mono tracking-[0.25em] uppercase text-white/30">Scroll</span>
-//         <ChevronDown className="w-4 h-4 text-white/30" />
+//         <span className="text-[9px] font-mono tracking-[0.25em] uppercase text-white/50">Scroll</span>
+//         <ChevronDown className="w-4 h-4 text-white/50" />
 //       </motion.div>
 //     </section>
 //   )
@@ -603,7 +603,7 @@ function NewsletterSection() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
                 required
-                className="flex-1 px-6 py-4 bg-white/10 border border-white/20 text-white placeholder:text-white/30 focus:outline-none focus:border-white transition-colors text-sm"
+                className="flex-1 px-6 py-4 bg-white/10 border border-white/20 text-white placeholder:text-white/50 focus:outline-none focus:border-white transition-colors text-sm"
               />
               <button
                 type="submit"

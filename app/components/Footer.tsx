@@ -155,7 +155,7 @@ const Footer = ({ data }: { data: FooterData }) => {
       {/* Credits bar */}
       <section aria-label="Footer credits" className="border-t border-white/10 px-4 990:px-12 xl:px-4 py-3 430:py-4">
         <div className="max-w-[320px] 430:max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 mx-auto flex flex-col 430:flex-row items-center justify-between gap-2">
-          <p className="font-changa text-[10px] uppercase tracking-widest text-white/30">
+          <p className="font-changa text-[10px] uppercase tracking-widest text-white/50">
             <small>© {new Date().getFullYear()} The Pops Orchestra. All rights reserved.</small>
           </p>
           <div className="flex items-center gap-3 430:gap-4">
@@ -169,7 +169,7 @@ const Footer = ({ data }: { data: FooterData }) => {
               }
               className="flex items-center gap-1 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm"
             >
-              <span className="font-lato text-[10px] text-white/30 group-hover:text-white transition-colors">
+              <span className="font-lato text-[10px] text-white/50 group-hover:text-white transition-colors">
                 Built by
               </span>
               <span className="sqysh-gradient text-[10px] font-bold font-raleway">Sqysh</span>
@@ -179,7 +179,7 @@ const Footer = ({ data }: { data: FooterData }) => {
               type="button"
               aria-label="Scroll back to top of page"
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="text-white/30 hover:text-blaze transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm p-1"
+              className="text-white/50 hover:text-blaze transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm p-1"
             >
               <ChevronUp className="w-3.5 h-3.5" aria-hidden="true" />
             </button>

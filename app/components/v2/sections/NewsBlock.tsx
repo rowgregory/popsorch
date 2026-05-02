@@ -72,7 +72,7 @@ export function NewsBlock({ news }: { news: News[] }) {
                     />
                   ) : (
                     <div className="w-full h-full bg-white/5 flex items-center justify-center">
-                      <span className="font-heebo text-white/20 text-xs uppercase tracking-widest">
+                      <span className="font-heebo text-white/40 text-xs uppercase tracking-widest">
                         The Pops Orchestra
                       </span>
                     </div>
@@ -81,7 +81,7 @@ export function NewsBlock({ news }: { news: News[] }) {
 
                 {/* Text */}
                 <div className="p-8">
-                  <p className="font-heebo text-[9px] tracking-[0.25em] uppercase text-white/30 mb-3">
+                  <p className="font-heebo text-[9px] tracking-[0.25em] uppercase text-white/50 mb-3">
                     {new Date(featured.createdAt).toLocaleDateString('en-US', {
                       month: 'long',
                       day: 'numeric',
@@ -92,7 +92,7 @@ export function NewsBlock({ news }: { news: News[] }) {
                     {featured.title}
                   </h3>
                   {featured.excerpt && (
-                    <p className="font-heebo text-white/40 text-sm leading-relaxed line-clamp-3 mb-5">
+                    <p className="font-heebo text-white/60 text-sm leading-relaxed line-clamp-3 mb-5">
                       {featured.excerpt}
                     </p>
                   )}
@@ -139,7 +139,7 @@ export function NewsBlock({ news }: { news: News[] }) {
 
                 {/* Text */}
                 <div className="min-w-0 flex flex-col justify-center">
-                  <p className="font-heebo text-[9px] tracking-[0.2em] uppercase text-white/30 mb-2">
+                  <p className="font-heebo text-[9px] tracking-[0.2em] uppercase text-white/50 mb-2">
                     {new Date(article.createdAt).toLocaleDateString('en-US', {
                       month: 'short',
                       day: 'numeric',
@@ -150,7 +150,7 @@ export function NewsBlock({ news }: { news: News[] }) {
                     {article.title}
                   </h3>
                   {article.excerpt && (
-                    <p className="font-heebo text-white/40 text-xs leading-relaxed line-clamp-2 hidden sm:block">
+                    <p className="font-heebo text-white/60 text-xs leading-relaxed line-clamp-2 hidden sm:block">
                       {article.excerpt}
                     </p>
                   )}

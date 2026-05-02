@@ -76,12 +76,12 @@ export function ConcertCard({ concert, index }: { concert: ConcertWithShows; ind
               </span>
             )}
             {isArchived && (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-white/5 border border-white/10 font-changa text-[9px] text-white/30 uppercase tracking-widest">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-white/5 border border-white/10 font-changa text-[9px] text-white/50 uppercase tracking-widest">
                 Archived
               </span>
             )}
             {concert.season && (
-              <span className="font-changa text-[9px] uppercase tracking-widest text-white/20">
+              <span className="font-changa text-[9px] uppercase tracking-widest text-white/40">
                 {concert.season} Season
               </span>
             )}
@@ -109,7 +109,7 @@ export function ConcertCard({ concert, index }: { concert: ConcertWithShows; ind
 
         {/* Card date */}
         {concert.cardDate && (
-          <div className="flex items-center gap-2 text-white/40">
+          <div className="flex items-center gap-2 text-white/60">
             <Calendar className="w-3.5 h-3.5 text-blaze shrink-0" aria-hidden="true" />
             <span className="font-lato text-xs uppercase tracking-wide">{concert.cardDate}</span>
           </div>
@@ -128,7 +128,7 @@ export function ConcertCard({ concert, index }: { concert: ConcertWithShows; ind
           </div>
 
           {sortedShows.length === 0 ? (
-            <p className="font-lato text-xs text-white/30">Dates TBA</p>
+            <p className="font-lato text-xs text-white/50">Dates TBA</p>
           ) : (
             sortedShows.map((show) => (
               <div key={show.id} className="flex flex-col gap-1">
@@ -142,7 +142,7 @@ export function ConcertCard({ concert, index }: { concert: ConcertWithShows; ind
                     })}
                   </time>
                 </div>
-                <div className="flex items-center gap-2 text-white/40">
+                <div className="flex items-center gap-2 text-white/60">
                   <Clock className="w-3 h-3 text-blaze/60 shrink-0" aria-hidden="true" />
                   <span className="font-lato text-xs">
                     {new Date(show.date).toLocaleTimeString('en-US', {
@@ -151,7 +151,7 @@ export function ConcertCard({ concert, index }: { concert: ConcertWithShows; ind
                     })}
                   </span>
                 </div>
-                <div className="flex items-center gap-2 text-white/40">
+                <div className="flex items-center gap-2 text-white/60">
                   <MapPin className="w-3 h-3 text-blaze/60 shrink-0" aria-hidden="true" />
                   <span className="font-lato text-xs truncate">{show.venue.name}</span>
                 </div>
@@ -248,13 +248,13 @@ export default function ConcertsClient({ concerts }: Props) {
                 className={`px-5 py-2.5 font-changa text-xs uppercase tracking-[0.2em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black ${
                   filter === f.value
                     ? 'bg-blaze text-white'
-                    : 'text-white/30 hover:text-white border border-white/10 hover:border-white/30'
+                    : 'text-white/50 hover:text-white border border-white/10 hover:border-white/30'
                 }`}
               >
                 {f.label}
               </button>
             ))}
-            <span className="ml-auto font-lato text-xs text-white/20">
+            <span className="ml-auto font-lato text-xs text-white/40">
               {filtered.length} concert{filtered.length !== 1 ? 's' : ''}
             </span>
           </div>
@@ -269,10 +269,10 @@ export default function ConcertsClient({ concerts }: Props) {
               <div role="status" className="text-center py-24">
                 <div className="inline-flex flex-col items-center gap-4">
                   <div className="p-4 bg-white/5">
-                    <Music className="w-8 h-8 text-white/20" aria-hidden="true" />
+                    <Music className="w-8 h-8 text-white/40" aria-hidden="true" />
                   </div>
                   <h3 className="font-changa text-lg text-white">No concerts found</h3>
-                  <p className="font-lato text-sm text-white/40 max-w-sm leading-relaxed">
+                  <p className="font-lato text-sm text-white/60 max-w-sm leading-relaxed">
                     Check back soon for upcoming performances.
                   </p>
                 </div>
@@ -284,11 +284,11 @@ export default function ConcertsClient({ concerts }: Props) {
                     {/* Season label */}
                     {bySeason.length > 1 && (
                       <div className="flex items-center gap-4 mb-8">
-                        <span className="font-changa text-[10px] uppercase tracking-[0.3em] text-white/20">
+                        <span className="font-changa text-[10px] uppercase tracking-[0.3em] text-white/40">
                           {season === 'Other' ? 'Other' : `${season} Season`}
                         </span>
                         <div className="flex-1 h-px bg-white/10" aria-hidden="true" />
-                        <span className="font-changa text-[9px] text-white/20">
+                        <span className="font-changa text-[9px] text-white/40">
                           {seasonConcerts.length} concert{seasonConcerts.length !== 1 ? 's' : ''}
                         </span>
                       </div>

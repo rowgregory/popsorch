@@ -259,7 +259,7 @@ export const HiddenGemsClient = ({ data }) => {
                               </ul>
                             )}
 
-                            <address className="not-italic space-y-2 font-lato text-xs text-white/40 border-t border-white/10 pt-4">
+                            <address className="not-italic space-y-2 font-lato text-xs text-white/60 border-t border-white/10 pt-4">
                               <div className="flex items-start gap-2">
                                 <MapPin className="w-3 h-3 shrink-0 mt-0.5 text-blaze" aria-hidden="true" />
                                 <span className="leading-tight">{address}</span>

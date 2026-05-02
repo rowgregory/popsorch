@@ -97,7 +97,7 @@ export function TestimonialsBlock({ testimonials }: TestimonialsBlockProps) {
                       <p className="font-c-infant font-bold text-white text-lg uppercase tracking-wide">
                         {current.author}
                       </p>
-                      {current.title && <p className="font-heebo text-white/40 text-sm mt-1">{current.title}</p>}
+                      {current.title && <p className="font-heebo text-white/60 text-sm mt-1">{current.title}</p>}
                     </cite>
                   </footer>
                 </blockquote>
@@ -111,7 +111,7 @@ export function TestimonialsBlock({ testimonials }: TestimonialsBlockProps) {
               <button
                 type="button"
                 onClick={prev}
-                className="w-11 h-11 flex items-center justify-center border border-white/10 hover:border-blaze text-white/30 hover:text-blaze transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                className="w-11 h-11 flex items-center justify-center border border-white/10 hover:border-blaze text-white/50 hover:text-blaze transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black"
                 aria-label="Previous testimonial"
               >
                 <ChevronLeft className="w-4 h-4" aria-hidden="true" />
@@ -140,7 +140,7 @@ export function TestimonialsBlock({ testimonials }: TestimonialsBlockProps) {
               <button
                 type="button"
                 onClick={next}
-                className="w-11 h-11 flex items-center justify-center border border-white/10 hover:border-blaze text-white/30 hover:text-blaze transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                className="w-11 h-11 flex items-center justify-center border border-white/10 hover:border-blaze text-white/50 hover:text-blaze transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black"
                 aria-label="Next testimonial"
               >
                 <ChevronRight className="w-4 h-4" aria-hidden="true" />
@@ -150,7 +150,7 @@ export function TestimonialsBlock({ testimonials }: TestimonialsBlockProps) {
 
           {/* Count */}
           <p
-            className="text-center font-heebo text-[10px] tracking-[0.2em] uppercase text-white/20 mt-6"
+            className="text-center font-heebo text-[10px] tracking-[0.2em] uppercase text-white/40 mt-6"
             aria-hidden="true"
           >
             {index + 1} / {published.length}

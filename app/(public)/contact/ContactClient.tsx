@@ -130,7 +130,7 @@ export const ContactClient = ({ data }) => {
                           className="w-10 h-10 border border-white/10 hover:border-blaze/40 hover:bg-blaze/5 flex items-center justify-center transition-colors group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm"
                         >
                           <Icon
-                            className="w-4 h-4 text-white/30 group-hover:text-blaze transition-colors"
+                            className="w-4 h-4 text-white/50 group-hover:text-blaze transition-colors"
                             aria-hidden="true"
                           />
                         </a>
@@ -152,12 +152,12 @@ export const ContactClient = ({ data }) => {
                   </div>
                   <dl className="flex flex-col gap-0">
                     <div className="flex justify-between py-3 border-b border-white/6">
-                      <dt className="font-lato text-xs text-white/40">{field('contact_office_hours_weekday_label')}</dt>
+                      <dt className="font-lato text-xs text-white/60">{field('contact_office_hours_weekday_label')}</dt>
                       <dd className="font-lato text-xs text-white">{field('contact_office_hours_weekday_value')}</dd>
                     </div>
                     <div className="flex justify-between py-3">
-                      <dt className="font-lato text-xs text-white/40">{field('contact_office_hours_weekend_label')}</dt>
-                      <dd className="font-lato text-xs text-white/30">{field('contact_office_hours_weekend_value')}</dd>
+                      <dt className="font-lato text-xs text-white/60">{field('contact_office_hours_weekend_label')}</dt>
+                      <dd className="font-lato text-xs text-white/50">{field('contact_office_hours_weekend_value')}</dd>
                     </div>
                   </dl>
                 </section>

@@ -137,13 +137,13 @@ export const StudentScholarshipsClient = ({ data }) => {
                 <div className="flex flex-wrap items-center gap-5 mb-10">
                   <div className="flex items-center gap-2">
                     <Shield className="w-4 h-4 text-green-400 shrink-0" aria-hidden="true" />
-                    <span className="font-lato text-xs text-white/40 uppercase tracking-wider">
+                    <span className="font-lato text-xs text-white/60 uppercase tracking-wider">
                       {field('scholarships_trust_badge_1')}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Lock className="w-4 h-4 text-blue-400 shrink-0" aria-hidden="true" />
-                    <span className="font-lato text-xs text-white/40 uppercase tracking-wider">
+                    <span className="font-lato text-xs text-white/60 uppercase tracking-wider">
                       {field('scholarships_trust_badge_2')}
                     </span>
                   </div>

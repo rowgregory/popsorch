@@ -90,7 +90,8 @@ export function SeasonDates() {
               priority
               src="/images/like-no-other.png"
               alt="Like No Other"
-              className="w-full h-full max-w-lg mx-auto"
+              className="w-full max-w-lg mx-auto"
+              sizes="(max-width: 640px) 100vw, 512px"
             />
           </motion.div>
 
@@ -116,19 +117,14 @@ export function SeasonDates() {
             ))}
           </div>
 
-          <style>{`
-  @keyframes shine {
-    0% { background-position: 200% center; }
-    100% { background-position: -200% center; }
-  }
-`}</style>
+          <style>{`@keyframes shine { 0% { background-position: 200% center; } 100% { background-position: -200% center; } }`}</style>
 
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.8 }}
-            className="font-lato text-sm text-white/40 max-w-lg mx-auto leading-relaxed"
+            className="font-lato text-sm text-white/60 max-w-lg mx-auto leading-relaxed"
           >
             Join us for Robyn Bell&apos;s 15th season as our conductor, and a lineup of entertaining shows. We&apos;re
             glad you&apos;re here, and we&apos;re glad you&apos;ll hear what The Pops has in store for you.
