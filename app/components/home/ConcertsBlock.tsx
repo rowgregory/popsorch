@@ -150,6 +150,8 @@ function ConcertRow({ concert, index }: { concert: ConcertWithShows; index: numb
 export function ConcertsBlock({ concerts, pageData }: ConcertsBlockProps) {
   const live = concerts.filter((c) => c.status === 'LIVE')
 
+  if (live.length === 0) return
+
   const concertData = pageData?.filter((p) => p?.id?.includes('concerts')) ?? []
   const concert = concertData.reduce<Record<string, string>>((acc, field) => {
     const key = field.id.replace('concerts_', '')
@@ -188,9 +190,7 @@ export function ConcertsBlock({ concerts, pageData }: ConcertsBlockProps) {
         </motion.h2>
 
         {/* ── Concert List ── */}
-        {live.length === 0 ? (
-          <p className="text-white/40 text-sm">No concerts currently on sale.</p>
-        ) : (
+        {live.length > 0 && (
           <ul role="list" className="flex flex-col divide-y divide-white/10 w-full mb-12">
             {live.map((concert, i) => (
               <ConcertRow key={concert.id} concert={concert} index={i} />

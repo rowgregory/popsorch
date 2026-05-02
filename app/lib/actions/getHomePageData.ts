@@ -1,6 +1,5 @@
 'use server'
 
-import { unstable_cache } from 'next/cache'
 import prisma from '@/prisma/client'
 import { getPage } from './page/getPage'
 import { getConcerts } from './concert/getConcerts'
@@ -8,7 +7,7 @@ import { getPhotoGalleryImages } from './photo-gallery-image/getPhotoGalleryImag
 import { getSponsors } from './sponsor/getSponsors'
 import { getTestimonials } from './testimonial/getTestimonials'
 
-async function fetchHomePageData() {
+export async function getHomePageData() {
   const [pageData, concertsData, galleryData, sponsorsData, testimonialsData, events, news] = await Promise.all([
     getPage('home').catch(() => null),
     getConcerts().catch(() => ({ concerts: [] })),
@@ -40,9 +39,3 @@ async function fetchHomePageData() {
     news
   }
 }
-
-export const getHomePageData = unstable_cache(
-  fetchHomePageData,
-  ['home-page-data'],
-  { revalidate: 60 } // Cache for 60 seconds
-)
