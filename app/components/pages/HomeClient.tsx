@@ -9,7 +9,11 @@ import { ConcertsBlock } from '../home/ConcertsBlock'
 import { TestimonialsBlock } from '../v2/sections/TestimonialsBlock'
 import { EventsBlock } from '../v2/sections/EventsBlock'
 import { NewsBlock } from '../v2/sections/NewsBlock'
-import { SeasonDates } from '../home/SeasonDates'
+import dynamic from 'next/dynamic'
+
+const SeasonSection = dynamic(() => import('@/app/components/home/SeasonDates').then((m) => m.SeasonDates), {
+  ssr: false
+})
 
 export function HomeClient({ pageData, concerts, galleryImages, sponsors, testimonials, events, news }) {
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -20,7 +24,7 @@ export function HomeClient({ pageData, concerts, galleryImages, sponsors, testim
       <div ref={scrollRef}>
         <ConcertsBlock pageData={pageData} concerts={concerts} />
       </div>
-      <SeasonDates />
+      <SeasonSection />
       <ContactUsBlock data={pageData} />
       <SponsorsBlock pageData={pageData} sponsors={sponsors} />
       <KeepUpToDateBlock pageData={pageData} />
