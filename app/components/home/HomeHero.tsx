@@ -68,23 +68,17 @@ const HomeHero = ({ pageData, ref, galleryImages }) => {
             </Link>
           </motion.div>
 
-          {/* Eyebrow — big display name */}
-          <motion.div
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.2 }}
-            className="mb-0"
+            className="font-changa text-white leading-none drop-shadow-2xl mb-0"
+            style={{ fontSize: 'clamp(2.75rem, 6vw, 5.5rem)' }}
           >
-            <p
-              className="font-changa text-white leading-none drop-shadow-2xl"
-              style={{ fontSize: 'clamp(2.75rem, 6vw, 5.5rem)' }}
-            >
-              {heading}
-            </p>
-          </motion.div>
+            {heading}
+          </motion.h1>
 
-          {/* Title — refined subtitle */}
-          <motion.h1
+          <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.7, delay: 0.35 }}
@@ -95,7 +89,7 @@ const HomeHero = ({ pageData, ref, galleryImages }) => {
             <span aria-hidden="true" className="text-blaze uppercase tracking-[0.3em]">
               {hero.subheading}
             </span>
-          </motion.h1>
+          </motion.p>
 
           <motion.div
             initial={{ opacity: 0, scaleX: 0 }}
