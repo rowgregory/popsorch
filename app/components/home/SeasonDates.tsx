@@ -149,16 +149,15 @@ export function SeasonDates() {
           <h3 className="font-changa text-[10px] uppercase tracking-[0.3em] text-blaze">This Season&apos;s Lineup</h3>
         </motion.div>
 
-        <div className="grid grid-cols-2 760:grid-cols-3 gap-px bg-white/10">
-          {CONCERTS.map((concert, i) => (
-            <motion.div
-              key={concert.name}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="relative overflow-hidden bg-black group aspect-3/4"
-            >
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="grid grid-cols-2 760:grid-cols-3 gap-px bg-white/10"
+        >
+          {CONCERTS.map((concert) => (
+            <div key={concert.name} className="relative overflow-hidden bg-black group aspect-3/4">
               <Picture
                 src={concert.image}
                 alt={concert.name}
@@ -170,9 +169,9 @@ export function SeasonDates() {
                 <p className="font-changa text-blaze text-[10px] uppercase tracking-[0.2em] mb-1">{concert.date}</p>
                 <h4 className="font-changa text-white text-lg leading-tight">{concert.name}</h4>
               </div>
-            </motion.div>
+            </div>
           ))}
-        </div>
+        </motion.div>
       </div>
 
       {/* ── Tickets on sale ── */}
