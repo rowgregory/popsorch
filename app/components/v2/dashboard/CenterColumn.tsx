@@ -1,6 +1,6 @@
 import { updateConcertStatus } from '@/app/lib/actions/concert/updateConcertStatus'
 import { motion } from 'framer-motion'
-import { Archive, ArrowRight, CheckCircle, Clock, Info, KeyRound, Music2, Plug, Plus } from 'lucide-react'
+import { Archive, ArrowRight, CheckCircle, Clock, KeyRound, Music2, Plug } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
@@ -21,56 +21,26 @@ export function CenterColumn({ concerts }) {
           <span className="text-[9px] font-mono text-muted-dark/40">({concerts.length})</span>
         </div>
         <div className="flex items-center gap-2">
-          <Link
-            href="https://app.getcuebox.com"
-            target="_blank"
-            className="text-[9px] font-mono tracking-[0.15em] uppercase text-muted-dark hover:text-text-dark transition-colors"
-            title="View all concerts"
-          >
-            View All
-          </Link>
-          <Link
-            href="https://app.getcuebox.com"
-            target="_blank"
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-primary-dark hover:bg-secondary-light text-white text-[9px] font-mono tracking-[0.15em] uppercase transition-colors"
-          >
-            <Plus className="w-2.5 h-2.5" />
-            New Concert
-          </Link>
-        </div>
-      </div>
-
-      {/* CueBox migration notice */}
-      <div className="shrink-0 flex items-start gap-2.5 px-4 py-3 border-b border-border-dark bg-surface-dark/50">
-        <Info className="w-3 h-3 text-primary-dark shrink-0 mt-0.5" />
-        <p className="text-[9px] font-mono text-muted-dark/60 leading-relaxed">
-          1 remaining concert was created here. All new concerts should be created in{' '}
-          <Link
+          <a
             href="https://app.getcuebox.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-primary-dark hover:text-secondary-light transition-colors underline underline-offset-2"
+            className="text-[9px] font-mono tracking-[0.15em] uppercase text-muted-dark hover:text-text-dark transition-colors"
           >
-            CueBox
-          </Link>{' '}
-          going forward and will sync here via the external API.
-        </p>
+            CueBox ↗
+          </a>
+        </div>
       </div>
 
       {/* Concerts list — scrollable */}
       <div className="flex-1 overflow-y-auto">
         {concerts.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full gap-3">
+          <div className="flex flex-col items-center justify-center h-full gap-3 px-6 text-center">
             <Music2 className="w-10 h-10 text-border-dark" />
-            <p className="text-muted-dark text-sm">No concerts yet.</p>
-            <Link
-              href="https://app.getcuebox.com"
-              target="_blank"
-              className="flex items-center gap-1.5 text-[10px] font-mono tracking-[0.15em] uppercase text-primary-dark hover:text-secondary-dark transition-colors"
-            >
-              <Plus className="w-3 h-3" />
-              Add your first concert
-            </Link>
+            <p className="text-muted-dark text-sm">Waiting on CueBox</p>
+            <p className="text-[10px] font-mono text-muted-dark/40 leading-relaxed max-w-52">
+              Pending API credentials and 26–27 season data entry. Concerts will sync here automatically once set up.
+            </p>
           </div>
         ) : (
           concerts.map((c, i) => (
