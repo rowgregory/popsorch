@@ -28,9 +28,9 @@ export const HomeHeroCarousel: FC<{ images: any; interval: number }> = ({ images
             alt=""
             fill
             priority={index === 0}
-            quality={60}
+            quality={50}
             className="object-cover object-top"
-            sizes="100vw" // already correct for full-width hero
+            sizes="100vw"
           />
           <div className="absolute inset-0 bg-black/20" />
         </div>
