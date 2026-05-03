@@ -4,6 +4,7 @@ import { siteMetadata } from './metadata'
 import './globals.css'
 import RootLayoutClient from './components/v2/layouts/RootLayoutClient'
 import { getLayoutData } from './lib/actions/getLayoutData'
+import { getFirstHeroImage } from './lib/actions/photo-gallery-image/getFirstHeroImage'
 
 export const dynamic = 'force-dynamic'
 export const metadata = siteMetadata
@@ -36,14 +37,22 @@ const c_infant = Cormorant_Infant({
 })
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const { campApplicationsSetting, footerData } = await getLayoutData().catch(() => ({
-    campApplicationsSetting: null,
-    footerData: null
-  }))
+  const [layoutData, firstHeroImage] = await Promise.all([
+    getLayoutData().catch(() => ({ campApplicationsSetting: null, footerData: null })),
+    getFirstHeroImage().catch(() => null)
+  ])
 
   return (
     <html lang="en">
       <head>
+        {firstHeroImage && (
+          <link
+            rel="preload"
+            as="image"
+            href={`/_next/image?url=${encodeURIComponent(firstHeroImage.imageUrl)}&w=1920&q=60`}
+            fetchPriority="high"
+          />
+        )}
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
           strategy="lazyOnload"
@@ -58,7 +67,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         </Script>
       </head>
       <body className={`${changa.variable} ${lato.variable} ${heebo.variable} ${c_infant.variable} antialiased`}>
-        <RootLayoutClient campApplicationsSetting={campApplicationsSetting?.value} footerData={footerData}>
+        <RootLayoutClient
+          campApplicationsSetting={layoutData?.campApplicationsSetting?.value}
+          footerData={layoutData?.footerData}
+        >
           {children}
         </RootLayoutClient>
         <Script
