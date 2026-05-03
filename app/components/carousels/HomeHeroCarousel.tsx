@@ -5,7 +5,6 @@ import Picture from '../common/Picture'
 export const HomeHeroCarousel: FC<{ images: any; interval: number }> = ({ images, interval = 3000 }) => {
   const currentImage = useSingleImageCarousel(images, interval)
 
-  // Always render the images array, no fallback swap
   if (!images?.length) {
     return (
       <div className="relative w-full h-full overflow-hidden" role="presentation" aria-hidden="true">
@@ -16,18 +15,33 @@ export const HomeHeroCarousel: FC<{ images: any; interval: number }> = ({ images
 
   return (
     <div className="relative w-full h-full overflow-hidden" role="presentation" aria-hidden="true">
-      {images.map((image: { imageUrl: string }, index: number) => (
+      {/* First image rendered statically — browser parser sees this immediately */}
+      <div className="absolute inset-0">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={`/_next/image?url=${encodeURIComponent(images[0].imageUrl)}&w=1920&q=75`}
+          alt=""
+          fetchPriority="high"
+          decoding="sync"
+          className="w-full h-full object-cover object-top"
+          style={{ opacity: currentImage === images[0].imageUrl || !currentImage ? 1 : 0, transition: 'opacity 1s' }}
+        />
+        <div className="absolute inset-0 bg-black/20" />
+      </div>
+
+      {/* Remaining images via Picture — JS rendered */}
+      {images.slice(1).map((image: { imageUrl: string }, index: number) => (
         <div
-          key={index}
+          key={index + 1}
           className={`absolute inset-0 transition-opacity duration-1000 ${
-            image?.imageUrl === currentImage || (index === 0 && !currentImage) ? 'opacity-100' : 'opacity-0'
+            image?.imageUrl === currentImage ? 'opacity-100' : 'opacity-0'
           }`}
         >
           <Picture
             src={image.imageUrl}
             alt=""
             fill
-            priority={index === 0}
+            priority={false}
             quality={50}
             className="object-cover object-top"
             sizes="100vw"
