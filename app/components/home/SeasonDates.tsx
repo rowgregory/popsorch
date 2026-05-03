@@ -10,7 +10,7 @@ const CONCERTS = [
   { name: 'Ring in the Holidays', date: 'December 13–14', image: '/images/season-6.jpg' },
   { name: 'Cheek to Cheek', date: 'February 13–15', image: '/images/season-3.jpg' },
   { name: "'80s Ladies", date: 'March 13–15', image: '/images/season-1.jpg' },
-  { name: 'How Low Can You Go?', date: 'April 11–12', image: '/images/season-6.jpg' }
+  { name: 'How Low Can You Go?', date: 'April 11–12', image: '/images/season-5.jpg' }
 ]
 
 const ON_SALE_DATES = [
