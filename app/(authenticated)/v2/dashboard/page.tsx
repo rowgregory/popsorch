@@ -10,7 +10,6 @@ export default async function DashboardPage() {
       venues={data.venues}
       teamMembers={data.teamMembers}
       photosCount={data.photosCount}
-      photosLiveCount={data.photosLiveCount}
       questions={data.questions}
       users={data.users}
       mailchimpCount={data.mailchimpCount}

@@ -37,7 +37,6 @@ interface Props {
   venues: Venue[]
   teamMembers: TeamMember[]
   photosCount: number
-  photosLiveCount: number
   questions: Question[]
   users: PrismaUser[]
   pageContentCount: number
@@ -62,7 +61,6 @@ export default function DashboardClient({
   venues,
   teamMembers,
   photosCount,
-  photosLiveCount,
   questions,
   users,
   pageContentCount,
@@ -260,7 +258,6 @@ export default function DashboardClient({
           newsCount={newsCount}
           newsLiveCount={newsLiveCount}
           photosCount={photosCount}
-          photosLiveCount={photosLiveCount}
           setTestimonialModalOpen={setTestimonialModalOpen}
           testimonialsCount={testimonialsCount}
           testimonialsLiveCount={testimonialsLiveCount}

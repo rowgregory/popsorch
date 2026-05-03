@@ -9,7 +9,6 @@ async function fetchDashboardData() {
     venues,
     teamMembers,
     photosCount,
-    photosLiveCount,
     questions,
     users,
     campApplications,
@@ -42,7 +41,6 @@ async function fetchDashboardData() {
       })
       .catch(() => []),
     prisma.photoGalleryImage.count().catch(() => 0),
-    prisma.photoGalleryImage.count({ where: { isHomeHero: true } }).catch(() => 0),
     prisma.question
       .findMany({
         orderBy: { createdAt: 'desc' },
@@ -88,7 +86,6 @@ async function fetchDashboardData() {
     venues,
     teamMembers,
     photosCount,
-    photosLiveCount,
     questions,
     users,
     campApplications,

@@ -10,13 +10,11 @@ export function FooterStrip({
   eventsCount,
   eventsLiveCount,
   photosCount,
-  photosLiveCount,
   setTestimonialModalOpen
 }) {
   const testimonialsDraftCount = testimonialsCount - testimonialsLiveCount
   const newsDraftCount = newsCount - newsLiveCount
   const eventsDraftCount = eventsCount - eventsLiveCount
-  const photosDraftCount = photosCount - photosLiveCount
   return (
     <motion.footer
       initial={{ opacity: 0, y: 6 }}
@@ -31,8 +29,6 @@ export function FooterStrip({
             icon: <Img className="w-3 h-3" />,
             label: 'Gallery',
             value: photosCount,
-            liveCount: photosLiveCount,
-            draftCount: photosDraftCount,
             arrow: <ArrowRight className="w-3 h-3" />
           },
           {
@@ -65,8 +61,14 @@ export function FooterStrip({
                 {item.label}
               </span>
               <span className="text-[9px] font-mono text-muted-dark/40">({item.value})</span>
-              <span className="text-[8px] font-mono text-emerald-400 hidden lg:block">{item.liveCount} live</span>
-              <span className="text-[8px] font-mono text-muted-dark/40 hidden lg:block">{item.draftCount} draft</span>
+              {item.label !== 'Gallery' && (
+                <>
+                  <span className="text-[8px] font-mono text-emerald-400 hidden lg:block">{item.liveCount} live</span>
+                  <span className="text-[8px] font-mono text-muted-dark/40 hidden lg:block">
+                    {item.draftCount} draft
+                  </span>
+                </>
+              )}
             </div>
             <span className="text-border-dark group-hover:text-primary-dark transition-colors shrink-0">
               {item.arrow}
