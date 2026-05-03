@@ -3,16 +3,19 @@ import { getHomePageData } from './lib/actions/getHomePageData'
 
 export default async function HomePage() {
   const data = await getHomePageData()
+  const firstHeroImage = data.galleryImages?.find((img) => img.isHomeHero)
 
   return (
-    <HomeClient
-      pageData={data.pageData}
-      concerts={data.concerts}
-      galleryImages={data.galleryImages}
-      sponsors={data.sponsors}
-      testimonials={data.testimonials}
-      events={data.events}
-      news={data.news}
-    />
+    <>
+      {firstHeroImage && (
+        <link
+          rel="preload"
+          as="image"
+          href={`/_next/image?url=${encodeURIComponent(firstHeroImage.imageUrl)}&w=1920&q=60`}
+          fetchPriority="high"
+        />
+      )}
+      <HomeClient {...data} />
+    </>
   )
 }

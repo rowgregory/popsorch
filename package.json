@@ -42,5 +42,11 @@
   "overrides": {
     "minimatch": "^10.2.1",
     "bn.js": "^5.2.3"
-  }
+  },
+  "browserslist": [
+    "last 2 Chrome versions",
+    "last 2 Firefox versions",
+    "last 2 Safari versions",
+    "last 2 Edge versions"
+  ]
 }

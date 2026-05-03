@@ -40,7 +40,8 @@ export async function toggleSiteSetting(key: string, value: boolean) {
     request: context
   }).catch(() => null)
 
-  revalidateTag('dashboard', 'default')
+  revalidateTag('dashboard', '')
+  revalidateTag('layout-data', '')
 
   return { success: true, data: setting }
 }

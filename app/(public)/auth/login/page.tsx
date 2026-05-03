@@ -242,10 +242,6 @@ export default function Login() {
               </p>
             </div>
           )}
-
-          <p className="text-[10px] font-mono tracking-widest uppercase text-muted-dark/40 text-center mt-8">
-            Your account is tied to your email address
-          </p>
         </section>
       </motion.div>
     </main>

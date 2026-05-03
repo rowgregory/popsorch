@@ -87,11 +87,13 @@ export function SeasonDates() {
             className="mb-8"
           >
             <Picture
-              priority
               src="/images/like-no-other.png"
               alt="Like No Other"
+              width={380}
+              height={252}
               className="w-full max-w-lg mx-auto"
               sizes="(max-width: 640px) 100vw, 512px"
+              priority
             />
           </motion.div>
 
@@ -160,7 +162,8 @@ export function SeasonDates() {
                 src={concert.image}
                 alt={concert.name}
                 fill
-                priority={i === 0} // only first image should be priority
+                priority={i === 0}
+                quality={60}
                 className="object-cover opacity-70 group-hover:opacity-90 group-hover:scale-105 transition-all duration-700"
                 sizes="(max-width: 760px) 50vw, 33vw"
               />
