@@ -89,10 +89,10 @@ export function SeasonDates() {
             <Picture
               src="/images/like-no-other.png"
               alt="Like No Other"
-              width={380}
-              height={252}
+              width={512}
+              height={340}
               className="w-full max-w-lg mx-auto"
-              sizes="(max-width: 640px) 100vw, 512px"
+              sizes="(max-width: 640px) 90vw, 512px"
               priority
             />
           </motion.div>
