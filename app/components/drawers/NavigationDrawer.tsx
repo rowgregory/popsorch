@@ -57,7 +57,7 @@ const NavigationDrawer = ({ campApplicationsSetting }) => {
                   onClick={closeDrawer}
                   href={link.linkKey}
                   className={`flex items-center py-3.5 px-3 text-base font-changa tracking-widest font-semibold uppercase rounded-md transition-colors duration-200 hover:bg-white/5 active:bg-white/10 ${
-                    link.active ? 'text-blaze' : 'text-white'
+                    link.active ? 'text-blaze-text' : 'text-white'
                   }`}
                 >
                   {link.active && <span className="w-1 h-1 rounded-full bg-blaze mr-3 shrink-0" />}
@@ -76,7 +76,7 @@ const NavigationDrawer = ({ campApplicationsSetting }) => {
                 <div key={i}>
                   <div
                     className={`text-[11px] font-mono tracking-[0.2em] uppercase mb-3 px-3 ${
-                      link.active ? 'text-blaze' : 'text-white/60'
+                      link.active ? 'text-blaze-text' : 'text-white/60'
                     }`}
                   >
                     {link.textKey}
@@ -88,7 +88,7 @@ const NavigationDrawer = ({ campApplicationsSetting }) => {
                         key={j}
                         href={obj.linkKey}
                         className={`flex items-center py-3 px-3 text-base font-changa tracking-widest font-semibold uppercase rounded-md transition-colors duration-200 hover:bg-white/5 active:bg-white/10 ${
-                          obj.active ? 'text-blaze' : 'text-white/70'
+                          obj.active ? 'text-blaze-text' : 'text-white/70'
                         }`}
                       >
                         {obj.active && <span className="w-1 h-1 rounded-full bg-blaze mr-3 shrink-0" />}

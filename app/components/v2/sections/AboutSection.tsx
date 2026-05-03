@@ -53,7 +53,7 @@ export function AboutSection({ galleryImages, aboutText }: AboutSectionProps) {
         >
           <div className="flex items-center gap-3 mb-4">
             <div className="w-6 h-px bg-blaze" aria-hidden="true" />
-            <span className="font-heebo text-[10px] tracking-[0.3em] uppercase text-blaze">Since 1975</span>
+            <span className="font-heebo text-[10px] tracking-[0.3em] uppercase text-blaze-text">Since 1975</span>
           </div>
 
           <h2 id="about-heading" className="font-c-infant font-bold text-4xl uppercase leading-tight mb-4 text-white">
@@ -110,7 +110,7 @@ export function AboutSection({ galleryImages, aboutText }: AboutSectionProps) {
               >
                 <h2
                   id="about-heading-desktop"
-                  className="font-c-infant font-bold text-[50px] uppercase leading-tight mb-6 text-blaze"
+                  className="font-c-infant font-bold text-[50px] uppercase leading-tight mb-6 text-blaze-text"
                 >
                   We Are The Pops
                 </h2>

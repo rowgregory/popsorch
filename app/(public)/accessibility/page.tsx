@@ -82,7 +82,7 @@ const Accessibility = () => {
                 <strong>Email:</strong>{' '}
                 <a
                   href="mailto:info@thepopsorchestra.org"
-                  className="text-blaze underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-sm"
+                  className="text-blaze-text underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-sm"
                 >
                   info@thepopsorchestra.org
                 </a>
@@ -92,7 +92,7 @@ const Accessibility = () => {
                 <a
                   href="tel:+19419267677"
                   aria-label="Call us at 1-941-926-7677"
-                  className="text-blaze underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-sm"
+                  className="text-blaze-text underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-sm"
                 >
                   +1-941-926-7677
                 </a>

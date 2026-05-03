@@ -51,7 +51,7 @@ export default function TeamMemberCard({ teamMember, index, onClick }: Props) {
       </div>
 
       <div className="text-center">
-        <h3 className="font-changa text-xl 430:text-2xl text-white group-hover:text-blaze transition-colors mb-1">
+        <h3 className="font-changa text-xl 430:text-2xl text-white group-hover:text-blaze-text transition-colors mb-1">
           {teamMember.firstName} {teamMember.lastName}
         </h3>
         {teamMember.position && (

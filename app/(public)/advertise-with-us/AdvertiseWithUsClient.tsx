@@ -137,7 +137,7 @@ export const AdvertiseWithUsClient = ({ data }) => {
                     whileHover={{ x: 5 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <h2 className="font-changa mb-1 text-blaze">{benefit.heading}</h2>
+                    <h2 className="font-changa mb-1 text-blaze-text">{benefit.heading}</h2>
                     <p className="text-white">{benefit.description}</p>
                   </motion.div>
                 ))}
@@ -153,7 +153,7 @@ export const AdvertiseWithUsClient = ({ data }) => {
               variants={scaleVariants}
             >
               <div className="max-w-4xl mx-auto border border-gray-300 p-6 rounded-lg bg-white/5 backdrop-blur-sm">
-                <motion.h2 className="text-xl font-bold text-center mb-6 text-blaze" variants={fadeInVariants}>
+                <motion.h2 className="text-xl font-bold text-center mb-6 text-blaze-text" variants={fadeInVariants}>
                   {field('advertise_rates_heading')}
                 </motion.h2>
 
@@ -179,7 +179,7 @@ export const AdvertiseWithUsClient = ({ data }) => {
                           >
                             <div className="flex-1">
                               <div className="flex justify-between items-start">
-                                <span className="font-bold text-blaze">{item.name}</span>
+                                <span className="font-bold text-blaze-text">{item.name}</span>
                                 <span className="font-bold text-sunburst">{item.price}</span>
                               </div>
                               <div className="text-sm text-gray-300 mt-1">{item.spec}</div>
@@ -222,7 +222,7 @@ export const AdvertiseWithUsClient = ({ data }) => {
                           >
                             <div className="flex-1">
                               <div className="flex justify-between items-start">
-                                <span className="font-bold text-blaze">{item.name}</span>
+                                <span className="font-bold text-blaze-text">{item.name}</span>
                                 <span className="font-bold text-sunburst">{item.price}</span>
                               </div>
                               <div className="text-sm text-gray-300 mt-1">{item.spec}</div>
@@ -251,7 +251,7 @@ export const AdvertiseWithUsClient = ({ data }) => {
                           >
                             <div className="flex-1">
                               <div className="flex justify-between items-start">
-                                <span className="font-bold text-blaze">{item.name}</span>
+                                <span className="font-bold text-blaze-text">{item.name}</span>
                                 <span className="font-bold text-sunburst">{item.price}</span>
                               </div>
                               <div className="text-sm text-gray-300 mt-1">{item.spec}</div>
@@ -294,7 +294,7 @@ export const AdvertiseWithUsClient = ({ data }) => {
               whileHover={{ y: -5 }}
               transition={{ duration: 0.3 }}
             >
-              <h2 className="font-changa text-2xl text-blaze mb-5 text-center max-w-60 mx-auto">
+              <h2 className="font-changa text-2xl text-blaze-text mb-5 text-center max-w-60 mx-auto">
                 {field('advertise_program_book_heading')}
               </h2>
               <p className="mb-4 font-medium leading-relaxed font-lato text-center">
@@ -302,7 +302,7 @@ export const AdvertiseWithUsClient = ({ data }) => {
                   href="/pdf/advertising.pdf"
                   download="Pops 2025-26 Advertising Form.pdf"
                   aria-label="Download the 2024-25 Season Rate Card PDF"
-                  className="inline-block mr-2 text-blaze hover:text-sunburst transition-colors font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-sm"
+                  className="inline-block mr-2 text-blaze-text hover:text-sunburst transition-colors font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-sm"
                 >
                   {field('advertise_program_book_download_label')}
                 </a>
@@ -316,7 +316,7 @@ export const AdvertiseWithUsClient = ({ data }) => {
               whileHover={{ y: -5 }}
               transition={{ duration: 0.3 }}
             >
-              <h2 className="font-changa text-2xl text-blaze mb-5 text-center max-w-60 mx-auto">
+              <h2 className="font-changa text-2xl text-blaze-text mb-5 text-center max-w-60 mx-auto">
                 {field('advertise_stats_heading')}
               </h2>
               <div className="flex items-center justify-center">

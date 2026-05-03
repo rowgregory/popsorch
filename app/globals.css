@@ -22,13 +22,13 @@
 
 /* ─── Theme ──────────────────────────────────────────────────────────── */
 @theme {
-  /* Primary accent */
-  --color-primary-light: #da0032;
-  --color-primary-dark: #da0032; /* same red in both modes */
+  /* Primary accent — brightened to pass WCAG AA 4.5:1 on dark backgrounds */
+  --color-primary-light: #da0032; /* original — fine on white */
+  --color-primary-dark: #ff2952; /* brightened — passes 4.5:1 on dark */
 
   /* Secondary accent */
   --color-secondary-light: #b8002a;
-  --color-secondary-dark: #ff1a4a;
+  --color-secondary-dark: #ff4d6d; /* brightened */
 
   /* Top utility bar */
   --color-topbar-light: #1a0a0d; /* near black with red hint */
@@ -62,7 +62,7 @@
 
   /* Muted text */
   --color-muted-light: #71717a; /* zinc-500 — neutral gray */
-  --color-muted-dark: #cd6f7a; /* muted red */
+  --color-muted-dark: #e8909a;
 
   /* Legacy aliases */
   --color-accent: #f4f4f5;
@@ -70,7 +70,7 @@
 
   /* Stat labels */
   --color-stat-label-light: #52525b; /* zinc-600 */
-  --color-stat-label-dark: #ff4d6d; /* soft red-pink */
+  --color-stat-label-dark: #ff6b82;
 
   --color-on-dark: #a1a1aa; /* zinc-400 — neutral gray for text on dark surfaces */
 
@@ -78,8 +78,9 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-midnightblack: #121212;
-  --color-blaze: #da0032;
-  --color-blazehover: #e32b4d;
+  --color-blaze: #da0032; /* keep for buttons/borders/decorative */
+  --color-blaze-text: #ff2952; /* use for text on dark backgrounds */
+  --color-blazehover: #ff2952; /* brightened */
   --color-sunburst: #ff9000;
   --color-sunbursthover: #e67f0a;
   --color-charcoalblue: #283035;

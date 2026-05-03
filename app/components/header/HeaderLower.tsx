@@ -89,7 +89,7 @@ export const HeaderNavLink: FC<HeaderNavLinkProps> = ({ link, openDropdown, setO
               aria-label={sublink.isExternal ? `${sublink.textKey} — opens in new tab` : undefined}
               aria-current={sublink.active ? 'page' : undefined}
               className={`${
-                sublink.active ? 'text-blaze' : 'text-white/70 hover:text-white'
+                sublink.active ? 'text-blaze-text' : 'text-white/70 hover:text-white'
               } font-changa text-xs uppercase tracking-[0.2em] px-6 py-4 border-b border-white/10 last:border-b-0 hover:bg-white/5 transition-colors duration-200 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-inset`}
             >
               {sublink.textKey}
@@ -199,7 +199,7 @@ export const HeaderLower = ({ campApplicationsSetting }) => {
             type="button"
             onClick={() => store.dispatch(openNavigationDrawer())}
             aria-label="Open mobile navigation menu"
-            className="w-8 h-8 430:w-9 430:h-9 flex items-center justify-center text-white/70 hover:text-blaze xl:hidden transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm"
+            className="w-8 h-8 430:w-9 430:h-9 flex items-center justify-center text-white/70 hover:text-blaze-text xl:hidden transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm"
           >
             <Menu className="w-5 h-5" aria-hidden="true" />
           </button>

@@ -77,30 +77,30 @@ const Footer = ({ data }: { data: FooterData }) => {
             <div className="760:col-span-3 bg-black p-5 430:p-6 flex flex-col gap-3">
               <div className="flex items-center gap-2 mb-1">
                 <div className="w-4 h-px bg-blaze shrink-0" aria-hidden="true" />
-                <p className="font-changa text-[10px] 430:text-xs uppercase tracking-[0.25em] text-blaze">
+                <p className="font-changa text-[10px] 430:text-xs uppercase tracking-[0.25em] text-blaze-text">
                   {d('footer_contact_title')}
                 </p>
               </div>
               <ul className="flex flex-col gap-2" aria-label="Contact information">
                 <li className="flex items-start gap-2">
-                  <Pencil className="text-blaze w-3 h-3 shrink-0 mt-0.5" aria-hidden="true" />
+                  <Pencil className="text-blaze-text w-3 h-3 shrink-0 mt-0.5" aria-hidden="true" />
                   <span className="font-lato text-[11px] 430:text-xs text-white leading-relaxed">
                     {d('footer_contact_line1')}
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <MapPin className="text-blaze w-3 h-3 shrink-0 mt-0.5" aria-hidden="true" />
+                  <MapPin className="text-blaze-text w-3 h-3 shrink-0 mt-0.5" aria-hidden="true" />
                   <span className="font-lato text-[11px] 430:text-xs text-white leading-relaxed">
                     {d('footer_contact_line2')}
                   </span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <Phone className="text-blaze w-3 h-3 shrink-0" aria-hidden="true" />
+                  <Phone className="text-blaze-text w-3 h-3 shrink-0" aria-hidden="true" />
 
                   <a
                     href={`tel:${d('footer_contact_line3').replace(/\D/g, '')}`}
                     aria-label={`Call us at ${d('footer_contact_line3')}`}
-                    className="font-lato text-[11px] 430:text-xs text-white hover:text-blaze transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm"
+                    className="font-lato text-[11px] 430:text-xs text-white hover:text-blaze-text transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm"
                   >
                     {d('footer_contact_line3')}
                   </a>
@@ -112,7 +112,7 @@ const Footer = ({ data }: { data: FooterData }) => {
             <nav aria-label="Footer quick links" className="760:col-span-3 bg-black p-5 430:p-6 flex flex-col gap-3">
               <div className="flex items-center gap-2 mb-1">
                 <div className="w-4 h-px bg-blaze shrink-0" aria-hidden="true" />
-                <p className="font-changa text-[10px] 430:text-xs uppercase tracking-[0.25em] text-blaze">
+                <p className="font-changa text-[10px] 430:text-xs uppercase tracking-[0.25em] text-blaze-text">
                   {d('footer_quick_links_title')}
                 </p>
               </div>
@@ -127,7 +127,7 @@ const Footer = ({ data }: { data: FooterData }) => {
                       onClick={() =>
                         sendEnrichedGAEvent('footer_link_click', link.linkKey, link.textKey, 'footer_quick_links')
                       }
-                      className="font-lato text-[11px] 430:text-xs text-white hover:text-blaze transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm"
+                      className="font-lato text-[11px] 430:text-xs text-white hover:text-blaze-text transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm"
                     >
                       {link.textKey}
                     </Link>
@@ -140,7 +140,7 @@ const Footer = ({ data }: { data: FooterData }) => {
             <div className="760:col-span-3 bg-black p-5 430:p-6 flex flex-col gap-3">
               <div className="flex items-center gap-2 mb-1">
                 <div className="w-4 h-px bg-blaze shrink-0" aria-hidden="true" />
-                <p className="font-changa text-[10px] 430:text-xs uppercase tracking-[0.25em] text-blaze">
+                <p className="font-changa text-[10px] 430:text-xs uppercase tracking-[0.25em] text-blaze-text">
                   {d('footer_tagline_label')}
                 </p>
               </div>
@@ -155,7 +155,7 @@ const Footer = ({ data }: { data: FooterData }) => {
       {/* Credits bar */}
       <section aria-label="Footer credits" className="border-t border-white/10 px-4 990:px-12 xl:px-4 py-3 430:py-4">
         <div className="max-w-[320px] 430:max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 mx-auto flex flex-col 430:flex-row items-center justify-between gap-2">
-          <p className="font-changa text-[10px] uppercase tracking-widest text-white/50">
+          <p className="font-changa text-[10px] uppercase tracking-widest text-white/70">
             <small>© {new Date().getFullYear()} The Pops Orchestra. All rights reserved.</small>
           </p>
           <div className="flex items-center gap-3 430:gap-4">
@@ -169,7 +169,7 @@ const Footer = ({ data }: { data: FooterData }) => {
               }
               className="flex items-center gap-1 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm"
             >
-              <span className="font-lato text-[10px] text-white/50 group-hover:text-white transition-colors">
+              <span className="font-lato text-[10px] text-white/70 group-hover:text-white transition-colors">
                 Built by
               </span>
               <span className="sqysh-gradient text-[10px] font-bold font-raleway">Sqysh</span>
@@ -179,7 +179,7 @@ const Footer = ({ data }: { data: FooterData }) => {
               type="button"
               aria-label="Scroll back to top of page"
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="text-white/50 hover:text-blaze transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm p-1"
+              className="text-white/50 hover:text-blaze-text transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm p-1"
             >
               <ChevronUp className="w-3.5 h-3.5" aria-hidden="true" />
             </button>

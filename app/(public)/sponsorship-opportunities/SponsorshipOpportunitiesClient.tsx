@@ -60,7 +60,7 @@ export const SponsorshipOpportunitiesClient = ({ data }) => {
       <div className="relative">
         <div
           className="absolute inset-0 w-full h-full bg-no-repeat bg-center bg-cover opacity-10"
-          style={{ backgroundImage: `url('/images/bio-bg.png')`, backgroundAttachment: 'fixed' }}
+          style={{ backgroundImage: `url('/images/bio-bg.webp')`, backgroundAttachment: 'fixed' }}
           aria-hidden="true"
         />
 
@@ -68,7 +68,7 @@ export const SponsorshipOpportunitiesClient = ({ data }) => {
           <div className="max-w-[320px] 430:max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 1590:max-w-screen-7xl mx-auto">
             {/* Page Header */}
             <header className="w-full text-center flex flex-col items-center pt-32 pb-20 border-b border-white/10">
-              <p className="font-changa text-xs uppercase tracking-[0.3em] text-blaze mb-4">
+              <p className="font-changa text-xs uppercase tracking-[0.3em] text-blaze-text mb-4">
                 {field('sponsorship_eyebrow')}
               </p>
               <div className="flex items-center gap-3 430:gap-4 justify-center mb-4">
@@ -108,7 +108,7 @@ export const SponsorshipOpportunitiesClient = ({ data }) => {
                       viewport={{ once: true }}
                       className="bg-inkblack p-8 flex flex-col gap-3"
                     >
-                      <Icon className="w-5 h-5 text-blaze" aria-hidden="true" />
+                      <Icon className="w-5 h-5 text-blaze-text" aria-hidden="true" />
                       <p className="font-changa text-3xl 430:text-4xl text-white">
                         {field(`sponsorship_stat_${n}_number`)}
                       </p>
@@ -160,13 +160,13 @@ export const SponsorshipOpportunitiesClient = ({ data }) => {
                           if (!items.length) return null
                           return (
                             <div key={cat.key}>
-                              <h4 className="font-changa text-xs text-blaze uppercase tracking-wider mb-3">
+                              <h4 className="font-changa text-xs text-blaze-text uppercase tracking-wider mb-3">
                                 {cat.label}
                               </h4>
                               <ul role="list" className="flex flex-col gap-2">
                                 {items.map((item, i) => (
                                   <li key={i} className="flex items-start gap-2 font-lato text-sm text-white/70">
-                                    <span className="text-blaze mt-0.5 shrink-0" aria-hidden="true">
+                                    <span className="text-blaze-text mt-0.5 shrink-0" aria-hidden="true">
                                       •
                                     </span>
                                     {item}
@@ -208,7 +208,7 @@ export const SponsorshipOpportunitiesClient = ({ data }) => {
                       className="bg-inkblack p-8 flex items-start gap-5"
                     >
                       <div className="w-10 h-10 bg-blaze/10 flex items-center justify-center shrink-0 rounded-sm">
-                        <Icon className="w-5 h-5 text-blaze" aria-hidden="true" />
+                        <Icon className="w-5 h-5 text-blaze-text" aria-hidden="true" />
                       </div>
                       <div>
                         <h3 className="font-changa text-lg 430:text-xl text-white mb-2">
@@ -245,7 +245,7 @@ export const SponsorshipOpportunitiesClient = ({ data }) => {
 
                 <div className="flex flex-col gap-1 mb-6">
                   <p className="font-changa text-xl 430:text-2xl text-white">{field('sponsorship_contact_name')}</p>
-                  <p className="font-lato text-xs text-blaze uppercase tracking-widest">
+                  <p className="font-lato text-xs text-blaze-text uppercase tracking-widest">
                     {field('sponsorship_contact_title')}
                   </p>
                 </div>

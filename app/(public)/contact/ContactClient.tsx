@@ -16,7 +16,9 @@ export const ContactClient = ({ data }) => {
         <div className="relative z-10">
           {/* Page Header */}
           <header className="text-center flex flex-col items-center pt-24 pb-16 px-4 border-b border-white/10">
-            <p className="font-changa text-[9px] uppercase tracking-[0.35em] text-blaze mb-3">The Pops Orchestra</p>
+            <p className="font-changa text-[9px] uppercase tracking-[0.35em] text-blaze-text mb-3">
+              The Pops Orchestra
+            </p>
             <h1 className="text-4xl 430:text-5xl font-changa text-white leading-none">
               {field('contact_form_heading')}
             </h1>
@@ -29,7 +31,9 @@ export const ContactClient = ({ data }) => {
               <div className="990:col-span-7">
                 <div className="flex items-center gap-3 mb-8">
                   <div className="w-6 h-px bg-blaze" aria-hidden="true" />
-                  <span className="font-changa text-[10px] uppercase tracking-[0.3em] text-blaze">Send a Message</span>
+                  <span className="font-changa text-[10px] uppercase tracking-[0.3em] text-blaze-text">
+                    Send a Message
+                  </span>
                 </div>
                 <ContactForm btnClassname="justify-start" />
               </div>
@@ -42,7 +46,7 @@ export const ContactClient = ({ data }) => {
                     <div className="w-6 h-px bg-blaze" aria-hidden="true" />
                     <h2
                       id="contact-info-heading"
-                      className="font-changa text-[10px] uppercase tracking-[0.3em] text-blaze"
+                      className="font-changa text-[10px] uppercase tracking-[0.3em] text-blaze-text"
                     >
                       {field('contact_sidebar_heading')}
                     </h2>
@@ -50,38 +54,38 @@ export const ContactClient = ({ data }) => {
                   <address className="not-italic flex flex-col gap-5">
                     {[
                       {
-                        icon: <Mail className="w-3.5 h-3.5 text-blaze shrink-0" aria-hidden="true" />,
+                        icon: <Mail className="w-3.5 h-3.5 text-blaze-text shrink-0" aria-hidden="true" />,
                         label: field('contact_sidebar_email_label'),
                         content: (
                           <a
                             href={`mailto:${field('contact_sidebar_email_value')}`}
-                            className="font-lato text-sm text-white/60 hover:text-blaze transition-colors break-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm"
+                            className="font-lato text-sm text-white/60 hover:text-blaze-text transition-colors break-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm"
                           >
                             {field('contact_sidebar_email_value')}
                           </a>
                         )
                       },
                       {
-                        icon: <MapPin className="w-3.5 h-3.5 text-blaze shrink-0" aria-hidden="true" />,
+                        icon: <MapPin className="w-3.5 h-3.5 text-blaze-text shrink-0" aria-hidden="true" />,
                         label: field('contact_sidebar_address_label'),
                         content: (
                           <a
                             href={`https://maps.google.com/?q=${encodeURIComponent(field('contact_sidebar_address_value'))}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="font-lato text-sm text-white/60 hover:text-blaze transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm"
+                            className="font-lato text-sm text-white/60 hover:text-blaze-text transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm"
                           >
                             {field('contact_sidebar_address_value')}
                           </a>
                         )
                       },
                       {
-                        icon: <Phone className="w-3.5 h-3.5 text-blaze shrink-0" aria-hidden="true" />,
+                        icon: <Phone className="w-3.5 h-3.5 text-blaze-text shrink-0" aria-hidden="true" />,
                         label: field('contact_sidebar_phone_label'),
                         content: (
                           <a
                             href="tel:+19419267677"
-                            className="font-lato text-sm text-white/60 hover:text-blaze transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm"
+                            className="font-lato text-sm text-white/60 hover:text-blaze-text transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm"
                           >
                             {field('contact_sidebar_phone_value')}
                           </a>
@@ -110,7 +114,7 @@ export const ContactClient = ({ data }) => {
                     <div className="w-6 h-px bg-blaze" aria-hidden="true" />
                     <h2
                       id="contact-social-heading"
-                      className="font-changa text-[10px] uppercase tracking-[0.3em] text-blaze"
+                      className="font-changa text-[10px] uppercase tracking-[0.3em] text-blaze-text"
                     >
                       {field('contact_follow_us_heading')}
                     </h2>
@@ -130,7 +134,7 @@ export const ContactClient = ({ data }) => {
                           className="w-10 h-10 border border-white/10 hover:border-blaze/40 hover:bg-blaze/5 flex items-center justify-center transition-colors group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm"
                         >
                           <Icon
-                            className="w-4 h-4 text-white/50 group-hover:text-blaze transition-colors"
+                            className="w-4 h-4 text-white/50 group-hover:text-blaze-text transition-colors"
                             aria-hidden="true"
                           />
                         </a>
@@ -145,7 +149,7 @@ export const ContactClient = ({ data }) => {
                     <div className="w-6 h-px bg-blaze" aria-hidden="true" />
                     <h2
                       id="contact-hours-heading"
-                      className="font-changa text-[10px] uppercase tracking-[0.3em] text-blaze"
+                      className="font-changa text-[10px] uppercase tracking-[0.3em] text-blaze-text"
                     >
                       {field('contact_office_hours_heading')}
                     </h2>

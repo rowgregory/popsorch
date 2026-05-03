@@ -26,7 +26,7 @@ const Switch: FC<SwitchProps> = ({ enabled, onChange, isLoading, name }) => {
       >
         {isLoading && (
           <svg
-            className={`w-4 h-4 animate-spin ${enabled ? 'text-white' : 'text-blaze'}`}
+            className={`w-4 h-4 animate-spin ${enabled ? 'text-white' : 'text-blaze-text'}`}
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"

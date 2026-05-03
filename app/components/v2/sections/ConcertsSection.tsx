@@ -49,13 +49,13 @@ function ConcertCard({ concert, index }: { concert: ConcertWithShows; index: num
       <div className="space-y-2 mb-auto">
         {firstShow?.venue?.name && (
           <div className="flex items-center gap-2">
-            <MapPin className="w-4 h-4 shrink-0 text-blaze" aria-hidden="true" />
+            <MapPin className="w-4 h-4 shrink-0 text-blaze-text" aria-hidden="true" />
             <span className="font-heebo text-sm text-neutral-500">{firstShow.venue.name}</span>
           </div>
         )}
         {!firstShow && concert.cardDate && (
           <div className="flex items-center gap-2">
-            <Clock className="w-4 h-4 shrink-0 text-blaze" aria-hidden="true" />
+            <Clock className="w-4 h-4 shrink-0 text-blaze-text" aria-hidden="true" />
             <span className="font-heebo text-sm text-neutral-500">{concert.cardDate}</span>
           </div>
         )}
@@ -104,7 +104,7 @@ export function ConcertsSection({ concerts, backgroundImage }: ConcertsSectionPr
           >
             <h2
               id="concerts-section-heading"
-              className="font-c-infant font-bold text-5xl lg:text-6xl uppercase leading-none mb-6 text-blaze"
+              className="font-c-infant font-bold text-5xl lg:text-6xl uppercase leading-none mb-6 text-blaze-text"
             >
               The Tour
             </h2>

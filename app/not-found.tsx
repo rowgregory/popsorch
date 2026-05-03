@@ -18,7 +18,7 @@ const Pops404 = () => {
           {/* Icon */}
           <motion.div className="mb-8 flex justify-center" variants={itemVariants} aria-hidden="true">
             <div className="w-16 h-16 border border-blaze/30 bg-blaze/10 flex items-center justify-center">
-              <Music className="w-7 h-7 text-blaze" />
+              <Music className="w-7 h-7 text-blaze-text" />
             </div>
           </motion.div>
 
@@ -79,7 +79,7 @@ const Pops404 = () => {
             <button
               type="button"
               onClick={() => window.history.back()}
-              className="inline-flex items-center gap-2 font-changa text-xs uppercase tracking-[0.25em] text-white/50 hover:text-blaze transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze"
+              className="inline-flex items-center gap-2 font-changa text-xs uppercase tracking-[0.25em] text-white/50 hover:text-blaze-text transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze"
             >
               <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden="true" />
               <span>Go Back</span>

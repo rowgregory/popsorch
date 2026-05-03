@@ -13,14 +13,14 @@ const Breadcrumb: FC<BreadcrumbProps> = ({ breadcrumb, classname, secondCrumb })
       <div
         className={`w-full mx-auto max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 1590:max-w-7xl flex items-center justify-between gap-x-4 min-w-0 ${classname ?? ''}`}
       >
-        <h1 className="text-blaze font-changa text-lg truncate">{breadcrumb}</h1>
+        <h1 className="text-blaze-text font-changa text-lg truncate">{breadcrumb}</h1>
 
         <nav aria-label="Breadcrumb">
           <ol role="list" className="flex items-center gap-x-1.5 font-changa text-xs tracking-widest">
             <li>
               <Link
                 href="/"
-                className="text-blaze whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm"
+                className="text-blaze-text whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm"
               >
                 Home
               </Link>
@@ -33,7 +33,7 @@ const Breadcrumb: FC<BreadcrumbProps> = ({ breadcrumb, classname, secondCrumb })
                 <li>
                   <Link
                     href={`/${secondCrumb.toLowerCase()}`}
-                    className="text-blaze whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm"
+                    className="text-blaze-text whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm"
                   >
                     {secondCrumb}
                   </Link>

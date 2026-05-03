@@ -43,7 +43,7 @@ export const HiddenGemsClient = ({ data }) => {
       <div className="relative">
         <div
           className="absolute inset-0 w-full h-full bg-no-repeat bg-center bg-cover opacity-10"
-          style={{ backgroundImage: `url('/images/bio-bg.png')`, backgroundAttachment: 'fixed' }}
+          style={{ backgroundImage: `url('/images/bio-bg.webp')`, backgroundAttachment: 'fixed' }}
           aria-hidden="true"
         />
 
@@ -56,7 +56,7 @@ export const HiddenGemsClient = ({ data }) => {
               transition={{ duration: 0.8 }}
               className="w-full text-center flex flex-col items-center pt-32 pb-20 border-b border-white/10"
             >
-              <p className="font-changa text-xs uppercase tracking-[0.3em] text-blaze mb-4">
+              <p className="font-changa text-xs uppercase tracking-[0.3em] text-blaze-text mb-4">
                 {field('hidden_gems_eyebrow')}
               </p>
               <div className="flex items-center gap-3 430:gap-4 justify-center mb-4">
@@ -172,7 +172,7 @@ export const HiddenGemsClient = ({ data }) => {
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   aria-label="Learn more about how to become a member (opens in new tab)"
-                                  className="text-sunburst hover:text-blaze underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sunburst rounded-sm"
+                                  className="text-sunburst hover:text-blaze-text underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sunburst rounded-sm"
                                 >
                                   Learn more about how to become a member
                                 </a>
@@ -187,7 +187,7 @@ export const HiddenGemsClient = ({ data }) => {
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   aria-label="For more information, visit SarasotaJazzFestival.com (opens in new tab)"
-                                  className="text-sunburst hover:text-blaze underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sunburst rounded-sm"
+                                  className="text-sunburst hover:text-blaze-text underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sunburst rounded-sm"
                                 >
                                   For more information, visit SarasotaJazzFestival.com
                                 </a>
@@ -202,7 +202,7 @@ export const HiddenGemsClient = ({ data }) => {
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   aria-label="Sarasota Contemporary Dance Ensemble (opens in new tab)"
-                                  className="text-sunburst hover:text-blaze underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sunburst rounded-sm"
+                                  className="text-sunburst hover:text-blaze-text underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sunburst rounded-sm"
                                 >
                                   Sarasota Contemporary Dance Ensemble (SCDE)
                                 </a>{' '}
@@ -217,7 +217,7 @@ export const HiddenGemsClient = ({ data }) => {
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   aria-label="SCD's Dance for Joy class (opens in new tab)"
-                                  className="text-sunburst hover:text-blaze underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sunburst rounded-sm"
+                                  className="text-sunburst hover:text-blaze-text underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sunburst rounded-sm"
                                 >
                                   SCD&apos;s &quot;Dance for Joy&quot; class
                                 </a>{' '}
@@ -239,7 +239,7 @@ export const HiddenGemsClient = ({ data }) => {
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   aria-label="Learn more about their 16th season (opens in new tab)"
-                                  className="text-sunburst hover:text-blaze underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sunburst rounded-sm"
+                                  className="text-sunburst hover:text-blaze-text underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sunburst rounded-sm"
                                 >
                                   Learn more about their 16th season
                                 </a>
@@ -261,11 +261,11 @@ export const HiddenGemsClient = ({ data }) => {
 
                             <address className="not-italic space-y-2 font-lato text-xs text-white/60 border-t border-white/10 pt-4">
                               <div className="flex items-start gap-2">
-                                <MapPin className="w-3 h-3 shrink-0 mt-0.5 text-blaze" aria-hidden="true" />
+                                <MapPin className="w-3 h-3 shrink-0 mt-0.5 text-blaze-text" aria-hidden="true" />
                                 <span className="leading-tight">{address}</span>
                               </div>
                               <div className="flex items-center gap-2">
-                                <Phone className="w-3 h-3 shrink-0 text-blaze" aria-hidden="true" />
+                                <Phone className="w-3 h-3 shrink-0 text-blaze-text" aria-hidden="true" />
 
                                 <a
                                   href={`tel:${phone?.replace(/\D/g, '')}`}
@@ -276,7 +276,7 @@ export const HiddenGemsClient = ({ data }) => {
                                 </a>
                               </div>
                               <div className="flex items-center gap-2">
-                                <ExternalLink className="w-3 h-3 shrink-0 text-blaze" aria-hidden="true" />
+                                <ExternalLink className="w-3 h-3 shrink-0 text-blaze-text" aria-hidden="true" />
 
                                 <a
                                   href={websiteUrl}

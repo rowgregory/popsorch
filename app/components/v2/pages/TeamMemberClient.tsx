@@ -52,7 +52,7 @@ export default function TeamMemberClient({ member, allMembers, currentIndex, rol
           <button
             onClick={goToPrev}
             disabled={!hasPrev}
-            className={`p-1.5 transition-colors ${hasPrev ? 'text-white/60 hover:text-blaze' : 'text-white/10 cursor-not-allowed'}`}
+            className={`p-1.5 transition-colors ${hasPrev ? 'text-white/60 hover:text-blaze-text' : 'text-white/10 cursor-not-allowed'}`}
             aria-label="Previous member"
           >
             <ChevronLeft className="w-4 h-4" />
@@ -65,7 +65,7 @@ export default function TeamMemberClient({ member, allMembers, currentIndex, rol
           <button
             onClick={goToNext}
             disabled={!hasNext}
-            className={`p-1.5 transition-colors ${hasNext ? 'text-white/60 hover:text-blaze' : 'text-white/10 cursor-not-allowed'}`}
+            className={`p-1.5 transition-colors ${hasNext ? 'text-white/60 hover:text-blaze-text' : 'text-white/10 cursor-not-allowed'}`}
             aria-label="Next member"
           >
             <ChevronRight className="w-4 h-4" />
@@ -86,7 +86,7 @@ export default function TeamMemberClient({ member, allMembers, currentIndex, rol
             <div className="space-y-1">
               <h1 className="font-changa text-3xl 430:text-4xl text-white leading-tight">{fullName}</h1>
               {member.position && (
-                <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-blaze">{member.position}</p>
+                <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-blaze-text">{member.position}</p>
               )}
             </div>
 

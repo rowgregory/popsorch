@@ -12,7 +12,7 @@ const Input = ({ name, value, handleInput, placeholder, error, required, type = 
     <label htmlFor={name} className="font-changa text-[10px] uppercase tracking-[0.25em] text-white/60 mb-2">
       {placeholder}
       {required && (
-        <span className="text-blaze ml-1" aria-hidden="true">
+        <span className="text-blaze-text ml-1" aria-hidden="true">
           *
         </span>
       )}
@@ -30,14 +30,16 @@ const Input = ({ name, value, handleInput, placeholder, error, required, type = 
       aria-invalid={!!error}
       aria-describedby={error ? `${name}-error` : undefined}
       className={`bg-transparent border-b font-lato text-sm text-white placeholder:text-white/40 py-3 w-full focus:outline-none focus-visible:outline-none transition-colors duration-200 ${
-        error ? 'border-blaze placeholder:text-blaze/40' : 'border-white/20 hover:border-white/40 focus:border-blaze'
+        error
+          ? 'border-blaze placeholder:text-blaze-text/40'
+          : 'border-white/20 hover:border-white/40 focus:border-blaze'
       }`}
     />
     {error && (
       <p
         id={`${name}-error`}
         role="alert"
-        className="font-changa text-[10px] uppercase tracking-widest text-blaze mt-2"
+        className="font-changa text-[10px] uppercase tracking-widest text-blaze-text mt-2"
       >
         {error}
       </p>
@@ -60,7 +62,7 @@ const Textarea: FC<{
       {placeholder}
       {required && (
         <>
-          <span className="text-blaze ml-1" aria-hidden="true">
+          <span className="text-blaze-text ml-1" aria-hidden="true">
             *
           </span>
           <span className="sr-only"> (required)</span>
@@ -80,7 +82,9 @@ const Textarea: FC<{
       rows={rows}
       maxLength={maxLength}
       className={`bg-transparent border-b font-lato text-sm text-white placeholder:text-white/40 py-3 w-full focus:outline-none transition-colors duration-200 resize-none ${
-        error ? 'border-blaze placeholder:text-blaze/40' : 'border-white/20 hover:border-white/40 focus:border-blaze'
+        error
+          ? 'border-blaze placeholder:text-blaze-text/40'
+          : 'border-white/20 hover:border-white/40 focus:border-blaze'
       }`}
     />
     {error && (
@@ -88,7 +92,7 @@ const Textarea: FC<{
         id={`${name}-error`}
         role="alert"
         aria-live="polite"
-        className="font-changa text-[10px] uppercase tracking-widest text-blaze mt-2"
+        className="font-changa text-[10px] uppercase tracking-widest text-blaze-text mt-2"
       >
         {error}
       </p>

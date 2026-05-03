@@ -77,7 +77,7 @@ const MediaVideoPlayer = () => {
         <nav aria-label="Video playlist" className="990:col-span-3 bg-black relative">
           <div className="flex items-center gap-3 p-5 430:p-6 border-b border-white/10">
             <div className="w-4 h-px bg-blaze" aria-hidden="true" />
-            <p className="font-changa text-[10px] uppercase tracking-[0.25em] text-blaze">Playlist</p>
+            <p className="font-changa text-[10px] uppercase tracking-[0.25em] text-blaze-text">Playlist</p>
           </div>
 
           <div className="relative max-h-125 990:max-h-600 overflow-y-auto">
@@ -135,7 +135,7 @@ const MediaVideoPlayer = () => {
         <div className="990:col-span-9 bg-black p-4 430:p-6 flex flex-col gap-4">
           <div className="flex items-center gap-3">
             <div className="w-4 h-px bg-blaze" aria-hidden="true" />
-            <p className="font-changa text-[10px] uppercase tracking-[0.25em] text-blaze truncate">
+            <p className="font-changa text-[10px] uppercase tracking-[0.25em] text-blaze-text truncate">
               Now Playing: {selectedVideo.title}
             </p>
           </div>

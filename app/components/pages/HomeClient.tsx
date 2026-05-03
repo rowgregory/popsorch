@@ -2,14 +2,14 @@
 
 import HomeHero from '../home/HomeHero'
 import { ContactUsBlock } from '../home/ContactUsBlock'
-import SponsorsBlock from '../home/SponsorsBlock'
-import KeepUpToDateBlock from '../home/KeepUpToDateBlock'
+import { KeepUpToDateBlock } from '../home/KeepUpToDateBlock'
 import { useRef } from 'react'
 import { ConcertsBlock } from '../home/ConcertsBlock'
 import { TestimonialsBlock } from '../v2/sections/TestimonialsBlock'
 import { EventsBlock } from '../v2/sections/EventsBlock'
 import { NewsBlock } from '../v2/sections/NewsBlock'
 import dynamic from 'next/dynamic'
+import { SponsorsBlock } from '../home/SponsorsBlock'
 
 const SeasonSection = dynamic(() => import('@/app/components/home/SeasonDates').then((m) => m.SeasonDates), {
   ssr: false

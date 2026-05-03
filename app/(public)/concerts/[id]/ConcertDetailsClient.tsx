@@ -30,7 +30,7 @@ export default function ConcertDetailsClient({ concert }: Props) {
         <p className="font-changa text-lg text-white/60">No event dates available at this time.</p>
         <Link
           href="/concerts"
-          className="inline-flex items-center gap-2 font-changa text-xs uppercase tracking-widest text-blaze hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze"
+          className="inline-flex items-center gap-2 font-changa text-xs uppercase tracking-widest text-blaze-text hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze"
         >
           <ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
           Back to Concerts
@@ -81,7 +81,7 @@ export default function ConcertDetailsClient({ concert }: Props) {
           {concert.type && (
             <div className="flex items-center gap-3">
               <div className="w-5 h-px bg-blaze" aria-hidden="true" />
-              <span className="font-changa text-[10px] uppercase tracking-[0.3em] text-blaze">{concert.type}</span>
+              <span className="font-changa text-[10px] uppercase tracking-[0.3em] text-blaze-text">{concert.type}</span>
             </div>
           )}
           {isLive && (
@@ -107,7 +107,7 @@ export default function ConcertDetailsClient({ concert }: Props) {
           <div className="pt-8 pb-4">
             <Link
               href="/concerts"
-              className="inline-flex items-center gap-2 font-changa text-[10px] uppercase tracking-[0.25em] text-white/50 hover:text-blaze transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze"
+              className="inline-flex items-center gap-2 font-changa text-[10px] uppercase tracking-[0.25em] text-white/50 hover:text-blaze-text transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze"
             >
               <ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
               All Concerts
@@ -124,7 +124,7 @@ export default function ConcertDetailsClient({ concert }: Props) {
                 {concert.name}
               </h1>
               {concert.subtitle && (
-                <p className="font-changa text-xl sm:text-2xl text-blaze mb-6">{concert.subtitle}</p>
+                <p className="font-changa text-xl sm:text-2xl text-blaze-text mb-6">{concert.subtitle}</p>
               )}
               <div className="w-16 h-px bg-blaze mb-6" aria-hidden="true" />
 
@@ -138,7 +138,7 @@ export default function ConcertDetailsClient({ concert }: Props) {
               <dl className="flex flex-wrap gap-x-6 gap-y-2">
                 {concert.cardDate && (
                   <div className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4 text-blaze shrink-0" aria-hidden="true" />
+                    <Calendar className="w-4 h-4 text-blaze-text shrink-0" aria-hidden="true" />
                     <dt className="sr-only">Date</dt>
                     <dd>
                       <time className="font-lato text-sm text-white/60 uppercase tracking-wide">
@@ -149,7 +149,7 @@ export default function ConcertDetailsClient({ concert }: Props) {
                 )}
                 {concert.shows[0]?.venue?.name && (
                   <div className="flex items-center gap-2">
-                    <MapPin className="w-4 h-4 text-blaze shrink-0" aria-hidden="true" />
+                    <MapPin className="w-4 h-4 text-blaze-text shrink-0" aria-hidden="true" />
                     <dt className="sr-only">Primary venue</dt>
                     <dd className="font-lato text-sm text-white/60">{concert.shows[0].venue.name}</dd>
                   </div>
@@ -171,7 +171,7 @@ export default function ConcertDetailsClient({ concert }: Props) {
                 <div className="lg:col-span-4">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-6 h-px bg-blaze" aria-hidden="true" />
-                    <span className="font-changa text-[10px] uppercase tracking-[0.25em] text-blaze">About</span>
+                    <span className="font-changa text-[10px] uppercase tracking-[0.25em] text-blaze-text">About</span>
                   </div>
                   <h2 id="concert-about-heading" className="font-changa text-3xl sm:text-4xl text-white leading-tight">
                     About This Concert
@@ -196,7 +196,7 @@ export default function ConcertDetailsClient({ concert }: Props) {
               transition={{ duration: 0.6 }}
               className="flex flex-col items-center text-center mb-16"
             >
-              <p className="font-changa text-[10px] uppercase tracking-[0.3em] text-blaze mb-4">Schedule</p>
+              <p className="font-changa text-[10px] uppercase tracking-[0.3em] text-blaze-text mb-4">Schedule</p>
               <div className="flex items-center gap-4 justify-center mb-4">
                 <div className="w-10 sm:w-16 h-px bg-blaze shrink-0" aria-hidden="true" />
                 <h2 id="shows-heading" className="font-changa text-3xl sm:text-4xl text-white leading-none">
@@ -226,14 +226,14 @@ export default function ConcertDetailsClient({ concert }: Props) {
                   <div className="bg-linear-to-b from-black to-neutral-950 p-6 sm:p-8 lg:p-10">
                     <div className="flex items-center gap-3 mb-6">
                       <div className="w-6 h-px bg-blaze" aria-hidden="true" />
-                      <h3 className="font-changa text-[10px] uppercase tracking-[0.25em] text-blaze">
+                      <h3 className="font-changa text-[10px] uppercase tracking-[0.25em] text-blaze-text">
                         Performance {concert.shows.length > 1 ? i + 1 : ''}
                       </h3>
                     </div>
 
                     <dl className="flex flex-col divide-y divide-white/10">
                       <div className="flex items-center gap-3 py-4">
-                        <Calendar className="w-4 h-4 text-blaze shrink-0" aria-hidden="true" />
+                        <Calendar className="w-4 h-4 text-blaze-text shrink-0" aria-hidden="true" />
                         <dt className="sr-only">Date</dt>
                         <dd>
                           <time dateTime={new Date(show.date).toISOString()} className="font-changa text-lg text-white">
@@ -248,7 +248,7 @@ export default function ConcertDetailsClient({ concert }: Props) {
                       </div>
 
                       <div className="flex items-center gap-3 py-4">
-                        <Clock className="w-4 h-4 text-blaze shrink-0" aria-hidden="true" />
+                        <Clock className="w-4 h-4 text-blaze-text shrink-0" aria-hidden="true" />
                         <dt className="sr-only">Time</dt>
                         <dd className="font-lato text-sm text-white/60">
                           {new Date(show.date).toLocaleTimeString('en-US', {
@@ -259,7 +259,7 @@ export default function ConcertDetailsClient({ concert }: Props) {
                       </div>
 
                       <div className="flex items-start gap-3 py-4">
-                        <MapPin className="w-4 h-4 text-blaze shrink-0 mt-0.5" aria-hidden="true" />
+                        <MapPin className="w-4 h-4 text-blaze-text shrink-0 mt-0.5" aria-hidden="true" />
                         <div>
                           <dt className="sr-only">Venue</dt>
                           <dd className="font-lato text-sm text-white/80">{show.venue.name}</dd>
@@ -278,7 +278,7 @@ export default function ConcertDetailsClient({ concert }: Props) {
                   <div className="bg-linear-to-t from-black to-neutral-950 p-6 sm:p-8 lg:p-10 flex flex-col">
                     <div className="flex items-center gap-3 mb-8">
                       <div className="w-6 h-px bg-blaze" aria-hidden="true" />
-                      <h3 className="font-changa text-[10px] uppercase tracking-[0.25em] text-blaze">Venue</h3>
+                      <h3 className="font-changa text-[10px] uppercase tracking-[0.25em] text-blaze-text">Venue</h3>
                     </div>
 
                     <h4 className="font-changa text-2xl sm:text-3xl text-white mb-2 leading-tight">
@@ -298,7 +298,7 @@ export default function ConcertDetailsClient({ concert }: Props) {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={`Get directions to ${show.venue.name} (opens in new tab)`}
-                        className="inline-flex items-center gap-2 font-lato text-xs text-white/50 hover:text-blaze transition-colors mb-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze w-fit"
+                        className="inline-flex items-center gap-2 font-lato text-xs text-white/50 hover:text-blaze-text transition-colors mb-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze w-fit"
                       >
                         <MapPin className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
                         Get Directions

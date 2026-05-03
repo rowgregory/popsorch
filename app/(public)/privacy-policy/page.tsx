@@ -8,7 +8,7 @@ const PrivacyPolicy = () => {
       <div className="relative">
         <div
           className="absolute inset-0 w-full h-full bg-no-repeat bg-center bg-cover opacity-10"
-          style={{ backgroundImage: `url('/images/bio-bg.png')`, backgroundAttachment: 'fixed' }}
+          style={{ backgroundImage: `url('/images/bio-bg.webp')`, backgroundAttachment: 'fixed' }}
           aria-hidden="true"
         />
 
@@ -16,7 +16,7 @@ const PrivacyPolicy = () => {
           <div className="max-w-[320px] 430:max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 mx-auto">
             {/* Page Header */}
             <header className="w-full text-center flex flex-col items-center pt-32 pb-20 border-b border-white/10">
-              <p className="font-changa text-xs uppercase tracking-[0.3em] text-blaze mb-4">The Pops Orchestra</p>
+              <p className="font-changa text-xs uppercase tracking-[0.3em] text-blaze-text mb-4">The Pops Orchestra</p>
               <div className="flex items-center gap-3 430:gap-4 justify-center mb-4">
                 <div className="w-8 430:w-16 h-px bg-blaze shrink-0" aria-hidden="true" />
                 <h1 className="text-4xl 430:text-5xl sm:text-6xl font-changa text-white leading-none">

@@ -27,7 +27,7 @@ export function NewsBlock({ news }: { news: News[] }) {
           <div>
             <div className="flex items-center gap-3 mb-4">
               <div className="w-6 h-px bg-blaze" aria-hidden="true" />
-              <span className="font-heebo text-[10px] tracking-[0.35em] uppercase text-blaze">Latest</span>
+              <span className="font-heebo text-[10px] tracking-[0.35em] uppercase text-blaze-text">Latest</span>
             </div>
             <h2
               id="news-heading"
@@ -38,7 +38,8 @@ export function NewsBlock({ news }: { news: News[] }) {
           </div>
           <Link
             href="/news"
-            className="group inline-flex items-center gap-3 font-heebo text-xs uppercase tracking-[0.25em] text-blaze hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze shrink-0"
+            aria-label="View all news articles"
+            className="group inline-flex items-center gap-3 font-heebo text-xs uppercase tracking-[0.25em] text-blaze-text hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze shrink-0"
           >
             All News
             <div className="w-6 h-px bg-blaze group-hover:w-10 transition-all duration-300" aria-hidden="true" />
@@ -81,14 +82,14 @@ export function NewsBlock({ news }: { news: News[] }) {
 
                 {/* Text */}
                 <div className="p-8">
-                  <p className="font-heebo text-[9px] tracking-[0.25em] uppercase text-white/50 mb-3">
+                  <p className="font-heebo text-[9px] tracking-[0.25em] uppercase text-white/70 mb-3">
                     {new Date(featured.createdAt).toLocaleDateString('en-US', {
                       month: 'long',
                       day: 'numeric',
                       year: 'numeric'
                     })}
                   </p>
-                  <h3 className="font-c-infant font-bold text-white text-2xl sm:text-3xl leading-tight mb-3 group-hover:text-blaze transition-colors">
+                  <h3 className="font-c-infant font-bold text-white text-2xl sm:text-3xl leading-tight mb-3 group-hover:text-blaze-text transition-colors">
                     {featured.title}
                   </h3>
                   {featured.excerpt && (
@@ -96,7 +97,7 @@ export function NewsBlock({ news }: { news: News[] }) {
                       {featured.excerpt}
                     </p>
                   )}
-                  <div className="flex items-center gap-2 font-heebo text-[10px] uppercase tracking-[0.2em] text-blaze">
+                  <div className="flex items-center gap-2 font-heebo text-[10px] uppercase tracking-[0.2em] text-blaze-text">
                     Read More
                     <ArrowUpRight
                       className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
@@ -139,18 +140,18 @@ export function NewsBlock({ news }: { news: News[] }) {
 
                 {/* Text */}
                 <div className="min-w-0 flex flex-col justify-center">
-                  <p className="font-heebo text-[9px] tracking-[0.2em] uppercase text-white/50 mb-2">
+                  <p className="font-heebo text-[9px] tracking-[0.2em] uppercase text-white/70 mb-2">
                     {new Date(article.createdAt).toLocaleDateString('en-US', {
                       month: 'short',
                       day: 'numeric',
                       year: 'numeric'
                     })}
                   </p>
-                  <h3 className="font-c-infant font-bold text-white text-lg leading-tight mb-2 group-hover:text-blaze transition-colors line-clamp-2">
+                  <h3 className="font-c-infant font-bold text-white text-lg leading-tight mb-2 group-hover:text-blaze-text transition-colors line-clamp-2">
                     {article.title}
                   </h3>
                   {article.excerpt && (
-                    <p className="font-heebo text-white/60 text-xs leading-relaxed line-clamp-2 hidden sm:block">
+                    <p className="font-heebo text-white/80 text-sm leading-relaxed line-clamp-3 mb-5">
                       {article.excerpt}
                     </p>
                   )}

@@ -34,7 +34,7 @@ export const ContactUsBlock = ({ data }) => {
             transition={{ duration: 0.6 }}
             className="flex flex-col items-center text-center mb-16 430:mb-20"
           >
-            <p className="font-changa text-xs uppercase tracking-[0.3em] text-blaze mb-4">Get In Touch</p>
+            <p className="font-changa text-xs uppercase tracking-[0.3em] text-blaze-text mb-4">Get In Touch</p>
             <div className="flex items-center gap-3 430:gap-4 justify-center mb-4">
               <div className="w-8 430:w-16 h-px bg-blaze shrink-0" aria-hidden="true" />
               <h2
@@ -46,7 +46,7 @@ export const ContactUsBlock = ({ data }) => {
               <div className="w-8 430:w-16 h-px bg-blaze shrink-0" aria-hidden="true" />
             </div>
             <div className="w-16 h-px bg-blaze mx-auto mt-2 mb-6" aria-hidden="true" />
-            <p className="font-lato text-white/50 text-sm 430:text-base max-w-xl leading-relaxed">
+            <p className="font-lato text-white/80 text-sm 430:text-base max-w-xl leading-relaxed">
               {field('question_subheading')}
             </p>
           </motion.div>
@@ -96,11 +96,11 @@ export const ContactUsBlock = ({ data }) => {
                       className="w-10 h-10 430:w-12 430:h-12 border border-blaze/30 bg-blaze/10 flex items-center justify-center shrink-0"
                       aria-hidden="true"
                     >
-                      <Icon className="w-4 h-4 430:w-5 430:h-5 text-blaze" aria-hidden="true" />
+                      <Icon className="w-4 h-4 430:w-5 430:h-5 text-blaze-text" aria-hidden="true" />
                     </div>
                     <div>
                       <h3 className="font-changa text-white text-base 430:text-lg leading-tight">{method.title}</h3>
-                      <p className="font-lato text-white/60 text-xs 430:text-sm mt-0.5">{method.description}</p>
+                      <p className="font-lato text-white/80 text-xs 430:text-sm mt-0.5">{method.description}</p>
                     </div>
                   </div>
 
@@ -112,7 +112,7 @@ export const ContactUsBlock = ({ data }) => {
                   <a
                     href={method.href}
                     aria-label={`${method.title}: ${method.detail}`}
-                    className="font-lato text-white/70 hover:text-blaze text-sm 430:text-base whitespace-pre-line leading-relaxed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black border-l-2 border-blaze/30 group-hover:border-blaze pl-4 transition-all duration-300"
+                    className="font-lato text-white/90 hover:text-blaze-text text-sm 430:text-base whitespace-pre-line leading-relaxed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black border-l-2 border-blaze/30 group-hover:border-blaze pl-4 transition-all duration-300"
                   >
                     {method.detail}
                   </a>

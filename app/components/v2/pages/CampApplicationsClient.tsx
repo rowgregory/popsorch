@@ -126,8 +126,8 @@ export default function CampApplicationsClient({ campApplications, setting }: Pr
             </Link>
             <div className="w-px h-4 bg-border-dark" aria-hidden="true" />
             <Tent className="w-3.5 h-3.5 text-primary-dark" aria-hidden="true" />
-            <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-muted-dark">Camp Applications</span>
-            <span className="text-[9px] font-mono text-muted-dark/40">({campApplications.length})</span>
+            <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-text-dark">Camp Applications</span>
+            <span className="text-[9px] font-mono text-muted-dark/60">({campApplications.length})</span>
           </div>
 
           <div className="flex items-center gap-3">
@@ -207,7 +207,7 @@ export default function CampApplicationsClient({ campApplications, setting }: Pr
                         <ChevronRight className="w-3.5 h-3.5 text-muted-dark" />
                       </motion.div>
                       <span className="font-quicksand font-black text-text-dark">{year}</span>
-                      <span className="text-[9px] font-mono text-muted-dark/40">({applications.length})</span>
+                      <span className="text-[9px] font-mono text-muted-dark/60">({applications.length})</span>
                     </div>
                   </div>
 
@@ -226,7 +226,7 @@ export default function CampApplicationsClient({ campApplications, setting }: Pr
                           {['Student', 'Parent', 'Instrument', 'Date', ''].map((h, i) => (
                             <span
                               key={i}
-                              className="text-[8px] font-mono tracking-[0.2em] uppercase text-muted-dark/50"
+                              className="text-[8px] font-mono tracking-[0.2em] uppercase text-muted-dark/80"
                             >
                               {h}
                             </span>
@@ -245,12 +245,12 @@ export default function CampApplicationsClient({ campApplications, setting }: Pr
                             <button
                               type="button"
                               onClick={() => setSelectedApplication(app)}
-                              className="text-left focus-visible:outline-none group"
+                              className="text-left focus-visible:outline-none group truncate"
                             >
                               <p className="text-text-dark text-xs font-medium truncate group-hover:text-primary-dark transition-colors">
                                 {app.Student?.firstName} {app.Student?.lastName}
                               </p>
-                              <p className="text-muted-dark text-[9px] truncate">
+                              <p className="text-muted-dark/80 text-[9px] truncate">
                                 {app.Student?.grade} · {app.Student?.school}
                               </p>
                             </button>
@@ -264,14 +264,16 @@ export default function CampApplicationsClient({ campApplications, setting }: Pr
                             </div>
 
                             {/* Instrument */}
-                            <p className="text-muted-dark text-xs truncate">{app.instrument || '—'}</p>
+                            <p className="text-muted-dark/80 text-[9px] truncate">{app.instrument || '—'}</p>
 
                             {/* Date */}
-                            <p className="text-muted-dark text-[9px] font-mono">
+                            <p className="text-text-dark text-[9px] font-mono truncate">
                               {new Date(app.createdAt).toLocaleDateString('en-US', {
                                 month: 'short',
                                 day: 'numeric',
-                                year: 'numeric'
+                                year: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit'
                               })}
                             </p>
 
@@ -298,7 +300,7 @@ export default function CampApplicationsClient({ campApplications, setting }: Pr
         {/* ── Footer ── */}
         <div className="shrink-0 border-t border-border-dark px-4 py-2.5 bg-surface-dark flex items-center justify-between">
           <div
-            className={`flex items-center gap-1.5 text-[9px] font-mono ${enabled ? 'text-emerald-400' : 'text-muted-dark/40'}`}
+            className={`flex items-center gap-1.5 text-[9px] font-mono ${enabled ? 'text-emerald-400' : 'text-muted-dark/60'}`}
           >
             <div
               className={`w-1.5 h-1.5 rounded-full ${enabled ? 'bg-emerald-400 animate-pulse' : 'bg-muted-dark/40'}`}

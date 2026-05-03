@@ -86,7 +86,7 @@ const HomeHero = ({ pageData, ref, galleryImages }) => {
             style={{ fontSize: 'clamp(1rem, 2.2vw, 1.75rem)' }}
           >
             <span className="sr-only">{heading}</span>
-            <span aria-hidden="true" className="text-blaze uppercase tracking-[0.3em]">
+            <span aria-hidden="true" className="text-blaze-text uppercase tracking-[0.3em]">
               {hero.subheading}
             </span>
           </motion.p>

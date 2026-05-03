@@ -1,4 +1,3 @@
-// EventsBlock
 'use client'
 
 import { motion } from 'framer-motion'
@@ -17,7 +16,7 @@ export function EventsBlock({ events }: EventsBlockProps) {
 
   return (
     <section className="bg-black py-24 sm:py-32 px-6 sm:px-10 lg:px-16" aria-labelledby="events-heading">
-      <div className="max-w-screen-xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
@@ -29,7 +28,7 @@ export function EventsBlock({ events }: EventsBlockProps) {
           <div>
             <div className="flex items-center gap-3 mb-4">
               <div className="w-6 h-px bg-blaze" aria-hidden="true" />
-              <span className="font-heebo text-[10px] tracking-[0.35em] uppercase text-blaze">Calendar</span>
+              <span className="font-heebo text-[10px] tracking-[0.35em] uppercase text-blaze-text">Calendar</span>
             </div>
             <h2
               id="events-heading"
@@ -40,7 +39,8 @@ export function EventsBlock({ events }: EventsBlockProps) {
           </div>
           <Link
             href="/events"
-            className="group inline-flex items-center gap-3 font-heebo text-xs uppercase tracking-[0.25em] text-blaze hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze shrink-0"
+            aria-label="View all upcoming events"
+            className="group inline-flex items-center gap-3 font-heebo text-xs uppercase tracking-[0.25em] text-blaze-text hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze shrink-0"
           >
             All Events
             <div className="w-6 h-px bg-blaze group-hover:w-10 transition-all duration-300" aria-hidden="true" />
@@ -64,7 +64,7 @@ export function EventsBlock({ events }: EventsBlockProps) {
                 {/* Date block */}
                 <div className="flex sm:flex-col items-center sm:items-start gap-3 sm:gap-0">
                   <div className="flex flex-col items-center justify-center w-16 h-16 border border-white/10 group-hover:border-blaze transition-colors shrink-0">
-                    <span className="font-heebo text-[9px] tracking-[0.2em] uppercase text-blaze leading-none mb-1">
+                    <span className="font-heebo text-[9px] tracking-[0.2em] uppercase text-blaze-text leading-none mb-1">
                       {new Date(event.date).toLocaleDateString('en-US', { month: 'short' })}
                     </span>
                     <span className="font-c-infant font-bold text-white text-2xl leading-none">
@@ -72,7 +72,7 @@ export function EventsBlock({ events }: EventsBlockProps) {
                     </span>
                   </div>
                   <div className="sm:hidden">
-                    <p className="font-c-infant font-bold text-white text-xl leading-tight group-hover:text-blaze transition-colors">
+                    <p className="font-c-infant font-bold text-white text-xl leading-tight group-hover:text-blaze-text transition-colors">
                       {event.title}
                     </p>
                   </div>
@@ -80,12 +80,12 @@ export function EventsBlock({ events }: EventsBlockProps) {
 
                 {/* Info */}
                 <div className="min-w-0">
-                  <p className="font-c-infant font-bold text-white text-xl sm:text-2xl leading-tight mb-3 group-hover:text-blaze transition-colors hidden sm:block">
+                  <p className="font-c-infant font-bold text-white text-xl sm:text-2xl leading-tight mb-3 group-hover:text-blaze-text transition-colors hidden sm:block">
                     {event.title}
                   </p>
                   <div className="flex flex-wrap gap-x-5 gap-y-1.5">
-                    <div className="flex items-center gap-1.5 text-white/60 text-xs font-heebo">
-                      <Calendar className="w-3 h-3 shrink-0 text-blaze" aria-hidden="true" />
+                    <div className="flex items-center gap-1.5 text-white/80 text-xs font-heebo">
+                      <Calendar className="w-3 h-3 shrink-0 text-blaze-text" aria-hidden="true" />
                       {new Date(event.date).toLocaleDateString('en-US', {
                         weekday: 'long',
                         month: 'long',
@@ -99,14 +99,14 @@ export function EventsBlock({ events }: EventsBlockProps) {
                       })}
                     </div>
                     {event.location && (
-                      <div className="flex items-center gap-1.5 text-white/60 text-xs font-heebo">
-                        <MapPin className="w-3 h-3 shrink-0 text-blaze" aria-hidden="true" />
+                      <div className="flex items-center gap-1.5 text-white/80 text-xs font-heebo">
+                        <MapPin className="w-3 h-3 shrink-0 text-blaze-text" aria-hidden="true" />
                         {event.location}
                       </div>
                     )}
                   </div>
                   {event.description && (
-                    <p className="font-heebo text-white/60 text-sm leading-relaxed mt-3 line-clamp-2 max-w-xl">
+                    <p className="font-heebo text-white/80 text-sm leading-relaxed mt-3 line-clamp-2 max-w-xl">
                       {event.description}
                     </p>
                   )}
@@ -114,7 +114,7 @@ export function EventsBlock({ events }: EventsBlockProps) {
 
                 {/* Arrow */}
                 <ArrowRight
-                  className="w-5 h-5 text-white/40 group-hover:text-blaze group-hover:translate-x-1 transition-all hidden sm:block shrink-0"
+                  className="w-5 h-5 text-white/40 group-hover:text-blaze-text group-hover:translate-x-1 transition-all hidden sm:block shrink-0"
                   aria-hidden="true"
                 />
               </article>

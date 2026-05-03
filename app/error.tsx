@@ -11,7 +11,7 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
   return (
     <div className="min-h-screen bg-black flex items-center justify-center px-4">
       <div className="text-center max-w-md">
-        <h1 className="text-6xl font-changa text-blaze mb-4">Oops</h1>
+        <h1 className="text-6xl font-changa text-blaze-text mb-4">Oops</h1>
         <p className="text-white/60 mb-6 font-lato">
           Something went wrong. We&apos;ve been notified and are looking into it.
         </p>

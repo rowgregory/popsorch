@@ -53,7 +53,7 @@ function ConcertRow({ concert, index }: { concert: ConcertWithShows; index: numb
                   })}
                 </time>
                 <p className="text-white/50 text-[10px] 320:text-xs flex items-center gap-1 font-lato">
-                  <Clock className="w-3 h-3 shrink-0 text-blaze" aria-hidden="true" />
+                  <Clock className="w-3 h-3 shrink-0 text-blaze-text" aria-hidden="true" />
                   <span className="sr-only">Time:</span>
                   {new Date(show.date).toLocaleTimeString('en-US', {
                     hour: 'numeric',
@@ -62,7 +62,7 @@ function ConcertRow({ concert, index }: { concert: ConcertWithShows; index: numb
                 </p>
                 {show.venue?.name && (
                   <p className="text-white/50 text-[10px] 320:text-xs flex items-center gap-1 font-lato">
-                    <MapPin className="w-3 h-3 shrink-0 text-blaze" aria-hidden="true" />
+                    <MapPin className="w-3 h-3 shrink-0 text-blaze-text" aria-hidden="true" />
                     <span className="sr-only">Venue:</span>
                     {show.venue.name}
                   </p>
@@ -71,7 +71,7 @@ function ConcertRow({ concert, index }: { concert: ConcertWithShows; index: numb
             ))
           )}
           {sortedShows.length > 1 && (
-            <p className="text-[9px] 320:text-[10px] text-blaze uppercase tracking-[0.2em] font-mono">
+            <p className="text-[9px] 320:text-[10px] text-blaze-text uppercase tracking-[0.2em] font-mono">
               {sortedShows.length} Shows
             </p>
           )}
@@ -90,12 +90,12 @@ function ConcertRow({ concert, index }: { concert: ConcertWithShows; index: numb
         {/* ── Info ── */}
         <div className="990:col-span-3 flex flex-col justify-center">
           {concert.type && (
-            <span className="inline-flex items-center gap-1.5 text-[9px] 320:text-[10px] uppercase tracking-[0.2em] mb-2 320:mb-3 text-blaze font-mono">
+            <span className="inline-flex items-center gap-1.5 text-[9px] 320:text-[10px] uppercase tracking-[0.2em] mb-2 320:mb-3 text-blaze-text font-mono">
               <div className="w-3 h-px bg-blaze" aria-hidden="true" />
               {concert.type}
             </span>
           )}
-          <h3 className="font-changa font-bold text-white text-xl 320:text-2xl 760:text-3xl leading-tight mb-2 group-hover:text-blaze transition-colors duration-300">
+          <h3 className="font-changa font-bold text-white text-xl 320:text-2xl 760:text-3xl leading-tight mb-2 group-hover:text-blaze-text transition-colors duration-300">
             {concert.name}
           </h3>
           {concert.subtitle && (

@@ -63,7 +63,9 @@ export function ConcertCard({ concert, index }: { concert: ConcertWithShows; ind
             {concert.type && (
               <div className="flex items-center gap-2">
                 <div className="w-4 h-px bg-blaze" aria-hidden="true" />
-                <span className="font-changa text-[10px] uppercase tracking-[0.25em] text-blaze">{concert.type}</span>
+                <span className="font-changa text-[10px] uppercase tracking-[0.25em] text-blaze-text">
+                  {concert.type}
+                </span>
               </div>
             )}
             {isLive && (
@@ -92,12 +94,12 @@ export function ConcertCard({ concert, index }: { concert: ConcertWithShows; ind
             href={`/concerts/${concert.id}`}
             className="group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze"
           >
-            <h2 className="font-changa text-2xl sm:text-3xl text-white leading-tight group-hover:text-blaze transition-colors mb-2">
+            <h2 className="font-changa text-2xl sm:text-3xl text-white leading-tight group-hover:text-blaze-text transition-colors mb-2">
               {concert.name}
             </h2>
           </Link>
 
-          {concert.subtitle && <p className="font-lato text-blaze/80 text-sm mb-4">{concert.subtitle}</p>}
+          {concert.subtitle && <p className="font-lato text-blaze-text/80 text-sm mb-4">{concert.subtitle}</p>}
 
           <div className="w-8 h-px bg-blaze mb-5" aria-hidden="true" />
 
@@ -110,7 +112,7 @@ export function ConcertCard({ concert, index }: { concert: ConcertWithShows; ind
         {/* Card date */}
         {concert.cardDate && (
           <div className="flex items-center gap-2 text-white/60">
-            <Calendar className="w-3.5 h-3.5 text-blaze shrink-0" aria-hidden="true" />
+            <Calendar className="w-3.5 h-3.5 text-blaze-text shrink-0" aria-hidden="true" />
             <span className="font-lato text-xs uppercase tracking-wide">{concert.cardDate}</span>
           </div>
         )}
@@ -122,7 +124,7 @@ export function ConcertCard({ concert, index }: { concert: ConcertWithShows; ind
         <div className="space-y-5">
           <div className="flex items-center gap-2 mb-4">
             <div className="w-4 h-px bg-blaze" aria-hidden="true" />
-            <span className="font-changa text-[10px] uppercase tracking-[0.25em] text-blaze">
+            <span className="font-changa text-[10px] uppercase tracking-[0.25em] text-blaze-text">
               {sortedShows.length === 1 ? 'Performance' : 'Performances'}
             </span>
           </div>
@@ -133,7 +135,7 @@ export function ConcertCard({ concert, index }: { concert: ConcertWithShows; ind
             sortedShows.map((show) => (
               <div key={show.id} className="flex flex-col gap-1">
                 <div className="flex items-center gap-2 text-white/70">
-                  <Calendar className="w-3 h-3 text-blaze shrink-0" aria-hidden="true" />
+                  <Calendar className="w-3 h-3 text-blaze-text shrink-0" aria-hidden="true" />
                   <time dateTime={new Date(show.date).toISOString()} className="font-changa text-sm">
                     {new Date(show.date).toLocaleDateString('en-US', {
                       weekday: 'short',
@@ -143,7 +145,7 @@ export function ConcertCard({ concert, index }: { concert: ConcertWithShows; ind
                   </time>
                 </div>
                 <div className="flex items-center gap-2 text-white/60">
-                  <Clock className="w-3 h-3 text-blaze/60 shrink-0" aria-hidden="true" />
+                  <Clock className="w-3 h-3 text-blaze-text/60 shrink-0" aria-hidden="true" />
                   <span className="font-lato text-xs">
                     {new Date(show.date).toLocaleTimeString('en-US', {
                       hour: 'numeric',
@@ -152,7 +154,7 @@ export function ConcertCard({ concert, index }: { concert: ConcertWithShows; ind
                   </span>
                 </div>
                 <div className="flex items-center gap-2 text-white/60">
-                  <MapPin className="w-3 h-3 text-blaze/60 shrink-0" aria-hidden="true" />
+                  <MapPin className="w-3 h-3 text-blaze-text/60 shrink-0" aria-hidden="true" />
                   <span className="font-lato text-xs truncate">{show.venue.name}</span>
                 </div>
               </div>
@@ -218,7 +220,7 @@ export default function ConcertsClient({ concerts }: Props) {
     <main id="main-content" className="bg-black min-h-screen">
       {/* ── Page Header ── */}
       <header className="relative w-full text-center flex flex-col items-center pt-32 pb-20 border-b border-white/10 px-4">
-        <p className="font-changa text-[10px] uppercase tracking-[0.3em] text-blaze mb-4">The Pops Orchestra</p>
+        <p className="font-changa text-[10px] uppercase tracking-[0.3em] text-blaze-text mb-4">The Pops Orchestra</p>
         <div className="flex items-center gap-4 justify-center mb-4">
           <div className="w-10 sm:w-16 h-px bg-blaze shrink-0" aria-hidden="true" />
           <h1 className="font-changa text-4xl sm:text-5xl lg:text-6xl text-white leading-none">Concerts</h1>

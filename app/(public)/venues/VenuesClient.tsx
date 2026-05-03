@@ -58,7 +58,7 @@ function SeatInfo({ data }: { data: SVGSeatProps }) {
       >
         {fields.map(({ label, value }, f) => (
           <div key={f} className="flex flex-col items-center gap-0.5">
-            <span className="font-changa text-[9px] uppercase tracking-[0.25em] text-blaze">{label}</span>
+            <span className="font-changa text-[9px] uppercase tracking-[0.25em] text-blaze-text">{label}</span>
             <span className="font-lato text-sm text-white">{value}</span>
           </div>
         ))}
@@ -72,7 +72,7 @@ function SeatSectionHeading({ id, children }: { id: string; children: React.Reac
   return (
     <div className="flex items-center gap-4 mb-6">
       <div className="flex-1 h-px bg-white/10" />
-      <h4 id={id} className="font-changa text-[10px] uppercase tracking-[0.3em] text-blaze shrink-0">
+      <h4 id={id} className="font-changa text-[10px] uppercase tracking-[0.3em] text-blaze-text shrink-0">
         {children}
       </h4>
       <div className="flex-1 h-px bg-white/10" />
@@ -159,11 +159,11 @@ function VenueDetails({ venue }: { venue: IVenue }) {
     <div className="grid grid-cols-1 760:grid-cols-2 gap-px bg-white/10">
       {fields.map(({ icon, label, value }) => (
         <div key={label} className="bg-black p-5 flex gap-4">
-          <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-blaze shrink-0 mt-0.5">
+          <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-blaze-text shrink-0 mt-0.5">
             {icon}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="font-changa text-[9px] uppercase tracking-[0.25em] text-blaze mb-1">{label}</p>
+            <p className="font-changa text-[9px] uppercase tracking-[0.25em] text-blaze-text mb-1">{label}</p>
             <p className="font-lato text-sm text-white/70 leading-relaxed">{value}</p>
           </div>
         </div>
@@ -208,7 +208,7 @@ function VenueCard({ venue, index }: { venue: any; index: number }) {
             {venue.capacity && (
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-4 h-px bg-blaze" aria-hidden="true" />
-                <span className="font-changa text-[9px] uppercase tracking-[0.3em] text-blaze">
+                <span className="font-changa text-[9px] uppercase tracking-[0.3em] text-blaze-text">
                   {venue.capacity} seats
                 </span>
               </div>
@@ -231,7 +231,7 @@ function VenueCard({ venue, index }: { venue: any; index: number }) {
             <div className="w-6 h-px bg-blaze" aria-hidden="true" />
             <h3
               id={`seatmap-heading-${seatMapId}`}
-              className="font-changa text-[10px] uppercase tracking-[0.3em] text-blaze"
+              className="font-changa text-[10px] uppercase tracking-[0.3em] text-blaze-text"
             >
               Seating Chart
             </h3>
@@ -251,13 +251,15 @@ export function VenuesClient({ venues }: { venues: any[] }) {
       <div className="relative bg-black">
         <div
           className="absolute inset-0 w-full h-full bg-no-repeat bg-center bg-cover opacity-5"
-          style={{ backgroundImage: `url('/images/bio-bg.png')`, backgroundAttachment: 'fixed' }}
+          style={{ backgroundImage: `url('/images/bio-bg.webp')`, backgroundAttachment: 'fixed' }}
           aria-hidden="true"
         />
 
         <div className="relative z-10">
           <header className="text-center flex flex-col items-center pt-16 pb-10 px-4 border-b border-white/10">
-            <p className="font-changa text-[9px] uppercase tracking-[0.35em] text-blaze mb-3">The Pops Orchestra</p>
+            <p className="font-changa text-[9px] uppercase tracking-[0.35em] text-blaze-text mb-3">
+              The Pops Orchestra
+            </p>
             <h1 className="text-4xl 430:text-5xl font-changa text-white leading-none">Venues</h1>
           </header>
 

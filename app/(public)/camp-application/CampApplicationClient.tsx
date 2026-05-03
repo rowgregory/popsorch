@@ -31,7 +31,7 @@ function Field({ label, error, children }: { label: string; error?: string; chil
     <div>
       <label className={labelClass}>{label}</label>
       {children}
-      {error && <p className="mt-1.5 text-xs text-blaze font-medium">{error}</p>}
+      {error && <p className="mt-1.5 text-xs text-blaze-text font-medium">{error}</p>}
     </div>
   )
 }
@@ -241,7 +241,7 @@ export default function CampApplicationClient({ data }) {
                   ))}
                 </div>
                 <div className="mt-6 pt-5 border-t border-neutral-800 flex items-start gap-2">
-                  <Check className="w-3.5 h-3.5 text-blaze mt-0.5 shrink-0" />
+                  <Check className="w-3.5 h-3.5 text-blaze-text mt-0.5 shrink-0" />
                   <p className="text-[11px] text-neutral-400 leading-relaxed">
                     At least two years of playing experience required
                   </p>
@@ -297,7 +297,7 @@ export default function CampApplicationClient({ data }) {
                             {done ? (
                               <Check className="w-4 h-4 text-white" />
                             ) : (
-                              <Icon className={`w-4 h-4 ${active ? 'text-blaze' : 'text-neutral-600'}`} />
+                              <Icon className={`w-4 h-4 ${active ? 'text-blaze-text' : 'text-neutral-600'}`} />
                             )}
                           </button>
                           <span

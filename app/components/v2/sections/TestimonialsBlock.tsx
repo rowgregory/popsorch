@@ -51,7 +51,7 @@ export function TestimonialsBlock({ testimonials }: TestimonialsBlockProps) {
         >
           <div className="flex items-center justify-center gap-3 mb-5">
             <div className="w-8 h-px bg-blaze" aria-hidden="true" />
-            <span className="font-heebo text-[10px] tracking-[0.35em] uppercase text-blaze">Testimonials</span>
+            <span className="font-heebo text-[10px] tracking-[0.35em] uppercase text-blaze-text">Testimonials</span>
             <div className="w-8 h-px bg-blaze" aria-hidden="true" />
           </div>
           <h2
@@ -111,7 +111,7 @@ export function TestimonialsBlock({ testimonials }: TestimonialsBlockProps) {
               <button
                 type="button"
                 onClick={prev}
-                className="w-11 h-11 flex items-center justify-center border border-white/10 hover:border-blaze text-white/50 hover:text-blaze transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                className="w-11 h-11 flex items-center justify-center border border-white/10 hover:border-blaze text-white/50 hover:text-blaze-text transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black"
                 aria-label="Previous testimonial"
               >
                 <ChevronLeft className="w-4 h-4" aria-hidden="true" />
@@ -140,7 +140,7 @@ export function TestimonialsBlock({ testimonials }: TestimonialsBlockProps) {
               <button
                 type="button"
                 onClick={next}
-                className="w-11 h-11 flex items-center justify-center border border-white/10 hover:border-blaze text-white/50 hover:text-blaze transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                className="w-11 h-11 flex items-center justify-center border border-white/10 hover:border-blaze text-white/50 hover:text-blaze-text transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black"
                 aria-label="Next testimonial"
               >
                 <ChevronRight className="w-4 h-4" aria-hidden="true" />

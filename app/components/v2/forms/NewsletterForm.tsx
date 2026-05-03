@@ -48,7 +48,7 @@ const Input: FC<InputProps> = ({ name, value, handleInput, placeholder, error, r
       {placeholder}
       {required && (
         <>
-          <span className="text-blaze ml-1" aria-hidden="true">
+          <span className="text-blaze-text ml-1" aria-hidden="true">
             *
           </span>
           <span className="sr-only"> (required)</span>
@@ -67,7 +67,9 @@ const Input: FC<InputProps> = ({ name, value, handleInput, placeholder, error, r
       aria-invalid={!!error}
       aria-describedby={error ? `${name}-error` : undefined}
       className={`bg-transparent border-b font-lato text-sm text-white placeholder:text-white/40 py-3 w-full focus:outline-none transition-colors duration-200 ${
-        error ? 'border-blaze placeholder:text-blaze/40' : 'border-white/20 hover:border-white/40 focus:border-blaze'
+        error
+          ? 'border-blaze placeholder:text-blaze-text/40'
+          : 'border-white/20 hover:border-white/40 focus:border-blaze'
       }`}
     />
     {error && (
@@ -75,7 +77,7 @@ const Input: FC<InputProps> = ({ name, value, handleInput, placeholder, error, r
         id={`${name}-error`}
         role="alert"
         aria-live="polite"
-        className="font-changa text-[10px] uppercase tracking-widest text-blaze mt-2"
+        className="font-changa text-[10px] uppercase tracking-widest text-blaze-text mt-2"
       >
         {error}
       </p>
@@ -162,7 +164,7 @@ const NewsletterForm = ({ data }) => {
         ) : (
           <>
             <header className="w-full text-center flex flex-col items-center pt-32 pb-20 border-b border-white/10">
-              <p className="font-changa text-xs uppercase tracking-[0.3em] text-blaze mb-4">The Pops Orchestra</p>
+              <p className="font-changa text-xs uppercase tracking-[0.3em] text-blaze-text mb-4">The Pops Orchestra</p>
               <div className="flex items-center gap-3 430:gap-4 justify-center mb-4">
                 <div className="w-8 430:w-16 h-px bg-blaze shrink-0" aria-hidden="true" />
                 <h1 className="text-4xl 430:text-5xl sm:text-6xl font-changa text-white leading-none">
@@ -325,7 +327,7 @@ const NewsletterForm = ({ data }) => {
                   </label>
                 </div>
                 {errors?.agreedToPrivacyStatement && (
-                  <p id="privacy-error" role="alert" className="text-blaze font-changa text-13 mt-1">
+                  <p id="privacy-error" role="alert" className="text-blaze-text font-changa text-13 mt-1">
                     {errors?.agreedToPrivacyStatement}
                   </p>
                 )}

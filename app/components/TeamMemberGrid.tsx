@@ -24,7 +24,10 @@ export default function TeamMemberGrid({ title, description, teamMembers, headin
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-8 768:mb-12 pb-8 768:pb-12 border-b border-white/10">
-          <h2 id={headingId} className="font-changa text-2xl 430:text-3xl uppercase tracking-[0.3em] text-blaze mb-3">
+          <h2
+            id={headingId}
+            className="font-changa text-2xl 430:text-3xl uppercase tracking-[0.3em] text-blaze-text mb-3"
+          >
             {title}
           </h2>
           {description && (
