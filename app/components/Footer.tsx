@@ -3,7 +3,6 @@
 import Link from 'next/link'
 import { ChevronUp, MapPin, Pencil, Phone } from 'lucide-react'
 import { FacebookIcon, InstagramIcon, YouTubeIcon } from '@/public/data/home.data'
-import { sendEnrichedGAEvent } from '../utils/sendEnrichedGAEvent'
 import LogoSVG from './svg/LogoSVG'
 import { ContentItem, FooterData } from '../types/common.types'
 
@@ -60,9 +59,6 @@ const Footer = ({ data }: { data: FooterData }) => {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={`Follow us on ${platform} (opens in new tab)`}
-                        onClick={() =>
-                          sendEnrichedGAEvent('social_media_click', platform, platform, 'footer_social_bar')
-                        }
                         className="w-8 h-8 bg-white/5 border border-white/10 hover:border-blaze/50 hover:bg-blaze/5 flex items-center justify-center transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-sm"
                       >
                         <IconComponent className="w-3.5 h-3.5 text-white" aria-hidden="true" />
@@ -124,9 +120,6 @@ const Footer = ({ data }: { data: FooterData }) => {
                       target={link.linkKey.startsWith('http') ? '_blank' : undefined}
                       rel={link.linkKey.startsWith('http') ? 'noopener noreferrer' : undefined}
                       aria-label={link.linkKey.startsWith('http') ? `${link.textKey} (opens in new tab)` : link.textKey}
-                      onClick={() =>
-                        sendEnrichedGAEvent('footer_link_click', link.linkKey, link.textKey, 'footer_quick_links')
-                      }
                       className="font-lato text-[11px] 430:text-xs text-white hover:text-blaze-text transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm"
                     >
                       {link.textKey}
@@ -164,15 +157,12 @@ const Footer = ({ data }: { data: FooterData }) => {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Website designed and developed by Sqysh (opens in new tab)"
-              onClick={() =>
-                sendEnrichedGAEvent('developer_credit_click', 'https://sqysh.io', 'Sqysh', 'footer_credits')
-              }
               className="flex items-center gap-1 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze rounded-sm"
             >
               <span className="font-lato text-[10px] text-white/70 group-hover:text-white transition-colors">
                 Built by
               </span>
-              <span className="sqysh-gradient text-[10px] font-bold font-raleway">Sqysh</span>
+              <span className="sqysh-gradient text-[10px] font-bold font-mono">Sqysh</span>
             </Link>
             <div className="w-px h-3 bg-white/10" aria-hidden="true" />
             <button

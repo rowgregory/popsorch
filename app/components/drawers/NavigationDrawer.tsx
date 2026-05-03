@@ -35,7 +35,12 @@ const NavigationDrawer = ({ campApplicationsSetting }) => {
       >
         {/* Header */}
         <div className="flex items-center justify-between px-6 pt-7 pb-5 border-b border-white/10">
-          <Link href="/" onClick={closeDrawer} className="bg-white50Logo bg-no-repeat bg-contain bg-center w-24 h-14" />
+          <Link
+            href="/"
+            onClick={closeDrawer}
+            className="bg-white50Logo bg-no-repeat bg-contain bg-center w-24 h-14"
+            aria-label="The Pops Orchestra — return to homepage"
+          />
           <button
             onClick={closeDrawer}
             aria-label="Close navigation menu"

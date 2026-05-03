@@ -11,6 +11,7 @@ interface PictureProps {
   height?: number
   fill?: boolean
   sizes?: string
+  quality?: number
 }
 
 const Picture: FC<PictureProps> = ({
@@ -22,9 +23,9 @@ const Picture: FC<PictureProps> = ({
   width,
   height,
   fill,
-  sizes = '100vw'
+  sizes = '100vw',
+  quality
 }) => {
-  // If fill is true, don't use width/height
   if (fill) {
     return (
       <Image
@@ -35,12 +36,12 @@ const Picture: FC<PictureProps> = ({
         className={className}
         priority={priority}
         sizes={sizes}
+        quality={quality}
         style={{ objectFit: 'cover' }}
       />
     )
   }
 
-  // Otherwise use width/height
   return (
     <Image
       onClick={onClick}
@@ -53,6 +54,7 @@ const Picture: FC<PictureProps> = ({
       loading={priority ? 'eager' : 'lazy'}
       fetchPriority={priority ? 'high' : 'auto'}
       sizes={sizes}
+      quality={quality ?? 75}
       decoding="async"
       style={{ contentVisibility: 'auto' }}
     />

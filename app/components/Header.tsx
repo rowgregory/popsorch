@@ -6,7 +6,7 @@ import { motion } from 'framer-motion'
 import { ExternalLink, Heart, Menu, User } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import { useHeaderAtTop } from '@/app/lib/hooks/useHeaderAtTop'
-import LogoSVG from '../svg/LogoSVG'
+import LogoSVG from './svg/LogoSVG'
 import { store } from '@/app/redux/store'
 
 export interface HeaderNavLinkProps {
@@ -101,7 +101,7 @@ export const HeaderNavLink: FC<HeaderNavLinkProps> = ({ link, openDropdown, setO
   )
 }
 
-export const HeaderLower = ({ campApplicationsSetting }) => {
+export const Header = ({ campApplicationsSetting }) => {
   const path = usePathname()
   const thereAreConcerts = true
   const navLinks = getNavigationLinks(path, thereAreConcerts, campApplicationsSetting)

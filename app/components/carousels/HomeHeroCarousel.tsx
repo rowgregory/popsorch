@@ -23,7 +23,15 @@ export const HomeHeroCarousel: FC<{ images: any; interval: number }> = ({ images
             image?.imageUrl === currentImage || (index === 0 && !currentImage) ? 'opacity-100' : 'opacity-0'
           }`}
         >
-          <Picture src={image.imageUrl} alt="" fill priority={index === 0} className="object-cover object-top" />
+          <Picture
+            src={image.imageUrl}
+            alt=""
+            fill
+            priority={index === 0}
+            quality={60}
+            className="object-cover object-top"
+            sizes="100vw" // already correct for full-width hero
+          />
           <div className="absolute inset-0 bg-black/20" />
         </div>
       ))}

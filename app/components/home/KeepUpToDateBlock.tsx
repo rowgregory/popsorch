@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import { ArrowRightIcon } from 'lucide-react'
-import { sendEnrichedGAEvent } from '@/app/utils/sendEnrichedGAEvent'
 
 export const KeepUpToDateBlock = ({ pageData }) => {
   if (!pageData || !Array.isArray(pageData)) return null
@@ -55,7 +54,6 @@ export const KeepUpToDateBlock = ({ pageData }) => {
             <Link
               href={contactsData?.buttonHref || '#'}
               aria-label={`${contactsData?.buttonText} — sign up for our newsletter`}
-              onClick={() => sendEnrichedGAEvent('sign_up_intent', 'sign_me_up', 'Sign Me Up', 'home_keep_up_to_date')}
               className="group inline-flex items-center gap-3 bg-blaze hover:bg-blazehover text-white px-8 py-4 font-changa uppercase tracking-widest text-sm transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black  w-full 990:w-auto justify-center 990:justify-start"
             >
               <span>{contactsData?.buttonText}</span>

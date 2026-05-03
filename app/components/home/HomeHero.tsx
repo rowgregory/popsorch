@@ -1,6 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import { HomeHeroCarousel } from '../carousels/HomeHeroCarousel'
-import { sendEnrichedGAEvent } from '@/app/utils/sendEnrichedGAEvent'
 import { ArrowRightIcon } from 'lucide-react'
 import Link from 'next/link'
 import LogoSVG from '../svg/LogoSVG'
@@ -16,7 +15,6 @@ const HomeHero = ({ pageData, ref, galleryImages }) => {
   const filteredImages = galleryImages?.filter((item: { isHomeHero: boolean }) => item.isHomeHero)
 
   const handleScroll = () => {
-    sendEnrichedGAEvent('view_concerts', 'see_concerts', 'See Concerts', 'home_hero')
     ref.current?.scrollIntoView({ behavior: 'smooth' })
   }
 

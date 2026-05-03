@@ -3,7 +3,6 @@
 import Link from 'next/link'
 import { ArrowRightIcon, Mail, MapPin, Phone } from 'lucide-react'
 import { motion } from 'framer-motion'
-import { sendEnrichedGAEvent } from '@/app/utils/sendEnrichedGAEvent'
 
 export const ContactUsBlock = ({ data }) => {
   const field = (id: string) => data?.find((item) => item.id === id)?.value ?? ''
@@ -132,14 +131,6 @@ export const ContactUsBlock = ({ data }) => {
             <Link
               href="/contact"
               aria-label={`${field('question_button_text')} — visit our contact page`}
-              onClick={() =>
-                sendEnrichedGAEvent(
-                  'question_us_click',
-                  'question_us',
-                  field('question_buttonText'),
-                  'home_question_section'
-                )
-              }
               className="group inline-flex items-center gap-3 bg-blaze hover:bg-blazehover text-white px-8 430:px-10 py-4 font-changa uppercase tracking-widest text-sm transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
             >
               <span>{field('question_buttonText')}</span>

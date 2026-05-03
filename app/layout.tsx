@@ -1,39 +1,12 @@
 import Script from 'next/script'
-import { GoogleAnalytics } from '@next/third-parties/google'
-import { Changa, Cormorant_Infant, Heebo, Inter, Lato, Oswald, Raleway } from 'next/font/google'
-import { auth } from './lib/auth'
+import { Changa, Cormorant_Infant, Heebo, Lato } from 'next/font/google'
 import { siteMetadata } from './metadata'
-import { SessionProvider } from 'next-auth/react'
 import './globals.css'
-import 'ol/ol.css'
 import RootLayoutClient from './components/v2/layouts/RootLayoutClient'
-import { unstable_cache } from 'next/cache'
-import { getCampApplicationsSetting } from './lib/actions/camp-applications/getCampApplicationsSetting'
-import { getPage } from './lib/actions/page/getPage'
+import { getLayoutData } from './lib/actions/getLayoutData'
 
 export const dynamic = 'force-dynamic'
 export const metadata = siteMetadata
-
-const inter = Inter({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700', '900'],
-  preload: false,
-  variable: '--font-inter'
-})
-
-const oswald = Oswald({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
-  preload: false,
-  variable: '--font-oswald'
-})
-
-const raleway = Raleway({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700', '900'],
-  preload: false,
-  variable: '--font-raleway'
-})
 
 const changa = Changa({
   subsets: ['latin'],
@@ -62,34 +35,32 @@ const c_infant = Cormorant_Infant({
   variable: '--font-c-infant'
 })
 
-const getCampApplicationsSettingCached = unstable_cache(
-  async () => getCampApplicationsSetting(),
-  ['layout-camp-settings'],
-  { revalidate: 60 }
-)
-
-const getFooterCached = unstable_cache(async () => getPage('footer'), ['layout-footer'], { revalidate: 60 })
-
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const [session, campApplicationsSetting, footerData] = await Promise.all([
-    auth(),
-    getCampApplicationsSettingCached().catch(() => null),
-    getFooterCached().catch(() => null)
-  ])
+  const { campApplicationsSetting, footerData } = await getLayoutData().catch(() => ({
+    campApplicationsSetting: null,
+    footerData: null
+  }))
 
   return (
     <html lang="en">
       <head>
-        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID!} />
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+          strategy="lazyOnload"
+        />
+        <Script id="google-analytics" strategy="lazyOnload">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
+          `}
+        </Script>
       </head>
-      <body
-        className={`${inter.variable} ${oswald.variable} ${raleway.variable} ${changa.variable} ${lato.variable} ${heebo.variable} ${c_infant.variable} antialiased`}
-      >
-        <SessionProvider session={session}>
-          <RootLayoutClient campApplicationsSetting={campApplicationsSetting?.value} footerData={footerData}>
-            {children}
-          </RootLayoutClient>
-        </SessionProvider>
+      <body className={`${changa.variable} ${lato.variable} ${heebo.variable} ${c_infant.variable} antialiased`}>
+        <RootLayoutClient campApplicationsSetting={campApplicationsSetting?.value} footerData={footerData}>
+          {children}
+        </RootLayoutClient>
         <Script
           src="https://public.tockify.com/browser/embed.js"
           data-cfasync="false"

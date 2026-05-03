@@ -10,8 +10,8 @@ import Toast from '../../common/Toast'
 import CampApplicationSuccessModal from '../../modals/CampApplicationSuccessModal'
 import ContactSubmissionSuccessModal from '../../modals/ContactSubmissionSuccessModal'
 import NavigationDrawer from '../../drawers/NavigationDrawer'
-import { Header } from '../../header/Header'
 import Footer from '../../Footer'
+import { Header } from '../../Header'
 
 interface Props {
   children: React.ReactNode

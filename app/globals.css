@@ -1,12 +1,8 @@
 @import "tailwindcss";
 
-/* @variant dark (&:where(.dark, .dark *)); */
-
 /* ─── Theme Inline (Font Variables) ─────────────────────────────────── */
 @theme inline {
   --font-changa: var(--font-changa);
-  --font-oswald: var(--font-oswald);
-  --font-raleway: var(--font-raleway);
   --font-c-infant: var(--font-c-infant);
   --font-heebo: var(--font-heebo);
 }
@@ -156,9 +152,6 @@
   --max-height-1600: 1600px;
 
   /* Font Families */
-  --font-family-inter: var(--font-inter);
-  --font-family-oswald: var(--font-oswald);
-  --font-family-raleway: var(--font-raleway);
   --font-family-changa: var(--font-changa);
   --font-family-lato: var(--font-lato);
   --font-family-heebo: var(--font-heebo);
