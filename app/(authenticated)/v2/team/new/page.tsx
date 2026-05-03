@@ -1,4 +1,4 @@
-import TeamCreateClient from '@/app/components/v2/pages/TeamCreateClient'
+import TeamCreateClient from '@/app/components/pages/TeamCreateClient'
 
 export default async function TeamCreatePage() {
   return <TeamCreateClient />

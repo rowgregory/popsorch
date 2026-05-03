@@ -1,7 +1,7 @@
 'use client'
 
 import Breadcrumb from '@/app/components/common/Breadcrumb'
-import TeamMemberGrid from '../../components/TeamMemberGrid'
+import TeamMemberGrid from '../../components/team/TeamMemberGrid'
 
 export const MusiciansClient = ({ data }) => {
   const sortedMusicians = [...data].sort((a, b) => a.displayOrder - b.displayOrder)

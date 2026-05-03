@@ -1,4 +1,4 @@
-import VenueEditClient from '@/app/components/v2/pages/VenueEditClient'
+import VenueEditClient from '@/app/components/pages/VenueEditClient'
 import { getVenueById } from '@/app/lib/actions/venue/getVenueById'
 
 export default async function VenueEditPage({ params }: { params: Promise<{ id: string }> }) {

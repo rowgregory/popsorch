@@ -1,4 +1,4 @@
-import TestimonialsClient from '@/app/components/v2/pages/TestimonialsClient'
+import TestimonialsClient from '@/app/components/pages/TestimonialsClient'
 import prisma from '@/prisma/client'
 
 export default async function TestimonialsPage() {

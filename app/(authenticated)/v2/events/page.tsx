@@ -1,4 +1,4 @@
-import EventsClient from '@/app/components/v2/pages/EventsClient'
+import EventsClient from '@/app/components/pages/EventsClient'
 import prisma from '@/prisma/client'
 
 export default async function EventsPage() {

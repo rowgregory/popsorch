@@ -1,4 +1,4 @@
-import NewsClient from '@/app/components/v2/pages/NewsClient'
+import NewsClient from '@/app/components/pages/NewsClient'
 import prisma from '@/prisma/client'
 
 export default async function NewsPage() {

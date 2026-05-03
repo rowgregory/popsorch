@@ -1,4 +1,4 @@
-import DashboardClient from '@/app/components/v2/pages/DashboardClient'
+import DashboardClient from '@/app/components/pages/DashboardClient'
 import { getDashboardData } from '@/app/lib/actions/getDashboardData'
 
 export default async function DashboardPage() {

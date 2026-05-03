@@ -1,4 +1,4 @@
-import PageContentEditorClient from '@/app/components/v2/pages/PageContentEditorClient'
+import PageContentEditorClient from '@/app/components/pages/PageContentEditorClient'
 import prisma from '@/prisma/client'
 
 export default async function PageContentEditorPage({ searchParams }) {

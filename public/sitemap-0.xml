@@ -4,7 +4,7 @@
 <url><loc>https://www.thepopsorchestra.org/(public)/accessibility</loc></url>
 <url><loc>https://www.thepopsorchestra.org/(public)/advertise-with-us</loc></url>
 <url><loc>https://www.thepopsorchestra.org/(public)/auth/forgot-password</loc></url>
-<url><loc>https://www.thepopsorchestra.org/(public)/auth/login</loc></url>
+<url><loc>https://www.thepopsorchestra.org/(public)/login</loc></url>
 <url><loc>https://www.thepopsorchestra.org/(public)/auth/register</loc></url>
 <url><loc>https://www.thepopsorchestra.org/(public)/board-members</loc></url>
 <url><loc>https://www.thepopsorchestra.org/(public)/bubble-bash</loc></url>
@@ -28,7 +28,7 @@
 <url><loc>https://www.thepopsorchestra.org/(public)/sundays-at-neel</loc></url>
 <url><loc>https://www.thepopsorchestra.org/(public)/venues</loc></url>
 <url><loc>https://www.thepopsorchestra.org/api/auth/forgot-password/route</loc></url>
-<url><loc>https://www.thepopsorchestra.org/api/auth/login/route</loc></url>
+<url><loc>https://www.thepopsorchestra.org/api/login/route</loc></url>
 <url><loc>https://www.thepopsorchestra.org/api/auth/logout/route</loc></url>
 <url><loc>https://www.thepopsorchestra.org/api/auth/register/route</loc></url>
 <url><loc>https://www.thepopsorchestra.org/api/auth/reset-password/route</loc></url>

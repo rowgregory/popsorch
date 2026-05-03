@@ -2,7 +2,7 @@ import Script from 'next/script'
 import { Changa, Cormorant_Infant, Heebo, Lato } from 'next/font/google'
 import { siteMetadata } from './metadata'
 import './globals.css'
-import RootLayoutClient from './components/v2/layouts/RootLayoutClient'
+import RootLayoutClient from './components/layouts/RootLayoutClient'
 import { getLayoutData } from './lib/actions/getLayoutData'
 
 export const dynamic = 'force-dynamic'

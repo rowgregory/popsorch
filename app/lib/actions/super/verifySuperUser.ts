@@ -4,7 +4,7 @@ import prisma from '@/prisma/client'
 
 export async function verifySuperUser() {
   const session = await auth()
-  if (!session?.user?.id) redirect('/auth/login')
+  if (!session?.user?.id) redirect('/login')
 
   const user = await prisma.user
     .findUnique({

@@ -13,7 +13,7 @@ const DASHBOARDS: Record<UserRole, string> = {
 }
 
 function getDashboard(role: UserRole) {
-  return DASHBOARDS[role] ?? '/auth/login'
+  return DASHBOARDS[role] ?? '/login'
 }
 
 // ─── Route config ─────────────────────────────────────────────────────────────
@@ -35,7 +35,7 @@ export async function proxy(request: NextRequest) {
   const role = user?.role as UserRole | undefined
 
   // ── Auth page — redirect if already signed in ──
-  if (pathname === '/auth/login') {
+  if (pathname === '/login') {
     if (user && role && (role === 'ADMIN' || role === 'CONDUCTOR' || role === 'SUPER_USER')) {
       return NextResponse.redirect(new URL(getDashboard(role), request.url))
     }
@@ -48,14 +48,14 @@ export async function proxy(request: NextRequest) {
   if (matchedRoute) {
     // Not signed in — send to login
     if (!user || !role) {
-      const loginUrl = new URL('/auth/login', request.url)
+      const loginUrl = new URL('/login', request.url)
       loginUrl.searchParams.set('callbackUrl', pathname)
       return NextResponse.redirect(loginUrl)
     }
 
     // Role not allowed — send to login (PATRONs can't access anything)
     if (!matchedRoute.allowedRoles.includes(role)) {
-      return NextResponse.redirect(new URL('/auth/login', request.url))
+      return NextResponse.redirect(new URL('/login', request.url))
     }
   }
 
@@ -63,5 +63,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/v2/:path*', '/auth/login']
+  matcher: ['/v2/:path*', '/login']
 }

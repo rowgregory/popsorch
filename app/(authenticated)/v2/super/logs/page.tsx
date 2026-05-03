@@ -1,4 +1,4 @@
-import LogsClient from '@/app/components/v2/pages/LogsClient'
+import LogsClient from '@/app/components/pages/LogsClient'
 import { auth } from '@/app/lib/auth'
 import prisma from '@/prisma/client'
 import { redirect } from 'next/navigation'
@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation'
 export default async function SuperLogsPage() {
   const session = await auth()
 
-  if (!session?.user?.id) redirect('/auth/login')
+  if (!session?.user?.id) redirect('/login')
 
   const user = await prisma.user
     .findUnique({

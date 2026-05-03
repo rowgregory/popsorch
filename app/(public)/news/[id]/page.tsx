@@ -1,4 +1,4 @@
-import NewsDetailsClient from '@/app/components/v2/pages/NewsDetailsClient'
+import NewsDetailsClient from '@/app/(public)/news/[id]/NewsDetailsClient'
 import prisma from '@/prisma/client'
 import { notFound } from 'next/navigation'
 

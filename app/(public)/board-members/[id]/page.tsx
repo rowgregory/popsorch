@@ -1,4 +1,4 @@
-import TeamMemberClient from '@/app/components/v2/pages/TeamMemberClient'
+import TeamMemberClient from '@/app/components/pages/TeamMemberClient'
 import prisma from '@/prisma/client'
 import { notFound } from 'next/navigation'
 

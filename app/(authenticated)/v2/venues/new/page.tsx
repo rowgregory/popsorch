@@ -1,4 +1,4 @@
-import VenueCreateClient from '@/app/components/v2/pages/VenueCreateClient'
+import VenueCreateClient from '@/app/components/pages/VenueCreateClient'
 
 export default async function VenueCreatePage() {
   return <VenueCreateClient />

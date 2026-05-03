@@ -1,4 +1,4 @@
-import UsersClient from '@/app/components/v2/pages/UsersClient'
+import UsersClient from '@/app/components/pages/UsersClient'
 import prisma from '@/prisma/client'
 
 export default async function UsersPage() {

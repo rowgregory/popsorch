@@ -81,7 +81,7 @@ export const adminWelcomeTemplate = (firstName: string, email: string) => `
                     </table>
 
                     <!-- CTA -->
-                    <a href="${process.env.NEXT_PUBLIC_BASE_URL}/auth/login" style="display: inline-block; padding: 13px 28px; background-color: #da0032; color: #ffffff; text-decoration: none; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em;">
+                    <a href="${process.env.NEXT_PUBLIC_BASE_URL}/login" style="display: inline-block; padding: 13px 28px; background-color: #da0032; color: #ffffff; text-decoration: none; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em;">
                       Log in to Dashboard
                     </a>
 

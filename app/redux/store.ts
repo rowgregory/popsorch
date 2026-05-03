@@ -6,7 +6,6 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { api } from './services/api'
 import { appReducer } from './features/appSlice'
 import { formReducer } from './features/formSlice'
-import { logReducer } from './features/logSlice'
 import { toastReducer } from './features/toastSlice'
 import { uiReducer } from './features/uiSlice'
 import { mailChimpReducer } from './features/mailchimpSlice'
@@ -14,7 +13,6 @@ import { mailChimpReducer } from './features/mailchimpSlice'
 const rootReducer = combineReducers({
   app: appReducer,
   form: formReducer,
-  log: logReducer,
   mailchimp: mailChimpReducer,
   toast: toastReducer,
   ui: uiReducer,
@@ -41,5 +39,4 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 export const useFormSelector = () => useAppSelector((state) => state.form)
 export const useToastSelector = () => useAppSelector((state) => state.toast)
 export const useMailchimpSelector = () => useAppSelector((state) => state.mailchimp)
-export const useLogSelector = () => useAppSelector((state) => state.log)
 export const useUiSelector = () => useAppSelector((state) => state.ui)

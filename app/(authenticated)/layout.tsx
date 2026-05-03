@@ -4,7 +4,7 @@ import { SessionProvider } from 'next-auth/react'
 
 export default async function AuthenticatedLayout({ children }) {
   const session = await auth()
-  if (!session) redirect('/auth/login')
+  if (!session) redirect('/login')
 
   return <SessionProvider session={session}>{children}</SessionProvider>
 }

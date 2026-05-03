@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion'
-import { HomeHeroCarousel } from '../carousels/HomeHeroCarousel'
+import { HeroCarousel } from './HeroCarousel'
 import { ArrowRightIcon } from 'lucide-react'
 import Link from 'next/link'
 import { sectionVariants } from '@/app/lib/constants/motion'
@@ -45,7 +45,7 @@ const HomeHero = ({ pageData, ref }) => {
       className="relative w-full min-h-200 h-dvh max-h-1000 -mt-16 sm:-mt-28"
     >
       {/* Carousel overlays on top once hydrated */}
-      <HomeHeroCarousel images={galleryImages} interval={5000} />
+      <HeroCarousel images={galleryImages} interval={5000} />
 
       {/* Overlay */}
       <div className="absolute inset-0 z-40 flex flex-col justify-end pb-16 430:pb-20 990:pb-28 px-4 990:px-12 xl:px-4">

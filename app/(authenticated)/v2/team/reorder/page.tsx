@@ -1,4 +1,4 @@
-import TeamReorderClient from '@/app/components/v2/pages/TeamReorderClient'
+import TeamReorderClient from '@/app/components/pages/TeamReorderClient'
 import prisma from '@/prisma/client'
 
 export default async function TeamReorderPage() {

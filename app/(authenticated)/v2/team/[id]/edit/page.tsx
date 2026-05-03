@@ -1,4 +1,4 @@
-import TeamEditClient from '@/app/components/v2/pages/TeamEditClient'
+import TeamEditClient from '@/app/components/pages/TeamEditClient'
 import { getTeamMemberById } from '@/app/lib/actions/team/getTeamMemberById'
 
 export default async function TeamEditPage({ params }: { params: Promise<{ id: string }> }) {

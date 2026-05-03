@@ -124,7 +124,7 @@ export default function AuthError() {
           {/* Actions */}
           <div className="flex flex-col gap-3" role="group" aria-label="Recovery options">
             <Link
-              href="/auth/login"
+              href="/login"
               className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-primary-dark hover:bg-secondary-light text-white text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-dark focus-visible:ring-offset-2 focus-visible:ring-offset-bg-dark"
             >
               <ArrowLeft className="w-4 h-4 shrink-0" aria-hidden="true" />

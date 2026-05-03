@@ -3,7 +3,7 @@
 import Breadcrumb from '@/app/components/common/Breadcrumb'
 import { Mail, MapPin, Phone } from 'lucide-react'
 import { FacebookIcon, InstagramIcon, YouTubeIcon } from '@/public/data/home.data'
-import ContactForm from '@/app/components/v2/forms/ContactForm'
+import ContactForm from '@/app/components/forms/ContactForm'
 
 export const ContactClient = ({ data }) => {
   const field = (id: string) => data?.content?.find((item) => item.id === id)?.value ?? ''
