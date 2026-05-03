@@ -2,6 +2,7 @@
 
 import { useRef, useState } from 'react'
 import Picture from '../common/Picture'
+import { Play } from 'lucide-react'
 
 const videos = [
   {
@@ -53,113 +54,160 @@ const videosWithThumbnails = videos.map((video) => {
   const videoId = getVideoId(video.url)
   return {
     ...video,
-    thumbnail: videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : '/default-thumbnail.jpg' // fallback
+    thumbnail: videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : '/default-thumbnail.jpg'
   }
 })
 
-const MediaVideoPlayer = () => {
-  const [selectedVideo, setSelectedVideo] = useState(videosWithThumbnails[0])
+export const MediaVideoPlayer = () => {
+  const [selectedIndex, setSelectedIndex] = useState(0)
+  const [playing, setPlaying] = useState(false)
   const iframeRef = useRef<HTMLIFrameElement>(null)
+  const selectedVideo = videosWithThumbnails[selectedIndex]
+  const liveRef = useRef<HTMLSpanElement>(null)
 
-  const handleSelectVideo = (video: (typeof videosWithThumbnails)[0]) => {
-    setSelectedVideo(video)
-    iframeRef.current?.focus()
+  const handleSelect = (index: number) => {
+    setSelectedIndex(index)
+    setPlaying(false)
+  }
+
+  const handlePlay = () => {
+    setPlaying(true)
+    setTimeout(() => iframeRef.current?.focus(), 100)
   }
 
   return (
-    <section aria-labelledby="video-player-heading" className="w-full">
-      <h2 id="video-player-heading" className="sr-only">
-        Video Player
-      </h2>
+    <section aria-labelledby="video-section-heading" className="w-full">
+      <span id="video-section-heading" className="sr-only">
+        Video Performances
+      </span>
+      <span ref={liveRef} className="sr-only" aria-live="polite" aria-atomic="true">
+        Now playing: {selectedVideo.title}
+      </span>
 
-      <div className="grid grid-cols-1 990:grid-cols-12 gap-px bg-white/10">
-        {/* Playlist */}
-        <nav aria-label="Video playlist" className="990:col-span-3 bg-black relative">
-          <div className="flex items-center gap-3 p-5 430:p-6 border-b border-white/10">
-            <div className="w-4 h-px bg-blaze" aria-hidden="true" />
-            <p className="font-changa text-[10px] uppercase tracking-[0.25em] text-blaze-text">Playlist</p>
+      <div className="flex flex-col 990:grid 990:grid-cols-12 gap-px bg-white/5">
+        {/* ── Player ── */}
+        <div className="990:col-span-8 bg-black">
+          {/* Now playing label */}
+          <div className="flex items-center gap-3 px-4 990:px-6 py-3 border-b border-white/10">
+            <div className="w-4 h-px bg-blaze shrink-0" aria-hidden="true" />
+            <p className="font-changa text-[10px] uppercase tracking-[0.25em] text-blaze-text truncate">
+              Now Playing: {selectedVideo.title}
+            </p>
           </div>
 
-          <div className="relative max-h-125 990:max-h-600 overflow-y-auto">
-            <div
-              className="absolute bottom-0 left-0 w-full h-10 bg-linear-to-t from-black to-transparent z-10 pointer-events-none"
-              aria-hidden="true"
-            />
-            <ul role="list" aria-label="Available videos" className="flex flex-col gap-px bg-white/10">
-              {videosWithThumbnails.map((video, i) => (
-                <li key={i} className="bg-black">
+          {/* Video / thumbnail */}
+          <div className="relative aspect-video w-full bg-black">
+            {playing ? (
+              <iframe
+                ref={iframeRef}
+                src={`${selectedVideo.url}?autoplay=1`}
+                title={selectedVideo.title}
+                aria-label={`Now playing: ${selectedVideo.title}`}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                tabIndex={0}
+                className="w-full h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze"
+              />
+            ) : (
+              <button
+                type="button"
+                onClick={handlePlay}
+                aria-label={`Play ${selectedVideo.title}`}
+                className="absolute inset-0 w-full h-full group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-inset"
+              >
+                <Picture
+                  src={selectedVideo.thumbnail}
+                  alt={`Thumbnail for ${selectedVideo.title}`}
+                  fill
+                  priority
+                  className="object-cover"
+                  sizes="(max-width: 990px) 100vw, 66vw"
+                />
+                {/* Dark overlay */}
+                <div
+                  className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors"
+                  aria-hidden="true"
+                />
+                {/* Play button */}
+                <div className="absolute inset-0 flex items-center justify-center" aria-hidden="true">
+                  <div className="w-16 h-16 430:w-20 430:h-20 rounded-full bg-blaze/90 group-hover:bg-blaze group-hover:scale-110 transition-all duration-300 flex items-center justify-center">
+                    <Play className="w-6 h-6 430:w-8 430:h-8 text-white translate-x-0.5" />
+                  </div>
+                </div>
+                {/* Title overlay */}
+                <div className="absolute bottom-0 left-0 right-0 p-4 430:p-6 bg-linear-to-t from-black to-transparent">
+                  <p className="font-changa text-white text-lg 430:text-2xl leading-tight">{selectedVideo.title}</p>
+                </div>
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* ── Playlist ── */}
+        <nav aria-label="Video playlist" className="990:col-span-4 bg-black flex flex-col">
+          <div className="flex items-center gap-3 px-4 990:px-6 py-3 border-b border-white/10 shrink-0">
+            <div className="w-4 h-px bg-blaze shrink-0" aria-hidden="true" />
+            <p className="font-changa text-[10px] uppercase tracking-[0.25em] text-blaze-text">
+              Playlist
+              <span className="ml-2 text-muted-dark/40">({videosWithThumbnails.length})</span>
+            </p>
+          </div>
+
+          <ul
+            role="list"
+            aria-label="Available videos"
+            className="flex flex-row 990:flex-col overflow-x-auto 990:overflow-x-visible 990:overflow-y-auto 990:max-h-[calc(56.25vw*0.66)] divide-x 990:divide-x-0 990:divide-y divide-white/10"
+          >
+            {videosWithThumbnails.map((video, i) => {
+              const isActive = i === selectedIndex
+              return (
+                <li key={i} className="shrink-0 990:shrink bg-black">
                   <button
                     type="button"
-                    onClick={() => handleSelectVideo(video)}
+                    onClick={() => handleSelect(i)}
                     aria-label={`Play ${video.title}`}
-                    aria-pressed={selectedVideo.url === video.url}
-                    className={`flex items-center gap-3 w-full text-left p-3 430:p-4 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-inset ${
-                      selectedVideo.url === video.url
-                        ? 'bg-blaze/10 border-l-2 border-blaze'
-                        : 'border-l-2 border-transparent hover:bg-white/5 hover:border-blaze/40'
+                    aria-pressed={isActive}
+                    className={`flex flex-col 990:flex-row items-start gap-3 w-40 990:w-full text-left p-3 430:p-4 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-inset border-l-0 990:border-l-2 ${
+                      isActive
+                        ? 'bg-blaze/10 990:border-blaze'
+                        : 'hover:bg-white/5 990:border-transparent hover:990:border-blaze/40'
                     }`}
                   >
-                    <div className="relative shrink-0 overflow-hidden w-20 h-14">
+                    {/* Thumbnail */}
+                    <div className="relative w-full 990:w-20 aspect-video 990:h-14 990:aspect-auto shrink-0 overflow-hidden bg-black">
                       <Picture
                         src={video.thumbnail}
-                        alt={`Thumbnail for ${video.title}`}
-                        className="w-full h-full object-cover"
-                        priority={i === 0}
+                        alt=""
+                        fill
+                        priority={i < 3}
+                        className="object-cover"
+                        sizes="(max-width: 990px) 160px, 80px"
                       />
-                      {selectedVideo.url === video.url && (
+                      {isActive && (
                         <div
                           className="absolute inset-0 bg-blaze/20 flex items-center justify-center"
                           aria-hidden="true"
                         >
-                          <div className="w-4 h-4 border-2 border-white rounded-full flex items-center justify-center">
-                            <div className="w-1.5 h-1.5 bg-white rounded-full" />
-                          </div>
+                          <Play className="w-4 h-4 text-white" />
                         </div>
                       )}
                     </div>
+
+                    {/* Title */}
                     <p
-                      className={`font-lato text-xs leading-snug ${
-                        selectedVideo.url === video.url ? 'text-white' : 'text-white/50'
+                      className={`font-lato text-xs leading-snug line-clamp-2 ${
+                        isActive ? 'text-white' : 'text-white/70'
                       }`}
                     >
                       {video.title}
                     </p>
                   </button>
                 </li>
-              ))}
-            </ul>
-          </div>
+              )
+            })}
+          </ul>
         </nav>
-
-        {/* Player */}
-        <div className="990:col-span-9 bg-black p-4 430:p-6 flex flex-col gap-4">
-          <div className="flex items-center gap-3">
-            <div className="w-4 h-px bg-blaze" aria-hidden="true" />
-            <p className="font-changa text-[10px] uppercase tracking-[0.25em] text-blaze-text truncate">
-              Now Playing: {selectedVideo.title}
-            </p>
-          </div>
-
-          <div className="aspect-video w-full">
-            <iframe
-              ref={iframeRef}
-              src={selectedVideo.url}
-              title={selectedVideo.title}
-              aria-label={`Now playing: ${selectedVideo.title}`}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              tabIndex={0}
-              className="w-full h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black"
-            />
-          </div>
-        </div>
       </div>
-
-      <span className="sr-only" aria-live="polite" aria-atomic="true">
-        Now playing: {selectedVideo.title}
-      </span>
     </section>
   )
 }
-
-export default MediaVideoPlayer

@@ -263,7 +263,7 @@ export function VenuesClient({ venues }: { venues: any[] }) {
             <h1 className="text-4xl 430:text-5xl font-changa text-white leading-none">Venues</h1>
           </header>
 
-          <div className="max-w-5xl mx-auto px-4 990:px-8 py-20 990:py-32">
+          <div className="max-w-6xl mx-auto px-4 990:px-8 py-20 990:py-32">
             <ul role="list" aria-label="Performance venues" className="flex flex-col gap-16 990:gap-24">
               {venues.map((venue, index) => (
                 <VenueCard key={index} venue={venue} index={index} />

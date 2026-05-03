@@ -384,7 +384,7 @@ export default function OperaHouseMainFloor() {
   const handleDeactivate = useCallback(() => setTooltip(null), [])
 
   return (
-    <div className="bg-black text-text-dark flex flex-col items-center py-8 px-2 mx-auto">
+    <div className="bg-black text-text-dark flex flex-col items-center py-8 px-2">
       {/* Header */}
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-6">
         <span className="text-[9px] font-mono tracking-[0.25em] uppercase text-primary-dark">Sarasota Opera House</span>
@@ -392,8 +392,9 @@ export default function OperaHouseMainFloor() {
       </motion.div>
 
       {/* Scale wrapper */}
-      <div ref={outerRef} className="w-full max-w-5xl">
+      <div ref={outerRef} className="w-full max-w-6xl">
         <div
+          className="mx-auto"
           style={{
             transform: `scale(${scale})`,
             transformOrigin: 'top center',

@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, Image as Img, Upload, Loader2, Home } from 'lucide-react'
+import { ArrowLeft, Image as Img, Upload, Loader2, Home, Trash2 } from 'lucide-react'
 import Link from 'next/link'
 import type { PhotoGalleryImage } from '@prisma/client'
 import uploadFileToFirebase from '@/app/utils/firebase.upload'
@@ -10,10 +10,8 @@ import { store } from '@/app/redux/store'
 import { showToast } from '@/app/redux/features/toastSlice'
 import { createGalleryPhoto } from '@/app/lib/actions/photo-gallery-image/createGalleryPhoto'
 import { deleteGalleryPhoto } from '@/app/lib/actions/super/deleteGalleryPhoto'
-import { toggleGalleryPhotoHero } from '@/app/lib/actions/photo-gallery-image/toggleGalleryPhotoHero'
 import Picture from '../../common/Picture'
 import { LogoutButton } from '../common/LogoutButton'
-import { useRouter } from 'next/navigation'
 
 interface Props {
   photos: PhotoGalleryImage[]
@@ -22,18 +20,17 @@ interface Props {
 type TPhotoCard = {
   photo: PhotoGalleryImage
   onDelete: (id: string) => Promise<void>
-  onToggleHero: (id: string, current: boolean) => Promise<void>
 }
 
 // ─── Photo Card ───────────────────────────────────────────────────────────────
 
-function PhotoCard({ photo, onToggleHero }: TPhotoCard) {
-  const [toggling, setToggling] = useState(false)
+function PhotoCard({ photo, onDelete }: TPhotoCard) {
+  const [deleting, setDeleting] = useState(false)
 
-  const handleToggle = async () => {
-    setToggling(true)
-    await onToggleHero(photo.id, photo.isHomeHero)
-    setToggling(false)
+  const handleDelete = async () => {
+    setDeleting(true)
+    await onDelete(photo.id)
+    setDeleting(false)
   }
 
   return (
@@ -47,39 +44,24 @@ function PhotoCard({ photo, onToggleHero }: TPhotoCard) {
       {/* Image */}
       <Picture priority src={photo.imageUrl} alt={photo.imageFilename} className="w-full h-40 object-cover" />
 
-      {/* Hero badge */}
-      {photo.isHomeHero && (
-        <div className="absolute top-2 left-2 flex items-center gap-1 px-1.5 py-0.5 bg-primary-dark text-white text-[8px] font-mono uppercase">
-          <Home className="w-2.5 h-2.5" aria-hidden="true" />
-          Hero
-        </div>
-      )}
-
       {/* Footer */}
       <div className="px-3 py-2.5 border-t border-border-dark flex items-center justify-between gap-2">
-        {/* Hero toggle */}
-        <button
-          type="button"
-          onClick={handleToggle}
-          disabled={toggling}
-          className={`flex items-center gap-1.5 text-[9px] font-mono trackign-widest uppercase transition-colors disabled:opacity-50 focus-visible:outline-none ${
-            photo.isHomeHero ? 'text-primary-dark hover:text-muted-dark' : 'text-muted-dark hover:text-text-dark'
-          }`}
-          aria-label={photo.isHomeHero ? 'Remove from hero' : 'Set as hero'}
-          title={photo.isHomeHero ? 'Remove from hero' : 'Add to hero'}
-        >
-          {toggling ? (
-            <Loader2 className="w-3 h-3 animate-spin" aria-hidden="true" />
-          ) : (
-            <Home className="w-3 h-3" aria-hidden="true" />
-          )}
-          {photo.isHomeHero ? 'Hero' : 'Set Hero'}
-        </button>
-
-        {/* Filename */}
         <p className="text-muted-dark/40 text-[9px] font-mono truncate flex-1 text-right hidden sm:block">
           {photo.imageFilename}
         </p>
+        <button
+          type="button"
+          onClick={handleDelete}
+          disabled={deleting}
+          aria-label={`Delete ${photo.imageFilename}`}
+          className="shrink-0 text-muted-dark/40 hover:text-red-400 transition-colors disabled:opacity-50 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-red-400"
+        >
+          {deleting ? (
+            <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" />
+          ) : (
+            <Trash2 className="w-3.5 h-3.5" aria-hidden="true" />
+          )}
+        </button>
       </div>
     </motion.div>
   )
@@ -159,7 +141,6 @@ function UploadZone({ onUpload }: { onUpload: (file: File) => Promise<void> }) {
 export default function GalleryClient({ photos: initialPhotos }: Props) {
   const [photos, setPhotos] = useState<PhotoGalleryImage[]>(initialPhotos)
   const [uploading, setUploading] = useState(false)
-  const router = useRouter()
 
   const heroCount = photos.filter((p) => p.isHomeHero).length
 
@@ -193,16 +174,6 @@ export default function GalleryClient({ photos: initialPhotos }: Props) {
     }
   }
 
-  const handleToggleHero = async (id: string, current: boolean) => {
-    const res = await toggleGalleryPhotoHero(id, current)
-    if (res.success && res.data) {
-      router.refresh()
-      setPhotos((prev) => prev.map((p) => (p.id === id ? { ...p, isHomeHero: !current } : p)))
-    } else {
-      store.dispatch(showToast({ type: 'error', message: res.error ?? 'Failed to update photo' }))
-    }
-  }
-
   return (
     <div className="h-screen flex flex-col overflow-hidden bg-bg-dark text-text-dark">
       {/* ── Top Bar ── */}
@@ -233,6 +204,15 @@ export default function GalleryClient({ photos: initialPhotos }: Props) {
         </div>
       </div>
 
+      <div className="w-full bg-yellow-500/10 border-b border-yellow-500/20 px-4 py-2 flex items-center gap-2">
+        <span className="text-[9px] font-mono tracking-[0.2em] uppercase text-yellow-400 shrink-0">Notice</span>
+        <div className="w-px h-3 bg-yellow-500/30 shrink-0" aria-hidden="true" />
+        <p className="text-[9px] font-mono text-yellow-400/70 leading-relaxed">
+          Images uploaded here appear on the public Media page. Home hero images are managed separately — to update them
+          contact sqysh.
+        </p>
+      </div>
+
       {/* ── Grid ── */}
       <div className="flex-1 overflow-y-auto p-4">
         <motion.div layout className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
@@ -242,7 +222,7 @@ export default function GalleryClient({ photos: initialPhotos }: Props) {
           {/* Photo cards */}
           <AnimatePresence>
             {photos.map((photo) => (
-              <PhotoCard key={photo.id} photo={photo} onDelete={handleDelete} onToggleHero={handleToggleHero} />
+              <PhotoCard key={photo.id} photo={photo} onDelete={handleDelete} />
             ))}
           </AnimatePresence>
         </motion.div>

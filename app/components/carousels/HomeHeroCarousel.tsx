@@ -9,7 +9,7 @@ export const HomeHeroCarousel: FC<{ images: any; interval: number }> = ({ images
   if (!images?.length) {
     return (
       <div className="relative w-full h-full overflow-hidden" role="presentation" aria-hidden="true">
-        <Picture src="/images/banner-1.jpg" alt="" fill priority className="object-cover object-top" />
+        <Picture src="/images/hero-1.webp" alt="" fill priority className="object-cover object-top" />
       </div>
     )
   }

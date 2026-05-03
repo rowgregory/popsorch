@@ -47,7 +47,7 @@ export function ConcertCard({ concert, index }: { concert: ConcertWithShows; ind
           className="block w-full h-56 sm:h-64 lg:h-full overflow-hidden"
         >
           <Picture
-            src={concert.imageUrl || '/images/banner-1.jpg'}
+            src={concert.imageUrl || '/images/hero-1.webp'}
             alt=""
             priority={index === 0}
             className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"

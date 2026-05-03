@@ -1,26 +1,30 @@
 'use client'
 
-import HomeHero from '../home/HomeHero'
-import { ContactUsBlock } from '../home/ContactUsBlock'
-import { KeepUpToDateBlock } from '../home/KeepUpToDateBlock'
-import { useRef } from 'react'
-import { ConcertsBlock } from '../home/ConcertsBlock'
-import { TestimonialsBlock } from '../v2/sections/TestimonialsBlock'
-import { EventsBlock } from '../v2/sections/EventsBlock'
-import { NewsBlock } from '../v2/sections/NewsBlock'
 import dynamic from 'next/dynamic'
-import { SponsorsBlock } from '../home/SponsorsBlock'
+import HomeHero from '../home/HomeHero'
+import { useRef } from 'react'
 
+const ConcertsBlock = dynamic(() => import('@/app/components/home/ConcertsBlock').then((m) => m.ConcertsBlock))
 const SeasonSection = dynamic(() => import('@/app/components/home/SeasonDates').then((m) => m.SeasonDates), {
   ssr: false
 })
+const ContactUsBlock = dynamic(() => import('@/app/components/home/ContactUsBlock').then((m) => m.ContactUsBlock))
+const SponsorsBlock = dynamic(() => import('@/app/components/home/SponsorsBlock').then((m) => m.SponsorsBlock))
+const KeepUpToDateBlock = dynamic(() =>
+  import('@/app/components/home/KeepUpToDateBlock').then((m) => m.KeepUpToDateBlock)
+)
+const TestimonialsBlock = dynamic(() =>
+  import('@/app/components/home/TestimonialsBlock').then((m) => m.TestimonialsBlock)
+)
+const EventsBlock = dynamic(() => import('@/app/components/home/EventsBlock').then((m) => m.EventsBlock))
+const NewsBlock = dynamic(() => import('@/app/components/home/NewsBlock').then((m) => m.NewsBlock))
 
-export function HomeClient({ pageData, concerts, galleryImages, sponsors, testimonials, events, news }) {
+export function HomeClient({ pageData, concerts, sponsors, testimonials, events, news }) {
   const scrollRef = useRef<HTMLDivElement>(null)
 
   return (
     <>
-      <HomeHero pageData={pageData} ref={scrollRef} galleryImages={galleryImages} />
+      <HomeHero pageData={pageData} ref={scrollRef} />
       <div ref={scrollRef}>
         <ConcertsBlock pageData={pageData} concerts={concerts} />
       </div>

@@ -14,7 +14,7 @@ export const ContactUsBlock = ({ data }) => {
         className="absolute inset-0 block"
         aria-hidden="true"
         style={{
-          backgroundImage: `url('/images/contact-no-bg-2.webp')`,
+          backgroundImage: `url('/images/home-question.webp')`,
           backgroundAttachment: 'fixed',
           backgroundSize: 'cover',
           backgroundPosition: 'center'

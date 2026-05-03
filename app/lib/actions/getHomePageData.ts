@@ -3,15 +3,13 @@
 import prisma from '@/prisma/client'
 import { getPage } from './page/getPage'
 import { getConcerts } from './concert/getConcerts'
-import { getPhotoGalleryImages } from './photo-gallery-image/getPhotoGalleryImages'
 import { getSponsors } from './sponsor/getSponsors'
 import { getTestimonials } from './testimonial/getTestimonials'
 
 export async function getHomePageData() {
-  const [pageData, concertsData, galleryData, sponsorsData, testimonialsData, events, news] = await Promise.all([
+  const [pageData, concertsData, sponsorsData, testimonialsData, events, news] = await Promise.all([
     getPage('home').catch(() => null),
     getConcerts().catch(() => ({ concerts: [] })),
-    getPhotoGalleryImages().catch(() => []),
     getSponsors().catch(() => ({ data: [] })),
     getTestimonials().catch(() => ({ data: [] })),
     prisma.event
@@ -32,7 +30,6 @@ export async function getHomePageData() {
   return {
     pageData: pageData?.content,
     concerts: concertsData?.concerts,
-    galleryImages: galleryData,
     sponsors: sponsorsData?.data,
     testimonials: testimonialsData.data,
     events,

@@ -708,7 +708,7 @@ export default function HomeClientV2({ concerts, galleryImages, pageData, ref }:
     <div className="bg-white">
       <Nav />
       {/* <Hero concerts={concerts} /> */}
-      <HomeHero pageData={pageData} galleryImages={galleryImages} ref={ref} />
+      <HomeHero pageData={pageData} ref={ref} />
       <AboutSection />
       <ConcertsSection concerts={concerts} />
       <QuoteSection />

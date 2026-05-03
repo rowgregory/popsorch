@@ -91,7 +91,6 @@
   --background-image-headerbg: url("/images/header-bg.png");
   --background-image-golden50Logo: url("/images/golden-logo.png");
   --background-image-white50Logo: url("/images/white-logo.png");
-  --background-image-grain: url("/images/grain.png");
 
   /* Animations */
   --animate-grain: grain 8s steps(10) infinite;

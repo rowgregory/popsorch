@@ -21,7 +21,7 @@ const ON_SALE_DATES = [
 
 export function SeasonDates() {
   const scrollY = useMotionValue(0)
-  const bgY = useTransform(scrollY, [0, 600], ['0%', '30%'])
+  const bgY = useTransform(scrollY, [0, 953], ['0%', '20%'])
 
   useEffect(() => {
     const handleScroll = () => scrollY.set(window.scrollY)
@@ -33,6 +33,13 @@ export function SeasonDates() {
     <section className="bg-black text-white overflow-hidden">
       {/* ── Hero ── */}
       <div className="relative min-h-[70vh] flex flex-col items-center justify-center px-4 py-24 text-center overflow-hidden">
+        {/* Top black fade */}
+        <div
+          className="absolute top-0 left-0 right-0 h-60 z-10 pointer-events-none"
+          style={{ background: 'linear-gradient(to bottom, black 0%, black 50%, transparent 100%)' }}
+          aria-hidden="true"
+        />
+
         {/* Parallax background */}
         <motion.div
           className="absolute inset-0 scale-125"
@@ -44,12 +51,7 @@ export function SeasonDates() {
           }}
           aria-hidden="true"
         />
-
-        <div
-          className="absolute top-0 left-0 right-0 h-32 z-10"
-          style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, transparent 100%)' }}
-          aria-hidden="true"
-        />
+        {/* 
 
         {/* Dark overlay — fades image into black at bottom */}
         <div

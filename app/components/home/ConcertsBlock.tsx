@@ -80,7 +80,7 @@ function ConcertRow({ concert, index }: { concert: ConcertWithShows; index: numb
         {/* ── Image ── */}
         <div className="990:col-span-4 overflow-hidden">
           <Picture
-            src={concert.imageUrl || '/images/banner-1.jpg'}
+            src={concert.imageUrl || '/images/hero-1.webp'}
             alt={`${concert.name} promotional image`}
             className="w-full aspect-16/10 object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
             priority={index === 0}

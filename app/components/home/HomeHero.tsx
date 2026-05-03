@@ -2,17 +2,24 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { HomeHeroCarousel } from '../carousels/HomeHeroCarousel'
 import { ArrowRightIcon } from 'lucide-react'
 import Link from 'next/link'
-import LogoSVG from '../svg/LogoSVG'
 import { sectionVariants } from '@/app/lib/constants/motion'
+import Picture from '../common/Picture'
 
-const HomeHero = ({ pageData, ref, galleryImages }) => {
+const HomeHero = ({ pageData, ref }) => {
   const shouldReduceMotion = useReducedMotion()
 
   if (!pageData || !Array.isArray(pageData)) {
     return null
   }
 
-  const filteredImages = galleryImages?.filter((item: { isHomeHero: boolean }) => item.isHomeHero)
+  const galleryImages = [
+    { imageUrl: '/images/hero-1.webp' },
+    { imageUrl: '/images/hero-2.webp' },
+    { imageUrl: '/images/hero-3.webp' },
+    { imageUrl: '/images/hero-4.webp' },
+    { imageUrl: '/images/hero-5.webp' },
+    { imageUrl: '/images/hero-6.webp' }
+  ]
 
   const handleScroll = () => {
     ref.current?.scrollIntoView({ behavior: 'smooth' })
@@ -37,7 +44,8 @@ const HomeHero = ({ pageData, ref, galleryImages }) => {
       transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.35, ease: 'easeIn' }}
       className="relative w-full min-h-200 h-dvh max-h-1000 -mt-16 sm:-mt-28"
     >
-      <HomeHeroCarousel images={filteredImages} interval={shouldReduceMotion ? 0 : 5000} />
+      {/* Carousel overlays on top once hydrated */}
+      <HomeHeroCarousel images={galleryImages} interval={5000} />
 
       {/* Overlay */}
       <div className="absolute inset-0 z-40 flex flex-col justify-end pb-16 430:pb-20 990:pb-28 px-4 990:px-12 xl:px-4">
@@ -59,10 +67,18 @@ const HomeHero = ({ pageData, ref, galleryImages }) => {
           >
             <Link
               href="/"
-              aria-label="The Pops Orchestra — home"
-              className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-sm inline-block"
+              aria-label="The Pops Orchestra of Sarasota and Bradenton — return to homepage"
+              className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-sm inline-block"
             >
-              <LogoSVG className="w-54" />
+              <Picture
+                src="/images/logo-2.png"
+                alt="The Pops Orchestra of Sarasota and Bradenton"
+                className="w-54"
+                width={216}
+                height={80}
+                priority
+                sizes="216px"
+              />
             </Link>
           </motion.div>
 
