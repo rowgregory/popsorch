@@ -96,7 +96,7 @@ export function SeasonDates() {
               priority
               className="w-full max-w-lg mx-auto"
               sizes="(max-width: 640px) 90vw, 380px"
-              quality={85}
+              quality={75}
             />
           </motion.div>
 
@@ -166,7 +166,7 @@ export function SeasonDates() {
                 alt={concert.name}
                 fill
                 priority={i === 0}
-                quality={60}
+                quality={50}
                 className="object-cover opacity-70 group-hover:opacity-90 group-hover:scale-105 transition-all duration-700"
                 sizes="(max-width: 760px) 50vw, 33vw"
               />

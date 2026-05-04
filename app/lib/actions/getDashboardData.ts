@@ -2,6 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import prisma from '@/prisma/client'
+import { getMailchimpMemberCount } from './mailchimp/getMailchimpMemberCount'
 
 async function fetchDashboardData() {
   const [
@@ -22,7 +23,8 @@ async function fetchDashboardData() {
     eventsCount,
     eventsLiveCount,
     sponsors,
-    sponsorsActiveCount
+    sponsorsActiveCount,
+    mailchimpMemberCount
   ] = await Promise.all([
     prisma.concert
       .findMany({
@@ -78,7 +80,8 @@ async function fetchDashboardData() {
     prisma.event.count().catch(() => 0),
     prisma.event.count({ where: { status: 'PUBLISHED' } }).catch(() => 0),
     prisma.sponsor.findMany({}).catch(() => []),
-    prisma.sponsor.count({ where: { isActive: true } }).catch(() => 0)
+    prisma.sponsor.count({ where: { isActive: true } }).catch(() => 0),
+    getMailchimpMemberCount()
   ])
 
   return {
@@ -102,7 +105,7 @@ async function fetchDashboardData() {
     eventsLiveCount,
     sponsors,
     sponsorsActiveCount,
-    mailchimpCount: 9827
+    mailchimpMemberCount
   }
 }
 

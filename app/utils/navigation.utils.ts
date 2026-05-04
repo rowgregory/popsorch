@@ -125,7 +125,6 @@ export const getNavigationLinks = (
 
 export const getFooterLinks = (path: string) => {
   const navItems = [
-    { linkKey: 'https://ci.ovationtix.com/35505/store/donations', textKey: 'Donations' },
     { linkKey: '/contact', textKey: 'Contact' },
     { linkKey: '/privacy-policy', textKey: 'Privacy Policy' },
     { linkKey: '/accessibility', textKey: 'Accessibility' }

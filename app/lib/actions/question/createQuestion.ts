@@ -5,6 +5,7 @@ import { createLog } from '../../../utils/logHelper'
 import { contactSubmissionTemplate } from '../../email-templates/contact-submission'
 import { resend } from '../../resend'
 import { buildLogMessage, getRequestContext } from '@/app/utils/parseUserAgent'
+import { revalidateTag } from 'next/cache'
 
 interface CreateQuestionInput {
   name: string
@@ -59,6 +60,8 @@ export async function createQuestion(data: CreateQuestionInput) {
       html: contactSubmissionTemplate(data.name)
     })
     .catch(() => null)
+
+  revalidateTag('dashboard', '')
 
   return { success: true }
 }

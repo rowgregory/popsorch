@@ -73,11 +73,8 @@ const HomeHero = ({ pageData, ref }) => {
               <Picture
                 src="/images/logo-2.png"
                 alt="The Pops Orchestra of Sarasota and Bradenton"
-                className="w-54"
-                width={216}
-                height={80}
+                className="w-54 h-auto"
                 priority
-                sizes="216px"
               />
             </Link>
           </motion.div>

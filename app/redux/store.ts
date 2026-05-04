@@ -3,7 +3,6 @@
 import { combineReducers } from 'redux'
 import { configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import { api } from './services/api'
 import { appReducer } from './features/appSlice'
 import { formReducer } from './features/formSlice'
 import { toastReducer } from './features/toastSlice'
@@ -15,8 +14,7 @@ const rootReducer = combineReducers({
   form: formReducer,
   mailchimp: mailChimpReducer,
   toast: toastReducer,
-  ui: uiReducer,
-  [api.reducerPath]: api.reducer
+  ui: uiReducer
 })
 
 export const store = configureStore({
@@ -25,7 +23,7 @@ export const store = configureStore({
     getDefaultMiddleware({
       immutableCheck: false,
       serializableCheck: false
-    }).concat(api.middleware)
+    })
 })
 
 export type RootState = ReturnType<typeof rootReducer>

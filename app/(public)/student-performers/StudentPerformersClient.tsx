@@ -2,7 +2,6 @@
 
 import Breadcrumb from '@/app/components/common/Breadcrumb'
 import Picture from '@/app/components/common/Picture'
-import { ArrowRight } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 export const StudentPerformersClient = ({ data }) => {
@@ -145,7 +144,7 @@ export const StudentPerformersClient = ({ data }) => {
                   ))}
                 </ul>
 
-                <a
+                {/* <a
                   href={field('student_performers_donation_url')}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -157,7 +156,7 @@ export const StudentPerformersClient = ({ data }) => {
                     className="w-4 h-4 shrink-0 group-hover:translate-x-1 transition-transform"
                     aria-hidden="true"
                   />
-                </a>
+                </a> */}
               </motion.div>
             </div>
           </div>

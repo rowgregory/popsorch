@@ -42,21 +42,26 @@ const Picture: FC<PictureProps> = ({
     )
   }
 
+  const hasFixedHeight = className?.includes('h-') && !className?.includes('h-auto') && !className?.includes('h-full')
+
   return (
     <Image
       onClick={onClick}
       src={src}
       alt={alt || 'The Pops'}
       width={width || 500}
-      height={height || 500}
+      height={hasFixedHeight ? height || 500 : 500}
       className={className}
       priority={priority}
       loading={priority ? 'eager' : 'lazy'}
       fetchPriority={priority ? 'high' : 'auto'}
       sizes={sizes}
-      quality={quality ?? 75}
+      quality={quality}
       decoding="async"
-      style={{ contentVisibility: 'auto' }}
+      style={{
+        height: hasFixedHeight ? undefined : 'auto',
+        contentVisibility: 'auto'
+      }}
     />
   )
 }

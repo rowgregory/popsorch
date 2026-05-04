@@ -3,7 +3,6 @@
 import Breadcrumb from '@/app/components/common/Breadcrumb'
 import Picture from '@/app/components/common/Picture'
 import { useRotatingImageText } from '@/app/lib/hooks/useRotatingImageText'
-import { ArrowRightIcon } from 'lucide-react'
 
 const chairSponsorshipData = [
   {
@@ -124,20 +123,6 @@ export const ChairSponsorshipsClient = ({ data }) => {
                   <p className="font-lato text-white/60 text-sm 430:text-base leading-relaxed mb-10">
                     {field('chair_hero_paragraph_2')}
                   </p>
-
-                  <a
-                    href="https://ci.ovationtix.com/35505/store/donations/46287"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`${field('chair_hero_cta_button_text')} — opens in new tab`}
-                    className="group inline-flex items-center gap-3 bg-blaze/90 hover:bg-blaze text-white px-8 py-4 font-changa text-sm uppercase tracking-widest transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black = w-full 430:w-fit justify-center 430:justify-start"
-                  >
-                    <span>{field('chair_hero_cta_button_text')}</span>
-                    <ArrowRightIcon
-                      className="w-4 h-4 shrink-0 group-hover:translate-x-1 transition-transform"
-                      aria-hidden="true"
-                    />
-                  </a>
                 </div>
               </div>
             </section>

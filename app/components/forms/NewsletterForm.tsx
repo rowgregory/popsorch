@@ -1,10 +1,11 @@
 import { store, useFormSelector, useMailchimpSelector } from '@/app/redux/store'
 import { createFormActions, resetForm, setInputs } from '@/app/redux/features/formSlice'
 import Link from 'next/link'
-import { useSubscribeMutation } from '@/app/redux/services/mailchimpApi'
 import validateNewsletterForm from '@/app/lib/validations/validateNewsletterForm'
-import { showToast } from '@/app/redux/features/toastSlice'
-import { FC } from 'react'
+import { FC, useState } from 'react'
+import { subscribeToMailchimp } from '@/app/lib/actions/mailchimp/subscribe'
+import { motion } from 'framer-motion'
+import { CheckCircle } from 'lucide-react'
 
 const Switch = ({ enabled, onChange, name }) => {
   return (
@@ -17,7 +18,7 @@ const Switch = ({ enabled, onChange, name }) => {
         e.stopPropagation()
         onChange?.({ target: { checked: !enabled, name } } as any)
       }}
-      className={`relative w-16 h-8 flex items-center transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-sm border ${
+      className={`relative w-16 h-8 flex items-center transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black border ${
         enabled ? 'bg-blaze/10 border-blaze/40' : 'bg-white/5 border-white/10'
       }`}
     >
@@ -92,7 +93,9 @@ const NewsletterForm = ({ data }) => {
   const { setErrors, handleInput, handleToggle } = createFormActions('newsletterForm', store.dispatch)
   const inputs = newsletterForm?.inputs
   const errors = newsletterForm?.errors
-  const [subscribe, { isLoading }] = useSubscribeMutation()
+  const [loading, setLoading] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
   const selectAllSwitches = () => {
     store.dispatch(
@@ -111,12 +114,14 @@ const NewsletterForm = ({ data }) => {
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
+    setSubmitError(null)
 
     const isValid = validateNewsletterForm(newsletterForm?.inputs, setErrors)
     if (!isValid) return
 
     try {
-      await subscribe({
+      setLoading(true)
+      await subscribeToMailchimp({
         firstName: inputs.firstName,
         lastName: inputs.lastName,
         email: inputs.email,
@@ -131,13 +136,47 @@ const NewsletterForm = ({ data }) => {
         isOption4: inputs.isOption4,
         isNewPatron: inputs.isNewPatron,
         agreedToPrivacyStatement: inputs.agreedToPrivacyStatement
-      }).unwrap()
+      })
 
-      store.dispatch(showToast({ message: 'Successfully subscribed!', type: 'success' }))
+      setSubmitted(true)
       store.dispatch(resetForm('newsletterForm'))
     } catch {
-      store.dispatch(showToast({ message: 'Failed to subscribe. Please try again later.', type: 'error' }))
+      setSubmitError('Failed to subscribe. Please try again later.')
+    } finally {
+      setLoading(false)
     }
+  }
+
+  // Success state
+  if (submitted) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="flex flex-col items-center justify-center text-center py-16 gap-4"
+        role="status"
+        aria-live="polite"
+      >
+        <div
+          className="w-12 h-12 border border-blaze/30 bg-blaze/10 flex items-center justify-center mb-2"
+          aria-hidden="true"
+        >
+          <CheckCircle className="w-6 h-6 text-blaze-text" />
+        </div>
+        <h3 className="font-changa text-2xl text-white">You&apos;re subscribed!</h3>
+        <p className="font-lato text-white/80 text-sm max-w-sm leading-relaxed">
+          Thank you for subscribing to The Pops Orchestra newsletter. We&apos;ll be in touch soon.
+        </p>
+        <button
+          type="button"
+          onClick={() => setSubmitted(false)}
+          className="mt-2 text-[10px] font-mono uppercase tracking-[0.15em] text-white/40 hover:text-white/70 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze"
+        >
+          Subscribe another email
+        </button>
+      </motion.div>
+    )
   }
 
   return (
@@ -335,12 +374,12 @@ const NewsletterForm = ({ data }) => {
 
               <button
                 type="submit"
-                disabled={isLoading}
-                aria-disabled={isLoading}
-                aria-label={isLoading ? 'Submitting form, please wait' : 'Submit form'}
+                disabled={loading}
+                aria-disabled={loading}
+                aria-label={loading ? 'Submitting form, please wait' : 'Submit form'}
                 className="bg-blaze/90 hover:bg-blaze disabled:opacity-60 disabled:cursor-not-allowed duration-300 w-full sm:w-40 px-8 py-3 font-changa uppercase tracking-wider font-medium text-xs mt-20 flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black cursor-pointer"
               >
-                {isLoading ? (
+                {loading ? (
                   <>
                     <div
                       className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"
@@ -352,6 +391,12 @@ const NewsletterForm = ({ data }) => {
                   'Submit'
                 )}
               </button>
+
+              {submitError && (
+                <p className="text-[10px] font-mono text-blaze-text mt-2" role="alert">
+                  {submitError}
+                </p>
+              )}
             </div>
           </>
         )}

@@ -2,7 +2,7 @@
 
 import Breadcrumb from '@/app/components/common/Breadcrumb'
 import Picture from '@/app/components/common/Picture'
-import { ArrowRight, Lock, Shield } from 'lucide-react'
+import { Lock, Shield } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 export const StudentScholarshipsClient = ({ data }) => {
@@ -149,7 +149,7 @@ export const StudentScholarshipsClient = ({ data }) => {
                   </div>
                 </div>
 
-                <a
+                {/* <a
                   href={field('scholarships_donation_url')}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -161,7 +161,7 @@ export const StudentScholarshipsClient = ({ data }) => {
                     className="w-4 h-4 shrink-0 group-hover:translate-x-1 transition-transform"
                     aria-hidden="true"
                   />
-                </a>
+                </a> */}
               </motion.div>
             </div>
           </div>

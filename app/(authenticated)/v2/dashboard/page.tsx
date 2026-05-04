@@ -12,7 +12,7 @@ export default async function DashboardPage() {
       photosCount={data.photosCount}
       questions={data.questions}
       users={data.users}
-      mailchimpCount={data.mailchimpCount}
+      mailchimpCount={data.mailchimpMemberCount.count}
       campApplicationsCount={data.campApplicationsCount}
       campApplications={data.campApplications}
       pageContentCount={data.pageContentCount}

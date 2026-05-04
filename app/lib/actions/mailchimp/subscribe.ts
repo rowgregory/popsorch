@@ -101,5 +101,5 @@ export async function subscribeToMailchimp(data: SubscribeInput) {
 
   if (!subscribeResult) return { success: false, error: 'Subscription failed' }
 
-  return { success: true, data: subscribeResult }
+  return { success: true }
 }

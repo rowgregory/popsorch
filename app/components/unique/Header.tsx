@@ -3,11 +3,11 @@ import { getNavigationLinks, NavigationLinksProps } from '@/app/utils/navigation
 import { openNavigationDrawer } from '@/app/redux/features/appSlice'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Heart, Menu } from 'lucide-react'
+import { Menu } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import { useHeaderAtTop } from '@/app/lib/hooks/useHeaderAtTop'
 import { store } from '@/app/redux/store'
-import LogoTextSVG from '../svg/logo/LogoTextSVG'
+import LogoSVG from '../svg/logo/LogoSVG'
 
 export interface HeaderNavLinkProps {
   link: NavigationLinksProps
@@ -129,7 +129,7 @@ export const Header = ({ campApplicationsSetting }) => {
             aria-label="The Pops Orchestra — home"
             className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-sm inline-block"
           >
-            <LogoTextSVG className="w-10 430:w-12 sm:w-16" />
+            <LogoSVG className="w-10 430:w-12 sm:w-16" />
           </Link>
         </motion.div>
 
@@ -180,7 +180,7 @@ export const Header = ({ campApplicationsSetting }) => {
             />
           </Link> */}
 
-          <Link
+          {/* <Link
             href="https://ci.ovationtix.com/35505/store/donations"
             target="_blank"
             className="group hidden 430:inline-flex items-center gap-1.5 border border-white/30 hover:border-white text-white/70 hover:text-white font-changa uppercase tracking-widest transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black cursor-pointer text-[0.65rem] sm:text-sm px-4 sm:px-6 py-2.5 sm:py-3"
@@ -190,7 +190,7 @@ export const Header = ({ campApplicationsSetting }) => {
               className="w-3 h-3 sm:w-4 sm:h-4 shrink-0 group-hover:scale-110 transition-transform"
               aria-hidden="true"
             />
-          </Link>
+          </Link> */}
         </motion.div>
       </div>
     </nav>
