@@ -21,6 +21,26 @@ interface ChangelogEntry {
 
 const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '3.14.0',
+    date: 'July 30, 2026',
+    summary:
+      'Added Meta (Facebook) Pixel tracking with a cookie consent banner, and updated the Privacy Policy to reflect the analytics and advertising tools the site uses.',
+    changes: [
+      {
+        type: 'new',
+        text: 'Added the Meta Pixel so concert activity can be measured and promoted through Facebook and Instagram advertising.'
+      },
+      {
+        type: 'new',
+        text: 'Added a cookie consent banner. Analytics and advertising tools only run after a visitor accepts; if they decline, the tools stay off.'
+      },
+      {
+        type: 'improved',
+        text: 'Updated the Privacy Policy to name the analytics and advertising tools we use (Google Analytics and the Meta Pixel), what they share, and how visitors can opt out.'
+      }
+    ]
+  },
+  {
     version: '3.13.0',
     date: 'July 22, 2026',
     summary:

@@ -5,6 +5,8 @@ import './globals.css'
 import RootLayoutClient from './components/layouts/RootLayoutClient'
 import { getLayoutData } from './lib/actions/getLayoutData'
 import { SessionProvider } from 'next-auth/react'
+import { MetaPixel } from './lib/layout/Metapixel'
+import { CookieConsent } from './lib/layout/CookieConsent'
 
 export const metadata = siteMetadata
 
@@ -60,6 +62,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         </Script>
       </head>
       <body className={`${changa.variable} ${lato.variable} ${heebo.variable} ${c_infant.variable} antialiased`}>
+        <MetaPixel />
+        <CookieConsent />
         <SessionProvider>
           <RootLayoutClient
             campApplicationsSetting={layoutData?.campApplicationsSetting?.value}

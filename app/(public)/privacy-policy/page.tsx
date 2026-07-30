@@ -88,10 +88,9 @@ const PrivacyPolicy = () => {
                   className="flex flex-col divide-y divide-white/10"
                 >
                   {[
-                    "We don't sell your information to anyone",
-                    "We don't share your details with third parties",
+                    "We don't sell the personal details you send us through our forms",
                     "We don't send spam or unwanted emails",
-                    "We don't require you to create accounts or log in"
+                    "We don't require you to create accounts or log in to browse our site"
                   ].map((item, i) => (
                     <li key={i} className="flex items-start gap-3 py-3">
                       <div className="w-1.5 h-1.5 rounded-full bg-blaze mt-2 shrink-0" aria-hidden="true" />
@@ -120,9 +119,65 @@ const PrivacyPolicy = () => {
                 <div className="w-8 h-px bg-blaze mb-5" aria-hidden="true" />
                 <p className="font-lato text-white/60 text-sm 430:text-base leading-relaxed">
                   Like most websites, ours automatically collects some basic information like your browser type and
-                  which pages you visit. This helps us understand how people use our site and make it better. We also
-                  use simple cookies to remember your preferences and make sure our forms work properly.
+                  which pages you visit. We use cookies both to keep the site working properly (for example, remembering
+                  your preferences and making sure our forms function) and, with your consent, for the analytics and
+                  advertising tools described below.
                 </p>
+              </section>
+
+              <section aria-labelledby="analytics-heading">
+                <h2 id="analytics-heading" className="font-changa text-xl 430:text-2xl text-white mb-4">
+                  Analytics &amp; Advertising
+                </h2>
+                <div className="w-8 h-px bg-blaze mb-5" aria-hidden="true" />
+                <div className="flex flex-col gap-4">
+                  <p className="font-lato text-white/60 text-sm 430:text-base leading-relaxed">
+                    To understand how people use our site and to help promote our concerts, we use a few third-party
+                    tools. When you accept cookies, these tools may set their own cookies and receive information about
+                    your visit, such as the pages you view and general details about your device and browser:
+                  </p>
+                  <ul role="list" className="flex flex-col divide-y divide-white/10">
+                    <li className="flex flex-col gap-1 py-3">
+                      <span className="font-lato text-white text-sm 430:text-base">Google Analytics</span>
+                      <span className="font-lato text-white/60 text-sm leading-relaxed">
+                        Helps us measure site traffic and understand which pages are most useful. This data is shared
+                        with Google. You can learn more in{' '}
+                        <a
+                          href="https://policies.google.com/privacy"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sunburst underline hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sunburst rounded-sm"
+                        >
+                          Google&apos;s Privacy Policy
+                        </a>
+                        .
+                      </span>
+                    </li>
+                    <li className="flex flex-col gap-1 py-3">
+                      <span className="font-lato text-white text-sm 430:text-base">Meta Pixel</span>
+                      <span className="font-lato text-white/60 text-sm leading-relaxed">
+                        Lets us measure and promote our concerts through Facebook and Instagram. When active, it shares
+                        information about your visit with Meta, which may use it for advertising. Learn more in{' '}
+                        <a
+                          href="https://www.facebook.com/privacy/policy"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sunburst underline hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sunburst rounded-sm"
+                        >
+                          Meta&apos;s Privacy Policy
+                        </a>
+                        .
+                      </span>
+                    </li>
+                  </ul>
+                  <p className="font-lato text-white/60 text-sm 430:text-base leading-relaxed">
+                    These tools only run if you accept cookies through the banner shown when you first visit. If you
+                    decline, they stay off. You can change your mind at any time by clearing your browser&apos;s cookies
+                    for our site, which will bring the banner back so you can choose again. Depending on where you live,
+                    you may also have the right to opt out of this kind of data sharing — just contact us using the
+                    details below and we&apos;ll help.
+                  </p>
+                </div>
               </section>
 
               <section aria-labelledby="photos-heading">
