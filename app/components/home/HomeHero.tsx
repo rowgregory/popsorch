@@ -1,5 +1,4 @@
 import { motion, useReducedMotion } from 'framer-motion'
-import { HeroCarousel } from './HeroCarousel'
 import { ArrowRightIcon } from 'lucide-react'
 import Link from 'next/link'
 import { sectionVariants } from '@/app/lib/constants/motion'
@@ -14,15 +13,6 @@ const HomeHero = ({ pageData, ref }) => {
   if (!pageData || !Array.isArray(pageData)) {
     return null
   }
-
-  const galleryImages = [
-    { imageUrl: '/images/hero-1.webp' },
-    { imageUrl: '/images/hero-2.webp' },
-    { imageUrl: '/images/hero-3.webp' },
-    { imageUrl: '/images/hero-4.webp' },
-    { imageUrl: '/images/hero-5.webp' },
-    { imageUrl: '/images/hero-6.webp' }
-  ]
 
   const handleScroll = () => {
     ref.current?.scrollIntoView({ behavior: 'smooth' })
@@ -45,12 +35,33 @@ const HomeHero = ({ pageData, ref }) => {
       initial={sectionVariants(shouldReduceMotion).initial}
       animate={sectionVariants(shouldReduceMotion).animate}
       transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.35, ease: 'easeIn' }}
-      className={`relative w-full min-h-200 h-dvh max-h-1000 ${
+      className={`relative w-full min-h-200 h-dvh max-h-1000 overflow-hidden ${
         isAdmin ? '-mt-16 sm:-mt-[79.5px]' : '-mt-23.5 sm:-mt-28'
       }`}
     >
-      {/* Carousel overlays on top once hydrated */}
-      <HeroCarousel images={galleryImages} interval={5000} />
+      {/* Background video */}
+      {shouldReduceMotion ? (
+        // Reduced-motion: show the poster still instead of a moving video
+        <div
+          className="absolute inset-0 w-full h-full bg-center bg-cover"
+          style={{ backgroundImage: "url('/videos/hero-poster.jpg')" }}
+          aria-hidden="true"
+        />
+      ) : (
+        <video
+          className="absolute inset-0 w-full h-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster="/videos/hero-poster.jpg"
+          aria-hidden="true"
+        >
+          <source src="/videos/hero.webm" type="video/webm" />
+          <source src="/videos/hero-web.mp4" type="video/mp4" />
+        </video>
+      )}
 
       {/* Overlay */}
       <div className="absolute inset-0 z-40 flex flex-col justify-end pb-16 430:pb-20 990:pb-28 px-4 990:px-12 xl:px-4">

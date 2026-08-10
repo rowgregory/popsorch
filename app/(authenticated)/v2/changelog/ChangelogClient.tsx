@@ -21,6 +21,25 @@ interface ChangelogEntry {
 
 const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '3.15.0',
+    date: 'August 10, 2026',
+    summary: 'Replaced the homepage image slideshow with a full-screen background video of the orchestra.',
+    changes: [
+      {
+        type: 'new',
+        text: 'The homepage header now plays a background video of the orchestra behind the title and buttons, replacing the rotating photos.'
+      },
+      {
+        type: 'improved',
+        text: 'The video is muted and loops automatically, and a still image shows first so the page never appears blank while it loads.'
+      },
+      {
+        type: 'improved',
+        text: 'Visitors who prefer reduced motion see a still image instead of the moving video.'
+      }
+    ]
+  },
+  {
     version: '3.14.0',
     date: 'July 30, 2026',
     summary:
