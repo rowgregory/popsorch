@@ -5,17 +5,13 @@ import { sectionVariants } from '@/app/lib/constants/motion'
 import Picture from '../common/Picture'
 import { useSession } from 'next-auth/react'
 
-const HomeHero = ({ pageData, ref }) => {
+const HomeHero = ({ pageData }) => {
   const shouldReduceMotion = useReducedMotion()
   const { data: session } = useSession()
   const isAdmin = session?.user?.role && ['ADMIN', 'CONDUCTOR', 'SUPER_USER'].includes(session.user.role)
 
   if (!pageData || !Array.isArray(pageData)) {
     return null
-  }
-
-  const handleScroll = () => {
-    ref.current?.scrollIntoView({ behavior: 'smooth' })
   }
 
   const heroData = pageData?.filter((page) => page?.id?.includes('hero'))
@@ -133,24 +129,27 @@ const HomeHero = ({ pageData, ref }) => {
             transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.6, delay: 0.75 }}
             className="flex flex-wrap items-center gap-3 430:gap-4"
           >
-            <motion.button
-              type="button"
-              aria-label={hero?.btnText ? `${hero.btnText} — scroll to content` : 'Scroll to content'}
+            <motion.div
               whileHover={shouldReduceMotion ? undefined : { scale: 1.02 }}
               whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
-              onClick={handleScroll}
-              className="group inline-flex items-center gap-2 bg-blaze hover:bg-blazehover text-white font-changa uppercase tracking-widest transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black cursor-pointer"
-              style={{
-                fontSize: 'clamp(0.65rem, 1.5vw, 0.875rem)',
-                padding: 'clamp(0.625rem, 1.5vw, 1rem) clamp(1.25rem, 3vw, 2rem)'
-              }}
+              className="inline-block"
             >
-              <span>{hero?.btnText}</span>
-              <ArrowRightIcon
-                className="w-4 h-4 shrink-0 group-hover:translate-x-1 transition-transform"
-                aria-hidden="true"
-              />
-            </motion.button>
+              <Link
+                href="/concerts"
+                aria-label="See concerts"
+                className="group inline-flex items-center gap-2 bg-blaze hover:bg-blazehover text-white font-changa uppercase tracking-widest transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black cursor-pointer"
+                style={{
+                  fontSize: 'clamp(0.65rem, 1.5vw, 0.875rem)',
+                  padding: 'clamp(0.625rem, 1.5vw, 1rem) clamp(1.25rem, 3vw, 2rem)'
+                }}
+              >
+                <span>{hero.btnText}</span>
+                <ArrowRightIcon
+                  className="w-4 h-4 shrink-0 group-hover:translate-x-1 transition-transform"
+                  aria-hidden="true"
+                />
+              </Link>
+            </motion.div>
 
             <motion.div
               whileHover={shouldReduceMotion ? undefined : { scale: 1.02 }}

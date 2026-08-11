@@ -1,12 +1,11 @@
 'use client'
 
-import Breadcrumb from '@/app/components/common/Breadcrumb'
 import { MediaVideoPlayer } from '@/app/components/media/MediaVideoPlayer'
 import Picture from '@/app/components/common/Picture'
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight, X } from 'lucide-react'
-import { PageHero } from '@/app/components/common/PageHero'
+import CompactPageHero from '@/app/components/common/CompactPageHero'
 
 export const MediaClient = ({ photoGalleryImages }) => {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
@@ -24,18 +23,15 @@ export const MediaClient = ({ photoGalleryImages }) => {
 
   return (
     <main id="main-content">
-      <Breadcrumb breadcrumb="Media" />
+      <CompactPageHero
+        breadcrumb="MEdia"
+        heading="Media"
+        description="Explore our photo gallery and watch performances from The Pops Orchestra."
+      />
 
       <div className="relative">
-        {/* ── Header ── */}
-        <PageHero
-          eyebrow="The Pops Orchestra"
-          heading="Media"
-          subheading=" Explore our photo gallery and watch performances from The Pops Orchestra."
-        />
-
         {/* ── Photo gallery label ── */}
-        <div className="w-full bg-black border-t border-b border-white/10 px-4 990:px-12 xl:px-4 py-4 flex items-center gap-3">
+        <div className="w-full bg-black border-b border-white/10 px-4 990:px-12 xl:px-4 py-4 flex items-center gap-3">
           <div className="w-6 h-px bg-blaze shrink-0" aria-hidden="true" />
           <h2 className="font-changa text-sm uppercase tracking-[0.3em] text-blaze-text">Photo Gallery</h2>
           <span className="text-sm font-mono text-muted-dark/70">({photoGalleryImages?.length ?? 0})</span>

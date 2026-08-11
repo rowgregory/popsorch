@@ -1,10 +1,6 @@
-import Breadcrumb from '@/app/components/common/Breadcrumb'
-
 const PrivacyPolicy = () => {
   return (
     <main id="main-content">
-      <Breadcrumb breadcrumb="Privacy Policy" />
-
       <div className="relative">
         <div
           className="absolute inset-0 w-full h-full bg-no-repeat bg-center bg-cover opacity-10"

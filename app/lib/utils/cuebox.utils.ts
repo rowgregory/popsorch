@@ -8,7 +8,6 @@ export async function cueboxFetch<T>(path: string): Promise<T | null> {
   }).catch(() => null)
 
   if (!res || !res.ok) {
-    console.log('cueboxFetch failed:', path, res?.status, res?.statusText)
     return null
   }
 

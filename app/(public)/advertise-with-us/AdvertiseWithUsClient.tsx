@@ -1,8 +1,6 @@
 'use client'
 
-import Breadcrumb from '@/app/components/common/Breadcrumb'
-import { PageHero } from '@/app/components/common/PageHero'
-import Picture from '@/app/components/common/Picture'
+import CompactPageHero from '@/app/components/common/CompactPageHero'
 import { Download } from 'lucide-react'
 
 export const AdvertiseWithUsClient = ({ data }) => {
@@ -78,27 +76,15 @@ export const AdvertiseWithUsClient = ({ data }) => {
 
   return (
     <main id="main-content">
-      <Breadcrumb breadcrumb="Advertise With Us" />
+      <CompactPageHero
+        breadcrumb="Advertise With Us"
+        heading="Advertise With Us"
+        description={field('advertise_main_heading')}
+      />
 
       <div className="px-4 990:px-12 xl:px-4">
-        {/* Page Header */}
-        <PageHero
-          eyebrow="The Pops Orchestra"
-          heading="Advertise With Us"
-          subheading={field('advertise_main_heading')}
-        />
-
         <section className="relative z-10 py-20 990:py-32">
           <div className="max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 1590:max-w-7xl mx-auto flex flex-col gap-px bg-white/10">
-            <div className="bg-black">
-              <Picture
-                src="/images/awu.jpg"
-                alt="The Pops Orchestra performing on stage"
-                className="w-full aspect-video object-cover"
-                priority
-              />
-            </div>
-
             {/* ── Benefits + Stats ── */}
             <div className="grid grid-cols-1 990:grid-cols-12 gap-px bg-white/10">
               {/* Benefits */}

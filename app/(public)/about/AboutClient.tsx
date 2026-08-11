@@ -1,7 +1,6 @@
 'use client'
 
-import Breadcrumb from '@/app/components/common/Breadcrumb'
-import { PageHero } from '@/app/components/common/PageHero'
+import CompactPageHero from '@/app/components/common/CompactPageHero'
 import Picture from '@/app/components/common/Picture'
 import { motion } from 'framer-motion'
 
@@ -19,12 +18,9 @@ export const AboutClient = ({ data }) => {
 
   return (
     <main id="main-content">
-      <Breadcrumb breadcrumb="About The Pops" />
+      <CompactPageHero breadcrumb="About" heading="About The Pops" description={field('about_aside_subheading')} />
 
       <div className="relative min-h-dvh px-4 990:px-12 xl:px-4">
-        {/* Page Header */}
-        <PageHero eyebrow="The Pops Orchestra" heading="About The Pops" subheading={field('about_aside_subheading')} />
-
         {/* Main content */}
         <section aria-labelledby="scholarships-heading" className="relative z-10 py-20 990:py-32">
           <div className="max-w-[320px] 430:max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 mx-auto grid grid-cols-1 1200:grid-cols-12 gap-px bg-white/10">

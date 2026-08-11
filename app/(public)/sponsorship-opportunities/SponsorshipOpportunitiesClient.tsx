@@ -1,10 +1,9 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import Breadcrumb from '@/app/components/common/Breadcrumb'
 import { Award, Calendar, Eye, Mail, Music, TrendingUp, Users } from 'lucide-react'
 import Link from 'next/link'
-import { PageHero } from '@/app/components/common/PageHero'
+import CompactPageHero from '@/app/components/common/CompactPageHero'
 
 export const SponsorshipOpportunitiesClient = ({ data }) => {
   const field = (id: string) => data?.content?.find((item) => item.id === id)?.value ?? ''
@@ -28,15 +27,13 @@ export const SponsorshipOpportunitiesClient = ({ data }) => {
 
   return (
     <main id="main-content">
-      <Breadcrumb breadcrumb="Sponsorship Opportunities" />
+      <CompactPageHero
+        breadcrumb="Sponsorship Opportunities"
+        heading={field('sponsorship_heading') || 'Sponsorship Opportunities'}
+        description={field('sponsorship_season')}
+      />
 
       <div className="relative px-4 990:px-12 xl:px-4"></div>
-      {/* Page Header */}
-      <PageHero
-        eyebrow={field('sponsorship_eyebrow') || 'The Pops Orchestra'}
-        heading={field('sponsorship_heading') || 'Sponsorship Opportunities'}
-        subheading={field('sponsorship_season')}
-      />
 
       {/* Main Content */}
       <div className="max-w-[320px] 430:max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 mx-auto">

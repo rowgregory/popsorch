@@ -1,27 +1,23 @@
 'use client'
 
-import Breadcrumb from '@/app/components/common/Breadcrumb'
 import Picture from '@/app/components/common/Picture'
 import { ArrowRight, Lock, Shield } from 'lucide-react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { PageHero } from '@/app/components/common/PageHero'
+import CompactPageHero from '@/app/components/common/CompactPageHero'
 
 export const StudentScholarshipsClient = ({ data }) => {
   const field = (id: string) => data?.content?.find((item) => item.id === id)?.value ?? ''
 
   return (
     <main id="main-content">
-      <Breadcrumb breadcrumb="Student Scholarships" />
+      <CompactPageHero
+        breadcrumb="Student Scholarships"
+        heading={field('scholarships_heading')}
+        description={field('scholarships_subheading')}
+      />
 
       <div className="relative px-4 990:px-12 xl:px-4">
-        {/* Page Header */}
-        <PageHero
-          eyebrow={field('scholarships_eyebrow')}
-          heading={field('scholarships_heading')}
-          subheading={field('scholarships_subheading')}
-        />
-
         {/* Main Content */}
         <section aria-labelledby="scholarships-heading" className="relative z-10 py-20 990:py-32">
           <div className="max-w-[320px] 430:max-w-130 760:max-w-xl 990:max-w-200 1200:max-w-screen-1160 mx-auto">

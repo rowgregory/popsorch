@@ -1,6 +1,5 @@
 'use client'
 
-import Breadcrumb from '@/app/components/common/Breadcrumb'
 import TeamMemberGrid from '../../components/team/TeamMemberGrid'
 
 export const BoardMembersClient = ({ data }) => {
@@ -8,8 +7,6 @@ export const BoardMembersClient = ({ data }) => {
 
   return (
     <div id="main-content">
-      <Breadcrumb breadcrumb="Board Members" />
-
       <TeamMemberGrid
         title="Board Members"
         description="Meet the volunteer leaders who help govern The Pops Orchestra of Bradenton and Sarasota."

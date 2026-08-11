@@ -187,7 +187,7 @@ export function SeasonDates({ concertsPageLive }) {
               return concertsPageLive ? (
                 <Link
                   key={concert.name}
-                  href="/concerts"
+                  href={`/concerts?ref=${concert.name}`}
                   aria-label={`View ${concert.name}`}
                   className="relative overflow-hidden bg-black group aspect-3/4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blaze"
                 >

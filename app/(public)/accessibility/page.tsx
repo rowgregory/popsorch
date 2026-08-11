@@ -1,9 +1,6 @@
-import Breadcrumb from '@/app/components/common/Breadcrumb'
-
 const Accessibility = () => {
   return (
     <>
-      <Breadcrumb breadcrumb="Accessibility" />
       <main id="main-content" className="max-w-4xl mx-auto px-6 py-32 text-white">
         <article aria-labelledby="accessibility-heading">
           <h1 id="accessibility-heading" className="text-3xl font-changa mb-4">

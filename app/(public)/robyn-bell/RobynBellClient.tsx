@@ -1,7 +1,6 @@
 'use client'
 
-import Breadcrumb from '@/app/components/common/Breadcrumb'
-import { PageHero } from '@/app/components/common/PageHero'
+import CompactPageHero from '@/app/components/common/CompactPageHero'
 import Picture from '@/app/components/common/Picture'
 
 export const RobynBellClient = ({ data }) => {
@@ -9,20 +8,17 @@ export const RobynBellClient = ({ data }) => {
 
   return (
     <main id="main-content">
-      <Breadcrumb breadcrumb="Robyn Bell" />
+      <CompactPageHero
+        breadcrumb="Robyn Bell"
+        heading={field('robyn_bell_heading')}
+        description={field('robyn_bell_subheading')}
+      />
 
       <div className="relative min-h-dvh">
         <div
           className="absolute inset-0 w-full h-full bg-no-repeat bg-center bg-cover opacity-5"
           style={{ backgroundImage: `url('/images/robyn-2.png')`, backgroundAttachment: 'fixed' }}
           aria-hidden="true"
-        />
-
-        {/* Page Header */}
-        <PageHero
-          eyebrow={field('robyn_bell_eyebrow')}
-          heading={field('robyn_bell_heading')}
-          subheading={field('robyn_bell_subheading')}
         />
 
         {/* Main Content */}

@@ -112,7 +112,7 @@ export const Header = ({ campApplicationsSetting, concertsPageLive, subscription
       ref={headerRef}
       role="navigation"
       aria-label="Main site navigation"
-      className={`${path !== '/' ? 'bg-headerbg' : ''} transition-all relative z-50 px-3 430:px-4 990:px-8 1200:px-12`}
+      className={`relative z-50 px-3 430:px-4 990:px-8 1200:px-12`}
     >
       {/* ── Bottom row — main nav ── */}
       <div className="w-full flex items-center justify-between h-14 430:h-16 sm:h-20 gap-2">

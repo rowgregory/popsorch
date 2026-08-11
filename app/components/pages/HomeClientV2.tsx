@@ -12,7 +12,6 @@ import HomeHero from '../home/HomeHero'
 interface HomeClientProps {
   galleryImages: PhotoGalleryImage[]
   pageData: any
-  ref: any
 }
 
 interface StubEvent {
@@ -615,11 +614,11 @@ function Footer() {
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
-export default function HomeClientV2({ galleryImages, pageData, ref }: HomeClientProps) {
+export default function HomeClientV2({ galleryImages, pageData }: HomeClientProps) {
   return (
     <div className="bg-white">
       <Nav />
-      <HomeHero pageData={pageData} ref={ref} />
+      <HomeHero pageData={pageData} />
       <AboutSection />
       <QuoteSection />
       <EventsSection />

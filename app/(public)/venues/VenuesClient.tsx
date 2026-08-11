@@ -11,9 +11,8 @@ import OperaHouseMezzAndBalc from '@/app/components/venues/OperaHouseMezzAndBalc
 import OperaHouseMainFloor from '@/app/components/venues/OperaHouseMainFloor'
 import { IVenue } from '@/app/types/entities/venue'
 import Picture from '@/app/components/common/Picture'
-import Breadcrumb from '@/app/components/common/Breadcrumb'
-import { PageHero } from '@/app/components/common/PageHero'
 import { seatInfoVariants } from '@/app/lib/constants/motion'
+import CompactPageHero from '@/app/components/common/CompactPageHero'
 
 interface SVGSeatProps {
   seat?: string
@@ -247,11 +246,12 @@ function VenueCard({ venue, index }: { venue: any; index: number }) {
 export function VenuesClient({ venues }: { venues: any[] }) {
   return (
     <main id="main-content">
-      <Breadcrumb breadcrumb="Venues" />
-
+      <CompactPageHero
+        breadcrumb="Venues"
+        heading="Venues"
+        description="Where the music happens. Get directions, parking, and seating details for each of the venues hosting our 2026–27 season."
+      />
       <div className="min-h-dvh bg-black text-white">
-        <PageHero eyebrow="The Pops Orchestra" heading="Venues" subheading="" />
-
         <div className="max-w-6xl mx-auto px-4 760:px-6 990:px-8 py-12 760:py-20 990:py-32">
           <ul role="list" aria-label="Performance venues" className="flex flex-col gap-10 760:gap-16 990:gap-24">
             {venues.map((venue, index) => (

@@ -1,8 +1,6 @@
 'use client'
 
-import Breadcrumb from '@/app/components/common/Breadcrumb'
-import { PublicMarquee } from '@/app/components/elements/PublicMarquee'
-import { FloatingParticles } from '@/app/components/FloatingParticles'
+import CompactPageHero from '@/app/components/common/CompactPageHero'
 import { FLEX_LAUNCH_LABEL, getFlexPricing, isFlexLaunched } from '@/app/lib/constants/subscription.constants'
 import { ISubscription } from '@/app/types/entities/subscription.types'
 import { motion } from 'framer-motion'
@@ -242,55 +240,10 @@ export default function SubscriptionsClient({
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <Breadcrumb breadcrumb="Subscriptions" />
-      {/* Hero */}
-      <section className="relative border-b border-white/10">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: "url('/images/nikki-fire.webp')",
-            backgroundSize: 'cover',
-            backgroundPosition: 'center center'
-          }}
-          aria-hidden="true"
-        />
-        <FloatingParticles count={80} />
-        <div className="absolute inset-0 bg-linear-to-r from-black via-black/50 to-transparent" />
-
-        <div className="relative max-w-5xl mx-auto px-4 760:px-6 py-20 760:py-28 flex flex-col gap-5">
-          <div className="flex items-center gap-3">
-            <div className="w-5 h-px bg-blaze shrink-0" aria-hidden="true" />
-            <span className="font-changa text-[12px] uppercase tracking-[0.3em] text-white/70">The Pops Orchestra</span>
-          </div>
-          <h1 className="font-changa font-black text-5xl 760:text-7xl text-white leading-[0.9] max-w-xl">
-            Season
-            <br />
-            Packages
-          </h1>
-          <p className="font-lato text-white/90 text-base 760:text-lg leading-relaxed max-w-lg">
-            Experience the full magic of the 2026–27 season. Choose a subscription or flex package and save on the best
-            seats in Sarasota and Bradenton.
-          </p>
-          <div className="flex flex-wrap items-center gap-5 pt-2">
-            <a
-              href="tel:9419267677"
-              className="flex items-center gap-1.5 font-changa text-[12px] uppercase tracking-widest text-white/70 hover:text-white transition-colors"
-            >
-              <Phone className="w-3.5 h-3.5" />
-              941-926-POPS
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <PublicMarquee
-        items={[
-          '2026–27 Season Packages Now Available',
-          'Save Up to 20% vs Individual Tickets',
-          'Priority Seating for Subscribers',
-          'Call 941-926-POPS for Assistance',
-          'Flexible Packages — Choose Your Concerts'
-        ]}
+      <CompactPageHero
+        breadcrumb="Subscriptions"
+        heading="Season Packages"
+        description={`Experience the full magic of the 2026–27 season. Choose a subscription or flex package and save on the best seats in Sarasota and Bradenton.`}
       />
 
       {/* Content */}

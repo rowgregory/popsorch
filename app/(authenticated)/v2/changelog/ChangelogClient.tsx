@@ -21,6 +21,29 @@ interface ChangelogEntry {
 
 const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '3.15.1',
+    date: 'August 11, 2026',
+    summary: 'Clicking a concert from the homepage now jumps straight to that concert on the Concerts page.',
+    changes: [
+      {
+        type: 'improved',
+        text: 'The concerts button on the homepage now takes you straight to the concerts page instead of scrolling further down the homepage.'
+      },
+      {
+        type: 'new',
+        text: 'Selecting a concert on the homepage now opens the Concerts page and scrolls directly to that concert.'
+      },
+      {
+        type: 'new',
+        text: 'A redesigned compact page header that sits flush against the top of the screen and includes the breadcrumb trail showing where you are on the site.'
+      },
+      {
+        type: 'removed',
+        text: 'The previous page header and the standalone breadcrumb bar, both replaced by the new page CompactPageHero.'
+      }
+    ]
+  },
+  {
     version: '3.15.0',
     date: 'August 10, 2026',
     summary: 'Replaced the homepage image slideshow with a full-screen background video of the orchestra.',

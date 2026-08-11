@@ -1,8 +1,6 @@
 'use client'
 
-import Breadcrumb from '@/app/components/common/Breadcrumb'
-import { PublicMarquee } from '@/app/components/elements/PublicMarquee'
-import { FloatingParticles } from '@/app/components/FloatingParticles'
+import CompactPageHero from '@/app/components/common/CompactPageHero'
 import { FundCard } from '@/app/components/FundCard'
 import { Phone } from 'lucide-react'
 
@@ -106,78 +104,15 @@ const FUNDS = [
 
 export default function DonatePage() {
   return (
-    <main className="min-h-screen bg-bg-dark text-text-dark">
-      <Breadcrumb breadcrumb="Donate" />
-      {/* Hero */}
-      <section className="relative border-b border-border-dark">
-        {/* Background image with fade */}
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: "url('/images/nikki-fire.webp')",
-            backgroundSize: 'cover',
-            backgroundPosition: 'center center'
-          }}
-          aria-hidden="true"
-        />
-        <FloatingParticles count={80} />
-        <div className="absolute inset-0 bg-linear-to-r from-black via-black/40 to-transparent" />
-
-        {/* Content */}
-        <div className="relative max-w-5xl mx-auto px-6 py-20 760:py-28 flex flex-col gap-5">
-          <div className="flex items-center gap-3">
-            <div className="w-5 h-px bg-blaze shrink-0" aria-hidden="true" />
-            <span className="font-changa text-[12px] uppercase tracking-[0.3em] text-white/70">The Pops Orchestra</span>
-          </div>
-          <h1 className="font-changa font-black text-5xl 760:text-7xl text-text-dark leading-[0.9] max-w-xl">
-            Support
-            <br />
-            The Pops
-          </h1>
-          <p className="font-lato text-text-dark/90 text-base 760:text-lg leading-relaxed max-w-lg">
-            Your generosity keeps the music alive in Sarasota and Bradenton. Every gift — no matter the size — makes a
-            direct impact on our musicians, our community, and the future of live orchestral music.
-          </p>
-          <div className="flex flex-wrap items-center gap-5 pt-2">
-            <a
-              href="tel:9419267677"
-              className="flex items-center gap-1.5 font-changa text-[12px] uppercase tracking-widest text-white/70 hover:text-white transition-colors"
-            >
-              <Phone className="w-3.5 h-3.5" />
-              941-926-POPS
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <PublicMarquee
-        items={[
-          'Support Live Orchestral Music in Sarasota & Bradenton',
-          '501(c)(3) Non-Profit · EIN 59-1694954',
-          'Donations Are Tax Deductible',
-          'Chair Sponsorships · Education Fund · Concert Sponsorships',
-          'Contact Us at Info@ThePopsOrchestra.org'
-        ]}
+    <main id="main-content">
+      <CompactPageHero
+        breadcrumb="Donate"
+        heading="Support The Pops"
+        description="Your generosity keeps the music alive in Sarasota and Bradenton. Every gift — no matter the size — makes a direct impact on our musicians, our community, and the future of live orchestral music."
       />
 
       {/* Intro */}
-      <section className="relative max-w-5xl mx-auto px-4 760:px-6 py-16 760:py-24 overflow-hidden border-y border-white/10">
-        {/* Geometric background */}
-        <div className="absolute inset-0" aria-hidden="true">
-          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="1" />
-              </pattern>
-              <pattern id="diagonal" width="60" height="60" patternUnits="userSpaceOnUse">
-                <path d="M 0 60 L 60 0" fill="none" stroke="rgba(255,255,255,0.02)" strokeWidth="1" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#grid)" />
-            <rect width="100%" height="100%" fill="url(#diagonal)" />
-          </svg>
-        </div>
-
+      <section className="relative max-w-5xl mx-auto px-4 760:px-6 py-16 760:py-24 overflow-hidden">
         <div className="relative max-w-5xl mx-auto flex flex-col 760:flex-row gap-12 760:gap-20 items-start">
           {/* Left — main text */}
           <div className="flex-1 flex flex-col gap-5">
