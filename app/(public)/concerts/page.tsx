@@ -15,7 +15,7 @@ export default async function ConcertsPage() {
     }).catch(() => ({ success: false as const, data: [] }))
   ])
 
-  const events = eventsResult.data ?? []
+  const events = eventsResult.data.filter((e) => e.status === 'ON_SALE' && e.isVisibleOnline) ?? []
   const instances = instancesResult.data ?? []
 
   return <ConcertsClient instances={instances} events={events} concertsPageLive={concertsPageLive.value} />

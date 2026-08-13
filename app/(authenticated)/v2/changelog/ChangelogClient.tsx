@@ -21,6 +21,17 @@ interface ChangelogEntry {
 
 const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '3.15.2',
+    date: '2026-08-13',
+    summary: 'Concerts you are still building in CueBox now stay off the public site until you mark them visible.',
+    changes: [
+      {
+        type: 'fixed',
+        text: 'Concerts marked as not visible in CueBox no longer appear on the concerts page. Shows built ahead of an announcement now stay hidden until they are ready to go public.'
+      }
+    ]
+  },
+  {
     version: '3.15.1',
     date: 'August 11, 2026',
     summary: 'Clicking a concert from the homepage now jumps straight to that concert on the Concerts page.',
