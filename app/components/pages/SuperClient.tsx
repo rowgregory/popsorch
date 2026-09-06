@@ -4,8 +4,6 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, RefreshCw, AlertCircle, FileText, CheckCircle, AlertTriangle } from 'lucide-react'
 import type { CustomRequest } from '@prisma/client'
-import { store } from '@/app/redux/store'
-import { showToast } from '@/app/redux/features/toastSlice'
 import { formatDate } from '@/app/utils/date.functions'
 import { LogoutButton } from '../common/LogoutButton'
 import { Section } from '../common/Section'
@@ -23,7 +21,6 @@ export default function SuperClient({ dbHealth }: Props) {
 
   const handleRefresh = () => {
     router.refresh()
-    store.dispatch(showToast({ type: 'success', message: 'Data refreshed' }))
   }
 
   return (
@@ -65,11 +62,7 @@ export default function SuperClient({ dbHealth }: Props) {
       </div>
 
       <div className="col-span-12 space-y-4">
-        <Section
-          title="Database Health"
-          icon={<AlertCircle className="w-3.5 h-3.5" />}
-          count={dbHealth?.activeConnections || 0}
-        >
+        <Section title="Database Health" icon={<AlertCircle className="w-3.5 h-3.5" />} count={dbHealth?.activeConnections || 0}>
           {dbHealth && (
             <div className="col-span-12 mb-4">
               <div className="bg-surface-dark border-2 border-border-dark p-4 space-y-4">
@@ -84,13 +77,9 @@ export default function SuperClient({ dbHealth }: Props) {
                       }}
                     >
                       <div className="w-1.5 h-1.5 rounded-full animate-pulse bg-[#00e599]" />
-                      <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-[#00e599]">
-                        Neon Postgres
-                      </span>
+                      <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-[#00e599]">Neon Postgres</span>
                     </div>
-                    <span className="text-[9px] font-mono text-muted-dark/80">
-                      Serverless · Auto-pooled · US East 1
-                    </span>
+                    <span className="text-[9px] font-mono text-muted-dark/80">Serverless · Auto-pooled · US East 1</span>
                   </div>
 
                   <a
@@ -104,9 +93,7 @@ export default function SuperClient({ dbHealth }: Props) {
                 </div>
                 {/* Connections */}
                 <div>
-                  <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-dark mb-1">
-                    Database Connections
-                  </p>
+                  <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-dark mb-1">Database Connections</p>
                   <div className="flex items-center justify-between">
                     <p
                       className={`text-4xl font-mono ${
@@ -117,8 +104,7 @@ export default function SuperClient({ dbHealth }: Props) {
                             : 'text-emerald-400'
                       }`}
                     >
-                      {dbHealth.activeConnections}{' '}
-                      <span className="text-xl text-muted-dark">/ {dbHealth.maxConnections}</span>
+                      {dbHealth.activeConnections} <span className="text-xl text-muted-dark">/ {dbHealth.maxConnections}</span>
                     </p>
                     <div className="text-right">
                       <p
@@ -136,9 +122,7 @@ export default function SuperClient({ dbHealth }: Props) {
                             ? '⚠️ ELEVATED - MONITOR CLOSELY'
                             : '✓ HEALTHY'}
                       </p>
-                      <p className="text-[9px] font-mono text-muted-dark mt-1">
-                        Last checked: {formatDate(new Date())}
-                      </p>
+                      <p className="text-[9px] font-mono text-muted-dark mt-1">Last checked: {formatDate(new Date())}</p>
                     </div>
                   </div>
                   <div className="mt-3 h-2 bg-bg-dark overflow-hidden">
@@ -154,8 +138,8 @@ export default function SuperClient({ dbHealth }: Props) {
                     />
                   </div>
                   <p className="text-[9px] font-mono text-muted-dark/60 mt-2 leading-relaxed">
-                    Active connections to the database. Green &lt;20, yellow 20–30, red &gt;30. High counts indicate
-                    connection pool exhaustion — site may become unresponsive if limit is reached.
+                    Active connections to the database. Green &lt;20, yellow 20–30, red &gt;30. High counts indicate connection
+                    pool exhaustion — site may become unresponsive if limit is reached.
                   </p>
                 </div>
 
@@ -170,12 +154,8 @@ export default function SuperClient({ dbHealth }: Props) {
                   </div>
 
                   <div className="bg-bg-dark p-3">
-                    <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-dark mb-1">
-                      Cache Hit Rate
-                    </p>
-                    <p
-                      className={`text-lg font-mono ${dbHealth.cacheHitHealthy ? 'text-emerald-400' : 'text-red-400'}`}
-                    >
+                    <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-dark mb-1">Cache Hit Rate</p>
+                    <p className={`text-lg font-mono ${dbHealth.cacheHitHealthy ? 'text-emerald-400' : 'text-red-400'}`}>
                       {dbHealth.cacheHitRate}%
                       <span className="text-[10px] ml-1">
                         {dbHealth.cacheHitHealthy ? (
@@ -186,28 +166,23 @@ export default function SuperClient({ dbHealth }: Props) {
                       </span>
                     </p>
                     <p className="text-[9px] font-mono text-muted-dark/60 mt-1 leading-relaxed">
-                      % of queries served from memory vs disk. Healthy at 85%+ — low values mean frequent disk reads and
-                      slower queries.
+                      % of queries served from memory vs disk. Healthy at 85%+ — low values mean frequent disk reads and slower
+                      queries.
                     </p>
                   </div>
 
                   <div className="bg-bg-dark p-3">
-                    <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-dark mb-1">
-                      Oldest Transaction
-                    </p>
+                    <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-muted-dark mb-1">Oldest Transaction</p>
                     <p
                       className={`text-lg font-mono flex items-center gap-1.5 ${
                         dbHealth.oldestTransactionWarning ? 'text-yellow-400' : 'text-text-dark'
                       }`}
                     >
                       {dbHealth.oldestTransaction ?? 'None'}
-                      {dbHealth.oldestTransactionWarning && (
-                        <AlertTriangle className="w-3 h-3 text-yellow-400 shrink-0" />
-                      )}
+                      {dbHealth.oldestTransactionWarning && <AlertTriangle className="w-3 h-3 text-yellow-400 shrink-0" />}
                     </p>
                     <p className="text-[9px] font-mono text-muted-dark/60 mt-1 leading-relaxed">
-                      Duration of the longest running active query. Warn if &gt;30s — may indicate a stuck or slow
-                      transaction.
+                      Duration of the longest running active query. Warn if &gt;30s — may indicate a stuck or slow transaction.
                     </p>
                   </div>
                 </div>

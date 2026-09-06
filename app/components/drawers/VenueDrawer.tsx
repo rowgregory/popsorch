@@ -159,6 +159,9 @@ export function VenueDrawer({ open, onClose, venue }: { open: boolean; onClose: 
                 <option value="Bradenton" className="bg-bg-dark">
                   Bradenton
                 </option>
+                <option value="Parrish" className="bg-bg-dark">
+                  Parrish
+                </option>
               </select>
             </FormField>
             <FormField label="Capacity" htmlFor="venue-capacity">

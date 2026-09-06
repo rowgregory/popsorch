@@ -13,6 +13,7 @@ import { IVenue } from '@/app/types/entities/venue'
 import Picture from '@/app/components/common/Picture'
 import { seatInfoVariants } from '@/app/lib/constants/motion'
 import CompactPageHero from '@/app/components/common/CompactPageHero'
+import ParrishHsSeatmap from './_components/ParrishHsSeatmap'
 
 interface SVGSeatProps {
   seat?: string
@@ -141,6 +142,15 @@ function VenueSeatMap({ seatMapId, venueId }: { seatMapId: any; venueId: string 
           </section>
         </div>
       )
+    case 'parrish':
+      return (
+        <div className="flex flex-col gap-8 760:gap-10">
+          <section aria-labelledby={venueId}>
+            <SeatSectionHeading id={venueId}>Main Floor</SeatSectionHeading>
+            {wrap(<ParrishHsSeatmap />)}
+          </section>
+        </div>
+      )
   }
 }
 
@@ -170,12 +180,13 @@ function VenueDetails({ venue }: { venue: IVenue }) {
   )
 }
 
-export type SeatMapId = 'riverview' | 'scf-neel' | 'sarasota-opera-house'
+export type SeatMapId = 'riverview' | 'scf-neel' | 'sarasota-opera-house' | 'parrish'
 
 export const VENUE_SEATMAP: Record<string, SeatMapId> = {
   'Riverview Performing Arts Center': 'riverview',
   'Neel Performing Arts Center': 'scf-neel',
-  'Sarasota Opera House': 'sarasota-opera-house'
+  'Sarasota Opera House': 'sarasota-opera-house',
+  'Parrish Community Performing Arts Center': 'parrish'
 }
 
 // ── Venue card ────────────────────────────────────────────────────────────────
@@ -207,9 +218,7 @@ function VenueCard({ venue, index }: { venue: any; index: number }) {
             {venue.capacity && (
               <div className="flex items-center gap-2 mb-2 760:mb-3">
                 <div className="w-4 h-px bg-blaze" aria-hidden="true" />
-                <span className="font-changa text-[10px] uppercase tracking-[0.3em] text-blaze-text">
-                  {venue.capacity} seats
-                </span>
+                <span className="font-changa text-[10px] uppercase tracking-[0.3em] text-blaze-text">{venue.capacity} seats</span>
               </div>
             )}
             <h2
@@ -228,10 +237,7 @@ function VenueCard({ venue, index }: { venue: any; index: number }) {
         <div className="p-4 430:p-6 760:p-8 990:p-12 border-t border-white/10">
           <div className="flex items-center gap-3 mb-6 760:mb-8">
             <div className="w-6 h-px bg-blaze" aria-hidden="true" />
-            <h3
-              id={`seatmap-heading-${seatMapId}`}
-              className="font-changa text-sm uppercase tracking-[0.3em] text-blaze-text"
-            >
+            <h3 id={`seatmap-heading-${seatMapId}`} className="font-changa text-sm uppercase tracking-[0.3em] text-blaze-text">
               Seating Chart
             </h3>
           </div>

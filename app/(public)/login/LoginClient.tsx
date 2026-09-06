@@ -1,13 +1,14 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import { Loader2 } from 'lucide-react'
+import { Loader2, Lock, AlertCircle } from 'lucide-react'
 import Link from 'next/link'
 import { signIn } from 'next-auth/react'
 import { useSearchParams } from 'next/navigation'
 import { getAuthErrorMessage } from '../auth/error/AuthErrorClient'
 import { logAuthError } from '@/app/lib/actions/log/logAuthError'
 import { motion } from 'framer-motion'
+import { CopyEmail } from './_components/CopyEmail'
 
 export default function LoginClient() {
   const [loadingGoogle, setLoadingGoogle] = useState(false)
@@ -17,7 +18,7 @@ export default function LoginClient() {
 
   const handleGoogleSignIn = async () => {
     setLoadingGoogle(true)
-    await signIn('google', { redirectTo: '/login' })
+    await signIn('google', { redirectTo: '/v2/dashboard' })
   }
 
   useEffect(() => {
@@ -66,7 +67,7 @@ export default function LoginClient() {
         className="relative z-10 w-full max-w-[320px] sm:max-w-sm"
       >
         {/* Logo */}
-        <div className="mb-12 flex justify-center">
+        <div className="mb-10 flex justify-center">
           <Link
             href="/"
             aria-label="The Pops Orchestra — return to homepage"
@@ -85,14 +86,35 @@ export default function LoginClient() {
         <section aria-labelledby="signin-heading">
           {/* Header */}
           <div className="mb-8">
+            <div className="inline-flex items-center gap-2 border border-border-dark bg-surface-dark px-2.5 py-1 mb-4">
+              <Lock className="w-3 h-3 text-primary-dark shrink-0" aria-hidden="true" />
+              <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-muted-dark">Staff only</span>
+            </div>
             <h1
               id="signin-heading"
               className="font-quicksand font-black text-3xl sm:text-4xl text-text-dark leading-tight"
             >
               Sign In
             </h1>
-            <p className="text-muted-dark text-sm mt-3 leading-relaxed">Admin portal</p>
+            <p className="text-muted-dark text-sm mt-3 leading-relaxed">
+              Admin portal for Pops Orchestra staff. Sign in with your approved account to manage concerts,
+              subscriptions, and site content.
+            </p>
           </div>
+
+          {/* Error */}
+          {errorInfo && (
+            <div
+              role="alert"
+              className="border border-primary-dark/40 bg-primary-dark/5 px-4 py-3.5 mb-6 flex items-start gap-2.5"
+            >
+              <AlertCircle className="w-4 h-4 text-primary-dark shrink-0 mt-0.5" aria-hidden="true" />
+              <div>
+                <p className="text-text-dark text-sm font-medium leading-snug">{errorInfo.title}</p>
+                <p className="text-muted-dark text-sm mt-1 leading-relaxed">{errorInfo.message}</p>
+              </div>
+            </div>
+          )}
 
           {/* Google */}
           <button
@@ -133,7 +155,22 @@ export default function LoginClient() {
               </>
             )}
           </button>
+
+          <p className="text-muted-dark text-xs leading-relaxed mt-4 text-center">
+            Access is limited to approved accounts. Need access or having trouble? Email <CopyEmail />.
+          </p>
         </section>
+
+        {/* Footer */}
+        <div className="mt-12 pt-6 border-t border-border-dark flex items-center justify-between gap-4">
+          <Link
+            href="/"
+            className="text-muted-dark text-xs hover:text-text-dark transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-dark focus-visible:ring-offset-2 focus-visible:ring-offset-bg-dark"
+          >
+            Back to thepopsorchestra.org
+          </Link>
+          <span className="text-muted-dark/60 text-[10px] font-mono uppercase tracking-widest">Admin</span>
+        </div>
       </motion.div>
     </main>
   )

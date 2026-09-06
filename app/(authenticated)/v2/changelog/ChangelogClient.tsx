@@ -21,6 +21,25 @@ interface ChangelogEntry {
 
 const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '3.16.0',
+    date: '2026-09-06',
+    summary: 'Seating charts are here, starting with Parrish High School.',
+    changes: [
+      {
+        type: 'new',
+        text: 'A seating chart for Parrish High School showing every seat in the house, colour coded by pricing level so patrons can see at a glance where the general, premium, and ultra seats are.'
+      },
+      {
+        type: 'new',
+        text: 'Point at any seat to see its row, seat number, and pricing level. Seat numbers match what is printed on the tickets.'
+      },
+      {
+        type: 'new',
+        text: 'A running count of how many seats fall into each pricing level, shown beneath the chart.'
+      }
+    ]
+  },
+  {
     version: '3.15.2',
     date: '2026-08-13',
     summary: 'Concerts you are still building in CueBox now stay off the public site until you mark them visible.',
@@ -600,13 +619,11 @@ export function ChangelogClient() {
       {/* Legend */}
       <div className="shrink-0 flex items-center gap-3 px-4 py-2 border-b border-border-dark bg-surface-dark">
         <span className="text-[9px] font-mono uppercase tracking-widest text-muted-dark shrink-0">Key</span>
-        {(Object.entries(TYPE_CONFIG) as [ChangeType, (typeof TYPE_CONFIG)[ChangeType]][]).map(
-          ([type, { label, color }]) => (
-            <span key={type} className={`text-[9px] font-mono uppercase tracking-widest px-1.5 py-0.5 border ${color}`}>
-              {label}
-            </span>
-          )
-        )}
+        {(Object.entries(TYPE_CONFIG) as [ChangeType, (typeof TYPE_CONFIG)[ChangeType]][]).map(([type, { label, color }]) => (
+          <span key={type} className={`text-[9px] font-mono uppercase tracking-widest px-1.5 py-0.5 border ${color}`}>
+            {label}
+          </span>
+        ))}
       </div>
 
       {/* Entries */}
@@ -626,9 +643,7 @@ export function ChangelogClient() {
         >
           ← Dashboard
         </Link>
-        <span className="text-[10px] font-mono uppercase tracking-widest text-muted-dark">
-          Built by Sqysh · sqysh.io
-        </span>
+        <span className="text-[10px] font-mono uppercase tracking-widest text-muted-dark">Built by Sqysh · sqysh.io</span>
       </div>
     </div>
   )
